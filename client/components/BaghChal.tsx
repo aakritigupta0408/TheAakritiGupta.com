@@ -578,12 +578,16 @@ const BaghChal = () => {
               {demoPlaying && (
                 <div className="text-sm text-center bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 p-3 rounded-lg border border-green-200 dark:border-green-800">
                   <p className="font-bold text-green-700 dark:text-green-300 mb-1">
-                    🎬 Demo Playing - Watch AI vs AI Battle!
+                    🎬 Demo: Advanced AI vs AI Battle!
                   </p>
                   <p className="text-green-600 dark:text-green-400">
                     {gameState.phase === "placement"
-                      ? `Phase 1: Goat Placement (${gameState.goatsPlaced}/20 placed)`
-                      : "Phase 2: Movement & Strategy"}
+                      ? `Phase 1: Strategic Goat Placement (${gameState.goatsPlaced}/20)`
+                      : "Phase 2: Tactical Movement & Captures"}
+                  </p>
+                  <p className="text-xs text-green-500 dark:text-green-400 mt-1">
+                    Move #{moveCount} | Goats Captured:{" "}
+                    {gameState.goatsCaptured}/5
                   </p>
                 </div>
               )}
