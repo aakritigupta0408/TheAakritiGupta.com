@@ -158,7 +158,7 @@ const FloatingSkills = () => {
       );
     };
 
-    const interval = setInterval(animateSkills, 50); // More frequent updates
+    const interval = setInterval(animateSkills, 120); // Less frequent updates
     return () => clearInterval(interval);
   }, [skills.length]);
 
@@ -170,10 +170,10 @@ const FloatingSkills = () => {
           className="absolute"
           style={{ left: skill.x, top: skill.y }}
           initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 0.6, scale: 1 }}
+          animate={{ opacity: 0.4, scale: 1 }}
           transition={{
-            duration: 3,
-            delay: Math.random() * 4,
+            duration: 4,
+            delay: Math.random() * 8,
             ease: "easeOut",
           }}
         >
