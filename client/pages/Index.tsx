@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Chess from "@/components/Chess";
 import BaghChal from "@/components/BaghChal";
 
@@ -25,13 +25,13 @@ export default function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 dark:from-slate-900 dark:via-purple-900 dark:to-indigo-900">
       {/* Header */}
       <div className="text-center pt-8 pb-4">
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-amber-600 via-orange-600 to-red-600 bg-clip-text text-transparent"
+          className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-amber-600 via-yellow-500 to-orange-500 bg-clip-text text-transparent"
         >
           TheAakritiGupta.com
         </motion.h1>
@@ -41,7 +41,7 @@ export default function Index() {
           transition={{ delay: 0.2 }}
           className="text-lg md:text-xl text-slate-600 dark:text-slate-300 mt-2"
         >
-          Challenge the AI-Powered Professional Portfolio
+          Interactive Strategy Games Portfolio
         </motion.p>
         <motion.p
           initial={{ opacity: 0, y: -10 }}
@@ -49,247 +49,70 @@ export default function Index() {
           transition={{ delay: 0.3 }}
           className="text-sm text-slate-500 dark:text-slate-400 mt-2 max-w-2xl mx-auto"
         >
-          Welcome! You're about to play chess against Aakriti's AI portfolio.
-          Each piece represents her professional identity - capture them to
-          unlock her story.
+          Experience Aakriti's professional journey through strategic games.
+          Choose between chess and traditional Bagh-Chal.
         </motion.p>
-        <motion.p
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="text-sm text-slate-500 dark:text-slate-400 mt-1"
-        >
-          {gameStatus === "checkmate" ? (
-            <span className="font-bold text-red-600">
-              Checkmate! {currentPlayer === "white" ? "You" : "Aakriti"} wins!
-            </span>
-          ) : gameStatus === "stalemate" ? (
-            <span className="font-bold text-yellow-600">Stalemate! Draw!</span>
-          ) : gameStatus === "check" ? (
-            <span className="font-bold text-orange-600">
-              Check! Current Player:{" "}
-              <span className="capitalize">
-                {currentPlayer === "white" ? "Aakriti (White)" : "You (Black)"}
-              </span>
-            </span>
-          ) : isThinking ? (
-            <span className="font-semibold text-blue-600">
-              🤔 Aakriti is thinking...
-            </span>
-          ) : (
-            <span>
-              Current Player:{" "}
-              <span className="font-semibold capitalize">
-                {currentPlayer === "white" ? "Aakriti (White)" : "You (Black)"}
-              </span>
-            </span>
-          )}
-        </motion.p>
-        <motion.button
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.6 }}
-          onClick={resetGame}
-          className="mt-4 px-6 py-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105"
-        >
-          Reset Game
-        </motion.button>
       </div>
 
-      <div className="flex flex-col xl:flex-row justify-center items-center xl:items-start gap-8 px-4 pb-8">
-        {/* Chess Board */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.6 }}
-          className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg p-6 rounded-2xl shadow-2xl border border-white/20 dark:border-slate-700/20"
-        >
-          <div className="grid grid-cols-8 gap-0 border-4 border-amber-800 dark:border-amber-600 rounded-lg overflow-hidden">
-            {board.map((row, rowIndex) =>
-              row.map((square, colIndex) => (
-                <motion.div
-                  key={`${rowIndex}-${colIndex}`}
-                  className={`
-                    w-16 h-16 md:w-20 md:h-20 flex items-center justify-center cursor-pointer relative text-3xl md:text-4xl select-none transition-all duration-200
-                    ${
-                      isSquareLight(rowIndex, colIndex)
-                        ? "bg-chess-light hover:bg-chess-light/80 shadow-inner"
-                        : "bg-chess-dark hover:bg-chess-dark/80 shadow-lg"
-                    }
-                    ${
-                      selectedSquare?.row === rowIndex &&
-                      selectedSquare?.col === colIndex
-                        ? "ring-4 ring-chess-selected ring-inset shadow-lg"
-                        : ""
-                    }
-                    ${
-                      validMoves.some(
-                        (move) =>
-                          move.row === rowIndex && move.col === colIndex,
-                      )
-                        ? "ring-2 ring-chess-highlight ring-inset after:content-[''] after:absolute after:inset-2 after:rounded-full after:bg-chess-highlight/20"
-                        : ""
-                    }
-                  `}
-                  onClick={() => handleSquareClick(rowIndex, colIndex)}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  animate={{
-                    scale:
-                      selectedSquare?.row === rowIndex &&
-                      selectedSquare?.col === colIndex
-                        ? 1.1
-                        : 1,
-                  }}
-                >
-                  <AnimatePresence>
-                    {square.piece && (
-                      <motion.span
-                        initial={{ scale: 0, rotate: 180 }}
-                        animate={{
-                          scale: 1,
-                          rotate: 0,
-                          y:
-                            isThinking && square.piece.color === "white"
-                              ? [0, -2, 0]
-                              : 0,
-                        }}
-                        exit={{ scale: 0, rotate: -180 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 200,
-                          damping: 15,
-                          y: {
-                            repeat:
-                              isThinking && square.piece.color === "white"
-                                ? Infinity
-                                : 0,
-                            duration: 1,
-                            ease: "easeInOut",
-                          },
-                        }}
-                        className="drop-shadow-2xl cursor-pointer select-none font-bold"
-                        style={{
-                          filter:
-                            square.piece.color === "white"
-                              ? "drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))"
-                              : "drop-shadow(0 0 8px rgba(0, 0, 0, 0.8)) drop-shadow(0 2px 4px rgba(255, 255, 255, 0.2))",
-                          color:
-                            square.piece.color === "white"
-                              ? "#f8fafc"
-                              : "#1e293b",
-                        }}
-                        title={
-                          pieceDescriptions[square.piece.color][
-                            square.piece.type
-                          ]
-                        }
-                      >
-                        {pieceSymbols[square.piece.color][square.piece.type]}
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              )),
-            )}
-          </div>
-        </motion.div>
-
-        {/* Story Reveal Panel */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.8 }}
-          className="w-full lg:w-96 max-w-md"
-        >
-          <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg rounded-2xl p-6 shadow-2xl h-96 overflow-y-auto border border-white/20 dark:border-slate-700/20">
-            <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">
-              Professional Journey
-            </h3>
-
-            <AnimatePresence mode="wait">
-              {revealedStory ? (
-                <motion.div
-                  key={revealedStory.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  className={`p-4 rounded-lg ${
-                    revealedStory.isStrength
-                      ? "bg-story-strength/10 border border-story-strength/20"
-                      : "bg-story-weakness/10 border border-story-weakness/20"
-                  }`}
-                >
-                  <div className="flex items-center gap-2 mb-3">
-                    <span
-                      className={`text-2xl ${revealedStory.isStrength ? "text-story-strength" : "text-story-weakness"}`}
-                    >
-                      {revealedStory.isStrength ? "💪" : "🎯"}
-                    </span>
-                    <h4
-                      className={`font-bold text-lg ${
-                        revealedStory.isStrength
-                          ? "text-story-strength"
-                          : "text-story-weakness"
-                      }`}
-                    >
-                      {revealedStory.isStrength
-                        ? "Strength: "
-                        : "Growth Area: "}
-                      {revealedStory.title}
-                    </h4>
-                  </div>
-                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                    {revealedStory.content}
-                  </p>
-                </motion.div>
-              ) : (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="text-center text-slate-500 dark:text-slate-400 py-12"
-                >
-                  <div className="text-6xl mb-4">���️</div>
-                  <p className="text-lg font-medium">
-                    Play against Aakriti's AI
-                  </p>
-                  <p className="text-sm">Capture pieces to unlock her story</p>
-                  <div className="mt-6 text-xs text-slate-400 space-y-1">
-                    <p>🤖 You're challenging Aakriti's AI portfolio</p>
-                    <p>⚪ White pieces = Aakriti's strengths</p>
-                    <p>⚫ Black pieces = Your perspective on her growth</p>
-                    <p>🎯 Capture pieces to reveal professional insights</p>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-          {/* Captured Pieces */}
-          {capturedPieces.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mt-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg rounded-xl p-4 shadow-xl border border-white/20 dark:border-slate-700/20"
+      {/* Tab Navigation */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+        className="flex justify-center mb-8"
+      >
+        <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg rounded-2xl p-2 shadow-lg border border-white/20 dark:border-slate-700/20">
+          <div className="flex gap-2">
+            <button
+              onClick={() => setActiveTab("chess")}
+              className={`px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
+                activeTab === "chess"
+                  ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg"
+                  : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700"
+              }`}
             >
-              <h4 className="font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                Captured Pieces ({capturedPieces.length})
-              </h4>
-              <div className="flex flex-wrap gap-2">
-                {capturedPieces.map((piece, index) => (
-                  <motion.span
-                    key={`captured-${index}`}
-                    initial={{ scale: 0, rotate: 180 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    className="text-2xl opacity-60"
-                  >
-                    {pieceSymbols[piece.color][piece.type]}
-                  </motion.span>
-                ))}
-              </div>
+              ♟️ Chess
+            </button>
+            <button
+              onClick={() => setActiveTab("bagh-chal")}
+              className={`px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
+                activeTab === "bagh-chal"
+                  ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg"
+                  : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700"
+              }`}
+            >
+              🐅 Bagh-Chal
+            </button>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Game Content */}
+      <div className="px-4">
+        <AnimatePresence mode="wait">
+          {activeTab === "chess" && (
+            <motion.div
+              key="chess"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Chess />
             </motion.div>
           )}
-        </motion.div>
+          {activeTab === "bagh-chal" && (
+            <motion.div
+              key="bagh-chal"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <BaghChal />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Email Signup & Social Links Section */}
