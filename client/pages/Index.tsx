@@ -12,9 +12,9 @@ import {
   getAIMove,
 } from "@/lib/chess";
 
-// Story content mapped to pieces
+// Story content mapped to pieces - The AI Portfolio
 const storyContent = {
-  // Aakriti's pieces (white) - Strengths when captured
+  // Aakriti's AI pieces (white) - Core strengths revealed when challenged
   queen: {
     title: "Luxury Vision",
     content:
@@ -64,29 +64,29 @@ const storyContent = {
     isStrength: true,
   },
 
-  // Opponent pieces (black) - Weaknesses when captured
+  // Player's perspective pieces (black) - Growth areas Aakriti acknowledges
   opponentQueen: {
-    title: "Perfectionism",
+    title: "Pursuit of Excellence",
     content:
-      "Sometimes I get so focused on engineering the perfect solution that I spend too much time optimizing when 'good enough' would suffice for the initial iteration.",
+      "I'm constantly refining my approach - sometimes spending extra time on optimization because I believe in delivering exceptional results, even when 'good enough' might suffice initially.",
     isStrength: false,
   },
   opponentKing: {
-    title: "Impatience with Inefficiency",
+    title: "Efficiency Drive",
     content:
-      "I can get frustrated when working with systems or people that move slowly, especially when I see clear paths to optimization.",
+      "I have high standards for efficiency and can get eager to implement optimizations when I see clear improvement paths - it's part of my engineering mindset.",
     isStrength: false,
   },
   opponentRook1: {
-    title: "Technical Depth vs Breadth",
+    title: "Technical Deep Dive",
     content:
-      "My deep technical background sometimes makes me dive too deep into implementation details when strategic oversight is more valuable.",
+      "My love for technical depth means I sometimes explore implementation details thoroughly - balancing this with strategic overview is an ongoing focus.",
     isStrength: false,
   },
   opponentRook2: {
-    title: "Scale Thinking",
+    title: "Scale Perspective",
     content:
-      "Having worked on billion-dollar systems, I sometimes over-engineer solutions for smaller-scale problems that need simpler approaches.",
+      "Having built billion-dollar systems, I'm learning to calibrate my solutions for different scales - from massive platforms to nimble startups.",
     isStrength: false,
   },
 };
