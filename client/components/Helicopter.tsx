@@ -402,9 +402,10 @@ export default function Helicopter() {
                   top: helicopterY,
                   width: HELICOPTER_SIZE,
                   height: HELICOPTER_SIZE,
+                  transform: "scaleX(-1)", // Flip horizontally to face right
                 }}
                 animate={{
-                  rotate: isAscending ? -10 : 5,
+                  rotate: isAscending ? 10 : -5,
                 }}
                 transition={{ duration: 0.1 }}
               >
