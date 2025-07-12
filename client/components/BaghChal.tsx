@@ -232,31 +232,81 @@ const BaghChal = () => {
               className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg rounded-xl p-6 mb-6 text-left border border-white/20 dark:border-slate-700/20"
             >
               <h3 className="font-bold text-lg mb-4 text-slate-800 dark:text-slate-200">
-                How to Play Bagh-Chal
+                🐅🐐 Bagh-Chal: Step by Step Rules
               </h3>
-              <div className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <p>
-                  🐅 <strong>4 Tigers</strong> start on corners and try to
-                  capture goats by jumping over them
-                </p>
-                <p>
-                  🐐 <strong>20 Goats</strong> are placed one by one, then can
-                  move to adjacent intersections
-                </p>
-                <p>
-                  🏆 <strong>Tigers win</strong> by capturing 5 goats
-                </p>
-                <p>
-                  🏆 <strong>Goats win</strong> by trapping all tigers (no valid
-                  moves)
-                </p>
-                <p>
-                  📍 Pieces move along lines to adjacent intersection points
-                </p>
-                <p>
-                  ⚔️ Tigers capture by jumping over goats to empty adjacent
-                  spaces
-                </p>
+              <div className="space-y-3 text-sm text-slate-600 dark:text-slate-400 max-h-80 overflow-y-auto">
+                <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg">
+                  <h4 className="font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    🏁 Setup
+                  </h4>
+                  <p>• 4 Tigers start on corner intersections</p>
+                  <p>• 20 Goats start off-board, to be placed during game</p>
+                  <p>• Board has 25 intersection points connected by lines</p>
+                </div>
+
+                <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg">
+                  <h4 className="font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    🎯 Objectives
+                  </h4>
+                  <p>
+                    • <strong>Tigers win:</strong> Capture 5+ goats
+                  </p>
+                  <p>
+                    • <strong>Goats win:</strong> Trap all tigers (no moves
+                    possible)
+                  </p>
+                </div>
+
+                <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg">
+                  <h4 className="font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    🚶‍♂️ Game Flow
+                  </h4>
+                  <p>
+                    <strong>Phase 1 - Placement (20 turns):</strong>
+                  </p>
+                  <p>• Goats place one piece per turn on empty intersections</p>
+                  <p>• Tigers can move/capture immediately during this phase</p>
+                  <p>• Players alternate: Goat places → Tiger moves → repeat</p>
+
+                  <p className="mt-2">
+                    <strong>Phase 2 - Movement:</strong>
+                  </p>
+                  <p>• After all 20 goats placed, goats can now move</p>
+                  <p>• Both players move to adjacent empty intersections</p>
+                  <p>• Tigers can still capture by jumping over goats</p>
+                </div>
+
+                <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg">
+                  <h4 className="font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    🐅 Tiger Moves
+                  </h4>
+                  <p>
+                    • <strong>Normal move:</strong> To adjacent empty
+                    intersection
+                  </p>
+                  <p>
+                    • <strong>Capture:</strong> Jump over adjacent goat to empty
+                    space beyond
+                  </p>
+                  <p>
+                    • Can start moving immediately (even during goat placement)
+                  </p>
+                </div>
+
+                <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg">
+                  <h4 className="font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    🐐 Goat Moves
+                  </h4>
+                  <p>
+                    • <strong>Placement phase:</strong> Place on any empty
+                    intersection
+                  </p>
+                  <p>
+                    • <strong>Movement phase:</strong> Move to adjacent empty
+                    intersection
+                  </p>
+                  <p>• Cannot jump or capture - only block and surround</p>
+                </div>
               </div>
             </motion.div>
           )}
