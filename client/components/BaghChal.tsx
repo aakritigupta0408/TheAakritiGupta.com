@@ -143,15 +143,32 @@ const BaghChal = () => {
     gameState.goatsPlaced,
   ]);
 
-  // Auto-stop demo when game ends
+  // Enhanced demo completion with winner celebration
   useEffect(() => {
     if (gameState.gameOver && demoPlaying) {
       setTimeout(() => {
         setDemoPlaying(false);
         setAiMode(false);
-      }, 3000); // Show winner for 3 seconds then stop
+        // Optional: Auto-restart demo after showing winner
+        // setTimeout(startDemo, 2000);
+      }, 5000); // Show winner for 5 seconds before stopping
     }
   }, [gameState.gameOver, demoPlaying]);
+
+  // Demo move counter for tracking progress
+  const [moveCount, setMoveCount] = useState(0);
+
+  useEffect(() => {
+    if (demoPlaying) {
+      setMoveCount(0);
+    }
+  }, [demoPlaying]);
+
+  useEffect(() => {
+    if (demoPlaying && !isThinking) {
+      setMoveCount((prev) => prev + 1);
+    }
+  }, [gameState.currentPlayer, demoPlaying, isThinking]);
 
   const validMoves = gameState.selectedPosition
     ? getValidMoves(gameState, gameState.selectedPosition)
