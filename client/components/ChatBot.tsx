@@ -214,9 +214,10 @@ export default function ChatBot() {
 
     if (
       lowerQuestion.includes("education") ||
-      lowerQuestion.includes("study")
+      lowerQuestion.includes("study") ||
+      lowerQuestion.includes("school")
     ) {
-      return "Aakriti has a Master's in Data Science & Analytics from NYU and a Bachelor's in Computer Science from USICT. Her educational foundation in both theoretical CS and practical data science really shows in her work across research and industry applications!";
+      return "Aakriti's educational journey is impressive! She topped N.K. Bagrodia Public School in Delhi in English and Mathematics, then scored in the top 1% in AIEEE and got All India Rank 300 in IPU-CET. She graduated from USIT (GGSIPU) and later got her Master's in Data Science & Analytics from NYU while studying under AI pioneers like Yann LeCun and Sam Bowman.";
     }
 
     if (lowerQuestion.includes("projects") || lowerQuestion.includes("built")) {
@@ -250,8 +251,56 @@ export default function ChatBot() {
       return "Aakriti is based in San Jose, California - right in the heart of Silicon Valley! It's the perfect location for someone working at the cutting edge of AI and machine learning technology.";
     }
 
+    if (
+      lowerQuestion.includes("delhi") ||
+      lowerQuestion.includes("early") ||
+      lowerQuestion.includes("childhood")
+    ) {
+      return "Aakriti was born and raised in Delhi, where she attended N.K. Bagrodia Public School. Even early on, she showed her sharp intellect by topping her school in English and Mathematics - a sign of the analytical and creative balance that defines her work today!";
+    }
+
+    if (
+      lowerQuestion.includes("journey") ||
+      lowerQuestion.includes("cities") ||
+      lowerQuestion.includes("travel")
+    ) {
+      return "Aakriti's journey is fascinating! From Delhi classrooms to Silicon Valley boardrooms - she's been in Bhubaneshwar (college startup), Bangalore (Mindtree), New York (studying under Yann LeCun), Los Angeles (exploring art and fashion), and now the Bay Area. Each city shaped her unique blend of tech expertise and creative vision!";
+    }
+
+    if (
+      lowerQuestion.includes("startup") ||
+      lowerQuestion.includes("college") ||
+      lowerQuestion.includes("bus")
+    ) {
+      return "During college in Bhubaneshwar, Aakriti built a startup solution for school bus tracking - helping parents know their children's bus routes and locations in real time for safety. True to her values of tech for good, she later donated this entire project to government schools in Delhi!";
+    }
+
+    if (
+      lowerQuestion.includes("mindtree") ||
+      lowerQuestion.includes("bangalore")
+    ) {
+      return "Aakriti worked at Mindtree in Bangalore, where she honed her engineering skills and collaborated on diverse projects. It was an important step in her journey that prepared her for the global stage in AI and machine learning!";
+    }
+
+    if (
+      lowerQuestion.includes("new york") ||
+      lowerQuestion.includes("nyc") ||
+      lowerQuestion.includes("sam bowman")
+    ) {
+      return "In New York City, Aakriti studied under pioneering AI scientists Yann LeCun and Sam Bowman. This is where she was personally awarded by Dr. Yann LeCun for her engineering solution in an AI efficiency challenge - studying directly under the fathers of modern AI!";
+    }
+
+    if (
+      lowerQuestion.includes("los angeles") ||
+      lowerQuestion.includes("la") ||
+      lowerQuestion.includes("art") ||
+      lowerQuestion.includes("fashion")
+    ) {
+      return "In Los Angeles, Aakriti embraced new challenges and creative inspirations, blending her tech expertise with explorations into art and fashion. This experience in LA was crucial for developing her vision that later became Swarnawastra - where technology meets luxury fashion!";
+    }
+
     // Default response
-    return "That's a great question! Aakriti is a Senior ML Engineer and Applied Researcher with incredible experience at Meta, eBay, and Yahoo, plus she's building Swarnawastra. She's been recognized by Yann LeCun and has deep expertise in AI systems. What specific aspect would you like to know more about?";
+    return "That's a great question! Aakriti's journey from Delhi to Silicon Valley is incredible - from topping her school to studying under Yann LeCun, from building startups in college to working at Meta, eBay, and Yahoo. She's now building Swarnawastra in the Bay Area. What specific aspect would you like to know more about?";
   };
 
   const handleSubmit = (e: React.FormEvent) => {
