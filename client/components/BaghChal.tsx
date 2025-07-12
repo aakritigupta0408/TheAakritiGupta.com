@@ -202,7 +202,7 @@ const BaghChal = () => {
               whileTap={{ scale: 0.95 }}
               className="px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg font-bold shadow-lg transition-all"
             >
-              ▶️ Watch Demo Play
+              ▶️ Watch Advanced AI Battle
             </motion.button>
           ) : (
             <motion.button
