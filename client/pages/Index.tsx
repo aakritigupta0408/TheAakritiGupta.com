@@ -750,18 +750,29 @@ export default function Index() {
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.01, x: 4 }}
-                  className="flex items-center gap-6 tom-ford-card p-8 rounded-sm hover:border-yellow-400/50 transition-all duration-300"
+                  className="flex items-center gap-6 tom-ford-card p-8 rounded-sm hover:border-yellow-400/50 transition-all duration-300 group"
                 >
-                  <div className="w-16 h-16 bg-yellow-400/10 rounded-sm flex items-center justify-center border border-yellow-400/30">
-                    <span className="text-2xl text-yellow-400">◆</span>
+                  <div className="relative">
+                    <div className="w-16 h-16 bg-blue-600 rounded-sm flex items-center justify-center border border-yellow-400/30 group-hover:border-blue-400 transition-colors">
+                      <span className="text-3xl text-white font-bold">in</span>
+                    </div>
+                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center">
+                      <span className="text-xs text-black font-bold">✓</span>
+                    </div>
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <div className="tom-ford-subheading text-white text-sm tracking-wider">
                       LINKEDIN NETWORK
                     </div>
                     <div className="text-white/60 text-xs mt-1">
                       Professional experience & connections
                     </div>
+                    <div className="text-blue-400/80 text-xs mt-2 font-light">
+                      @aakritigupta4894
+                    </div>
+                  </div>
+                  <div className="text-yellow-400 group-hover:translate-x-2 transition-transform">
+                    ◆
                   </div>
                 </motion.a>
 
@@ -770,18 +781,29 @@ export default function Index() {
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.01, x: 4 }}
-                  className="flex items-center gap-6 tom-ford-card p-8 rounded-sm hover:border-yellow-400/50 transition-all duration-300"
+                  className="flex items-center gap-6 tom-ford-card p-8 rounded-sm hover:border-yellow-400/50 transition-all duration-300 group"
                 >
-                  <div className="w-16 h-16 bg-yellow-400/10 rounded-sm flex items-center justify-center border border-yellow-400/30">
-                    <span className="text-2xl text-yellow-400">◇</span>
+                  <div className="relative">
+                    <div className="w-16 h-16 bg-slate-800 rounded-sm flex items-center justify-center border border-yellow-400/30 group-hover:border-slate-400 transition-colors">
+                      <span className="text-2xl text-white font-bold">Git</span>
+                    </div>
+                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center">
+                      <span className="text-xs text-black font-bold">✓</span>
+                    </div>
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <div className="tom-ford-subheading text-white text-sm tracking-wider">
                       GITHUB PORTFOLIO
                     </div>
                     <div className="text-white/60 text-xs mt-1">
                       Open source contributions & achievements
                     </div>
+                    <div className="text-slate-400/80 text-xs mt-2 font-light">
+                      @aakritigupta0408
+                    </div>
+                  </div>
+                  <div className="text-yellow-400 group-hover:translate-x-2 transition-transform">
+                    ◇
                   </div>
                 </motion.a>
               </div>
