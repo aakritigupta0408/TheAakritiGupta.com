@@ -298,7 +298,7 @@ export default function Index() {
 
   const handleSquareClick = useCallback(
     (row: number, col: number) => {
-      if (currentPlayer === "black" || isThinking) return; // Only allow white (human) moves
+      if (currentPlayer === "white" || isThinking) return; // Only allow black (human) moves when it's their turn
 
       if (selectedSquare) {
         const moveSuccessful = makeMove(
@@ -306,7 +306,7 @@ export default function Index() {
           selectedSquare.col,
           row,
           col,
-          "white",
+          "black",
         );
 
         setSelectedSquare(null);
@@ -314,7 +314,7 @@ export default function Index() {
       } else {
         // Select piece
         const square = board[row][col];
-        if (square.piece && square.piece.color === "white") {
+        if (square.piece && square.piece.color === "black") {
           setSelectedSquare({ row, col });
           // Calculate valid moves for this piece
           const moves = [];
@@ -332,23 +332,23 @@ export default function Index() {
     [board, selectedSquare, currentPlayer, makeMove, isThinking],
   );
 
-  // AI move effect
+  // AI move effect (Aakriti plays as white)
   useEffect(() => {
-    if (currentPlayer === "black" && gameStatus === "playing") {
+    if (currentPlayer === "white" && gameStatus === "playing") {
       setIsThinking(true);
       const timer = setTimeout(() => {
-        const aiMove = getAIMove(board, "black");
+        const aiMove = getAIMove(board, "white");
         if (aiMove) {
           makeMove(
             aiMove.fromRow,
             aiMove.fromCol,
             aiMove.toRow,
             aiMove.toCol,
-            "black",
+            "white",
           );
         }
         setIsThinking(false);
-      }, 1000); // 1 second delay for AI thinking
+      }, 1500); // 1.5 second delay for Aakriti thinking
 
       return () => clearTimeout(timer);
     }
@@ -394,7 +394,7 @@ export default function Index() {
         >
           {gameStatus === "checkmate" ? (
             <span className="font-bold text-red-600">
-              Checkmate! {currentPlayer === "white" ? "Black" : "Aakriti"} wins!
+              Checkmate! {currentPlayer === "white" ? "You" : "Aakriti"} wins!
             </span>
           ) : gameStatus === "stalemate" ? (
             <span className="font-bold text-yellow-600">Stalemate! Draw!</span>
@@ -402,22 +402,18 @@ export default function Index() {
             <span className="font-bold text-orange-600">
               Check! Current Player:{" "}
               <span className="capitalize">
-                {currentPlayer === "white"
-                  ? "Aakriti (White)"
-                  : "Opponent (Black)"}
+                {currentPlayer === "white" ? "Aakriti (White)" : "You (Black)"}
               </span>
             </span>
           ) : isThinking ? (
             <span className="font-semibold text-blue-600">
-              🤔 Opponent is thinking...
+              🤔 Aakriti is thinking...
             </span>
           ) : (
             <span>
               Current Player:{" "}
               <span className="font-semibold capitalize">
-                {currentPlayer === "white"
-                  ? "Aakriti (White)"
-                  : "Opponent (Black)"}
+                {currentPlayer === "white" ? "Aakriti (White)" : "You (Black)"}
               </span>
             </span>
           )}
