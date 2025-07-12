@@ -562,15 +562,31 @@ const BaghChal = () => {
               {/* Game Over Status */}
               {gameState.gameOver && (
                 <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className={`p-4 rounded-lg text-center font-bold text-lg ${
+                  initial={{ scale: 0, rotate: -10 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 10 }}
+                  className={`p-6 rounded-xl text-center font-bold border-2 ${
                     gameState.winner === "tiger"
-                      ? "bg-orange-100 dark:bg-orange-900/30 text-orange-600"
-                      : "bg-green-100 dark:bg-green-900/30 text-green-600"
+                      ? "bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 text-orange-600 border-orange-300 dark:border-orange-700"
+                      : "bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 text-green-600 border-green-300 dark:border-green-700"
                   }`}
                 >
-                  🏆 {gameState.winner === "tiger" ? "Tigers" : "Goats"} Win!
+                  <div className="text-4xl mb-2">
+                    {gameState.winner === "tiger" ? "🐅" : "🐐"}
+                  </div>
+                  <div className="text-2xl mb-2">
+                    🏆 {gameState.winner === "tiger" ? "Tigers" : "Goats"} Win!
+                  </div>
+                  <div className="text-sm opacity-80">
+                    {gameState.winner === "tiger"
+                      ? `Captured ${gameState.goatsCaptured} goats in ${moveCount} moves`
+                      : `Trapped all tigers in ${moveCount} moves`}
+                  </div>
+                  {demoPlaying && (
+                    <div className="text-xs mt-3 p-2 bg-white/50 dark:bg-slate-800/50 rounded-lg">
+                      🤖 Demo completed! Advanced AI bots battled to the end.
+                    </div>
+                  )}
                 </motion.div>
               )}
 
