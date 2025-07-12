@@ -22,7 +22,7 @@ During college, while living in Bhubaneshwar, she built a startup solution to he
 - Started at Mindtree in Bangalore, honing engineering skills
 - New York City: Studied under pioneering AI scientists Yann LeCun and Sam Bowman, personally awarded by Dr. Yann LeCun for her engineering solution in an AI efficiency challenge
 - Los Angeles: Blended tech expertise with explorations into art and fashion
-- Bay Area (Silicon Valley): Currently based in San Jose, California, working as a Senior Machine Learning Engineer and Applied Researcher
+- Bay Area (Silicon Valley): Currently based in San Jose, California, working as a Senior Machine Learning Engineer and Applied Researcher. Open to relocation for the right opportunity to New York, Los Angeles, Seattle, or Austin
 
 She has worked at:
 - **Meta** (Facebook), leading machine learning initiatives on the Ads and Budgets team to optimize ad delivery and pacing. She designed models balancing ROI with advertiser intent using auction-time signals and budget dynamics, improving spend efficiency through predictive modeling and real-time bid optimization.
@@ -198,8 +198,25 @@ export default function ChatBot() {
       return "Beyond her technical virtuosity, Aakriti embodies sophisticated pursuits: equestrian excellence, aviation training, marksmanship precision, motorcycling adventure, and classical piano artistry. These diverse disciplines reflect her commitment to comprehensive excellence.";
     }
 
+    if (
+      lowerQuestion.includes("location") ||
+      lowerQuestion.includes("where") ||
+      lowerQuestion.includes("live") ||
+      lowerQuestion.includes("based")
+    ) {
+      return "Aakriti is currently based in San Jose, California - the epicenter of Silicon Valley innovation. She maintains strategic flexibility for exceptional opportunities, being open to relocation to New York, Los Angeles, Seattle, or Austin for the right position.";
+    }
+
+    if (
+      lowerQuestion.includes("relocate") ||
+      lowerQuestion.includes("move") ||
+      lowerQuestion.includes("relocation")
+    ) {
+      return "Indeed, Aakriti demonstrates remarkable flexibility for career advancement. She is open to relocating to distinguished markets including New York, Los Angeles, Seattle, or Austin. Her willingness to relocate reflects her commitment to securing roles that align with her exceptional capabilities.";
+    }
+
     // Default response
-    return "Aakriti's trajectory from Delhi's academic excellence to Silicon Valley's technological pinnacle exemplifies extraordinary achievement. Her recognition by Dr. Yann LeCun, leadership at Meta, eBay, and Yahoo, combined with her Swarnawastra innovation, defines contemporary luxury technology leadership. Which aspect of her distinction interests you most?";
+    return "Aakriti's trajectory from Delhi's academic excellence to Silicon Valley's technological pinnacle exemplifies extraordinary achievement. Currently based in San Jose with flexibility to relocate, her recognition by Dr. Yann LeCun, leadership at Meta, eBay, and Yahoo, combined with her Swarnawastra innovation, defines contemporary luxury technology leadership. Which aspect of her distinction interests you most?";
   };
 
   const handleSubmit = (e: React.FormEvent) => {
