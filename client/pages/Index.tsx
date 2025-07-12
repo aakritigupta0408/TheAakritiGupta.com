@@ -351,9 +351,25 @@ export default function Index() {
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02, y: -2 }}
-                className="tom-ford-button px-8 py-4 rounded-sm text-center font-light tracking-wider"
+                className="tom-ford-button px-8 py-4 rounded-sm text-center font-light tracking-wider flex items-center justify-center gap-3"
               >
+                <div className="w-6 h-6 bg-blue-600 rounded-sm flex items-center justify-center text-white text-sm font-bold">
+                  in
+                </div>
                 PROFESSIONAL NETWORK
+              </motion.a>
+
+              <motion.a
+                href="https://github.com/aakritigupta0408?tab=achievements"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.02, y: -2 }}
+                className="border border-white/30 text-white px-8 py-4 rounded-sm font-light tracking-wider hover:border-yellow-400 hover:text-yellow-400 transition-all duration-300 flex items-center justify-center gap-3"
+              >
+                <div className="w-6 h-6 bg-slate-800 rounded-sm flex items-center justify-center text-white text-sm font-bold">
+                  Git
+                </div>
+                CODE PORTFOLIO
               </motion.a>
 
               <motion.button
@@ -363,9 +379,9 @@ export default function Index() {
                     ?.scrollIntoView({ behavior: "smooth" })
                 }
                 whileHover={{ scale: 1.02, y: -2 }}
-                className="border border-white/30 text-white px-8 py-4 rounded-sm font-light tracking-wider hover:border-yellow-400 hover:text-yellow-400 transition-all duration-300"
+                className="border border-yellow-400/50 text-yellow-400 px-8 py-4 rounded-sm font-light tracking-wider hover:border-yellow-400 hover:bg-yellow-400/10 transition-all duration-300"
               >
-                INTERACTIVE PORTFOLIO
+                PLAY INTERACTIVE GAMES
               </motion.button>
             </motion.div>
           </motion.div>
