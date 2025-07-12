@@ -383,72 +383,50 @@ const evaluatePosition = (state: BaghChalState): number => {
   return score;
 };
 
-// Minimax algorithm for AI
+// Improved Minimax algorithm for AI (based on provided specification)
 export const minimax = (
   state: BaghChalState,
   depth: number,
-  isMaximizing: boolean,
-  alpha: number = -Infinity,
-  beta: number = Infinity,
+  maximizing: boolean,
 ): { score: number; move?: Move } => {
-  if (depth === 0 || state.gameOver) {
+  if (depth === 0 || isGameOver(state)) {
     return { score: evaluatePosition(state) };
   }
 
-  if (isMaximizing) {
-    let maxScore = -Infinity;
+  if (maximizing) {
+    // Tiger's turn
+    let maxEval = -Infinity;
     let bestMove: Move | undefined;
+    const tigerMoves = getAllPossibleTigerMoves(state);
 
-    // Get all tiger positions and their moves
-    for (let row = 0; row < 5; row++) {
-      for (let col = 0; col < 5; col++) {
-        if (state.board[row][col] === "tiger") {
-          const moves = getValidMoves(state, { row, col });
+    for (const move of tigerMoves) {
+      const newState = applyMove(state, move);
+      const evaluation = minimax(newState, depth - 1, false);
 
-          for (const move of moves) {
-            const newState = makeMove(state, { row, col }, move);
-            const { score } = minimax(newState, depth - 1, false, alpha, beta);
-
-            if (score > maxScore) {
-              maxScore = score;
-              bestMove = { from: { row, col }, to: move };
-            }
-
-            alpha = Math.max(alpha, score);
-            if (beta <= alpha) break;
-          }
-        }
+      if (evaluation.score > maxEval) {
+        maxEval = evaluation.score;
+        bestMove = move;
       }
     }
 
-    return { score: maxScore, move: bestMove };
+    return { score: maxEval, move: bestMove };
   } else {
-    let minScore = Infinity;
+    // Goat's turn
+    let minEval = Infinity;
     let bestMove: Move | undefined;
+    const goatMoves = getAllPossibleGoatMoves(state);
 
-    // Get all goat positions and their moves
-    for (let row = 0; row < 5; row++) {
-      for (let col = 0; col < 5; col++) {
-        if (state.board[row][col] === "goat") {
-          const moves = getValidMoves(state, { row, col });
+    for (const move of goatMoves) {
+      const newState = applyMove(state, move);
+      const evaluation = minimax(newState, depth - 1, true);
 
-          for (const move of moves) {
-            const newState = makeMove(state, { row, col }, move);
-            const { score } = minimax(newState, depth - 1, true, alpha, beta);
-
-            if (score < minScore) {
-              minScore = score;
-              bestMove = { from: { row, col }, to: move };
-            }
-
-            beta = Math.min(beta, score);
-            if (beta <= alpha) break;
-          }
-        }
+      if (evaluation.score < minEval) {
+        minEval = evaluation.score;
+        bestMove = move;
       }
     }
 
-    return { score: minScore, move: bestMove };
+    return { score: minEval, move: bestMove };
   }
 };
 
