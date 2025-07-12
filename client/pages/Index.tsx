@@ -50,8 +50,9 @@ export default function Index() {
           transition={{ delay: 0.3 }}
           className="text-sm text-slate-500 dark:text-slate-400 mt-2 max-w-2xl mx-auto"
         >
-          Experience Aakriti's professional journey through strategic games.
-          Choose between chess and traditional Bagh-Chal.
+          Experience Aakriti's professional journey through interactive games.
+          Choose between strategic chess, traditional Bagh-Chal, or Pacman
+          adventures.
         </motion.p>
       </div>
 
