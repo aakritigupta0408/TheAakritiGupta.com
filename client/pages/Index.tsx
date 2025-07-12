@@ -5,10 +5,17 @@ import BaghChal from "@/components/BaghChal";
 import Pacman from "@/components/Pacman";
 import Snake from "@/components/Snake";
 import MarioGradientDescent from "@/components/MarioGradientDescent";
+import Helicopter from "@/components/Helicopter";
 import ChatBot from "@/components/ChatBot";
 import { saveEmailToLocalStorage } from "@/api/save-email";
 
-type GameTab = "chess" | "bagh-chal" | "pacman" | "snake" | "mario-gradient";
+type GameTab =
+  | "chess"
+  | "bagh-chal"
+  | "pacman"
+  | "snake"
+  | "mario-gradient"
+  | "helicopter";
 
 interface FloatingSkill {
   id: string;
@@ -300,6 +307,13 @@ export default function Index() {
       title: "GRADIENT DESCENT",
       description: "Machine learning education through interactive play",
       icon: "▲",
+      accent: "border-yellow-400",
+    },
+    {
+      id: "helicopter" as GameTab,
+      title: "HELICOPTER",
+      description: "Navigate challenges to discover achievements",
+      icon: "🚁",
       accent: "border-yellow-400",
     },
   ];
@@ -665,7 +679,7 @@ export default function Index() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-5 gap-6">
+          <div className="grid md:grid-cols-6 gap-6">
             {gameCards.map((game, index) => (
               <motion.button
                 key={game.id}
@@ -713,7 +727,7 @@ export default function Index() {
           </motion.div>
 
           {/* Luxury Game Selection */}
-          <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-8 mb-16">
+          <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-8 mb-16">
             {gameCards.map((game, index) => (
               <motion.div
                 key={game.id}
@@ -771,6 +785,7 @@ export default function Index() {
                   {activeGame === "pacman" && <Pacman />}
                   {activeGame === "snake" && <Snake />}
                   {activeGame === "mario-gradient" && <MarioGradientDescent />}
+                  {activeGame === "helicopter" && <Helicopter />}
                 </div>
               </motion.div>
             )}
