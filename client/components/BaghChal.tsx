@@ -410,7 +410,8 @@ const BaghChal = () => {
                   </span>
                   <span className="font-bold capitalize">
                     {gameState.currentPlayer}
-                    {isThinking && " (thinking...)"}
+                    {isThinking && aiMode && " (AI thinking...)"}
+                    {isThinking && !aiMode && " (thinking...)"}
                   </span>
                 </div>
               </div>
