@@ -173,19 +173,44 @@ const BaghChal = () => {
 
         {/* Game Controls */}
         <div className="flex flex-wrap justify-center gap-4 mb-6">
+          {!demoPlaying ? (
+            <motion.button
+              onClick={startDemo}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg font-bold shadow-lg transition-all"
+            >
+              ▶️ Watch Demo Play
+            </motion.button>
+          ) : (
+            <motion.button
+              onClick={stopDemo}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-6 py-3 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-lg font-bold shadow-lg transition-all"
+            >
+              ⏹️ Stop Demo
+            </motion.button>
+          )}
           <button
             onClick={() => setAiMode(!aiMode)}
+            disabled={demoPlaying}
             className={`px-4 py-2 rounded-lg font-semibold transition-all ${
-              aiMode
-                ? "bg-blue-500 text-white"
-                : "bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300"
+              demoPlaying
+                ? "opacity-50 cursor-not-allowed"
+                : aiMode
+                  ? "bg-blue-500 text-white"
+                  : "bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300"
             }`}
           >
             {aiMode ? "🤖 AI vs AI" : "👥 Player vs Player"}
           </button>
           <button
             onClick={resetGame}
-            className="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg font-semibold hover:scale-105 transition-transform"
+            disabled={demoPlaying}
+            className={`px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg font-semibold hover:scale-105 transition-transform ${
+              demoPlaying ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
             Reset Game
           </button>
