@@ -557,8 +557,22 @@ const BaghChal = () => {
                 </motion.div>
               )}
 
+              {/* Demo Status */}
+              {demoPlaying && (
+                <div className="text-sm text-center bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 p-3 rounded-lg border border-green-200 dark:border-green-800">
+                  <p className="font-bold text-green-700 dark:text-green-300 mb-1">
+                    🎬 Demo Playing - Watch AI vs AI Battle!
+                  </p>
+                  <p className="text-green-600 dark:text-green-400">
+                    {gameState.phase === "placement"
+                      ? `Phase 1: Goat Placement (${gameState.goatsPlaced}/20 placed)`
+                      : "Phase 2: Movement & Strategy"}
+                  </p>
+                </div>
+              )}
+
               {/* Instructions */}
-              {!gameState.gameOver && (
+              {!gameState.gameOver && !demoPlaying && (
                 <div className="text-sm text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-700/50 p-3 rounded-lg">
                   {gameState.phase === "placement" ? (
                     <p>📍 Click on empty intersections to place goats</p>
@@ -567,6 +581,24 @@ const BaghChal = () => {
                       🎯 Click a piece to select, then click destination to move
                     </p>
                   )}
+                </div>
+              )}
+
+              {/* Game Phase Progress */}
+              {gameState.phase === "placement" && (
+                <div className="bg-slate-50 dark:bg-slate-700/50 p-3 rounded-lg">
+                  <div className="flex justify-between text-sm text-slate-600 dark:text-slate-400 mb-2">
+                    <span>Goat Placement Progress</span>
+                    <span>{gameState.goatsPlaced}/20</span>
+                  </div>
+                  <div className="w-full bg-slate-200 dark:bg-slate-600 rounded-full h-2">
+                    <div
+                      className="bg-gradient-to-r from-amber-500 to-orange-500 h-2 rounded-full transition-all duration-300"
+                      style={{
+                        width: `${(gameState.goatsPlaced / 20) * 100}%`,
+                      }}
+                    ></div>
+                  </div>
                 </div>
               )}
             </div>
