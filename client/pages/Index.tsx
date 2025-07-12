@@ -444,10 +444,41 @@ export default function Index() {
               <h3 className="tom-ford-heading text-2xl text-white mb-6">
                 TECHNOLOGY LEADERSHIP
               </h3>
-              <p className="text-white/70 font-light leading-relaxed">
-                Leading machine learning initiatives at Meta, eBay, and Yahoo.
-                Serving billions of users through advanced AI systems.
+              <p className="text-white/70 font-light leading-relaxed mb-6">
+                Leading machine learning initiatives at premier technology
+                institutions. Serving billions of users through advanced AI
+                systems.
               </p>
+
+              {/* Company Logos - Vertical Stack */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-yellow-400/20 rounded-sm px-3 py-2">
+                  <div className="w-6 h-6 bg-blue-500 rounded-sm flex items-center justify-center text-white font-bold text-xs">
+                    f
+                  </div>
+                  <span className="text-yellow-400/90 text-xs tracking-wider">
+                    META
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-yellow-400/20 rounded-sm px-3 py-2">
+                  <div className="w-6 h-6 bg-gradient-to-r from-red-500 via-yellow-400 to-blue-500 rounded-sm flex items-center justify-center text-white font-bold text-xs">
+                    eB
+                  </div>
+                  <span className="text-yellow-400/90 text-xs tracking-wider">
+                    EBAY
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-yellow-400/20 rounded-sm px-3 py-2">
+                  <div className="w-6 h-6 bg-purple-600 rounded-sm flex items-center justify-center text-white font-bold text-xs">
+                    Y!
+                  </div>
+                  <span className="text-yellow-400/90 text-xs tracking-wider">
+                    YAHOO
+                  </span>
+                </div>
+              </div>
             </motion.div>
 
             <motion.div
