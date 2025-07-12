@@ -5,6 +5,7 @@ import BaghChal from "@/components/BaghChal";
 import Pacman from "@/components/Pacman";
 import Snake from "@/components/Snake";
 import MarioGradientDescent from "@/components/MarioGradientDescent";
+import ChatBot from "@/components/ChatBot";
 
 type GameTab = "chess" | "bagh-chal" | "pacman" | "snake" | "mario-gradient";
 
@@ -304,6 +305,9 @@ export default function Index() {
           </div>
         </motion.div>
       </footer>
+
+      {/* AI Assistant ChatBot */}
+      <ChatBot />
     </div>
   );
 }
