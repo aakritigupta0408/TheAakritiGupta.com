@@ -483,7 +483,7 @@ export default function Index() {
                           scale: 1,
                           rotate: 0,
                           y:
-                            isThinking && square.piece.color === "black"
+                            isThinking && square.piece.color === "white"
                               ? [0, -2, 0]
                               : 0,
                         }}
