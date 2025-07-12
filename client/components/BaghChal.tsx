@@ -589,7 +589,17 @@ const BaghChal = () => {
                   </div>
                   {demoPlaying && (
                     <div className="text-xs mt-3 p-2 bg-white/50 dark:bg-slate-800/50 rounded-lg">
-                      🤖 Demo completed! Advanced AI bots battled to the end.
+                      <p className="mb-2">
+                        🤖 Demo completed! Advanced AI bots battled to the end.
+                      </p>
+                      <motion.button
+                        onClick={restartDemo}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg font-semibold text-sm shadow-lg"
+                      >
+                        🔄 Watch Another Demo
+                      </motion.button>
                     </div>
                   )}
                 </motion.div>
