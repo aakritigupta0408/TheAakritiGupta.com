@@ -6,25 +6,7 @@ import BaghChal from "@/components/BaghChal";
 type GameTab = "chess" | "bagh-chal";
 
 export default function Index() {
-  const [board, setBoard] = useState<BoardSquare[][]>(initializeBoard);
-  const [selectedSquare, setSelectedSquare] = useState<{
-    row: number;
-    col: number;
-  } | null>(null);
-  const [currentPlayer, setCurrentPlayer] = useState<PieceColor>("white");
-  const [revealedStory, setRevealedStory] = useState<{
-    title: string;
-    content: string;
-    isStrength: boolean;
-  } | null>(null);
-  const [capturedPieces, setCapturedPieces] = useState<ChessPiece[]>([]);
-  const [gameStatus, setGameStatus] = useState<
-    "playing" | "check" | "checkmate" | "stalemate"
-  >("playing");
-  const [isThinking, setIsThinking] = useState(false);
-  const [validMoves, setValidMoves] = useState<{ row: number; col: number }[]>(
-    [],
-  );
+  const [activeTab, setActiveTab] = useState<GameTab>("chess");
   const [email, setEmail] = useState("");
   const [emailSubmitted, setEmailSubmitted] = useState(false);
 
