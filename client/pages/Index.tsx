@@ -37,9 +37,21 @@ const FLOATING_SKILLS: Omit<
     color: "tom-ford-float",
   },
   {
+    id: "meta-expert",
+    label: "META ENGINEER",
+    icon: "◆",
+    color: "tom-ford-float",
+  },
+  {
     id: "horse-rider",
     label: "EQUESTRIAN",
     icon: "◈",
+    color: "tom-ford-float",
+  },
+  {
+    id: "ml-specialist",
+    label: "ML SPECIALIST",
+    icon: "◇",
     color: "tom-ford-float",
   },
   {
@@ -49,9 +61,21 @@ const FLOATING_SKILLS: Omit<
     color: "tom-ford-float",
   },
   {
+    id: "ebay-alumni",
+    label: "EBAY VETERAN",
+    icon: "◆",
+    color: "tom-ford-float",
+  },
+  {
     id: "shooter",
     label: "MARKSMAN",
     icon: "◎",
+    color: "tom-ford-float",
+  },
+  {
+    id: "yahoo-scientist",
+    label: "YAHOO SCIENTIST",
+    icon: "◇",
     color: "tom-ford-float",
   },
   {
@@ -61,9 +85,33 @@ const FLOATING_SKILLS: Omit<
     color: "tom-ford-float",
   },
   {
+    id: "swarnawastra",
+    label: "LUXURY TECH FOUNDER",
+    icon: "◆",
+    color: "tom-ford-float",
+  },
+  {
     id: "pianist",
     label: "PIANIST",
     icon: "◑",
+    color: "tom-ford-float",
+  },
+  {
+    id: "yann-lecun-awardee",
+    label: "YANN LECUN AWARDEE",
+    icon: "◇",
+    color: "tom-ford-float",
+  },
+  {
+    id: "silicon-valley",
+    label: "SILICON VALLEY",
+    icon: "◈",
+    color: "tom-ford-float",
+  },
+  {
+    id: "delhi-to-sv",
+    label: "DELHI TO SILICON VALLEY",
+    icon: "◉",
     color: "tom-ford-float",
   },
 ];
@@ -73,11 +121,18 @@ const FloatingSkills = () => {
   const [skills, setSkills] = useState<FloatingSkill[]>([]);
 
   useEffect(() => {
-    const initialSkills = FLOATING_SKILLS.map((skill, index) => ({
+    // Create multiple instances of skills for more frequency
+    const duplicatedSkills = [
+      ...FLOATING_SKILLS,
+      ...FLOATING_SKILLS,
+      ...FLOATING_SKILLS,
+    ];
+    const initialSkills = duplicatedSkills.map((skill, index) => ({
       ...skill,
-      x: Math.random() * (window.innerWidth - 300),
-      y: Math.random() * (window.innerHeight - 100),
-      speed: 0.2 + Math.random() * 0.3,
+      id: `${skill.id}-${index}`,
+      x: Math.random() * (window.innerWidth - 350),
+      y: Math.random() * (window.innerHeight - 120),
+      speed: 0.3 + Math.random() * 0.5, // Increased speed
       direction: Math.random() * Math.PI * 2,
     }));
     setSkills(initialSkills);
@@ -108,7 +163,7 @@ const FloatingSkills = () => {
       );
     };
 
-    const interval = setInterval(animateSkills, 100);
+    const interval = setInterval(animateSkills, 50); // More frequent updates
     return () => clearInterval(interval);
   }, [skills.length]);
 
@@ -127,9 +182,9 @@ const FloatingSkills = () => {
             ease: "easeOut",
           }}
         >
-          <div className="tom-ford-float px-6 py-3 rounded-sm text-white text-sm font-light tracking-wider flex items-center gap-3">
-            <span className="text-lg text-yellow-400">{skill.icon}</span>
-            <span className="tom-ford-subheading text-xs">{skill.label}</span>
+          <div className="tom-ford-float px-8 py-4 rounded-sm text-white text-base font-light tracking-wider flex items-center gap-4 shadow-2xl">
+            <span className="text-2xl text-yellow-400">{skill.icon}</span>
+            <span className="tom-ford-subheading text-sm">{skill.label}</span>
           </div>
         </motion.div>
       ))}
