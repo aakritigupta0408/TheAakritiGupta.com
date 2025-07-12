@@ -547,7 +547,17 @@ export default function Index() {
                             ease: "easeInOut",
                           },
                         }}
-                        className="drop-shadow-lg cursor-pointer select-none"
+                        className="drop-shadow-2xl cursor-pointer select-none font-bold"
+                        style={{
+                          filter:
+                            square.piece.color === "white"
+                              ? "drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))"
+                              : "drop-shadow(0 0 8px rgba(0, 0, 0, 0.8)) drop-shadow(0 2px 4px rgba(255, 255, 255, 0.2))",
+                          color:
+                            square.piece.color === "white"
+                              ? "#f8fafc"
+                              : "#1e293b",
+                        }}
                         title={
                           pieceDescriptions[square.piece.color][
                             square.piece.type
