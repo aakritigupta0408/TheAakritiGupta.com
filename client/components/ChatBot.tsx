@@ -62,12 +62,12 @@ If asked something unrelated (like politics, or general trivia), reply: "I'm Aak
 Your goal is to make visitors feel they're talking directly to Aakriti's trusted, knowledgeable assistant.`;
 
 const SUGGESTED_QUESTIONS = [
+  "Tell me about your journey from Delhi to Silicon Valley",
   "What companies have you worked for?",
-  "Tell me about Swarnawastra",
-  "What did you achieve at Meta?",
   "How did Yann LeCun recognize your work?",
+  "Tell me about Swarnawastra",
+  "What was your early startup about?",
   "What's your educational background?",
-  "What AI projects have you built?",
 ];
 
 export default function ChatBot() {
