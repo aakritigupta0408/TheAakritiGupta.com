@@ -289,6 +289,65 @@ export const makeMove = (
   return newState;
 };
 
+// Get all possible tiger moves
+const getAllPossibleTigerMoves = (state: BaghChalState): Move[] => {
+  const moves: Move[] = [];
+
+  for (let row = 0; row < 5; row++) {
+    for (let col = 0; col < 5; col++) {
+      if (state.board[row][col] === "tiger") {
+        const validMoves = getValidMoves(state, { row, col });
+        for (const move of validMoves) {
+          moves.push({ from: { row, col }, to: move });
+        }
+      }
+    }
+  }
+
+  return moves;
+};
+
+// Get all possible goat moves
+const getAllPossibleGoatMoves = (state: BaghChalState): Move[] => {
+  const moves: Move[] = [];
+
+  if (state.phase === "placement") {
+    // During placement, goats can be placed on any empty spot
+    for (let row = 0; row < 5; row++) {
+      for (let col = 0; col < 5; col++) {
+        if (state.board[row][col] === null) {
+          moves.push({ from: { row: 0, col: 0 }, to: { row, col } });
+        }
+      }
+    }
+  } else {
+    // During movement phase, get all goat moves
+    for (let row = 0; row < 5; row++) {
+      for (let col = 0; col < 5; col++) {
+        if (state.board[row][col] === "goat") {
+          const validMoves = getValidMoves(state, { row, col });
+          for (const move of validMoves) {
+            moves.push({ from: { row, col }, to: move });
+          }
+        }
+      }
+    }
+  }
+
+  return moves;
+};
+
+// Check if game is over
+const isGameOver = (state: BaghChalState): boolean => {
+  const result = checkGameOver(state);
+  return result.gameOver;
+};
+
+// Apply move and return new state
+const applyMove = (state: BaghChalState, move: Move): BaghChalState => {
+  return makeMove(state, move.from, move.to);
+};
+
 // AI Evaluation function
 const evaluatePosition = (state: BaghChalState): number => {
   let score = 0;
@@ -306,6 +365,19 @@ const evaluatePosition = (state: BaghChalState): number => {
         }
       }
     }
+  }
+
+  // Additional evaluation factors
+  if (state.goatsCaptured >= 5) {
+    score += 1000; // Tiger wins
+  }
+
+  if (
+    state.phase === "movement" &&
+    state.goatsPlaced === 20 &&
+    !canTigersMove(state)
+  ) {
+    score -= 1000; // Goats win
   }
 
   return score;
