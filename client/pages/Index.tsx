@@ -237,13 +237,48 @@ export default function Index() {
               </motion.div>
 
               <motion.div
-                className="mt-12 space-y-3 text-white/70 font-light text-lg leading-relaxed max-w-lg"
+                className="mt-12 space-y-4 text-white/70 font-light text-lg leading-relaxed max-w-lg"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9, duration: 1 }}
               >
                 <p>From Delhi to Silicon Valley</p>
-                <p>Meta • eBay • Yahoo</p>
+
+                {/* Company Logos */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-6">
+                    {/* Meta Logo */}
+                    <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-sm px-4 py-2">
+                      <div className="w-8 h-8 bg-blue-500 rounded-sm flex items-center justify-center text-white font-bold text-sm">
+                        f
+                      </div>
+                      <span className="text-white text-sm tracking-wider">
+                        META
+                      </span>
+                    </div>
+
+                    {/* eBay Logo */}
+                    <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-sm px-4 py-2">
+                      <div className="w-8 h-8 bg-gradient-to-r from-red-500 via-yellow-400 to-blue-500 rounded-sm flex items-center justify-center text-white font-bold text-xs">
+                        eB
+                      </div>
+                      <span className="text-white text-sm tracking-wider">
+                        EBAY
+                      </span>
+                    </div>
+
+                    {/* Yahoo Logo */}
+                    <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-sm px-4 py-2">
+                      <div className="w-8 h-8 bg-purple-600 rounded-sm flex items-center justify-center text-white font-bold text-sm">
+                        Y!
+                      </div>
+                      <span className="text-white text-sm tracking-wider">
+                        YAHOO
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
                 <p>Recognized by Yann LeCun</p>
                 <p>Building Swarnawastra</p>
               </motion.div>
