@@ -502,9 +502,9 @@ export default function Index() {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.8 }}
-          className="w-full lg:w-96"
+          className="w-full lg:w-96 max-w-md"
         >
-          <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-2xl h-96 overflow-y-auto">
+          <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg rounded-2xl p-6 shadow-2xl h-96 overflow-y-auto border border-white/20 dark:border-slate-700/20">
             <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">
               Professional Journey
             </h3>
@@ -570,7 +570,7 @@ export default function Index() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mt-4 bg-white dark:bg-slate-800 rounded-xl p-4 shadow-xl"
+              className="mt-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg rounded-xl p-4 shadow-xl border border-white/20 dark:border-slate-700/20"
             >
               <h4 className="font-semibold text-slate-700 dark:text-slate-300 mb-2">
                 Captured Pieces ({capturedPieces.length})
