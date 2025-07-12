@@ -438,3 +438,23 @@ export const getAIMove = (state: BaghChalState): Move | null => {
   const { move } = minimax(state, 3, true);
   return move || null;
 };
+
+// Get AI move for goats
+export const getGoatAIMove = (state: BaghChalState): Move | null => {
+  if (state.currentPlayer !== "goat" || state.gameOver) return null;
+
+  // Use depth 2 for goats (they have more moves to consider)
+  const { move } = minimax(state, 2, false);
+  return move || null;
+};
+
+// Get AI move for current player
+export const getAIMoveBoth = (state: BaghChalState): Move | null => {
+  if (state.gameOver) return null;
+
+  if (state.currentPlayer === "tiger") {
+    return getAIMove(state);
+  } else {
+    return getGoatAIMove(state);
+  }
+};
