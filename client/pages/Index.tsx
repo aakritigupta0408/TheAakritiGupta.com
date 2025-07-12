@@ -425,6 +425,16 @@ export default function Index() {
         <motion.p
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="text-sm text-slate-500 dark:text-slate-400 mt-2 max-w-2xl mx-auto"
+        >
+          Welcome! You're about to play chess against Aakriti's AI portfolio.
+          Each piece represents her professional identity - capture them to
+          unlock her story.
+        </motion.p>
+        <motion.p
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
           className="text-sm text-slate-500 dark:text-slate-400 mt-1"
         >
