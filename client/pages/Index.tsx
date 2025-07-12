@@ -1,95 +1,9 @@
-import { useState, useCallback, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  ChessPiece,
-  BoardSquare,
-  PieceType,
-  PieceColor,
-  isValidMove,
-  isInCheck,
-  isCheckmate,
-  isStalemate,
-  getAIMove,
-} from "@/lib/chess";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import Chess from "@/components/Chess";
+import BaghChal from "@/components/BaghChal";
 
-// Story content mapped to pieces - The AI Portfolio
-const storyContent = {
-  // Aakriti's AI pieces (white) - Core strengths revealed when challenged
-  queen: {
-    title: "Luxury Vision",
-    content:
-      "I founded Swarnawastra, a luxury fashion-tech house that blends AI-driven customization with ultra-rare materials like real gold and lab-grown diamonds.",
-    isStrength: true,
-  },
-  king: {
-    title: "Core Identity",
-    content:
-      "I want to democratize what was once reserved for a tiny elite — whether that's the power of advanced AI, the global stage for talented designers, or the chance for small businesses to look world-class.",
-    isStrength: true,
-  },
-  rook1: {
-    title: "Meta Engineering",
-    content:
-      "At Meta, I engineered sophisticated ML-driven budget pacing & ad delivery systems, optimizing billions in ad spend and improving ROI for major advertisers.",
-    isStrength: true,
-  },
-  rook2: {
-    title: "Recognition",
-    content:
-      "Awarded by Dr. Yann LeCun (Chief AI Scientist at Meta & Turing Award winner) for developing an engineering-efficient ML solution that balanced cost, performance, and accuracy.",
-    isStrength: true,
-  },
-  bishop1: {
-    title: "AI Innovation",
-    content:
-      "I founded an AI company that transforms low-quality images into professional-grade product shots, helping thousands of MSMEs compete with global e-commerce giants.",
-    isStrength: true,
-  },
-  bishop2: {
-    title: "Civic Impact",
-    content:
-      "Developed a face recognition system deployed in the Indian Parliament and built PPE detection systems for Tata, automating compliance in industrial settings.",
-    isStrength: true,
-  },
-  knight1: {
-    title: "Technical Foundation",
-    content:
-      "B.Tech in Engineering with advanced coursework in machine learning and optimization, building rigorous foundations in algorithms and system design.",
-    isStrength: true,
-  },
-  knight2: {
-    title: "Corporate Journey",
-    content:
-      "Enhanced search and product discovery at eBay, helping millions find products faster. At Yahoo, worked on high-volume mail infrastructure & search.",
-    isStrength: true,
-  },
-
-  // Player's perspective pieces (black) - Growth areas Aakriti acknowledges
-  opponentQueen: {
-    title: "Pursuit of Excellence",
-    content:
-      "I'm constantly refining my approach - sometimes spending extra time on optimization because I believe in delivering exceptional results, even when 'good enough' might suffice initially.",
-    isStrength: false,
-  },
-  opponentKing: {
-    title: "Efficiency Drive",
-    content:
-      "I have high standards for efficiency and can get eager to implement optimizations when I see clear improvement paths - it's part of my engineering mindset.",
-    isStrength: false,
-  },
-  opponentRook1: {
-    title: "Technical Deep Dive",
-    content:
-      "My love for technical depth means I sometimes explore implementation details thoroughly - balancing this with strategic overview is an ongoing focus.",
-    isStrength: false,
-  },
-  opponentRook2: {
-    title: "Scale Perspective",
-    content:
-      "Having built billion-dollar systems, I'm learning to calibrate my solutions for different scales - from massive platforms to nimble startups.",
-    isStrength: false,
-  },
-};
+type GameTab = "chess" | "bagh-chal";
 
 // High-quality chess piece symbols
 const pieceSymbols: Record<PieceColor, Record<PieceType, string>> = {
@@ -97,7 +11,7 @@ const pieceSymbols: Record<PieceColor, Record<PieceType, string>> = {
     king: "♔",
     queen: "♕",
     rook: "♖",
-    bishop: "♗",
+    bishop: "��",
     knight: "♘",
     pawn: "♙",
   },
