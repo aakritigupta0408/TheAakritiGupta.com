@@ -57,6 +57,17 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        chess: {
+          light: "hsl(var(--chess-light))",
+          dark: "hsl(var(--chess-dark))",
+          highlight: "hsl(var(--chess-highlight))",
+          capture: "hsl(var(--chess-capture))",
+          selected: "hsl(var(--chess-selected))",
+        },
+        story: {
+          strength: "hsl(var(--story-strength))",
+          weakness: "hsl(var(--story-weakness))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
