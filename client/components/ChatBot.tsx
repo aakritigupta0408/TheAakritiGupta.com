@@ -84,7 +84,7 @@ export default function ChatBot() {
     {
       id: "welcome",
       content:
-        "Hi! I'm Aakriti's personal AI assistant. I can tell you about her incredible journey from Delhi to Silicon Valley - her work as a Senior ML Engineer at Meta, eBay, and Yahoo, studying under Yann LeCun in NYC, building startups in college, and creating Swarnawastra. What would you like to know about her?",
+        "Welcome. I am Aakriti's exclusive AI assistant. I possess comprehensive knowledge of her extraordinary journey from Delhi to Silicon Valley, her distinguished career at Meta, eBay, and Yahoo, her recognition by Dr. Yann LeCun, and her revolutionary Swarnawastra venture. How may I illuminate her excellence for you?",
       sender: "assistant",
       timestamp: new Date(),
     },
@@ -123,32 +123,7 @@ export default function ChatBot() {
     setIsLoading(true);
 
     try {
-      // Try to call API endpoint first, fallback to local responses
-      let response: string;
-
-      try {
-        // Attempt to call API endpoint (you can uncomment this when you set up the API)
-        /*
-        const apiResponse = await fetch('/api/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: content }),
-        });
-
-        if (apiResponse.ok) {
-          const data = await apiResponse.json();
-          response = data.response;
-        } else {
-          throw new Error('API call failed');
-        }
-        */
-
-        // For now, use local responses (remove this when API is ready)
-        response = await simulateAIResponse(content);
-      } catch (apiError) {
-        // Fallback to local response if API fails
-        response = await simulateAIResponse(content);
-      }
+      const response = await simulateAIResponse(content);
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -162,7 +137,7 @@ export default function ChatBot() {
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         content:
-          "I apologize, but I'm having trouble responding right now. Please try again in a moment.",
+          "I apologize for the momentary disruption. Please allow me to assist you again.",
         sender: "assistant",
         timestamp: new Date(),
       };
@@ -172,7 +147,7 @@ export default function ChatBot() {
     }
   };
 
-  // Simulate AI response - In production, this would call OpenAI API
+  // Simulate AI response with luxury tone
   const simulateAIResponse = async (question: string): Promise<string> => {
     const lowerQuestion = question.toLowerCase();
 
@@ -189,161 +164,42 @@ export default function ChatBot() {
       lowerQuestion.includes("recipe") ||
       lowerQuestion.includes("movie")
     ) {
-      return "I'm Aakriti's assistant — I can help you with anything about her work, achievements, and projects!";
+      return "I am exclusively dedicated to matters concerning Aakriti Gupta's professional excellence. How may I illuminate her achievements for you?";
     }
 
     if (lowerQuestion.includes("companies") || lowerQuestion.includes("work")) {
-      return "Aakriti has worked at some amazing companies! At Meta, she led ML initiatives on the Ads and Budgets team, optimizing ad delivery for billions of users. At eBay, she built ranking algorithms that reduced query abandonment by 0.3% and increased gross merchandise by 0.6%. She was also a Research Scientist at Yahoo, building predictive models for video and email recommendations.";
+      return "Aakriti has graced the most prestigious technology institutions. At Meta, she orchestrated machine learning initiatives serving billions globally. At eBay, her algorithmic mastery reduced abandonment by 0.3% while increasing merchandise by 0.6%. Her tenure at Yahoo as Research Scientist further exemplified her analytical prowess.";
     }
 
     if (lowerQuestion.includes("swarnawastra")) {
-      return "Swarnawastra is Aakriti's luxury fashion-tech brand that's absolutely revolutionary! It combines AI customization, generative try-ons, and rare materials like gold and lab-grown diamonds. The platform helps designers sell under their own name while customers invest in clothing that's as valuable as art. It's all about making luxury accessible through technology!";
+      return "Swarnawastra represents the pinnacle of luxury fashion technology. This revolutionary platform merges AI customization with rare materials including gold and lab-grown diamonds. It empowers designers while offering clients investment-grade couture that transcends conventional fashion boundaries.";
     }
 
     if (lowerQuestion.includes("meta") || lowerQuestion.includes("facebook")) {
-      return "At Meta, Aakriti led machine learning initiatives on the Ads and Budgets team! She designed models that balance ROI with advertiser intent using auction-time signals and budget dynamics. Her work improved spend efficiency through predictive modeling and real-time bid optimization - that's serving billions of users worldwide!";
+      return "At Meta, Aakriti distinguished herself leading sophisticated ML initiatives. She architected models harmonizing ROI with advertiser intent through auction-time signals and budget dynamics, optimizing spend efficiency for billions of users through her predictive modeling excellence.";
     }
 
-    if (lowerQuestion.includes("ebay")) {
-      return "At eBay, Aakriti built scalable ranking algorithms to improve search and personalization. Her work reduced query abandonment by 0.3% and increased gross merchandise by 0.6%! She also developed recommendation systems using Transformers and generative AI, boosting CTR by 2.2%.";
+    if (lowerQuestion.includes("yann lecun")) {
+      return "Dr. Yann LeCun, the distinguished Turing Award laureate, personally recognized Aakriti at ICLR 2019 for her groundbreaking work on clustering latent representations. This recognition from deep learning's founding father represents the apex of academic achievement in artificial intelligence.";
     }
 
-    if (lowerQuestion.includes("yahoo")) {
-      return "At Yahoo, Aakriti was a Research Scientist building predictive models for video and email recommendations. She used LLMs like BERT and RoBERTa for text classification and ad targeting, improving recall by 267% on email recommendations. She also developed location prediction models with 92% accuracy at zip code level!";
+    if (lowerQuestion.includes("education")) {
+      return "Aakriti's educational excellence began at N.K. Bagrodia Public School in Delhi, where she achieved top honors in Mathematics and English. She secured top 1% placement in AIEEE and rank 300 in IPU-CET before graduating from USIT and earning her Master's at NYU under AI luminaries.";
     }
 
-    if (
-      lowerQuestion.includes("yann lecun") ||
-      lowerQuestion.includes("award") ||
-      lowerQuestion.includes("iclr")
-    ) {
-      return "Dr. Yann LeCun awarded Aakriti at ICLR 2019 for her work on clustering latent representations for semi-supervised learning! This is incredibly prestigious - Yann LeCun is a Turing Award winner and one of the founding fathers of deep learning. It's recognition from the absolute top of the AI field.";
-    }
-
-    if (
-      lowerQuestion.includes("education") ||
-      lowerQuestion.includes("study") ||
-      lowerQuestion.includes("school")
-    ) {
-      return "Aakriti's educational journey is impressive! She topped N.K. Bagrodia Public School in Delhi in English and Mathematics, then scored in the top 1% in AIEEE and got All India Rank 300 in IPU-CET. She graduated from USIT (GGSIPU) and later got her Master's in Data Science & Analytics from NYU while studying under AI pioneers like Yann LeCun and Sam Bowman.";
-    }
-
-    if (lowerQuestion.includes("projects") || lowerQuestion.includes("built")) {
-      return "Aakriti has built some incredible projects! She created face recognition systems for the Indian Parliament, safety gear detection for Tata, and ALEN - an NLP platform for text classification and sentiment analysis. She's also developed generative AI systems for real-time video object detection.";
-    }
-
-    if (lowerQuestion.includes("parliament")) {
-      return "Aakriti created a face recognition system for the Indian Parliament - that's a high-security, mission-critical government project! It shows her expertise in computer vision and ability to work on systems requiring the highest accuracy and reliability standards.";
-    }
-
-    if (lowerQuestion.includes("tata")) {
-      return "For Tata, Aakriti developed safety gear detection systems to enhance workplace safety. It's a great example of using AI for social good - automatically detecting whether workers are wearing proper protective equipment to keep them safe!";
-    }
-
-    if (lowerQuestion.includes("alen")) {
-      return "ALEN is Aakriti's NLP platform for text classification, sentiment analysis, and generation. It's a comprehensive natural language processing system that showcases her expertise in building production-ready AI tools for real-world applications.";
-    }
-
-    if (lowerQuestion.includes("skills") || lowerQuestion.includes("tools")) {
-      return "Aakriti's technical skills are impressive! She specializes in ML systems for ranking, personalization, and ads optimization. Her toolkit includes PyTorch, TensorFlow, Hugging Face Transformers, Python, Java, C++, PySpark, and CUDA. She's also experienced with Kubernetes, Docker, GCP, AWS, and Spark.";
-    }
-
-    if (
-      lowerQuestion.includes("research") ||
-      lowerQuestion.includes("publications")
-    ) {
-      return "Aakriti has published research on few-shot text classification, rare event prediction, and IP2Vec for location embeddings. Her ICLR 2019 work on clustering latent representations for semi-supervised learning was recognized by Dr. Yann LeCun - that's top-tier AI research!";
-    }
-
-    if (lowerQuestion.includes("location") || lowerQuestion.includes("where")) {
-      return "Aakriti is based in San Jose, California - right in the heart of Silicon Valley! It's the perfect location for someone working at the cutting edge of AI and machine learning technology.";
-    }
-
-    if (
-      lowerQuestion.includes("delhi") ||
-      lowerQuestion.includes("early") ||
-      lowerQuestion.includes("childhood")
-    ) {
-      return "Aakriti was born and raised in Delhi, where she attended N.K. Bagrodia Public School. Even early on, she showed her sharp intellect by topping her school in English and Mathematics - a sign of the analytical and creative balance that defines her work today!";
-    }
-
-    if (
-      lowerQuestion.includes("journey") ||
-      lowerQuestion.includes("cities") ||
-      lowerQuestion.includes("travel")
-    ) {
-      return "Aakriti's journey is fascinating! From Delhi classrooms to Silicon Valley boardrooms - she's been in Bhubaneshwar (college startup), Bangalore (Mindtree), New York (studying under Yann LeCun), Los Angeles (exploring art and fashion), and now the Bay Area. Each city shaped her unique blend of tech expertise and creative vision!";
-    }
-
-    if (
-      lowerQuestion.includes("startup") ||
-      lowerQuestion.includes("college") ||
-      lowerQuestion.includes("bus")
-    ) {
-      return "During college in Bhubaneshwar, Aakriti built a startup solution for school bus tracking - helping parents know their children's bus routes and locations in real time for safety. True to her values of tech for good, she later donated this entire project to government schools in Delhi!";
-    }
-
-    if (
-      lowerQuestion.includes("mindtree") ||
-      lowerQuestion.includes("bangalore")
-    ) {
-      return "Aakriti worked at Mindtree in Bangalore, where she honed her engineering skills and collaborated on diverse projects. It was an important step in her journey that prepared her for the global stage in AI and machine learning!";
-    }
-
-    if (
-      lowerQuestion.includes("new york") ||
-      lowerQuestion.includes("nyc") ||
-      lowerQuestion.includes("sam bowman")
-    ) {
-      return "In New York City, Aakriti studied under pioneering AI scientists Yann LeCun and Sam Bowman. This is where she was personally awarded by Dr. Yann LeCun for her engineering solution in an AI efficiency challenge - studying directly under the fathers of modern AI!";
-    }
-
-    if (
-      lowerQuestion.includes("los angeles") ||
-      lowerQuestion.includes("la") ||
-      lowerQuestion.includes("art") ||
-      lowerQuestion.includes("fashion")
-    ) {
-      return "In Los Angeles, Aakriti embraced new challenges and creative inspirations, blending her tech expertise with explorations into art and fashion. This experience in LA was crucial for developing her vision that later became Swarnawastra - where technology meets luxury fashion!";
+    if (lowerQuestion.includes("journey")) {
+      return "Her extraordinary odyssey spans from Delhi's prestigious institutions to Silicon Valley's apex. Through Bhubaneshwar, Bangalore, New York, Los Angeles, and finally the Bay Area, each destination refined her unique synthesis of technical mastery and creative vision.";
     }
 
     if (
       lowerQuestion.includes("hobbies") ||
-      lowerQuestion.includes("interests") ||
-      lowerQuestion.includes("personal")
+      lowerQuestion.includes("interests")
     ) {
-      return "Aakriti has such diverse interests beyond tech! She's a horse rider, training pilot, trained shooter, biker, and pianist. These hobbies show her adventurous spirit, precision, creativity, and well-rounded personality - from the discipline of flying to the artistry of piano!";
-    }
-
-    if (lowerQuestion.includes("horse") || lowerQuestion.includes("riding")) {
-      return "Aakriti is a horse rider! This shows her adventurous spirit and connection with nature. Horse riding requires trust, balance, and communication - skills that probably help her in leadership and building relationships in her professional life too.";
-    }
-
-    if (lowerQuestion.includes("pilot") || lowerQuestion.includes("flying")) {
-      return "Aakriti is training as a pilot! This demonstrates her precision, discipline, and love for new challenges. Flying requires incredible focus and decision-making skills - qualities that clearly translate to her success in AI and machine learning.";
-    }
-
-    if (
-      lowerQuestion.includes("shooter") ||
-      lowerQuestion.includes("shooting")
-    ) {
-      return "Aakriti is a trained shooter, which reflects her focus, steady hand, and competitive nature. The precision and concentration required for shooting probably helps with her detailed technical work in machine learning and AI research.";
-    }
-
-    if (
-      lowerQuestion.includes("biker") ||
-      lowerQuestion.includes("biking") ||
-      lowerQuestion.includes("motorcycle")
-    ) {
-      return "Aakriti loves biking! This represents her adventurous side and love for exploration. The freedom and thrill of biking probably provides a great balance to her intensive technical work - showing she knows how to live life to the fullest!";
-    }
-
-    if (lowerQuestion.includes("piano") || lowerQuestion.includes("music")) {
-      return "Aakriti plays piano! This showcases her artistic side and appreciation for music and creativity. The discipline of learning piano and the creative expression it provides probably contributes to her innovative thinking in AI and her artistic vision for Swarnawastra.";
+      return "Beyond her technical virtuosity, Aakriti embodies sophisticated pursuits: equestrian excellence, aviation training, marksmanship precision, motorcycling adventure, and classical piano artistry. These diverse disciplines reflect her commitment to comprehensive excellence.";
     }
 
     // Default response
-    return "That's a great question! Aakriti's journey from Delhi to Silicon Valley is incredible - from topping her school to studying under Yann LeCun, from building startups in college to working at Meta, eBay, and Yahoo. She's now building Swarnawastra in the Bay Area. What specific aspect would you like to know more about?";
+    return "Aakriti's trajectory from Delhi's academic excellence to Silicon Valley's technological pinnacle exemplifies extraordinary achievement. Her recognition by Dr. Yann LeCun, leadership at Meta, eBay, and Yahoo, combined with her Swarnawastra innovation, defines contemporary luxury technology leadership. Which aspect of her distinction interests you most?";
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -357,139 +213,166 @@ export default function ChatBot() {
 
   return (
     <>
-      {/* Floating Chat Bubble */}
-      <motion.button
-        onClick={() => setIsOpen(!isOpen)}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg flex items-center justify-center transition-colors"
+      {/* Ultra-Prominent Luxury AI Interface */}
+      <motion.div
+        className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-6"
         style={{ zIndex: 1000 }}
       >
-        <AnimatePresence mode="wait">
-          {isOpen ? (
-            <motion.svg
-              key="close"
-              initial={{ rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </motion.svg>
-          ) : (
-            <motion.svg
-              key="chat"
-              initial={{ rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-              />
-            </motion.svg>
-          )}
-        </AnimatePresence>
-      </motion.button>
+        {/* Sophisticated Call-to-Action Banner */}
+        {!isOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: 50, scale: 0.8 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="bg-black/95 backdrop-blur-xl border-2 border-yellow-400/60 rounded-sm px-8 py-6 shadow-2xl max-w-sm"
+            style={{
+              boxShadow: "0 0 30px rgba(255, 215, 0, 0.3)",
+            }}
+          >
+            <div className="text-yellow-400 text-lg font-light tracking-[0.2em] uppercase mb-3">
+              EXCLUSIVE AI ASSISTANT
+            </div>
+            <div className="text-white/90 text-sm leading-relaxed mb-4">
+              Discover Aakriti's extraordinary journey from Delhi to Silicon
+              Valley. Immediate access to her professional excellence.
+            </div>
+            <div className="flex items-center gap-3 text-yellow-400/80 text-xs tracking-wider">
+              <span>◆ AVAILABLE 24/7</span>
+              <span>◆ INSTANT RESPONSES</span>
+            </div>
+          </motion.div>
+        )}
 
-      {/* Chat Window */}
+        {/* Ultra-Prominent Luxury Chat Button */}
+        <motion.button
+          onClick={() => setIsOpen(!isOpen)}
+          whileHover={{ scale: 1.08, y: -3 }}
+          whileTap={{ scale: 0.95 }}
+          className="w-28 h-28 bg-gradient-to-br from-yellow-400 via-yellow-500 to-amber-600 hover:from-yellow-300 hover:to-amber-500 text-black rounded-sm shadow-2xl flex flex-col items-center justify-center transition-all duration-400 border-3 border-yellow-400/40"
+          animate={{
+            boxShadow: [
+              "0 0 30px rgba(255, 215, 0, 0.4)",
+              "0 0 50px rgba(255, 215, 0, 0.7)",
+              "0 0 30px rgba(255, 215, 0, 0.4)",
+            ],
+          }}
+          transition={{
+            boxShadow: {
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut",
+            },
+          }}
+        >
+          <AnimatePresence mode="wait">
+            {isOpen ? (
+              <motion.div
+                key="close"
+                initial={{ rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: 90, opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className="flex flex-col items-center"
+              >
+                <div className="text-3xl mb-2">✕</div>
+                <div className="text-xs font-light tracking-[0.15em] uppercase">
+                  Close
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="chat"
+                initial={{ rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: 90, opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className="flex flex-col items-center"
+              >
+                <div className="text-4xl mb-2">◆</div>
+                <div className="text-xs font-light tracking-[0.15em] uppercase">
+                  Ask AI
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.button>
+      </motion.div>
+
+      {/* Ultra-Luxury Chat Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            initial={{ opacity: 0, scale: 0.85, y: 40 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="fixed bottom-24 right-6 w-[480px] max-w-[calc(100vw-3rem)] h-[600px] bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 flex flex-col z-50"
-            style={{ zIndex: 999 }}
+            exit={{ opacity: 0, scale: 0.85, y: 40 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="fixed bottom-40 right-6 w-[600px] max-w-[calc(100vw-3rem)] h-[750px] bg-black/98 backdrop-blur-2xl rounded-sm shadow-2xl border-2 border-yellow-400/40 flex flex-col z-50"
+            style={{
+              zIndex: 999,
+              boxShadow: "0 0 60px rgba(255, 215, 0, 0.3)",
+            }}
           >
-            {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-700">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
-                  AI
+            {/* Ultra-Luxury Header */}
+            <div className="flex items-center justify-between p-8 border-b border-yellow-400/30">
+              <div className="flex items-center gap-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-amber-600 rounded-sm flex items-center justify-center text-black font-bold shadow-lg">
+                  <span className="text-3xl">◆</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-slate-900 dark:text-slate-100">
-                    Aakriti's Assistant
+                  <h3 className="text-white text-xl font-light tracking-[0.1em] uppercase mb-1">
+                    Aakriti's Exclusive AI
                   </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Ask me about her work & background
+                  <p className="text-yellow-400/90 text-sm tracking-[0.05em] uppercase">
+                    Professional Intelligence • Silicon Valley
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+                className="text-white/70 hover:text-yellow-400 transition-colors text-2xl p-2"
               >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
+                ✕
               </button>
             </div>
 
-            {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            {/* Luxury Messages */}
+            <div className="flex-1 overflow-y-auto p-8 space-y-8 bg-gradient-to-b from-black/40 to-black/60">
               {messages.map((message) => (
                 <motion.div
                   key={message.id}
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}
                 >
                   <div
-                    className={`max-w-[80%] p-3 rounded-2xl ${
+                    className={`max-w-[85%] p-6 rounded-sm ${
                       message.sender === "user"
-                        ? "bg-blue-600 text-white"
-                        : "bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-100"
+                        ? "bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-medium"
+                        : "bg-white/10 backdrop-blur-sm border border-yellow-400/20 text-white"
                     }`}
                   >
-                    <p className="text-sm leading-relaxed">{message.content}</p>
+                    <p className="text-sm leading-relaxed font-light">
+                      {message.content}
+                    </p>
                   </div>
                 </motion.div>
               ))}
 
               {isLoading && (
                 <motion.div
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="flex justify-start"
                 >
-                  <div className="bg-slate-100 dark:bg-slate-700 p-3 rounded-2xl">
-                    <div className="flex gap-1">
-                      <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" />
+                  <div className="bg-white/10 backdrop-blur-sm border border-yellow-400/20 p-6 rounded-sm">
+                    <div className="flex gap-3">
+                      <div className="w-3 h-3 bg-yellow-400 rounded-full animate-bounce" />
                       <div
-                        className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
+                        className="w-3 h-3 bg-yellow-400 rounded-full animate-bounce"
                         style={{ animationDelay: "0.1s" }}
                       />
                       <div
-                        className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
+                        className="w-3 h-3 bg-yellow-400 rounded-full animate-bounce"
                         style={{ animationDelay: "0.2s" }}
                       />
                     </div>
@@ -500,18 +383,18 @@ export default function ChatBot() {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Suggested Questions */}
+            {/* Luxury Suggested Questions */}
             {messages.length === 1 && (
-              <div className="px-4 pb-2">
-                <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">
-                  Try asking:
+              <div className="px-8 pb-6">
+                <p className="text-xs text-yellow-400/90 mb-6 tracking-[0.1em] uppercase">
+                  Distinguished Inquiries:
                 </p>
-                <div className="flex flex-wrap gap-2">
-                  {SUGGESTED_QUESTIONS.slice(0, 3).map((question) => (
+                <div className="grid grid-cols-2 gap-4">
+                  {SUGGESTED_QUESTIONS.slice(0, 4).map((question) => (
                     <button
                       key={question}
                       onClick={() => handleSuggestedQuestion(question)}
-                      className="text-xs px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-full hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
+                      className="text-xs px-5 py-3 bg-white/10 backdrop-blur-sm border border-yellow-400/30 text-white rounded-sm hover:bg-yellow-400/20 hover:border-yellow-400/60 transition-all duration-400 font-light tracking-wide text-left"
                     >
                       {question}
                     </button>
@@ -520,41 +403,29 @@ export default function ChatBot() {
               </div>
             )}
 
-            {/* Input */}
+            {/* Ultra-Luxury Input */}
             <form
               onSubmit={handleSubmit}
-              className="p-4 border-t border-slate-200 dark:border-slate-700"
+              className="p-8 border-t border-yellow-400/30 bg-black/60"
             >
-              <div className="flex gap-2">
+              <div className="flex gap-4">
                 <input
                   ref={inputRef}
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
-                  placeholder="Ask me anything about Aakriti..."
-                  className="flex-1 px-3 py-2 bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded-lg border-0 focus:ring-2 focus:ring-blue-500 text-sm placeholder-slate-500 dark:placeholder-slate-400"
+                  placeholder="Inquire about Aakriti's excellence..."
+                  className="flex-1 px-6 py-4 bg-white/10 backdrop-blur-sm border border-yellow-400/30 text-white rounded-sm focus:border-yellow-400 focus:outline-none transition-colors font-light placeholder-white/60 tracking-wide text-sm"
                   disabled={isLoading}
                 />
                 <motion.button
                   type="submit"
                   disabled={!inputValue.trim() || isLoading}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-3 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 dark:disabled:bg-slate-600 text-white rounded-lg transition-colors disabled:cursor-not-allowed"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="px-6 py-4 bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 disabled:from-white/20 disabled:to-white/10 text-black font-medium rounded-sm transition-all duration-300 disabled:cursor-not-allowed"
                 >
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                    />
-                  </svg>
+                  <span className="text-xl">◆</span>
                 </motion.button>
               </div>
             </form>
