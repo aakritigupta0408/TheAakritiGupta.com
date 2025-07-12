@@ -437,26 +437,38 @@ const applyMove = (state: BaghChalState, move: Move): BaghChalState => {
   return makeMove(state, move.from, move.to);
 };
 
-// AI Evaluation function
-const evaluatePosition = (state: BaghChalState): number => {
+// Tiger-focused evaluation function (aggressive and capture-focused)
+const evaluateForTigers = (state: BaghChalState): number => {
   let score = 0;
 
-  // +10 for each goat captured
+  // Primary goal: captured goats (10 points each)
   score += state.goatsCaptured * 10;
 
-  // -2 for each tiger unable to move
+  // Tiger mobility - count total possible moves
+  let tigerMobility = 0;
   for (let row = 0; row < 5; row++) {
     for (let col = 0; col < 5; col++) {
       if (state.board[row][col] === "tiger") {
-        const moves = getValidMoves(state, { row, col });
-        if (moves.length === 0) {
-          score -= 2;
+        const adjacent = getAdjacentPositions({ row, col });
+        for (const adjPos of adjacent) {
+          if (state.board[adjPos.row][adjPos.col] === null) {
+            tigerMobility++; // Count empty adjacent positions
+          } else if (state.board[adjPos.row][adjPos.col] === "goat") {
+            const beyondPos = getBeyondPosition({ row, col }, adjPos);
+            if (
+              beyondPos &&
+              state.board[beyondPos.row][beyondPos.col] === null
+            ) {
+              tigerMobility += 2; // Capture moves are more valuable
+            }
+          }
         }
       }
     }
   }
+  score += tigerMobility;
 
-  // Additional evaluation factors
+  // Winning/losing conditions
   if (state.goatsCaptured >= 5) {
     score += 1000; // Tiger wins
   }
@@ -470,6 +482,11 @@ const evaluatePosition = (state: BaghChalState): number => {
   }
 
   return score;
+};
+
+// General evaluation (for backwards compatibility)
+const evaluatePosition = (state: BaghChalState): number => {
+  return evaluateForTigers(state);
 };
 
 // Improved Minimax algorithm for AI (based on provided specification)
