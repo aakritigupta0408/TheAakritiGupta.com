@@ -307,6 +307,41 @@ export default function ChatBot() {
       return "In Los Angeles, Aakriti embraced new challenges and creative inspirations, blending her tech expertise with explorations into art and fashion. This experience in LA was crucial for developing her vision that later became Swarnawastra - where technology meets luxury fashion!";
     }
 
+    if (
+      lowerQuestion.includes("hobbies") ||
+      lowerQuestion.includes("interests") ||
+      lowerQuestion.includes("personal")
+    ) {
+      return "Aakriti has such diverse interests beyond tech! She's a horse rider, training pilot, trained shooter, biker, and pianist. These hobbies show her adventurous spirit, precision, creativity, and well-rounded personality - from the discipline of flying to the artistry of piano!";
+    }
+
+    if (lowerQuestion.includes("horse") || lowerQuestion.includes("riding")) {
+      return "Aakriti is a horse rider! This shows her adventurous spirit and connection with nature. Horse riding requires trust, balance, and communication - skills that probably help her in leadership and building relationships in her professional life too.";
+    }
+
+    if (lowerQuestion.includes("pilot") || lowerQuestion.includes("flying")) {
+      return "Aakriti is training as a pilot! This demonstrates her precision, discipline, and love for new challenges. Flying requires incredible focus and decision-making skills - qualities that clearly translate to her success in AI and machine learning.";
+    }
+
+    if (
+      lowerQuestion.includes("shooter") ||
+      lowerQuestion.includes("shooting")
+    ) {
+      return "Aakriti is a trained shooter, which reflects her focus, steady hand, and competitive nature. The precision and concentration required for shooting probably helps with her detailed technical work in machine learning and AI research.";
+    }
+
+    if (
+      lowerQuestion.includes("biker") ||
+      lowerQuestion.includes("biking") ||
+      lowerQuestion.includes("motorcycle")
+    ) {
+      return "Aakriti loves biking! This represents her adventurous side and love for exploration. The freedom and thrill of biking probably provides a great balance to her intensive technical work - showing she knows how to live life to the fullest!";
+    }
+
+    if (lowerQuestion.includes("piano") || lowerQuestion.includes("music")) {
+      return "Aakriti plays piano! This showcases her artistic side and appreciation for music and creativity. The discipline of learning piano and the creative expression it provides probably contributes to her innovative thinking in AI and her artistic vision for Swarnawastra.";
+    }
+
     // Default response
     return "That's a great question! Aakriti's journey from Delhi to Silicon Valley is incredible - from topping her school to studying under Yann LeCun, from building startups in college to working at Meta, eBay, and Yahoo. She's now building Swarnawastra in the Bay Area. What specific aspect would you like to know more about?";
   };
