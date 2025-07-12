@@ -434,7 +434,43 @@ const isGameOver = (state: BaghChalState): boolean => {
 
 // Apply move and return new state
 const applyMove = (state: BaghChalState, move: Move): BaghChalState => {
-  return makeMove(state, move.from, move.to);
+  const newState = { ...state };
+  newState.board = state.board.map((row) => [...row]);
+
+  if (state.phase === "placement" && state.currentPlayer === "goat") {
+    // Place a goat
+    if (state.board[move.to.row][move.to.col] === null) {
+      newState.board[move.to.row][move.to.col] = "goat";
+      newState.goatsPlaced++;
+
+      if (newState.goatsPlaced === 20) {
+        newState.phase = "movement";
+      }
+
+      newState.currentPlayer = "tiger"; // Switch to tiger after goat placement
+    }
+  } else {
+    // Movement phase or tiger move
+    const piece = state.board[move.from.row][move.from.col];
+    newState.board[move.from.row][move.from.col] = null;
+    newState.board[move.to.row][move.to.col] = piece;
+
+    // Handle tiger captures
+    if (piece === "tiger" && move.captured) {
+      newState.board[move.captured.row][move.captured.col] = null;
+      newState.goatsCaptured++;
+    }
+
+    newState.currentPlayer =
+      newState.currentPlayer === "goat" ? "tiger" : "goat";
+  }
+
+  newState.selectedPosition = null;
+  const gameResult = checkGameOver(newState);
+  newState.gameOver = gameResult.gameOver;
+  newState.winner = gameResult.winner;
+
+  return newState;
 };
 
 // Tiger-focused evaluation function (aggressive and capture-focused)
