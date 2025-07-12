@@ -66,7 +66,7 @@ export default function ChatBot() {
     {
       id: "welcome",
       content:
-        "Hi! I'm Aakriti's AI assistant. I can help answer questions about her background, work experience, and projects. What would you like to know?",
+        "Hi! I'm Aakriti's personal AI assistant. I can tell you about her work as a Senior ML Engineer at Meta, eBay, and Yahoo, her research recognized by Yann LeCun, and her luxury fashion-tech brand Swarnawastra. What would you like to know about her?",
       sender: "assistant",
       timestamp: new Date(),
     },
