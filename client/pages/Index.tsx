@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Chess from "@/components/Chess";
 import BaghChal from "@/components/BaghChal";
+import Pacman from "@/components/Pacman";
 
 type GameTab = "chess" | "bagh-chal" | "pacman";
 
