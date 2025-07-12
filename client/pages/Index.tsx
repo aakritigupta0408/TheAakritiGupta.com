@@ -233,6 +233,9 @@ export default function Index() {
     "playing" | "check" | "checkmate" | "stalemate"
   >("playing");
   const [isThinking, setIsThinking] = useState(false);
+  const [validMoves, setValidMoves] = useState<{ row: number; col: number }[]>(
+    [],
+  );
 
   const makeMove = useCallback(
     (
@@ -307,11 +310,22 @@ export default function Index() {
         );
 
         setSelectedSquare(null);
+        setValidMoves([]);
       } else {
         // Select piece
         const square = board[row][col];
         if (square.piece && square.piece.color === "white") {
           setSelectedSquare({ row, col });
+          // Calculate valid moves for this piece
+          const moves = [];
+          for (let r = 0; r < 8; r++) {
+            for (let c = 0; c < 8; c++) {
+              if (isValidMove(board, row, col, r, c)) {
+                moves.push({ row: r, col: c });
+              }
+            }
+          }
+          setValidMoves(moves);
         }
       }
     },
@@ -419,27 +433,57 @@ export default function Index() {
                         ? "bg-chess-light hover:bg-chess-light/80"
                         : "bg-chess-dark hover:bg-chess-dark/80"
                     }
+                                        ${
+                                          selectedSquare?.row === rowIndex &&
+                                          selectedSquare?.col === colIndex
+                                            ? "ring-4 ring-chess-selected ring-inset"
+                                            : ""
+                                        }
                     ${
-                      selectedSquare?.row === rowIndex &&
-                      selectedSquare?.col === colIndex
-                        ? "ring-4 ring-chess-selected ring-inset"
+                      validMoves.some(
+                        (move) =>
+                          move.row === rowIndex && move.col === colIndex,
+                      )
+                        ? "ring-2 ring-chess-highlight ring-inset"
                         : ""
                     }
                   `}
                   onClick={() => handleSquareClick(rowIndex, colIndex)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  animate={{
+                    scale:
+                      selectedSquare?.row === rowIndex &&
+                      selectedSquare?.col === colIndex
+                        ? 1.1
+                        : 1,
+                  }}
                 >
                   <AnimatePresence>
                     {square.piece && (
                       <motion.span
                         initial={{ scale: 0, rotate: 180 }}
-                        animate={{ scale: 1, rotate: 0 }}
+                        animate={{
+                          scale: 1,
+                          rotate: 0,
+                          y:
+                            isThinking && square.piece.color === "black"
+                              ? [0, -2, 0]
+                              : 0,
+                        }}
                         exit={{ scale: 0, rotate: -180 }}
                         transition={{
                           type: "spring",
                           stiffness: 200,
                           damping: 15,
+                          y: {
+                            repeat:
+                              isThinking && square.piece.color === "black"
+                                ? Infinity
+                                : 0,
+                            duration: 1,
+                            ease: "easeInOut",
+                          },
                         }}
                         className="drop-shadow-lg"
                       >
