@@ -420,7 +420,7 @@ export default function Index() {
           transition={{ delay: 0.2 }}
           className="text-lg md:text-xl text-slate-600 dark:text-slate-300 mt-2"
         >
-          A Chess Game of Professional Stories
+          Challenge the AI-Powered Professional Portfolio
         </motion.p>
         <motion.p
           initial={{ opacity: 0, y: -10 }}
@@ -610,13 +610,14 @@ export default function Index() {
                 >
                   <div className="text-6xl mb-4">���️</div>
                   <p className="text-lg font-medium">
-                    Capture pieces to reveal
+                    Play against Aakriti's AI
                   </p>
-                  <p className="text-sm">Aakriti's professional story</p>
+                  <p className="text-sm">Capture pieces to unlock her story</p>
                   <div className="mt-6 text-xs text-slate-400 space-y-1">
-                    <p>• White pieces (Aakriti) = Her strengths</p>
-                    <p>• Black pieces (You) = Her growth areas</p>
-                    <p>• Aakriti is playing as White (AI)</p>
+                    <p>🤖 You're challenging Aakriti's AI portfolio</p>
+                    <p>⚪ White pieces = Aakriti's strengths</p>
+                    <p>⚫ Black pieces = Your perspective on her growth</p>
+                    <p>🎯 Capture pieces to reveal professional insights</p>
                   </div>
                 </motion.div>
               )}
