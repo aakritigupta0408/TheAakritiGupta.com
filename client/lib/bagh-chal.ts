@@ -434,6 +434,7 @@ export const minimax = (
 export const getAIMove = (state: BaghChalState): Move | null => {
   if (state.currentPlayer !== "tiger" || state.gameOver) return null;
 
+  // Use depth 3 for good performance vs quality balance
   const { move } = minimax(state, 3, true);
   return move || null;
 };
