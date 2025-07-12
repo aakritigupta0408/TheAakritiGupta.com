@@ -589,6 +589,50 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Play Old Games Menu */}
+      <section className="relative z-20 py-20 border-t border-white/10">
+        <div className="max-w-7xl mx-auto px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="tom-ford-heading text-4xl md:text-5xl text-white mb-6">
+              PLAY OLD
+              <br />
+              <span className="gold-shimmer">GAMES</span>
+            </h2>
+            <p className="tom-ford-subheading text-white/60 text-lg tracking-widest max-w-3xl mx-auto">
+              CLASSIC GAMING EXPERIENCES SHOWCASING TECHNICAL MASTERY
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-5 gap-6">
+            {gameCards.map((game, index) => (
+              <motion.button
+                key={game.id}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.6 }}
+                whileHover={{ scale: 1.05, y: -8 }}
+                onClick={() => setActiveGame(game.id)}
+                className="tom-ford-card rounded-sm p-6 text-center transition-all duration-500 hover:border-yellow-400/60 group"
+              >
+                <div className="text-3xl text-yellow-400 mb-4 group-hover:scale-110 transition-transform duration-300">
+                  {game.icon}
+                </div>
+                <h3 className="tom-ford-subheading text-white text-xs mb-3 tracking-widest">
+                  {game.title}
+                </h3>
+                <div className="w-full h-0.5 bg-yellow-400/20 group-hover:bg-yellow-400/60 transition-colors duration-300" />
+              </motion.button>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Interactive Games Portfolio */}
       <section
         id="games"
