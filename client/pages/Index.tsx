@@ -494,7 +494,7 @@ export default function Index() {
                           damping: 15,
                           y: {
                             repeat:
-                              isThinking && square.piece.color === "black"
+                              isThinking && square.piece.color === "white"
                                 ? Infinity
                                 : 0,
                             duration: 1,
@@ -567,7 +567,7 @@ export default function Index() {
                   animate={{ opacity: 1 }}
                   className="text-center text-slate-500 dark:text-slate-400 py-12"
                 >
-                  <div className="text-6xl mb-4">♟️</div>
+                  <div className="text-6xl mb-4">���️</div>
                   <p className="text-lg font-medium">
                     Capture pieces to reveal
                   </p>
