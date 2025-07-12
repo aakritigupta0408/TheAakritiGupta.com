@@ -83,6 +83,16 @@ export default function Index() {
             >
               🐅 Bagh-Chal
             </button>
+            <button
+              onClick={() => setActiveTab("pacman")}
+              className={`px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
+                activeTab === "pacman"
+                  ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg"
+                  : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700"
+              }`}
+            >
+              🟡 Pacman
+            </button>
           </div>
         </div>
       </motion.div>
