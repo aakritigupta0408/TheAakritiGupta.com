@@ -111,6 +111,26 @@ const pieceSymbols: Record<PieceColor, Record<PieceType, string>> = {
   },
 };
 
+// Piece descriptions for tooltips
+const pieceDescriptions: Record<PieceColor, Record<PieceType, string>> = {
+  white: {
+    king: "Aakriti - The AI Visionary Leader",
+    queen: "Chief AI Officer - Strategic Intelligence",
+    rook: "Tech Company Founder - Solid Foundation",
+    bishop: "Research Scientist - Deep Knowledge",
+    knight: "Innovation Strategist - Creative Moves",
+    pawn: "AI Developer - Building the Future",
+  },
+  black: {
+    king: "Your Strategic Mind - Core Leadership",
+    queen: "Your Vision - Powerful Direction",
+    rook: "Your Enterprise - Strong Structure",
+    bishop: "Your Analytics - Diagonal Insights",
+    knight: "Your Tech Skills - Unique Approaches",
+    pawn: "Your Tools - Essential Resources",
+  },
+};
+
 // Initialize chess board
 const initializeBoard = (): BoardSquare[][] => {
   const board: BoardSquare[][] = [];
