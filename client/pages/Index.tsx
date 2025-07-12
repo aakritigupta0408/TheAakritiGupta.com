@@ -176,7 +176,7 @@ export default function Index() {
                     : "text-purple-700 dark:text-purple-300 hover:bg-white/20 hover:text-purple-600"
                 }`}
               >
-                ♟️ Chess Kingdom
+                ♟️ Chess
               </motion.button>
               <motion.button
                 onClick={() => setActiveTab("bagh-chal")}
@@ -188,7 +188,7 @@ export default function Index() {
                     : "text-purple-700 dark:text-purple-300 hover:bg-white/20 hover:text-purple-600"
                 }`}
               >
-                🐅 Tiger Garden
+                🐅 Bagh-Chal
               </motion.button>
               <motion.button
                 onClick={() => setActiveTab("pacman")}
@@ -200,7 +200,7 @@ export default function Index() {
                     : "text-purple-700 dark:text-purple-300 hover:bg-white/20 hover:text-purple-600"
                 }`}
               >
-                🌟 Star Collector
+                🟡 Pacman
               </motion.button>
             </div>
           </div>
