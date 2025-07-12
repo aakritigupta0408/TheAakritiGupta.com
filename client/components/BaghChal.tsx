@@ -154,7 +154,7 @@ const BaghChal = () => {
                 : "bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300"
             }`}
           >
-            {aiMode ? "🤖 AI Mode" : "👥 Player vs Player"}
+            {aiMode ? "🤖 AI vs AI" : "👥 Player vs Player"}
           </button>
           <button
             onClick={resetGame}
