@@ -33,6 +33,11 @@ const BaghChal = () => {
     setDemoPlaying(true);
     setHighlightedMove(null);
     setIsThinking(false);
+    setMoveCount(0);
+  };
+
+  const restartDemo = () => {
+    startDemo();
   };
 
   const stopDemo = () => {
