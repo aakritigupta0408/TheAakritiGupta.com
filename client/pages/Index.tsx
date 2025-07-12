@@ -418,11 +418,31 @@ export default function Index() {
               transition={{ delay: 1.2, duration: 1 }}
             >
               <motion.a
+                href="https://drive.google.com/file/d/1Mnmk6nP9l_Av0LvpgJQ5Tkjb7BqhY7nb/view?usp=sharing"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.02, y: -2 }}
+                className="tom-ford-button px-8 py-5 rounded-sm text-center font-light tracking-wider flex items-center justify-center gap-3 border-2 border-yellow-400/50 hover:border-yellow-400 transition-all duration-300"
+              >
+                <div className="w-8 h-8 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-sm flex items-center justify-center text-black text-lg font-bold">
+                  ◆
+                </div>
+                <div className="flex flex-col items-start">
+                  <span className="text-lg tracking-widest">
+                    EXECUTIVE RESUME
+                  </span>
+                  <span className="text-xs text-yellow-400/80 tracking-wider">
+                    COMPREHENSIVE PORTFOLIO
+                  </span>
+                </div>
+              </motion.a>
+
+              <motion.a
                 href="https://www.linkedin.com/in/aakritigupta4894/"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02, y: -2 }}
-                className="tom-ford-button px-8 py-4 rounded-sm text-center font-light tracking-wider flex items-center justify-center gap-3"
+                className="border border-white/30 text-white px-8 py-4 rounded-sm font-light tracking-wider hover:border-blue-400 hover:text-blue-400 transition-all duration-300 flex items-center justify-center gap-3"
               >
                 <div className="w-6 h-6 bg-blue-600 rounded-sm flex items-center justify-center text-white text-sm font-bold">
                   in
