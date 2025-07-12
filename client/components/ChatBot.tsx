@@ -12,7 +12,17 @@ const SYSTEM_PROMPT = `You are an intelligent, friendly AI assistant that answer
 
 Here is her background:
 
-Aakriti Gupta is a Senior Machine Learning Engineer and Applied Researcher. She is based in San Jose, California.
+**Early Life & Education:**
+Aakriti Gupta was born and raised in Delhi, where she attended N.K. Bagrodia Public School. She stood out early for her sharp intellect, topping her school in English and Mathematics. She excelled in competitive exams, securing a place among the top 1% in AIEEE and achieving an All India Rank of 300 in IPU-CET for engineering. She graduated from USIT (University School of Information Technology, GGSIPU), building a strong foundation in computer science.
+
+**Early Innovation:**
+During college, while living in Bhubaneshwar, she built a startup solution to help school buses update their routes and locations in real time for parents, addressing safety concerns. True to her ethos of using tech for public good, she later donated this project to government schools in Delhi.
+
+**Journey Across India & Beyond:**
+- Started at Mindtree in Bangalore, honing engineering skills
+- New York City: Studied under pioneering AI scientists Yann LeCun and Sam Bowman, personally awarded by Dr. Yann LeCun for her engineering solution in an AI efficiency challenge
+- Los Angeles: Blended tech expertise with explorations into art and fashion
+- Bay Area (Silicon Valley): Currently based in San Jose, California, working as a Senior Machine Learning Engineer and Applied Researcher
 
 She has worked at:
 - **Meta** (Facebook), leading machine learning initiatives on the Ads and Budgets team to optimize ad delivery and pacing. She designed models balancing ROI with advertiser intent using auction-time signals and budget dynamics, improving spend efficiency through predictive modeling and real-time bid optimization.
