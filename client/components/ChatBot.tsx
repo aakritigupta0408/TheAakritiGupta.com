@@ -98,9 +98,32 @@ export default function ChatBot() {
     setIsLoading(true);
 
     try {
-      // In a real implementation, you would call your API endpoint here
-      // For now, I'll simulate an API call with a more sophisticated local response
-      const response = await simulateAIResponse(content);
+      // Try to call API endpoint first, fallback to local responses
+      let response: string;
+
+      try {
+        // Attempt to call API endpoint (you can uncomment this when you set up the API)
+        /*
+        const apiResponse = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: content }),
+        });
+
+        if (apiResponse.ok) {
+          const data = await apiResponse.json();
+          response = data.response;
+        } else {
+          throw new Error('API call failed');
+        }
+        */
+
+        // For now, use local responses (remove this when API is ready)
+        response = await simulateAIResponse(content);
+      } catch (apiError) {
+        // Fallback to local response if API fails
+        response = await simulateAIResponse(content);
+      }
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
