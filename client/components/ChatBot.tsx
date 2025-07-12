@@ -163,56 +163,85 @@ export default function ChatBot() {
       setTimeout(resolve, 1000 + Math.random() * 1000),
     );
 
+    // Check for non-Aakriti related questions
+    if (
+      lowerQuestion.includes("weather") ||
+      lowerQuestion.includes("politics") ||
+      lowerQuestion.includes("news") ||
+      lowerQuestion.includes("recipe") ||
+      lowerQuestion.includes("movie")
+    ) {
+      return "I'm Aakriti's assistant — I can help you with anything about her work, achievements, and projects!";
+    }
+
     if (lowerQuestion.includes("companies") || lowerQuestion.includes("work")) {
-      return "Aakriti has worked at several major tech companies! She was at Meta (Facebook) where she built ML-driven advertising systems serving billions of users. Before that, she worked at eBay scaling e-commerce infrastructure for millions of daily transactions, and at Yahoo for large-scale web technologies. She's also founded her own AI company focused on product image transformation.";
+      return "Aakriti has worked at some amazing companies! At Meta, she led ML initiatives on the Ads and Budgets team, optimizing ad delivery for billions of users. At eBay, she built ranking algorithms that reduced query abandonment by 0.3% and increased gross merchandise by 0.6%. She was also a Research Scientist at Yahoo, building predictive models for video and email recommendations.";
     }
 
     if (lowerQuestion.includes("swarnawastra")) {
-      return "Swarnawastra is Aakriti's luxury fashion-tech brand that's really innovative! The mission is to democratize access to luxury through AI, gold, and lab-grown diamonds. She's using AI to make luxury design and high-end fashion more accessible to people, combining cutting-edge technology with traditional luxury craftsmanship.";
+      return "Swarnawastra is Aakriti's luxury fashion-tech brand that's absolutely revolutionary! It combines AI customization, generative try-ons, and rare materials like gold and lab-grown diamonds. The platform helps designers sell under their own name while customers invest in clothing that's as valuable as art. It's all about making luxury accessible through technology!";
     }
 
-    if (
-      lowerQuestion.includes("achievement") ||
-      lowerQuestion.includes("award")
-    ) {
-      return "One of Aakriti's biggest achievements is being recognized by Yann LeCun - he's a Turing Award winner and one of the most respected figures in AI! She's also successfully founded multiple technology companies and has made significant contributions to large-scale AI systems at top tech companies.";
+    if (lowerQuestion.includes("meta") || lowerQuestion.includes("facebook")) {
+      return "At Meta, Aakriti led machine learning initiatives on the Ads and Budgets team! She designed models that balance ROI with advertiser intent using auction-time signals and budget dynamics. Her work improved spend efficiency through predictive modeling and real-time bid optimization - that's serving billions of users worldwide!";
+    }
+
+    if (lowerQuestion.includes("ebay")) {
+      return "At eBay, Aakriti built scalable ranking algorithms to improve search and personalization. Her work reduced query abandonment by 0.3% and increased gross merchandise by 0.6%! She also developed recommendation systems using Transformers and generative AI, boosting CTR by 2.2%.";
+    }
+
+    if (lowerQuestion.includes("yahoo")) {
+      return "At Yahoo, Aakriti was a Research Scientist building predictive models for video and email recommendations. She used LLMs like BERT and RoBERTa for text classification and ad targeting, improving recall by 267% on email recommendations. She also developed location prediction models with 92% accuracy at zip code level!";
     }
 
     if (
       lowerQuestion.includes("yann lecun") ||
-      lowerQuestion.includes("recognition")
+      lowerQuestion.includes("award") ||
+      lowerQuestion.includes("iclr")
     ) {
-      return "Yann LeCun, who won the Turing Award for his contributions to deep learning, recognized Aakriti for her innovative AI contributions. This is a huge honor since he's considered one of the founding fathers of modern AI and deep learning!";
-    }
-
-    if (lowerQuestion.includes("projects") || lowerQuestion.includes("ai")) {
-      return "Aakriti has worked on some fascinating AI projects! She developed face recognition systems for the Indian Parliament for security purposes, created PPE detection systems for Tata to enhance workplace safety, and built ML systems for product image enhancement. Her work spans computer vision, large-scale systems, and practical AI applications.";
+      return "Dr. Yann LeCun awarded Aakriti at ICLR 2019 for her work on clustering latent representations for semi-supervised learning! This is incredibly prestigious - Yann LeCun is a Turing Award winner and one of the founding fathers of deep learning. It's recognition from the absolute top of the AI field.";
     }
 
     if (
-      lowerQuestion.includes("parliament") ||
-      lowerQuestion.includes("government")
+      lowerQuestion.includes("education") ||
+      lowerQuestion.includes("study")
     ) {
-      return "Aakriti developed face recognition systems for the Indian Parliament - that's a high-security, mission-critical project for government security. It shows her expertise in computer vision and her ability to work on systems that require the highest levels of accuracy and reliability.";
+      return "Aakriti has a Master's in Data Science & Analytics from NYU and a Bachelor's in Computer Science from USICT. Her educational foundation in both theoretical CS and practical data science really shows in her work across research and industry applications!";
     }
 
-    if (lowerQuestion.includes("tata") || lowerQuestion.includes("safety")) {
-      return "For Tata, Aakriti created PPE (Personal Protective Equipment) detection systems to enhance workplace safety. This is a great example of using AI for social good - helping protect workers by automatically detecting whether proper safety equipment is being used.";
+    if (lowerQuestion.includes("projects") || lowerQuestion.includes("built")) {
+      return "Aakriti has built some incredible projects! She created face recognition systems for the Indian Parliament, safety gear detection for Tata, and ALEN - an NLP platform for text classification and sentiment analysis. She's also developed generative AI systems for real-time video object detection.";
     }
 
-    if (lowerQuestion.includes("meta") || lowerQuestion.includes("facebook")) {
-      return "At Meta (Facebook), Aakriti built ML-driven advertising systems that serve billions of users worldwide. That's incredibly complex work - handling that scale requires deep expertise in machine learning, distributed systems, and performance optimization.";
+    if (lowerQuestion.includes("parliament")) {
+      return "Aakriti created a face recognition system for the Indian Parliament - that's a high-security, mission-critical government project! It shows her expertise in computer vision and ability to work on systems requiring the highest accuracy and reliability standards.";
+    }
+
+    if (lowerQuestion.includes("tata")) {
+      return "For Tata, Aakriti developed safety gear detection systems to enhance workplace safety. It's a great example of using AI for social good - automatically detecting whether workers are wearing proper protective equipment to keep them safe!";
+    }
+
+    if (lowerQuestion.includes("alen")) {
+      return "ALEN is Aakriti's NLP platform for text classification, sentiment analysis, and generation. It's a comprehensive natural language processing system that showcases her expertise in building production-ready AI tools for real-world applications.";
+    }
+
+    if (lowerQuestion.includes("skills") || lowerQuestion.includes("tools")) {
+      return "Aakriti's technical skills are impressive! She specializes in ML systems for ranking, personalization, and ads optimization. Her toolkit includes PyTorch, TensorFlow, Hugging Face Transformers, Python, Java, C++, PySpark, and CUDA. She's also experienced with Kubernetes, Docker, GCP, AWS, and Spark.";
     }
 
     if (
-      lowerQuestion.includes("luxury") ||
-      lowerQuestion.includes("diamonds")
+      lowerQuestion.includes("research") ||
+      lowerQuestion.includes("publications")
     ) {
-      return "Through Swarnawastra, Aakriti is working with gold and lab-grown diamonds to create luxury products. She's using AI to make luxury design more accessible and democratic, which is a unique approach to combining technology with traditional luxury craftsmanship.";
+      return "Aakriti has published research on few-shot text classification, rare event prediction, and IP2Vec for location embeddings. Her ICLR 2019 work on clustering latent representations for semi-supervised learning was recognized by Dr. Yann LeCun - that's top-tier AI research!";
+    }
+
+    if (lowerQuestion.includes("location") || lowerQuestion.includes("where")) {
+      return "Aakriti is based in San Jose, California - right in the heart of Silicon Valley! It's the perfect location for someone working at the cutting edge of AI and machine learning technology.";
     }
 
     // Default response
-    return "That's a great question! Aakriti has extensive experience in AI, machine learning, and technology leadership. She's worked at Meta, eBay, and Yahoo, founded Swarnawastra, and has been recognized by AI leaders like Yann LeCun. Is there something specific about her background or work you'd like to know more about?";
+    return "That's a great question! Aakriti is a Senior ML Engineer and Applied Researcher with incredible experience at Meta, eBay, and Yahoo, plus she's building Swarnawastra. She's been recognized by Yann LeCun and has deep expertise in AI systems. What specific aspect would you like to know more about?";
   };
 
   const handleSubmit = (e: React.FormEvent) => {
