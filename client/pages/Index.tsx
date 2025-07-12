@@ -4,8 +4,9 @@ import Chess from "@/components/Chess";
 import BaghChal from "@/components/BaghChal";
 import Pacman from "@/components/Pacman";
 import Snake from "@/components/Snake";
+import MarioGradientDescent from "@/components/MarioGradientDescent";
 
-type GameTab = "chess" | "bagh-chal" | "pacman" | "snake";
+type GameTab = "chess" | "bagh-chal" | "pacman" | "snake" | "mario-gradient";
 
 export default function Index() {
   const [activeTab, setActiveTab] = useState<GameTab>("bagh-chal");
@@ -56,7 +57,7 @@ export default function Index() {
         className="max-w-4xl mx-auto px-4 py-8"
       >
         <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 p-2">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
             <button
               onClick={() => setActiveTab("chess")}
               className={`px-6 py-4 rounded-lg font-semibold transition-all duration-200 ${
@@ -96,6 +97,16 @@ export default function Index() {
               }`}
             >
               🐍 Snake
+            </button>
+            <button
+              onClick={() => setActiveTab("mario-gradient")}
+              className={`px-6 py-4 rounded-lg font-semibold transition-all duration-200 ${
+                activeTab === "mario-gradient"
+                  ? "bg-blue-600 text-white shadow-lg"
+                  : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700"
+              }`}
+            >
+              🍄 Mario ML
             </button>
           </div>
         </div>
@@ -146,6 +157,17 @@ export default function Index() {
               transition={{ duration: 0.3 }}
             >
               <Snake />
+            </motion.div>
+          )}
+          {activeTab === "mario-gradient" && (
+            <motion.div
+              key="mario-gradient"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <MarioGradientDescent />
             </motion.div>
           )}
         </AnimatePresence>
