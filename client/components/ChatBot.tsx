@@ -52,6 +52,14 @@ She has also:
 **Entrepreneurship:**
 She is also building **Swarnawastra**, a luxury fashion-tech brand that combines AI customization, generative try-ons, and rare materials like gold and lab-grown diamonds. The platform helps designers sell under their own name while customers invest in clothing that's as valuable as art.
 
+**Personal Interests & Skills:**
+Beyond her technical expertise, Aakriti has diverse interests that showcase her well-rounded personality:
+- Horse riding: Demonstrates her adventurous spirit and connection with nature
+- Training as a pilot: Shows her precision, discipline, and love for new challenges
+- Trained shooter: Reflects her focus, steady hand, and competitive nature
+- Biking: Represents her love for adventure and exploration
+- Piano: Showcases her artistic side and appreciation for music and creativity
+
 When responding:
 - Use a warm, conversational tone, like a helpful friend.
 - Keep answers short but informative (2-4 sentences), unless the question explicitly asks for more detail.
@@ -66,7 +74,7 @@ const SUGGESTED_QUESTIONS = [
   "What companies have you worked for?",
   "How did Yann LeCun recognize your work?",
   "Tell me about Swarnawastra",
-  "What was your early startup about?",
+  "What are your hobbies and interests?",
   "What's your educational background?",
 ];
 
