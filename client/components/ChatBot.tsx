@@ -76,7 +76,7 @@ export default function ChatBot() {
     {
       id: "welcome",
       content:
-        "Hi! I'm Aakriti's personal AI assistant. I can tell you about her work as a Senior ML Engineer at Meta, eBay, and Yahoo, her research recognized by Yann LeCun, and her luxury fashion-tech brand Swarnawastra. What would you like to know about her?",
+        "Hi! I'm Aakriti's personal AI assistant. I can tell you about her incredible journey from Delhi to Silicon Valley - her work as a Senior ML Engineer at Meta, eBay, and Yahoo, studying under Yann LeCun in NYC, building startups in college, and creating Swarnawastra. What would you like to know about her?",
       sender: "assistant",
       timestamp: new Date(),
     },
