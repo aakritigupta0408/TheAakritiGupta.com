@@ -421,19 +421,31 @@ export default function Index() {
                 href="https://drive.google.com/file/d/1Mnmk6nP9l_Av0LvpgJQ5Tkjb7BqhY7nb/view?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.02, y: -2 }}
-                className="tom-ford-button px-8 py-5 rounded-sm text-center font-light tracking-wider flex items-center justify-center gap-3 border-2 border-yellow-400/50 hover:border-yellow-400 transition-all duration-300"
+                whileHover={{ scale: 1.05, y: -4 }}
+                className="relative mb-4 px-12 py-8 rounded-sm text-center font-light tracking-wider flex items-center justify-center gap-4 bg-gradient-to-r from-yellow-400/20 to-yellow-600/20 border-2 border-yellow-400 hover:border-yellow-300 transition-all duration-500 shadow-lg hover:shadow-yellow-400/30 hover:shadow-2xl"
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgba(250, 204, 21, 0.15) 0%, rgba(234, 179, 8, 0.25) 100%)",
+                  boxShadow:
+                    "0 0 30px rgba(250, 204, 21, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
+                }}
               >
-                <div className="w-8 h-8 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-sm flex items-center justify-center text-black text-lg font-bold">
-                  ◆
-                </div>
-                <div className="flex flex-col items-start">
-                  <span className="text-lg tracking-widest">
-                    EXECUTIVE RESUME
-                  </span>
-                  <span className="text-xs text-yellow-400/80 tracking-wider">
-                    COMPREHENSIVE PORTFOLIO
-                  </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/5 to-yellow-600/5 rounded-sm animate-pulse" />
+                <div className="relative flex items-center gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-sm flex items-center justify-center text-black text-2xl font-bold shadow-lg">
+                    ◆
+                  </div>
+                  <div className="flex flex-col items-start">
+                    <span className="text-2xl tracking-widest text-yellow-400 font-semibold">
+                      EXECUTIVE RESUME
+                    </span>
+                    <span className="text-sm text-yellow-400/90 tracking-wider uppercase">
+                      Download Complete Portfolio
+                    </span>
+                  </div>
+                  <div className="ml-4 text-yellow-400 text-xl animate-bounce">
+                    ▶
+                  </div>
                 </div>
               </motion.a>
 
