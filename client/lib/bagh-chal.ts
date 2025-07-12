@@ -536,12 +536,59 @@ export const minimax = (
   }
 };
 
-// Get AI move for tigers
+// Minimax specifically optimized for tiger play (aggressive and capture-focused)
+const minimaxForTiger = (
+  state: BaghChalState,
+  depth: number,
+  maximizing: boolean,
+): { score: number; move?: Move } => {
+  if (depth === 0 || state.goatsCaptured >= 5 || isGameOver(state)) {
+    return { score: evaluateForTigers(state) };
+  }
+
+  if (maximizing) {
+    // Tiger's turn - maximize captures and mobility
+    let maxEval = -Infinity;
+    let bestMove: Move | undefined;
+    const tigerMoves = getAllPossibleTigerMoves(state);
+
+    for (const move of tigerMoves) {
+      const newState = applyMove(state, move);
+      const evaluation = minimaxForTiger(newState, depth - 1, false);
+
+      if (evaluation.score > maxEval) {
+        maxEval = evaluation.score;
+        bestMove = move;
+      }
+    }
+
+    return { score: maxEval, move: bestMove };
+  } else {
+    // Goat's turn - minimize tiger advantage
+    let minEval = Infinity;
+    let bestMove: Move | undefined;
+    const goatMoves = getAllPossibleGoatMoves(state);
+
+    for (const move of goatMoves) {
+      const newState = applyMove(state, move);
+      const evaluation = minimaxForTiger(newState, depth - 1, true);
+
+      if (evaluation.score < minEval) {
+        minEval = evaluation.score;
+        bestMove = move;
+      }
+    }
+
+    return { score: minEval, move: bestMove };
+  }
+};
+
+// Get AI move for tigers using aggressive strategy
 export const getAIMove = (state: BaghChalState): Move | null => {
   if (state.currentPlayer !== "tiger" || state.gameOver) return null;
 
-  // Use depth 3 for good performance vs quality balance
-  const { move } = minimax(state, 3, true);
+  // Use depth 2 for aggressive tiger play (like the Python implementation)
+  const { move } = minimaxForTiger(state, 2, true);
   return move || null;
 };
 
