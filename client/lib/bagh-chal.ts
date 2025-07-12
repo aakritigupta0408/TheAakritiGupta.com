@@ -1,0 +1,389 @@
+export type PieceType = "tiger" | "goat" | null;
+export type Player = "tiger" | "goat";
+export type GamePhase = "placement" | "movement";
+
+export interface Position {
+  row: number;
+  col: number;
+}
+
+export interface BaghChalState {
+  board: PieceType[][];
+  currentPlayer: Player;
+  phase: GamePhase;
+  goatsPlaced: number;
+  goatsCaptured: number;
+  selectedPosition: Position | null;
+  gameOver: boolean;
+  winner: Player | null;
+}
+
+export interface Move {
+  from: Position;
+  to: Position;
+  captured?: Position;
+}
+
+// Initialize 5x5 board with tigers on corners
+export const initializeBaghChal = (): BaghChalState => {
+  const board: PieceType[][] = Array(5)
+    .fill(null)
+    .map(() => Array(5).fill(null));
+
+  // Place tigers on corners
+  board[0][0] = "tiger";
+  board[0][4] = "tiger";
+  board[4][0] = "tiger";
+  board[4][4] = "tiger";
+
+  return {
+    board,
+    currentPlayer: "goat",
+    phase: "placement",
+    goatsPlaced: 0,
+    goatsCaptured: 0,
+    selectedPosition: null,
+    gameOver: false,
+    winner: null,
+  };
+};
+
+// Get valid positions (intersections) on the board
+export const isValidPosition = (row: number, col: number): boolean => {
+  return row >= 0 && row < 5 && col >= 0 && col < 5;
+};
+
+// Get adjacent positions connected by lines
+export const getAdjacentPositions = (pos: Position): Position[] => {
+  const { row, col } = pos;
+  const adjacent: Position[] = [];
+
+  // Horizontal and vertical connections
+  const directions = [
+    [-1, 0],
+    [1, 0],
+    [0, -1],
+    [0, 1], // up, down, left, right
+  ];
+
+  directions.forEach(([dr, dc]) => {
+    const newRow = row + dr;
+    const newCol = col + dc;
+    if (isValidPosition(newRow, newCol)) {
+      adjacent.push({ row: newRow, col: newCol });
+    }
+  });
+
+  // Diagonal connections (only on specific intersections)
+  const diagonalConnections = [
+    [0, 0],
+    [0, 2],
+    [0, 4],
+    [1, 1],
+    [1, 3],
+    [2, 0],
+    [2, 2],
+    [2, 4],
+    [3, 1],
+    [3, 3],
+    [4, 0],
+    [4, 2],
+    [4, 4],
+  ];
+
+  const isDiagonalIntersection = diagonalConnections.some(
+    ([r, c]) => r === row && c === col,
+  );
+
+  if (isDiagonalIntersection) {
+    const diagonals = [
+      [-1, -1],
+      [-1, 1],
+      [1, -1],
+      [1, 1], // diagonals
+    ];
+
+    diagonals.forEach(([dr, dc]) => {
+      const newRow = row + dr;
+      const newCol = col + dc;
+      if (isValidPosition(newRow, newCol)) {
+        // Check if diagonal connection exists
+        const isDiagonalTarget = diagonalConnections.some(
+          ([r, c]) => r === newRow && c === newCol,
+        );
+        if (isDiagonalTarget) {
+          adjacent.push({ row: newRow, col: newCol });
+        }
+      }
+    });
+  }
+
+  return adjacent;
+};
+
+// Check if a move is valid
+export const isValidMove = (
+  state: BaghChalState,
+  from: Position,
+  to: Position,
+): boolean => {
+  if (!isValidPosition(to.row, to.col)) return false;
+  if (state.board[to.row][to.col] !== null) return false;
+
+  const piece = state.board[from.row][from.col];
+  if (!piece) return false;
+
+  if (state.phase === "placement") {
+    // During placement, only goats can be placed
+    return false;
+  }
+
+  // During movement phase
+  const adjacent = getAdjacentPositions(from);
+  return adjacent.some((pos) => pos.row === to.row && pos.col === to.col);
+};
+
+// Check if a tiger can capture a goat
+export const canCapture = (
+  state: BaghChalState,
+  from: Position,
+  over: Position,
+  to: Position,
+): boolean => {
+  if (state.board[from.row][from.col] !== "tiger") return false;
+  if (state.board[over.row][over.col] !== "goat") return false;
+  if (state.board[to.row][to.col] !== null) return false;
+
+  // Check if positions are in a straight line
+  const dx = to.col - from.col;
+  const dy = to.row - from.row;
+  const overDx = over.col - from.col;
+  const overDy = over.row - from.row;
+
+  // The "over" position should be exactly halfway
+  return overDx * 2 === dx && overDy * 2 === dy;
+};
+
+// Get all valid moves for a piece
+export const getValidMoves = (
+  state: BaghChalState,
+  from: Position,
+): Position[] => {
+  const moves: Position[] = [];
+  const piece = state.board[from.row][from.col];
+
+  if (!piece) return moves;
+
+  if (state.phase === "movement") {
+    const adjacent = getAdjacentPositions(from);
+
+    adjacent.forEach((to) => {
+      if (state.board[to.row][to.col] === null) {
+        moves.push(to);
+      }
+    });
+
+    // For tigers, check captures
+    if (piece === "tiger") {
+      adjacent.forEach((over) => {
+        if (state.board[over.row][over.col] === "goat") {
+          const captureAdjacentPositions = getAdjacentPositions(over);
+          captureAdjacentPositions.forEach((to) => {
+            if (canCapture(state, from, over, to)) {
+              moves.push(to);
+            }
+          });
+        }
+      });
+    }
+  }
+
+  return moves;
+};
+
+// Check if tigers can still move
+export const canTigersMove = (state: BaghChalState): boolean => {
+  for (let row = 0; row < 5; row++) {
+    for (let col = 0; col < 5; col++) {
+      if (state.board[row][col] === "tiger") {
+        const moves = getValidMoves(state, { row, col });
+        if (moves.length > 0) return true;
+      }
+    }
+  }
+  return false;
+};
+
+// Check game over conditions
+export const checkGameOver = (
+  state: BaghChalState,
+): { gameOver: boolean; winner: Player | null } => {
+  // Tigers win if they capture 5 goats
+  if (state.goatsCaptured >= 5) {
+    return { gameOver: true, winner: "tiger" };
+  }
+
+  // Goats win if all tigers are trapped (only in movement phase)
+  if (state.phase === "movement" && state.goatsPlaced === 20) {
+    if (!canTigersMove(state)) {
+      return { gameOver: true, winner: "goat" };
+    }
+  }
+
+  return { gameOver: false, winner: null };
+};
+
+// Make a move
+export const makeMove = (
+  state: BaghChalState,
+  from: Position,
+  to: Position,
+): BaghChalState => {
+  const newState = { ...state };
+  newState.board = state.board.map((row) => [...row]);
+
+  if (state.phase === "placement") {
+    // Place a goat
+    if (state.board[to.row][to.col] === null) {
+      newState.board[to.row][to.col] = "goat";
+      newState.goatsPlaced++;
+
+      if (newState.goatsPlaced === 20) {
+        newState.phase = "movement";
+      }
+
+      newState.currentPlayer =
+        newState.currentPlayer === "goat" ? "tiger" : "goat";
+    }
+  } else {
+    // Movement phase
+    const piece = state.board[from.row][from.col];
+    newState.board[from.row][from.col] = null;
+    newState.board[to.row][to.col] = piece;
+
+    // Check for captures (tigers only)
+    if (piece === "tiger") {
+      const dx = to.col - from.col;
+      const dy = to.row - from.row;
+
+      if (Math.abs(dx) === 2 || Math.abs(dy) === 2) {
+        const overRow = from.row + dy / 2;
+        const overCol = from.col + dx / 2;
+
+        if (state.board[overRow][overCol] === "goat") {
+          newState.board[overRow][overCol] = null;
+          newState.goatsCaptured++;
+        }
+      }
+    }
+
+    newState.currentPlayer =
+      newState.currentPlayer === "goat" ? "tiger" : "goat";
+  }
+
+  newState.selectedPosition = null;
+  const gameResult = checkGameOver(newState);
+  newState.gameOver = gameResult.gameOver;
+  newState.winner = gameResult.winner;
+
+  return newState;
+};
+
+// AI Evaluation function
+const evaluatePosition = (state: BaghChalState): number => {
+  let score = 0;
+
+  // +10 for each goat captured
+  score += state.goatsCaptured * 10;
+
+  // -2 for each tiger unable to move
+  for (let row = 0; row < 5; row++) {
+    for (let col = 0; col < 5; col++) {
+      if (state.board[row][col] === "tiger") {
+        const moves = getValidMoves(state, { row, col });
+        if (moves.length === 0) {
+          score -= 2;
+        }
+      }
+    }
+  }
+
+  return score;
+};
+
+// Minimax algorithm for AI
+export const minimax = (
+  state: BaghChalState,
+  depth: number,
+  isMaximizing: boolean,
+  alpha: number = -Infinity,
+  beta: number = Infinity,
+): { score: number; move?: Move } => {
+  if (depth === 0 || state.gameOver) {
+    return { score: evaluatePosition(state) };
+  }
+
+  if (isMaximizing) {
+    let maxScore = -Infinity;
+    let bestMove: Move | undefined;
+
+    // Get all tiger positions and their moves
+    for (let row = 0; row < 5; row++) {
+      for (let col = 0; col < 5; col++) {
+        if (state.board[row][col] === "tiger") {
+          const moves = getValidMoves(state, { row, col });
+
+          for (const move of moves) {
+            const newState = makeMove(state, { row, col }, move);
+            const { score } = minimax(newState, depth - 1, false, alpha, beta);
+
+            if (score > maxScore) {
+              maxScore = score;
+              bestMove = { from: { row, col }, to: move };
+            }
+
+            alpha = Math.max(alpha, score);
+            if (beta <= alpha) break;
+          }
+        }
+      }
+    }
+
+    return { score: maxScore, move: bestMove };
+  } else {
+    let minScore = Infinity;
+    let bestMove: Move | undefined;
+
+    // Get all goat positions and their moves
+    for (let row = 0; row < 5; row++) {
+      for (let col = 0; col < 5; col++) {
+        if (state.board[row][col] === "goat") {
+          const moves = getValidMoves(state, { row, col });
+
+          for (const move of moves) {
+            const newState = makeMove(state, { row, col }, move);
+            const { score } = minimax(newState, depth - 1, true, alpha, beta);
+
+            if (score < minScore) {
+              minScore = score;
+              bestMove = { from: { row, col }, to: move };
+            }
+
+            beta = Math.min(beta, score);
+            if (beta <= alpha) break;
+          }
+        }
+      }
+    }
+
+    return { score: minScore, move: bestMove };
+  }
+};
+
+// Get AI move for tigers
+export const getAIMove = (state: BaghChalState): Move | null => {
+  if (state.currentPlayer !== "tiger" || state.gameOver) return null;
+
+  const { move } = minimax(state, 3, true);
+  return move || null;
+};
