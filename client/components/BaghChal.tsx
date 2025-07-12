@@ -11,7 +11,7 @@ import {
 
 const BaghChal = () => {
   const [gameState, setGameState] = useState<BaghChalState>(initializeBaghChal);
-  const [aiMode, setAiMode] = useState(false);
+  const [aiMode, setAiMode] = useState(true);
   const [showRules, setShowRules] = useState(false);
   const [isThinking, setIsThinking] = useState(false);
   const [highlightedMove, setHighlightedMove] = useState<{
