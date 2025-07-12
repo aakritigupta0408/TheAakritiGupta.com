@@ -24,6 +24,22 @@ const BaghChal = () => {
     setGameState(initializeBaghChal());
     setHighlightedMove(null);
     setIsThinking(false);
+    setDemoPlaying(false);
+  };
+
+  const startDemo = () => {
+    setGameState(initializeBaghChal());
+    setAiMode(true);
+    setDemoPlaying(true);
+    setHighlightedMove(null);
+    setIsThinking(false);
+  };
+
+  const stopDemo = () => {
+    setDemoPlaying(false);
+    setAiMode(false);
+    setIsThinking(false);
+    setHighlightedMove(null);
   };
 
   const handlePositionClick = useCallback(
