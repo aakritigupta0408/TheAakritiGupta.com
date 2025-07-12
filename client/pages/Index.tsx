@@ -290,66 +290,74 @@ export default function Index() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            <div className="grid grid-cols-2 gap-4">
-              {/* Main large photo */}
+            <div className="space-y-6">
+              {/* Main large photo - Full display */}
               <motion.div
-                className="col-span-2 relative"
+                className="relative"
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >
                 <img
                   src="https://cdn.builder.io/api/v1/image/assets%2Ff2155d07c4314be389b158f0dc3f31dc%2Fed0bc18cd21244e1939892616f236f8f?format=webp&width=800"
                   alt="Aakriti Gupta - Professional Portrait"
-                  className="w-full h-80 object-cover rounded-2xl shadow-2xl"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-2xl" />
-              </motion.div>
-
-              {/* Smaller photos */}
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-              >
-                <img
-                  src="https://cdn.builder.io/api/v1/image/assets%2Ff2155d07c4314be389b158f0dc3f31dc%2F8eb1e0d8ff0f4e7e8a3cb9a919e054b1?format=webp&width=800"
-                  alt="Aakriti Gupta - Professional Look"
-                  className="w-full h-40 object-cover rounded-xl shadow-lg"
+                  className="w-full object-contain rounded-2xl shadow-2xl bg-white"
+                  style={{ maxHeight: "400px" }}
                 />
               </motion.div>
 
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-              >
-                <img
-                  src="https://cdn.builder.io/api/v1/image/assets%2Ff2155d07c4314be389b158f0dc3f31dc%2F84cf6b44dba445fcaeced4f15fd299f1?format=webp&width=800"
-                  alt="Aakriti Gupta - Fashion Portrait"
-                  className="w-full h-40 object-cover rounded-xl shadow-lg"
-                />
-              </motion.div>
+              {/* Row of smaller photos - Full display */}
+              <div className="grid grid-cols-2 gap-4">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <img
+                    src="https://cdn.builder.io/api/v1/image/assets%2Ff2155d07c4314be389b158f0dc3f31dc%2F8eb1e0d8ff0f4e7e8a3cb9a919e054b1?format=webp&width=800"
+                    alt="Aakriti Gupta - Professional Look"
+                    className="w-full object-contain rounded-xl shadow-lg bg-white"
+                    style={{ maxHeight: "250px" }}
+                  />
+                </motion.div>
 
-              {/* Bottom row photos */}
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-              >
-                <img
-                  src="https://cdn.builder.io/api/v1/image/assets%2Ff2155d07c4314be389b158f0dc3f31dc%2F4d9e8bcd67214b5b963eb37e44602024?format=webp&width=800"
-                  alt="Aakriti Gupta - Smart Casual"
-                  className="w-full h-32 object-cover rounded-lg shadow-md"
-                />
-              </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <img
+                    src="https://cdn.builder.io/api/v1/image/assets%2Ff2155d07c4314be389b158f0dc3f31dc%2F84cf6b44dba445fcaeced4f15fd299f1?format=webp&width=800"
+                    alt="Aakriti Gupta - Fashion Portrait"
+                    className="w-full object-contain rounded-xl shadow-lg bg-white"
+                    style={{ maxHeight: "250px" }}
+                  />
+                </motion.div>
+              </div>
 
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-              >
-                <img
-                  src="https://cdn.builder.io/api/v1/image/assets%2Ff2155d07c4314be389b158f0dc3f31dc%2Fb2b65fd8e262453e9bd06e29a1b52798?format=webp&width=800"
-                  alt="Aakriti Gupta - Elegant Style"
-                  className="w-full h-32 object-cover rounded-lg shadow-md"
-                />
-              </motion.div>
+              {/* Bottom row photos - Full display */}
+              <div className="grid grid-cols-2 gap-4">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <img
+                    src="https://cdn.builder.io/api/v1/image/assets%2Ff2155d07c4314be389b158f0dc3f31dc%2F4d9e8bcd67214b5b963eb37e44602024?format=webp&width=800"
+                    alt="Aakriti Gupta - Smart Casual"
+                    className="w-full object-contain rounded-lg shadow-md bg-white"
+                    style={{ maxHeight: "200px" }}
+                  />
+                </motion.div>
+
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <img
+                    src="https://cdn.builder.io/api/v1/image/assets%2Ff2155d07c4314be389b158f0dc3f31dc%2Fb2b65fd8e262453e9bd06e29a1b52798?format=webp&width=800"
+                    alt="Aakriti Gupta - Elegant Style"
+                    className="w-full object-contain rounded-lg shadow-md bg-white"
+                    style={{ maxHeight: "200px" }}
+                  />
+                </motion.div>
+              </div>
             </div>
           </motion.div>
         </div>
