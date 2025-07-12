@@ -97,8 +97,7 @@ const BaghChal = () => {
     if (
       aiMode &&
       !gameState.gameOver &&
-      (gameState.phase === "movement" ||
-        (gameState.phase === "placement" && gameState.currentPlayer === "goat"))
+      (gameState.phase === "movement" || gameState.phase === "placement")
     ) {
       setIsThinking(true);
       const delay = gameState.currentPlayer === "tiger" ? 1500 : 1000; // Tigers think longer
