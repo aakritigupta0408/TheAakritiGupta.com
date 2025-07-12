@@ -1,26 +1,16 @@
 import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-// Chess piece types
-type PieceType = "king" | "queen" | "rook" | "bishop" | "knight" | "pawn";
-type PieceColor = "white" | "black";
-
-interface ChessPiece {
-  type: PieceType;
-  color: PieceColor;
-  id: string;
-  story?: {
-    title: string;
-    content: string;
-    isStrength: boolean;
-  };
-}
-
-interface BoardSquare {
-  piece?: ChessPiece;
-  row: number;
-  col: number;
-}
+import {
+  ChessPiece,
+  BoardSquare,
+  PieceType,
+  PieceColor,
+  isValidMove,
+  isInCheck,
+  isCheckmate,
+  isStalemate,
+  getAIMove,
+} from "@/lib/chess";
 
 // Story content mapped to pieces
 const storyContent = {
@@ -239,47 +229,116 @@ export default function Index() {
     isStrength: boolean;
   } | null>(null);
   const [capturedPieces, setCapturedPieces] = useState<ChessPiece[]>([]);
+  const [gameStatus, setGameStatus] = useState<
+    "playing" | "check" | "checkmate" | "stalemate"
+  >("playing");
+  const [isThinking, setIsThinking] = useState(false);
+
+  const makeMove = useCallback(
+    (
+      fromRow: number,
+      fromCol: number,
+      toRow: number,
+      toCol: number,
+      playerColor: PieceColor,
+    ) => {
+      const fromSquare = board[fromRow][fromCol];
+      const toSquare = board[toRow][toCol];
+
+      if (
+        !fromSquare.piece ||
+        fromSquare.piece.color !== playerColor ||
+        !isValidMove(board, fromRow, fromCol, toRow, toCol)
+      ) {
+        return false;
+      }
+
+      const newBoard = [...board.map((row) => [...row])];
+
+      // Handle capture
+      if (toSquare.piece) {
+        const capturedPiece = toSquare.piece;
+        setCapturedPieces((prev) => [...prev, capturedPiece]);
+
+        // Reveal story if piece has one
+        if (capturedPiece.story) {
+          setRevealedStory(capturedPiece.story);
+        }
+      }
+
+      // Move piece
+      newBoard[toRow][toCol].piece = {
+        ...fromSquare.piece,
+        hasMoved: true,
+      };
+      newBoard[fromRow][fromCol].piece = undefined;
+
+      setBoard(newBoard);
+
+      // Check game status
+      const nextPlayer = playerColor === "white" ? "black" : "white";
+      if (isCheckmate(newBoard, nextPlayer)) {
+        setGameStatus("checkmate");
+      } else if (isStalemate(newBoard, nextPlayer)) {
+        setGameStatus("stalemate");
+      } else if (isInCheck(newBoard, nextPlayer)) {
+        setGameStatus("check");
+      } else {
+        setGameStatus("playing");
+      }
+
+      setCurrentPlayer(nextPlayer);
+      return true;
+    },
+    [board],
+  );
 
   const handleSquareClick = useCallback(
     (row: number, col: number) => {
+      if (currentPlayer === "black" || isThinking) return; // Only allow white (human) moves
+
       if (selectedSquare) {
-        // Try to move piece
-        const fromSquare = board[selectedSquare.row][selectedSquare.col];
-        const toSquare = board[row][col];
-
-        if (fromSquare.piece && fromSquare.piece.color === currentPlayer) {
-          const newBoard = [...board];
-
-          // Handle capture
-          if (toSquare.piece) {
-            const capturedPiece = toSquare.piece;
-            setCapturedPieces((prev) => [...prev, capturedPiece]);
-
-            // Reveal story if piece has one
-            if (capturedPiece.story) {
-              setRevealedStory(capturedPiece.story);
-            }
-          }
-
-          // Move piece
-          newBoard[row][col].piece = fromSquare.piece;
-          newBoard[selectedSquare.row][selectedSquare.col].piece = undefined;
-
-          setBoard(newBoard);
-          setCurrentPlayer(currentPlayer === "white" ? "black" : "white");
-        }
+        const moveSuccessful = makeMove(
+          selectedSquare.row,
+          selectedSquare.col,
+          row,
+          col,
+          "white",
+        );
 
         setSelectedSquare(null);
       } else {
         // Select piece
         const square = board[row][col];
-        if (square.piece && square.piece.color === currentPlayer) {
+        if (square.piece && square.piece.color === "white") {
           setSelectedSquare({ row, col });
         }
       }
     },
-    [board, selectedSquare, currentPlayer],
+    [board, selectedSquare, currentPlayer, makeMove, isThinking],
   );
+
+  // AI move effect
+  useEffect(() => {
+    if (currentPlayer === "black" && gameStatus === "playing") {
+      setIsThinking(true);
+      const timer = setTimeout(() => {
+        const aiMove = getAIMove(board, "black");
+        if (aiMove) {
+          makeMove(
+            aiMove.fromRow,
+            aiMove.fromCol,
+            aiMove.toRow,
+            aiMove.toCol,
+            "black",
+          );
+        }
+        setIsThinking(false);
+      }, 1000); // 1 second delay for AI thinking
+
+      return () => clearTimeout(timer);
+    }
+  }, [currentPlayer, board, makeMove, gameStatus]);
 
   const isSquareLight = (row: number, col: number) => (row + col) % 2 === 0;
 
@@ -308,10 +367,35 @@ export default function Index() {
           transition={{ delay: 0.4 }}
           className="text-sm text-slate-500 dark:text-slate-400 mt-1"
         >
-          Current Player:{" "}
-          <span className="font-semibold capitalize">
-            {currentPlayer === "white" ? "Aakriti (White)" : "Opponent (Black)"}
-          </span>
+          {gameStatus === "checkmate" ? (
+            <span className="font-bold text-red-600">
+              Checkmate! {currentPlayer === "white" ? "Black" : "Aakriti"} wins!
+            </span>
+          ) : gameStatus === "stalemate" ? (
+            <span className="font-bold text-yellow-600">Stalemate! Draw!</span>
+          ) : gameStatus === "check" ? (
+            <span className="font-bold text-orange-600">
+              Check! Current Player:{" "}
+              <span className="capitalize">
+                {currentPlayer === "white"
+                  ? "Aakriti (White)"
+                  : "Opponent (Black)"}
+              </span>
+            </span>
+          ) : isThinking ? (
+            <span className="font-semibold text-blue-600">
+              🤔 Opponent is thinking...
+            </span>
+          ) : (
+            <span>
+              Current Player:{" "}
+              <span className="font-semibold capitalize">
+                {currentPlayer === "white"
+                  ? "Aakriti (White)"
+                  : "Opponent (Black)"}
+              </span>
+            </span>
+          )}
         </motion.p>
       </div>
 
