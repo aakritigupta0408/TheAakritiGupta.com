@@ -356,6 +356,17 @@ export default function Index() {
 
   const isSquareLight = (row: number, col: number) => (row + col) % 2 === 0;
 
+  const resetGame = () => {
+    setBoard(initializeBoard());
+    setSelectedSquare(null);
+    setCurrentPlayer("white");
+    setRevealedStory(null);
+    setCapturedPieces([]);
+    setGameStatus("playing");
+    setIsThinking(false);
+    setValidMoves([]);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
       {/* Header */}
@@ -411,9 +422,18 @@ export default function Index() {
             </span>
           )}
         </motion.p>
+        <motion.button
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.6 }}
+          onClick={resetGame}
+          className="mt-4 px-6 py-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105"
+        >
+          Reset Game
+        </motion.button>
       </div>
 
-      <div className="flex flex-col lg:flex-row justify-center items-start gap-8 px-4 pb-8">
+      <div className="flex flex-col xl:flex-row justify-center items-center xl:items-start gap-8 px-4 pb-8">
         {/* Chess Board */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
