@@ -254,80 +254,195 @@ const BaghChal = () => {
               className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg rounded-xl p-6 mb-6 text-left border border-white/20 dark:border-slate-700/20"
             >
               <h3 className="font-bold text-lg mb-4 text-slate-800 dark:text-slate-200">
-                🐅🐐 Bagh-Chal: Step by Step Rules
+                🐅🐐 What is Bagh-Chal?
               </h3>
-              <div className="space-y-3 text-sm text-slate-600 dark:text-slate-400 max-h-80 overflow-y-auto">
+              <div className="space-y-4 text-sm text-slate-600 dark:text-slate-400 max-h-96 overflow-y-auto">
                 <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg">
-                  <h4 className="font-bold text-slate-700 dark:text-slate-300 mb-2">
-                    🏁 Setup
-                  </h4>
-                  <p>• 4 Tigers start on corner intersections</p>
-                  <p>• 20 Goats start off-board, to be placed during game</p>
-                  <p>• Board has 25 intersection points connected by lines</p>
-                </div>
-
-                <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg">
-                  <h4 className="font-bold text-slate-700 dark:text-slate-300 mb-2">
-                    🎯 Objectives
-                  </h4>
-                  <p>
-                    • <strong>Tigers win:</strong> Capture 5+ goats
-                  </p>
-                  <p>
-                    • <strong>Goats win:</strong> Trap all tigers (no moves
-                    possible)
+                  <p className="font-medium mb-2">
+                    Bagh-Chal is an ancient strategy game from Nepal and India.
+                    It's played on a 5×5 grid of intersection points, connected
+                    by lines. The lines tell you where the pieces can move.
                   </p>
                 </div>
 
                 <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg">
                   <h4 className="font-bold text-slate-700 dark:text-slate-300 mb-2">
-                    🚶‍♂️ Game Flow
+                    ✅ Two Sides
                   </h4>
-                  <p>
-                    <strong>Phase 1 - Placement (20 turns):</strong>
-                  </p>
-                  <p>• Goats place one piece per turn on empty intersections</p>
-                  <p>• Tigers can move/capture immediately during this phase</p>
-                  <p>• Players alternate: Goat places → Tiger moves → repeat</p>
-
-                  <p className="mt-2">
-                    <strong>Phase 2 - Movement:</strong>
-                  </p>
-                  <p>• After all 20 goats placed, goats can now move</p>
-                  <p>• Both players move to adjacent empty intersections</p>
-                  <p>• Tigers can still capture by jumping over goats</p>
+                  <div className="grid grid-cols-3 gap-2 text-xs">
+                    <div className="font-medium">Player</div>
+                    <div className="font-medium">Pieces</div>
+                    <div className="font-medium">Goal</div>
+                    <div>🐅 Tigers</div>
+                    <div>4</div>
+                    <div>Catch goats by jumping over them</div>
+                    <div>🐐 Goats</div>
+                    <div>20</div>
+                    <div>Trap tigers so they can't move or jump</div>
+                  </div>
                 </div>
 
                 <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg">
                   <h4 className="font-bold text-slate-700 dark:text-slate-300 mb-2">
-                    🐅 Tiger Moves
+                    🎯 How to Win
                   </h4>
+                  <div className="grid grid-cols-2 gap-3 text-xs">
+                    <div>
+                      <div className="font-medium text-orange-600">
+                        🐅 Tigers win if:
+                      </div>
+                      <p>They capture 5 goats</p>
+                    </div>
+                    <div>
+                      <div className="font-medium text-green-600">
+                        🐐 Goats win if:
+                      </div>
+                      <p>They block all tigers so they can't move or jump</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg">
+                  <h4 className="font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    🏗️ The Board
+                  </h4>
+                  <div className="font-mono text-xs bg-white dark:bg-slate-900 p-2 rounded border">
+                    <pre className="text-slate-600 dark:text-slate-400">{`+--+--+--+--+--+
+|  |  |  |  |  |
++--+--+--+--+--+
+|  |  |  |  |  |
++--+--+--+--+--+
+|  |  |  |  |  |
++--+--+--+--+--+
+|  |  |  |  |  |
++--+--+--+--+--+`}</pre>
+                  </div>
+                  <p className="mt-2">• Each intersection is a position</p>
+                  <p>• Pieces sit on intersections, not inside squares</p>
+                </div>
+
+                <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg">
+                  <h4 className="font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    🥇 Starting Position
+                  </h4>
+                  <p>• The 4 tigers start on the 4 corners of the board</p>
                   <p>
-                    • <strong>Normal move:</strong> To adjacent empty
-                    intersection
-                  </p>
-                  <p>
-                    • <strong>Capture:</strong> Jump over adjacent goat to empty
-                    space beyond
-                  </p>
-                  <p>
-                    • Can start moving immediately (even during goat placement)
+                    • The 20 goats start off the board and are placed one by one
                   </p>
                 </div>
 
                 <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg">
                   <h4 className="font-bold text-slate-700 dark:text-slate-300 mb-2">
-                    🐐 Goat Moves
+                    🚀 Game Flow
                   </h4>
-                  <p>
-                    • <strong>Placement phase:</strong> Place on any empty
-                    intersection
-                  </p>
-                  <p>
-                    • <strong>Movement phase:</strong> Move to adjacent empty
-                    intersection
-                  </p>
-                  <p>• Cannot jump or capture - only block and surround</p>
+
+                  <div className="mb-3">
+                    <div className="font-medium text-green-600">
+                      ✅ 1. Goats start by placing pieces
+                    </div>
+                    <p>
+                      • Each turn, the goat player places one goat on any empty
+                      intersection
+                    </p>
+                    <p>• This continues until all 20 goats are on the board</p>
+                    <p>
+                      • During this phase, goats cannot move yet — they are only
+                      being added
+                    </p>
+                  </div>
+
+                  <div className="mb-3">
+                    <div className="font-medium text-orange-600">
+                      ✅ 2. Tigers start moving right from turn 1
+                    </div>
+                    <p>
+                      • Each tiger can move to any directly connected empty
+                      intersection
+                    </p>
+                    <p>• Tigers can also jump over a goat to capture it</p>
+                    <p>
+                      • If there's a goat on an adjacent intersection, and the
+                      next point after it is empty, the tiger can jump over and
+                      capture the goat
+                    </p>
+                  </div>
+
+                  <div className="bg-white dark:bg-slate-900 p-2 rounded border font-mono text-xs">
+                    <div className="text-center">Example: T G . → . . T</div>
+                    <div className="text-center text-slate-500">
+                      (Tiger jumps over Goat, goat removed)
+                    </div>
+                  </div>
+
+                  <div className="mt-3">
+                    <div className="font-medium text-green-600">
+                      ✅ 3. After all 20 goats placed
+                    </div>
+                    <p>• Goats can now move to adjacent empty intersections</p>
+                    <p>
+                      • Goats cannot jump or capture — they only move one step
+                    </p>
+                  </div>
+                </div>
+
+                <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg">
+                  <h4 className="font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    🔄 Turn Order Summary
+                  </h4>
+                  <div className="bg-white dark:bg-slate-900 p-2 rounded border text-xs">
+                    <div>Goats: Place goat 1</div>
+                    <div>Tigers: Move or jump</div>
+                    <div>Goats: Place goat 2</div>
+                    <div>Tigers: Move or jump</div>
+                    <div>... (Repeat until all 20 goats placed)</div>
+                    <div className="mt-1 font-medium">
+                      Then goats start moving instead of placing
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg">
+                  <h4 className="font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    💡 Key Differences from Chess/Checkers
+                  </h4>
+                  <div className="grid grid-cols-4 gap-2 text-xs">
+                    <div></div>
+                    <div className="font-medium">Goats</div>
+                    <div className="font-medium">Tigers</div>
+                    <div></div>
+                    <div className="font-medium">Start on board?</div>
+                    <div>❌ No</div>
+                    <div>✅ Yes (4 corners)</div>
+                    <div></div>
+                    <div className="font-medium">Can capture?</div>
+                    <div>❌ No</div>
+                    <div>✅ Yes (jump over goats)</div>
+                    <div></div>
+                    <div className="font-medium">When can move?</div>
+                    <div>After all 20 placed</div>
+                    <div>From start</div>
+                    <div></div>
+                    <div className="font-medium">How to win?</div>
+                    <div>Trap all tigers</div>
+                    <div>Capture 5 goats</div>
+                    <div></div>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-r from-green-50 to-orange-50 dark:from-green-900/20 dark:to-orange-900/20 p-3 rounded-lg border border-green-200 dark:border-green-800">
+                  <h4 className="font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    ✅ Simple Summary
+                  </h4>
+                  <div className="space-y-1 text-xs">
+                    <p>1. Goats placed turn by turn, then start moving</p>
+                    <p>
+                      2. Tigers move or jump from the start, capturing goats
+                    </p>
+                    <p>
+                      3. Keep alternating until either 5 goats captured or all
+                      tigers blocked
+                    </p>
+                  </div>
                 </div>
               </div>
             </motion.div>
