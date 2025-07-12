@@ -405,8 +405,8 @@ export default function Index() {
                   </div>
                 </div>
 
-                <p>Recognized by Yann LeCun</p>
-                <p>Building Swarnawastra</p>
+                <p>Recognized by Dr. Yann LeCun</p>
+                <p>Building AI to make life simpler</p>
               </motion.div>
             </div>
 
