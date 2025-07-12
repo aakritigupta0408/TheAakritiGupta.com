@@ -197,7 +197,7 @@ export default function Index() {
                 </motion.a>
 
                 <motion.a
-                  href="https://github.com/aakriti-gupta"
+                  href="https://github.com/aakritigupta0408?tab=achievements"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.05 }}
