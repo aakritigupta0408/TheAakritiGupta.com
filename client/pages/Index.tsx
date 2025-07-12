@@ -3,8 +3,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import Chess from "@/components/Chess";
 import BaghChal from "@/components/BaghChal";
 import Pacman from "@/components/Pacman";
+import Snake from "@/components/Snake";
 
-type GameTab = "chess" | "bagh-chal" | "pacman";
+type GameTab = "chess" | "bagh-chal" | "pacman" | "snake";
 
 // Floating decorative elements
 const FloatingPetals = () => {
@@ -202,6 +203,18 @@ export default function Index() {
               >
                 🟡 Pacman
               </motion.button>
+              <motion.button
+                onClick={() => setActiveTab("snake")}
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className={`px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 ${
+                  activeTab === "snake"
+                    ? "ghibli-button text-white shadow-lg transform -translate-y-1"
+                    : "text-purple-700 dark:text-purple-300 hover:bg-white/20 hover:text-purple-600"
+                }`}
+              >
+                🐍 Snake
+              </motion.button>
             </div>
           </div>
         </motion.div>
@@ -240,6 +253,17 @@ export default function Index() {
                 transition={{ duration: 0.5, ease: "easeInOut" }}
               >
                 <Pacman />
+              </motion.div>
+            )}
+            {activeTab === "snake" && (
+              <motion.div
+                key="snake"
+                initial={{ opacity: 0, y: -50, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 50, scale: 0.9 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+              >
+                <Snake />
               </motion.div>
             )}
           </AnimatePresence>
