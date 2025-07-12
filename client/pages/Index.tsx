@@ -419,7 +419,7 @@ export default function Index() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.6 }}
-          className="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-2xl"
+          className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg p-6 rounded-2xl shadow-2xl border border-white/20 dark:border-slate-700/20"
         >
           <div className="grid grid-cols-8 gap-0 border-4 border-amber-800 dark:border-amber-600 rounded-lg overflow-hidden">
             {board.map((row, rowIndex) =>
@@ -427,24 +427,24 @@ export default function Index() {
                 <motion.div
                   key={`${rowIndex}-${colIndex}`}
                   className={`
-                    w-16 h-16 flex items-center justify-center cursor-pointer relative text-4xl select-none
+                    w-16 h-16 md:w-20 md:h-20 flex items-center justify-center cursor-pointer relative text-3xl md:text-4xl select-none transition-all duration-200
                     ${
                       isSquareLight(rowIndex, colIndex)
-                        ? "bg-chess-light hover:bg-chess-light/80"
-                        : "bg-chess-dark hover:bg-chess-dark/80"
+                        ? "bg-chess-light hover:bg-chess-light/80 shadow-inner"
+                        : "bg-chess-dark hover:bg-chess-dark/80 shadow-lg"
                     }
-                                        ${
-                                          selectedSquare?.row === rowIndex &&
-                                          selectedSquare?.col === colIndex
-                                            ? "ring-4 ring-chess-selected ring-inset"
-                                            : ""
-                                        }
+                    ${
+                      selectedSquare?.row === rowIndex &&
+                      selectedSquare?.col === colIndex
+                        ? "ring-4 ring-chess-selected ring-inset shadow-lg"
+                        : ""
+                    }
                     ${
                       validMoves.some(
                         (move) =>
                           move.row === rowIndex && move.col === colIndex,
                       )
-                        ? "ring-2 ring-chess-highlight ring-inset"
+                        ? "ring-2 ring-chess-highlight ring-inset after:content-[''] after:absolute after:inset-2 after:rounded-full after:bg-chess-highlight/20"
                         : ""
                     }
                   `}
