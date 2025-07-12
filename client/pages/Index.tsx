@@ -6,7 +6,7 @@ import BaghChal from "@/components/BaghChal";
 type GameTab = "chess" | "bagh-chal";
 
 export default function Index() {
-  const [activeTab, setActiveTab] = useState<GameTab>("chess");
+  const [activeTab, setActiveTab] = useState<GameTab>("bagh-chal");
   const [email, setEmail] = useState("");
   const [emailSubmitted, setEmailSubmitted] = useState(false);
 
