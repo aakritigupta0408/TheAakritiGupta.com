@@ -91,23 +91,23 @@ const storyContent = {
   },
 };
 
-// Chess piece Unicode symbols
+// AI Founder/Researcher piece symbols
 const pieceSymbols: Record<PieceColor, Record<PieceType, string>> = {
   white: {
-    king: "♔",
-    queen: "♕",
-    rook: "♖",
-    bishop: "♗",
-    knight: "♘",
-    pawn: "♙",
+    king: "👑", // Aakriti - The AI Visionary Leader
+    queen: "🧠", // Chief AI Officer
+    rook: "🏭", // Tech Company Founder
+    bishop: "🔬", // Research Scientist
+    knight: "💡", // Innovation Strategist
+    pawn: "⚡", // AI Developer
   },
   black: {
-    king: "♚",
-    queen: "♛",
-    rook: "♜",
-    bishop: "♝",
-    knight: "♞",
-    pawn: "♟",
+    king: "🎯", // Your Strategic Mind
+    queen: "🚀", // Your Vision
+    rook: "🏢", // Your Enterprise
+    bishop: "📊", // Your Analytics
+    knight: "💻", // Your Tech Skills
+    pawn: "🔧", // Your Tools
   },
 };
 
