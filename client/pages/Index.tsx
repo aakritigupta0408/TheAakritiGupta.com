@@ -933,6 +933,51 @@ export default function Index() {
               <span>MOTORCYCLIST</span>
               <span>PIANIST</span>
             </div>
+
+            {/* Hidden Email Admin Panel (Ctrl+Shift+E to toggle) */}
+            <AnimatePresence>
+              {showEmailAdmin && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="mt-12 p-8 bg-black/80 backdrop-blur-sm border border-yellow-400/30 rounded-sm max-w-md mx-auto"
+                >
+                  <h3 className="tom-ford-subheading text-yellow-400 text-lg tracking-wider uppercase mb-6">
+                    EMAIL MANAGEMENT
+                  </h3>
+                  <div className="space-y-6 text-left">
+                    <div className="flex justify-between items-center">
+                      <span className="text-white/70 text-sm tracking-wide">
+                        EMAILS COLLECTED:
+                      </span>
+                      <span className="text-yellow-400 font-light text-lg">
+                        {emailCount}
+                      </span>
+                    </div>
+                    <motion.button
+                      onClick={handleDownloadEmails}
+                      whileHover={{ scale: 1.02, y: -1 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="w-full bg-yellow-400/20 hover:bg-yellow-400/30 border border-yellow-400/50 text-yellow-400 px-6 py-3 rounded-sm text-sm font-light tracking-widest transition-all duration-300"
+                    >
+                      DOWNLOAD ALL EMAILS
+                    </motion.button>
+                    <div className="text-center">
+                      <button
+                        onClick={() => setShowEmailAdmin(false)}
+                        className="text-white/40 hover:text-white/70 text-xs tracking-wider transition-colors"
+                      >
+                        CLOSE PANEL
+                      </button>
+                    </div>
+                    <div className="text-center text-xs text-white/30 tracking-wider">
+                      Press Ctrl+Shift+E to toggle
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </section>
