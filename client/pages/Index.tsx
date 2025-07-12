@@ -177,9 +177,9 @@ const FloatingSkills = () => {
             ease: "easeOut",
           }}
         >
-          <div className="tom-ford-float px-8 py-4 rounded-sm text-white text-base font-light tracking-wider flex items-center gap-4 shadow-2xl">
-            <span className="text-2xl text-yellow-400">{skill.icon}</span>
-            <span className="tom-ford-subheading text-sm">{skill.label}</span>
+          <div className="tom-ford-float px-4 py-2 rounded-sm text-white text-xs font-light tracking-wider flex items-center gap-2 shadow-lg">
+            <span className="text-sm text-yellow-400">{skill.icon}</span>
+            <span className="tom-ford-subheading text-xs">{skill.label}</span>
           </div>
         </motion.div>
       ))}
