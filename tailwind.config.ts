@@ -68,13 +68,13 @@ export default {
           strength: "hsl(var(--story-strength))",
           weakness: "hsl(var(--story-weakness))",
         },
-        ghibli: {
-          sky: "hsl(var(--ghibli-sky))",
-          grass: "hsl(var(--ghibli-grass))",
-          flower: "hsl(var(--ghibli-flower))",
-          cloud: "hsl(var(--ghibli-cloud))",
-          magic: "hsl(var(--ghibli-magic))",
-          sunset: "hsl(var(--ghibli-sunset))",
+        business: {
+          primary: "hsl(var(--business-primary))",
+          secondary: "hsl(var(--business-secondary))",
+          accent: "hsl(var(--business-accent))",
+          neutral: "hsl(var(--business-neutral))",
+          dark: "hsl(var(--business-dark))",
+          light: "hsl(var(--business-light))",
         },
       },
       borderRadius: {
