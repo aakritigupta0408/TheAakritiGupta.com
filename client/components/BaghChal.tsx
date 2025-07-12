@@ -6,7 +6,7 @@ import {
   initializeBaghChal,
   makeMove,
   getValidMoves,
-  getAIMove,
+  getAIMoveBoth,
 } from "@/lib/bagh-chal";
 
 const BaghChal = () => {
@@ -27,8 +27,7 @@ const BaghChal = () => {
 
   const handlePositionClick = useCallback(
     (row: number, col: number) => {
-      if (gameState.gameOver || (aiMode && gameState.currentPlayer === "tiger"))
-        return;
+      if (gameState.gameOver || aiMode) return;
 
       const clickedPosition = { row, col };
 
@@ -93,17 +92,19 @@ const BaghChal = () => {
     [gameState, aiMode],
   );
 
-  // AI move effect
+  // AI move effect - handles both tigers and goats
   useEffect(() => {
     if (
       aiMode &&
-      gameState.currentPlayer === "tiger" &&
       !gameState.gameOver &&
-      gameState.phase === "movement"
+      (gameState.phase === "movement" ||
+        (gameState.phase === "placement" && gameState.currentPlayer === "goat"))
     ) {
       setIsThinking(true);
+      const delay = gameState.currentPlayer === "tiger" ? 1500 : 1000; // Tigers think longer
+
       const timer = setTimeout(() => {
-        const aiMove = getAIMove(gameState);
+        const aiMove = getAIMoveBoth(gameState);
         if (aiMove) {
           setHighlightedMove(aiMove);
           const newState = makeMove(gameState, aiMove.from, aiMove.to);
@@ -113,11 +114,17 @@ const BaghChal = () => {
           setTimeout(() => setHighlightedMove(null), 1000);
         }
         setIsThinking(false);
-      }, 1500);
+      }, delay);
 
       return () => clearTimeout(timer);
     }
-  }, [gameState.currentPlayer, gameState.phase, aiMode, gameState.gameOver]);
+  }, [
+    gameState.currentPlayer,
+    gameState.phase,
+    aiMode,
+    gameState.gameOver,
+    gameState.goatsPlaced,
+  ]);
 
   const validMoves = gameState.selectedPosition
     ? getValidMoves(gameState, gameState.selectedPosition)
