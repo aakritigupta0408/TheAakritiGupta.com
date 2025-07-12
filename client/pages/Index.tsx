@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Chess from "@/components/Chess";
 import BaghChal from "@/components/BaghChal";
@@ -8,6 +8,142 @@ import MarioGradientDescent from "@/components/MarioGradientDescent";
 import ChatBot from "@/components/ChatBot";
 
 type GameTab = "chess" | "bagh-chal" | "pacman" | "snake" | "mario-gradient";
+
+interface FloatingSkill {
+  id: string;
+  label: string;
+  icon: string;
+  color: string;
+  x: number;
+  y: number;
+  speed: number;
+  direction: number;
+}
+
+const FLOATING_SKILLS: Omit<
+  FloatingSkill,
+  "x" | "y" | "speed" | "direction"
+>[] = [
+  {
+    id: "ai-researcher",
+    label: "AI Researcher",
+    icon: "🧠",
+    color: "from-blue-500 to-cyan-500",
+  },
+  {
+    id: "engineer",
+    label: "Engineer",
+    icon: "⚙️",
+    color: "from-gray-600 to-slate-600",
+  },
+  {
+    id: "horse-rider",
+    label: "Horse Rider",
+    icon: "🐎",
+    color: "from-amber-600 to-yellow-600",
+  },
+  {
+    id: "pilot",
+    label: "Training Pilot",
+    icon: "✈️",
+    color: "from-sky-500 to-blue-500",
+  },
+  {
+    id: "shooter",
+    label: "Trained Shooter",
+    icon: "🎯",
+    color: "from-red-500 to-orange-500",
+  },
+  {
+    id: "biker",
+    label: "Biker",
+    icon: "🏍️",
+    color: "from-green-600 to-emerald-600",
+  },
+  {
+    id: "pianist",
+    label: "Pianist",
+    icon: "🎹",
+    color: "from-purple-500 to-violet-500",
+  },
+];
+
+// Floating Skills Component
+const FloatingSkills = () => {
+  const [skills, setSkills] = useState<FloatingSkill[]>([]);
+
+  useEffect(() => {
+    // Initialize skills with random positions and movement properties
+    const initialSkills = FLOATING_SKILLS.map((skill, index) => ({
+      ...skill,
+      x: Math.random() * (window.innerWidth - 200),
+      y: Math.random() * (window.innerHeight - 100),
+      speed: 0.3 + Math.random() * 0.4, // 0.3 to 0.7
+      direction: Math.random() * Math.PI * 2,
+    }));
+    setSkills(initialSkills);
+  }, []);
+
+  useEffect(() => {
+    if (skills.length === 0) return;
+
+    const animateSkills = () => {
+      setSkills((prevSkills) =>
+        prevSkills.map((skill) => {
+          let { x, y, direction, speed } = skill;
+
+          // Move in current direction
+          x += Math.cos(direction) * speed;
+          y += Math.sin(direction) * speed;
+
+          // Bounce off edges
+          if (x <= 0 || x >= window.innerWidth - 200) {
+            direction = Math.PI - direction;
+            x = Math.max(0, Math.min(window.innerWidth - 200, x));
+          }
+          if (y <= 0 || y >= window.innerHeight - 100) {
+            direction = -direction;
+            y = Math.max(0, Math.min(window.innerHeight - 100, y));
+          }
+
+          return { ...skill, x, y, direction };
+        }),
+      );
+    };
+
+    const interval = setInterval(animateSkills, 50);
+    return () => clearInterval(interval);
+  }, [skills.length]);
+
+  return (
+    <div className="fixed inset-0 pointer-events-none z-10 overflow-hidden">
+      {skills.map((skill) => (
+        <motion.div
+          key={skill.id}
+          className="absolute"
+          style={{
+            left: skill.x,
+            top: skill.y,
+          }}
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 0.7, scale: 1 }}
+          transition={{
+            duration: 2,
+            delay: Math.random() * 3,
+            ease: "easeOut",
+          }}
+        >
+          <div
+            className={`px-4 py-2 rounded-full bg-gradient-to-r ${skill.color} text-white text-sm font-medium shadow-lg backdrop-blur-sm bg-opacity-90 flex items-center gap-2 border border-white/20`}
+          >
+            <span className="text-lg">{skill.icon}</span>
+            <span className="whitespace-nowrap">{skill.label}</span>
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  );
+};
 
 export default function Index() {
   const [activeTab, setActiveTab] = useState<GameTab>("bagh-chal");
@@ -27,7 +163,9 @@ export default function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative">
+      {/* Floating Skills Background */}
+      <FloatingSkills />
       {/* Professional Header */}
       <header className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-b border-slate-200 dark:border-slate-700 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 py-6">
