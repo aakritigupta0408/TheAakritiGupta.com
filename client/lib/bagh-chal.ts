@@ -439,12 +439,121 @@ export const getAIMove = (state: BaghChalState): Move | null => {
   return move || null;
 };
 
-// Get AI move for goats
+// Check if a tiger is blocked (no valid moves)
+const isTigerBlocked = (state: BaghChalState, tigerPos: Position): boolean => {
+  const validMoves = getValidMoves(state, tigerPos);
+  return validMoves.length === 0;
+};
+
+// Count tiger mobility (number of available moves)
+const getTigerMobility = (state: BaghChalState): number => {
+  let mobility = 0;
+  for (let row = 0; row < 5; row++) {
+    for (let col = 0; col < 5; col++) {
+      if (state.board[row][col] === "tiger") {
+        mobility += getValidMoves(state, { row, col }).length;
+      }
+    }
+  }
+  return mobility;
+};
+
+// Count blocked tigers
+const getBlockedTigers = (state: BaghChalState): number => {
+  let blockedCount = 0;
+  for (let row = 0; row < 5; row++) {
+    for (let col = 0; col < 5; col++) {
+      if (state.board[row][col] === "tiger") {
+        if (isTigerBlocked(state, { row, col })) {
+          blockedCount++;
+        }
+      }
+    }
+  }
+  return blockedCount;
+};
+
+// Evaluation function specifically for goats
+const evaluateForGoats = (state: BaghChalState): number => {
+  const blockedTigers = getBlockedTigers(state);
+  const tigerMobility = getTigerMobility(state);
+
+  // Goat strategy: maximize blocked tigers, minimize captures, reduce tiger mobility
+  let score = 0;
+  score += blockedTigers * 10; // Reward blocking tigers
+  score -= state.goatsCaptured * 5; // Penalty for captured goats
+  score -= tigerMobility * 2; // Penalty for tiger mobility
+
+  // Bonus for winning condition
+  if (
+    blockedTigers === 4 &&
+    state.phase === "movement" &&
+    state.goatsPlaced === 20
+  ) {
+    score += 1000; // Goats win
+  }
+
+  // Major penalty for losing
+  if (state.goatsCaptured >= 5) {
+    score -= 1000; // Tigers win
+  }
+
+  return score;
+};
+
+// Minimax specifically optimized for goat play
+const minimaxForGoat = (
+  state: BaghChalState,
+  depth: number,
+  maximizing: boolean,
+): { score: number; move?: Move } => {
+  if (depth === 0 || state.goatsCaptured >= 5 || isGameOver(state)) {
+    return { score: evaluateForGoats(state) };
+  }
+
+  if (maximizing) {
+    // Goat's turn - maximize goat advantage
+    let maxEval = -Infinity;
+    let bestMove: Move | undefined;
+    const goatMoves = getAllPossibleGoatMoves(state);
+
+    for (const move of goatMoves) {
+      const newState = applyMove(state, move);
+      const evaluation = minimaxForGoat(newState, depth - 1, false);
+
+      if (evaluation.score > maxEval) {
+        maxEval = evaluation.score;
+        bestMove = move;
+      }
+    }
+
+    return { score: maxEval, move: bestMove };
+  } else {
+    // Tiger's turn - minimize goat advantage (maximize tiger advantage)
+    let minEval = Infinity;
+    let bestMove: Move | undefined;
+    const tigerMoves = getAllPossibleTigerMoves(state);
+
+    for (const move of tigerMoves) {
+      const newState = applyMove(state, move);
+      const evaluation = minimaxForGoat(newState, depth - 1, true);
+
+      if (evaluation.score < minEval) {
+        minEval = evaluation.score;
+        bestMove = move;
+      }
+    }
+
+    return { score: minEval, move: bestMove };
+  }
+};
+
+// Get AI move for goats using strategic minimax
 export const getGoatAIMove = (state: BaghChalState): Move | null => {
   if (state.currentPlayer !== "goat" || state.gameOver) return null;
 
-  // Use depth 2 for goats (they have more moves to consider)
-  const { move } = minimax(state, 2, false);
+  // Use depth 2 for strategic goat play
+  const { move } = minimaxForGoat(state, 2, true);
   return move || null;
 };
 
