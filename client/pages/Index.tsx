@@ -122,18 +122,12 @@ const FloatingSkills = () => {
   const [skills, setSkills] = useState<FloatingSkill[]>([]);
 
   useEffect(() => {
-    // Create multiple instances of skills for more frequency
-    const duplicatedSkills = [
-      ...FLOATING_SKILLS,
-      ...FLOATING_SKILLS,
-      ...FLOATING_SKILLS,
-    ];
-    const initialSkills = duplicatedSkills.map((skill, index) => ({
+    // Use only original skills for less frequency
+    const initialSkills = FLOATING_SKILLS.map((skill, index) => ({
       ...skill,
-      id: `${skill.id}-${index}`,
-      x: Math.random() * (window.innerWidth - 350),
-      y: Math.random() * (window.innerHeight - 120),
-      speed: 0.3 + Math.random() * 0.5, // Increased speed
+      x: Math.random() * (window.innerWidth - 300),
+      y: Math.random() * (window.innerHeight - 100),
+      speed: 0.15 + Math.random() * 0.25, // Reduced speed
       direction: Math.random() * Math.PI * 2,
     }));
     setSkills(initialSkills);
