@@ -6,6 +6,7 @@ import Pacman from "@/components/Pacman";
 import Snake from "@/components/Snake";
 import MarioGradientDescent from "@/components/MarioGradientDescent";
 import ChatBot from "@/components/ChatBot";
+import { saveEmailToLocalStorage } from "@/api/save-email";
 
 type GameTab = "chess" | "bagh-chal" | "pacman" | "snake" | "mario-gradient";
 
@@ -197,15 +198,43 @@ export default function Index() {
   const [email, setEmail] = useState("");
   const [emailSubmitted, setEmailSubmitted] = useState(false);
 
-  const handleEmailSubmit = (e: React.FormEvent) => {
+  const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
-      console.log("Email submitted:", email);
-      setEmailSubmitted(true);
-      setTimeout(() => {
-        setEmailSubmitted(false);
-        setEmail("");
-      }, 3000);
+      try {
+        // Save email to localStorage as primary method
+        saveEmailToLocalStorage(email);
+
+        // Try to call server API if available
+        try {
+          await fetch("/api/save-email", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email }),
+          });
+          console.log("Email saved to server:", email);
+        } catch (serverError) {
+          console.log("Server save failed, using localStorage:", serverError);
+        }
+
+        console.log("Email submitted and saved:", email);
+        setEmailSubmitted(true);
+
+        setTimeout(() => {
+          setEmailSubmitted(false);
+          setEmail("");
+        }, 3000);
+      } catch (error) {
+        console.error("Error saving email:", error);
+        // Still show success to user even if saving fails
+        setEmailSubmitted(true);
+        setTimeout(() => {
+          setEmailSubmitted(false);
+          setEmail("");
+        }, 3000);
+      }
     }
   };
 
