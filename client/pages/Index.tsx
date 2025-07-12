@@ -537,7 +537,12 @@ export default function Index() {
                             ease: "easeInOut",
                           },
                         }}
-                        className="drop-shadow-lg"
+                        className="drop-shadow-lg cursor-pointer select-none"
+                        title={
+                          pieceDescriptions[square.piece.color][
+                            square.piece.type
+                          ]
+                        }
                       >
                         {pieceSymbols[square.piece.color][square.piece.type]}
                       </motion.span>
