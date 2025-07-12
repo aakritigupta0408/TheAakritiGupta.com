@@ -42,7 +42,8 @@ export async function callOpenAI(userMessage: string): Promise<string> {
     const apiKey = process.env.OPENAI_API_KEY;
 
     if (!apiKey) {
-      throw new Error("OpenAI API key not configured");
+      console.warn("OpenAI API key not configured, using local responses");
+      return getLocalResponse(userMessage);
     }
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -76,7 +77,6 @@ export async function callOpenAI(userMessage: string): Promise<string> {
     return data.choices[0].message.content.trim();
   } catch (error) {
     console.error("Error calling OpenAI API:", error);
-
     // Fallback to local responses if API fails
     return getLocalResponse(userMessage);
   }
@@ -109,26 +109,26 @@ function getLocalResponse(question: string): string {
     return "Aakriti has worked on fascinating AI projects including face recognition systems for the Indian Parliament, PPE detection systems for Tata workplace safety, and ML systems for product image enhancement.";
   }
 
+  if (lowerQuestion.includes("meta") || lowerQuestion.includes("facebook")) {
+    return "At Meta (Facebook), Aakriti built ML-driven advertising systems that serve billions of users worldwide. This involved complex work in machine learning, distributed systems, and performance optimization at massive scale.";
+  }
+
+  if (lowerQuestion.includes("parliament")) {
+    return "Aakriti developed face recognition systems for the Indian Parliament for government security. This was a high-security, mission-critical project requiring the highest levels of accuracy and reliability.";
+  }
+
+  if (lowerQuestion.includes("tata")) {
+    return "For Tata, Aakriti created PPE detection systems to enhance workplace safety. This is a great example of using AI for social good - automatically detecting whether proper safety equipment is being used.";
+  }
+
+  if (lowerQuestion.includes("luxury") || lowerQuestion.includes("diamonds")) {
+    return "Through Swarnawastra, Aakriti is working with gold and lab-grown diamonds to create luxury products. She's using AI to make luxury design more accessible and democratic.";
+  }
+
+  if (lowerQuestion.includes("contact") || lowerQuestion.includes("email")) {
+    return "You can connect with Aakriti through her LinkedIn profile or GitHub. There's also a resume request form on this website where you can get her complete professional details.";
+  }
+
   // Default response
   return "That's a great question! Aakriti has extensive experience in AI, machine learning, and technology leadership. She's worked at Meta, eBay, and Yahoo, founded Swarnawastra, and has been recognized by AI leaders like Yann LeCun. What specific aspect would you like to know more about?";
 }
-
-// Example usage for when you set up the API endpoint:
-/*
-// In your API route (e.g., pages/api/chat.ts or app/api/chat/route.ts)
-export async function POST(request: Request) {
-  try {
-    const { message } = await request.json();
-    const response = await callOpenAI(message);
-    
-    return new Response(JSON.stringify({ response }), {
-      headers: { 'Content-Type': 'application/json' },
-    });
-  } catch (error) {
-    return new Response(JSON.stringify({ error: 'Failed to process message' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
-}
-*/
