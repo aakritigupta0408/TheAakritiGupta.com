@@ -173,7 +173,7 @@ export default function Index() {
               </h3>
               <div className="space-y-4">
                 <motion.a
-                  href="https://linkedin.com/in/aakriti-gupta"
+                  href="https://www.linkedin.com/in/aakritigupta4894/"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.05 }}
