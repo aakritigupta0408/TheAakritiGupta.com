@@ -197,6 +197,8 @@ export default function Index() {
   const [activeGame, setActiveGame] = useState<GameTab | null>(null);
   const [email, setEmail] = useState("");
   const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [showEmailAdmin, setShowEmailAdmin] = useState(false);
+  const [emailCount, setEmailCount] = useState(0);
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -237,6 +239,38 @@ export default function Index() {
       }
     }
   };
+
+  // Update email count from localStorage
+  useEffect(() => {
+    const updateEmailCount = () => {
+      const emails = localStorage.getItem("submittedEmails") || "";
+      const count = emails
+        .split("\n")
+        .filter((line) => line.trim().length > 0).length;
+      setEmailCount(count);
+    };
+
+    updateEmailCount();
+    // Update count when localStorage changes
+    window.addEventListener("storage", updateEmailCount);
+    return () => window.removeEventListener("storage", updateEmailCount);
+  }, [emailSubmitted]);
+
+  const handleDownloadEmails = () => {
+    downloadEmailsFromLocalStorage();
+  };
+
+  // Admin panel toggle (hidden keyboard shortcut)
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && e.key === "E") {
+        setShowEmailAdmin(!showEmailAdmin);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  }, [showEmailAdmin]);
 
   const gameCards = [
     {
