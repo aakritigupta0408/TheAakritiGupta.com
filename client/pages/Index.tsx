@@ -573,8 +573,9 @@ export default function Index() {
                   </p>
                   <p className="text-sm">Aakriti's professional story</p>
                   <div className="mt-6 text-xs text-slate-400 space-y-1">
-                    <p>• White pieces = Aakriti's strengths</p>
-                    <p>• Black pieces = Growth areas</p>
+                    <p>• White pieces (Aakriti) = Her strengths</p>
+                    <p>• Black pieces (You) = Her growth areas</p>
+                    <p>• Aakriti is playing as White (AI)</p>
                   </div>
                 </motion.div>
               )}
