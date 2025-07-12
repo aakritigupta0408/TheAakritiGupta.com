@@ -112,12 +112,12 @@ const BaghChal = () => {
   // AI move effect - handles both tigers and goats
   useEffect(() => {
     if (
-      aiMode &&
+      (aiMode || demoPlaying) &&
       !gameState.gameOver &&
       (gameState.phase === "movement" || gameState.phase === "placement")
     ) {
       setIsThinking(true);
-      const delay = gameState.currentPlayer === "tiger" ? 1500 : 1000; // Tigers think longer
+      const delay = gameState.currentPlayer === "tiger" ? 1200 : 800; // Faster for demo
 
       const timer = setTimeout(() => {
         const aiMove = getAIMoveBoth(gameState);
@@ -127,7 +127,7 @@ const BaghChal = () => {
           setGameState(newState);
 
           // Clear highlight after animation
-          setTimeout(() => setHighlightedMove(null), 1000);
+          setTimeout(() => setHighlightedMove(null), 800);
         }
         setIsThinking(false);
       }, delay);
@@ -138,9 +138,20 @@ const BaghChal = () => {
     gameState.currentPlayer,
     gameState.phase,
     aiMode,
+    demoPlaying,
     gameState.gameOver,
     gameState.goatsPlaced,
   ]);
+
+  // Auto-stop demo when game ends
+  useEffect(() => {
+    if (gameState.gameOver && demoPlaying) {
+      setTimeout(() => {
+        setDemoPlaying(false);
+        setAiMode(false);
+      }, 3000); // Show winner for 3 seconds then stop
+    }
+  }, [gameState.gameOver, demoPlaying]);
 
   const validMoves = gameState.selectedPosition
     ? getValidMoves(gameState, gameState.selectedPosition)
