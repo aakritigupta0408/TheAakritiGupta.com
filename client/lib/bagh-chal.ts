@@ -289,22 +289,68 @@ export const makeMove = (
   return newState;
 };
 
-// Get all possible tiger moves
+// Get all possible tiger moves with capture priority
 const getAllPossibleTigerMoves = (state: BaghChalState): Move[] => {
   const moves: Move[] = [];
+  const captureMoves: Move[] = [];
+  const normalMoves: Move[] = [];
 
   for (let row = 0; row < 5; row++) {
     for (let col = 0; col < 5; col++) {
       if (state.board[row][col] === "tiger") {
-        const validMoves = getValidMoves(state, { row, col });
-        for (const move of validMoves) {
-          moves.push({ from: { row, col }, to: move });
+        const tigerPos = { row, col };
+        const adjacent = getAdjacentPositions(tigerPos);
+
+        for (const adjPos of adjacent) {
+          // Normal move to empty adjacent position
+          if (state.board[adjPos.row][adjPos.col] === null) {
+            normalMoves.push({ from: tigerPos, to: adjPos });
+          }
+          // Capture move - jump over goat
+          else if (state.board[adjPos.row][adjPos.col] === "goat") {
+            const beyondPos = getBeyondPosition(tigerPos, adjPos);
+            if (
+              beyondPos &&
+              state.board[beyondPos.row][beyondPos.col] === null
+            ) {
+              captureMoves.push({
+                from: tigerPos,
+                to: beyondPos,
+                captured: adjPos,
+              });
+            }
+          }
         }
       }
     }
   }
 
-  return moves;
+  // Prioritize captures first, then normal moves
+  return [...captureMoves, ...normalMoves];
+};
+
+// Get position beyond goat for jumping
+const getBeyondPosition = (
+  tiger: Position,
+  goat: Position,
+): Position | null => {
+  const dx = goat.col - tiger.col;
+  const dy = goat.row - tiger.row;
+  const beyondCol = goat.col + dx;
+  const beyondRow = goat.row + dy;
+
+  if (beyondRow >= 0 && beyondRow < 5 && beyondCol >= 0 && beyondCol < 5) {
+    const beyondPos = { row: beyondRow, col: beyondCol };
+    // Check if beyond position is connected to goat position
+    const goatAdjacent = getAdjacentPositions(goat);
+    if (
+      goatAdjacent.some((pos) => pos.row === beyondRow && pos.col === beyondCol)
+    ) {
+      return beyondPos;
+    }
+  }
+
+  return null;
 };
 
 // Get strategic placement positions (center and key intersections first)
