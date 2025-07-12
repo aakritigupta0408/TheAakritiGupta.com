@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Chess from "@/components/Chess";
 import BaghChal from "@/components/BaghChal";
 
-type GameTab = "chess" | "bagh-chal";
+type GameTab = "chess" | "bagh-chal" | "pacman";
 
 export default function Index() {
   const [activeTab, setActiveTab] = useState<GameTab>("bagh-chal");
