@@ -307,35 +307,18 @@ const getAllPossibleTigerMoves = (state: BaghChalState): Move[] => {
   return moves;
 };
 
-// Get all possible goat moves
-const getAllPossibleGoatMoves = (state: BaghChalState): Move[] => {
-  const moves: Move[] = [];
-
-  if (state.phase === "placement") {
-    // During placement, goats can be placed on any empty spot
-    for (let row = 0; row < 5; row++) {
-      for (let col = 0; col < 5; col++) {
-        if (state.board[row][col] === null) {
-          moves.push({ from: { row: 0, col: 0 }, to: { row, col } });
-        }
-      }
-    }
-  } else {
-    // During movement phase, get all goat moves
-    for (let row = 0; row < 5; row++) {
-      for (let col = 0; col < 5; col++) {
-        if (state.board[row][col] === "goat") {
-          const validMoves = getValidMoves(state, { row, col });
-          for (const move of validMoves) {
-            moves.push({ from: { row, col }, to: move });
-          }
-        }
-      }
-    }
-  }
-
-  return moves;
-};
+// Get strategic placement positions (center and key intersections first)
+const getStrategicPlacementOrder = (): Position[] => {
+  return [
+    { row: 2, col: 2 }, // Center - most important
+    { row: 1, col: 1 }, { row: 1, col: 3 }, { row: 3, col: 1 }, { row: 3, col: 3 }, // Inner corners
+    { row: 1, col: 2 }, { row: 2, col: 1 }, { row: 2, col: 3 }, { row: 3, col: 2 }, // Cross positions
+    { row: 0, col: 1 }, { row: 0, col: 3 }, { row: 1, col: 0 }, { row: 1, col: 4 }, // Edge middles
+    { row: 3, col: 0 }, { row: 3, col: 4 }, { row: 4, col: 1 }, { row: 4, col: 3 },
+    { row: 0, col: 2 }, { row: 2, col: 0 }, { row: 2, col: 4 }, { row: 4, col: 2 }, // Remaining edges
+    { row: 4, col: 0 }, { row: 0, col: 4 }, // Far corners (avoid these, tigers start here)
+  ];
+};\n\n// Get all possible goat moves with strategic ordering\nconst getAllPossibleGoatMoves = (state: BaghChalState): Move[] => {\n  const moves: Move[] = [];\n  \n  if (state.phase === \"placement\") {\n    // Strategic placement - prioritize center and key intersections\n    const strategicOrder = getStrategicPlacementOrder();\n    \n    for (const pos of strategicOrder) {\n      if (state.board[pos.row][pos.col] === null) {\n        moves.push({ from: { row: 0, col: 0 }, to: pos });\n      }\n    }\n    \n    // Add any remaining empty positions\n    for (let row = 0; row < 5; row++) {\n      for (let col = 0; col < 5; col++) {\n        if (state.board[row][col] === null) {\n          const alreadyAdded = moves.some(move => move.to.row === row && move.to.col === col);\n          if (!alreadyAdded) {\n            moves.push({ from: { row: 0, col: 0 }, to: { row, col } });\n          }\n        }\n      }\n    }\n  } else {\n    // During movement phase, get all goat moves\n    for (let row = 0; row < 5; row++) {\n      for (let col = 0; col < 5; col++) {\n        if (state.board[row][col] === \"goat\") {\n          const validMoves = getValidMoves(state, { row, col });\n          for (const move of validMoves) {\n            moves.push({ from: { row, col }, to: move });\n          }\n        }\n      }\n    }\n  }\n  \n  return moves;\n};
 
 // Check if game is over
 const isGameOver = (state: BaghChalState): boolean => {
@@ -480,22 +463,18 @@ const evaluateForGoats = (state: BaghChalState): number => {
 
   // Goat strategy: maximize blocked tigers, minimize captures, reduce tiger mobility
   let score = 0;
-  score += blockedTigers * 10; // Reward blocking tigers
-  score -= state.goatsCaptured * 5; // Penalty for captured goats
-  score -= tigerMobility * 2; // Penalty for tiger mobility
+  score += blockedTigers * 10;  // Reward blocking tigers
+  score -= state.goatsCaptured * 5;  // Penalty for captured goats
+  score -= tigerMobility * 2;  // Penalty for tiger mobility
 
   // Bonus for winning condition
-  if (
-    blockedTigers === 4 &&
-    state.phase === "movement" &&
-    state.goatsPlaced === 20
-  ) {
-    score += 1000; // Goats win
+  if (blockedTigers === 4 && state.phase === "movement" && state.goatsPlaced === 20) {
+    score += 1000;  // Goats win
   }
 
   // Major penalty for losing
   if (state.goatsCaptured >= 5) {
-    score -= 1000; // Tigers win
+    score -= 1000;  // Tigers win
   }
 
   return score;
