@@ -263,6 +263,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen tom-ford-gradient relative overflow-x-hidden">
+      <Navigation />
       {/* Sophisticated Floating Skills Background */}
       <FloatingSkills />
 
