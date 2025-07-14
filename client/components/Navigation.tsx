@@ -158,7 +158,7 @@ const Navigation = () => {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: -10, scale: 0.95 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute top-full right-0 mt-4 w-80 bg-black/95 backdrop-blur-sm border border-white/20 rounded-sm shadow-2xl overflow-hidden"
+                      className="absolute top-full right-0 mt-4 w-96 bg-black/95 backdrop-blur-sm border border-white/20 rounded-sm shadow-2xl overflow-hidden"
                     >
                       <div className="p-2">
                         {talents.map((talent, index) => (
