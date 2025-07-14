@@ -246,28 +246,18 @@ export default function Games() {
 
   return (
     <div className="min-h-screen tom-ford-gradient relative overflow-x-hidden">
+      <Navigation />
       {/* Sophisticated Floating Skills Background */}
       <FloatingSkills />
 
       {/* Header Section */}
-      <section className="relative z-20 pt-20 pb-16">
+      <section className="relative z-20 pt-32 pb-16">
         <div className="max-w-7xl mx-auto px-8">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-12"
           >
-            <motion.button
-              onClick={() => navigate("/")}
-              whileHover={{ scale: 1.02, x: -4 }}
-              className="inline-flex items-center gap-3 mb-8 text-white/60 hover:text-yellow-400 transition-colors duration-300 font-light tracking-wider"
-            >
-              <span className="text-xl">◀</span>
-              <span className="tom-ford-subheading text-sm tracking-widest">
-                BACK TO PORTFOLIO
-              </span>
-            </motion.button>
-
             <h1 className="tom-ford-heading text-6xl md:text-8xl text-white mb-8">
               INTERACTIVE
               <br />
