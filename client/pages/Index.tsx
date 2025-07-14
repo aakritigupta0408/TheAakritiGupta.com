@@ -1,21 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Chess from "@/components/Chess";
-import BaghChal from "@/components/BaghChal";
-import Pacman from "@/components/Pacman";
-import Snake from "@/components/Snake";
-import MarioGradientDescent from "@/components/MarioGradientDescent";
-import Helicopter from "@/components/Helicopter";
+import { useNavigate } from "react-router-dom";
 import ChatBot from "@/components/ChatBot";
 import { saveEmailToLocalStorage } from "@/api/save-email";
-
-type GameTab =
-  | "chess"
-  | "bagh-chal"
-  | "pacman"
-  | "snake"
-  | "mario-gradient"
-  | "helicopter";
 
 interface FloatingSkill {
   id: string;
@@ -195,7 +182,7 @@ const FloatingSkills = () => {
 };
 
 export default function Index() {
-  const [activeGame, setActiveGame] = useState<GameTab | null>(null);
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [showEmailAdmin, setShowEmailAdmin] = useState(false);
@@ -476,11 +463,7 @@ export default function Index() {
               </motion.a>
 
               <motion.button
-                onClick={() =>
-                  document
-                    .getElementById("games")
-                    ?.scrollIntoView({ behavior: "smooth" })
-                }
+                onClick={() => navigate("/games")}
                 whileHover={{ scale: 1.02, y: -2 }}
                 className="border border-yellow-400/50 text-yellow-400 px-8 py-4 rounded-sm font-light tracking-wider hover:border-yellow-400 hover:bg-yellow-400/10 transition-all duration-300"
               >
