@@ -9,6 +9,22 @@ const Navigation = () => {
 
   const talents = [
     {
+      id: "ai-researcher",
+      title: "AI RESEARCHER",
+      subtitle: "Innovation & Discovery",
+      icon: "◆",
+      color: "from-cyan-500 to-cyan-700",
+      description: "Advanced machine learning research and AI innovation",
+    },
+    {
+      id: "social-entrepreneur",
+      title: "SOCIAL ENTREPRENEUR",
+      subtitle: "Impact & Vision",
+      icon: "◇",
+      color: "from-teal-500 to-teal-700",
+      description: "Building technology for social good and impact",
+    },
+    {
       id: "marksman",
       title: "MARKSMAN",
       subtitle: "Precision & Focus",
