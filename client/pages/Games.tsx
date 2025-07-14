@@ -128,7 +128,7 @@ const FLOATING_SKILLS: Omit<
 const FloatingSkills = () => {
   const [skills, setSkills] = useState<FloatingSkill[]>([]);
 
-  useState(() => {
+  useEffect(() => {
     // Use only original skills for less frequency
     const initialSkills = FLOATING_SKILLS.map((skill, index) => ({
       ...skill,
@@ -138,9 +138,9 @@ const FloatingSkills = () => {
       direction: Math.random() * Math.PI * 2,
     }));
     setSkills(initialSkills);
-  });
+  }, []);
 
-  useState(() => {
+  useEffect(() => {
     if (skills.length === 0) return;
 
     const animateSkills = () => {
@@ -167,7 +167,7 @@ const FloatingSkills = () => {
 
     const interval = setInterval(animateSkills, 120); // Less frequent updates
     return () => clearInterval(interval);
-  });
+  }, [skills.length]);
 
   return (
     <div className="fixed inset-0 pointer-events-none z-10 overflow-hidden">
