@@ -260,51 +260,6 @@ export default function Index() {
     return () => window.removeEventListener("keydown", handleKeyPress);
   }, [showEmailAdmin]);
 
-  const gameCards = [
-    {
-      id: "chess" as GameTab,
-      title: "CHESS",
-      description: "Strategic mastery revealing professional narratives",
-      icon: "♔",
-      accent: "border-yellow-400",
-    },
-    {
-      id: "bagh-chal" as GameTab,
-      title: "BAGH-CHAL",
-      description: "Traditional strategy with modern AI sophistication",
-      icon: "◆",
-      accent: "border-yellow-400",
-    },
-    {
-      id: "pacman" as GameTab,
-      title: "PACMAN",
-      description: "Arcade adventure unveiling professional strengths",
-      icon: "●",
-      accent: "border-yellow-400",
-    },
-    {
-      id: "snake" as GameTab,
-      title: "SNAKE",
-      description: "Journey through professional milestones",
-      icon: "◊",
-      accent: "border-yellow-400",
-    },
-    {
-      id: "mario-gradient" as GameTab,
-      title: "GRADIENT DESCENT",
-      description: "Machine learning education through interactive play",
-      icon: "▲",
-      accent: "border-yellow-400",
-    },
-    {
-      id: "helicopter" as GameTab,
-      title: "HELICOPTER",
-      description: "Navigate challenges to discover achievements",
-      icon: "🚁",
-      accent: "border-yellow-400",
-    },
-  ];
-
   return (
     <div className="min-h-screen tom-ford-gradient relative overflow-x-hidden">
       {/* Sophisticated Floating Skills Background */}
