@@ -268,7 +268,7 @@ export default function Index() {
       <FloatingSkills />
 
       {/* Hero Section - Tom Ford Style */}
-      <section className="relative z-20 min-h-screen flex items-center justify-center">
+      <section className="relative z-20 min-h-screen flex items-center justify-center pt-20">
         <div className="max-w-7xl mx-auto px-8 py-20 grid lg:grid-cols-2 gap-16 items-center">
           {/* Left Side - Sophisticated Typography */}
           <motion.div
