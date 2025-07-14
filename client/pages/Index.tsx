@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import Navigation from "@/components/Navigation";
 import ChatBot from "@/components/ChatBot";
 import { saveEmailToLocalStorage } from "@/api/save-email";
 
