@@ -1467,6 +1467,98 @@ export default function AIProjects() {
                         </p>
                       </motion.div>
 
+                      {/* Theoretical Concepts */}
+                      <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.85 }}
+                      >
+                        <h3 className="text-2xl font-black text-white mb-4">
+                          🎓 Key Theory & Concepts
+                        </h3>
+                        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 space-y-6">
+                          {/* Core Theory */}
+                          <div>
+                            <h4 className="text-lg font-bold text-cyan-300 mb-3">
+                              💡 Core Theory
+                            </h4>
+                            <p className="text-gray-200 leading-relaxed text-sm">
+                              {selectedProject.theoreticalConcepts.keyTheory}
+                            </p>
+                          </div>
+
+                          {/* Fundamentals */}
+                          <div>
+                            <h4 className="text-lg font-bold text-purple-300 mb-3">
+                              🔬 Key Fundamentals
+                            </h4>
+                            <ul className="space-y-2">
+                              {selectedProject.theoreticalConcepts.fundamentals.map(
+                                (concept, idx) => (
+                                  <li
+                                    key={idx}
+                                    className="flex items-start gap-2 text-sm text-gray-200"
+                                  >
+                                    <span className="text-pink-400 mt-1 flex-shrink-0">
+                                      •
+                                    </span>
+                                    <span>{concept}</span>
+                                  </li>
+                                ),
+                              )}
+                            </ul>
+                          </div>
+
+                          {/* Mathematical Foundations */}
+                          <div>
+                            <h4 className="text-lg font-bold text-yellow-300 mb-3">
+                              🧮 Mathematical Foundations
+                            </h4>
+                            <p className="text-gray-200 text-sm font-mono bg-black/40 p-4 rounded-xl">
+                              {
+                                selectedProject.theoreticalConcepts
+                                  .mathematicalFoundations
+                              }
+                            </p>
+                          </div>
+
+                          {/* Business Impact */}
+                          <div>
+                            <h4 className="text-lg font-bold text-green-300 mb-3">
+                              💼 Business Impact
+                            </h4>
+                            <p className="text-gray-200 leading-relaxed text-sm">
+                              {
+                                selectedProject.theoreticalConcepts
+                                  .businessImpact
+                              }
+                            </p>
+                          </div>
+
+                          {/* Important Papers */}
+                          <div>
+                            <h4 className="text-lg font-bold text-orange-300 mb-3">
+                              📚 Important Papers
+                            </h4>
+                            <ul className="space-y-2">
+                              {selectedProject.theoreticalConcepts.importantPapers.map(
+                                (paper, idx) => (
+                                  <li
+                                    key={idx}
+                                    className="flex items-start gap-2 text-sm text-gray-200"
+                                  >
+                                    <span className="text-orange-400 mt-1 flex-shrink-0">
+                                      📄
+                                    </span>
+                                    <span>{paper}</span>
+                                  </li>
+                                ),
+                              )}
+                            </ul>
+                          </div>
+                        </div>
+                      </motion.div>
+
                       {/* Key Steps */}
                       <motion.div
                         initial={{ opacity: 0, x: -30 }}
