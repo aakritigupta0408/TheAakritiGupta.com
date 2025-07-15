@@ -82,8 +82,7 @@ const learningPaths: LearningPath[] = [
   {
     id: "computer-vision-mastery",
     name: "Computer Vision Mastery",
-    description:
-      "Complete pathway from basic image classification to advanced object detection and generation",
+    description: "Complete pathway from basic image classification to advanced object detection and generation",
     projects: [1, 4, 10, 13],
     estimatedTime: "12-16 weeks",
     skills: ["CNN", "Object Detection", "Image Generation", "Medical Imaging"],
@@ -92,46 +91,28 @@ const learningPaths: LearningPath[] = [
   {
     id: "nlp-expert",
     name: "NLP Expert Path",
-    description:
-      "Master natural language processing from chatbots to advanced translation systems",
+    description: "Master natural language processing from chatbots to advanced translation systems",
     projects: [2, 5, 7, 9, 12],
     estimatedTime: "14-18 weeks",
-    skills: [
-      "Transformers",
-      "Language Models",
-      "Speech Recognition",
-      "Translation",
-    ],
+    skills: ["Transformers", "Language Models", "Speech Recognition", "Translation"],
     icon: "🗣️",
   },
   {
     id: "ml-engineer",
     name: "ML Engineering Track",
-    description:
-      "Build production-ready ML systems with modern deployment practices",
+    description: "Build production-ready ML systems with modern deployment practices",
     projects: [3, 6, 8, 11, 14],
     estimatedTime: "16-20 weeks",
-    skills: [
-      "MLOps",
-      "Recommendation Systems",
-      "Time Series",
-      "Edge Deployment",
-    ],
+    skills: ["MLOps", "Recommendation Systems", "Time Series", "Edge Deployment"],
     icon: "⚙️",
   },
   {
     id: "ai-researcher",
     name: "AI Research Path",
-    description:
-      "Dive deep into cutting-edge AI research and advanced algorithms",
+    description: "Dive deep into cutting-edge AI research and advanced algorithms",
     projects: [10, 11, 12, 13],
     estimatedTime: "20-24 weeks",
-    skills: [
-      "GANs",
-      "Reinforcement Learning",
-      "Medical AI",
-      "Research Methods",
-    ],
+    skills: ["GANs", "Reinforcement Learning", "Medical AI", "Research Methods"],
     icon: "🔬",
   },
 ];
@@ -141,8 +122,7 @@ const projectTemplates: ProjectTemplate[] = [
     id: "image-classifier-starter",
     projectId: 1,
     name: "Image Classification Starter Kit",
-    description:
-      "Complete PyTorch template with data loading, training, and evaluation",
+    description: "Complete PyTorch template with data loading, training, and evaluation",
     githubUrl: "https://github.com/ai-templates/image-classification-starter",
     technologies: ["PyTorch", "Torchvision", "Matplotlib", "Jupyter"],
     difficulty: "Beginner",
@@ -278,27 +258,27 @@ for epoch in range(epochs):
         loss = criterion(outputs, batch['label'])
         loss.backward()
         optimizer.step()`,
-    icon: "📸",
+        icon: "📸",
     tags: ["CNN", "Transfer Learning", "PyTorch", "Classification"],
     prerequisites: [
       "Basic Python programming",
       "Linear algebra fundamentals",
       "Basic understanding of neural networks",
-      "Familiarity with image data formats",
+      "Familiarity with image data formats"
     ],
     learningOutcomes: [
       "Build and train convolutional neural networks",
       "Apply transfer learning techniques",
       "Implement data augmentation strategies",
       "Deploy image classification models",
-      "Evaluate model performance with proper metrics",
+      "Evaluate model performance with proper metrics"
     ],
     careerPaths: [
       "Computer Vision Engineer",
       "ML Engineer",
       "AI Research Scientist",
       "Data Scientist",
-      "Autonomous Vehicle Engineer",
+      "Autonomous Vehicle Engineer"
     ],
     industryDemand: "Very High",
     salaryRange: "$95,000 - $180,000",
@@ -314,7 +294,7 @@ for epoch in range(epochs):
         "CNNs use translation-invariant filters that share weights across spatial locations, enabling efficient feature detection regardless of object position. The hierarchical architecture learns increasingly complex features: edges → shapes → objects → concepts.",
       mathematicalFoundations:
         "Convolution operation: (f * g)(x,y) = Σ Σ f(i,j) × g(x-i, y-j). Backpropagation through convolution layers requires computing gradients w.r.t filters and inputs using chain rule.",
-      importantPapers: [
+            importantPapers: [
         "LeNet-5 (LeCun et al., 1998) - First CNN for digit recognition",
         "AlexNet (Krizhevsky et al., 2012) - Breakthrough in ImageNet competition using ReLU and dropout",
         "VGGNet (Simonyan & Zisserman, 2014) - Deep networks with small 3x3 filters",
@@ -451,28 +431,28 @@ def generate_response(input_text, chat_history_ids=None):
     )
     
     return tokenizer.decode(chat_history_ids[:, bot_input_ids.shape[-1]:][0], skip_special_tokens=True)`,
-    icon: "💬",
+        icon: "💬",
     tags: ["NLP", "Transformers", "GPT", "Conversational AI"],
     prerequisites: [
       "Python programming proficiency",
       "Basic NLP concepts",
       "Understanding of neural networks",
       "API development experience",
-      "Database fundamentals",
+      "Database fundamentals"
     ],
     learningOutcomes: [
       "Build conversational AI systems",
       "Implement attention mechanisms",
       "Fine-tune large language models",
       "Create production chatbot pipelines",
-      "Handle multi-turn conversations",
+      "Handle multi-turn conversations"
     ],
     careerPaths: [
       "NLP Engineer",
       "Conversational AI Developer",
       "AI Product Manager",
       "Chatbot Architect",
-      "AI Research Scientist",
+      "AI Research Scientist"
     ],
     industryDemand: "Very High",
     salaryRange: "$100,000 - $190,000",
@@ -1525,7 +1505,7 @@ print(f"Transcription: {transcription}")`,
       "Evaluate with FID, IS, and visual quality",
       "Fine-tune and condition on specific domains",
     ],
-    resources: [
+        resources: [
       {
         name: "PyTorch GAN Zoo",
         type: "Framework",
@@ -1933,7 +1913,7 @@ trained_agent = train_dqn_agent()`,
       "Train with teacher forcing",
       "Evaluate with BLEU score and human evaluation",
     ],
-    resources: [
+        resources: [
       {
         name: "Google Translate API",
         type: "API",
@@ -1985,8 +1965,7 @@ trained_agent = train_dqn_agent()`,
       {
         name: "Attention Mechanism Paper",
         type: "Paper",
-        description:
-          "Neural Machine Translation by Jointly Learning to Align and Translate",
+        description: "Neural Machine Translation by Jointly Learning to Align and Translate",
         link: "https://arxiv.org/abs/1409.0473",
         pricing: "Free",
         category: "Academic",
@@ -1994,8 +1973,7 @@ trained_agent = train_dqn_agent()`,
       {
         name: "Multilingual BERT Paper",
         type: "Paper",
-        description:
-          "Multilingual BERT for Cross-lingual Language Understanding",
+        description: "Multilingual BERT for Cross-lingual Language Understanding",
         link: "https://arxiv.org/abs/1904.09077",
         pricing: "Free",
         category: "Academic",
@@ -2196,7 +2174,7 @@ for en, fr in zip(english_texts, french_translations):
       "Apply medical-specific data augmentation",
       "Evaluate with medical metrics and expert validation",
     ],
-    resources: [
+        resources: [
       {
         name: "NIH Chest X-ray Dataset",
         type: "Dataset",
@@ -2441,7 +2419,7 @@ train_medical_model()`,
       keyTheory:
         "Medical image analysis applies computer vision to healthcare, requiring domain expertise for proper preprocessing, validation, and clinical integration. Models must handle class imbalance and provide interpretable results for medical professionals.",
       mathematicalFoundations:
-        "Weighted BCE Loss: L = -Σᵢ wᵢ[yᵢlog(p̂ᵢ) + (1-yᵢ)log(1-p̂ᵢ)]. AUC-ROC for diagnostic performance evaluation. Dice coefficient for segmentation: 2|A∩B|/(|A|+|B|)",
+        "Weighted BCE Loss: L = -Σᵢ wᵢ[yᵢlog(p̂��) + (1-yᵢ)log(1-p̂ᵢ)]. AUC-ROC for diagnostic performance evaluation. Dice coefficient for segmentation: 2|A∩B|/(|A|+|B|)",
       importantPapers: [
         "ChexNet (2017) - Radiologist-level pneumonia detection",
         "Dermatologist-level classification (2017) - Skin cancer detection",
@@ -2728,13 +2706,9 @@ export default function AIProjects() {
   const [filterCategory, setFilterCategory] = useState<string>("All");
   const [filterDifficulty, setFilterDifficulty] = useState<string>("All");
   const [showCode, setShowCode] = useState<{ [key: number]: boolean }>({});
-  const [activeTab, setActiveTab] = useState<
-    "projects" | "pathways" | "analytics"
-  >("projects");
+  const [activeTab, setActiveTab] = useState<"projects" | "pathways" | "analytics">("projects");
   const [selectedPath, setSelectedPath] = useState<LearningPath | null>(null);
-  const [completedProjects, setCompletedProjects] = useState<Set<number>>(
-    new Set(),
-  );
+  const [completedProjects, setCompletedProjects] = useState<Set<number>>(new Set());
   const [showQuiz, setShowQuiz] = useState<boolean>(false);
 
   const categories = [
@@ -2784,7 +2758,7 @@ export default function AIProjects() {
       <Navigation />
 
       <div className="container mx-auto px-6 py-12">
-        {/* Enhanced Header */}
+                {/* Enhanced Header */}
         <div className="text-center mb-16 relative z-10">
           <motion.div
             className="inline-block p-1 rounded-full bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 mb-8"
@@ -2806,16 +2780,8 @@ export default function AIProjects() {
           >
             {[
               { id: "projects", label: "🚀 Projects", desc: "Browse & Learn" },
-              {
-                id: "pathways",
-                label: "🗺️ Learning Paths",
-                desc: "Structured Routes",
-              },
-              {
-                id: "analytics",
-                label: "📊 Analytics",
-                desc: "Track Progress",
-              },
+              { id: "pathways", label: "🗺️ Learning Paths", desc: "Structured Routes" },
+              { id: "analytics", label: "📊 Analytics", desc: "Track Progress" }
             ].map((tab) => (
               <motion.button
                 key={tab.id}
@@ -2921,7 +2887,187 @@ export default function AIProjects() {
           </motion.div>
         </div>
 
+                {/* Learning Pathways Section */}
+        {activeTab === "pathways" && (
+          <motion.div
+            className="mb-12 relative z-10"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-black text-white mb-4">🗺️ Learning Pathways</h2>
+              <p className="text-xl text-gray-200 max-w-3xl mx-auto">
+                Structured learning routes designed by AI experts. Follow curated pathways to master specific AI domains with proven project sequences.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+              {learningPaths.map((path, index) => (
+                <motion.div
+                  key={path.id}
+                  className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300 cursor-pointer group"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ scale: 1.02, y: -5 }}
+                  onClick={() => setSelectedPath(path)}
+                >
+                  <div className="flex items-start gap-6">
+                    <div className="text-6xl">{path.icon}</div>
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-black text-white mb-3 group-hover:text-cyan-300 transition-colors">
+                        {path.name}
+                      </h3>
+                      <p className="text-gray-200 mb-4">{path.description}</p>
+
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {path.skills.map((skill, idx) => (
+                          <span
+                            key={idx}
+                            className="text-xs bg-purple-500/30 text-purple-200 px-3 py-1 rounded-full border border-purple-400/50"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-300">
+                          ⏱️ {path.estimatedTime}
+                        </span>
+                        <span className="text-sm text-cyan-300 font-bold">
+                          {path.projects.length} Projects →
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Path Details Modal */}
+            <AnimatePresence>
+              {selectedPath && (
+                <motion.div
+                  className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setSelectedPath(null)}
+                >
+                  <motion.div
+                    className="bg-gradient-to-br from-violet-900/95 via-indigo-900/95 to-cyan-900/95 backdrop-blur-xl rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-white/20 p-8"
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.8, opacity: 0 }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="flex justify-between items-start mb-8">
+                      <div className="flex items-center gap-4">
+                        <span className="text-6xl">{selectedPath.icon}</span>
+                        <div>
+                          <h2 className="text-3xl font-black text-white">{selectedPath.name}</h2>
+                          <p className="text-gray-200">{selectedPath.description}</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setSelectedPath(null)}
+                        className="text-white hover:text-red-400 text-2xl"
+                      >
+                        ×
+                      </button>
+                    </div>
+
+                    <div className="space-y-4">
+                      <h3 className="text-xl font-bold text-white mb-4">📋 Learning Sequence</h3>
+                      {selectedPath.projects.map((projectId, idx) => {
+                        const project = projects.find(p => p.id === projectId);
+                        if (!project) return null;
+
+                        return (
+                          <div
+                            key={projectId}
+                            className="bg-white/10 rounded-xl p-4 border border-white/20"
+                          >
+                            <div className="flex items-center gap-4">
+                              <span className="w-8 h-8 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-full flex items-center justify-center font-bold">
+                                {idx + 1}
+                              </span>
+                              <span className="text-2xl">{project.icon}</span>
+                              <div>
+                                <h4 className="font-bold text-white">{project.title}</h4>
+                                <p className="text-sm text-gray-300">{project.timeToComplete}</p>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        )}
+
+        {/* Analytics Section */}
+        {activeTab === "analytics" && (
+          <motion.div
+            className="mb-12 relative z-10"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-black text-white mb-4">📊 Learning Analytics</h2>
+              <p className="text-xl text-gray-200 max-w-3xl mx-auto">
+                Track your AI learning journey with comprehensive analytics and insights.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+              {[
+                { label: "Projects Completed", value: `${completedProjects.size}/${projects.length}`, icon: "✅", color: "green" },
+                { label: "Hours Invested", value: "127h", icon: "⏰", color: "blue" },
+                { label: "Skills Mastered", value: "23", icon: "🎯", color: "purple" },
+                { label: "Pathways Progress", value: "2/4", icon: "🗺️", color: "cyan" }
+              ].map((stat, idx) => (
+                <motion.div
+                  key={idx}
+                  className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <div className="text-3xl mb-3">{stat.icon}</div>
+                  <div className="text-2xl font-black text-white mb-1">{stat.value}</div>
+                  <div className="text-sm text-gray-300">{stat.label}</div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Skill Assessment */}
+            <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20 mb-8">
+              <h3 className="text-2xl font-black text-white mb-6">🧠 Skill Assessment</h3>
+              <p className="text-gray-200 mb-6">
+                Test your knowledge with AI-powered assessments tailored to your learning path.
+              </p>
+              <motion.button
+                onClick={() => setShowQuiz(true)}
+                className="px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-2xl font-bold hover:from-green-600 hover:to-emerald-700 transition-all duration-300"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                🚀 Start Assessment
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+
         {/* Filters */}
+        {activeTab === "projects" && (
         <div className="mb-12 space-y-6 relative z-10">
           {/* Clear All Filters Button */}
           {(filterCategory !== "All" || filterDifficulty !== "All") && (
@@ -3239,7 +3385,7 @@ export default function AIProjects() {
                   animate={{ rotate: [0, 10, -10, 0] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
-                  🔍
+                  ���
                 </motion.div>
                 <h3 className="text-3xl font-black text-white mb-4">
                   No Projects Found
@@ -3566,7 +3712,7 @@ export default function AIProjects() {
                               transition={{ delay: 0.6 + idx * 0.1 }}
                               whileHover={{ scale: 1.02, y: -5 }}
                             >
-                              <div className="flex justify-between items-start mb-4">
+                                                            <div className="flex justify-between items-start mb-4">
                                 <div>
                                   <h4 className="font-black text-white text-lg group-hover:text-cyan-300 transition-colors">
                                     {resource.name}
