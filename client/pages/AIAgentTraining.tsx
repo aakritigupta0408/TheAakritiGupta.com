@@ -1251,7 +1251,7 @@ Week 7-8: Production deployment and monitoring
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5 }}
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {aiAgentExamples.map((example, index) => (
                   <motion.div
                     key={example.id}
