@@ -727,6 +727,7 @@ const trainingTechniques: TrainingTechnique[] = [
       "Train agents through reward-based learning using human preferences and feedback",
     icon: <FaBrain className="text-blue-400" />,
     keyPoints: [
+      "RLHF uses human feedback to train reward models that guide AI behavior, making agents more helpful and aligned with human values.",
       "Human evaluators rank agent responses",
       "Reward model learns from preferences",
       "Agent optimizes for higher reward scores",
