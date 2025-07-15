@@ -79,6 +79,7 @@ const Navigation = () => {
     { path: "/ai-tools", label: "AI TOOLS", emoji: "🛠️" },
     { path: "/ai-companies", label: "AI COMPANIES", emoji: "🏢" },
     { path: "/ai-projects", label: "AI PROJECTS", emoji: "🚀" },
+    { path: "/prompt-engineering", label: "PROMPT MASTERY", emoji: "✨" },
   ];
 
   // Simulated Perplexity search function
