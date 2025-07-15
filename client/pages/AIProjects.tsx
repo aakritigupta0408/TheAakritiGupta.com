@@ -952,6 +952,1249 @@ print(f"Autoencoder anomalies: {np.sum(anomalies_ae)}")`,
         "Prevents fraud saving billions annually, detects cyber threats in real-time, identifies equipment failures before costly breakdowns, and ensures system reliability.",
     },
   },
+  {
+    id: 9,
+    title: "Speech Recognition",
+    category: "Natural Language Processing",
+    description:
+      "Convert spoken language to text using deep learning models for voice interfaces and transcription.",
+    difficulty: "Intermediate",
+    timeToComplete: "3-4 weeks",
+    useCases: [
+      "Voice assistants and smart speakers",
+      "Automated transcription services",
+      "Voice-controlled applications",
+      "Accessibility tools for hearing impaired",
+      "Call center automation",
+    ],
+    trainingApproach:
+      "Use pre-trained models like Wav2Vec2, Whisper, or train custom models with CTC/attention mechanisms on speech datasets.",
+    keySteps: [
+      "Collect and preprocess audio data",
+      "Feature extraction (MFCC, spectrograms)",
+      "Choose architecture (Transformer, RNN-T)",
+      "Train with CTC/attention loss",
+      "Post-processing and language models",
+      "Deploy real-time inference pipeline",
+    ],
+    resources: [
+      {
+        name: "OpenAI Whisper",
+        type: "Model",
+        description: "State-of-the-art multilingual speech recognition",
+        link: "https://github.com/openai/whisper",
+        pricing: "Free",
+      },
+      {
+        name: "Google Speech-to-Text API",
+        type: "API",
+        description: "Cloud-based speech recognition service",
+        link: "https://cloud.google.com/speech-to-text",
+        pricing: "$0.006 per 15 seconds",
+      },
+      {
+        name: "Common Voice Dataset",
+        type: "Dataset",
+        description: "Mozilla's open source voice dataset",
+        link: "https://commonvoice.mozilla.org/",
+        pricing: "Free",
+      },
+    ],
+    codeExample: `import whisper
+import torch
+import librosa
+import numpy as np
+
+# Load Whisper model
+model = whisper.load_model("base")
+
+def transcribe_audio(audio_path, language=None):
+    # Load and preprocess audio
+    audio = whisper.load_audio(audio_path)
+    audio = whisper.pad_or_trim(audio)
+
+    # Create mel spectrogram
+    mel = whisper.log_mel_spectrogram(audio).to(model.device)
+
+    # Detect language if not specified
+    if language is None:
+        _, probs = model.detect_language(mel)
+        language = max(probs, key=probs.get)
+        print(f"Detected language: {language}")
+
+    # Decode audio
+    options = whisper.DecodingOptions(language=language)
+    result = whisper.decode(model, mel, options)
+
+    return result.text
+
+# Real-time speech recognition
+import pyaudio
+import threading
+
+class RealTimeSpeechRecognizer:
+    def __init__(self, model_size="base"):
+        self.model = whisper.load_model(model_size)
+        self.is_listening = False
+
+    def start_listening(self, duration=5):
+        self.is_listening = True
+
+        # Audio recording parameters
+        CHUNK = 1024
+        FORMAT = pyaudio.paInt16
+        CHANNELS = 1
+        RATE = 16000
+
+        p = pyaudio.PyAudio()
+        stream = p.open(format=FORMAT,
+                       channels=CHANNELS,
+                       rate=RATE,
+                       input=True,
+                       frames_per_buffer=CHUNK)
+
+        print("Listening...")
+        frames = []
+
+        for _ in range(0, int(RATE / CHUNK * duration)):
+            if not self.is_listening:
+                break
+            data = stream.read(CHUNK)
+            frames.append(data)
+
+        stream.stop_stream()
+        stream.close()
+        p.terminate()
+
+        # Convert to numpy array
+        audio_data = np.frombuffer(b''.join(frames), dtype=np.int16)
+        audio_data = audio_data.astype(np.float32) / 32768.0
+
+        # Transcribe
+        result = self.model.transcribe(audio_data)
+        return result["text"]
+
+    def stop_listening(self):
+        self.is_listening = False
+
+# Example usage
+recognizer = RealTimeSpeechRecognizer()
+transcription = recognizer.start_listening(duration=10)
+print(f"Transcription: {transcription}")`,
+    icon: "🎤",
+    tags: ["Speech Recognition", "Whisper", "Audio Processing", "ASR"],
+    theoreticalConcepts: {
+      fundamentals: [
+        "Acoustic Features - MFCC, mel spectrograms convert audio to learnable representations",
+        "Connectionist Temporal Classification (CTC) - Aligns variable-length audio to text sequences",
+        "Attention Mechanisms - Focus on relevant audio segments during decoding",
+        "Language Models - Improve accuracy by incorporating linguistic context",
+        "Wav2Vec2 - Self-supervised learning from raw audio waveforms",
+      ],
+      keyTheory:
+        "Speech recognition transforms acoustic signals into text through feature extraction, sequence modeling, and language understanding. Modern approaches use transformer architectures with attention to align audio frames with text tokens efficiently.",
+      mathematicalFoundations:
+        "CTC Loss: L = -log(∑π∈B⁻¹(y) ∏ᵗ p(πₜ|x)). Attention: αᵢⱼ = exp(eᵢⱼ)/∑ₖ exp(eᵢₖ) where eᵢⱼ = score(sᵢ₋₁, hⱼ)",
+      importantPapers: [
+        "Deep Speech (2014) - End-to-end deep learning for speech",
+        "Listen, Attend and Spell (2015) - Attention-based speech recognition",
+        "Wav2Vec2.0 (2020) - Self-supervised speech representation learning",
+        "Whisper (2022) - Robust speech recognition via large-scale weak supervision",
+      ],
+      businessImpact:
+        "Powers voice assistants used by billions, enables hands-free computing, automates transcription reducing costs by 80%+, and provides accessibility solutions for disabilities.",
+    },
+  },
+  {
+    id: 10,
+    title: "Generative Adversarial Networks (GANs)",
+    category: "Computer Vision",
+    description:
+      "Generate realistic images, videos, and data using adversarial training between generator and discriminator networks.",
+    difficulty: "Advanced",
+    timeToComplete: "4-6 weeks",
+    useCases: [
+      "Synthetic data generation",
+      "Image super-resolution",
+      "Style transfer and art creation",
+      "Face generation and deepfakes",
+      "Data augmentation for training",
+    ],
+    trainingApproach:
+      "Train generator and discriminator networks adversarially. Use techniques like progressive growing, spectral normalization, and self-attention for stable training.",
+    keySteps: [
+      "Design generator and discriminator architectures",
+      "Implement adversarial loss functions",
+      "Balance training between G and D networks",
+      "Apply training stabilization techniques",
+      "Evaluate with FID, IS, and visual quality",
+      "Fine-tune and condition on specific domains",
+    ],
+    resources: [
+      {
+        name: "PyTorch GAN Zoo",
+        type: "Framework",
+        description: "Collection of GAN implementations",
+        link: "https://github.com/facebookresearch/pytorch_GAN_zoo",
+        pricing: "Free",
+      },
+      {
+        name: "CelebA Dataset",
+        type: "Dataset",
+        description: "200K celebrity face images",
+        link: "http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html",
+        pricing: "Free",
+      },
+      {
+        name: "StyleGAN3",
+        type: "Model",
+        description: "NVIDIA's state-of-the-art image generation",
+        link: "https://github.com/NVlabs/stylegan3",
+        pricing: "Free",
+      },
+    ],
+    codeExample: `import torch
+import torch.nn as nn
+import torch.optim as optim
+import torchvision.transforms as transforms
+from torch.utils.data import DataLoader
+
+class Generator(nn.Module):
+    def __init__(self, latent_dim=100, img_channels=3, features_g=64):
+        super(Generator, self).__init__()
+        self.net = nn.Sequential(
+            # Input: N x latent_dim x 1 x 1
+            self._block(latent_dim, features_g * 16, 4, 1, 0),  # 4x4
+            self._block(features_g * 16, features_g * 8, 4, 2, 1),  # 8x8
+            self._block(features_g * 8, features_g * 4, 4, 2, 1),  # 16x16
+            self._block(features_g * 4, features_g * 2, 4, 2, 1),  # 32x32
+            nn.ConvTranspose2d(features_g * 2, img_channels, 4, 2, 1),  # 64x64
+            nn.Tanh()
+        )
+
+    def _block(self, in_channels, out_channels, kernel_size, stride, padding):
+        return nn.Sequential(
+            nn.ConvTranspose2d(in_channels, out_channels, kernel_size, stride, padding, bias=False),
+            nn.BatchNorm2d(out_channels),
+            nn.ReLU(True)
+        )
+
+    def forward(self, x):
+        return self.net(x)
+
+class Discriminator(nn.Module):
+    def __init__(self, img_channels=3, features_d=64):
+        super(Discriminator, self).__init__()
+        self.net = nn.Sequential(
+            # Input: N x img_channels x 64 x 64
+            nn.Conv2d(img_channels, features_d, 4, 2, 1),  # 32x32
+            nn.LeakyReLU(0.2),
+            self._block(features_d, features_d * 2, 4, 2, 1),  # 16x16
+            self._block(features_d * 2, features_d * 4, 4, 2, 1),  # 8x8
+            self._block(features_d * 4, features_d * 8, 4, 2, 1),  # 4x4
+            nn.Conv2d(features_d * 8, 1, 4, 2, 0),  # 1x1
+            nn.Sigmoid()
+        )
+
+    def _block(self, in_channels, out_channels, kernel_size, stride, padding):
+        return nn.Sequential(
+            nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding, bias=False),
+            nn.BatchNorm2d(out_channels),
+            nn.LeakyReLU(0.2)
+        )
+
+    def forward(self, x):
+        return self.net(x).view(-1, 1).squeeze(1)
+
+# Training function
+def train_gan(generator, discriminator, dataloader, num_epochs=100, lr=0.0002):
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    # Loss and optimizers
+    criterion = nn.BCELoss()
+    opt_gen = optim.Adam(generator.parameters(), lr=lr, betas=(0.5, 0.999))
+    opt_disc = optim.Adam(discriminator.parameters(), lr=lr, betas=(0.5, 0.999))
+
+    # Training loop
+    for epoch in range(num_epochs):
+        for batch_idx, (real, _) in enumerate(dataloader):
+            real = real.to(device)
+            batch_size = real.shape[0]
+
+            # Train Discriminator
+            noise = torch.randn(batch_size, 100, 1, 1).to(device)
+            fake = generator(noise)
+
+            disc_real = discriminator(real).view(-1)
+            disc_fake = discriminator(fake.detach()).view(-1)
+
+            loss_disc_real = criterion(disc_real, torch.ones_like(disc_real))
+            loss_disc_fake = criterion(disc_fake, torch.zeros_like(disc_fake))
+            loss_disc = (loss_disc_real + loss_disc_fake) / 2
+
+            discriminator.zero_grad()
+            loss_disc.backward()
+            opt_disc.step()
+
+            # Train Generator
+            output = discriminator(fake).view(-1)
+            loss_gen = criterion(output, torch.ones_like(output))
+
+            generator.zero_grad()
+            loss_gen.backward()
+            opt_gen.step()
+
+            if batch_idx % 100 == 0:
+                print(f"Epoch [{epoch}/{num_epochs}] Batch [{batch_idx}/{len(dataloader)}] "
+                      f"Loss D: {loss_disc:.4f}, Loss G: {loss_gen:.4f}")
+
+# Initialize models
+latent_dim = 100
+generator = Generator(latent_dim)
+discriminator = Discriminator()`,
+    icon: "🎨",
+    tags: ["GANs", "Image Generation", "Adversarial Training", "Deep Learning"],
+    theoreticalConcepts: {
+      fundamentals: [
+        "Adversarial Training - Generator creates fake data, discriminator learns to detect it",
+        "Nash Equilibrium - Both networks reach optimal strategy where neither can improve",
+        "Mode Collapse - Generator produces limited variety, common training issue",
+        "Wasserstein Distance - Better loss function for stable GAN training",
+        "Progressive Growing - Gradually increase resolution for high-quality generation",
+      ],
+      keyTheory:
+        "GANs use game theory where generator and discriminator compete in a minimax game. The generator learns to map noise to realistic data by fooling an adversarially trained discriminator that distinguishes real from fake samples.",
+      mathematicalFoundations:
+        "GAN objective: min_G max_D E[log D(x)] + E[log(1-D(G(z)))]. Wasserstein distance: W(P_r, P_g) = inf_γ E[(x,y)~γ][||x-y||]",
+      importantPapers: [
+        "Generative Adversarial Networks (2014) - Original GAN paper",
+        "DCGAN (2015) - Deep convolutional GANs",
+        "WGAN (2017) - Wasserstein GANs for stable training",
+        "StyleGAN (2019) - High-quality image generation with style control",
+      ],
+      businessImpact:
+        "Creates synthetic data worth billions for training AI, generates realistic media for entertainment, enables virtual try-ons in e-commerce, and produces art selling for millions in NFT markets.",
+    },
+  },
+  {
+    id: 11,
+    title: "Reinforcement Learning Agent",
+    category: "Machine Learning",
+    description:
+      "Train intelligent agents to make decisions in environments through trial and error learning.",
+    difficulty: "Advanced",
+    timeToComplete: "5-8 weeks",
+    useCases: [
+      "Game playing (chess, Go, video games)",
+      "Autonomous vehicle control",
+      "Robot navigation and manipulation",
+      "Trading and portfolio optimization",
+      "Resource allocation and scheduling",
+    ],
+    trainingApproach:
+      "Use Q-learning, policy gradients, or actor-critic methods. Train agents in simulated environments with reward shaping and exploration strategies.",
+    keySteps: [
+      "Define environment and state/action spaces",
+      "Design reward function and episode structure",
+      "Choose RL algorithm (DQN, PPO, A3C)",
+      "Implement experience replay and exploration",
+      "Train with environment interaction",
+      "Evaluate and fine-tune policy performance",
+    ],
+    resources: [
+      {
+        name: "OpenAI Gym",
+        type: "Framework",
+        description: "Standard RL environment interface",
+        link: "https://gym.openai.com/",
+        pricing: "Free",
+      },
+      {
+        name: "Stable Baselines3",
+        type: "Framework",
+        description: "Reliable RL algorithm implementations",
+        link: "https://stable-baselines3.readthedocs.io/",
+        pricing: "Free",
+      },
+      {
+        name: "Unity ML-Agents",
+        type: "Framework",
+        description: "Train agents in Unity environments",
+        link: "https://unity.com/products/machine-learning-agents",
+        pricing: "Free",
+      },
+    ],
+    codeExample: `import gym
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import numpy as np
+from collections import deque
+import random
+
+class DQN(nn.Module):
+    def __init__(self, state_size, action_size, hidden_size=128):
+        super(DQN, self).__init__()
+        self.network = nn.Sequential(
+            nn.Linear(state_size, hidden_size),
+            nn.ReLU(),
+            nn.Linear(hidden_size, hidden_size),
+            nn.ReLU(),
+            nn.Linear(hidden_size, hidden_size),
+            nn.ReLU(),
+            nn.Linear(hidden_size, action_size)
+        )
+
+    def forward(self, x):
+        return self.network(x)
+
+class DQNAgent:
+    def __init__(self, state_size, action_size, lr=0.001, gamma=0.99,
+                 epsilon=1.0, epsilon_decay=0.995, epsilon_min=0.01):
+        self.state_size = state_size
+        self.action_size = action_size
+        self.memory = deque(maxlen=10000)
+        self.gamma = gamma
+        self.epsilon = epsilon
+        self.epsilon_decay = epsilon_decay
+        self.epsilon_min = epsilon_min
+
+        # Neural networks
+        self.q_network = DQN(state_size, action_size)
+        self.target_network = DQN(state_size, action_size)
+        self.optimizer = optim.Adam(self.q_network.parameters(), lr=lr)
+
+        # Initialize target network
+        self.update_target_network()
+
+    def update_target_network(self):
+        self.target_network.load_state_dict(self.q_network.state_dict())
+
+    def remember(self, state, action, reward, next_state, done):
+        self.memory.append((state, action, reward, next_state, done))
+
+    def act(self, state):
+        if np.random.random() <= self.epsilon:
+            return random.choice(np.arange(self.action_size))
+
+        state_tensor = torch.FloatTensor(state).unsqueeze(0)
+        q_values = self.q_network(state_tensor)
+        return np.argmax(q_values.cpu().data.numpy())
+
+    def replay(self, batch_size=32):
+        if len(self.memory) < batch_size:
+            return
+
+        batch = random.sample(self.memory, batch_size)
+        states = torch.FloatTensor([e[0] for e in batch])
+        actions = torch.LongTensor([e[1] for e in batch])
+        rewards = torch.FloatTensor([e[2] for e in batch])
+        next_states = torch.FloatTensor([e[3] for e in batch])
+        dones = torch.BoolTensor([e[4] for e in batch])
+
+        current_q_values = self.q_network(states).gather(1, actions.unsqueeze(1))
+        next_q_values = self.target_network(next_states).max(1)[0].detach()
+        target_q_values = rewards + (self.gamma * next_q_values * ~dones)
+
+        loss = nn.MSELoss()(current_q_values.squeeze(), target_q_values)
+
+        self.optimizer.zero_grad()
+        loss.backward()
+        self.optimizer.step()
+
+        if self.epsilon > self.epsilon_min:
+            self.epsilon *= self.epsilon_decay
+
+# Training loop
+def train_dqn_agent():
+    env = gym.make('CartPole-v1')
+    state_size = env.observation_space.shape[0]
+    action_size = env.action_space.n
+
+    agent = DQNAgent(state_size, action_size)
+    scores = deque(maxlen=100)
+
+    for episode in range(2000):
+        state = env.reset()
+        total_reward = 0
+
+        for time in range(500):
+            action = agent.act(state)
+            next_state, reward, done, _ = env.step(action)
+            agent.remember(state, action, reward, next_state, done)
+
+            state = next_state
+            total_reward += reward
+
+            if done:
+                break
+
+            if len(agent.memory) > 32:
+                agent.replay(32)
+
+        scores.append(total_reward)
+
+        if episode % 100 == 0:
+            agent.update_target_network()
+            print(f"Episode {episode}, Average Score: {np.mean(scores):.2f}, Epsilon: {agent.epsilon:.2f}")
+
+        if np.mean(scores) >= 195.0:
+            print(f"Environment solved in {episode} episodes!")
+            break
+
+    return agent
+
+# Run training
+trained_agent = train_dqn_agent()`,
+    icon: "🤖",
+    tags: ["Reinforcement Learning", "DQN", "Policy Gradients", "Game AI"],
+    theoreticalConcepts: {
+      fundamentals: [
+        "Markov Decision Process - Mathematical framework for sequential decision making",
+        "Q-Learning - Learn action-value function to estimate long-term rewards",
+        "Policy Gradients - Directly optimize policy parameters using gradient ascent",
+        "Exploration vs Exploitation - Balance between trying new actions and using known good ones",
+        "Temporal Difference Learning - Update value estimates using observed rewards",
+      ],
+      keyTheory:
+        "Reinforcement learning optimizes sequential decision making through trial and error. Agents learn optimal policies by maximizing cumulative rewards while exploring the environment to discover better strategies.",
+      mathematicalFoundations:
+        "Bellman equation: Q(s,a) = E[r + γ max Q(s',a')]. Policy gradient: ∇θ J(θ) = E[∇θ log π(a|s)Q(s,a)]",
+      importantPapers: [
+        "Q-Learning (1989) - Model-free reinforcement learning",
+        "DQN (2015) - Deep Q-Networks for Atari games",
+        "AlphaGo (2016) - Combining tree search with deep RL",
+        "PPO (2017) - Proximal policy optimization",
+      ],
+      businessImpact:
+        "Powers game AI defeating world champions, optimizes data center cooling saving 40%+ energy, enables autonomous vehicles, and automates trading generating billions in profits.",
+    },
+  },
+  {
+    id: 12,
+    title: "Neural Machine Translation",
+    category: "Natural Language Processing",
+    description:
+      "Translate text between languages using sequence-to-sequence models with attention mechanisms.",
+    difficulty: "Advanced",
+    timeToComplete: "4-6 weeks",
+    useCases: [
+      "Real-time language translation",
+      "Document translation services",
+      "Multilingual customer support",
+      "Content localization",
+      "Cross-language information retrieval",
+    ],
+    trainingApproach:
+      "Use transformer-based sequence-to-sequence models with attention. Train on parallel corpora with techniques like back-translation and multilingual training.",
+    keySteps: [
+      "Collect parallel translation datasets",
+      "Tokenization and vocabulary creation",
+      "Build encoder-decoder architecture",
+      "Implement attention mechanisms",
+      "Train with teacher forcing",
+      "Evaluate with BLEU score and human evaluation",
+    ],
+    resources: [
+      {
+        name: "Google Translate API",
+        type: "API",
+        description: "Production-ready translation service",
+        link: "https://cloud.google.com/translate",
+        pricing: "$20 per 1M characters",
+      },
+      {
+        name: "WMT Translation Datasets",
+        type: "Dataset",
+        description: "Annual workshop parallel corpora",
+        link: "http://www.statmt.org/wmt21/",
+        pricing: "Free",
+      },
+      {
+        name: "MarianMT",
+        type: "Model",
+        description: "Fast neural machine translation models",
+        link: "https://huggingface.co/Helsinki-NLP",
+        pricing: "Free",
+      },
+    ],
+    codeExample: `from transformers import MarianMTModel, MarianTokenizer
+import torch
+import torch.nn as nn
+from torch.utils.data import Dataset, DataLoader
+
+class TranslationDataset(Dataset):
+    def __init__(self, src_texts, tgt_texts, tokenizer, max_length=128):
+        self.src_texts = src_texts
+        self.tgt_texts = tgt_texts
+        self.tokenizer = tokenizer
+        self.max_length = max_length
+
+    def __len__(self):
+        return len(self.src_texts)
+
+    def __getitem__(self, idx):
+        src_text = str(self.src_texts[idx])
+        tgt_text = str(self.tgt_texts[idx])
+
+        # Tokenize source and target
+        src_encoding = self.tokenizer(
+            src_text,
+            max_length=self.max_length,
+            padding='max_length',
+            truncation=True,
+            return_tensors='pt'
+        )
+
+        tgt_encoding = self.tokenizer(
+            tgt_text,
+            max_length=self.max_length,
+            padding='max_length',
+            truncation=True,
+            return_tensors='pt'
+        )
+
+        return {
+            'src_input_ids': src_encoding['input_ids'].flatten(),
+            'src_attention_mask': src_encoding['attention_mask'].flatten(),
+            'tgt_input_ids': tgt_encoding['input_ids'].flatten(),
+            'tgt_attention_mask': tgt_encoding['attention_mask'].flatten()
+        }
+
+class NeuralTranslator:
+    def __init__(self, model_name="Helsinki-NLP/opus-mt-en-de"):
+        self.tokenizer = MarianTokenizer.from_pretrained(model_name)
+        self.model = MarianMTModel.from_pretrained(model_name)
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.model.to(self.device)
+
+    def translate(self, text, max_length=128):
+        # Tokenize input
+        inputs = self.tokenizer(text, return_tensors="pt", padding=True, truncation=True, max_length=max_length)
+        inputs = {k: v.to(self.device) for k, v in inputs.items()}
+
+        # Generate translation
+        with torch.no_grad():
+            outputs = self.model.generate(
+                **inputs,
+                max_length=max_length,
+                num_beams=4,
+                early_stopping=True,
+                do_sample=False
+            )
+
+        # Decode output
+        translation = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+        return translation
+
+    def translate_batch(self, texts, batch_size=8):
+        translations = []
+
+        for i in range(0, len(texts), batch_size):
+            batch_texts = texts[i:i + batch_size]
+
+            # Tokenize batch
+            inputs = self.tokenizer(batch_texts, return_tensors="pt", padding=True, truncation=True)
+            inputs = {k: v.to(self.device) for k, v in inputs.items()}
+
+            # Generate translations
+            with torch.no_grad():
+                outputs = self.model.generate(
+                    **inputs,
+                    max_length=128,
+                    num_beams=4,
+                    early_stopping=True
+                )
+
+            # Decode outputs
+            batch_translations = [
+                self.tokenizer.decode(output, skip_special_tokens=True)
+                for output in outputs
+            ]
+
+            translations.extend(batch_translations)
+
+        return translations
+
+# Fine-tuning for domain adaptation
+def fine_tune_translator(model, tokenizer, train_dataset, val_dataset, epochs=3):
+    from transformers import Trainer, TrainingArguments
+
+    training_args = TrainingArguments(
+        output_dir='./translation_model',
+        num_train_epochs=epochs,
+        per_device_train_batch_size=8,
+        per_device_eval_batch_size=8,
+        warmup_steps=500,
+        weight_decay=0.01,
+        logging_dir='./logs',
+        evaluation_strategy="epoch",
+        save_strategy="epoch",
+        load_best_model_at_end=True,
+    )
+
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=train_dataset,
+        eval_dataset=val_dataset,
+        tokenizer=tokenizer,
+    )
+
+    trainer.train()
+    return trainer.model
+
+# Example usage
+translator = NeuralTranslator("Helsinki-NLP/opus-mt-en-fr")
+
+# Single translation
+english_text = "Hello, how are you today?"
+french_translation = translator.translate(english_text)
+print(f"English: {english_text}")
+print(f"French: {french_translation}")
+
+# Batch translation
+english_texts = [
+    "Good morning!",
+    "Thank you very much.",
+    "Where is the nearest restaurant?",
+    "I would like to book a hotel room."
+]
+
+french_translations = translator.translate_batch(english_texts)
+for en, fr in zip(english_texts, french_translations):
+    print(f"EN: {en} -> FR: {fr}")`,
+    icon: "🌍",
+    tags: ["Machine Translation", "Seq2Seq", "Transformers", "Multilingual"],
+    theoreticalConcepts: {
+      fundamentals: [
+        "Sequence-to-Sequence Models - Encoder-decoder architecture for variable-length translation",
+        "Attention Mechanism - Focus on relevant source words during translation",
+        "Beam Search - Explore multiple translation hypotheses to find best output",
+        "Subword Tokenization - Handle out-of-vocabulary words with BPE/SentencePiece",
+        "Transfer Learning - Leverage multilingual pre-trained models for low-resource languages",
+      ],
+      keyTheory:
+        "Neural machine translation uses encoder-decoder transformers to map source language sequences to target languages. Attention mechanisms enable the decoder to focus on relevant source positions, producing fluent and accurate translations.",
+      mathematicalFoundations:
+        "Seq2Seq probability: P(y|x) = ∏ᵢ P(yᵢ|y₁...yᵢ₋₁, x). Attention: context_i = Σⱼ αᵢⱼhⱼ where αᵢⱼ = exp(score(sᵢ,hⱼ))/Σₖ exp(score(sᵢ,hₖ))",
+      importantPapers: [
+        "Sequence to Sequence Learning (2014) - Original seq2seq with RNNs",
+        "Neural Machine Translation by Jointly Learning to Align and Translate (2014) - Attention mechanism",
+        "Attention Is All You Need (2017) - Transformer architecture",
+        "Multilingual Neural Machine Translation (2019) - Massively multilingual models",
+      ],
+      businessImpact:
+        "Breaks down language barriers for global commerce, enables real-time communication across cultures, automates content localization saving millions, and powers multilingual AI assistants.",
+    },
+  },
+  {
+    id: 13,
+    title: "Medical Image Analysis",
+    category: "Computer Vision",
+    description:
+      "Analyze medical images for diagnosis assistance using deep learning models trained on healthcare data.",
+    difficulty: "Advanced",
+    timeToComplete: "6-8 weeks",
+    useCases: [
+      "Radiology diagnosis assistance",
+      "Cancer detection and staging",
+      "Retinal disease screening",
+      "Skin lesion classification",
+      "Brain tumor segmentation",
+    ],
+    trainingApproach:
+      "Use specialized CNN architectures with medical image preprocessing. Apply transfer learning from ImageNet and fine-tune on medical datasets with careful validation.",
+    keySteps: [
+      "Collect and curate medical image datasets",
+      "Medical image preprocessing (DICOM, normalization)",
+      "Design specialized CNN architecture",
+      "Implement proper train/validation splits",
+      "Apply medical-specific data augmentation",
+      "Evaluate with medical metrics and expert validation",
+    ],
+    resources: [
+      {
+        name: "NIH Chest X-ray Dataset",
+        type: "Dataset",
+        description: "100K+ chest X-rays with disease labels",
+        link: "https://nihcc.app.box.com/v/ChestXray-NIHCC",
+        pricing: "Free",
+      },
+      {
+        name: "MONAI Framework",
+        type: "Framework",
+        description: "Medical imaging AI framework by NVIDIA",
+        link: "https://monai.io/",
+        pricing: "Free",
+      },
+      {
+        name: "Medical Segmentation Decathlon",
+        type: "Dataset",
+        description: "Multi-organ segmentation challenges",
+        link: "http://medicaldecathlon.com/",
+        pricing: "Free",
+      },
+    ],
+    codeExample: `import torch
+import torch.nn as nn
+import torchvision.transforms as transforms
+from torch.utils.data import Dataset, DataLoader
+import numpy as np
+import pydicom
+from PIL import Image
+import pandas as pd
+
+class MedicalImageDataset(Dataset):
+    def __init__(self, csv_file, root_dir, transform=None):
+        self.data_frame = pd.read_csv(csv_file)
+        self.root_dir = root_dir
+        self.transform = transform
+
+    def __len__(self):
+        return len(self.data_frame)
+
+    def __getitem__(self, idx):
+        img_path = os.path.join(self.root_dir, self.data_frame.iloc[idx, 0])
+
+        # Load DICOM or regular image
+        if img_path.endswith('.dcm'):
+            dicom = pydicom.dcmread(img_path)
+            image = dicom.pixel_array.astype(np.float32)
+            # Normalize to 0-255 range
+            image = ((image - image.min()) / (image.max() - image.min()) * 255).astype(np.uint8)
+            image = Image.fromarray(image).convert('RGB')
+        else:
+            image = Image.open(img_path).convert('RGB')
+
+        # Get labels (multi-label classification)
+        labels = self.data_frame.iloc[idx, 1:].values.astype(np.float32)
+
+        if self.transform:
+            image = self.transform(image)
+
+        return image, torch.tensor(labels)
+
+class MedicalCNN(nn.Module):
+    def __init__(self, num_classes=14, pretrained=True):
+        super(MedicalCNN, self).__init__()
+
+        # Use DenseNet as backbone (good for medical images)
+        self.backbone = torchvision.models.densenet121(pretrained=pretrained)
+
+        # Replace classifier for multi-label classification
+        num_features = self.backbone.classifier.in_features
+        self.backbone.classifier = nn.Sequential(
+            nn.Dropout(0.5),
+            nn.Linear(num_features, 512),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.Linear(512, num_classes),
+            nn.Sigmoid()  # For multi-label classification
+        )
+
+    def forward(self, x):
+        return self.backbone(x)
+
+# Medical-specific data augmentation
+medical_transforms = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.RandomHorizontalFlip(p=0.5),
+    transforms.RandomRotation(degrees=10),
+    transforms.ColorJitter(brightness=0.2, contrast=0.2),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                        std=[0.229, 0.224, 0.225])
+])
+
+class MedicalTrainer:
+    def __init__(self, model, device):
+        self.model = model.to(device)
+        self.device = device
+        self.criterion = nn.BCELoss()  # For multi-label
+        self.optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-4)
+        self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+            self.optimizer, mode='min', patience=5, factor=0.5
+        )
+
+    def train_epoch(self, dataloader):
+        self.model.train()
+        total_loss = 0
+
+        for batch_idx, (data, target) in enumerate(dataloader):
+            data, target = data.to(self.device), target.to(self.device)
+
+            self.optimizer.zero_grad()
+            output = self.model(data)
+            loss = self.criterion(output, target)
+
+            loss.backward()
+            self.optimizer.step()
+
+            total_loss += loss.item()
+
+            if batch_idx % 100 == 0:
+                print(f'Batch {batch_idx}/{len(dataloader)}, Loss: {loss.item():.6f}')
+
+        return total_loss / len(dataloader)
+
+    def validate(self, dataloader):
+        self.model.eval()
+        total_loss = 0
+        predictions = []
+        targets = []
+
+        with torch.no_grad():
+            for data, target in dataloader:
+                data, target = data.to(self.device), target.to(self.device)
+                output = self.model(data)
+                loss = self.criterion(output, target)
+
+                total_loss += loss.item()
+                predictions.append(output.cpu().numpy())
+                targets.append(target.cpu().numpy())
+
+        predictions = np.vstack(predictions)
+        targets = np.vstack(targets)
+
+        # Calculate AUC for each class
+        from sklearn.metrics import roc_auc_score
+        auc_scores = []
+        for i in range(targets.shape[1]):
+            if len(np.unique(targets[:, i])) > 1:  # Only if both classes present
+                auc = roc_auc_score(targets[:, i], predictions[:, i])
+                auc_scores.append(auc)
+
+        mean_auc = np.mean(auc_scores) if auc_scores else 0
+
+        return total_loss / len(dataloader), mean_auc
+
+# Training function
+def train_medical_model():
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+    # Load datasets
+    train_dataset = MedicalImageDataset('train.csv', 'train_images/', medical_transforms)
+    val_dataset = MedicalImageDataset('val.csv', 'val_images/', medical_transforms)
+
+    train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
+    val_loader = DataLoader(val_dataset, batch_size=16, shuffle=False)
+
+    # Initialize model and trainer
+    model = MedicalCNN(num_classes=14)
+    trainer = MedicalTrainer(model, device)
+
+    best_auc = 0
+    for epoch in range(50):
+        print(f'Epoch {epoch+1}/50')
+
+        train_loss = trainer.train_epoch(train_loader)
+        val_loss, val_auc = trainer.validate(val_loader)
+
+        trainer.scheduler.step(val_loss)
+
+        print(f'Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, Val AUC: {val_auc:.4f}')
+
+        if val_auc > best_auc:
+            best_auc = val_auc
+            torch.save(model.state_dict(), 'best_medical_model.pth')
+            print(f'New best model saved with AUC: {best_auc:.4f}')
+
+# Run training
+train_medical_model()`,
+    icon: "🏥",
+    tags: ["Medical AI", "Medical Imaging", "Healthcare", "Radiology"],
+    theoreticalConcepts: {
+      fundamentals: [
+        "DICOM Standard - Digital imaging format for medical images with metadata",
+        "Transfer Learning - Adapt natural image models to medical domain",
+        "Class Imbalance - Handle rare diseases with weighted losses and sampling",
+        "Multi-label Classification - Detect multiple conditions simultaneously",
+        "Medical Image Preprocessing - Windowing, normalization, and enhancement techniques",
+      ],
+      keyTheory:
+        "Medical image analysis applies computer vision to healthcare, requiring domain expertise for proper preprocessing, validation, and clinical integration. Models must handle class imbalance and provide interpretable results for medical professionals.",
+      mathematicalFoundations:
+        "Weighted BCE Loss: L = -Σᵢ wᵢ[yᵢlog(p̂ᵢ) + (1-yᵢ)log(1-p̂ᵢ)]. AUC-ROC for diagnostic performance evaluation. Dice coefficient for segmentation: 2|A∩B|/(|A|+|B|)",
+      importantPapers: [
+        "ChexNet (2017) - Radiologist-level pneumonia detection",
+        "Dermatologist-level classification (2017) - Skin cancer detection",
+        "Diabetic retinopathy detection (2016) - Google's eye disease screening",
+        "Medical Image Computing and Computer Assisted Intervention (MICCAI) - Annual conference",
+      ],
+      businessImpact:
+        "Improves diagnostic accuracy by 20%+, reduces radiologist workload, enables screening in underserved areas, and accelerates drug discovery through medical image biomarkers worth billions.",
+    },
+  },
+  {
+    id: 14,
+    title: "Edge AI Deployment",
+    category: "Machine Learning",
+    description:
+      "Deploy AI models on edge devices like mobile phones, IoT devices, and embedded systems.",
+    difficulty: "Advanced",
+    timeToComplete: "4-6 weeks",
+    useCases: [
+      "Mobile app AI features",
+      "IoT sensor data processing",
+      "Autonomous vehicle perception",
+      "Smart camera applications",
+      "Industrial automation",
+    ],
+    trainingApproach:
+      "Optimize models for edge deployment using quantization, pruning, and mobile-optimized architectures. Use frameworks like TensorFlow Lite and ONNX.",
+    keySteps: [
+      "Select and train appropriate model architecture",
+      "Apply model optimization techniques",
+      "Convert to edge deployment format",
+      "Implement on-device inference pipeline",
+      "Optimize for latency and power consumption",
+      "Test performance on target hardware",
+    ],
+    resources: [
+      {
+        name: "TensorFlow Lite",
+        type: "Framework",
+        description: "Deploy ML on mobile and embedded devices",
+        link: "https://www.tensorflow.org/lite",
+        pricing: "Free",
+      },
+      {
+        name: "NVIDIA Jetson",
+        type: "Framework",
+        description: "Edge AI computing platform",
+        link: "https://developer.nvidia.com/embedded/jetson",
+        pricing: "$99+ hardware",
+      },
+      {
+        name: "Core ML",
+        type: "Framework",
+        description: "Apple's on-device machine learning",
+        link: "https://developer.apple.com/machine-learning/core-ml/",
+        pricing: "Free",
+      },
+    ],
+    codeExample: `import tensorflow as tf
+import numpy as np
+import cv2
+from tensorflow.lite.python import interpreter as tflite_interpreter
+
+class EdgeAIOptimizer:
+    def __init__(self, model_path):
+        self.model = tf.keras.models.load_model(model_path)
+
+    def quantize_model(self, representative_dataset=None):
+        """Quantize model to reduce size and improve inference speed"""
+        converter = tf.lite.TFLiteConverter.from_keras_model(self.model)
+
+        # Enable optimization
+        converter.optimizations = [tf.lite.Optimize.DEFAULT]
+
+        # Integer quantization for further compression
+        if representative_dataset:
+            converter.representative_dataset = representative_dataset
+            converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]
+            converter.inference_input_type = tf.int8
+            converter.inference_output_type = tf.int8
+
+        tflite_model = converter.convert()
+        return tflite_model
+
+    def prune_model(self, target_sparsity=0.5):
+        """Prune model weights to reduce parameters"""
+        import tensorflow_model_optimization as tfmot
+
+        prune_low_magnitude = tfmot.sparsity.keras.prune_low_magnitude
+
+        # Define pruning parameters
+        pruning_params = {
+            'pruning_schedule': tfmot.sparsity.keras.PolynomialDecay(
+                initial_sparsity=0.0,
+                final_sparsity=target_sparsity,
+                begin_step=0,
+                end_step=1000
+            )
+        }
+
+        # Apply pruning
+        model_for_pruning = prune_low_magnitude(self.model, **pruning_params)
+        model_for_pruning.compile(
+            optimizer='adam',
+            loss='sparse_categorical_crossentropy',
+            metrics=['accuracy']
+        )
+
+        return model_for_pruning
+
+class EdgeInferenceEngine:
+    def __init__(self, tflite_model_path):
+        self.interpreter = tflite_interpreter.Interpreter(model_path=tflite_model_path)
+        self.interpreter.allocate_tensors()
+
+        # Get input and output details
+        self.input_details = self.interpreter.get_input_details()
+        self.output_details = self.interpreter.get_output_details()
+
+        self.input_shape = self.input_details[0]['shape']
+        self.input_dtype = self.input_details[0]['dtype']
+
+    def preprocess_input(self, image):
+        """Preprocess input for edge inference"""
+        # Resize to model input size
+        input_size = (self.input_shape[1], self.input_shape[2])
+        image = cv2.resize(image, input_size)
+
+        # Normalize based on model requirements
+        if self.input_dtype == np.uint8:
+            image = image.astype(np.uint8)
+        else:
+            image = image.astype(np.float32) / 255.0
+            image = (image - 0.5) * 2.0  # Normalize to [-1, 1]
+
+        # Add batch dimension
+        image = np.expand_dims(image, axis=0)
+        return image
+
+    def predict(self, input_data):
+        """Run inference on edge device"""
+        # Set input tensor
+        self.interpreter.set_tensor(self.input_details[0]['index'], input_data)
+
+        # Run inference
+        start_time = time.time()
+        self.interpreter.invoke()
+        inference_time = time.time() - start_time
+
+        # Get output
+        output = self.interpreter.get_tensor(self.output_details[0]['index'])
+
+        return output, inference_time
+
+    def benchmark_performance(self, test_images, num_runs=100):
+        """Benchmark model performance on target hardware"""
+        inference_times = []
+
+        for i in range(num_runs):
+            # Random test image
+            test_image = test_images[i % len(test_images)]
+            preprocessed = self.preprocess_input(test_image)
+
+            _, inference_time = self.predict(preprocessed)
+            inference_times.append(inference_time)
+
+        avg_time = np.mean(inference_times)
+        fps = 1.0 / avg_time
+
+        return {
+            'avg_inference_time': avg_time,
+            'fps': fps,
+            'min_time': np.min(inference_times),
+            'max_time': np.max(inference_times),
+            'std_time': np.std(inference_times)
+        }
+
+# Mobile deployment example
+class MobileAIApp:
+    def __init__(self, model_path):
+        self.engine = EdgeInferenceEngine(model_path)
+        self.class_names = self.load_class_names()
+
+    def load_class_names(self):
+        # Load your class names
+        return ['class1', 'class2', 'class3']  # Replace with actual classes
+
+    def process_camera_frame(self, frame):
+        """Process single camera frame"""
+        # Preprocess
+        input_data = self.engine.preprocess_input(frame)
+
+        # Predict
+        predictions, inference_time = self.engine.predict(input_data)
+
+        # Post-process
+        predicted_class = np.argmax(predictions[0])
+        confidence = predictions[0][predicted_class]
+
+        # Draw results on frame
+        result_frame = self.draw_results(frame, predicted_class, confidence, inference_time)
+
+        return result_frame
+
+    def draw_results(self, frame, predicted_class, confidence, inference_time):
+        """Draw prediction results on frame"""
+        h, w = frame.shape[:2]
+
+        # Class name and confidence
+        class_name = self.class_names[predicted_class]
+        text = f"{class_name}: {confidence:.2f}"
+
+        # Performance info
+        fps = 1.0 / inference_time
+        perf_text = f"FPS: {fps:.1f}"
+
+        # Draw text
+        cv2.putText(frame, text, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+        cv2.putText(frame, perf_text, (10, 70), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
+
+        return frame
+
+# Complete edge deployment pipeline
+def deploy_to_edge():
+    # 1. Load and optimize model
+    optimizer = EdgeAIOptimizer('trained_model.h5')
+
+    # Create representative dataset for quantization
+    def representative_dataset():
+        for _ in range(100):
+            yield [np.random.random((1, 224, 224, 3)).astype(np.float32)]
+
+    # Quantize model
+    tflite_model = optimizer.quantize_model(representative_dataset)
+
+    # Save optimized model
+    with open('optimized_model.tflite', 'wb') as f:
+        f.write(tflite_model)
+
+    print("Model optimized and saved for edge deployment!")
+
+    # 2. Test performance
+    engine = EdgeInferenceEngine('optimized_model.tflite')
+
+    # Create dummy test data
+    test_images = [np.random.randint(0, 255, (224, 224, 3), dtype=np.uint8) for _ in range(10)]
+
+    # Benchmark
+    performance = engine.benchmark_performance(test_images)
+    print(f"Performance: {performance}")
+
+    return engine
+
+# Run deployment
+edge_engine = deploy_to_edge()`,
+    icon: "📱",
+    tags: ["Edge AI", "Mobile ML", "TensorFlow Lite", "Model Optimization"],
+    theoreticalConcepts: {
+      fundamentals: [
+        "Model Quantization - Reduce precision from FP32 to INT8 for faster inference",
+        "Neural Network Pruning - Remove unnecessary weights to reduce model size",
+        "Knowledge Distillation - Train smaller student models from larger teachers",
+        "Mobile-Optimized Architectures - MobileNets, EfficientNets designed for edge devices",
+        "Hardware Acceleration - Leverage NPUs, GPUs, and specialized chips for AI inference",
+      ],
+      keyTheory:
+        "Edge AI deployment optimizes models for resource-constrained devices through compression techniques while maintaining accuracy. The trade-off between model size, speed, and accuracy must be carefully balanced for each deployment scenario.",
+      mathematicalFoundations:
+        "Quantization: x_q = round(x/s) + z where s=scale, z=zero_point. Model compression ratio = original_size/compressed_size. Latency optimization: minimize E[inference_time] subject to accuracy constraints",
+      importantPapers: [
+        "MobileNets (2017) - Efficient CNNs for mobile vision",
+        "Quantization and Training (2018) - Low-precision neural networks",
+        "Neural Network Distillation (2015) - Knowledge transfer to smaller models",
+        "EfficientNet (2019) - Scaling CNNs with compound coefficients",
+      ],
+      businessImpact:
+        "Enables AI in billions of mobile devices, reduces cloud computing costs by 60%+, provides real-time responses with <100ms latency, and creates new edge AI markets worth hundreds of billions.",
+    },
+  },
 ];
 
 export default function AIProjects() {
