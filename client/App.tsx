@@ -14,6 +14,7 @@ import AITools from "./pages/AITools";
 import AICompanies from "./pages/AICompanies";
 import AIProjects from "./pages/AIProjects";
 import PromptEngineering from "./pages/PromptEngineering";
+import AIAgentTraining from "./pages/AIAgentTraining";
 import AIResearcher from "./pages/talents/AIResearcher";
 import SocialEntrepreneur from "./pages/talents/SocialEntrepreneur";
 import Marksman from "./pages/talents/Marksman";
