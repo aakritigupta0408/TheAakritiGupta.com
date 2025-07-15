@@ -398,12 +398,14 @@ export default function Index() {
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02, y: -2 }}
-                className="border border-white/30 text-white px-8 py-4 rounded-sm font-light tracking-wider hover:border-blue-400 hover:text-blue-400 transition-all duration-300 flex items-center justify-center gap-3"
+                className="button-secondary flex items-center justify-center gap-4 touch-target"
               >
-                <div className="w-6 h-6 bg-blue-600 rounded-sm flex items-center justify-center text-white text-sm font-bold">
+                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold border-2 border-blue-700">
                   in
                 </div>
-                PROFESSIONAL NETWORK
+                <span className="text-body font-semibold">
+                  LINKEDIN PROFILE
+                </span>
               </motion.a>
 
               <motion.a
@@ -411,29 +413,31 @@ export default function Index() {
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02, y: -2 }}
-                className="border border-white/30 text-white px-8 py-4 rounded-sm font-light tracking-wider hover:border-yellow-400 hover:text-yellow-400 transition-all duration-300 flex items-center justify-center gap-3"
+                className="button-secondary flex items-center justify-center gap-4 touch-target"
               >
-                <div className="w-6 h-6 bg-slate-800 rounded-sm flex items-center justify-center text-white text-sm font-bold">
+                <div className="w-8 h-8 bg-slate-800 rounded-lg flex items-center justify-center text-white font-bold border-2 border-slate-900">
                   Git
                 </div>
-                CODE PORTFOLIO
+                <span className="text-body font-semibold">
+                  GITHUB PORTFOLIO
+                </span>
               </motion.a>
 
               <motion.button
                 onClick={() => navigate("/games")}
                 whileHover={{ scale: 1.02, y: -2 }}
-                className="border-2 border-black luxury-text-primary px-8 py-4 rounded-xl font-light tracking-wider hover:bg-yellow-100 transition-all duration-300"
+                className="button-primary touch-target"
               >
-                PLAY INTERACTIVE GAMES
+                🎮 INTERACTIVE GAMES
               </motion.button>
 
               <motion.button
                 onClick={() => navigate("/ai-playground")}
                 whileHover={{ scale: 1.02, y: -2 }}
-                className="border-2 border-purple-400 text-purple-600 px-8 py-4 rounded-xl font-light tracking-wider hover:bg-purple-50 transition-all duration-300 flex items-center gap-3"
+                className="button-success touch-target flex items-center gap-3"
               >
                 <span className="text-xl">🤖</span>
-                EXPLORE AI PLAYGROUND
+                <span className="text-body font-semibold">AI PLAYGROUND</span>
               </motion.button>
             </motion.div>
           </motion.div>
