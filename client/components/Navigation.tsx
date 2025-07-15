@@ -247,6 +247,12 @@ const Navigation = () => {
                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                   />
                 </svg>
+                {/* Notification Badge */}
+                <motion.div
+                  className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-pink-500 to-red-500 rounded-full border border-white/50"
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
               </motion.button>
 
               {/* Talents Dropdown - Desktop */}
