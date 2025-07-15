@@ -122,11 +122,23 @@ const Navigation = () => {
                 whileHover={{ y: -2 }}
                 className={`tom-ford-subheading text-sm tracking-widest transition-colors duration-300 ${
                   location.pathname === "/games"
-                    ? "text-yellow-400 border-b border-yellow-400 pb-1"
-                    : "text-white/80 hover:text-yellow-400"
+                    ? "luxury-text-accent border-b border-yellow-400 pb-1"
+                    : "luxury-text-muted hover:luxury-text-accent"
                 }`}
               >
                 GAMES
+              </motion.button>
+
+              <motion.button
+                onClick={() => navigate("/ai-playground")}
+                whileHover={{ y: -2 }}
+                className={`tom-ford-subheading text-sm tracking-widest transition-colors duration-300 ${
+                  location.pathname === "/ai-playground"
+                    ? "luxury-text-accent border-b border-yellow-400 pb-1"
+                    : "luxury-text-muted hover:luxury-text-accent"
+                }`}
+              >
+                AI PLAYGROUND
               </motion.button>
 
               {/* Talents Dropdown */}
