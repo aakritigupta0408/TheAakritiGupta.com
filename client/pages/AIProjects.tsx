@@ -1000,57 +1000,74 @@ export default function AIProjects() {
                 rotateX: 3,
               }}
             >
-              <div className="p-6">
+              <div className="p-8">
                 {/* Header */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="text-3xl">{project.icon}</div>
+                <div className="flex items-start justify-between mb-6">
+                  <div className="flex items-center gap-4">
+                    <motion.div
+                      className="text-5xl group-hover:scale-110 transition-transform duration-300"
+                      whileHover={{ rotate: 10, scale: 1.2 }}
+                    >
+                      {project.icon}
+                    </motion.div>
                     <div>
-                      <h3 className="text-xl font-bold text-black">
+                      <h3 className="text-2xl font-black text-white mb-2 group-hover:bg-gradient-to-r group-hover:from-pink-400 group-hover:to-purple-500 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
                         {project.title}
                       </h3>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-300 font-medium bg-white/10 rounded-full px-3 py-1 inline-block">
                         {project.category}
                       </p>
                     </div>
                   </div>
-                  <div className="flex flex-col gap-2">
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                  <div className="flex flex-col gap-3">
+                    <motion.span
+                      className={`px-4 py-2 rounded-full text-xs font-bold border-2 backdrop-blur-md ${
                         project.difficulty === "Beginner"
-                          ? "bg-green-100 text-green-800"
+                          ? "bg-green-500/30 border-green-400/50 text-green-200"
                           : project.difficulty === "Intermediate"
-                            ? "bg-yellow-100 text-yellow-800"
-                            : "bg-red-100 text-red-800"
+                            ? "bg-orange-500/30 border-orange-400/50 text-orange-200"
+                            : "bg-red-500/30 border-red-400/50 text-red-200"
                       }`}
+                      whileHover={{ scale: 1.1 }}
                     >
+                      {project.difficulty === "Beginner"
+                        ? "🌱"
+                        : project.difficulty === "Intermediate"
+                          ? "🔥"
+                          : "🚀"}{" "}
                       {project.difficulty}
-                    </span>
-                    <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">
-                      {project.timeToComplete}
+                    </motion.span>
+                    <span className="px-4 py-2 bg-blue-500/30 border-2 border-blue-400/50 text-blue-200 rounded-full text-xs font-bold backdrop-blur-md">
+                      ⏱️ {project.timeToComplete}
                     </span>
                   </div>
                 </div>
 
                 {/* Description */}
-                <p className="text-gray-700 mb-4">{project.description}</p>
+                <p className="text-gray-100 mb-6 text-lg leading-relaxed">
+                  {project.description}
+                </p>
 
                 {/* Use Cases */}
-                <div className="mb-4">
-                  <h4 className="font-semibold text-gray-800 mb-2">
-                    Common Use Cases:
+                <div className="mb-6">
+                  <h4 className="font-bold text-cyan-300 mb-3 text-lg">
+                    🎯 Common Use Cases:
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {project.useCases.slice(0, 3).map((useCase, idx) => (
-                      <span
+                      <motion.span
                         key={idx}
-                        className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"
+                        className="text-xs bg-white/20 text-gray-200 px-3 py-2 rounded-full font-medium border border-white/30 backdrop-blur-md"
+                        whileHover={{
+                          scale: 1.05,
+                          backgroundColor: "rgba(255,255,255,0.3)",
+                        }}
                       >
                         {useCase}
-                      </span>
+                      </motion.span>
                     ))}
                     {project.useCases.length > 3 && (
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-300 font-medium bg-white/10 rounded-full px-3 py-2">
                         +{project.useCases.length - 3} more
                       </span>
                     )}
@@ -1058,57 +1075,74 @@ export default function AIProjects() {
                 </div>
 
                 {/* Training Approach */}
-                <div className="mb-4">
-                  <h4 className="font-semibold text-gray-800 mb-2">
-                    Training Approach:
+                <div className="mb-6">
+                  <h4 className="font-bold text-purple-300 mb-3 text-lg">
+                    🧠 Training Approach:
                   </h4>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-200 leading-relaxed bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
                     {project.trainingApproach}
                   </p>
                 </div>
 
                 {/* Tags */}
-                <div className="mb-4">
+                <div className="mb-6">
                   <div className="flex flex-wrap gap-2">
                     {project.tags.map((tag, idx) => (
-                      <span
+                      <motion.span
                         key={idx}
-                        className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded border border-blue-200"
+                        className="text-xs bg-gradient-to-r from-blue-500/30 to-purple-500/30 text-blue-200 px-3 py-2 rounded-full border border-blue-400/50 font-bold backdrop-blur-md"
+                        whileHover={{ scale: 1.1, y: -2 }}
                       >
                         {tag}
-                      </span>
+                      </motion.span>
                     ))}
                   </div>
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex gap-3">
-                  <button
+                <div className="flex gap-4">
+                  <motion.button
                     onClick={() => setSelectedProject(project)}
-                    className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors font-medium text-sm"
+                    className="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-3 rounded-2xl font-bold text-sm hover:from-pink-600 hover:to-purple-700 transition-all duration-300 border border-pink-400/30 shadow-xl"
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
                   >
-                    View Full Guide
-                  </button>
-                  <button
+                    🚀 Full Guide
+                  </motion.button>
+                  <motion.button
                     onClick={() => toggleCode(project.id)}
-                    className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors font-medium text-sm"
+                    className="bg-white/10 backdrop-blur-md text-white px-6 py-3 rounded-2xl font-bold text-sm border border-white/20 hover:bg-white/20 transition-all duration-300"
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
                   >
-                    {showCode[project.id] ? "Hide Code" : "Show Code"}
-                  </button>
+                    {showCode[project.id] ? "🙈 Hide Code" : "💻 Show Code"}
+                  </motion.button>
                 </div>
 
                 {/* Code Example */}
                 <AnimatePresence>
                   {showCode[project.id] && (
                     <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="mt-4"
+                      initial={{ opacity: 0, height: 0, y: -20 }}
+                      animate={{ opacity: 1, height: "auto", y: 0 }}
+                      exit={{ opacity: 0, height: 0, y: -20 }}
+                      transition={{ duration: 0.5, ease: "easeOut" }}
+                      className="mt-6"
                     >
-                      <div className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
-                        <pre className="text-sm">
-                          <code>{project.codeExample}</code>
+                      <div className="bg-black/60 backdrop-blur-xl text-gray-100 p-6 rounded-2xl overflow-x-auto border border-white/20 shadow-2xl">
+                        <div className="flex items-center gap-2 mb-4">
+                          <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                          <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                          <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                          <span className="text-gray-400 text-sm font-mono ml-4">
+                            {project.title.toLowerCase().replace(/\s+/g, "_")}
+                            .py
+                          </span>
+                        </div>
+                        <pre className="text-sm leading-relaxed">
+                          <code className="language-python">
+                            {project.codeExample}
+                          </code>
                         </pre>
                       </div>
                     </motion.div>
@@ -1299,10 +1333,15 @@ export default function AIProjects() {
         </AnimatePresence>
 
         {/* Bottom Navigation */}
-        <div className="text-center">
-          <Link to="/" className="button-secondary">
-            ← Back to Portfolio
-          </Link>
+        <div className="text-center relative z-10">
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link
+              to="/"
+              className="inline-block bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold px-8 py-4 rounded-full hover:from-cyan-600 hover:to-blue-700 transition-all duration-300 shadow-2xl border border-white/20 backdrop-blur-md"
+            >
+              ← Back to Portfolio
+            </Link>
+          </motion.div>
         </div>
       </div>
     </div>
