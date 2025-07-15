@@ -1725,8 +1725,8 @@ Week 7-8: Production deployment and monitoring
                 {selectedTechnique.description}
               </p>
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                <div className="backdrop-blur-xl bg-blue-500/10 border border-blue-500/30 rounded-xl p-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 mb-6 sm:mb-8">
+                <div className="backdrop-blur-xl bg-blue-500/10 border border-blue-500/30 rounded-xl p-4 sm:p-6">
                   <h3 className="text-lg font-bold text-blue-400 mb-4">
                     Key Points
                   </h3>
@@ -1734,9 +1734,18 @@ Week 7-8: Production deployment and monitoring
                     {selectedTechnique.keyPoints.map((point, index) => (
                       <div
                         key={index}
-                        className="text-slate-300 text-sm flex items-start gap-2"
+                        className={`flex items-start gap-2 ${index === 0 ? "bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-400/30 rounded-lg p-3 mb-2" : "text-slate-300 text-sm"}`}
                       >
-                        <span className="text-blue-400 mt-1">•</span> {point}
+                        <span
+                          className={`mt-1 flex-shrink-0 ${index === 0 ? "text-yellow-400 text-base" : "text-blue-400"}`}
+                        >
+                          {index === 0 ? "🎯" : "•"}
+                        </span>
+                        <span
+                          className={`${index === 0 ? "text-blue-100 font-medium leading-relaxed" : ""}`}
+                        >
+                          {point}
+                        </span>
                       </div>
                     ))}
                   </div>
