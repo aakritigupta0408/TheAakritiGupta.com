@@ -2098,8 +2098,9 @@ export default function AIDiscoveries() {
               <div className="w-80 h-2 bg-white/20 rounded-full overflow-hidden">
                 <motion.div
                   className="h-full bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-full"
-                  initial={{ width: 0 }}
-                  animate={{ width: "100%" }}
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  style={{ transformOrigin: "left" }}
                   transition={{ duration: 2, delay: 1 }}
                 />
               </div>
