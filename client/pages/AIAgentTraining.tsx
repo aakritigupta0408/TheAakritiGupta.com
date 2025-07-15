@@ -1494,7 +1494,7 @@ Week 7-8: Production deployment and monitoring
               </div>
 
               {/* Tips and Use Case */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                 <div className="backdrop-blur-xl bg-blue-500/10 border border-blue-500/30 rounded-xl p-6">
                   <h3 className="text-lg font-bold text-blue-400 mb-4 flex items-center gap-2">
                     <FaLightbulb /> Training Tips
@@ -1518,6 +1518,159 @@ Week 7-8: Production deployment and monitoring
                   <p className="text-slate-300 text-sm leading-relaxed">
                     {selectedExample.useCase}
                   </p>
+                </div>
+              </div>
+
+              {/* Resources Section */}
+              <div className="backdrop-blur-xl bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 rounded-xl p-6">
+                <h3 className="text-xl font-bold text-cyan-400 mb-6 flex items-center gap-2">
+                  <FaRocket /> Learning Resources
+                </h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Code Examples */}
+                  <div>
+                    <h4 className="text-lg font-bold text-green-400 mb-3 flex items-center gap-2">
+                      <FaCode /> Code Examples
+                    </h4>
+                    <div className="space-y-2">
+                      {selectedExample.resources.codeExamples.map(
+                        (code, index) => (
+                          <a
+                            key={index}
+                            href={code.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-green-500/20 hover:border-green-500/40"
+                          >
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <div className="text-white font-medium text-sm">
+                                  {code.title}
+                                </div>
+                                <div className="text-green-400 text-xs">
+                                  {code.language}
+                                </div>
+                              </div>
+                              <div className="text-green-400 hover:translate-x-1 transition-transform duration-300">
+                                →
+                              </div>
+                            </div>
+                          </a>
+                        ),
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Tutorials */}
+                  <div>
+                    <h4 className="text-lg font-bold text-blue-400 mb-3 flex items-center gap-2">
+                      <FaGraduationCap /> Tutorials
+                    </h4>
+                    <div className="space-y-2">
+                      {selectedExample.resources.tutorials.map(
+                        (tutorial, index) => (
+                          <a
+                            key={index}
+                            href={tutorial.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-blue-500/20 hover:border-blue-500/40"
+                          >
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <div className="text-white font-medium text-sm">
+                                  {tutorial.title}
+                                </div>
+                                <div
+                                  className={`text-xs ${
+                                    tutorial.difficulty === "Beginner"
+                                      ? "text-green-400"
+                                      : tutorial.difficulty === "Intermediate"
+                                        ? "text-yellow-400"
+                                        : "text-red-400"
+                                  }`}
+                                >
+                                  {tutorial.difficulty}
+                                </div>
+                              </div>
+                              <div className="text-blue-400 hover:translate-x-1 transition-transform duration-300">
+                                →
+                              </div>
+                            </div>
+                          </a>
+                        ),
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                  {/* Videos */}
+                  <div>
+                    <h4 className="text-lg font-bold text-red-400 mb-3 flex items-center gap-2">
+                      <FaPlay /> Video Tutorials
+                    </h4>
+                    <div className="space-y-2">
+                      {selectedExample.resources.videos.map((video, index) => (
+                        <a
+                          key={index}
+                          href={video.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-red-500/20 hover:border-red-500/40"
+                        >
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <div className="text-white font-medium text-sm">
+                                {video.title}
+                              </div>
+                              <div className="text-red-400 text-xs">
+                                {video.creator} • {video.duration}
+                              </div>
+                            </div>
+                            <div className="text-red-400 hover:translate-x-1 transition-transform duration-300">
+                              ▶
+                            </div>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Documentation */}
+                  <div>
+                    <h4 className="text-lg font-bold text-purple-400 mb-3 flex items-center gap-2">
+                      <FaDatabase /> Documentation
+                    </h4>
+                    <div className="space-y-2">
+                      {selectedExample.resources.documentation.map(
+                        (doc, index) => (
+                          <a
+                            key={index}
+                            href={doc.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-purple-500/20 hover:border-purple-500/40"
+                          >
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <div className="text-white font-medium text-sm">
+                                  {doc.title}
+                                </div>
+                                <div className="text-purple-400 text-xs">
+                                  {doc.type}
+                                </div>
+                              </div>
+                              <div className="text-purple-400 hover:translate-x-1 transition-transform duration-300">
+                                →
+                              </div>
+                            </div>
+                          </a>
+                        ),
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>
