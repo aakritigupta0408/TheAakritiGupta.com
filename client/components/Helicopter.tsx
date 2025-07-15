@@ -598,8 +598,10 @@ export default function Helicopter() {
                     initial={{ scaleX: 0 }}
                     animate={{
                       scaleX:
-                        discoveredStories.length /
-                        ACHIEVEMENT_COLLECTIBLES.length,
+                        ACHIEVEMENT_COLLECTIBLES.length > 0
+                          ? discoveredStories.length /
+                            ACHIEVEMENT_COLLECTIBLES.length
+                          : 0,
                     }}
                     style={{ transformOrigin: "left" }}
                     transition={{ duration: 0.5 }}
