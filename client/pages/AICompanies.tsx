@@ -993,12 +993,66 @@ export default function AICompanies() {
           </motion.div>
         </div>
 
-        {/* Filters and Sort */}
-        <div className="mb-12 space-y-6 relative z-10">
-          <div className="flex flex-wrap gap-4 justify-center">
-            <span className="text-sm font-black text-white px-6 py-3 bg-white/10 backdrop-blur-md rounded-full border border-white/20">
-              🎨 Filter by Category:
-            </span>
+                {/* Modern Filters & Controls */}
+        <div className="mb-16 relative z-10">
+          {/* View Mode Toggle */}
+          <motion.div
+            className="flex justify-center mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-2 border border-white/20">
+              <div className="flex gap-2">
+                <motion.button
+                  onClick={() => setViewMode("grid")}
+                  className={`px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300 ${
+                    viewMode === "grid"
+                      ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-xl"
+                      : "text-gray-300 hover:text-white hover:bg-white/10"
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  🔲 Grid View
+                </motion.button>
+                <motion.button
+                  onClick={() => setViewMode("list")}
+                  className={`px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300 ${
+                    viewMode === "list"
+                      ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-xl"
+                      : "text-gray-300 hover:text-white hover:bg-white/10"
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  📋 List View
+                </motion.button>
+                <motion.button
+                  onClick={() => setShowStats(!showStats)}
+                  className={`px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300 ${
+                    showStats
+                      ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-xl"
+                      : "text-gray-300 hover:text-white hover:bg-white/10"
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  📊 Stats
+                </motion.button>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Enhanced Filters */}
+          <div className="space-y-6">
+            <div className="flex flex-wrap gap-4 justify-center">
+              <motion.span
+                className="text-sm font-black text-white px-6 py-3 bg-white/10 backdrop-blur-xl rounded-full border border-white/20"
+                whileHover={{ scale: 1.05 }}
+              >
+                🎨 Filter by Category:
+              </motion.span>
             {categories.slice(0, 6).map((category) => (
               <motion.button
                 key={category}
