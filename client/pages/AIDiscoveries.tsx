@@ -2074,30 +2074,91 @@ export default function AIDiscoveries() {
     return discoveries;
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+    return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-16 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-60 right-20 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-bounce"></div>
+        <div className="absolute bottom-20 left-1/4 w-72 h-72 bg-pink-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-40 left-1/2 w-88 h-88 bg-emerald-500/20 rounded-full blur-3xl animate-bounce delay-500"></div>
+        <div className="absolute bottom-40 right-1/3 w-64 h-64 bg-orange-500/20 rounded-full blur-3xl animate-pulse delay-700"></div>
+      </div>
+
       <Navigation />
 
-      <div className="container mx-auto px-6 py-12">
+            <div className="container mx-auto px-6 py-12 relative z-10">
         <div className="text-center mb-16">
-          <h1 className="text-6xl font-bold text-black mb-6">
-            AI Landmark Discoveries
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Explore the 20 fundamental breakthroughs that shaped artificial
-            intelligence, chronologically ordered from 1950 to 2018, with
-            interactive demos and insights into the brilliant minds behind them.
-          </p>
+          <motion.div
+            className="inline-block p-1 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 mb-8"
+            initial={{ opacity: 0, scale: 0.5, rotateY: -180 }}
+            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+            transition={{ duration: 1.2, ease: "backOut" }}
+          >
+            <h1 className="text-6xl md:text-8xl font-black bg-gradient-to-r from-white via-cyan-100 to-purple-100 bg-clip-text text-transparent px-8 py-6">
+              AI Landmark Discoveries
+            </h1>
+          </motion.div>
 
-          {/* Timeline indicator */}
-          <div className="flex justify-center items-center gap-4 mb-8">
-            <span className="text-sm text-gray-500">1950</span>
-            <div className="w-64 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-green-500 rounded-full"></div>
-            <span className="text-sm text-gray-500">2018</span>
-          </div>
+          <motion.p
+            className="text-xl text-gray-100 max-w-5xl mx-auto mb-8 leading-relaxed"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            🚀 Explore the 20 fundamental breakthroughs that shaped artificial
+            intelligence, chronologically ordered from 1950 to 2018! With
+            interactive demos and insights into the brilliant minds behind them. ✨
+          </motion.p>
 
-          {/* Sort controls */}
-          <div className="flex justify-center gap-4">
+          <motion.div
+            className="flex flex-wrap justify-center gap-4 mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
+              <span className="text-white font-bold">🔬 Interactive Demos</span>
+            </div>
+            <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
+              <span className="text-white font-bold">📜 Research Papers</span>
+            </div>
+            <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
+              <span className="text-white font-bold">👥 AI Pioneers</span>
+            </div>
+          </motion.div>
+
+                    {/* Timeline indicator */}
+          <motion.div
+            className="flex justify-center items-center gap-6 mb-10"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+          >
+            <span className="text-lg font-bold text-cyan-300 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 border border-white/20">1950</span>
+            <div className="relative">
+              <div className="w-80 h-2 bg-white/20 rounded-full overflow-hidden">
+                <motion.div
+                  className="h-full bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: "100%" }}
+                  transition={{ duration: 2, delay: 1 }}
+                />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></div>
+            </div>
+            <span className="text-lg font-bold text-pink-300 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 border border-white/20">2018</span>
+          </motion.div>
+
+                    {/* Sort controls */}
+          <motion.div
+            className="flex justify-center gap-4 mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.0 }}
+          >
+            <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 border border-white/20">
+              <span className="text-white font-bold mr-4">🔄 Sort by:</span>
             <button
               onClick={() => setSortBy("chronological")}
               className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
