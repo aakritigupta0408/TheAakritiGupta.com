@@ -40,6 +40,36 @@ interface Project {
     importantPapers: string[];
     businessImpact: string;
   };
+  implementationGuides: {
+    tutorials: {
+      title: string;
+      url: string;
+      platform: string;
+      difficulty: string;
+      duration: string;
+    }[];
+    videos: {
+      title: string;
+      url: string;
+      creator: string;
+      duration: string;
+      quality: string;
+    }[];
+    githubRepos: {
+      name: string;
+      url: string;
+      description: string;
+      stars: string;
+      language: string;
+    }[];
+    courses: {
+      title: string;
+      url: string;
+      provider: string;
+      level: string;
+      price: string;
+    }[];
+  };
 }
 
 const projects: Project[] = [
@@ -3413,7 +3443,7 @@ export default function AIProjects() {
                         transition={{ delay: 0.9 }}
                       >
                         <h3 className="text-2xl font-black text-white mb-6">
-                          💻 Code Example
+                          ��� Code Example
                         </h3>
                         <div className="bg-black/60 backdrop-blur-xl text-gray-100 p-6 rounded-2xl overflow-x-auto border border-white/20 shadow-2xl">
                           <div className="flex items-center gap-2 mb-4">
