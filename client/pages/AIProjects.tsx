@@ -789,6 +789,27 @@ def fine_tune_gpt2(train_dataset, output_dir):
     trainer.save_model()`,
     icon: "✍️",
     tags: ["GPT", "Text Generation", "Language Models", "Fine-tuning"],
+    theoreticalConcepts: {
+      fundamentals: [
+        "Autoregressive Generation - Predict next token given previous context",
+        "Temperature Sampling - Control randomness/creativity in generation",
+        "Top-k/Top-p Sampling - Filter low-probability tokens for better quality",
+        "Prompt Engineering - Craft inputs to guide model behavior",
+        "Fine-tuning vs Few-shot - Adapt models through training vs examples",
+      ],
+      keyTheory:
+        "Text generation models learn probability distributions over vocabulary given context. GPT uses decoder-only transformers with causal masking to generate coherent, contextually appropriate text through autoregressive prediction.",
+      mathematicalFoundations:
+        "Language modeling: P(w₁,...,w_n) = ∏P(w_i|w₁,...,w_{i-1}). Temperature scaling: P'(w_i) = exp(logits_i/T) / Σexp(logits_j/T)",
+      importantPapers: [
+        "GPT (2018) - Generative pre-training approach",
+        "GPT-2 (2019) - Scaling language models",
+        "GPT-3 (2020) - Few-shot learning capabilities",
+        "InstructGPT (2022) - Training with human feedback",
+      ],
+      businessImpact:
+        "Automates content creation, reduces writing time by 70%+, enables personalized communication at scale, and powers AI assistants generating billions of interactions daily.",
+    },
   },
   {
     id: 8,
