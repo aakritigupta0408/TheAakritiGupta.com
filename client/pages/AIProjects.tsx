@@ -5,10 +5,18 @@ import Navigation from "../components/Navigation";
 
 interface Resource {
   name: string;
-  type: "API" | "Dataset" | "Model" | "Framework";
+  type:
+    | "API"
+    | "Dataset"
+    | "Model"
+    | "Framework"
+    | "Company"
+    | "Research Lab"
+    | "Paper";
   description: string;
   link: string;
   pricing: string;
+  category?: "Industry" | "Academic" | "Open Source" | "Commercial";
 }
 
 interface Project {
