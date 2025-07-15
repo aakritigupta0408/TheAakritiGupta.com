@@ -678,6 +678,52 @@ const promptExamples: PromptExample[] = [
     useCase:
       "Product launches, marketing campaigns, business strategy, competitive analysis",
     icon: "📈",
+    resources: {
+      tutorials: [
+        {
+          title: "AI Marketing Strategy Development",
+          url: "https://www.hubspot.com/artificial-intelligence-marketing",
+          platform: "HubSpot Academy",
+          duration: "2 hours",
+        },
+        {
+          title: "Growth Hacking with AI",
+          url: "https://growthhackers.com/articles/ai-growth-hacking",
+          platform: "Growth Hackers",
+          duration: "1 hour",
+        },
+      ],
+      videos: [
+        {
+          title: "AI for Marketing Strategy",
+          url: "https://www.youtube.com/watch?v=qGhyKNl5Cs8",
+          creator: "Neil Patel",
+          duration: "34 min",
+        },
+      ],
+      tools: [
+        {
+          name: "Copy.ai",
+          url: "https://www.copy.ai/",
+          description: "AI-powered marketing copy generation",
+          pricing: "Free tier, $35+/month",
+        },
+        {
+          name: "Jasper",
+          url: "https://www.jasper.ai/",
+          description: "AI marketing content creation platform",
+          pricing: "$39+/month",
+        },
+      ],
+      templates: [
+        {
+          name: "Marketing Strategy Templates",
+          url: "https://blog.hubspot.com/marketing/marketing-plan-template-generator",
+          description: "Comprehensive marketing strategy frameworks",
+          category: "Marketing",
+        },
+      ],
+    },
   },
   {
     id: "learning-tutor",
