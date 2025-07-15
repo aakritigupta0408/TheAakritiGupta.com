@@ -129,6 +129,13 @@ const AI_DEMOS: AIDemo[] = [
       "Sales data analysis techniques",
       "Customer behavior patterns",
     ],
+    stateOfArt: {
+      name: "DataRobot",
+      url: "https://datarobot.com",
+      description:
+        "Enterprise AI platform for automated machine learning and predictive analytics",
+      company: "DataRobot",
+    },
   },
   {
     id: "translator",
