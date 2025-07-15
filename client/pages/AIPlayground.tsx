@@ -171,6 +171,13 @@ const AI_DEMOS: AIDemo[] = [
       "Key points about AI in healthcare",
       "Overview of quantum computing",
     ],
+    stateOfArt: {
+      name: "Notion AI",
+      url: "https://notion.so/product/ai",
+      description:
+        "AI-powered writing assistant that excels at summarizing and distilling complex information",
+      company: "Notion Labs",
+    },
   },
   {
     id: "poem-generator",
