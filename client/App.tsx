@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Games from "./pages/Games";
 import AIPlayground from "./pages/AIPlayground";
+import AIDiscoveries from "./pages/AIDiscoveries";
 import AIResearcher from "./pages/talents/AIResearcher";
 import SocialEntrepreneur from "./pages/talents/SocialEntrepreneur";
 import Marksman from "./pages/talents/Marksman";
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/games" element={<Games />} />
           <Route path="/ai-playground" element={<AIPlayground />} />
+          <Route path="/ai-discoveries" element={<AIDiscoveries />} />
           <Route path="/talent/ai-researcher" element={<AIResearcher />} />
           <Route
             path="/talent/social-entrepreneur"
