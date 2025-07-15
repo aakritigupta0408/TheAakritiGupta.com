@@ -998,6 +998,7 @@ const trainingTechniques: TrainingTechnique[] = [
       "Ensure agents behave safely and align with human values and intentions",
     icon: <FaShieldAlt className="text-red-400" />,
     keyPoints: [
+      "Safety training ensures AI agents follow ethical guidelines, avoid harmful outputs, and remain helpful even when prompted to behave badly.",
       "Constitutional AI principles",
       "Red team testing and adversarial training",
       "Bias detection and mitigation",
