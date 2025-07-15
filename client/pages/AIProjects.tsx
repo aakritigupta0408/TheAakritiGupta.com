@@ -214,6 +214,27 @@ def generate_response(input_text, chat_history_ids=None):
     return tokenizer.decode(chat_history_ids[:, bot_input_ids.shape[-1]:][0], skip_special_tokens=True)`,
     icon: "💬",
     tags: ["NLP", "Transformers", "GPT", "Conversational AI"],
+    theoreticalConcepts: {
+      fundamentals: [
+        "Transformer Architecture - Self-attention mechanism processes sequences in parallel",
+        "Language Modeling - Predicting next word given context using probability distributions",
+        "Tokenization - Converting text to numerical tokens that models can process",
+        "Fine-tuning vs RAG - Adapting pre-trained models vs retrieving relevant context",
+        "Context Windows - Maximum token limit that models can process at once",
+      ],
+      keyTheory:
+        "Large Language Models learn statistical patterns in text through unsupervised learning on massive corpora. Attention mechanisms allow models to focus on relevant parts of input when generating responses, enabling coherent long-form conversations.",
+      mathematicalFoundations:
+        "Attention: Attention(Q,K,V) = softmax(QK^T/√d_k)V. Cross-entropy loss for next-token prediction: L = -Σ log P(w_t|w_1...w_{t-1})",
+      importantPapers: [
+        "Attention Is All You Need (2017) - Transformer architecture",
+        "BERT (2018) - Bidirectional encoder representations",
+        "GPT (2018) - Generative pre-training of language models",
+        "ChatGPT/InstructGPT (2022) - Human feedback fine-tuning",
+      ],
+      businessImpact:
+        "Automates customer service, reduces response time from hours to seconds, handles 80%+ of routine inquiries, and scales support without linear cost increases.",
+    },
   },
   {
     id: 3,
