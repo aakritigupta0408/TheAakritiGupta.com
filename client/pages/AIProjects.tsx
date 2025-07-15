@@ -2466,7 +2466,6 @@ export default function AIProjects() {
                   rotateY: 3,
                   rotateX: 3,
                 }}
-                transition={{ duration: 0.5 }}
               >
                 <div className="p-8">
                   {/* Header */}
