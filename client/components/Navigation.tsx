@@ -110,8 +110,8 @@ const Navigation = () => {
                 whileHover={{ y: -2 }}
                 className={`tom-ford-subheading text-sm tracking-widest transition-colors duration-300 ${
                   isHomePage
-                    ? "text-yellow-400 border-b border-yellow-400 pb-1"
-                    : "text-white/80 hover:text-yellow-400"
+                    ? "luxury-text-accent border-b border-yellow-400 pb-1"
+                    : "luxury-text-muted hover:luxury-text-accent"
                 }`}
               >
                 PORTFOLIO
