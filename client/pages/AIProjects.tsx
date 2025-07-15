@@ -1172,16 +1172,17 @@ export default function AIProjects() {
                 delay: index * 0.15,
                 ease: "backOut",
               }}
-              className={`bg-white/10 backdrop-blur-xl rounded-3xl border overflow-hidden hover:scale-105 transition-all duration-500 shadow-2xl hover:shadow-purple-500/25 group ${
+              className={`bg-white/10 backdrop-blur-xl rounded-3xl border overflow-hidden shadow-2xl group ${
                 showCode[project.id]
                   ? "border-cyan-400/50 shadow-cyan-500/20"
                   : "border-white/20"
               }`}
               whileHover={{
-                scale: 1.02,
+                scale: 1.05,
                 rotateY: 3,
                 rotateX: 3,
               }}
+              transition={{ duration: 0.5 }}
             >
               <div className="p-8">
                 {/* Header */}
@@ -1237,7 +1238,7 @@ export default function AIProjects() {
                         ? "🌱"
                         : project.difficulty === "Intermediate"
                           ? "🔥"
-                          : "����"}{" "}
+                          : "🚀"}{" "}
                       {project.difficulty}
                     </motion.span>
                     <span className="px-4 py-2 bg-blue-500/30 border-2 border-blue-400/50 text-blue-200 rounded-full text-xs font-bold backdrop-blur-md">
