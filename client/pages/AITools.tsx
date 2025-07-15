@@ -1052,8 +1052,9 @@ export default function AITools() {
                   <div className="w-full bg-white/20 rounded-full h-3 overflow-hidden">
                     <motion.div
                       className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 h-3 rounded-full relative"
-                      initial={{ width: 0 }}
-                      animate={{ width: `${profession.aiAdoption}%` }}
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: profession.aiAdoption / 100 }}
+                      style={{ transformOrigin: "left" }}
                       transition={{
                         duration: 1.5,
                         delay: index * 0.1 + 0.8,
