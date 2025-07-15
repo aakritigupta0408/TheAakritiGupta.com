@@ -1128,7 +1128,8 @@ const LSTMDemo = () => {
             >
               <motion.div
                 className="h-full bg-blue-500 rounded-full"
-                animate={{ width: `${cellState * 100}%` }}
+                animate={{ scaleX: cellState }}
+                style={{ transformOrigin: "left" }}
                 transition={{ duration: 0.5 }}
               />
             </motion.div>
