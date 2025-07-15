@@ -295,13 +295,13 @@ export default function Index() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 1 }}
               >
-                <p className="tom-ford-subheading text-yellow-400 text-lg tracking-widest">
+                <p className="tom-ford-subheading luxury-text-accent text-lg tracking-widest">
                   SENIOR ML ENGINEER
                 </p>
-                <p className="tom-ford-subheading text-white/80 text-base tracking-wider">
+                <p className="tom-ford-subheading luxury-text-secondary text-base tracking-wider">
                   AI RESEARCHER
                 </p>
-                <p className="tom-ford-subheading text-white/60 text-sm tracking-wider">
+                <p className="tom-ford-subheading luxury-text-muted text-sm tracking-wider">
                   LUXURY TECH VISIONARY
                 </p>
               </motion.div>
