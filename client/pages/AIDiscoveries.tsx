@@ -1830,8 +1830,9 @@ const GANDemo = () => {
               <motion.div
                 className="h-full bg-green-500 rounded-full"
                 animate={{
-                  width: `${Math.min(100, discriminatorLoss * 100)}%`,
+                  scaleX: Math.min(1, discriminatorLoss),
                 }}
+                style={{ transformOrigin: "left" }}
                 transition={{ duration: 0.5 }}
               />
             </motion.div>
