@@ -23,6 +23,12 @@ interface AIDemo {
   description: string;
   placeholder: string;
   examples: string[];
+  stateOfArt: {
+    name: string;
+    url: string;
+    description: string;
+    company: string;
+  };
 }
 
 const AI_DEMOS: AIDemo[] = [
