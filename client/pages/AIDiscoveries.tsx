@@ -2214,11 +2214,11 @@ export default function AIDiscoveries() {
                   </span>
                 </div>
 
-                <h3 className="text-lg font-bold text-black mb-3">
+                <h3 className="text-lg font-bold text-white mb-3 group-hover:text-blue-300 transition-colors">
                   {discovery.title}
                 </h3>
 
-                <p className="text-sm text-gray-200 mb-6 line-clamp-3 leading-relaxed">
+                <p className="text-sm text-gray-100 mb-6 line-clamp-3 leading-relaxed">
                   {discovery.description}
                 </p>
 
