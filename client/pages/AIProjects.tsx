@@ -530,7 +530,7 @@ text = "I love this product! It's amazing."
 sentiment = analyze_sentiment(text)
 print(f"Sentiment: {sentiment['sentiment']}")
 print(f"Confidence: {max(sentiment['scores'].values()):.3f}")`,
-    icon: "😊",
+    icon: "��",
     tags: ["BERT", "Text Classification", "NLP", "Sentiment"],
     theoreticalConcepts: {
       fundamentals: [
@@ -1081,8 +1081,9 @@ export default function AIProjects() {
               </div>
             </motion.div>
             <motion.div
-              className="bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl group hover:scale-105 transition-all duration-300"
-              whileHover={{ y: -10, rotateY: 5 }}
+              className="bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl group"
+              whileHover={{ y: -10, rotateY: 5, scale: 1.05 }}
+              transition={{ duration: 0.3 }}
             >
               <div className="text-5xl font-black bg-gradient-to-r from-purple-400 to-violet-500 bg-clip-text text-transparent">
                 25+
