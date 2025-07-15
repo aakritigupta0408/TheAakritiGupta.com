@@ -479,6 +479,37 @@ export default function Index() {
                   <span>Pro Tools</span>
                 </motion.button>
               </div>
+
+              {/* New Prompt Engineering Button */}
+              <motion.button
+                onClick={() => navigate("/prompt-engineering")}
+                whileHover={{ scale: 1.05, y: -3 }}
+                whileTap={{ scale: 0.95 }}
+                className="relative group w-full bg-gradient-to-r from-violet-500/20 to-fuchsia-500/20 backdrop-blur-md border border-white/30 text-white px-6 py-4 rounded-2xl font-bold hover:from-violet-500/30 hover:to-fuchsia-500/30 transition-all duration-300 flex items-center justify-center gap-3 shadow-lg overflow-hidden"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.4 }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-violet-600/0 to-fuchsia-600/0 group-hover:from-violet-600/20 group-hover:to-fuchsia-600/20 transition-all duration-500"></div>
+                <motion.span
+                  className="text-2xl relative z-10"
+                  animate={{
+                    rotate: [0, 5, -5, 0],
+                    scale: [1, 1.1, 1],
+                  }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                >
+                  ✨
+                </motion.span>
+                <div className="relative z-10 text-center">
+                  <div className="group-hover:text-fuchsia-200 transition-colors font-black">
+                    Prompt Engineering Mastery
+                  </div>
+                  <div className="text-xs opacity-80 group-hover:opacity-100 transition-opacity">
+                    Master AI Communication
+                  </div>
+                </div>
+              </motion.button>
             </motion.div>
           </motion.div>
 
