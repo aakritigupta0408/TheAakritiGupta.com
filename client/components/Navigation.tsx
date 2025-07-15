@@ -171,6 +171,45 @@ const Navigation = () => {
 
   return (
     <>
+      {/* Floating AI Assistant Button */}
+      <motion.div
+        className="fixed bottom-8 right-8 z-40"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 2, duration: 0.5, type: "spring", bounce: 0.5 }}
+      >
+        <motion.button
+          whileHover={{ scale: 1.1, rotate: 5 }}
+          whileTap={{ scale: 0.9 }}
+          className="relative w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full shadow-2xl flex items-center justify-center text-white text-2xl border-2 border-white/20 group"
+          onClick={() => {
+            setIsSearchOpen(true);
+            if (searchInputRef.current) {
+              searchInputRef.current.focus();
+            }
+          }}
+        >
+          <motion.span
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            🤖
+          </motion.span>
+
+          {/* Pulsing ring */}
+          <motion.div
+            className="absolute inset-0 rounded-full border-2 border-cyan-400"
+            animate={{ scale: [1, 1.5], opacity: [1, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+
+          {/* Tooltip */}
+          <div className="absolute bottom-20 right-0 bg-black/90 backdrop-blur-md text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+            Ask AI Assistant
+          </div>
+        </motion.button>
+      </motion.div>
+
       {/* Adaptive Navigation Header */}
       <motion.header
         initial={{ y: -100, opacity: 0 }}
