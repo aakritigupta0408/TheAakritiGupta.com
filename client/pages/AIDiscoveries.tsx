@@ -1375,9 +1375,6 @@ const TransformerDemo = () => {
               className="px-3 py-2 bg-blue-100 border border-blue-300 rounded font-medium"
               animate={{
                 y: isProcessing ? [0, -10, 0] : 0,
-                backgroundColor: isProcessing
-                  ? ["#dbeafe", "#bfdbfe", "#dbeafe"]
-                  : "#dbeafe",
               }}
               transition={{
                 duration: 1,
