@@ -804,6 +804,7 @@ const trainingTechniques: TrainingTechnique[] = [
       "Deploy multiple specialized agents that work together to solve complex problems",
     icon: <FaNetworkWired className="text-green-400" />,
     keyPoints: [
+      "Multi-agent systems create teams of specialized AI agents that communicate and collaborate to solve complex problems beyond single agent capabilities.",
       "Specialized agents for different tasks",
       "Communication protocols between agents",
       "Consensus mechanisms for decisions",
