@@ -497,7 +497,10 @@ export default function Snake() {
                     className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full"
                     initial={{ scaleX: 0 }}
                     animate={{
-                      scaleX: discoveredStories.length / STORY_FOODS.length,
+                      scaleX:
+                        STORY_FOODS.length > 0
+                          ? discoveredStories.length / STORY_FOODS.length
+                          : 0,
                     }}
                     style={{ transformOrigin: "left" }}
                     transition={{ duration: 0.5 }}
