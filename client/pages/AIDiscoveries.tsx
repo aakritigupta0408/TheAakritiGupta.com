@@ -1305,8 +1305,14 @@ const LSTMDemo = () => {
       setTimeStep(step);
 
       // Simulate LSTM computations
-      setCellState((prev) => prev * gates.forget + Math.random() * 0.3);
-      setHiddenState((prev) => Math.tanh(cellState) * gates.output);
+      setCellState((prev) => {
+        const newValue = prev * gates.forget + Math.random() * 0.3;
+        return Math.max(0, Math.min(1, newValue)); // Clamp between 0 and 1
+      });
+      setHiddenState((prev) => {
+        const newValue = Math.tanh(cellState) * gates.output;
+        return Math.max(0, Math.min(1, newValue)); // Clamp between 0 and 1
+      });
 
       if (step >= sequence.length) {
         clearInterval(interval);
