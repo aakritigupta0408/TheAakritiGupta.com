@@ -656,6 +656,27 @@ print(f"MAE: {mae:.2f}")
 print(f"RMSE: {rmse:.2f}")`,
     icon: "📈",
     tags: ["Time Series", "Prophet", "LSTM", "Forecasting"],
+    theoreticalConcepts: {
+      fundamentals: [
+        "Temporal Dependencies - Past values influence future predictions",
+        "Seasonality - Recurring patterns at regular intervals (daily, weekly, yearly)",
+        "Trend Analysis - Long-term directional movement in data",
+        "LSTM Memory Cells - Selectively remember/forget information over time",
+        "Prophet Decomposition - Trend + Seasonality + Holidays + Error components",
+      ],
+      keyTheory:
+        "Time series forecasting models temporal relationships to predict future values. LSTMs use gating mechanisms to learn long-term dependencies, while Prophet uses additive decomposition for interpretable forecasting.",
+      mathematicalFoundations:
+        "LSTM gates: f_t = σ(W_f·[h_{t-1}, x_t] + b_f). Prophet: y(t) = g(t) + s(t) + h(t) + ε_t where g=trend, s=seasonality, h=holidays",
+      importantPapers: [
+        "LSTM (1997) - Long Short-Term Memory networks",
+        "Prophet (2017) - Facebook's forecasting tool",
+        "DeepAR (2017) - Amazon's probabilistic forecasting",
+        "Temporal Convolutional Networks (2018)",
+      ],
+      businessImpact:
+        "Optimizes inventory management, predicts demand fluctuations, reduces stockouts by 30%+, and enables data-driven capacity planning across industries.",
+    },
   },
   {
     id: 7,
