@@ -730,6 +730,9 @@ export default function AICompanies() {
   const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
   const [filterCategory, setFilterCategory] = useState<string>("All");
   const [sortBy, setSortBy] = useState<string>("valuation");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [showStats, setShowStats] = useState(true);
 
   const categories = [
     "All",
