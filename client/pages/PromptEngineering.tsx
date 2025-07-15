@@ -150,6 +150,52 @@ const promptTechniques: PromptTechnique[] = [
     whenToUse: "Specific formatting, pattern recognition, classification tasks",
     icon: "📚",
     color: "from-green-500 to-emerald-500",
+    resources: {
+      guides: [
+        {
+          title: "Few-Shot Learning with Language Models",
+          url: "https://www.promptingguide.ai/techniques/fewshot",
+          author: "Prompting Guide",
+          type: "Tutorial",
+        },
+        {
+          title: "In-Context Learning and Few-Shot Examples",
+          url: "https://platform.openai.com/docs/guides/prompt-engineering/strategy-provide-examples",
+          author: "OpenAI",
+          type: "Documentation",
+        },
+      ],
+      papers: [
+        {
+          title: "Language Models are Few-Shot Learners",
+          url: "https://arxiv.org/abs/2005.14165",
+          authors: "Brown et al. (OpenAI)",
+          year: "2020",
+        },
+        {
+          title: "What Makes Good In-Context Examples for GPT-3?",
+          url: "https://arxiv.org/abs/2101.06804",
+          authors: "Liu et al.",
+          year: "2021",
+        },
+      ],
+      courses: [
+        {
+          title: "Few-Shot Learning Masterclass",
+          url: "https://www.udemy.com/course/few-shot-learning/",
+          provider: "Udemy",
+          level: "Intermediate",
+        },
+      ],
+      communities: [
+        {
+          name: "AI/ML Twitter Community",
+          url: "https://twitter.com/search?q=%23FewShotLearning",
+          platform: "Twitter",
+          members: "100K+",
+        },
+      ],
+    },
   },
   {
     id: "role-playing",
@@ -160,6 +206,46 @@ const promptTechniques: PromptTechnique[] = [
     whenToUse: "Expert advice, specific perspectives, creative writing",
     icon: "🎭",
     color: "from-purple-500 to-pink-500",
+    resources: {
+      guides: [
+        {
+          title: "Role-Based Prompting Strategies",
+          url: "https://learnprompting.org/docs/basics/roles",
+          author: "Learn Prompting",
+          type: "Tutorial",
+        },
+        {
+          title: "Persona Patterns in AI",
+          url: "https://www.anthropic.com/news/claude-character",
+          author: "Anthropic",
+          type: "Research Article",
+        },
+      ],
+      papers: [
+        {
+          title: "Constitutional AI: Harmlessness from AI Feedback",
+          url: "https://arxiv.org/abs/2212.08073",
+          authors: "Bai et al. (Anthropic)",
+          year: "2022",
+        },
+      ],
+      courses: [
+        {
+          title: "Creative AI Writing",
+          url: "https://www.masterclass.com/classes/ai-writing",
+          provider: "MasterClass",
+          level: "Beginner",
+        },
+      ],
+      communities: [
+        {
+          name: "Character AI Community",
+          url: "https://character.ai/",
+          platform: "Character.AI",
+          members: "1M+",
+        },
+      ],
+    },
   },
   {
     id: "constraint-based",
