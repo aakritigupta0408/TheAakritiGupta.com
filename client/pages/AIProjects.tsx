@@ -325,6 +325,27 @@ def get_recommendations(user_id, n_recommendations=10):
     return predictions[:n_recommendations]`,
     icon: "🎯",
     tags: ["Collaborative Filtering", "Matrix Factorization", "Embeddings"],
+    theoreticalConcepts: {
+      fundamentals: [
+        "Collaborative Filtering - Users with similar preferences like similar items",
+        "Content-Based Filtering - Recommend items similar to user's past preferences",
+        "Matrix Factorization - Decompose user-item matrix into latent factors",
+        "Cold Start Problem - Handling new users/items with no interaction history",
+        "Embedding Spaces - Learn dense representations capturing user/item similarities",
+      ],
+      keyTheory:
+        "Recommendation systems predict user preferences by learning latent factors that explain observed interactions. Matrix factorization discovers hidden patterns in user-item interactions to predict unobserved preferences.",
+      mathematicalFoundations:
+        "Matrix Factorization: R ≈ UV^T where U(users×factors), V(items×factors). Loss: ||R - UV^T||²_F + λ(||U||²_F + ||V||²_F)",
+      importantPapers: [
+        "Netflix Prize Papers (2009) - Matrix factorization techniques",
+        "Deep Learning for Recommender Systems (2017)",
+        "Neural Collaborative Filtering (2017)",
+        "Wide & Deep Learning (2016) - Google's recommendation system",
+      ],
+      businessImpact:
+        "Drives 35%+ of Amazon revenue, increases user engagement by 60%+, and improves conversion rates by personalizing content discovery and product recommendations.",
+    },
   },
   {
     id: 4,
