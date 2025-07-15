@@ -2075,7 +2075,7 @@ export default function AIDiscoveries() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 relative overflow-hidden pt-20">
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-16 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
