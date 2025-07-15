@@ -479,6 +479,42 @@ Agent: The dataset contains sales information. Average sales: $1,234. Total reve
       "Include data visualization generation capabilities",
     ],
     useCase: "Business intelligence, marketing analytics, financial analysis",
+    resources: {
+      codeExamples: [
+        {
+          title: "AutoML Data Analysis Pipeline",
+          url: "https://github.com/microsoft/FLAML",
+          language: "Python",
+        },
+        {
+          title: "PandasAI Data Analysis Agent",
+          url: "https://github.com/gventuri/pandas-ai",
+          language: "Python",
+        },
+      ],
+      tutorials: [
+        {
+          title: "Building AI Data Analysts",
+          url: "https://docs.datarobot.com/en/docs/",
+          difficulty: "Intermediate",
+        },
+      ],
+      videos: [
+        {
+          title: "AI Data Analysis with Python",
+          url: "https://www.youtube.com/watch?v=vmEHCJofslg",
+          creator: "freeCodeCamp",
+          duration: "2 hr 15 min",
+        },
+      ],
+      documentation: [
+        {
+          title: "Tableau AI Analytics",
+          url: "https://help.tableau.com/current/pro/desktop/en-us/ask_data.htm",
+          type: "Platform Guide",
+        },
+      ],
+    },
   },
   {
     id: "security-monitor",
@@ -538,6 +574,42 @@ Agent: Security alert logged. Please review.`,
       "Include automated response capabilities",
     ],
     useCase: "Enterprise security, SOC automation, incident response",
+    resources: {
+      codeExamples: [
+        {
+          title: "Security Monitoring with AI",
+          url: "https://github.com/OTRF/Security-Datasets",
+          language: "Python",
+        },
+        {
+          title: "Splunk SOAR Security Automation",
+          url: "https://github.com/splunk/security_content",
+          language: "Python",
+        },
+      ],
+      tutorials: [
+        {
+          title: "AI-Powered SOC Operations",
+          url: "https://docs.splunk.com/Documentation/SOAR",
+          difficulty: "Advanced",
+        },
+      ],
+      videos: [
+        {
+          title: "Building AI Security Systems",
+          url: "https://www.youtube.com/watch?v=P4nGZ8zxFCI",
+          creator: "SANS Institute",
+          duration: "1 hr 22 min",
+        },
+      ],
+      documentation: [
+        {
+          title: "IBM QRadar AI Security",
+          url: "https://www.ibm.com/docs/en/qsip",
+          type: "Platform Guide",
+        },
+      ],
+    },
   },
   {
     id: "workflow-optimizer",
