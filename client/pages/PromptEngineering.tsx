@@ -512,6 +512,82 @@ const promptExamples: PromptExample[] = [
     useCase:
       "Business intelligence, research analysis, data-driven decision making",
     icon: "📊",
+    resources: {
+      tutorials: [
+        {
+          title: "AI for Data Analysis: Complete Guide",
+          url: "https://www.kaggle.com/learn/intro-to-machine-learning",
+          platform: "Kaggle",
+          duration: "4 hours",
+        },
+        {
+          title: "Prompt Engineering for Data Science",
+          url: "https://www.coursera.org/learn/prompt-engineering-for-data-science",
+          platform: "Coursera",
+          duration: "6 weeks",
+        },
+        {
+          title: "Statistical Analysis with AI Assistants",
+          url: "https://www.datacamp.com/courses/statistical-thinking-in-python-part-1",
+          platform: "DataCamp",
+          duration: "4 hours",
+        },
+      ],
+      videos: [
+        {
+          title: "Data Analysis with ChatGPT and Python",
+          url: "https://www.youtube.com/watch?v=vmEHCJofslg",
+          creator: "freeCodeCamp",
+          duration: "2 hr 15 min",
+        },
+        {
+          title: "AI-Powered Business Intelligence",
+          url: "https://www.youtube.com/watch?v=Ksv9GxNKFT4",
+          creator: "Microsoft Power BI",
+          duration: "45 min",
+        },
+        {
+          title: "Advanced Data Science Prompts",
+          url: "https://www.youtube.com/watch?v=wd7TZ4w1mSw",
+          creator: "Weights & Biases",
+          duration: "1 hr 8 min",
+        },
+      ],
+      tools: [
+        {
+          name: "Pandas AI",
+          url: "https://github.com/gventuri/pandas-ai",
+          description: "AI-powered data analysis with natural language queries",
+          pricing: "Open Source",
+        },
+        {
+          name: "Julius AI",
+          url: "https://julius.ai/",
+          description: "AI data analyst for instant insights",
+          pricing: "Free tier available",
+        },
+        {
+          name: "DataGPT",
+          url: "https://www.datagpt.com/",
+          description: "Conversational data analytics platform",
+          pricing: "Contact for pricing",
+        },
+      ],
+      templates: [
+        {
+          name: "Data Analysis Prompt Library",
+          url: "https://github.com/awesome-data-science/awesome-data-science",
+          description: "Comprehensive data science prompt collection",
+          category: "Data Science",
+        },
+        {
+          name: "Statistical Analysis Templates",
+          url: "https://www.statsmodels.org/stable/examples/index.html",
+          description: "Statistical modeling examples and prompts",
+          category: "Statistics",
+        },
+      ],
+    },
   },
   {
     id: "creative-writing",
