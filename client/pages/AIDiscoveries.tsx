@@ -2202,50 +2202,102 @@ export default function AIDiscoveries() {
           </motion.div>
         </div>
 
+        {/* Results Count */}
+        <motion.div
+          className="text-center mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 1.1 }}
+        >
+          <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20 inline-block">
+            <span className="text-white font-bold">
+              🎯 Showing {getFilteredAndSortedDiscoveries().length} of{" "}
+              {discoveries.length} discoveries
+              {filterDecade !== "All" && ` from the ${filterDecade}s`}
+              {sortBy === "alphabetical" ? " (A-Z)" : " (chronological)"}
+            </span>
+          </div>
+        </motion.div>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
-          {getFilteredAndSortedDiscoveries().map((discovery, index) => (
-            <motion.div
-              key={discovery.id}
-              className="bg-white/20 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 overflow-hidden cursor-pointer group hover:bg-white/25"
-              onClick={() => setSelectedDiscovery(discovery)}
-              whileHover={{ scale: 1.02, y: -5 }}
-              whileTap={{ scale: 0.98 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-sm font-bold text-blue-200 bg-blue-500/30 px-3 py-1 rounded-full border border-blue-400/50">
-                    {discovery.year}
-                  </span>
-                  <span className="text-lg font-bold text-gray-200">
-                    #{discovery.id}
-                  </span>
-                </div>
+          {getFilteredAndSortedDiscoveries().length > 0 ? (
+            getFilteredAndSortedDiscoveries().map((discovery, index) => (
+              <motion.div
+                key={discovery.id}
+                className="bg-white/20 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 overflow-hidden cursor-pointer group hover:bg-white/25"
+                onClick={() => setSelectedDiscovery(discovery)}
+                whileHover={{ scale: 1.02, y: -5 }}
+                whileTap={{ scale: 0.98 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-sm font-bold text-blue-200 bg-blue-500/30 px-3 py-1 rounded-full border border-blue-400/50">
+                      {discovery.year}
+                    </span>
+                    <span className="text-lg font-bold text-gray-200">
+                      #{discovery.id}
+                    </span>
+                  </div>
 
-                <h3 className="text-lg font-bold text-white mb-3 group-hover:text-blue-300 transition-colors">
-                  {discovery.title}
-                </h3>
+                  <h3 className="text-lg font-bold text-white mb-3 group-hover:text-blue-300 transition-colors">
+                    {discovery.title}
+                  </h3>
 
-                <p className="text-sm text-gray-100 mb-6 line-clamp-3 leading-relaxed">
-                  {discovery.description}
-                </p>
-
-                <div className="border-t border-white/20 pt-6">
-                  <p className="text-sm font-bold text-cyan-200 mb-2">
-                    👨‍🔬 {discovery.discoverer}
+                  <p className="text-sm text-gray-100 mb-6 line-clamp-3 leading-relaxed">
+                    {discovery.description}
                   </p>
-                  <motion.p
-                    className="text-xs text-white font-bold bg-gradient-to-r from-purple-500/30 to-pink-500/30 rounded-full px-3 py-2 border border-purple-400/50 inline-block group-hover:from-purple-400/40 group-hover:to-pink-400/40 transition-all"
-                    whileHover={{ scale: 1.05 }}
-                  >
-                    ✨ Click to explore interactive demo
-                  </motion.p>
+
+                  <div className="border-t border-white/20 pt-6">
+                    <p className="text-sm font-bold text-cyan-200 mb-2">
+                      👨‍🔬 {discovery.discoverer}
+                    </p>
+                    <motion.p
+                      className="text-xs text-white font-bold bg-gradient-to-r from-purple-500/30 to-pink-500/30 rounded-full px-3 py-2 border border-purple-400/50 inline-block group-hover:from-purple-400/40 group-hover:to-pink-400/40 transition-all"
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      ✨ Click to explore interactive demo
+                    </motion.p>
+                  </div>
                 </div>
+              </motion.div>
+            ))
+          ) : (
+            // No results state
+            <motion.div
+              className="col-span-full text-center py-20"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="bg-white/20 backdrop-blur-xl rounded-3xl p-12 border border-white/30 max-w-2xl mx-auto">
+                <motion.div
+                  className="text-8xl mb-6"
+                  animate={{ rotate: [0, 15, -15, 0] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                >
+                  🕰️
+                </motion.div>
+                <h3 className="text-3xl font-black text-white mb-4">
+                  No Discoveries Found
+                </h3>
+                <p className="text-gray-200 text-lg mb-8">
+                  No discoveries match your current decade filter. Try selecting
+                  a different time period or view all discoveries.
+                </p>
+                <motion.button
+                  onClick={() => setFilterDecade("All")}
+                  className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-full font-bold hover:from-cyan-600 hover:to-purple-700 transition-all duration-300 shadow-2xl"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  🌌 Show All Discoveries
+                </motion.button>
               </div>
             </motion.div>
-          ))}
+          )}
         </div>
 
         {selectedDiscovery && (
