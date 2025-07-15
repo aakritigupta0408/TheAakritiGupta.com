@@ -42,7 +42,7 @@ const FLOATING_SKILLS: Omit<
   {
     id: "engineer",
     label: "ENGINEER",
-    icon: "◇",
+    icon: "���",
     color: "tom-ford-float",
   },
   {
@@ -502,24 +502,75 @@ export default function Games() {
         )}
       </AnimatePresence>
 
-      {/* Sophisticated Footer */}
-      <section className="relative z-20 py-16 border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-8 text-center">
-          <p className="tom-ford-subheading text-white/40 text-sm tracking-widest">
-            © 2024 AAKRITI GUPTA • SENIOR ML ENGINEER • LUXURY TECH VISIONARY
-          </p>
-          <div className="mt-8 flex justify-center gap-12 text-xs text-white/30 tracking-wider">
-            <span>MARKSMAN</span>
-            <span>EQUESTRIAN</span>
-            <span>AVIATOR</span>
-            <span>MOTORCYCLIST</span>
-            <span>PIANIST</span>
+      {/* Enhanced Footer */}
+      <section className="relative z-20 py-16 bg-gray-100 border-t border-gray-200">
+        <div className="max-w-7xl mx-auto px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            {/* About Section */}
+            <div>
+              <h3 className="text-lg font-bold text-black mb-4">
+                Interactive Gaming Portfolio
+              </h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Experience strategic thinking and problem-solving through
+                carefully crafted games that showcase professional expertise.
+              </p>
+            </div>
+
+            {/* Game Categories */}
+            <div>
+              <h3 className="text-lg font-bold text-black mb-4">
+                Game Categories
+              </h3>
+              <div className="grid grid-cols-2 gap-2 text-sm">
+                <span className="text-gray-600">Strategy</span>
+                <span className="text-gray-600">Arcade</span>
+                <span className="text-gray-600">Educational</span>
+                <span className="text-gray-600">Traditional</span>
+                <span className="text-gray-600">Action</span>
+                <span className="text-gray-600">Classic</span>
+              </div>
+            </div>
+
+            {/* Skills Showcase */}
+            <div>
+              <h3 className="text-lg font-bold text-black mb-4">
+                Skills Demonstrated
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  "Strategic Thinking",
+                  "Problem Solving",
+                  "AI/ML",
+                  "Game Theory",
+                  "Pattern Recognition",
+                ].map((skill, idx) => (
+                  <span
+                    key={idx}
+                    className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Copyright */}
+          <div className="text-center pt-8 border-t border-gray-200">
+            <p className="text-gray-500 text-sm">
+              © 2024 Aakriti Gupta • Senior ML Engineer • Game Developer
+            </p>
+            <div className="mt-4 flex justify-center gap-8 text-xs text-gray-400">
+              <span>Marksman</span>
+              <span>Equestrian</span>
+              <span>Aviator</span>
+              <span>Motorcyclist</span>
+              <span>Pianist</span>
+            </div>
           </div>
         </div>
       </section>
-
-      {/* AI Assistant ChatBot */}
-      <ChatBot />
     </div>
   );
 }
