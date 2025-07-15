@@ -886,6 +886,45 @@ const trainingTechniques: TrainingTechnique[] = [
       "Integrates with existing workflows",
       "Automates complex operations",
     ],
+    resources: {
+      tutorials: [
+        {
+          title: "LangChain Tools and Agents",
+          url: "https://python.langchain.com/docs/modules/agents/tools/",
+          type: "Framework Guide",
+        },
+        {
+          title: "OpenAI Function Calling",
+          url: "https://platform.openai.com/docs/guides/function-calling",
+          type: "API Documentation",
+        },
+        {
+          title: "Tool Use with Anthropic Claude",
+          url: "https://docs.anthropic.com/claude/docs/tool-use",
+          type: "API Guide",
+        },
+      ],
+      videos: [
+        {
+          title: "Building AI Agents with Tool Access",
+          url: "https://www.youtube.com/watch?v=ZzgUqFtxgXI",
+          duration: "42 min",
+        },
+        {
+          title: "Function Calling with OpenAI API",
+          url: "https://www.youtube.com/watch?v=0lyCjjUIQOw",
+          duration: "25 min",
+        },
+      ],
+      papers: [
+        {
+          title:
+            "Toolformer: Language Models Can Teach Themselves to Use Tools",
+          url: "https://arxiv.org/abs/2302.04761",
+          authors: "Schick et al. (Meta)",
+        },
+      ],
+    },
   },
   {
     id: "memory-systems",
@@ -908,6 +947,44 @@ const trainingTechniques: TrainingTechnique[] = [
       "Builds knowledge over time",
       "Provides consistent experience",
     ],
+    resources: {
+      tutorials: [
+        {
+          title: "Building Memory Systems for AI Agents",
+          url: "https://python.langchain.com/docs/modules/memory/",
+          type: "Framework Guide",
+        },
+        {
+          title: "Vector Databases for AI Memory",
+          url: "https://docs.pinecone.io/docs/overview",
+          type: "Database Guide",
+        },
+        {
+          title: "Knowledge Graphs for AI Systems",
+          url: "https://neo4j.com/developer/graph-data-science/",
+          type: "Platform Guide",
+        },
+      ],
+      videos: [
+        {
+          title: "Persistent Memory in AI Agents",
+          url: "https://www.youtube.com/watch?v=VhwPbBw3L5w",
+          duration: "38 min",
+        },
+        {
+          title: "Vector Databases Explained",
+          url: "https://www.youtube.com/watch?v=dN0lsF2cvm4",
+          duration: "22 min",
+        },
+      ],
+      papers: [
+        {
+          title: "MemGPT: Towards LLMs as Operating Systems",
+          url: "https://arxiv.org/abs/2310.08560",
+          authors: "Packer et al.",
+        },
+      ],
+    },
   },
   {
     id: "safety-alignment",
