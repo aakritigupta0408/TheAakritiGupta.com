@@ -307,7 +307,7 @@ export default function Index() {
               </motion.div>
 
               <motion.div
-                className="mt-12 space-y-4 text-white/70 font-light text-lg leading-relaxed max-w-lg"
+                className="mt-12 space-y-4 luxury-text-muted font-light text-lg leading-relaxed max-w-lg"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9, duration: 1 }}
