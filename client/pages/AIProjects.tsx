@@ -532,6 +532,27 @@ print(f"Sentiment: {sentiment['sentiment']}")
 print(f"Confidence: {max(sentiment['scores'].values()):.3f}")`,
     icon: "😊",
     tags: ["BERT", "Text Classification", "NLP", "Sentiment"],
+    theoreticalConcepts: {
+      fundamentals: [
+        "Word Embeddings - Dense vector representations capturing semantic similarity",
+        "BERT Architecture - Bidirectional encoder for context-aware representations",
+        "Attention Mechanism - Weights determine importance of each word for classification",
+        "Transfer Learning - Fine-tune pre-trained language models on domain data",
+        "Text Preprocessing - Tokenization, normalization, handling out-of-vocabulary words",
+      ],
+      keyTheory:
+        "Sentiment analysis uses contextualized word representations to classify emotional polarity. BERT's bidirectional training captures nuanced semantic relationships that improve classification accuracy over traditional bag-of-words approaches.",
+      mathematicalFoundations:
+        "BERT uses multi-head self-attention: MultiHead(Q,K,V) = Concat(head₁,...,head_h)W^O. Classification head: P(class) = softmax(W·h_[CLS] + b)",
+      importantPapers: [
+        "BERT (2018) - Bidirectional encoder representations",
+        "RoBERTa (2019) - Robustly optimized BERT approach",
+        "DistilBERT (2019) - Lightweight BERT alternative",
+        "Sentiment Treebank (2013) - Fine-grained sentiment dataset",
+      ],
+      businessImpact:
+        "Monitors brand reputation in real-time, processes millions of social media posts daily, and provides actionable insights that drive marketing strategies and customer service improvements.",
+    },
   },
   {
     id: 6,
