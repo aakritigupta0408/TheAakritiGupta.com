@@ -2312,9 +2312,14 @@ export default function AIDiscoveries() {
         )}
 
         <div className="text-center">
-          <Link to="/" className="button-secondary">
-            ← Back to Portfolio
-          </Link>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link
+              to="/"
+              className="inline-block bg-gradient-to-r from-purple-500 to-pink-600 text-white font-bold px-8 py-4 rounded-full hover:from-purple-600 hover:to-pink-700 transition-all duration-300 shadow-2xl border border-white/20 backdrop-blur-md"
+            >
+              ← Back to Portfolio
+            </Link>
+          </motion.div>
         </div>
       </div>
     </div>
