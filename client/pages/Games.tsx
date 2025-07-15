@@ -342,8 +342,8 @@ export default function Games() {
         </div>
       </section>
 
-      {/* Play Old Games Menu */}
-      <section className="relative z-20 py-20 border-t border-white/10">
+      {/* Game Selection Grid */}
+      <section className="relative z-20 py-16">
         <div className="max-w-7xl mx-auto px-8">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -351,36 +351,86 @@ export default function Games() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="tom-ford-heading text-4xl md:text-5xl text-white mb-6">
-              PLAY OLD
-              <br />
-              <span className="gold-shimmer">GAMES</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
+              Choose Your
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                {" "}
+                Adventure
+              </span>
             </h2>
-            <p className="tom-ford-subheading text-white/60 text-lg tracking-widest max-w-3xl mx-auto">
-              CLASSIC GAMING EXPERIENCES SHOWCASING TECHNICAL MASTERY
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Select from our collection of interactive games that showcase
+              different aspects of strategic thinking and problem-solving
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-6 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {gameCards.map((game, index) => (
-              <motion.button
+              <motion.div
                 key={game.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}
-                whileHover={{ scale: 1.05, y: -8 }}
+                whileHover={{ scale: 1.02, y: -5 }}
+                onHoverStart={() => setHoveredGame(game.id)}
+                onHoverEnd={() => setHoveredGame(null)}
                 onClick={() => setActiveGame(game.id)}
-                className="tom-ford-card rounded-sm p-6 text-center transition-all duration-500 hover:border-yellow-400/60 group"
+                className={`cursor-pointer bg-white rounded-2xl shadow-lg border-2 transition-all duration-300 overflow-hidden group ${
+                  activeGame === game.id
+                    ? `${game.accent} shadow-2xl`
+                    : hoveredGame === game.id
+                      ? "border-gray-300 shadow-xl"
+                      : "border-gray-200 hover:shadow-xl"
+                }`}
               >
-                <div className="text-3xl text-yellow-400 mb-4 group-hover:scale-110 transition-transform duration-300">
-                  {game.icon}
+                {/* Game Header */}
+                <div
+                  className={`p-6 bg-gradient-to-r ${game.gradient} text-white relative overflow-hidden`}
+                >
+                  <motion.div
+                    className="absolute inset-0 bg-white/10"
+                    animate={{
+                      x: hoveredGame === game.id ? ["100%", "-100%"] : "100%",
+                    }}
+                    transition={{ duration: 0.6 }}
+                  />
+                  <div className="relative z-10">
+                    <div className="text-4xl mb-3">{game.icon}</div>
+                    <h3 className="text-xl font-bold mb-2">{game.title}</h3>
+                    <div className="flex gap-2 flex-wrap">
+                      <span className="text-xs bg-white/20 px-2 py-1 rounded-full">
+                        {game.category}
+                      </span>
+                      <span className="text-xs bg-white/20 px-2 py-1 rounded-full">
+                        {game.difficulty}
+                      </span>
+                      <span className="text-xs bg-white/20 px-2 py-1 rounded-full">
+                        {game.players}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="tom-ford-subheading text-white text-xs mb-3 tracking-widest">
-                  {game.title}
-                </h3>
-                <div className="w-full h-0.5 bg-yellow-400/20 group-hover:bg-yellow-400/60 transition-colors duration-300" />
-              </motion.button>
+
+                {/* Game Content */}
+                <div className="p-6">
+                  <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                    {game.description}
+                  </p>
+
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`w-full py-3 px-4 rounded-xl font-semibold transition-all duration-300 ${
+                      activeGame === game.id
+                        ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white"
+                        : "bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300"
+                    }`}
+                  >
+                    {activeGame === game.id ? "Currently Playing" : "Play Game"}
+                  </motion.button>
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>
