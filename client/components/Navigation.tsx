@@ -90,15 +90,15 @@ const Navigation = () => {
               whileHover={{ scale: 1.02 }}
               className="flex items-center gap-3"
             >
-              <div className="w-10 h-10 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-lg flex items-center justify-center border-2 border-black">
-                <span className="text-white font-bold text-lg">◆</span>
+              <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center border-2 border-blue-700">
+                <span className="text-white font-bold text-xl">AG</span>
               </div>
               <div className="text-left">
-                <div className="tom-ford-heading luxury-text-primary text-lg tracking-wider">
+                <div className="tom-ford-heading luxury-text-primary text-title font-bold">
                   AAKRITI GUPTA
                 </div>
-                <div className="tom-ford-subheading luxury-text-accent text-xs tracking-widest">
-                  ML ENGINEER & VISIONARY
+                <div className="tom-ford-subheading luxury-text-accent text-caption">
+                  ML ENGINEER & AI RESEARCHER
                 </div>
               </div>
             </motion.button>
