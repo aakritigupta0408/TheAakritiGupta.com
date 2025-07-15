@@ -1064,6 +1064,7 @@ const trainingTechniques: TrainingTechnique[] = [
       "Enable agents to learn and improve from ongoing interactions and new data",
     icon: <FaRocket className="text-cyan-400" />,
     keyPoints: [
+      "Continuous learning allows AI agents to improve their performance automatically over time by learning from new data and user interactions.",
       "Online learning capabilities",
       "Performance monitoring and metrics",
       "Automated retraining pipelines",
