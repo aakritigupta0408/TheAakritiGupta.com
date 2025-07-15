@@ -816,6 +816,54 @@ const trainingTechniques: TrainingTechnique[] = [
       "Leverages specialized expertise",
       "Scalable problem-solving approach",
     ],
+    resources: {
+      tutorials: [
+        {
+          title: "Microsoft AutoGen Multi-Agent Framework",
+          url: "https://github.com/microsoft/autogen",
+          type: "Framework",
+        },
+        {
+          title: "CrewAI Multi-Agent Orchestration",
+          url: "https://docs.crewai.com/",
+          type: "Documentation",
+        },
+        {
+          title: "LangGraph Multi-Agent Workflows",
+          url: "https://python.langchain.com/docs/langgraph",
+          type: "Framework Guide",
+        },
+      ],
+      videos: [
+        {
+          title: "Multi-Agent Systems with AutoGen",
+          url: "https://www.youtube.com/watch?v=BYnTzaGo06I",
+          duration: "35 min",
+        },
+        {
+          title: "Building Agent Teams with CrewAI",
+          url: "https://www.youtube.com/watch?v=VnBNJJd_JsE",
+          duration: "28 min",
+        },
+        {
+          title: "Advanced Multi-Agent Coordination",
+          url: "https://www.youtube.com/watch?v=awUu83HVOh8",
+          duration: "52 min",
+        },
+      ],
+      papers: [
+        {
+          title: "Multi-Agent Reinforcement Learning: A Selective Overview",
+          url: "https://arxiv.org/abs/1911.10635",
+          authors: "Zhang et al.",
+        },
+        {
+          title: "Communicative Multi-Agent Reinforcement Learning",
+          url: "https://arxiv.org/abs/2003.06419",
+          authors: "Singh et al.",
+        },
+      ],
+    },
   },
   {
     id: "tool-integration",
