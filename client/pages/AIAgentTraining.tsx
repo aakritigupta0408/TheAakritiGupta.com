@@ -1207,9 +1207,9 @@ Week 7-8: Production deployment and monitoring
       </div>
 
       {/* Navigation Tabs */}
-      <div className="max-w-6xl mx-auto px-6 mb-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-6 sm:mb-8">
         <div className="flex justify-center">
-          <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-2">
+          <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-1 sm:p-2 overflow-x-auto">
             {[
               {
                 id: "examples",
@@ -1226,7 +1226,7 @@ Week 7-8: Production deployment and monitoring
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 flex items-center gap-2 ${
+                className={`px-3 sm:px-4 lg:px-6 py-2 sm:py-3 rounded-xl font-medium transition-all duration-300 flex items-center gap-1 sm:gap-2 text-sm sm:text-base whitespace-nowrap ${
                   activeTab === tab.id
                     ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg"
                     : "text-slate-300 hover:text-white hover:bg-white/10"
