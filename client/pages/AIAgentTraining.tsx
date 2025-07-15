@@ -452,7 +452,7 @@ Agent: The dataset contains sales information. Average sales: $1,234. Total reve
 - Peak Performance: Fridays show 23% higher sales
 - Geographic Insights: West Coast markets outperforming by 31%
 
-📈 **STATISTICAL ANALYSIS**
+��� **STATISTICAL ANALYSIS**
 - Correlation: Marketing spend vs Sales (r=0.78)
 - Seasonality: 40% revenue spike in Q4
 - Customer Segments: Premium customers (20%) drive 60% revenue
@@ -1691,7 +1691,7 @@ Week 7-8: Production deployment and monitoring
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 z-50"
             onClick={() => setSelectedTechnique(null)}
           >
             <motion.div
