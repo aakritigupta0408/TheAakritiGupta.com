@@ -2,6 +2,9 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
+import DeepBlueChess from "@/components/games/DeepBlueChess";
+import AlphaGoDemo from "@/components/games/AlphaGoDemo";
+import LibratusPoker from "@/components/games/LibratusPoker";
 
 interface AIVictory {
   id: string;
@@ -676,34 +679,43 @@ export default function AIChampions() {
                   </div>
                 </motion.div>
 
-                {/* Game Content */}
+                                {/* Game Content */}
                 <motion.div
-                  className="p-8 bg-gray-50 min-h-[600px] flex items-center justify-center"
+                  className="bg-gray-50 min-h-[600px]"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.4 }}
                 >
-                  <div className="text-center">
-                    <div className="text-6xl mb-4">🚧</div>
-                    <h4 className="text-2xl font-bold text-gray-800 mb-4">
-                      Demo Coming Soon
-                    </h4>
-                    <p className="text-gray-600 max-w-2xl mx-auto">
-                      Interactive demo for{" "}
-                      {aiVictories.find((v) => v.id === activeGame)?.game} is
-                      under development. You'll soon be able to play against the
-                      same AI that defeated world champions!
-                    </p>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => navigate("/games")}
-                      className="mt-6 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-semibold hover:from-blue-600 hover:to-blue-700 transition-all"
-                    >
-                      Play Other Games
-                    </motion.button>
-                  </div>
-                </motion.div>
+                  {activeGame === "deep-blue-chess" && <DeepBlueChess />}
+                  {activeGame === "alphago-go" && <AlphaGoDemo />}
+                  {activeGame === "libratus-poker" && <LibratusPoker />}
+                  {activeGame &&
+                    !["deep-blue-chess", "alphago-go", "libratus-poker"].includes(
+                      activeGame,
+                    ) && (
+                      <div className="p-8 flex items-center justify-center">
+                        <div className="text-center">
+                          <div className="text-6xl mb-4">🚧</div>
+                          <h4 className="text-2xl font-bold text-gray-800 mb-4">
+                            Demo Coming Soon
+                          </h4>
+                          <p className="text-gray-600 max-w-2xl mx-auto">
+                            Interactive demo for{" "}
+                            {aiVictories.find((v) => v.id === activeGame)?.game} is
+                            under development. You'll soon be able to play against the
+                            same AI that defeated world champions!
+                          </p>
+                          <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => navigate("/games")}
+                            className="mt-6 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-semibold hover:from-blue-600 hover:to-blue-700 transition-all"
+                          >
+                            Play Other Games
+                          </motion.button>
+                        </div>
+                      </div>
+                    )}
               </motion.div>
             </div>
           </section>
