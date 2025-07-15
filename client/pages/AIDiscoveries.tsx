@@ -1424,7 +1424,7 @@ const LSTMDemo = () => {
             >
               <motion.div
                 className="h-full bg-blue-500 rounded-full"
-                animate={{ scaleX: cellState }}
+                animate={{ scaleX: isNaN(cellState) ? 0 : cellState }}
                 style={{ transformOrigin: "left" }}
                 transition={{ duration: 0.5 }}
               />
