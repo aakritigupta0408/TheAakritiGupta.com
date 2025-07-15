@@ -2223,11 +2223,11 @@ export default function AIDiscoveries() {
                 </p>
 
                 <div className="border-t border-white/20 pt-6">
-                  <p className="text-sm font-bold text-cyan-300 mb-2">
+                  <p className="text-sm font-bold text-cyan-200 mb-2">
                     👨‍🔬 {discovery.discoverer}
                   </p>
                   <motion.p
-                    className="text-xs text-white font-bold bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full px-3 py-2 border border-purple-400/30 inline-block"
+                    className="text-xs text-white font-bold bg-gradient-to-r from-purple-500/30 to-pink-500/30 rounded-full px-3 py-2 border border-purple-400/50 inline-block group-hover:from-purple-400/40 group-hover:to-pink-400/40 transition-all"
                     whileHover={{ scale: 1.05 }}
                   >
                     ✨ Click to explore interactive demo
