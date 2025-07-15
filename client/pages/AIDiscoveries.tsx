@@ -958,8 +958,11 @@ const AttentionDemo = () => {
                     : "bg-gray-100 hover:bg-gray-200"
                 }`}
                 style={{
-                  opacity: 0.3 + 0.7 * getAttentionWeight(word),
-                  transform: `scale(${0.9 + 0.1 * getAttentionWeight(word)})`,
+                  opacity:
+                    0.3 +
+                    0.7 *
+                      Math.max(0, Math.min(1, getAttentionWeight(word) || 0)),
+                  transform: `scale(${0.9 + 0.1 * Math.max(0, Math.min(1, getAttentionWeight(word) || 0))})`,
                 }}
               >
                 {word}
