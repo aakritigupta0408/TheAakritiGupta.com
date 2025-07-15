@@ -401,9 +401,10 @@ const Navigation = () => {
         <AnimatePresence>
           {isSearchOpen && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
+              initial={{ opacity: 0, scaleY: 0 }}
+              animate={{ opacity: 1, scaleY: 1 }}
+              exit={{ opacity: 0, scaleY: 0 }}
+              style={{ originY: 0 }}
               transition={{ duration: 0.3 }}
               className="border-t border-white/10 bg-black/95 backdrop-blur-xl"
             >
@@ -517,9 +518,10 @@ const Navigation = () => {
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
+              initial={{ opacity: 0, scaleY: 0 }}
+              animate={{ opacity: 1, scaleY: 1 }}
+              exit={{ opacity: 0, scaleY: 0 }}
+              style={{ originY: 0 }}
               transition={{ duration: 0.3 }}
               className="xl:hidden bg-black/95 backdrop-blur-xl border-t border-white/10"
             >
