@@ -98,6 +98,79 @@ Agent: I completely understand your frustration - waiting for an order can be re
       "Use warm, human-like language patterns",
     ],
     useCase: "E-commerce platforms, SaaS support, healthcare customer service",
+    resources: {
+      codeExamples: [
+        {
+          title: "OpenAI GPT-4 Customer Service Bot",
+          url: "https://github.com/openai/openai-cookbook/blob/main/examples/How_to_build_a_customer_service_chatbot.ipynb",
+          language: "Python",
+        },
+        {
+          title: "Rasa Customer Service Framework",
+          url: "https://github.com/RasaHQ/rasa",
+          language: "Python",
+        },
+        {
+          title: "Microsoft Bot Framework Customer Service",
+          url: "https://github.com/microsoft/BotFramework-Samples",
+          language: "C#/Node.js",
+        },
+      ],
+      tutorials: [
+        {
+          title: "Building Empathetic AI Chatbots",
+          url: "https://platform.openai.com/docs/guides/fine-tuning",
+          difficulty: "Intermediate",
+        },
+        {
+          title: "Customer Service Bot with LangChain",
+          url: "https://python.langchain.com/docs/use_cases/chatbots",
+          difficulty: "Beginner",
+        },
+        {
+          title: "Implementing RLHF for Customer Service",
+          url: "https://huggingface.co/blog/rlhf",
+          difficulty: "Advanced",
+        },
+      ],
+      videos: [
+        {
+          title: "Building AI Customer Service Agents from Scratch",
+          url: "https://www.youtube.com/watch?v=5dWNiKOldh0",
+          creator: "AI Jason",
+          duration: "45 min",
+        },
+        {
+          title: "Customer Service Chatbot with OpenAI API",
+          url: "https://www.youtube.com/watch?v=dI2WkwqOhqQ",
+          creator: "Tech With Tim",
+          duration: "32 min",
+        },
+        {
+          title: "Advanced Conversational AI Techniques",
+          url: "https://www.youtube.com/watch?v=yj-wSRJwrrc",
+          creator: "DeepLearning.AI",
+          duration: "1 hr 15 min",
+        },
+      ],
+      documentation: [
+        {
+          title: "OpenAI Assistant API Documentation",
+          url: "https://platform.openai.com/docs/assistants/overview",
+          type: "API Reference",
+        },
+        {
+          title: "Anthropic Claude for Customer Service",
+          url: "https://docs.anthropic.com/claude/docs/intro-to-claude",
+          type: "Guide",
+        },
+        {
+          title: "Azure Bot Service Documentation",
+          url: "https://docs.microsoft.com/en-us/azure/bot-service/",
+          type: "Platform Guide",
+        },
+      ],
+    },
   },
   {
     id: "research-assistant",
