@@ -300,7 +300,7 @@ def generate_response(input_text, chat_history_ids=None):
     )
     
     return tokenizer.decode(chat_history_ids[:, bot_input_ids.shape[-1]:][0], skip_special_tokens=True)`,
-    icon: "����",
+    icon: "💬",
     tags: ["NLP", "Transformers", "GPT", "Conversational AI"],
     theoreticalConcepts: {
       fundamentals: [
@@ -512,6 +512,7 @@ def get_recommendations(user_id, n_recommendations=10):
         description: "State-of-the-art object detection model",
         link: "https://github.com/ultralytics/ultralytics",
         pricing: "Free",
+        category: "Open Source",
       },
       {
         name: "COCO Dataset",
@@ -519,6 +520,7 @@ def get_recommendations(user_id, n_recommendations=10):
         description: "330K images with 80 object categories",
         link: "https://cocodataset.org/",
         pricing: "Free",
+        category: "Academic",
       },
       {
         name: "Detectron2",
@@ -526,6 +528,48 @@ def get_recommendations(user_id, n_recommendations=10):
         description: "Facebook's detection and segmentation platform",
         link: "https://detectron2.readthedocs.io/",
         pricing: "Free",
+        category: "Open Source",
+      },
+      {
+        name: "Ultralytics",
+        type: "Company",
+        description: "YOLO series creators and computer vision solutions",
+        link: "https://ultralytics.com/",
+        pricing: "N/A",
+        category: "Industry",
+      },
+      {
+        name: "Meta AI (FAIR)",
+        type: "Research Lab",
+        description: "Faster R-CNN, Mask R-CNN, and Detectron frameworks",
+        link: "https://ai.meta.com/",
+        pricing: "N/A",
+        category: "Industry",
+      },
+      {
+        name: "Microsoft Research",
+        type: "Research Lab",
+        description: "R-CNN series and object detection innovations",
+        link: "https://www.microsoft.com/en-us/research/",
+        pricing: "N/A",
+        category: "Industry",
+      },
+      {
+        name: "YOLO Paper",
+        type: "Paper",
+        description: "You Only Look Once: Unified, Real-Time Object Detection",
+        link: "https://arxiv.org/abs/1506.02640",
+        pricing: "Free",
+        category: "Academic",
+      },
+      {
+        name: "Faster R-CNN Paper",
+        type: "Paper",
+        description:
+          "Towards Real-Time Object Detection with Region Proposal Networks",
+        link: "https://arxiv.org/abs/1506.01497",
+        pricing: "Free",
+        category: "Academic",
       },
     ],
     codeExample: `from ultralytics import YOLO
