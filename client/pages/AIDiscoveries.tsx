@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import Navigation from "../components/Navigation";
 
 interface Discovery {
@@ -176,13 +177,147 @@ const PerceptronDemo = () => {
   const [weight1, setWeight1] = useState(0.7);
   const [weight2, setWeight2] = useState(0.4);
   const [bias, setBias] = useState(-0.2);
+  const [animateSignal, setAnimateSignal] = useState(false);
 
   const output = input1 * weight1 + input2 * weight2 + bias;
   const activated = output > 0 ? 1 : 0;
 
+  const triggerAnimation = () => {
+    setAnimateSignal(true);
+    setTimeout(() => setAnimateSignal(false), 2000);
+  };
+
   return (
     <div className="bg-white p-6 rounded-lg border border-gray-200">
       <h4 className="text-lg font-semibold mb-4">Interactive Perceptron</h4>
+
+      {/* Neural Network Visualization */}
+      <div className="mb-6 bg-gray-50 p-6 rounded-lg">
+        <div className="flex items-center justify-between relative">
+          {/* Inputs */}
+          <div className="space-y-8">
+            <motion.div
+              className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold"
+              animate={{ scale: animateSignal ? [1, 1.2, 1] : 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              {input1.toFixed(1)}
+            </motion.div>
+            <motion.div
+              className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold"
+              animate={{ scale: animateSignal ? [1, 1.2, 1] : 1 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              {input2.toFixed(1)}
+            </motion.div>
+          </div>
+
+          {/* Connections with weights */}
+          <div className="flex-1 relative mx-8">
+            <svg className="w-full h-32" viewBox="0 0 200 120">
+              {/* Weight lines */}
+              <motion.line
+                x1="10"
+                y1="20"
+                x2="180"
+                y2="60"
+                stroke={weight1 > 0 ? "#10b981" : "#ef4444"}
+                strokeWidth={Math.abs(weight1) * 4 + 1}
+                initial={{ pathLength: 0 }}
+                animate={{
+                  pathLength: animateSignal ? [0, 1] : 1,
+                  stroke: animateSignal
+                    ? ["#3b82f6", weight1 > 0 ? "#10b981" : "#ef4444"]
+                    : weight1 > 0
+                      ? "#10b981"
+                      : "#ef4444",
+                }}
+                transition={{ duration: 0.8 }}
+              />
+              <motion.line
+                x1="10"
+                y1="100"
+                x2="180"
+                y2="60"
+                stroke={weight2 > 0 ? "#10b981" : "#ef4444"}
+                strokeWidth={Math.abs(weight2) * 4 + 1}
+                initial={{ pathLength: 0 }}
+                animate={{
+                  pathLength: animateSignal ? [0, 1] : 1,
+                  stroke: animateSignal
+                    ? ["#3b82f6", weight2 > 0 ? "#10b981" : "#ef4444"]
+                    : weight2 > 0
+                      ? "#10b981"
+                      : "#ef4444",
+                }}
+                transition={{ duration: 0.8, delay: 0.1 }}
+              />
+
+              {/* Weight labels */}
+              <text
+                x="60"
+                y="30"
+                fill="#374151"
+                fontSize="12"
+                fontWeight="bold"
+              >
+                w₁: {weight1.toFixed(1)}
+              </text>
+              <text
+                x="60"
+                y="90"
+                fill="#374151"
+                fontSize="12"
+                fontWeight="bold"
+              >
+                w₂: {weight2.toFixed(1)}
+              </text>
+            </svg>
+          </div>
+
+          {/* Output neuron */}
+          <motion.div
+            className={`w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-lg ${
+              activated ? "bg-green-500" : "bg-red-500"
+            }`}
+            animate={{
+              scale: animateSignal ? [1, 1.3, 1] : 1,
+              backgroundColor: animateSignal
+                ? ["#3b82f6", activated ? "#10b981" : "#ef4444"]
+                : activated
+                  ? "#10b981"
+                  : "#ef4444",
+            }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+          >
+            {activated}
+          </motion.div>
+        </div>
+
+        {/* Bias visualization */}
+        <div className="mt-4 text-center">
+          <div className="inline-flex items-center gap-2">
+            <span className="text-sm font-medium">Bias:</span>
+            <motion.div
+              className={`px-3 py-1 rounded-full text-white font-bold ${
+                bias > 0 ? "bg-green-500" : "bg-red-500"
+              }`}
+              animate={{ scale: animateSignal ? [1, 1.1, 1] : 1 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
+              {bias.toFixed(1)}
+            </motion.div>
+          </div>
+        </div>
+
+        <button
+          onClick={triggerAnimation}
+          className="mt-4 w-full button-primary"
+        >
+          🔥 Activate Signal Flow
+        </button>
+      </div>
+
       <div className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div>
