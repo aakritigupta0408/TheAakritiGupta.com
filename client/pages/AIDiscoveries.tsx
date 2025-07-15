@@ -19,12 +19,27 @@ interface Discovery {
 const allDiscoveries: Discovery[] = [
   {
     id: 1,
+    title: "Minimax Algorithm",
+    year: "1950",
+    discoverer: "Claude Shannon",
+    discovererBio:
+      "American mathematician and electrical engineer, known as the 'Father of Information Theory'.",
+    paperTitle: "Programming a Computer for Playing Chess",
+    paperLink: "https://www.pi.infn.it/~carosi/chess/shannon.txt",
+    description:
+      "Game-theoretic algorithm for optimal decision-making in zero-sum games.",
+    impact: "Foundation for game-playing AI and decision-making algorithms.",
+    demoType: "minimax",
+  },
+  {
+    id: 2,
     title: "Artificial Intelligence Term Coined",
     year: "1956",
     discoverer: "John McCarthy",
     discovererBio:
       "American computer scientist who coined the term 'Artificial Intelligence' and organized the famous Dartmouth Conference.",
-    paperTitle: "A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence",
+    paperTitle:
+      "A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence",
     paperLink: "http://jmc.stanford.edu/articles/dartmouth/dartmouth.pdf",
     description:
       "The formal beginning of AI as a field of study, defining the term and establishing research goals.",
@@ -32,7 +47,7 @@ const allDiscoveries: Discovery[] = [
     demoType: "concept",
   },
   {
-    id: 2,
+    id: 3,
     title: "The Perceptron",
     year: "1957",
     discoverer: "Frank Rosenblatt",
@@ -47,7 +62,7 @@ const allDiscoveries: Discovery[] = [
     demoType: "perceptron",
   },
   {
-    id: 3,
+    id: 4,
     title: "Expert Systems",
     year: "1965",
     discoverer: "Edward Feigenbaum & Joshua Lederberg",
@@ -57,39 +72,12 @@ const allDiscoveries: Discovery[] = [
     paperLink: "https://www.aaai.org/ojs/index.php/aimagazine/article/view/298",
     description:
       "First expert system that used domain-specific knowledge to solve complex problems.",
-    impact: "Led to the first commercial AI applications and knowledge engineering.",
+    impact:
+      "Led to the first commercial AI applications and knowledge engineering.",
     demoType: "expert",
   },
   {
-    id: 4,
-    title: "Minimax Algorithm",
-    year: "1950",
-    discoverer: "Claude Shannon",
-    discovererBio:
-      "American mathematician and electrical engineer, known as the 'Father of Information Theory'.",
-    paperTitle: "Programming a Computer for Playing Chess",
-    paperLink: "https://www.pi.infn.it/~carosi/chess/shannon.txt",
-    description:
-      "Game-theoretic algorithm for optimal decision-making in zero-sum games.",
-    impact: "Foundation for game-playing AI and decision-making algorithms.",
-    demoType: "minimax",
-  },
-  {
     id: 5,
-    title: "A* Search Algorithm",
-    year: "1968",
-    discoverer: "Peter Hart, Nils Nilsson, Bertram Raphael",
-    discovererBio:
-      "Researchers at Stanford Research Institute who developed optimal pathfinding algorithms.",
-    paperTitle: "A Formal Basis for the Heuristic Determination of Minimum Cost Paths",
-    paperLink: "https://ieeexplore.ieee.org/document/4082128",
-    description:
-      "Graph traversal and path search algorithm that finds the optimal path efficiently.",
-    impact: "Widely used in robotics, games, and navigation systems.",
-    demoType: "astar",
-  },
-  {
-    id: 6,
     title: "Fuzzy Logic",
     year: "1965",
     discoverer: "Lotfi Zadeh",
@@ -99,8 +87,24 @@ const allDiscoveries: Discovery[] = [
     paperLink: "https://www-bisc.cs.berkeley.edu/Zadeh-1965.pdf",
     description:
       "Mathematical framework for reasoning with uncertainty and imprecise information.",
-    impact: "Enabled AI systems to handle real-world uncertainty and vagueness.",
+    impact:
+      "Enabled AI systems to handle real-world uncertainty and vagueness.",
     demoType: "fuzzy",
+  },
+  {
+    id: 6,
+    title: "A* Search Algorithm",
+    year: "1968",
+    discoverer: "Peter Hart, Nils Nilsson, Bertram Raphael",
+    discovererBio:
+      "Researchers at Stanford Research Institute who developed optimal pathfinding algorithms.",
+    paperTitle:
+      "A Formal Basis for the Heuristic Determination of Minimum Cost Paths",
+    paperLink: "https://ieeexplore.ieee.org/document/4082128",
+    description:
+      "Graph traversal and path search algorithm that finds the optimal path efficiently.",
+    impact: "Widely used in robotics, games, and navigation systems.",
+    demoType: "astar",
   },
   {
     id: 7,
@@ -188,7 +192,8 @@ const allDiscoveries: Discovery[] = [
     paperLink: "https://link.springer.com/article/10.1023/A:1010933404324",
     description:
       "Ensemble learning method using multiple decision trees for improved accuracy.",
-    impact: "Widely used for classification and regression with excellent performance.",
+    impact:
+      "Widely used for classification and regression with excellent performance.",
     demoType: "randomforest",
   },
   {
@@ -202,10 +207,11 @@ const allDiscoveries: Discovery[] = [
     paperLink: "https://www.cs.toronto.edu/~hinton/absps/fastnc.pdf",
     description:
       "Generative graphical model that can be trained layer by layer efficiently.",
-    impact: "Sparked the deep learning revolution and renewed interest in neural networks.",
+    impact:
+      "Sparked the deep learning revolution and renewed interest in neural networks.",
     demoType: "dbn",
   },
-    {
+  {
     id: 14,
     title: "Attention Mechanism",
     year: "2014",
@@ -268,6 +274,22 @@ const allDiscoveries: Discovery[] = [
   },
   {
     id: 18,
+    title: "AlphaGo",
+    year: "2016",
+    discoverer: "David Silver et al. (DeepMind)",
+    discovererBio:
+      "David Silver led the DeepMind team that created AlphaGo, the first AI to beat professional Go players.",
+    paperTitle:
+      "Mastering the game of Go with deep neural networks and tree search",
+    paperLink: "https://www.nature.com/articles/nature16961",
+    description:
+      "AI system combining deep neural networks and Monte Carlo tree search to master Go.",
+    impact:
+      "Demonstrated AI could master complex strategic games previously thought impossible for computers.",
+    demoType: "alphago",
+  },
+  {
+    id: 19,
     title: "Transformers",
     year: "2017",
     discoverer: "Ashish Vaswani et al. (Google)",
@@ -282,28 +304,14 @@ const allDiscoveries: Discovery[] = [
     demoType: "transformer",
   },
   {
-    id: 19,
-    title: "AlphaGo",
-    year: "2016",
-    discoverer: "David Silver et al. (DeepMind)",
-    discovererBio:
-      "David Silver led the DeepMind team that created AlphaGo, the first AI to beat professional Go players.",
-    paperTitle: "Mastering the game of Go with deep neural networks and tree search",
-    paperLink: "https://www.nature.com/articles/nature16961",
-    description:
-      "AI system combining deep neural networks and Monte Carlo tree search to master Go.",
-    impact:
-      "Demonstrated AI could master complex strategic games previously thought impossible for computers.",
-    demoType: "alphago",
-  },
-  {
     id: 20,
     title: "BERT (Bidirectional Encoder Representations)",
     year: "2018",
     discoverer: "Jacob Devlin et al. (Google)",
     discovererBio:
       "Jacob Devlin and the Google AI Language team created BERT, revolutionizing NLP understanding.",
-    paperTitle: "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+    paperTitle:
+      "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
     paperLink: "https://arxiv.org/abs/1810.04805",
     description:
       "Bidirectional transformer model that revolutionized natural language understanding tasks.",
@@ -314,66 +322,9 @@ const allDiscoveries: Discovery[] = [
 ];
 
 // Sort discoveries chronologically by year
-const discoveries = allDiscoveries.sort((a, b) => parseInt(a.year) - parseInt(b.year));
-    title: "Transformers",
-    year: "2017",
-    discoverer: "Ashish Vaswani et al. (Google)",
-    discovererBio:
-      "Team of Google researchers led by Ashish Vaswani who revolutionized natural language processing.",
-    paperTitle: "Attention Is All You Need",
-    paperLink: "https://arxiv.org/abs/1706.03762",
-    description:
-      "Architecture relying entirely on attention mechanisms, dispensing with recurrence and convolutions.",
-    impact:
-      "Enabled GPT, BERT, and modern large language models that power ChatGPT and similar systems.",
-    demoType: "transformer",
-  },
-  {
-    id: 8,
-    title: "Generative Adversarial Networks (GANs)",
-    year: "2014",
-    discoverer: "Ian Goodfellow",
-    discovererBio:
-      "Canadian computer scientist and former Google researcher, known for inventing GANs.",
-    paperTitle: "Generative Adversarial Networks",
-    paperLink: "https://arxiv.org/abs/1406.2661",
-    description:
-      "Two neural networks competing against each other to generate realistic synthetic data.",
-    impact:
-      "Revolutionized image generation, art creation, and synthetic media production.",
-    demoType: "gan",
-  },
-  {
-    id: 9,
-    title: "ResNet (Residual Networks)",
-    year: "2015",
-    discoverer: "Kaiming He et al. (Microsoft)",
-    discovererBio:
-      "Kaiming He is a Chinese computer scientist at Meta AI Research, known for breakthrough deep learning architectures.",
-    paperTitle: "Deep Residual Learning for Image Recognition",
-    paperLink: "https://arxiv.org/abs/1512.03385",
-    description:
-      "Deep neural networks with skip connections that allow training of very deep networks.",
-    impact:
-      "Enabled training of networks with hundreds of layers, dramatically improving computer vision.",
-    demoType: "resnet",
-  },
-  {
-    id: 10,
-    title: "Deep Q-Networks (DQN)",
-    year: "2015",
-    discoverer: "Volodymyr Mnih et al. (DeepMind)",
-    discovererBio:
-      "Research team at DeepMind led by Volodymyr Mnih that combined deep learning with reinforcement learning.",
-    paperTitle: "Human-level control through deep reinforcement learning",
-    paperLink: "https://www.nature.com/articles/nature14236",
-    description:
-      "Combination of deep learning and Q-learning that can master complex games from raw pixels.",
-    impact:
-      "Achieved superhuman performance in Atari games and paved way for AlphaGo and game-playing AI.",
-    demoType: "dqn",
-  },
-];
+const discoveries = allDiscoveries.sort(
+  (a, b) => parseInt(a.year) - parseInt(b.year),
+);
 
 const PerceptronDemo = () => {
   const [input1, setInput1] = useState(0.5);
@@ -1245,7 +1196,7 @@ const LSTMDemo = () => {
           disabled={isRunning}
           className="button-primary disabled:opacity-50"
         >
-          {isRunning ? "🧠 Processing..." : "��️ Run LSTM Sequence"}
+          {isRunning ? "🧠 Processing..." : "▶️ Run LSTM Sequence"}
         </button>
       </div>
     </div>
@@ -1624,20 +1575,6 @@ const GANDemo = () => {
           </div>
         </div>
 
-        {/* VS */}
-        <div className="hidden md:flex items-center justify-center">
-          <motion.div
-            className="text-4xl font-bold text-red-500"
-            animate={{
-              scale: isTraining ? [1, 1.3, 1] : 1,
-              rotate: isTraining ? [0, 180, 360] : 0,
-            }}
-            transition={{ duration: 2, repeat: isTraining ? Infinity : 0 }}
-          >
-            ⚔️
-          </motion.div>
-        </div>
-
         {/* Discriminator */}
         <div className="text-center">
           <motion.div
@@ -1695,9 +1632,9 @@ const GANDemo = () => {
                 key={idx}
                 className="w-12 h-12 border border-gray-300 rounded"
                 style={{
-                  background: `linear-gradient(45deg,
-                    rgba(255,255,255,${1 - quality}),
-                    rgba(59,130,246,${quality}),
+                  background: `linear-gradient(45deg, 
+                    rgba(255,255,255,${1 - quality}), 
+                    rgba(59,130,246,${quality}), 
                     rgba(147,51,234,${quality * 0.8})
                   )`,
                 }}
@@ -2062,25 +1999,35 @@ const DQNDemo = () => {
 };
 
 const SimpleDemo = ({ type }: { type: string }) => {
-  switch (type) {
-    case "transformer":
-      return <TransformerDemo />;
-    case "gan":
-      return <GANDemo />;
-    case "resnet":
-      return <ResNetDemo />;
-    case "dqn":
-      return <DQNDemo />;
-    default:
-      return (
-        <div className="bg-white p-6 rounded-lg border border-gray-200">
-          <h4 className="text-lg font-semibold mb-4">How it Works</h4>
-          <p className="text-gray-700">
-            This fundamental AI discovery shaped the field in significant ways.
-          </p>
-        </div>
-      );
-  }
+  const demoContent = {
+    concept:
+      "The birth of AI as a field established the vision of creating machines that could think and reason like humans.",
+    minimax:
+      "Game tree search algorithm that assumes optimal play from both players, forming the basis of strategic AI.",
+    expert:
+      "Knowledge-based systems that captured human expertise in specific domains using rules and facts.",
+    fuzzy:
+      "Mathematical system for handling uncertainty and partial truths, enabling more human-like reasoning.",
+    astar:
+      "Heuristic search algorithm that efficiently finds optimal paths by estimating future costs.",
+    svm: "Powerful classification algorithm that finds optimal decision boundaries using kernel methods.",
+    randomforest:
+      "Ensemble method combining multiple decision trees for robust and accurate predictions.",
+    dbn: "Deep generative models that learn hierarchical representations layer by layer.",
+    alphago:
+      "Combined neural networks with tree search to achieve superhuman performance in Go.",
+    bert: "Bidirectional language model that revolutionized natural language understanding tasks.",
+  };
+
+  return (
+    <div className="bg-white p-6 rounded-lg border border-gray-200">
+      <h4 className="text-lg font-semibold mb-4">How it Works</h4>
+      <p className="text-gray-700">
+        {demoContent[type as keyof typeof demoContent] ||
+          "This fundamental AI discovery shaped the field in significant ways."}
+      </p>
+    </div>
+  );
 };
 
 const renderDemo = (discovery: Discovery) => {
@@ -2114,6 +2061,18 @@ export default function AIDiscoveries() {
   const [selectedDiscovery, setSelectedDiscovery] = useState<Discovery | null>(
     null,
   );
+  const [sortBy, setSortBy] = useState<string>("chronological");
+
+  const getSortedDiscoveries = () => {
+    if (sortBy === "chronological") {
+      return [...discoveries].sort(
+        (a, b) => parseInt(a.year) - parseInt(b.year),
+      );
+    } else if (sortBy === "alphabetical") {
+      return [...discoveries].sort((a, b) => a.title.localeCompare(b.title));
+    }
+    return discoveries;
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
@@ -2124,15 +2083,46 @@ export default function AIDiscoveries() {
           <h1 className="text-6xl font-bold text-black mb-6">
             AI Landmark Discoveries
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Explore the 10 fundamental breakthroughs that shaped artificial
-            intelligence, with interactive demos and insights into the brilliant
-            minds behind them.
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+            Explore the 20 fundamental breakthroughs that shaped artificial
+            intelligence, chronologically ordered from 1950 to 2018, with
+            interactive demos and insights into the brilliant minds behind them.
           </p>
+
+          {/* Timeline indicator */}
+          <div className="flex justify-center items-center gap-4 mb-8">
+            <span className="text-sm text-gray-500">1950</span>
+            <div className="w-64 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-green-500 rounded-full"></div>
+            <span className="text-sm text-gray-500">2018</span>
+          </div>
+
+          {/* Sort controls */}
+          <div className="flex justify-center gap-4">
+            <button
+              onClick={() => setSortBy("chronological")}
+              className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
+                sortBy === "chronological"
+                  ? "bg-blue-500 text-white border-blue-500"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+              }`}
+            >
+              📅 Chronological
+            </button>
+            <button
+              onClick={() => setSortBy("alphabetical")}
+              className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
+                sortBy === "alphabetical"
+                  ? "bg-blue-500 text-white border-blue-500"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+              }`}
+            >
+              🔤 Alphabetical
+            </button>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
-          {discoveries.map((discovery) => (
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
+          {getSortedDiscoveries().map((discovery, index) => (
             <div
               key={discovery.id}
               className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer"
@@ -2143,12 +2133,12 @@ export default function AIDiscoveries() {
                   <span className="text-sm font-semibold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
                     {discovery.year}
                   </span>
-                  <span className="text-2xl font-bold text-gray-400">
+                  <span className="text-lg font-bold text-gray-400">
                     #{discovery.id}
                   </span>
                 </div>
 
-                <h3 className="text-xl font-bold text-black mb-3">
+                <h3 className="text-lg font-bold text-black mb-3">
                   {discovery.title}
                 </h3>
 
