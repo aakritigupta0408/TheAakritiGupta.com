@@ -233,13 +233,13 @@ const allDiscoveries: Discovery[] = [
     year: "2006",
     discoverer: "Geoffrey Hinton",
     discovererBio:
-      "Geoffrey Hinton's breakthrough in training deep networks sparked the deep learning revolution.",
+      "Geoffrey Hinton's revolutionary breakthrough in unsupervised pre-training of deep networks ended the 'AI Winter' and launched the modern deep learning era, proving that very deep neural networks could be trained effectively for the first time.",
     paperTitle: "A Fast Learning Algorithm for Deep Belief Nets",
     paperLink: "https://www.cs.toronto.edu/~hinton/absps/fastnc.pdf",
     description:
-      "Generative graphical model that can be trained layer by layer efficiently.",
+      "Pioneering deep generative model using stacked Restricted Boltzmann Machines that could be trained layer-by-layer through unsupervised pre-training, demonstrating for the first time that very deep neural networks could learn meaningful hierarchical representations.",
     impact:
-      "Sparked the deep learning revolution and renewed interest in neural networks.",
+      "Ended the neural network 'AI Winter' by proving deep networks could be trained effectively, directly inspiring the deep learning revolution that led to modern AI breakthroughs in computer vision, natural language processing, and generative AI technologies.",
     demoType: "dbn",
   },
   {
@@ -248,14 +248,14 @@ const allDiscoveries: Discovery[] = [
     year: "2014",
     discoverer: "Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio",
     discovererBio:
-      "Yoshua Bengio is a Canadian computer scientist and 2018 Turing Award winner for deep learning.",
+      "Research team led by Yoshua Bengio, 2018 Turing Award winner and pioneering deep learning researcher, who solved the bottleneck problem in sequence-to-sequence models by enabling neural networks to dynamically focus on relevant information.",
     paperTitle:
       "Neural Machine Translation by Jointly Learning to Align and Translate",
     paperLink: "https://arxiv.org/abs/1409.0473",
     description:
-      "Mechanism allowing neural networks to focus on relevant parts of input when making predictions.",
+      "Revolutionary mechanism that enables neural networks to dynamically focus on relevant parts of input sequences when making predictions, mimicking human selective attention and solving the information bottleneck problem in sequence-to-sequence models.",
     impact:
-      "Enabled breakthrough improvements in machine translation and became foundation for Transformers.",
+      "Transformed machine translation quality overnight and provided the core innovation that led to Transformer architecture, ultimately enabling modern language models like GPT, BERT, and ChatGPT that power today's AI revolution.",
     demoType: "attention",
   },
   {
