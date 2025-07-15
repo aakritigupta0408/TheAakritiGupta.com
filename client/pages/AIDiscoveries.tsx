@@ -14,6 +14,32 @@ interface Discovery {
   description: string;
   impact: string;
   demoType: string;
+  educationalResources?: {
+    relatedPapers: {
+      title: string;
+      authors: string;
+      year: string;
+      url: string;
+      significance: string;
+    }[];
+    modernApplications: {
+      application: string;
+      companies: string[];
+      description: string;
+    }[];
+    learningMaterials: {
+      title: string;
+      type: string;
+      url: string;
+      difficulty: string;
+    }[];
+    historicalContext: {
+      timeline: string;
+      predecessors: string[];
+      contemporaries: string[];
+      successors: string[];
+    };
+  };
 }
 
 const allDiscoveries: Discovery[] = [
