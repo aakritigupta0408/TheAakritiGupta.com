@@ -274,12 +274,10 @@ export default function Games() {
   ];
 
   return (
-    <div className="min-h-screen tom-ford-gradient relative overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white relative overflow-x-hidden">
       <Navigation />
-      {/* Sophisticated Floating Skills Background */}
-      <FloatingSkills />
 
-      {/* Header Section */}
+      {/* Hero Section */}
       <section className="relative z-20 pt-32 pb-16">
         <div className="max-w-7xl mx-auto px-8">
           <motion.div
@@ -287,14 +285,59 @@ export default function Games() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-12"
           >
-            <h1 className="tom-ford-heading text-6xl md:text-8xl text-white mb-8">
+            <motion.h1
+              className="text-6xl md:text-8xl font-bold text-black mb-8"
+              animate={{
+                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+              }}
+              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+              style={{
+                background:
+                  "linear-gradient(90deg, #000000, #2563eb, #7c3aed, #000000)",
+                backgroundSize: "200% 100%",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
               INTERACTIVE
               <br />
-              <span className="gold-shimmer">GAMES</span>
-            </h1>
-            <p className="tom-ford-subheading text-white/60 text-lg tracking-widest max-w-4xl mx-auto">
-              DISCOVER PROFESSIONAL MASTERY THROUGH SOPHISTICATED GAMEPLAY
-            </p>
+              GAMES
+            </motion.h1>
+            <motion.p
+              className="text-xl text-gray-600 tracking-wide max-w-4xl mx-auto mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              Discover professional mastery through sophisticated gameplay
+              experiences
+            </motion.p>
+
+            {/* Gaming Stats */}
+            <motion.div
+              className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+            >
+              <div className="bg-white p-4 rounded-xl shadow-lg border border-gray-200">
+                <div className="text-2xl font-bold text-blue-600">6</div>
+                <div className="text-sm text-gray-600">Interactive Games</div>
+              </div>
+              <div className="bg-white p-4 rounded-xl shadow-lg border border-gray-200">
+                <div className="text-2xl font-bold text-purple-600">
+                  AI-Powered
+                </div>
+                <div className="text-sm text-gray-600">Smart Gameplay</div>
+              </div>
+              <div className="bg-white p-4 rounded-xl shadow-lg border border-gray-200">
+                <div className="text-2xl font-bold text-green-600">
+                  Portfolio
+                </div>
+                <div className="text-sm text-gray-600">Integration</div>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
