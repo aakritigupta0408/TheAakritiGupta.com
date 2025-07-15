@@ -437,11 +437,6 @@ const PerceptronDemo = () => {
             }`}
             animate={{
               scale: animateSignal ? [1, 1.3, 1] : 1,
-              backgroundColor: animateSignal
-                ? ["#3b82f6", activated ? "#10b981" : "#ef4444"]
-                : activated
-                  ? "#10b981"
-                  : "#ef4444",
             }}
             transition={{ duration: 0.5, delay: 0.8 }}
           >
