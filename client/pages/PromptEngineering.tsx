@@ -1275,6 +1275,162 @@ ${randomImprovements.map((imp, idx) => `${idx + 1}. ${imp}`).join("\n")}
                     <p className="text-gray-200">{selectedExample.useCase}</p>
                   </div>
                 </div>
+
+                {/* Resources Section */}
+                <div className="mt-8 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 rounded-2xl p-6">
+                  <h3 className="text-2xl font-bold text-cyan-400 mb-6 flex items-center gap-2">
+                    <span>📚</span>
+                    Learning Resources
+                  </h3>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Tutorials */}
+                    <div>
+                      <h4 className="text-lg font-bold text-green-400 mb-3 flex items-center gap-2">
+                        <span>🎓</span>
+                        Tutorials & Courses
+                      </h4>
+                      <div className="space-y-2">
+                        {selectedExample.resources.tutorials.map(
+                          (tutorial, index) => (
+                            <a
+                              key={index}
+                              href={tutorial.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-green-500/20 hover:border-green-500/40"
+                            >
+                              <div className="flex items-center justify-between">
+                                <div>
+                                  <div className="text-white font-medium text-sm">
+                                    {tutorial.title}
+                                  </div>
+                                  <div className="text-green-400 text-xs">
+                                    {tutorial.platform} • {tutorial.duration}
+                                  </div>
+                                </div>
+                                <div className="text-green-400 hover:translate-x-1 transition-transform duration-300">
+                                  →
+                                </div>
+                              </div>
+                            </a>
+                          ),
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Videos */}
+                    <div>
+                      <h4 className="text-lg font-bold text-red-400 mb-3 flex items-center gap-2">
+                        <span>🎬</span>
+                        Video Content
+                      </h4>
+                      <div className="space-y-2">
+                        {selectedExample.resources.videos.map(
+                          (video, index) => (
+                            <a
+                              key={index}
+                              href={video.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-red-500/20 hover:border-red-500/40"
+                            >
+                              <div className="flex items-center justify-between">
+                                <div>
+                                  <div className="text-white font-medium text-sm">
+                                    {video.title}
+                                  </div>
+                                  <div className="text-red-400 text-xs">
+                                    {video.creator} • {video.duration}
+                                  </div>
+                                </div>
+                                <div className="text-red-400 hover:translate-x-1 transition-transform duration-300">
+                                  ▶
+                                </div>
+                              </div>
+                            </a>
+                          ),
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    {/* Tools */}
+                    <div>
+                      <h4 className="text-lg font-bold text-purple-400 mb-3 flex items-center gap-2">
+                        <span>🛠️</span>
+                        AI Tools
+                      </h4>
+                      <div className="space-y-2">
+                        {selectedExample.resources.tools.map((tool, index) => (
+                          <a
+                            key={index}
+                            href={tool.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-purple-500/20 hover:border-purple-500/40"
+                          >
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <div className="text-white font-medium text-sm">
+                                  {tool.name}
+                                </div>
+                                <div className="text-purple-400 text-xs">
+                                  {tool.description}
+                                </div>
+                                <div className="text-purple-300 text-xs mt-1">
+                                  {tool.pricing}
+                                </div>
+                              </div>
+                              <div className="text-purple-400 hover:translate-x-1 transition-transform duration-300">
+                                →
+                              </div>
+                            </div>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Templates */}
+                    <div>
+                      <h4 className="text-lg font-bold text-yellow-400 mb-3 flex items-center gap-2">
+                        <span>📋</span>
+                        Templates
+                      </h4>
+                      <div className="space-y-2">
+                        {selectedExample.resources.templates.map(
+                          (template, index) => (
+                            <a
+                              key={index}
+                              href={template.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-yellow-500/20 hover:border-yellow-500/40"
+                            >
+                              <div className="flex items-center justify-between">
+                                <div>
+                                  <div className="text-white font-medium text-sm">
+                                    {template.name}
+                                  </div>
+                                  <div className="text-yellow-400 text-xs">
+                                    {template.description}
+                                  </div>
+                                  <div className="text-yellow-300 text-xs mt-1">
+                                    {template.category}
+                                  </div>
+                                </div>
+                                <div className="text-yellow-400 hover:translate-x-1 transition-transform duration-300">
+                                  →
+                                </div>
+                              </div>
+                            </a>
+                          ),
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </motion.div>
             </motion.div>
           )}
