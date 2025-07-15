@@ -1527,7 +1527,10 @@ const GANDemo = () => {
             >
               <motion.div
                 className="h-full bg-purple-500 rounded-full"
-                animate={{ width: `${Math.max(0, 100 - generatorLoss * 20)}%` }}
+                animate={{
+                  scaleX: Math.max(0, (100 - generatorLoss * 20) / 100),
+                }}
+                style={{ transformOrigin: "left" }}
                 transition={{ duration: 0.5 }}
               />
             </motion.div>
