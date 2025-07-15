@@ -223,6 +223,79 @@ Agent: I'll conduct a comprehensive analysis of AI's impact on healthcare across
     ],
     useCase:
       "Investment firms, consultancies, academic institutions, policy makers",
+    resources: {
+      codeExamples: [
+        {
+          title: "LangChain Research Assistant Agent",
+          url: "https://github.com/langchain-ai/langchain/tree/master/cookbook/agents",
+          language: "Python",
+        },
+        {
+          title: "AutoGPT Research Implementation",
+          url: "https://github.com/Significant-Gravitas/AutoGPT",
+          language: "Python",
+        },
+        {
+          title: "CrewAI Multi-Agent Research Team",
+          url: "https://github.com/joaomdmoura/crewAI",
+          language: "Python",
+        },
+      ],
+      tutorials: [
+        {
+          title: "Building Research Agents with Tool Use",
+          url: "https://python.langchain.com/docs/modules/agents/tools/",
+          difficulty: "Advanced",
+        },
+        {
+          title: "Multi-Agent Research Systems",
+          url: "https://github.com/microsoft/autogen",
+          difficulty: "Advanced",
+        },
+        {
+          title: "RAG for Research Applications",
+          url: "https://python.langchain.com/docs/use_cases/question_answering",
+          difficulty: "Intermediate",
+        },
+      ],
+      videos: [
+        {
+          title: "Building an AI Research Assistant with LangChain",
+          url: "https://www.youtube.com/watch?v=ZzgUqFtxgXI",
+          creator: "LangChain",
+          duration: "52 min",
+        },
+        {
+          title: "Multi-Agent Research Systems Tutorial",
+          url: "https://www.youtube.com/watch?v=BYnTzaGo06I",
+          creator: "AI Explained",
+          duration: "38 min",
+        },
+        {
+          title: "Advanced RAG Techniques for Research",
+          url: "https://www.youtube.com/watch?v=wd7TZ4w1mSw",
+          creator: "Weights & Biases",
+          duration: "1 hr 8 min",
+        },
+      ],
+      documentation: [
+        {
+          title: "Semantic Scholar API for Research",
+          url: "https://api.semanticscholar.org/",
+          type: "API Reference",
+        },
+        {
+          title: "Perplexity API Documentation",
+          url: "https://docs.perplexity.ai/",
+          type: "API Reference",
+        },
+        {
+          title: "Arxiv API Integration Guide",
+          url: "https://arxiv.org/help/api/user-manual",
+          type: "API Guide",
+        },
+      ],
+    },
   },
   {
     id: "code-reviewer",
