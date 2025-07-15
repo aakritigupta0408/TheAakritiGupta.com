@@ -2393,7 +2393,7 @@ export default function AIDiscoveries() {
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></div>
             </div>
             <span className="text-lg font-bold text-pink-300 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 border border-white/20">
-              2018
+              2025
             </span>
           </motion.div>
 
