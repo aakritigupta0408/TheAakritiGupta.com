@@ -108,7 +108,7 @@ for epoch in range(epochs):
         loss = criterion(outputs, batch['label'])
         loss.backward()
         optimizer.step()`,
-    icon: "📸",
+    icon: "���",
     tags: ["CNN", "Transfer Learning", "PyTorch", "Classification"],
     theoreticalConcepts: {
       fundamentals: [
@@ -1305,9 +1305,9 @@ export default function AIProjects() {
                   >
                     <span className="relative z-10">🚀 Full Guide</span>
                     <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      initial={{ scaleX: 0 }}
-                      whileHover={{ scaleX: 1 }}
+                      className="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-700"
+                      initial={{ scaleX: 0, opacity: 0 }}
+                      whileHover={{ scaleX: 1, opacity: 1 }}
                       style={{ transformOrigin: "left" }}
                       transition={{ duration: 0.3 }}
                     />
