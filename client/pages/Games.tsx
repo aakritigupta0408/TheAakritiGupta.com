@@ -239,7 +239,7 @@ export default function Games() {
                   <motion.div
                     className="absolute inset-0 bg-white/10"
                     animate={{
-                      x: hoveredGame === game.id ? ["100%", "-100%"] : "100%",
+                      x: hoveredGame === game.id ? [200, -200] : 200,
                     }}
                     transition={{ duration: 0.6 }}
                   />
