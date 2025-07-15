@@ -3228,7 +3228,15 @@ export default function AIProjects() {
                                         ? "bg-green-500/30 border-green-400/50 text-green-200"
                                         : resource.type === "Model"
                                           ? "bg-purple-500/30 border-purple-400/50 text-purple-200"
-                                          : "bg-orange-500/30 border-orange-400/50 text-orange-200"
+                                          : resource.type === "Framework"
+                                            ? "bg-orange-500/30 border-orange-400/50 text-orange-200"
+                                            : resource.type === "Company"
+                                              ? "bg-pink-500/30 border-pink-400/50 text-pink-200"
+                                              : resource.type === "Research Lab"
+                                                ? "bg-cyan-500/30 border-cyan-400/50 text-cyan-200"
+                                                : resource.type === "Paper"
+                                                  ? "bg-yellow-500/30 border-yellow-400/50 text-yellow-200"
+                                                  : "bg-gray-500/30 border-gray-400/50 text-gray-200"
                                   }`}
                                 >
                                   {resource.type}
