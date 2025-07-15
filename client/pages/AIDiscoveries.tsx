@@ -305,18 +305,18 @@ const allDiscoveries: Discovery[] = [
   },
   {
     id: 18,
-    title: "AlphaGo",
+    title: "AlphaGo: AI's Strategic Breakthrough",
     year: "2016",
     discoverer: "David Silver et al. (DeepMind)",
     discovererBio:
-      "David Silver led the DeepMind team that created AlphaGo, the first AI to beat professional Go players.",
+      "David Silver led the DeepMind team that achieved one of AI's most celebrated victories, creating AlphaGo which defeated world champion Lee Sedol in a match watched by over 200 million people, demonstrating AI's potential for intuitive, creative reasoning.",
     paperTitle:
       "Mastering the game of Go with deep neural networks and tree search",
     paperLink: "https://www.nature.com/articles/nature16961",
     description:
-      "AI system combining deep neural networks and Monte Carlo tree search to master Go.",
+      "Revolutionary AI system that mastered the ancient game of Go by combining deep neural networks for position evaluation and move prediction with Monte Carlo tree search, achieving superhuman performance in a game with more possible positions than atoms in the observable universe.",
     impact:
-      "Demonstrated AI could master complex strategic games previously thought impossible for computers.",
+      "Shattered the assumption that intuitive, creative games like Go were beyond AI's reach, accelerated global AI investment and research, and demonstrated that AI could develop novel strategies that even surpass human creativity and intuition in complex domains.",
     demoType: "alphago",
   },
   {
@@ -384,17 +384,17 @@ const allDiscoveries: Discovery[] = [
   },
   {
     id: 23,
-    title: "GPT-3",
+    title: "GPT-3: The Language Model That Changed Everything",
     year: "2020",
     discoverer: "Tom Brown et al. (OpenAI)",
     discovererBio:
-      "Tom Brown led the OpenAI team that created GPT-3, the breakthrough 175B parameter language model.",
+      "Tom Brown and the OpenAI research team created GPT-3, the 175-billion parameter language model that demonstrated emergent capabilities at scale, proving that sufficiently large language models could perform tasks they were never explicitly trained for.",
     paperTitle: "Language Models are Few-Shot Learners",
     paperLink: "https://arxiv.org/abs/2005.14165",
     description:
-      "175 billion parameter language model demonstrating few-shot learning across diverse tasks.",
+      "Massive 175-billion parameter autoregressive language model that demonstrated remarkable few-shot learning abilities, performing diverse tasks from writing code to composing poetry with minimal examples, revealing emergent capabilities that surprised even its creators.",
     impact:
-      "Showed that large language models can perform complex tasks with minimal examples, launching the AI API economy.",
+      "Sparked the current AI revolution by demonstrating that scaling language models leads to emergent intelligence, launched the AI API economy enabling thousands of AI applications, and paved the way for ChatGPT and the mainstream adoption of conversational AI.",
     demoType: "concept",
   },
   {
