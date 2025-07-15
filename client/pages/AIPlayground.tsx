@@ -150,6 +150,13 @@ const AI_DEMOS: AIDemo[] = [
       "How do you say 'machine learning' in Japanese?",
       "Spanish business greetings",
     ],
+    stateOfArt: {
+      name: "DeepL Translator",
+      url: "https://deepl.com",
+      description:
+        "World's most accurate translator with advanced neural networks and cultural context",
+      company: "DeepL",
+    },
   },
   {
     id: "summarizer",
