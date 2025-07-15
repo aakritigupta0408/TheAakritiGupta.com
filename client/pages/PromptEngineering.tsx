@@ -1495,6 +1495,158 @@ ${randomImprovements.map((imp, idx) => `${idx + 1}. ${imp}`).join("\n")}
                       {selectedTechnique.whenToUse}
                     </p>
                   </div>
+
+                  {/* Resources Section for Techniques */}
+                  <div className="mt-6 bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/30 rounded-2xl p-6">
+                    <h3 className="text-2xl font-bold text-orange-400 mb-6 flex items-center gap-2">
+                      <span>🔬</span>
+                      Research & Learning
+                    </h3>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {/* Guides */}
+                      <div>
+                        <h4 className="text-lg font-bold text-blue-400 mb-3 flex items-center gap-2">
+                          <span>📖</span>
+                          Guides & Tutorials
+                        </h4>
+                        <div className="space-y-2">
+                          {selectedTechnique.resources.guides.map(
+                            (guide, index) => (
+                              <a
+                                key={index}
+                                href={guide.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-blue-500/20 hover:border-blue-500/40"
+                              >
+                                <div className="flex items-center justify-between">
+                                  <div>
+                                    <div className="text-white font-medium text-sm">
+                                      {guide.title}
+                                    </div>
+                                    <div className="text-blue-400 text-xs">
+                                      {guide.author} • {guide.type}
+                                    </div>
+                                  </div>
+                                  <div className="text-blue-400 hover:translate-x-1 transition-transform duration-300">
+                                    →
+                                  </div>
+                                </div>
+                              </a>
+                            ),
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Papers */}
+                      <div>
+                        <h4 className="text-lg font-bold text-green-400 mb-3 flex items-center gap-2">
+                          <span>📄</span>
+                          Research Papers
+                        </h4>
+                        <div className="space-y-2">
+                          {selectedTechnique.resources.papers.map(
+                            (paper, index) => (
+                              <a
+                                key={index}
+                                href={paper.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-green-500/20 hover:border-green-500/40"
+                              >
+                                <div className="flex items-center justify-between">
+                                  <div>
+                                    <div className="text-white font-medium text-sm">
+                                      {paper.title}
+                                    </div>
+                                    <div className="text-green-400 text-xs">
+                                      {paper.authors} • {paper.year}
+                                    </div>
+                                  </div>
+                                  <div className="text-green-400 hover:translate-x-1 transition-transform duration-300">
+                                    📑
+                                  </div>
+                                </div>
+                              </a>
+                            ),
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                      {/* Courses */}
+                      <div>
+                        <h4 className="text-lg font-bold text-purple-400 mb-3 flex items-center gap-2">
+                          <span>🎓</span>
+                          Online Courses
+                        </h4>
+                        <div className="space-y-2">
+                          {selectedTechnique.resources.courses.map(
+                            (course, index) => (
+                              <a
+                                key={index}
+                                href={course.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-purple-500/20 hover:border-purple-500/40"
+                              >
+                                <div className="flex items-center justify-between">
+                                  <div>
+                                    <div className="text-white font-medium text-sm">
+                                      {course.title}
+                                    </div>
+                                    <div className="text-purple-400 text-xs">
+                                      {course.provider} • {course.level}
+                                    </div>
+                                  </div>
+                                  <div className="text-purple-400 hover:translate-x-1 transition-transform duration-300">
+                                    →
+                                  </div>
+                                </div>
+                              </a>
+                            ),
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Communities */}
+                      <div>
+                        <h4 className="text-lg font-bold text-yellow-400 mb-3 flex items-center gap-2">
+                          <span>👥</span>
+                          Communities
+                        </h4>
+                        <div className="space-y-2">
+                          {selectedTechnique.resources.communities.map(
+                            (community, index) => (
+                              <a
+                                key={index}
+                                href={community.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-yellow-500/20 hover:border-yellow-500/40"
+                              >
+                                <div className="flex items-center justify-between">
+                                  <div>
+                                    <div className="text-white font-medium text-sm">
+                                      {community.name}
+                                    </div>
+                                    <div className="text-yellow-400 text-xs">
+                                      {community.platform} • {community.members}
+                                    </div>
+                                  </div>
+                                  <div className="text-yellow-400 hover:translate-x-1 transition-transform duration-300">
+                                    →
+                                  </div>
+                                </div>
+                              </a>
+                            ),
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             </motion.div>
