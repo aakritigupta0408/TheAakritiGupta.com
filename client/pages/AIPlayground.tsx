@@ -45,6 +45,13 @@ const AI_DEMOS: AIDemo[] = [
       "An AI chef opens a restaurant",
       "Cats secretly run the internet",
     ],
+    stateOfArt: {
+      name: "ChatGPT-4",
+      url: "https://chat.openai.com",
+      description:
+        "The most advanced conversational AI for creative writing and storytelling",
+      company: "OpenAI",
+    },
   },
   {
     id: "image-prompt",
