@@ -80,28 +80,29 @@ const allDiscoveries: Discovery[] = [
     year: "1957",
     discoverer: "Frank Rosenblatt",
     discovererBio:
-      "American psychologist and computer scientist at Cornell University who pioneered artificial neural networks.",
+      "Pioneering American psychologist and computer scientist (1928-1971) at Cornell University who created the first artificial neural network capable of learning. His interdisciplinary approach bridging psychology, neuroscience, and computing laid the groundwork for modern AI.",
     paperTitle:
       "The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain",
     paperLink: "https://psycnet.apa.org/record/1959-09865-001",
     description:
-      "The first artificial neural network algorithm that could learn to classify inputs into categories.",
-    impact: "Foundation for all modern neural networks and deep learning.",
+      "Revolutionary artificial neural network algorithm inspired by biological neurons, featuring the first learning mechanism that could automatically adjust connection weights to classify inputs into distinct categories through supervised learning.",
+    impact:
+      "Established the fundamental principles of artificial neural networks, introduced the concept of machine learning through weight adjustment, and provided the theoretical foundation that would eventually evolve into modern deep learning systems powering today's AI revolution.",
     demoType: "perceptron",
   },
   {
     id: 4,
-    title: "Expert Systems",
+    title: "Expert Systems Revolution",
     year: "1965",
     discoverer: "Edward Feigenbaum & Joshua Lederberg",
     discovererBio:
-      "Edward Feigenbaum, known as the 'Father of Expert Systems', pioneered knowledge-based AI systems.",
+      "Edward Feigenbaum, the 'Father of Expert Systems' and Turing Award winner, collaborated with Nobel laureate Joshua Lederberg to create DENDRAL, demonstrating how AI could capture and apply human expertise in specialized domains.",
     paperTitle: "DENDRAL: A Case Study of the First Expert System",
     paperLink: "https://www.aaai.org/ojs/index.php/aimagazine/article/view/298",
     description:
-      "First expert system that used domain-specific knowledge to solve complex problems.",
+      "Groundbreaking knowledge-based system that replicated expert human reasoning in organic chemistry, using sophisticated rule-based inference engines to analyze molecular structures and predict chemical properties with unprecedented accuracy.",
     impact:
-      "Led to the first commercial AI applications and knowledge engineering.",
+      "Launched the first wave of commercial AI applications, established the field of knowledge engineering, and demonstrated that AI could deliver practical value in specialized professional domains, paving the way for modern AI assistants and decision support systems.",
     demoType: "expert",
   },
   {
