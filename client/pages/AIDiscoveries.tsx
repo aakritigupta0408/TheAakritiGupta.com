@@ -49,27 +49,29 @@ const allDiscoveries: Discovery[] = [
     year: "1950",
     discoverer: "Claude Shannon",
     discovererBio:
-      "American mathematician and electrical engineer, known as the 'Father of Information Theory'.",
+      "Renowned American mathematician and electrical engineer (1916-2001), universally recognized as the 'Father of Information Theory' and digital circuit design theory. His groundbreaking work laid the mathematical foundations for the digital age.",
     paperTitle: "Programming a Computer for Playing Chess",
     paperLink: "https://www.pi.infn.it/~carosi/chess/shannon.txt",
     description:
-      "Game-theoretic algorithm for optimal decision-making in zero-sum games.",
-    impact: "Foundation for game-playing AI and decision-making algorithms.",
+      "Pioneering game-theoretic algorithm that mathematically determines optimal decision-making strategies in zero-sum competitive environments through recursive evaluation of all possible game states.",
+    impact:
+      "Established the mathematical foundation for all modern game-playing AI systems, strategic decision-making algorithms, and computational game theory applications across diverse fields from economics to military strategy.",
     demoType: "minimax",
   },
   {
     id: 2,
-    title: "Artificial Intelligence Term Coined",
+    title: "Birth of Artificial Intelligence as a Field",
     year: "1956",
     discoverer: "John McCarthy",
     discovererBio:
-      "American computer scientist who coined the term 'Artificial Intelligence' and organized the famous Dartmouth Conference.",
+      "Visionary American computer scientist (1927-2011) who not only coined the term 'Artificial Intelligence' but also invented LISP programming language, pioneered time-sharing systems, and organized the historic Dartmouth Conference that launched AI as a formal academic discipline.",
     paperTitle:
       "A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence",
     paperLink: "http://jmc.stanford.edu/articles/dartmouth/dartmouth.pdf",
     description:
-      "The formal beginning of AI as a field of study, defining the term and establishing research goals.",
-    impact: "Established AI as an academic discipline and research field.",
+      "The historic Dartmouth Conference proposal that formally established artificial intelligence as a distinct scientific discipline, defining the ambitious goal of creating machines capable of human-like reasoning, learning, and problem-solving.",
+    impact:
+      "Catalyzed the formation of AI as a legitimate academic field, attracted unprecedented funding for AI research, and inspired generations of researchers to pursue the dream of machine intelligence, ultimately leading to today's AI revolution.",
     demoType: "concept",
   },
   {
