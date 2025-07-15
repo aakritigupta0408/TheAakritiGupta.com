@@ -111,13 +111,13 @@ const allDiscoveries: Discovery[] = [
     year: "1965",
     discoverer: "Lotfi Zadeh",
     discovererBio:
-      "Iranian-American mathematician who introduced fuzzy set theory and fuzzy logic.",
+      "Visionary Iranian-American mathematician and electrical engineer (1921-2017) at UC Berkeley who revolutionized computational logic by introducing degrees of truth rather than binary true/false reasoning, fundamentally changing how machines process uncertain information.",
     paperTitle: "Fuzzy Sets",
     paperLink: "https://www-bisc.cs.berkeley.edu/Zadeh-1965.pdf",
     description:
-      "Mathematical framework for reasoning with uncertainty and imprecise information.",
+      "Revolutionary mathematical framework that enables reasoning with degrees of truth and partial membership, allowing computational systems to handle the inherent uncertainty, ambiguity, and imprecision that characterizes real-world information and human reasoning.",
     impact:
-      "Enabled AI systems to handle real-world uncertainty and vagueness.",
+      "Transformed industrial control systems, consumer electronics, and AI applications by enabling machines to process vague concepts like 'warm,' 'fast,' or 'likely,' leading to more intuitive human-machine interfaces and robust decision-making systems that mirror human reasoning patterns.",
     demoType: "fuzzy",
   },
   {
@@ -126,13 +126,14 @@ const allDiscoveries: Discovery[] = [
     year: "1968",
     discoverer: "Peter Hart, Nils Nilsson, Bertram Raphael",
     discovererBio:
-      "Researchers at Stanford Research Institute who developed optimal pathfinding algorithms.",
+      "Distinguished researchers at Stanford Research Institute who created the most influential pathfinding algorithm in computer science. Nils Nilsson became a foundational figure in AI, authoring seminal textbooks that educated generations of AI researchers.",
     paperTitle:
       "A Formal Basis for the Heuristic Determination of Minimum Cost Paths",
     paperLink: "https://ieeexplore.ieee.org/document/4082128",
     description:
-      "Graph traversal and path search algorithm that finds the optimal path efficiently.",
-    impact: "Widely used in robotics, games, and navigation systems.",
+      "Optimal graph traversal algorithm that intelligently combines the guaranteed optimality of Dijkstra's algorithm with the efficiency of greedy best-first search, using heuristic guidance to find shortest paths while exploring minimal nodes.",
+    impact:
+      "Became the gold standard for pathfinding in robotics navigation, video game AI, GPS routing systems, network packet routing, and any application requiring optimal path discovery, fundamentally enabling autonomous navigation technologies.",
     demoType: "astar",
   },
   {
