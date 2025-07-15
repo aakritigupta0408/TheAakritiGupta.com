@@ -513,6 +513,56 @@ export default function AIPlayground() {
                       </div>
                     </div>
                   </div>
+
+                  {/* State of the Art Product Section */}
+                  <div className="mt-8 p-6 bg-gradient-to-r from-yellow-50 to-orange-50 border-2 border-yellow-400 rounded-xl">
+                    <div className="flex items-start gap-4">
+                      <div className="text-3xl">🌟</div>
+                      <div className="flex-1">
+                        <h4 className="tom-ford-subheading luxury-text-primary text-sm tracking-wider mb-2">
+                          INDUSTRY LEADING PRODUCT
+                        </h4>
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                          <div>
+                            <h5 className="font-bold text-lg luxury-text-primary mb-1">
+                              {selectedDemoData.stateOfArt.name}
+                            </h5>
+                            <p className="text-sm luxury-text-muted mb-2">
+                              by {selectedDemoData.stateOfArt.company}
+                            </p>
+                            <p className="text-sm luxury-text-primary leading-relaxed">
+                              {selectedDemoData.stateOfArt.description}
+                            </p>
+                          </div>
+                          <motion.a
+                            href={selectedDemoData.stateOfArt.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            whileHover={{ scale: 1.05, y: -2 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap"
+                          >
+                            <span>
+                              ���� Try {selectedDemoData.stateOfArt.name}
+                            </span>
+                            <svg
+                              className="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                              />
+                            </svg>
+                          </motion.a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             )}
