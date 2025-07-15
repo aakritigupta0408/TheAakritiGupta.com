@@ -2192,7 +2192,7 @@ export default function AIDiscoveries() {
           </motion.div>
         </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
           {getSortedDiscoveries().map((discovery, index) => (
             <motion.div
               key={discovery.id}
@@ -2234,7 +2234,7 @@ export default function AIDiscoveries() {
                   </motion.p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
