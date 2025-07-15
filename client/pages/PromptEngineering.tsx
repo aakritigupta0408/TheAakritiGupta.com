@@ -68,6 +68,78 @@ const promptTechniques: PromptTechnique[] = [
     whenToUse: "Complex reasoning, math problems, multi-step analysis",
     icon: "🔗",
     color: "from-blue-500 to-cyan-500",
+    resources: {
+      guides: [
+        {
+          title:
+            "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+          url: "https://arxiv.org/abs/2201.11903",
+          author: "Google Research",
+          type: "Research Paper",
+        },
+        {
+          title: "Complete Guide to Chain of Thought Prompting",
+          url: "https://www.promptingguide.ai/techniques/cot",
+          author: "Prompting Guide",
+          type: "Tutorial",
+        },
+        {
+          title: "Advanced CoT Techniques",
+          url: "https://learnprompting.org/docs/intermediate/chain_of_thought",
+          author: "Learn Prompting",
+          type: "Course Material",
+        },
+      ],
+      papers: [
+        {
+          title:
+            "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+          url: "https://arxiv.org/abs/2201.11903",
+          authors: "Wei et al. (Google)",
+          year: "2022",
+        },
+        {
+          title: "Self-Consistency Improves Chain of Thought Reasoning",
+          url: "https://arxiv.org/abs/2203.11171",
+          authors: "Wang et al. (Google)",
+          year: "2022",
+        },
+        {
+          title: "Large Language Models are Zero-Shot Reasoners",
+          url: "https://arxiv.org/abs/2205.11916",
+          authors: "Kojima et al.",
+          year: "2022",
+        },
+      ],
+      courses: [
+        {
+          title: "Prompt Engineering for Developers",
+          url: "https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/",
+          provider: "DeepLearning.AI",
+          level: "Intermediate",
+        },
+        {
+          title: "Advanced Prompt Engineering",
+          url: "https://www.coursera.org/learn/prompt-engineering",
+          provider: "Coursera",
+          level: "Advanced",
+        },
+      ],
+      communities: [
+        {
+          name: "r/PromptEngineering",
+          url: "https://reddit.com/r/PromptEngineering",
+          platform: "Reddit",
+          members: "50K+",
+        },
+        {
+          name: "Prompt Engineering Discord",
+          url: "https://discord.gg/promptengineering",
+          platform: "Discord",
+          members: "25K+",
+        },
+      ],
+    },
   },
   {
     id: "few-shot",
