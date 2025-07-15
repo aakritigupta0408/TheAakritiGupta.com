@@ -931,7 +931,6 @@ const CNNDemo = () => {
               style={{
                 width: "120px",
                 height: "120px",
-                transform: `translate(${getFilterX(filterPosition)}px, ${getFilterY(filterPosition)}px)`,
               }}
               animate={{
                 x: getFilterX(filterPosition),
