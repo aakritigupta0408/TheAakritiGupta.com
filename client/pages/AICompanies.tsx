@@ -775,56 +775,111 @@ export default function AICompanies() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-900 via-teal-900 to-cyan-900 relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-20 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-60 right-16 w-80 h-80 bg-cyan-500/20 rounded-full blur-3xl animate-bounce"></div>
+        <div className="absolute bottom-20 left-1/3 w-72 h-72 bg-teal-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-40 left-1/2 w-88 h-88 bg-blue-500/20 rounded-full blur-3xl animate-bounce delay-500"></div>
+        <div className="absolute bottom-40 right-1/4 w-64 h-64 bg-green-500/20 rounded-full blur-3xl animate-pulse delay-700"></div>
+      </div>
+
       <Navigation />
 
       <div className="container mx-auto px-6 py-12">
         {/* Header */}
-        <div className="text-center mb-16">
-          <motion.h1
-            className="text-6xl font-bold text-black mb-6"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            AI Companies Leading the Revolution
-          </motion.h1>
-          <motion.p
-            className="text-xl text-gray-600 max-w-4xl mx-auto mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            Explore the top 20 companies shaping the AI landscape with their
-            groundbreaking discoveries, innovative products, and transformative
-            journeys from startups to industry giants.
-          </motion.p>
-
-          {/* Statistics */}
+        <div className="text-center mb-16 relative z-10">
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-4xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
+            className="inline-block p-1 rounded-full bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 mb-8"
+            initial={{ opacity: 0, scale: 0.5, rotateY: -180 }}
+            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+            transition={{ duration: 1.2, ease: "backOut" }}
+          >
+            <h1 className="text-6xl md:text-8xl font-black bg-gradient-to-r from-white via-emerald-100 to-cyan-100 bg-clip-text text-transparent px-8 py-6">
+              AI Companies Revolution
+            </h1>
+          </motion.div>
+
+          <motion.p
+            className="text-xl text-gray-100 max-w-5xl mx-auto mb-8 leading-relaxed"
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
-              <div className="text-3xl font-bold text-blue-600">$2.8T+</div>
-              <div className="text-sm text-gray-600">Combined Valuation</div>
+            🚀 Explore the top 20 companies shaping the AI landscape! Discover
+            their groundbreaking discoveries, innovative products, and
+            transformative journeys from startups to industry giants. ✨
+          </motion.p>
+
+          <motion.div
+            className="flex flex-wrap justify-center gap-4 mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
+              <span className="text-white font-bold">🏢 Industry Giants</span>
             </div>
-            <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
-              <div className="text-3xl font-bold text-green-600">500K+</div>
-              <div className="text-sm text-gray-600">Total Employees</div>
+            <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
+              <span className="text-white font-bold">💰 Valuations</span>
             </div>
-            <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
-              <div className="text-3xl font-bold text-purple-600">100+</div>
-              <div className="text-sm text-gray-600">Breakthrough Products</div>
+            <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
+              <span className="text-white font-bold">🔬 Innovations</span>
             </div>
-            <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
-              <div className="text-3xl font-bold text-orange-600">20+</div>
-              <div className="text-sm text-gray-600">
+          </motion.div>
+
+          {/* Statistics */}
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-6xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+          >
+            <motion.div
+              className="bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl group hover:scale-105 transition-all duration-300"
+              whileHover={{ y: -10, rotateY: 5 }}
+            >
+              <div className="text-5xl font-black bg-gradient-to-r from-emerald-400 to-green-500 bg-clip-text text-transparent">
+                $2.8T+
+              </div>
+              <div className="text-sm text-gray-200 font-bold mt-2">
+                Combined Valuation
+              </div>
+            </motion.div>
+            <motion.div
+              className="bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl group hover:scale-105 transition-all duration-300"
+              whileHover={{ y: -10, rotateY: 5 }}
+            >
+              <div className="text-5xl font-black bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                500K+
+              </div>
+              <div className="text-sm text-gray-200 font-bold mt-2">
+                Total Employees
+              </div>
+            </motion.div>
+            <motion.div
+              className="bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl group hover:scale-105 transition-all duration-300"
+              whileHover={{ y: -10, rotateY: 5 }}
+            >
+              <div className="text-5xl font-black bg-gradient-to-r from-teal-400 to-emerald-500 bg-clip-text text-transparent">
+                100+
+              </div>
+              <div className="text-sm text-gray-200 font-bold mt-2">
+                Breakthrough Products
+              </div>
+            </motion.div>
+            <motion.div
+              className="bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl group hover:scale-105 transition-all duration-300"
+              whileHover={{ y: -10, rotateY: 5 }}
+            >
+              <div className="text-5xl font-black bg-gradient-to-r from-blue-400 to-cyan-500 bg-clip-text text-transparent">
+                20+
+              </div>
+              <div className="text-sm text-gray-200 font-bold mt-2">
                 Years Combined History
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
 
