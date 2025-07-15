@@ -256,6 +256,40 @@ const promptTechniques: PromptTechnique[] = [
     whenToUse: "Specific formats, word limits, style requirements",
     icon: "⚖️",
     color: "from-orange-500 to-red-500",
+    resources: {
+      guides: [
+        {
+          title: "Constraint-Based Prompt Design",
+          url: "https://www.promptingguide.ai/techniques/constraints",
+          author: "Prompting Guide",
+          type: "Tutorial",
+        },
+      ],
+      papers: [
+        {
+          title: "Controllable Text Generation",
+          url: "https://arxiv.org/abs/1909.05858",
+          authors: "Keskar et al.",
+          year: "2019",
+        },
+      ],
+      courses: [
+        {
+          title: "Structured Output Generation",
+          url: "https://www.edx.org/course/structured-ai",
+          provider: "edX",
+          level: "Advanced",
+        },
+      ],
+      communities: [
+        {
+          name: "Structured AI Generation",
+          url: "https://discord.gg/structuredai",
+          platform: "Discord",
+          members: "5K+",
+        },
+      ],
+    },
   },
   {
     id: "iterative-refinement",
@@ -266,6 +300,40 @@ const promptTechniques: PromptTechnique[] = [
     whenToUse: "Complex projects, detailed analysis, creative development",
     icon: "🔄",
     color: "from-indigo-500 to-purple-500",
+    resources: {
+      guides: [
+        {
+          title: "Iterative Prompt Refinement",
+          url: "https://learnprompting.org/docs/intermediate/iterative_prompting",
+          author: "Learn Prompting",
+          type: "Tutorial",
+        },
+      ],
+      papers: [
+        {
+          title: "Constitutional AI: Harmlessness from AI Feedback",
+          url: "https://arxiv.org/abs/2212.08073",
+          authors: "Bai et al.",
+          year: "2022",
+        },
+      ],
+      courses: [
+        {
+          title: "Advanced Conversation Design",
+          url: "https://www.coursera.org/learn/conversation-design",
+          provider: "Coursera",
+          level: "Advanced",
+        },
+      ],
+      communities: [
+        {
+          name: "Prompt Optimization",
+          url: "https://reddit.com/r/PromptOptimization",
+          platform: "Reddit",
+          members: "15K+",
+        },
+      ],
+    },
   },
   {
     id: "metacognitive",
@@ -277,6 +345,52 @@ const promptTechniques: PromptTechnique[] = [
       "Quality assurance, understanding AI logic, educational purposes",
     icon: "🧠",
     color: "from-teal-500 to-cyan-500",
+    resources: {
+      guides: [
+        {
+          title: "Metacognitive Prompting Techniques",
+          url: "https://www.promptingguide.ai/techniques/metacognitive",
+          author: "Prompting Guide",
+          type: "Tutorial",
+        },
+        {
+          title: "AI Transparency and Explainability",
+          url: "https://www.anthropic.com/news/measuring-model-persuasiveness",
+          author: "Anthropic",
+          type: "Research",
+        },
+      ],
+      papers: [
+        {
+          title: "Teaching Models to Express Their Uncertainty",
+          url: "https://arxiv.org/abs/2205.14334",
+          authors: "Lin et al.",
+          year: "2022",
+        },
+        {
+          title: "Self-Refine: Iterative Refinement with Self-Feedback",
+          url: "https://arxiv.org/abs/2303.17651",
+          authors: "Madaan et al.",
+          year: "2023",
+        },
+      ],
+      courses: [
+        {
+          title: "AI Interpretability",
+          url: "https://www.fast.ai/posts/2019-08-27-interpretability.html",
+          provider: "Fast.ai",
+          level: "Advanced",
+        },
+      ],
+      communities: [
+        {
+          name: "AI Safety & Alignment",
+          url: "https://www.lesswrong.com/tag/ai-alignment",
+          platform: "LessWrong",
+          members: "20K+",
+        },
+      ],
+    },
   },
 ];
 
