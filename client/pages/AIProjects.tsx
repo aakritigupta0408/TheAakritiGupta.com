@@ -3066,8 +3066,9 @@ export default function AIProjects() {
           </motion.div>
         )}
 
-        {/* Filters */}
+                {/* Filters */}
         {activeTab === "projects" && (
+          <div>
         <div className="mb-12 space-y-6 relative z-10">
           {/* Clear All Filters Button */}
           {(filterCategory !== "All" || filterDifficulty !== "All") && (
