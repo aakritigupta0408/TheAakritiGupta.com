@@ -37,6 +37,12 @@ interface AgentExample {
   };
   tips: string[];
   useCase: string;
+  resources: {
+    codeExamples: { title: string; url: string; language: string }[];
+    tutorials: { title: string; url: string; difficulty: string }[];
+    videos: { title: string; url: string; creator: string; duration: string }[];
+    documentation: { title: string; url: string; type: string }[];
+  };
 }
 
 interface TrainingTechnique {
@@ -48,6 +54,11 @@ interface TrainingTechnique {
   keyPoints: string[];
   example: string;
   benefits: string[];
+  resources: {
+    tutorials: { title: string; url: string; type: string }[];
+    videos: { title: string; url: string; duration: string }[];
+    papers: { title: string; url: string; authors: string }[];
+  };
 }
 
 const aiAgentExamples: AgentExample[] = [
@@ -193,7 +204,7 @@ function processUser(data) {
 }
 \`\`\`
 
-���� **RECOMMENDATIONS**
+📋 **RECOMMENDATIONS**
 1. Add TypeScript interfaces
 2. Implement proper error handling
 3. Consider using template literals
