@@ -415,6 +415,82 @@ const promptExamples: PromptExample[] = [
     useCase:
       "Code quality improvement, learning best practices, preparing for code reviews",
     icon: "👨‍💻",
+    resources: {
+      tutorials: [
+        {
+          title: "AI-Powered Code Review Best Practices",
+          url: "https://github.blog/2023-06-20-how-to-write-better-prompts-for-github-copilot/",
+          platform: "GitHub",
+          duration: "15 min",
+        },
+        {
+          title: "Effective Code Review Prompts",
+          url: "https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/",
+          platform: "DeepLearning.AI",
+          duration: "1 hour",
+        },
+        {
+          title: "Code Quality with AI Assistants",
+          url: "https://docs.github.com/en/copilot/using-github-copilot/getting-started-with-github-copilot",
+          platform: "GitHub Docs",
+          duration: "20 min",
+        },
+      ],
+      videos: [
+        {
+          title: "Using AI for Code Reviews - Complete Guide",
+          url: "https://www.youtube.com/watch?v=8c5NQbJNQkE",
+          creator: "GitHub",
+          duration: "28 min",
+        },
+        {
+          title: "ChatGPT for Developers: Code Review Automation",
+          url: "https://www.youtube.com/watch?v=jkrNMKz9pWU",
+          creator: "Programming with Mosh",
+          duration: "35 min",
+        },
+        {
+          title: "AI-Assisted Code Quality Improvement",
+          url: "https://www.youtube.com/watch?v=v8dDj28x2nE",
+          creator: "Tech With Tim",
+          duration: "42 min",
+        },
+      ],
+      tools: [
+        {
+          name: "GitHub Copilot",
+          url: "https://github.com/features/copilot",
+          description: "AI pair programmer for code suggestions and reviews",
+          pricing: "$10/month",
+        },
+        {
+          name: "CodeGPT",
+          url: "https://marketplace.visualstudio.com/items?itemName=DanielSanMedium.dscodegpt",
+          description: "VS Code extension for AI-powered code assistance",
+          pricing: "Free",
+        },
+        {
+          name: "Tabnine",
+          url: "https://www.tabnine.com/",
+          description: "AI code completion and review assistant",
+          pricing: "Free/Pro plans available",
+        },
+      ],
+      templates: [
+        {
+          name: "Code Review Prompt Template",
+          url: "https://github.com/f/awesome-chatgpt-prompts#act-as-a-code-reviewer",
+          description: "Structured template for comprehensive code reviews",
+          category: "Programming",
+        },
+        {
+          name: "Security Review Prompts",
+          url: "https://owasp.org/www-project-code-review-guide/",
+          description: "Security-focused code review guidelines",
+          category: "Security",
+        },
+      ],
+    },
   },
   {
     id: "data-analysis",
