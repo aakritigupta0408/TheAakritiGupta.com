@@ -78,6 +78,95 @@ interface Project {
   };
 }
 
+const learningPaths: LearningPath[] = [
+  {
+    id: "computer-vision-mastery",
+    name: "Computer Vision Mastery",
+    description:
+      "Complete pathway from basic image classification to advanced object detection and generation",
+    projects: [1, 4, 10, 13],
+    estimatedTime: "12-16 weeks",
+    skills: ["CNN", "Object Detection", "Image Generation", "Medical Imaging"],
+    icon: "👁️",
+  },
+  {
+    id: "nlp-expert",
+    name: "NLP Expert Path",
+    description:
+      "Master natural language processing from chatbots to advanced translation systems",
+    projects: [2, 5, 7, 9, 12],
+    estimatedTime: "14-18 weeks",
+    skills: [
+      "Transformers",
+      "Language Models",
+      "Speech Recognition",
+      "Translation",
+    ],
+    icon: "🗣️",
+  },
+  {
+    id: "ml-engineer",
+    name: "ML Engineering Track",
+    description:
+      "Build production-ready ML systems with modern deployment practices",
+    projects: [3, 6, 8, 11, 14],
+    estimatedTime: "16-20 weeks",
+    skills: [
+      "MLOps",
+      "Recommendation Systems",
+      "Time Series",
+      "Edge Deployment",
+    ],
+    icon: "⚙️",
+  },
+  {
+    id: "ai-researcher",
+    name: "AI Research Path",
+    description:
+      "Dive deep into cutting-edge AI research and advanced algorithms",
+    projects: [10, 11, 12, 13],
+    estimatedTime: "20-24 weeks",
+    skills: [
+      "GANs",
+      "Reinforcement Learning",
+      "Medical AI",
+      "Research Methods",
+    ],
+    icon: "🔬",
+  },
+];
+
+const projectTemplates: ProjectTemplate[] = [
+  {
+    id: "image-classifier-starter",
+    projectId: 1,
+    name: "Image Classification Starter Kit",
+    description:
+      "Complete PyTorch template with data loading, training, and evaluation",
+    githubUrl: "https://github.com/ai-templates/image-classification-starter",
+    technologies: ["PyTorch", "Torchvision", "Matplotlib", "Jupyter"],
+    difficulty: "Beginner",
+  },
+  {
+    id: "chatbot-template",
+    projectId: 2,
+    name: "Conversational AI Template",
+    description: "Full-stack chatbot with React frontend and Python backend",
+    githubUrl: "https://github.com/ai-templates/chatbot-template",
+    technologies: ["Python", "FastAPI", "React", "Transformers"],
+    difficulty: "Intermediate",
+  },
+  {
+    id: "recommender-system",
+    projectId: 3,
+    name: "Recommendation Engine Template",
+    description: "Scalable recommendation system with collaborative filtering",
+    githubUrl: "https://github.com/ai-templates/recommender-template",
+    technologies: ["Python", "Scikit-learn", "Pandas", "FastAPI"],
+    difficulty: "Intermediate",
+  },
+];
+
 const projects: Project[] = [
   {
     id: 1,
@@ -1158,7 +1247,7 @@ print(f"Autoencoder anomalies: {np.sum(anomalies_ae)}")`,
       keyTheory:
         "Anomaly detection identifies rare patterns that deviate from expected behavior. Isolation forests exploit the fact that anomalies are few and different, requiring fewer splits to isolate in random feature space partitions.",
       mathematicalFoundations:
-        "Isolation score: s(x,n) = 2^(-E(h(x))/c(n)) where E(h(x)) is average path length. Autoencoder loss: L = ||x - decoder(encoder(x))||²",
+        "Isolation score: s(x,n) = 2^(-E(h(x))/c(n)) where E(h(x)) is average path length. Autoencoder loss: L = ||x - decoder(encoder(x))||��",
       importantPapers: [
         "Isolation Forest (2008) - Efficient anomaly detection",
         "One-Class SVM (2001) - Support vector approach",
