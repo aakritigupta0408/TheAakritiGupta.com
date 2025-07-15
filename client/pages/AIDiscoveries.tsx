@@ -2087,7 +2087,7 @@ export default function AIDiscoveries() {
 
       <Navigation />
 
-      <div className="container mx-auto px-6 py-12 relative z-10">
+      <div className="container mx-auto px-6 py-20 relative z-10">
         <div className="text-center mb-16">
           <motion.div
             className="inline-block p-1 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 mb-8"
