@@ -436,91 +436,71 @@ export default function Games() {
         </div>
       </section>
 
-      {/* Interactive Games Portfolio */}
-      <section className="relative z-20 py-32 border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-20"
-          >
-            <h2 className="tom-ford-heading text-5xl md:text-6xl text-white mb-8">
-              INTERACTIVE
-              <br />
-              <span className="gold-shimmer">PORTFOLIO</span>
-            </h2>
-            <p className="tom-ford-subheading text-white/60 text-lg tracking-widest max-w-4xl mx-auto">
-              DISCOVER PROFESSIONAL MASTERY THROUGH SOPHISTICATED GAMEPLAY
-            </p>
-          </motion.div>
-
-          {/* Luxury Game Selection */}
-          <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-8 mb-16">
-            {gameCards.map((game, index) => (
-              <motion.div
-                key={game.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.8 }}
-                whileHover={{ scale: 1.02, y: -4 }}
-                onClick={() => setActiveGame(game.id)}
-                className={`cursor-pointer tom-ford-card rounded-sm p-8 text-center transition-all duration-500 ${
-                  activeGame === game.id
-                    ? `${game.accent} border-2 transform scale-105`
-                    : "hover:border-yellow-400/50"
-                }`}
-              >
-                <div className="text-4xl text-yellow-400 mb-6">{game.icon}</div>
-                <h3 className="tom-ford-subheading text-white text-sm mb-4 tracking-widest">
-                  {game.title}
-                </h3>
-                <p className="text-white/60 text-xs font-light leading-relaxed mb-6">
-                  {game.description}
-                </p>
-                <div
-                  className={`w-full h-0.5 ${activeGame === game.id ? "bg-yellow-400" : "bg-white/20"} transition-colors duration-300`}
-                />
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Game Display Area */}
-          <AnimatePresence mode="wait">
-            {activeGame && (
+      {/* Game Display Area */}
+      <AnimatePresence mode="wait">
+        {activeGame && (
+          <section className="relative z-20 py-16">
+            <div className="max-w-7xl mx-auto px-8">
               <motion.div
                 key={activeGame}
-                initial={{ opacity: 0, y: 60 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -60 }}
-                transition={{ duration: 0.8 }}
-                className="tom-ford-glass rounded-sm overflow-hidden"
+                initial={{ opacity: 0, y: 60, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -60, scale: 0.95 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden"
               >
-                <div className="p-8 border-b border-white/10 flex justify-between items-center">
-                  <h3 className="tom-ford-heading text-3xl text-white">
-                    {gameCards.find((g) => g.id === activeGame)?.title}
-                  </h3>
-                  <button
-                    onClick={() => setActiveGame(null)}
-                    className="text-white/60 hover:text-yellow-400 transition-colors text-xl"
-                  >
-                    ✕
-                  </button>
-                </div>
-                <div className="p-12 bg-black/50">
+                {/* Game Header */}
+                <motion.div
+                  className={`p-6 bg-gradient-to-r ${gameCards.find((g) => g.id === activeGame)?.gradient} text-white relative`}
+                  initial={{ x: -100, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-4">
+                      <div className="text-4xl">
+                        {gameCards.find((g) => g.id === activeGame)?.icon}
+                      </div>
+                      <div>
+                        <h3 className="text-2xl font-bold">
+                          {gameCards.find((g) => g.id === activeGame)?.title}
+                        </h3>
+                        <p className="text-white/80 text-sm">
+                          {gameCards.find((g) => g.id === activeGame)?.category}{" "}
+                          Game
+                        </p>
+                      </div>
+                    </div>
+                    <motion.button
+                      whileHover={{ scale: 1.1, rotate: 90 }}
+                      whileTap={{ scale: 0.9 }}
+                      onClick={() => setActiveGame(null)}
+                      className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
+                    >
+                      <span className="text-xl">✕</span>
+                    </motion.button>
+                  </div>
+                </motion.div>
+
+                {/* Game Content */}
+                <motion.div
+                  className="p-8 bg-gray-50 min-h-[600px]"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                >
                   {activeGame === "chess" && <Chess />}
                   {activeGame === "bagh-chal" && <BaghChal />}
                   {activeGame === "pacman" && <Pacman />}
                   {activeGame === "snake" && <Snake />}
                   {activeGame === "mario-gradient" && <MarioGradientDescent />}
                   {activeGame === "helicopter" && <Helicopter />}
-                </div>
+                </motion.div>
               </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </section>
+            </div>
+          </section>
+        )}
+      </AnimatePresence>
 
       {/* Sophisticated Footer */}
       <section className="relative z-20 py-16 border-t border-white/10">
