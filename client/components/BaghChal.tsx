@@ -248,9 +248,10 @@ const BaghChal = () => {
         <AnimatePresence>
           {showRules && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
+              initial={{ opacity: 0, scaleY: 0 }}
+              animate={{ opacity: 1, scaleY: 1 }}
+              exit={{ opacity: 0, scaleY: 0 }}
+              style={{ originY: 0 }}
               className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg rounded-xl p-6 mb-6 text-left border border-white/20 dark:border-slate-700/20"
             >
               <h3 className="font-bold text-lg mb-4 text-slate-800 dark:text-slate-200">
