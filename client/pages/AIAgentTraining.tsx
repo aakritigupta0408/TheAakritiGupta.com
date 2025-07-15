@@ -1753,13 +1753,124 @@ Week 7-8: Production deployment and monitoring
                 </div>
               </div>
 
-              <div className="backdrop-blur-xl bg-purple-500/10 border border-purple-500/30 rounded-xl p-6">
+              <div className="backdrop-blur-xl bg-purple-500/10 border border-purple-500/30 rounded-xl p-6 mb-8">
                 <h3 className="text-lg font-bold text-purple-400 mb-4">
                   Example Implementation
                 </h3>
                 <p className="text-slate-300 text-sm leading-relaxed">
                   {selectedTechnique.example}
                 </p>
+              </div>
+
+              {/* Resources Section */}
+              <div className="backdrop-blur-xl bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/30 rounded-xl p-6">
+                <h3 className="text-xl font-bold text-orange-400 mb-6 flex items-center gap-2">
+                  <FaBrain /> Deep Learning Resources
+                </h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {/* Tutorials */}
+                  <div>
+                    <h4 className="text-lg font-bold text-blue-400 mb-3 flex items-center gap-2">
+                      <FaGraduationCap /> Tutorials & Guides
+                    </h4>
+                    <div className="space-y-2">
+                      {selectedTechnique.resources.tutorials.map(
+                        (tutorial, index) => (
+                          <a
+                            key={index}
+                            href={tutorial.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-blue-500/20 hover:border-blue-500/40"
+                          >
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <div className="text-white font-medium text-sm">
+                                  {tutorial.title}
+                                </div>
+                                <div className="text-blue-400 text-xs">
+                                  {tutorial.type}
+                                </div>
+                              </div>
+                              <div className="text-blue-400 hover:translate-x-1 transition-transform duration-300">
+                                →
+                              </div>
+                            </div>
+                          </a>
+                        ),
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Videos */}
+                  <div>
+                    <h4 className="text-lg font-bold text-red-400 mb-3 flex items-center gap-2">
+                      <FaPlay /> Video Content
+                    </h4>
+                    <div className="space-y-2">
+                      {selectedTechnique.resources.videos.map(
+                        (video, index) => (
+                          <a
+                            key={index}
+                            href={video.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-red-500/20 hover:border-red-500/40"
+                          >
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <div className="text-white font-medium text-sm">
+                                  {video.title}
+                                </div>
+                                <div className="text-red-400 text-xs">
+                                  {video.duration}
+                                </div>
+                              </div>
+                              <div className="text-red-400 hover:translate-x-1 transition-transform duration-300">
+                                ▶
+                              </div>
+                            </div>
+                          </a>
+                        ),
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Research Papers */}
+                  <div>
+                    <h4 className="text-lg font-bold text-green-400 mb-3 flex items-center gap-2">
+                      <FaSearch /> Research Papers
+                    </h4>
+                    <div className="space-y-2">
+                      {selectedTechnique.resources.papers.map(
+                        (paper, index) => (
+                          <a
+                            key={index}
+                            href={paper.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-green-500/20 hover:border-green-500/40"
+                          >
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <div className="text-white font-medium text-sm">
+                                  {paper.title}
+                                </div>
+                                <div className="text-green-400 text-xs">
+                                  {paper.authors}
+                                </div>
+                              </div>
+                              <div className="text-green-400 hover:translate-x-1 transition-transform duration-300">
+                                →
+                              </div>
+                            </div>
+                          </a>
+                        ),
+                      )}
+                    </div>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </motion.div>
