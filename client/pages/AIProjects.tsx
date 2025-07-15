@@ -119,7 +119,7 @@ for epoch in range(epochs):
         "Data Augmentation - Increase dataset diversity through transformations",
       ],
       keyTheory:
-        "CNNs use translation-invariant filters that share weights across spatial locations, enabling efficient feature detection regardless of object position. The hierarchical architecture learns increasingly complex features: edges ��� shapes → objects → concepts.",
+        "CNNs use translation-invariant filters that share weights across spatial locations, enabling efficient feature detection regardless of object position. The hierarchical architecture learns increasingly complex features: edges → shapes → objects → concepts.",
       mathematicalFoundations:
         "Convolution operation: (f * g)(x,y) = Σ Σ f(i,j) × g(x-i, y-j). Backpropagation through convolution layers requires computing gradients w.r.t filters and inputs using chain rule.",
       importantPapers: [
@@ -2352,6 +2352,29 @@ export default function AIProjects() {
 
         {/* Filters */}
         <div className="mb-12 space-y-6 relative z-10">
+          {/* Clear All Filters Button */}
+          {(filterCategory !== "All" || filterDifficulty !== "All") && (
+            <motion.div
+              className="text-center mb-6"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.3 }}
+            >
+              <motion.button
+                onClick={() => {
+                  setFilterCategory("All");
+                  setFilterDifficulty("All");
+                }}
+                className="px-6 py-3 bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-full font-bold hover:from-red-600 hover:to-pink-700 transition-all duration-300 shadow-xl border border-red-400/30"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                ✖️ Clear All Filters
+              </motion.button>
+            </motion.div>
+          )}
+
           <div className="flex flex-wrap gap-4 justify-center">
             <span className="text-sm font-black text-white px-6 py-3 bg-white/10 backdrop-blur-md rounded-full border border-white/20">
               🎨 Filter by Category:
