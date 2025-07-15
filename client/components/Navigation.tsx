@@ -148,8 +148,8 @@ const Navigation = () => {
                   whileHover={{ y: -2 }}
                   className={`tom-ford-subheading text-sm tracking-widest transition-colors duration-300 flex items-center gap-2 ${
                     location.pathname.startsWith("/talent")
-                      ? "text-yellow-400"
-                      : "text-white/80 hover:text-yellow-400"
+                      ? "luxury-text-accent"
+                      : "luxury-text-muted hover:luxury-text-accent"
                   }`}
                 >
                   TALENTS
