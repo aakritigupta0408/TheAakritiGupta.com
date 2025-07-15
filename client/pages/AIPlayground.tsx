@@ -66,6 +66,13 @@ const AI_DEMOS: AIDemo[] = [
       "A magical library with floating books",
       "A steampunk airship flying through clouds",
     ],
+    stateOfArt: {
+      name: "Midjourney",
+      url: "https://midjourney.com",
+      description:
+        "Leading AI image generation platform for artistic and photorealistic images",
+      company: "Midjourney Inc.",
+    },
   },
   {
     id: "code-helper",
