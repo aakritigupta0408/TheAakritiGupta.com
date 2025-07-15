@@ -447,7 +447,7 @@ Agent: The dataset contains sales information. Average sales: $1,234. Total reve
       title: "Intelligent Data Analysis Agent",
       content: `📊 **SALES PERFORMANCE ANALYSIS**
 
-🔍 **KEY FINDINGS**
+�� **KEY FINDINGS**
 - Revenue Trend: 15% growth over last quarter
 - Peak Performance: Fridays show 23% higher sales
 - Geographic Insights: West Coast markets outperforming by 31%
@@ -875,6 +875,7 @@ const trainingTechniques: TrainingTechnique[] = [
       "Enable agents to interact with external tools, APIs, and services",
     icon: <FaCogs className="text-purple-400" />,
     keyPoints: [
+      "Tool integration transforms static AI into dynamic agents that can browse the web, run code, send emails, and interact with any API or database.",
       "Function calling capabilities",
       "API authentication and security",
       "Error handling and retry logic",
