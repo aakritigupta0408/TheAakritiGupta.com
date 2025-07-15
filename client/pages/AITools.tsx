@@ -1080,7 +1080,12 @@ export default function AITools() {
                     <motion.div
                       className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 h-3 rounded-full relative"
                       initial={{ scaleX: 0 }}
-                      animate={{ scaleX: profession.aiAdoption / 100 }}
+                      animate={{
+                        scaleX: Math.max(
+                          0,
+                          Math.min(1, profession.aiAdoption / 100),
+                        ),
+                      }}
                       style={{ transformOrigin: "left" }}
                       transition={{
                         duration: 1.5,
