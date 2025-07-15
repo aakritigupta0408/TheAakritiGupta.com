@@ -12,6 +12,7 @@ import AIPlayground from "./pages/AIPlayground";
 import AIDiscoveries from "./pages/AIDiscoveries";
 import AITools from "./pages/AITools";
 import AICompanies from "./pages/AICompanies";
+import AIProjects from "./pages/AIProjects";
 import AIResearcher from "./pages/talents/AIResearcher";
 import SocialEntrepreneur from "./pages/talents/SocialEntrepreneur";
 import Marksman from "./pages/talents/Marksman";
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/ai-discoveries" element={<AIDiscoveries />} />
           <Route path="/ai-tools" element={<AITools />} />
           <Route path="/ai-companies" element={<AICompanies />} />
+          <Route path="/ai-projects" element={<AIProjects />} />
           <Route path="/talent/ai-researcher" element={<AIResearcher />} />
           <Route
             path="/talent/social-entrepreneur"
