@@ -10,6 +10,17 @@ interface AITool {
   pricing: string;
   category: string;
   rating: number;
+  detailedGuides?: {
+    gettingStarted: { title: string; url: string; duration: string }[];
+    tutorials: {
+      title: string;
+      url: string;
+      platform: string;
+      level: string;
+    }[];
+    videos: { title: string; url: string; creator: string; duration: string }[];
+    tips: string[];
+  };
 }
 
 interface Profession {
@@ -23,6 +34,22 @@ interface Profession {
   alternativeTools: AITool[];
   useCase: string;
   timesSaved: string;
+  learningResources: {
+    courses: { title: string; url: string; provider: string; price: string }[];
+    communities: {
+      name: string;
+      url: string;
+      platform: string;
+      members: string;
+    }[];
+    blogs: { title: string; url: string; author: string; focus: string }[];
+    certifications: {
+      name: string;
+      url: string;
+      provider: string;
+      cost: string;
+    }[];
+  };
 }
 
 const professions: Profession[] = [
