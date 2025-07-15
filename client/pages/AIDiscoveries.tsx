@@ -2148,26 +2148,29 @@ export default function AIDiscoveries() {
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></div>
             </div>
             <span className="text-lg font-bold text-pink-300 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 border border-white/20">2018</span>
-          </motion.div>
+                    </motion.div>
 
-                    {/* Sort controls */}
+          {/* Sort controls */}
           <motion.div
-            className="flex justify-center gap-4 mb-8"
+            className="flex justify-center gap-6 mb-12"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.0 }}
           >
-            <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 border border-white/20">
-              <span className="text-white font-bold mr-4">🔄 Sort by:</span>
-            <button
-              onClick={() => setSortBy("chronological")}
-              className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
-                sortBy === "chronological"
-                  ? "bg-blue-500 text-white border-blue-500"
-                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
-              }`}
-            >
-              📅 Chronological
+            <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 border border-white/20 flex items-center gap-4">
+              <span className="text-white font-bold">🔄 Sort by:</span>
+              <motion.button
+                onClick={() => setSortBy("chronological")}
+                className={`px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
+                  sortBy === "chronological"
+                    ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-2xl scale-105"
+                    : "text-white hover:bg-white/20"
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                📅 Chronological
+              </motion.button>
             </button>
             <button
               onClick={() => setSortBy("alphabetical")}
