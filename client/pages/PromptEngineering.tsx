@@ -745,6 +745,52 @@ const promptExamples: PromptExample[] = [
     useCase:
       "Online education, skill development, concept explanation, personalized learning",
     icon: "🎓",
+    resources: {
+      tutorials: [
+        {
+          title: "AI Tutoring Systems",
+          url: "https://www.edx.org/course/artificial-intelligence-in-education",
+          platform: "edX",
+          duration: "6 weeks",
+        },
+        {
+          title: "Personalized Learning with AI",
+          url: "https://www.coursera.org/learn/ai-for-education",
+          platform: "Coursera",
+          duration: "4 weeks",
+        },
+      ],
+      videos: [
+        {
+          title: "Creating AI Tutors",
+          url: "https://www.youtube.com/watch?v=education-ai",
+          creator: "Khan Academy",
+          duration: "25 min",
+        },
+      ],
+      tools: [
+        {
+          name: "Socratic by Google",
+          url: "https://socratic.org/",
+          description: "AI-powered homework help and tutoring",
+          pricing: "Free",
+        },
+        {
+          name: "Tutorly",
+          url: "https://www.tutorly.ai/",
+          description: "AI tutoring platform for personalized learning",
+          pricing: "$15-30/month",
+        },
+      ],
+      templates: [
+        {
+          name: "Educational Prompt Templates",
+          url: "https://github.com/f/awesome-chatgpt-prompts#act-as-a-math-teacher",
+          description: "Teaching and tutoring prompt collection",
+          category: "Education",
+        },
+      ],
+    },
   },
   {
     id: "debugging-assistant",
@@ -766,6 +812,52 @@ const promptExamples: PromptExample[] = [
     useCase:
       "Production debugging, performance optimization, system troubleshooting",
     icon: "🐛",
+    resources: {
+      tutorials: [
+        {
+          title: "AI-Assisted Debugging Techniques",
+          url: "https://github.blog/2023-06-20-how-to-write-better-prompts-for-github-copilot/",
+          platform: "GitHub",
+          duration: "20 min",
+        },
+        {
+          title: "Systematic Debugging with AI",
+          url: "https://www.pluralsight.com/courses/debugging-applications-ai",
+          platform: "Pluralsight",
+          duration: "3 hours",
+        },
+      ],
+      videos: [
+        {
+          title: "Debugging with AI Tools",
+          url: "https://www.youtube.com/watch?v=debugging-ai",
+          creator: "Microsoft Developer",
+          duration: "38 min",
+        },
+      ],
+      tools: [
+        {
+          name: "GitHub Copilot",
+          url: "https://github.com/features/copilot",
+          description: "AI-powered debugging assistance",
+          pricing: "$10/month",
+        },
+        {
+          name: "Sourcegraph Cody",
+          url: "https://sourcegraph.com/cody",
+          description: "AI coding assistant for debugging",
+          pricing: "Free tier available",
+        },
+      ],
+      templates: [
+        {
+          name: "Debugging Prompt Templates",
+          url: "https://github.com/debugging-prompts/collection",
+          description: "Systematic debugging prompt library",
+          category: "Programming",
+        },
+      ],
+    },
   },
 ];
 
