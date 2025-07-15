@@ -168,31 +168,32 @@ const allDiscoveries: Discovery[] = [
   },
   {
     id: 9,
-    title: "Convolutional Neural Networks",
+    title: "Convolutional Neural Networks (CNNs)",
     year: "1989",
     discoverer: "Yann LeCun",
     discovererBio:
-      "French computer scientist, Chief AI Scientist at Meta, and 2018 Turing Award winner for deep learning breakthroughs.",
+      "Visionary French computer scientist, Chief AI Scientist at Meta, and 2018 Turing Award winner whose CNN architecture revolutionized computer vision by mimicking the hierarchical processing of the human visual cortex, transforming how machines perceive and understand images.",
     paperTitle: "Backpropagation Applied to Handwritten Zip Code Recognition",
     paperLink: "http://yann.lecun.com/exdb/publis/pdf/lecun-89e.pdf",
     description:
-      "Neural networks designed to process grid-like data such as images using convolution operations.",
+      "Biologically-inspired neural network architecture that processes grid-like data through localized convolution operations, automatically learning hierarchical feature representations from simple edges to complex patterns, mimicking the human visual system's structure.",
     impact:
-      "Revolutionized computer vision and image recognition, enabling modern visual AI.",
+      "Revolutionized computer vision by enabling automatic feature extraction from images, powering modern applications including facial recognition, medical imaging diagnosis, autonomous vehicle perception, satellite imagery analysis, and the visual AI capabilities in smartphones and social media platforms.",
     demoType: "cnn",
   },
   {
     id: 10,
-    title: "Support Vector Machines",
+    title: "Support Vector Machines (SVMs)",
     year: "1995",
     discoverer: "Vladimir Vapnik & Corinna Cortes",
     discovererBio:
-      "Vladimir Vapnik is a Russian-American computer scientist who developed statistical learning theory.",
+      "Vladimir Vapnik, legendary Russian-American computer scientist who pioneered statistical learning theory and VC dimension, collaborated with Corinna Cortes to create one of the most mathematically elegant and practically powerful machine learning algorithms ever developed.",
     paperTitle: "Support Vector Networks",
     paperLink: "https://link.springer.com/article/10.1007/BF00994018",
     description:
-      "Machine learning method for classification and regression with optimal margin separation.",
-    impact: "Dominant machine learning method before deep learning era.",
+      "Mathematically sophisticated machine learning algorithm that finds optimal decision boundaries by maximizing the margin between different classes, using kernel functions to handle non-linear patterns and providing theoretical guarantees about generalization performance.",
+    impact:
+      "Dominated machine learning applications throughout the 1990s and 2000s, excelling in text classification, bioinformatics, image recognition, and any scenario with limited training data, while providing the mathematical rigor that established machine learning as a principled scientific discipline.",
     demoType: "svm",
   },
   {
@@ -2228,7 +2229,7 @@ const DQNDemo = () => {
           disabled={isTraining}
           className="button-primary disabled:opacity-50"
         >
-          {isTraining ? "��� Learning..." : "🎮 Start DQN Training"}
+          {isTraining ? "🧠 Learning..." : "🎮 Start DQN Training"}
         </button>
       </div>
 
