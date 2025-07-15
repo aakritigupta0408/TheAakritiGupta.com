@@ -610,6 +610,52 @@ const promptExamples: PromptExample[] = [
     useCase:
       "Creative writing, storytelling, narrative development, character creation",
     icon: "✍️",
+    resources: {
+      tutorials: [
+        {
+          title: "AI-Assisted Creative Writing",
+          url: "https://www.masterclass.com/classes/ai-writing",
+          platform: "MasterClass",
+          duration: "3 hours",
+        },
+        {
+          title: "Story Development with AI",
+          url: "https://learnprompting.org/docs/applications/creative_writing",
+          platform: "Learn Prompting",
+          duration: "45 min",
+        },
+      ],
+      videos: [
+        {
+          title: "Creative Writing with ChatGPT",
+          url: "https://www.youtube.com/watch?v=1OW8mVbARq0",
+          creator: "Writer's Digest",
+          duration: "32 min",
+        },
+      ],
+      tools: [
+        {
+          name: "Sudowrite",
+          url: "https://www.sudowrite.com/",
+          description: "AI writing partner for creative fiction",
+          pricing: "$10-25/month",
+        },
+        {
+          name: "NovelAI",
+          url: "https://novelai.net/",
+          description: "AI storytelling and creative writing assistant",
+          pricing: "$10-25/month",
+        },
+      ],
+      templates: [
+        {
+          name: "Creative Writing Prompts",
+          url: "https://github.com/f/awesome-chatgpt-prompts#act-as-a-novelist",
+          description: "Collection of creative writing prompt templates",
+          category: "Writing",
+        },
+      ],
+    },
   },
   {
     id: "marketing-strategy",
