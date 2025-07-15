@@ -202,14 +202,14 @@ const allDiscoveries: Discovery[] = [
     year: "1997",
     discoverer: "Sepp Hochreiter & Jürgen Schmidhuber",
     discovererBio:
-      "Sepp Hochreiter is a German computer scientist known for LSTM networks and modern AI contributions.",
+      "Sepp Hochreiter and Jürgen Schmidhuber, pioneering German computer scientists who solved the vanishing gradient problem that plagued recurrent neural networks, enabling machines to learn from sequential data with long-term dependencies for the first time.",
     paperTitle: "Long Short-Term Memory",
     paperLink:
       "https://www.mitpressjournals.org/doi/abs/10.1162/neco.1997.9.8.1735",
     description:
-      "Recurrent neural network architecture that can learn long-term dependencies in sequential data.",
+      "Ingenious recurrent neural network architecture featuring sophisticated gating mechanisms that selectively forget irrelevant information and remember important patterns across extended sequences, solving the notorious vanishing gradient problem that prevented learning long-term dependencies.",
     impact:
-      "Enabled breakthroughs in natural language processing, speech recognition, and time series prediction.",
+      "Enabled machines to understand language context, translate between languages, recognize speech, predict stock prices, and process any sequential data where past events influence future outcomes, laying the groundwork for modern language models and sequential AI applications.",
     demoType: "lstm",
   },
   {
@@ -218,13 +218,13 @@ const allDiscoveries: Discovery[] = [
     year: "2001",
     discoverer: "Leo Breiman",
     discovererBio:
-      "American statistician who developed ensemble methods and random forests.",
+      "Brilliant American statistician (1928-2005) at UC Berkeley who revolutionized machine learning by proving that combining multiple weak learners creates stronger predictive models, fundamentally changing how we approach complex prediction problems.",
     paperTitle: "Random Forests",
     paperLink: "https://link.springer.com/article/10.1023/A:1010933404324",
     description:
-      "Ensemble learning method using multiple decision trees for improved accuracy.",
+      "Powerful ensemble learning method that constructs multiple decision trees using random subsets of features and training data, then aggregates their predictions to achieve superior accuracy, robustness, and resistance to overfitting compared to individual models.",
     impact:
-      "Widely used for classification and regression with excellent performance.",
+      "Became one of the most reliable and widely-used machine learning algorithms across industries, excelling in genomics, finance, ecology, and any domain requiring robust predictions from complex data while providing interpretable feature importance rankings.",
     demoType: "randomforest",
   },
   {
