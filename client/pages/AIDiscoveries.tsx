@@ -883,8 +883,8 @@ const AttentionDemo = () => {
                       : "border-gray-300 bg-white hover:bg-gray-50"
                   }`}
                   animate={{
-                    scale: 0.9 + 0.2 * weight,
-                    opacity: 0.4 + 0.6 * weight,
+                    scale: 0.9 + 0.2 * Math.max(0, Math.min(1, weight || 0)),
+                    opacity: 0.4 + 0.6 * Math.max(0, Math.min(1, weight || 0)),
                     y: showFlow && !isQuery ? [0, -10, 0] : 0,
                   }}
                   transition={{
