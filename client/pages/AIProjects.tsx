@@ -851,7 +851,7 @@ export default function AIProjects() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Your ultimate comprehensive guide to the most common AI projects ���
+            Your ultimate comprehensive guide to the most common AI projects 🚀
             Step-by-step training approaches, recommended APIs, pre-trained
             models, datasets, and production-ready code examples to launch your
             AI career! ✨
@@ -1325,66 +1325,94 @@ export default function AIProjects() {
                     </div>
 
                     {/* Right Column */}
-                    <div className="space-y-6">
+                    <div className="space-y-8">
                       {/* Resources */}
-                      <div>
-                        <h3 className="text-xl font-bold mb-3">
-                          Recommended Resources
+                      <motion.div
+                        initial={{ opacity: 0, x: 30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.5 }}
+                      >
+                        <h3 className="text-2xl font-black text-white mb-6">
+                          🛠️ Recommended Resources
                         </h3>
-                        <div className="space-y-4">
+                        <div className="space-y-6">
                           {selectedProject.resources.map((resource, idx) => (
-                            <div
+                            <motion.div
                               key={idx}
-                              className="bg-gray-50 p-4 rounded-lg border border-gray-200"
+                              className="bg-white/10 backdrop-blur-xl p-6 rounded-2xl border border-white/20 hover:bg-white/15 transition-all duration-300 group"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.6 + idx * 0.1 }}
+                              whileHover={{ scale: 1.02, y: -5 }}
                             >
-                              <div className="flex justify-between items-start mb-2">
-                                <h4 className="font-semibold text-gray-800">
+                              <div className="flex justify-between items-start mb-4">
+                                <h4 className="font-black text-white text-lg group-hover:text-cyan-300 transition-colors">
                                   {resource.name}
                                 </h4>
                                 <span
-                                  className={`px-2 py-1 rounded text-xs font-medium ${
+                                  className={`px-3 py-2 rounded-full text-xs font-bold border backdrop-blur-md ${
                                     resource.type === "API"
-                                      ? "bg-blue-100 text-blue-800"
+                                      ? "bg-blue-500/30 border-blue-400/50 text-blue-200"
                                       : resource.type === "Dataset"
-                                        ? "bg-green-100 text-green-800"
+                                        ? "bg-green-500/30 border-green-400/50 text-green-200"
                                         : resource.type === "Model"
-                                          ? "bg-purple-100 text-purple-800"
-                                          : "bg-orange-100 text-orange-800"
+                                          ? "bg-purple-500/30 border-purple-400/50 text-purple-200"
+                                          : "bg-orange-500/30 border-orange-400/50 text-orange-200"
                                   }`}
                                 >
                                   {resource.type}
                                 </span>
                               </div>
-                              <p className="text-gray-600 text-sm mb-2">
+                              <p className="text-gray-200 text-sm mb-4 leading-relaxed">
                                 {resource.description}
                               </p>
-                              <div className="flex justify-between items-center">
-                                <span className="text-green-600 font-semibold text-sm">
+                              <div className="flex justify-between items-center pt-4 border-t border-white/20">
+                                <span className="text-green-400 font-bold text-lg">
                                   {resource.pricing}
                                 </span>
-                                <a
+                                <motion.a
                                   href={resource.link}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="text-blue-600 hover:underline text-sm"
+                                  className="text-cyan-300 hover:text-cyan-100 font-bold transition-colors text-sm"
+                                  whileHover={{ scale: 1.1 }}
                                 >
                                   Access Resource →
-                                </a>
+                                </motion.a>
                               </div>
-                            </div>
+                            </motion.div>
                           ))}
                         </div>
-                      </div>
+                      </motion.div>
 
                       {/* Code Example */}
-                      <div>
-                        <h3 className="text-xl font-bold mb-3">Code Example</h3>
-                        <div className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
-                          <pre className="text-sm">
-                            <code>{selectedProject.codeExample}</code>
+                      <motion.div
+                        initial={{ opacity: 0, x: 30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.9 }}
+                      >
+                        <h3 className="text-2xl font-black text-white mb-6">
+                          💻 Code Example
+                        </h3>
+                        <div className="bg-black/60 backdrop-blur-xl text-gray-100 p-6 rounded-2xl overflow-x-auto border border-white/20 shadow-2xl">
+                          <div className="flex items-center gap-2 mb-4">
+                            <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                            <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                            <span className="text-gray-400 text-sm font-mono ml-4">
+                              {selectedProject.title
+                                .toLowerCase()
+                                .replace(/\s+/g, "_")}
+                              .py
+                            </span>
+                          </div>
+                          <pre className="text-sm leading-relaxed">
+                            <code className="language-python">
+                              {selectedProject.codeExample}
+                            </code>
                           </pre>
                         </div>
-                      </div>
+                      </motion.div>
                     </div>
                   </div>
                 </div>
