@@ -209,6 +209,7 @@ for epoch in range(epochs):
         description: "Access to GPT-3.5 and GPT-4 for chat applications",
         link: "https://platform.openai.com/docs/guides/gpt",
         pricing: "$0.002 per 1K tokens",
+        category: "Commercial",
       },
       {
         name: "Hugging Face Transformers",
@@ -216,6 +217,7 @@ for epoch in range(epochs):
         description: "Open-source library for transformer models",
         link: "https://huggingface.co/transformers/",
         pricing: "Free",
+        category: "Open Source",
       },
       {
         name: "PersonaChat Dataset",
@@ -223,6 +225,47 @@ for epoch in range(epochs):
         description: "Conversations with personality traits",
         link: "https://huggingface.co/datasets/persona_chat",
         pricing: "Free",
+        category: "Academic",
+      },
+      {
+        name: "OpenAI",
+        type: "Company",
+        description: "Pioneer in large language models and conversational AI",
+        link: "https://openai.com/",
+        pricing: "N/A",
+        category: "Industry",
+      },
+      {
+        name: "Anthropic",
+        type: "Company",
+        description: "Constitutional AI and Claude chatbot development",
+        link: "https://anthropic.com/",
+        pricing: "N/A",
+        category: "Industry",
+      },
+      {
+        name: "Google DeepMind",
+        type: "Research Lab",
+        description: "Transformer architecture and Gemini conversational AI",
+        link: "https://deepmind.google/",
+        pricing: "N/A",
+        category: "Industry",
+      },
+      {
+        name: "Attention Is All You Need",
+        type: "Paper",
+        description: "Original Transformer architecture paper",
+        link: "https://arxiv.org/abs/1706.03762",
+        pricing: "Free",
+        category: "Academic",
+      },
+      {
+        name: "InstructGPT Paper",
+        type: "Paper",
+        description: "Training language models to follow instructions",
+        link: "https://arxiv.org/abs/2203.02155",
+        pricing: "Free",
+        category: "Academic",
       },
     ],
     codeExample: `from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -2713,7 +2756,7 @@ export default function AIProjects() {
                   animate={{ rotate: [0, 10, -10, 0] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
-                  ���
+                  🔍
                 </motion.div>
                 <h3 className="text-3xl font-black text-white mb-4">
                   No Projects Found
@@ -2814,7 +2857,7 @@ export default function AIProjects() {
                             {selectedProject.difficulty === "Beginner"
                               ? "🌱"
                               : selectedProject.difficulty === "Intermediate"
-                                ? "����"
+                                ? "🔥"
                                 : "🚀"}{" "}
                             {selectedProject.difficulty}
                           </motion.span>
