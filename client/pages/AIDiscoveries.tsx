@@ -1151,7 +1151,8 @@ const LSTMDemo = () => {
             >
               <motion.div
                 className="h-full bg-orange-500 rounded-full"
-                animate={{ width: `${hiddenState * 100}%` }}
+                animate={{ scaleX: hiddenState }}
+                style={{ transformOrigin: "left" }}
                 transition={{ duration: 0.5 }}
               />
             </motion.div>
