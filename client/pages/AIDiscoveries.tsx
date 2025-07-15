@@ -968,10 +968,6 @@ const CNNDemo = () => {
                       : "bg-white text-gray-500"
                   }`}
                   animate={{
-                    backgroundColor:
-                      idx <= filterPosition && isAnimating
-                        ? "#10b981"
-                        : "#ffffff",
                     scale:
                       idx === filterPosition && isAnimating ? [1, 1.2, 1] : 1,
                   }}
@@ -1647,7 +1643,7 @@ const GANDemo = () => {
           disabled={isTraining}
           className="button-primary disabled:opacity-50"
         >
-          {isTraining ? "⚔️ Training Battle..." : "🎨 Start GAN Training"}
+          {isTraining ? "⚔�� Training Battle..." : "🎨 Start GAN Training"}
         </button>
       </div>
 
