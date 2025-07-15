@@ -730,9 +730,6 @@ export default function AICompanies() {
   const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
   const [filterCategory, setFilterCategory] = useState<string>("All");
   const [sortBy, setSortBy] = useState<string>("valuation");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [showStats, setShowStats] = useState(true);
 
   const categories = [
     "All",
@@ -791,136 +788,29 @@ export default function AICompanies() {
       <Navigation />
 
       <div className="container mx-auto px-6 py-12">
-        {/* Enhanced Header */}
-        <div className="text-center mb-20 relative z-10">
+        {/* Header */}
+        <div className="text-center mb-16 relative z-10">
           <motion.div
             className="inline-block p-1 rounded-full bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 mb-8"
             initial={{ opacity: 0, scale: 0.5, rotateY: -180 }}
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
             transition={{ duration: 1.2, ease: "backOut" }}
           >
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black bg-gradient-to-r from-white via-emerald-100 to-cyan-100 bg-clip-text text-transparent px-8 py-6">
+            <h1 className="text-6xl md:text-8xl font-black bg-gradient-to-r from-white via-emerald-100 to-cyan-100 bg-clip-text text-transparent px-8 py-6">
               AI Companies Revolution
             </h1>
           </motion.div>
 
           <motion.p
-            className="text-xl text-gray-100 max-w-5xl mx-auto mb-12 leading-relaxed"
+            className="text-xl text-gray-100 max-w-5xl mx-auto mb-8 leading-relaxed"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            🚀 Explore the most influential companies shaping the AI landscape!
-            Discover their groundbreaking discoveries, innovative products, and
+            🚀 Explore the top 20 companies shaping the AI landscape! Discover
+            their groundbreaking discoveries, innovative products, and
             transformative journeys from startups to industry giants. ✨
           </motion.p>
-
-          {/* Modern Search Interface */}
-          <motion.div
-            className="max-w-4xl mx-auto mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="🔍 Search companies, technologies, or founders..."
-                className="w-full bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl px-6 py-4 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400/50 transition-all duration-300"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              <motion.div
-                className="absolute right-4 top-1/2 transform -translate-y-1/2"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <div className="w-8 h-8 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full flex items-center justify-center">
-                  <span className="text-white text-sm">⚡</span>
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
-
-          {/* Enhanced Statistics */}
-          <motion.div
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-          >
-            <motion.div
-              className="bg-white/10 backdrop-blur-xl p-6 rounded-3xl border border-white/20 shadow-2xl group"
-              whileHover={{ scale: 1.05, y: -10 }}
-              transition={{ duration: 0.3 }}
-            >
-              <motion.div
-                className="text-4xl font-black bg-gradient-to-r from-emerald-400 to-green-500 bg-clip-text text-transparent"
-                animate={{ scale: [1, 1.1, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                {companies.length}
-              </motion.div>
-              <div className="text-sm text-gray-200 font-bold mt-2">
-                AI Leaders
-              </div>
-              <div className="text-xs text-gray-300 mt-1">Global Companies</div>
-            </motion.div>
-
-            <motion.div
-              className="bg-white/10 backdrop-blur-xl p-6 rounded-3xl border border-white/20 shadow-2xl group"
-              whileHover={{ scale: 1.05, y: -10 }}
-              transition={{ duration: 0.3 }}
-            >
-              <motion.div
-                className="text-4xl font-black bg-gradient-to-r from-blue-400 to-cyan-500 bg-clip-text text-transparent"
-                animate={{ scale: [1, 1.1, 1] }}
-                transition={{ duration: 2, repeat: Infinity, delay: 0.2 }}
-              >
-                $2.1T
-              </motion.div>
-              <div className="text-sm text-gray-200 font-bold mt-2">
-                Market Cap
-              </div>
-              <div className="text-xs text-gray-300 mt-1">Combined Value</div>
-            </motion.div>
-
-            <motion.div
-              className="bg-white/10 backdrop-blur-xl p-6 rounded-3xl border border-white/20 shadow-2xl group"
-              whileHover={{ scale: 1.05, y: -10 }}
-              transition={{ duration: 0.3 }}
-            >
-              <motion.div
-                className="text-4xl font-black bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent"
-                animate={{ scale: [1, 1.1, 1] }}
-                transition={{ duration: 2, repeat: Infinity, delay: 0.4 }}
-              >
-                1M+
-              </motion.div>
-              <div className="text-sm text-gray-200 font-bold mt-2">
-                Employees
-              </div>
-              <div className="text-xs text-gray-300 mt-1">Global Workforce</div>
-            </motion.div>
-
-            <motion.div
-              className="bg-white/10 backdrop-blur-xl p-6 rounded-3xl border border-white/20 shadow-2xl group"
-              whileHover={{ scale: 1.05, y: -10 }}
-              transition={{ duration: 0.3 }}
-            >
-              <motion.div
-                className="text-4xl font-black bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent"
-                animate={{ scale: [1, 1.1, 1] }}
-                transition={{ duration: 2, repeat: Infinity, delay: 0.6 }}
-              >
-                50+
-              </motion.div>
-              <div className="text-sm text-gray-200 font-bold mt-2">
-                Breakthroughs
-              </div>
-              <div className="text-xs text-gray-300 mt-1">AI Innovations</div>
-            </motion.div>
-          </motion.div>
 
           <motion.div
             className="flex flex-wrap justify-center gap-4 mb-8"
@@ -993,66 +883,12 @@ export default function AICompanies() {
           </motion.div>
         </div>
 
-                {/* Modern Filters & Controls */}
-        <div className="mb-16 relative z-10">
-          {/* View Mode Toggle */}
-          <motion.div
-            className="flex justify-center mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-2 border border-white/20">
-              <div className="flex gap-2">
-                <motion.button
-                  onClick={() => setViewMode("grid")}
-                  className={`px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300 ${
-                    viewMode === "grid"
-                      ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-xl"
-                      : "text-gray-300 hover:text-white hover:bg-white/10"
-                  }`}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  🔲 Grid View
-                </motion.button>
-                <motion.button
-                  onClick={() => setViewMode("list")}
-                  className={`px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300 ${
-                    viewMode === "list"
-                      ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-xl"
-                      : "text-gray-300 hover:text-white hover:bg-white/10"
-                  }`}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  📋 List View
-                </motion.button>
-                <motion.button
-                  onClick={() => setShowStats(!showStats)}
-                  className={`px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300 ${
-                    showStats
-                      ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-xl"
-                      : "text-gray-300 hover:text-white hover:bg-white/10"
-                  }`}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  📊 Stats
-                </motion.button>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Enhanced Filters */}
-          <div className="space-y-6">
-            <div className="flex flex-wrap gap-4 justify-center">
-              <motion.span
-                className="text-sm font-black text-white px-6 py-3 bg-white/10 backdrop-blur-xl rounded-full border border-white/20"
-                whileHover={{ scale: 1.05 }}
-              >
-                🎨 Filter by Category:
-              </motion.span>
+        {/* Filters and Sort */}
+        <div className="mb-12 space-y-6 relative z-10">
+          <div className="flex flex-wrap gap-4 justify-center">
+            <span className="text-sm font-black text-white px-6 py-3 bg-white/10 backdrop-blur-md rounded-full border border-white/20">
+              🎨 Filter by Category:
+            </span>
             {categories.slice(0, 6).map((category) => (
               <motion.button
                 key={category}
