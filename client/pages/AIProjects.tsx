@@ -75,6 +75,7 @@ const projects: Project[] = [
         description: "Ready-to-use image classification and object detection",
         link: "https://cloud.google.com/vision",
         pricing: "$1.50 per 1000 requests",
+        category: "Commercial",
       },
       {
         name: "ImageNet Dataset",
@@ -82,6 +83,7 @@ const projects: Project[] = [
         description: "1.2M labeled images across 1000 categories",
         link: "https://www.image-net.org/",
         pricing: "Free",
+        category: "Academic",
       },
       {
         name: "PyTorch Vision Models",
@@ -89,6 +91,41 @@ const projects: Project[] = [
         description: "Pre-trained models: ResNet, VGG, EfficientNet",
         link: "https://pytorch.org/vision/stable/models.html",
         pricing: "Free",
+        category: "Open Source",
+      },
+      {
+        name: "Google Research",
+        type: "Company",
+        description:
+          "Leading AI research with EfficientNet, Vision Transformer innovations",
+        link: "https://research.google/",
+        pricing: "N/A",
+        category: "Industry",
+      },
+      {
+        name: "Meta AI (FAIR)",
+        type: "Research Lab",
+        description: "ResNet, DETR, and computer vision breakthroughs",
+        link: "https://ai.meta.com/",
+        pricing: "N/A",
+        category: "Industry",
+      },
+      {
+        name: "Stanford Vision Lab",
+        type: "Research Lab",
+        description: "ImageNet creators, computer vision research pioneers",
+        link: "https://vision.stanford.edu/",
+        pricing: "N/A",
+        category: "Academic",
+      },
+      {
+        name: "EfficientNet Paper",
+        type: "Paper",
+        description:
+          "Rethinking Model Scaling for Convolutional Neural Networks",
+        link: "https://arxiv.org/abs/1905.11946",
+        pricing: "Free",
+        category: "Academic",
       },
     ],
     codeExample: `import torch
@@ -2676,7 +2713,7 @@ export default function AIProjects() {
                   animate={{ rotate: [0, 10, -10, 0] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
-                  🔍
+                  ���
                 </motion.div>
                 <h3 className="text-3xl font-black text-white mb-4">
                   No Projects Found
@@ -2777,7 +2814,7 @@ export default function AIProjects() {
                             {selectedProject.difficulty === "Beginner"
                               ? "🌱"
                               : selectedProject.difficulty === "Intermediate"
-                                ? "🔥"
+                                ? "����"
                                 : "🚀"}{" "}
                             {selectedProject.difficulty}
                           </motion.span>
