@@ -96,7 +96,16 @@ export default function Games() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white relative overflow-x-hidden">
+        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-black relative overflow-x-hidden">
+      {/* Enhanced Animated Background */}
+      <div className="absolute inset-0">
+        <div className="absolute top-10 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-40 right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-bounce"></div>
+        <div className="absolute bottom-20 left-1/4 w-80 h-80 bg-pink-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-60 left-1/2 w-64 h-64 bg-cyan-500/20 rounded-full blur-3xl animate-bounce delay-500"></div>
+        <div className="absolute bottom-10 right-10 w-88 h-88 bg-yellow-500/20 rounded-full blur-3xl animate-pulse delay-700"></div>
+      </div>
+
       <Navigation />
 
       {/* Hero Section */}
@@ -126,28 +135,34 @@ export default function Games() {
               <br />
               GAMES
             </motion.h1>
-            <motion.p
-              className="text-xl text-gray-600 tracking-wide max-w-4xl mx-auto mb-8"
+                        <motion.p
+              className="text-xl text-gray-100 tracking-wide max-w-4xl mx-auto mb-8"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              Discover professional mastery through sophisticated gameplay
-              experiences
+              🎮 Discover professional mastery through sophisticated gameplay
+              experiences! Ready to challenge yourself? ✨
             </motion.p>
 
-            {/* Gaming Stats */}
+                        {/* Gaming Stats */}
             <motion.div
               className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
             >
-              <div className="bg-white p-4 rounded-xl shadow-lg border border-gray-200">
-                <div className="text-2xl font-bold text-blue-600">6</div>
-                <div className="text-sm text-gray-600">Interactive Games</div>
-              </div>
-              <div className="bg-white p-4 rounded-xl shadow-lg border border-gray-200">
+              <motion.div
+                className="bg-white/10 backdrop-blur-xl p-6 rounded-2xl border border-white/20 shadow-2xl hover:scale-105 transition-all duration-300"
+                whileHover={{ y: -5 }}
+              >
+                <div className="text-3xl font-black bg-gradient-to-r from-blue-400 to-cyan-500 bg-clip-text text-transparent">6</div>
+                <div className="text-sm text-gray-200 font-bold">Interactive Games</div>
+              </motion.div>
+              <motion.div
+                className="bg-white/10 backdrop-blur-xl p-6 rounded-2xl border border-white/20 shadow-2xl hover:scale-105 transition-all duration-300"
+                whileHover={{ y: -5 }}
+              >
                 <div className="text-2xl font-bold text-purple-600">
                   AI-Powered
                 </div>
