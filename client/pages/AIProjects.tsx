@@ -1489,7 +1489,7 @@ print(f"Transcription: {transcription}")`,
       keyTheory:
         "Speech recognition transforms acoustic signals into text through feature extraction, sequence modeling, and language understanding. Modern approaches use transformer architectures with attention to align audio frames with text tokens efficiently.",
       mathematicalFoundations:
-        "CTC Loss: L = -log(∑π∈B⁻¹(y) ∏ᵗ p(πₜ|x)). Attention: αᵢⱼ = exp(e���ⱼ)/∑ₖ exp(eᵢₖ) where eᵢⱼ = score(sᵢ₋₁, hⱼ)",
+        "CTC Loss: L = -log(∑π∈B⁻¹(y) ∏ᵗ p(πₜ|x)). Attention: αᵢⱼ = exp(eᵢⱼ)/∑ₖ exp(eᵢₖ) where eᵢⱼ = score(sᵢ₋₁, hⱼ)",
       importantPapers: [
         "Deep Speech (2014) - End-to-end deep learning for speech",
         "Listen, Attend and Spell (2015) - Attention-based speech recognition",
@@ -1897,7 +1897,7 @@ trained_agent = train_dqn_agent()`,
       keyTheory:
         "Reinforcement learning optimizes sequential decision making through trial and error. Agents learn optimal policies by maximizing cumulative rewards while exploring the environment to discover better strategies.",
       mathematicalFoundations:
-        "Bellman equation: Q(s,a) = E[r + γ max Q(s',a')]. Policy gradient: ��θ J(θ) = E[∇θ log π(a|s)Q(s,a)]",
+        "Bellman equation: Q(s,a) = E[r + γ max Q(s',a')]. Policy gradient: ∇θ J(θ) = E[∇θ log π(a|s)Q(s,a)]",
       importantPapers: [
         "Q-Learning (1989) - Model-free reinforcement learning",
         "DQN (2015) - Deep Q-Networks for Atari games",
@@ -2728,6 +2728,14 @@ export default function AIProjects() {
   const [filterCategory, setFilterCategory] = useState<string>("All");
   const [filterDifficulty, setFilterDifficulty] = useState<string>("All");
   const [showCode, setShowCode] = useState<{ [key: number]: boolean }>({});
+  const [activeTab, setActiveTab] = useState<
+    "projects" | "pathways" | "analytics"
+  >("projects");
+  const [selectedPath, setSelectedPath] = useState<LearningPath | null>(null);
+  const [completedProjects, setCompletedProjects] = useState<Set<number>>(
+    new Set(),
+  );
+  const [showQuiz, setShowQuiz] = useState<boolean>(false);
 
   const categories = [
     "All",
