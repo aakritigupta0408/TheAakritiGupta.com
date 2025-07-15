@@ -2138,6 +2138,26 @@ export default function AIDiscoveries() {
             </span>
           </motion.div>
 
+          {/* Clear Filter Button */}
+          {filterDecade !== "All" && (
+            <motion.div
+              className="text-center mb-6"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.3 }}
+            >
+              <motion.button
+                onClick={() => setFilterDecade("All")}
+                className="px-6 py-3 bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-full font-bold hover:from-red-600 hover:to-pink-700 transition-all duration-300 shadow-xl border border-red-400/30"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                ✖️ Clear Decade Filter
+              </motion.button>
+            </motion.div>
+          )}
+
           {/* Decade Filter */}
           <motion.div
             className="flex flex-wrap gap-4 justify-center mb-8"
