@@ -2193,7 +2193,7 @@ export default function AIDiscoveries() {
           {getSortedDiscoveries().map((discovery, index) => (
             <motion.div
               key={discovery.id}
-              className="bg-white/20 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 overflow-hidden cursor-pointer group"
+              className="bg-white/20 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 overflow-hidden cursor-pointer group hover:bg-white/25"
               onClick={() => setSelectedDiscovery(discovery)}
               whileHover={{ scale: 1.02, y: -5 }}
               whileTap={{ scale: 0.98 }}
