@@ -177,6 +177,18 @@ const Navigation = () => {
                 AI COMPANIES
               </motion.button>
 
+              <motion.button
+                onClick={() => navigate("/ai-projects")}
+                whileHover={{ y: -2 }}
+                className={`tom-ford-subheading text-sm tracking-widest transition-colors duration-300 ${
+                  location.pathname === "/ai-projects"
+                    ? "luxury-text-accent border-b border-yellow-400 pb-1"
+                    : "luxury-text-muted hover:luxury-text-accent"
+                }`}
+              >
+                AI PROJECTS
+              </motion.button>
+
               {/* Talents Dropdown */}
               <div className="relative">
                 <motion.button
@@ -354,6 +366,15 @@ const Navigation = () => {
                   className="block w-full text-left tom-ford-subheading text-white/80 hover:text-yellow-400 transition-colors py-2"
                 >
                   AI COMPANIES
+                </motion.button>
+                <motion.button
+                  onClick={() => {
+                    navigate("/ai-projects");
+                    setIsOpen(false);
+                  }}
+                  className="block w-full text-left tom-ford-subheading text-white/80 hover:text-yellow-400 transition-colors py-2"
+                >
+                  AI PROJECTS
                 </motion.button>
                 <div className="border-t border-white/10 pt-4">
                   <div className="tom-ford-subheading text-yellow-400 text-sm mb-3 tracking-wider">
