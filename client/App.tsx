@@ -13,6 +13,7 @@ import AIDiscoveries from "./pages/AIDiscoveries";
 import AITools from "./pages/AITools";
 import AICompanies from "./pages/AICompanies";
 import AIProjects from "./pages/AIProjects";
+import PromptEngineering from "./pages/PromptEngineering";
 import AIResearcher from "./pages/talents/AIResearcher";
 import SocialEntrepreneur from "./pages/talents/SocialEntrepreneur";
 import Marksman from "./pages/talents/Marksman";
