@@ -198,49 +198,78 @@ const FloatingSkills = () => {
 export default function Games() {
   const navigate = useNavigate();
   const [activeGame, setActiveGame] = useState<GameTab | null>(null);
+  const [hoveredGame, setHoveredGame] = useState<GameTab | null>(null);
 
   const gameCards = [
     {
       id: "chess" as GameTab,
       title: "CHESS",
-      description: "Strategic mastery revealing professional narratives",
+      description:
+        "Strategic mastery revealing professional narratives through the royal game",
       icon: "♔",
       accent: "border-yellow-400",
+      gradient: "from-yellow-400 to-amber-600",
+      difficulty: "Expert",
+      players: "2 Players",
+      category: "Strategy",
     },
     {
       id: "bagh-chal" as GameTab,
       title: "BAGH-CHAL",
-      description: "Traditional strategy with modern AI sophistication",
-      icon: "◆",
-      accent: "border-yellow-400",
+      description: "Traditional Nepali strategy with modern AI sophistication",
+      icon: "🐅",
+      accent: "border-orange-400",
+      gradient: "from-orange-400 to-red-600",
+      difficulty: "Advanced",
+      players: "2 Players",
+      category: "Traditional",
     },
     {
       id: "pacman" as GameTab,
       title: "PACMAN",
-      description: "Arcade adventure unveiling professional strengths",
-      icon: "●",
-      accent: "border-yellow-400",
+      description:
+        "Arcade adventure unveiling professional strengths and achievements",
+      icon: "👾",
+      accent: "border-blue-400",
+      gradient: "from-blue-400 to-purple-600",
+      difficulty: "Medium",
+      players: "1 Player",
+      category: "Arcade",
     },
     {
       id: "snake" as GameTab,
       title: "SNAKE",
-      description: "Journey through professional milestones",
-      icon: "◊",
-      accent: "border-yellow-400",
+      description: "Journey through professional milestones and career growth",
+      icon: "🐍",
+      accent: "border-green-400",
+      gradient: "from-green-400 to-emerald-600",
+      difficulty: "Easy",
+      players: "1 Player",
+      category: "Classic",
     },
     {
       id: "mario-gradient" as GameTab,
       title: "GRADIENT DESCENT",
-      description: "Machine learning education through interactive play",
-      icon: "▲",
-      accent: "border-yellow-400",
+      description:
+        "Machine learning education through interactive Mario-style gameplay",
+      icon: "🎮",
+      accent: "border-purple-400",
+      gradient: "from-purple-400 to-pink-600",
+      difficulty: "Expert",
+      players: "1 Player",
+      category: "Educational",
     },
     {
       id: "helicopter" as GameTab,
       title: "HELICOPTER",
-      description: "Navigate challenges to discover achievements",
+      description:
+        "Navigate challenges to discover achievements and unlock career milestones",
       icon: "🚁",
-      accent: "border-yellow-400",
+      accent: "border-cyan-400",
+      gradient: "from-cyan-400 to-blue-600",
+      difficulty: "Hard",
+      players: "1 Player",
+      category: "Action",
     },
   ];
 
