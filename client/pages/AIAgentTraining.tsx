@@ -1182,7 +1182,7 @@ Week 7-8: Production deployment and monitoring
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
       {/* Header */}
-      <div className="relative overflow-hidden py-20 px-6">
+      <div className="relative overflow-hidden py-12 sm:py-16 lg:py-20 px-4 sm:px-6">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-cyan-600/20" />
         <div className="relative max-w-6xl mx-auto text-center">
           <motion.div
@@ -1191,8 +1191,8 @@ Week 7-8: Production deployment and monitoring
             transition={{ duration: 0.8 }}
             className="mb-8"
           >
-            <FaRobot className="text-6xl text-blue-400 mx-auto mb-6" />
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
+            <FaRobot className="text-4xl sm:text-5xl lg:text-6xl text-blue-400 mx-auto mb-4 sm:mb-6" />
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6">
               <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
                 AI Agent Training
               </span>
