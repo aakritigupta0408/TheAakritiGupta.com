@@ -25,6 +25,13 @@ interface Project {
   codeExample: string;
   icon: string;
   tags: string[];
+  theoreticalConcepts: {
+    fundamentals: string[];
+    keyTheory: string;
+    mathematicalFoundations: string;
+    importantPapers: string[];
+    businessImpact: string;
+  };
 }
 
 const projects: Project[] = [
@@ -1051,7 +1058,7 @@ export default function AIProjects() {
                 {/* Use Cases */}
                 <div className="mb-6">
                   <h4 className="font-bold text-cyan-300 mb-3 text-lg">
-                    🎯 Common Use Cases:
+                    ��� Common Use Cases:
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {project.useCases.slice(0, 3).map((useCase, idx) => (
