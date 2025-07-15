@@ -590,9 +590,10 @@ export default function AIPlayground() {
               <span className="gold-shimmer">YOUR OWN AI?</span>
             </h2>
             <p className="luxury-text-muted text-lg mb-8 max-w-2xl mx-auto">
-              These demos showcase just a fraction of AI's potential. Let's
-              discuss how we can build custom AI solutions for your specific
-              needs.
+              These demos showcase just a fraction of AI's potential. Each demo
+              links to the industry's leading products for real-world
+              implementation. Let's discuss how we can build custom AI solutions
+              for your specific needs.
             </p>
             <div className="flex justify-center gap-6 flex-wrap">
               <motion.button
