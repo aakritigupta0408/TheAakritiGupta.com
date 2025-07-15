@@ -374,22 +374,19 @@ export default function Index() {
                     "0 0 30px rgba(250, 204, 21, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
                 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/5 to-yellow-600/5 rounded-sm animate-pulse" />
-                <div className="relative flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-sm flex items-center justify-center text-black text-2xl font-bold shadow-lg">
-                    ◆
+                <div className="flex items-center gap-6 p-6">
+                  <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white text-2xl font-bold shadow-lg border-2 border-blue-700">
+                    📄
                   </div>
                   <div className="flex flex-col items-start">
-                    <span className="text-2xl tracking-widest text-yellow-400 font-semibold">
-                      EXECUTIVE RESUME
+                    <span className="text-headline luxury-text-primary font-bold">
+                      DOWNLOAD RESUME
                     </span>
-                    <span className="text-sm text-yellow-400/90 tracking-wider uppercase">
-                      Download Complete Portfolio
+                    <span className="text-body luxury-text-muted">
+                      Complete Professional Portfolio
                     </span>
                   </div>
-                  <div className="ml-4 text-yellow-400 text-xl animate-bounce">
-                    ▶
-                  </div>
+                  <div className="ml-auto text-blue-500 text-2xl">▶</div>
                 </div>
               </motion.a>
 
