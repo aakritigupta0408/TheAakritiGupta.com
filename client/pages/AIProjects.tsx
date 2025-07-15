@@ -1184,15 +1184,35 @@ export default function AIProjects() {
                 <div className="flex items-start justify-between mb-6">
                   <div className="flex items-center gap-4">
                     <motion.div
-                      className="text-5xl group-hover:scale-110 transition-transform duration-300"
+                      className="text-5xl group-hover:scale-110 transition-transform duration-300 relative"
                       whileHover={{ rotate: 10, scale: 1.2 }}
                     >
                       {project.icon}
+                      {showCode[project.id] && (
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          className="absolute -top-2 -right-2 w-5 h-5 bg-cyan-500 rounded-full flex items-center justify-center"
+                        >
+                          <span className="text-xs">💻</span>
+                        </motion.div>
+                      )}
                     </motion.div>
                     <div>
-                      <h3 className="text-2xl font-black text-white mb-2 group-hover:bg-gradient-to-r group-hover:from-pink-400 group-hover:to-purple-500 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
-                        {project.title}
-                      </h3>
+                      <div className="flex items-center gap-3 mb-2">
+                        <h3 className="text-2xl font-black text-white group-hover:bg-gradient-to-r group-hover:from-pink-400 group-hover:to-purple-500 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
+                          {project.title}
+                        </h3>
+                        {showCode[project.id] && (
+                          <motion.span
+                            initial={{ opacity: 0, scale: 0 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="text-xs bg-cyan-500/30 text-cyan-200 px-2 py-1 rounded-full font-bold border border-cyan-400/50"
+                          >
+                            CODE ACTIVE
+                          </motion.span>
+                        )}
+                      </div>
                       <p className="text-sm text-gray-300 font-medium bg-white/10 rounded-full px-3 py-1 inline-block">
                         {project.category}
                       </p>
