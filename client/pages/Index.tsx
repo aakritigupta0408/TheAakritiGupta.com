@@ -318,23 +318,56 @@ export default function Index() {
                 transition={{ delay: 0.5, duration: 0.8 }}
                 className="space-y-3"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full animate-pulse"></div>
-                  <p className="text-xl text-white/90 font-medium">
-                    Senior ML Engineer
-                  </p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full animate-pulse"></div>
-                  <p className="text-xl text-white/90 font-medium">
-                    AI Researcher
-                  </p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full animate-pulse"></div>
-                  <p className="text-xl text-white/90 font-medium">
-                    Luxury Tech Visionary
-                  </p>
+                <div className="space-y-4">
+                  {[
+                    {
+                      title: "Senior ML Engineer",
+                      icon: "🤖",
+                      gradient: "from-pink-500 to-purple-500",
+                      desc: "Building AI that matters",
+                    },
+                    {
+                      title: "AI Researcher",
+                      icon: "🔬",
+                      gradient: "from-blue-500 to-cyan-500",
+                      desc: "Pushing boundaries of AI",
+                    },
+                    {
+                      title: "Luxury Tech Visionary",
+                      icon: "💎",
+                      gradient: "from-yellow-500 to-orange-500",
+                      desc: "Where elegance meets innovation",
+                    },
+                  ].map((role, idx) => (
+                    <motion.div
+                      key={idx}
+                      className="group flex items-center gap-4 p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.6 + idx * 0.1 }}
+                      whileHover={{ scale: 1.02, x: 10 }}
+                    >
+                      <motion.div
+                        className={`w-12 h-12 bg-gradient-to-r ${role.gradient} rounded-full flex items-center justify-center text-lg shadow-lg`}
+                        animate={{ scale: [1, 1.1, 1] }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          delay: idx * 0.5,
+                        }}
+                      >
+                        {role.icon}
+                      </motion.div>
+                      <div>
+                        <p className="text-xl text-white font-bold group-hover:text-cyan-300 transition-colors">
+                          {role.title}
+                        </p>
+                        <p className="text-sm text-gray-300 group-hover:text-white transition-colors">
+                          {role.desc}
+                        </p>
+                      </div>
+                    </motion.div>
+                  ))}
                 </div>
               </motion.div>
             </div>
@@ -392,7 +425,7 @@ export default function Index() {
                   whileTap={{ scale: 0.98 }}
                   className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-6 py-3 rounded-xl font-medium hover:bg-white/20 transition-all duration-300 flex items-center justify-center gap-2"
                 >
-                  <span className="text-xl">����</span>
+                  <span className="text-xl">🎮</span>
                   <span>Games</span>
                 </motion.button>
 
