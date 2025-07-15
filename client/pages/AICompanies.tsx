@@ -1039,7 +1039,6 @@ export default function AICompanies() {
                         className="text-xs bg-white/20 text-gray-200 px-3 py-2 rounded-full font-medium border border-white/30 backdrop-blur-md"
                         whileHover={{
                           scale: 1.05,
-                          backgroundColor: "rgba(255,255,255,0.3)",
                         }}
                       >
                         {product}
