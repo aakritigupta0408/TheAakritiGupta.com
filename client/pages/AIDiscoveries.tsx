@@ -735,10 +735,6 @@ const AttentionDemo = () => {
               <motion.div
                 key={idx}
                 className="flex justify-between items-center bg-white px-2 py-1 rounded border"
-                animate={{
-                  borderColor: `rgba(59, 130, 246, ${getAttentionWeight(word)})`,
-                  backgroundColor: `rgba(59, 130, 246, ${getAttentionWeight(word) * 0.1})`,
-                }}
               >
                 <span className="font-medium">{word}:</span>
                 <span className="font-mono text-sm">
