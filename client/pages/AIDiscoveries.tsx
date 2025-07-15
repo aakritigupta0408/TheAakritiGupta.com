@@ -898,7 +898,9 @@ const AttentionDemo = () => {
                   <motion.div
                     className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold"
                     animate={{
-                      scale: showFlow ? [1, 1.5, 1] : weight + 0.5,
+                      scale: showFlow
+                        ? [1, 1.5, 1]
+                        : Math.max(0.5, Math.min(2, (weight || 0) + 0.5)),
                     }}
                     transition={{ duration: 0.5, delay: idx * 0.05 }}
                   >
@@ -1824,7 +1826,10 @@ const GANDemo = () => {
               <motion.div
                 className="h-full bg-purple-500 rounded-full"
                 animate={{
-                  scaleX: Math.max(0, (100 - generatorLoss * 20) / 100),
+                  scaleX: Math.max(
+                    0,
+                    Math.min(1, (100 - (generatorLoss || 0) * 20) / 100),
+                  ),
                 }}
                 style={{ transformOrigin: "left" }}
                 transition={{ duration: 0.5 }}
@@ -1867,7 +1872,7 @@ const GANDemo = () => {
               <motion.div
                 className="h-full bg-green-500 rounded-full"
                 animate={{
-                  scaleX: Math.min(1, discriminatorLoss),
+                  scaleX: Math.max(0, Math.min(1, discriminatorLoss || 0)),
                 }}
                 style={{ transformOrigin: "left" }}
                 transition={{ duration: 0.5 }}
