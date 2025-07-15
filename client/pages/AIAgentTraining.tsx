@@ -1007,6 +1007,49 @@ const trainingTechniques: TrainingTechnique[] = [
       "Ensures ethical behavior",
       "Complies with regulations",
     ],
+    resources: {
+      tutorials: [
+        {
+          title: "Constitutional AI by Anthropic",
+          url: "https://www.anthropic.com/news/constitutional-ai-harmlessness-from-ai-feedback",
+          type: "Research Article",
+        },
+        {
+          title: "AI Safety Guidelines by Partnership on AI",
+          url: "https://www.partnershiponai.org/",
+          type: "Industry Standards",
+        },
+        {
+          title: "Red Teaming AI Systems",
+          url: "https://arxiv.org/abs/2202.03286",
+          type: "Research Paper",
+        },
+      ],
+      videos: [
+        {
+          title: "AI Safety and Alignment Explained",
+          url: "https://www.youtube.com/watch?v=hEUO6pjwFOo",
+          duration: "35 min",
+        },
+        {
+          title: "Constitutional AI Deep Dive",
+          url: "https://www.youtube.com/watch?v=VnBNJJd_JsE",
+          duration: "48 min",
+        },
+      ],
+      papers: [
+        {
+          title: "Constitutional AI: Harmlessness from AI Feedback",
+          url: "https://arxiv.org/abs/2212.08073",
+          authors: "Bai et al. (Anthropic)",
+        },
+        {
+          title: "Red Teaming Language Models with Language Models",
+          url: "https://arxiv.org/abs/2202.03286",
+          authors: "Perez et al.",
+        },
+      ],
+    },
   },
   {
     id: "continuous-learning",
@@ -1029,6 +1072,44 @@ const trainingTechniques: TrainingTechnique[] = [
       "Handles new scenarios automatically",
       "Maintains relevance and accuracy",
     ],
+    resources: {
+      tutorials: [
+        {
+          title: "Online Learning for AI Systems",
+          url: "https://scikit-learn.org/stable/modules/scaling_strategies.html",
+          type: "Framework Guide",
+        },
+        {
+          title: "MLOps for Continuous Learning",
+          url: "https://ml-ops.org/",
+          type: "Best Practices",
+        },
+        {
+          title: "Model Monitoring and Retraining",
+          url: "https://docs.wandb.ai/guides/models",
+          type: "Platform Guide",
+        },
+      ],
+      videos: [
+        {
+          title: "Continuous Learning in Production AI",
+          url: "https://www.youtube.com/watch?v=Ksv9GxNKFT4",
+          duration: "44 min",
+        },
+        {
+          title: "MLOps: Continuous Integration for ML",
+          url: "https://www.youtube.com/watch?v=9BgIDqAzfuA",
+          duration: "1 hr 5 min",
+        },
+      ],
+      papers: [
+        {
+          title: "Continual Learning in Neural Networks",
+          url: "https://arxiv.org/abs/1802.07569",
+          authors: "Parisi et al.",
+        },
+      ],
+    },
   },
 ];
 
