@@ -937,6 +937,7 @@ const trainingTechniques: TrainingTechnique[] = [
       "Implement memory systems for long-term context and personalization",
     icon: <FaDatabase className="text-orange-400" />,
     keyPoints: [
+      "Memory systems enable AI agents to remember past conversations, learn from experience, and maintain context across long interactions like humans do.",
       "Long-term memory storage",
       "Context window management",
       "User preference learning",
