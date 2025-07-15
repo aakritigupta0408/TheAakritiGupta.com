@@ -192,6 +192,13 @@ const AI_DEMOS: AIDemo[] = [
       "Free verse about ocean waves",
       "A limerick about coffee",
     ],
+    stateOfArt: {
+      name: "GPT-4 Creative",
+      url: "https://chat.openai.com",
+      description:
+        "Advanced language model with exceptional poetry and creative writing capabilities",
+      company: "OpenAI",
+    },
   },
 ];
 
