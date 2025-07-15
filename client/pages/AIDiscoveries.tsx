@@ -1914,13 +1914,6 @@ const DQNDemo = () => {
                     }`}
                     animate={{
                       scale: isTraining ? [1, 1.1, 1] : 1,
-                      backgroundColor: isTraining
-                        ? value > 0
-                          ? ["#10b981", "#059669", "#10b981"]
-                          : ["#ef4444", "#dc2626", "#ef4444"]
-                        : value > 0
-                          ? "#10b981"
-                          : "#ef4444",
                     }}
                     transition={{
                       duration: 0.5,
