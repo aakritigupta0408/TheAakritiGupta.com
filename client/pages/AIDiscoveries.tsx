@@ -264,13 +264,13 @@ const allDiscoveries: Discovery[] = [
     year: "2014",
     discoverer: "Ian Goodfellow",
     discovererBio:
-      "Canadian computer scientist and former Google researcher, known for inventing GANs.",
+      "Brilliant Canadian computer scientist who conceived GANs during a late-night discussion at a Montreal bar, creating one of the most influential AI architectures that Yann LeCun called 'the most interesting idea in the last 10 years in machine learning.'",
     paperTitle: "Generative Adversarial Networks",
     paperLink: "https://arxiv.org/abs/1406.2661",
     description:
-      "Two neural networks competing against each other to generate realistic synthetic data.",
+      "Ingenious architecture pitting two neural networks against each other in a competitive game: a generator creates fake data while a discriminator tries to detect forgeries, driving both networks to improve until the generator produces indistinguishable synthetic content.",
     impact:
-      "Revolutionized image generation, art creation, and synthetic media production.",
+      "Revolutionized creative AI by enabling photorealistic image generation, deepfake technology, synthetic media creation, data augmentation for machine learning, and artistic applications that blur the line between human and machine creativity.",
     demoType: "gan",
   },
   {
@@ -321,17 +321,17 @@ const allDiscoveries: Discovery[] = [
   },
   {
     id: 19,
-    title: "Transformers",
+    title: "Transformer Architecture",
     year: "2017",
     discoverer: "Ashish Vaswani et al. (Google)",
     discovererBio:
-      "Team of Google researchers led by Ashish Vaswani who revolutionized natural language processing.",
+      "Revolutionary Google research team led by Ashish Vaswani whose 'Attention Is All You Need' paper fundamentally transformed AI by proving that attention mechanisms alone could outperform all previous sequence modeling approaches, launching the modern AI era.",
     paperTitle: "Attention Is All You Need",
     paperLink: "https://arxiv.org/abs/1706.03762",
     description:
-      "Architecture relying entirely on attention mechanisms, dispensing with recurrence and convolutions.",
+      "Groundbreaking neural architecture that completely replaced recurrent and convolutional layers with pure attention mechanisms, enabling parallel processing of sequences and dramatically improving training efficiency while achieving superior performance on language tasks.",
     impact:
-      "Enabled GPT, BERT, and modern large language models that power ChatGPT and similar systems.",
+      "Enabled the creation of GPT, BERT, T5, and all modern large language models including ChatGPT, GPT-4, and Claude, fundamentally transforming natural language processing and powering the current AI revolution across text, code, and multimodal applications.",
     demoType: "transformer",
   },
   {
