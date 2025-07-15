@@ -360,8 +360,12 @@ export default function AIPlayground() {
                 AI ADVENTURE
               </span>
             </motion.h2>
-            <p className="tom-ford-subheading luxury-text-muted text-lg tracking-widest max-w-3xl mx-auto">
+            <p className="tom-ford-subheading luxury-text-muted text-lg tracking-widest max-w-3xl mx-auto mb-4">
               CLICK ANY DEMO TO START EXPLORING AI CAPABILITIES
+            </p>
+            <p className="luxury-text-primary text-sm max-w-2xl mx-auto">
+              🌟 Each demo includes links to the industry's most advanced
+              products for real-world use
             </p>
           </motion.div>
 
@@ -543,7 +547,7 @@ export default function AIPlayground() {
                             className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap"
                           >
                             <span>
-                              ���� Try {selectedDemoData.stateOfArt.name}
+                              🚀 Try {selectedDemoData.stateOfArt.name}
                             </span>
                             <svg
                               className="w-4 h-4"
