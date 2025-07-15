@@ -5,176 +5,136 @@ import Navigation from "@/components/Navigation";
 import ChatBot from "@/components/ChatBot";
 import { saveEmailToLocalStorage } from "@/api/save-email";
 
-interface FloatingSkill {
-  id: string;
-  label: string;
-  icon: string;
-  color: string;
-  x: number;
-  y: number;
-  speed: number;
-  direction: number;
-}
+// Photo gallery with creative transitions
+const PhotoGallery = () => {
+  const [activePhoto, setActivePhoto] = useState(0);
 
-const FLOATING_SKILLS: Omit<
-  FloatingSkill,
-  "x" | "y" | "speed" | "direction"
->[] = [
-  {
-    id: "ai-researcher",
-    label: "AI RESEARCHER",
-    icon: "◆",
-    color: "tom-ford-float",
-  },
-  {
-    id: "engineer",
-    label: "ENGINEER",
-    icon: "◇",
-    color: "tom-ford-float",
-  },
-  {
-    id: "meta-expert",
-    label: "META ENGINEER",
-    icon: "◆",
-    color: "tom-ford-float",
-  },
-  {
-    id: "horse-rider",
-    label: "EQUESTRIAN",
-    icon: "◈",
-    color: "tom-ford-float",
-  },
-  {
-    id: "ml-specialist",
-    label: "ML SPECIALIST",
-    icon: "◇",
-    color: "tom-ford-float",
-  },
-  {
-    id: "pilot",
-    label: "AVIATOR",
-    icon: "◉",
-    color: "tom-ford-float",
-  },
-  {
-    id: "ebay-alumni",
-    label: "EBAY VETERAN",
-    icon: "◆",
-    color: "tom-ford-float",
-  },
-  {
-    id: "shooter",
-    label: "MARKSMAN",
-    icon: "◎",
-    color: "tom-ford-float",
-  },
-  {
-    id: "yahoo-scientist",
-    label: "YAHOO SCIENTIST",
-    icon: "◇",
-    color: "tom-ford-float",
-  },
-  {
-    id: "biker",
-    label: "MOTORCYCLIST",
-    icon: "◐",
-    color: "tom-ford-float",
-  },
-  {
-    id: "swarnawastra",
-    label: "LUXURY TECH FOUNDER",
-    icon: "◆",
-    color: "tom-ford-float",
-  },
-  {
-    id: "pianist",
-    label: "PIANIST",
-    icon: "◑",
-    color: "tom-ford-float",
-  },
-  {
-    id: "yann-lecun-awardee",
-    label: "YANN LECUN AWARDEE",
-    icon: "◇",
-    color: "tom-ford-float",
-  },
-  {
-    id: "silicon-valley",
-    label: "SILICON VALLEY",
-    icon: "◈",
-    color: "tom-ford-float",
-  },
-  {
-    id: "delhi-to-sv",
-    label: "DELHI TO SILICON VALLEY",
-    icon: "◉",
-    color: "tom-ford-float",
-  },
-];
-
-// Sophisticated Floating Skills Component
-const FloatingSkills = () => {
-  const [skills, setSkills] = useState<FloatingSkill[]>([]);
+  const photos = [
+    {
+      url: "https://cdn.builder.io/api/v1/image/assets%2Ff2155d07c4314be389b158f0dc3f31dc%2Fed0bc18cd21244e1939892616f236f8f?format=webp&width=800",
+      title: "AI Researcher",
+      subtitle: "Pushing boundaries in machine learning",
+    },
+    {
+      url: "https://cdn.builder.io/api/v1/image/assets%2Ff2155d07c4314be389b158f0dc3f31dc%2F8eb1e0d8ff0f4e7e8a3cb9a919e054b1?format=webp&width=800",
+      title: "Technology Leader",
+      subtitle: "Leading innovation at top tech companies",
+    },
+    {
+      url: "https://cdn.builder.io/api/v1/image/assets%2Ff2155d07c4314be389b158f0dc3f31dc%2F84cf6b44dba445fcaeced4f15fd299f1?format=webp&width=800",
+      title: "Luxury Visionary",
+      subtitle: "Founder of Swarnawastra",
+    },
+    {
+      url: "https://cdn.builder.io/api/v1/image/assets%2Ff2155d07c4314be389b158f0dc3f31dc%2F4d9e8bcd67214b5b963eb37e44602024?format=webp&width=800",
+      title: "Multi-disciplinary Expert",
+      subtitle: "From Delhi to Silicon Valley",
+    },
+  ];
 
   useEffect(() => {
-    // Use only original skills for less frequency
-    const initialSkills = FLOATING_SKILLS.map((skill, index) => ({
-      ...skill,
-      x: Math.random() * (window.innerWidth - 300),
-      y: Math.random() * (window.innerHeight - 100),
-      speed: 0.15 + Math.random() * 0.25, // Reduced speed
-      direction: Math.random() * Math.PI * 2,
-    }));
-    setSkills(initialSkills);
+    const interval = setInterval(() => {
+      setActivePhoto((prev) => (prev + 1) % photos.length);
+    }, 4000);
+    return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    if (skills.length === 0) return;
+  return (
+    <div className="relative w-full h-full">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activePhoto}
+          initial={{ opacity: 0, scale: 1.1 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+          className="relative w-full h-full"
+        >
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10 rounded-2xl" />
+          <img
+            src={photos[activePhoto].url}
+            alt={photos[activePhoto].title}
+            className="w-full h-full object-cover rounded-2xl shadow-2xl"
+          />
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="absolute bottom-6 left-6 z-20 text-white"
+          >
+            <h3 className="text-xl font-bold mb-1">
+              {photos[activePhoto].title}
+            </h3>
+            <p className="text-white/80 text-sm">
+              {photos[activePhoto].subtitle}
+            </p>
+          </motion.div>
+        </motion.div>
+      </AnimatePresence>
 
-    const animateSkills = () => {
-      setSkills((prevSkills) =>
-        prevSkills.map((skill) => {
-          let { x, y, direction, speed } = skill;
+      {/* Photo indicators */}
+      <div className="absolute bottom-4 right-4 z-20 flex gap-2">
+        {photos.map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => setActivePhoto(idx)}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              idx === activePhoto ? "bg-white" : "bg-white/40"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
 
-          x += Math.cos(direction) * speed;
-          y += Math.sin(direction) * speed;
-
-          if (x <= 0 || x >= window.innerWidth - 300) {
-            direction = Math.PI - direction;
-            x = Math.max(0, Math.min(window.innerWidth - 300, x));
-          }
-          if (y <= 0 || y >= window.innerHeight - 100) {
-            direction = -direction;
-            y = Math.max(0, Math.min(window.innerHeight - 100, y));
-          }
-
-          return { ...skill, x, y, direction };
-        }),
-      );
-    };
-
-    const interval = setInterval(animateSkills, 120); // Less frequent updates
-    return () => clearInterval(interval);
-  }, [skills.length]);
+// Floating achievement badges
+const AchievementBadges = () => {
+  const achievements = [
+    { icon: "🏆", label: "Yann LeCun Award", delay: 0 },
+    { icon: "🤖", label: "AI Expert", delay: 0.5 },
+    { icon: "💎", label: "Luxury Tech", delay: 1 },
+    { icon: "🎯", label: "Marksman", delay: 1.5 },
+    { icon: "🏇", label: "Equestrian", delay: 2 },
+    { icon: "✈️", label: "Pilot", delay: 2.5 },
+    { icon: "🏍️", label: "Motorcyclist", delay: 3 },
+    { icon: "🎹", label: "Pianist", delay: 3.5 },
+  ];
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-10 overflow-hidden">
-      {skills.map((skill) => (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {achievements.map((achievement, idx) => (
         <motion.div
-          key={skill.id}
-          className="absolute"
-          style={{ left: skill.x, top: skill.y }}
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 0.4, scale: 1 }}
-          transition={{
-            duration: 4,
-            delay: Math.random() * 8,
-            ease: "easeOut",
+          key={idx}
+          initial={{ opacity: 0, scale: 0, rotate: -180 }}
+          animate={{
+            opacity: [0, 1, 1, 0],
+            scale: [0, 1, 1, 0],
+            rotate: [0, 360],
+            x: [
+              Math.random() * window.innerWidth,
+              Math.random() * window.innerWidth,
+            ],
+            y: [
+              Math.random() * window.innerHeight,
+              Math.random() * window.innerHeight,
+            ],
           }}
+          transition={{
+            duration: 8,
+            delay: achievement.delay,
+            repeat: Infinity,
+            repeatDelay: 10,
+          }}
+          className="absolute"
         >
-          <div className="tom-ford-float px-4 py-2 rounded-sm text-white text-xs font-light tracking-wider flex items-center gap-2 shadow-lg">
-            <span className="text-sm text-yellow-400">{skill.icon}</span>
-            <span className="tom-ford-subheading text-xs">{skill.label}</span>
+          <div className="bg-white/10 backdrop-blur-md rounded-full px-4 py-2 border border-white/20 shadow-lg">
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">{achievement.icon}</span>
+              <span className="text-white text-sm font-medium">
+                {achievement.label}
+              </span>
+            </div>
           </div>
         </motion.div>
       ))}
@@ -182,44 +142,91 @@ const FloatingSkills = () => {
   );
 };
 
+// Company logo carousel
+const CompanyCarousel = () => {
+  const companies = [
+    {
+      name: "Meta",
+      logo: "f",
+      color: "bg-blue-500",
+      gradient: "from-blue-500 to-blue-700",
+    },
+    {
+      name: "eBay",
+      logo: "eB",
+      color: "bg-gradient-to-r from-red-500 via-yellow-400 to-blue-500",
+      gradient: "from-red-500 to-blue-500",
+    },
+    {
+      name: "Yahoo",
+      logo: "Y!",
+      color: "bg-purple-600",
+      gradient: "from-purple-500 to-purple-700",
+    },
+  ];
+
+  return (
+    <motion.div
+      className="flex gap-6 justify-center"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1, duration: 0.8 }}
+    >
+      {companies.map((company, idx) => (
+        <motion.div
+          key={company.name}
+          whileHover={{ scale: 1.1, y: -5 }}
+          whileTap={{ scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 1.2 + idx * 0.2, duration: 0.5 }}
+          className={`relative group cursor-pointer`}
+        >
+          <div
+            className={`w-16 h-16 ${company.color} rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-xl border-2 border-white/20 group-hover:border-white/40 transition-all duration-300`}
+          >
+            {company.logo}
+          </div>
+          <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className="bg-black/80 backdrop-blur-sm text-white text-xs px-3 py-1 rounded-full">
+              {company.name}
+            </div>
+          </div>
+        </motion.div>
+      ))}
+    </motion.div>
+  );
+};
+
 export default function Index() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [emailSubmitted, setEmailSubmitted] = useState(false);
-  const [showEmailAdmin, setShowEmailAdmin] = useState(false);
-  const [emailCount, setEmailCount] = useState(0);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
       try {
-        // Save email to localStorage as primary method
         saveEmailToLocalStorage(email);
 
-        // Try to call server API if available
         try {
           await fetch("/api/save-email", {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email }),
           });
-          console.log("Email saved to server:", email);
         } catch (serverError) {
           console.log("Server save failed, using localStorage:", serverError);
         }
 
-        console.log("Email submitted and saved:", email);
         setEmailSubmitted(true);
-
         setTimeout(() => {
           setEmailSubmitted(false);
           setEmail("");
         }, 3000);
       } catch (error) {
         console.error("Error saving email:", error);
-        // Still show success to user even if saving fails
         setEmailSubmitted(true);
         setTimeout(() => {
           setEmailSubmitted(false);
@@ -229,618 +236,455 @@ export default function Index() {
     }
   };
 
-  // Update email count from localStorage
   useEffect(() => {
-    const updateEmailCount = () => {
-      const emails = localStorage.getItem("submittedEmails") || "";
-      const count = emails
-        .split("\n")
-        .filter((line) => line.trim().length > 0).length;
-      setEmailCount(count);
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
     };
-
-    updateEmailCount();
-    // Update count when localStorage changes
-    window.addEventListener("storage", updateEmailCount);
-    return () => window.removeEventListener("storage", updateEmailCount);
-  }, [emailSubmitted]);
-
-  const handleDownloadEmails = () => {
-    downloadEmailsFromLocalStorage();
-  };
-
-  // Admin panel toggle (hidden keyboard shortcut)
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.shiftKey && e.key === "E") {
-        setShowEmailAdmin(!showEmailAdmin);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyPress);
-    return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [showEmailAdmin]);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   return (
-    <div className="min-h-screen tom-ford-gradient relative overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-black relative overflow-hidden">
       <Navigation />
-      {/* Sophisticated Floating Skills Background */}
-      <FloatingSkills />
 
-      {/* Hero Section - Tom Ford Style */}
-      <section className="relative z-20 min-h-screen flex items-center justify-center pt-20">
-        <div className="max-w-7xl mx-auto px-8 py-20 grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left Side - Sophisticated Typography */}
+      {/* Floating achievement badges */}
+      <AchievementBadges />
+
+      {/* Dynamic cursor glow */}
+      <motion.div
+        className="fixed w-96 h-96 bg-blue-500/20 rounded-full blur-3xl pointer-events-none z-0"
+        style={{
+          left: mousePosition.x - 192,
+          top: mousePosition.y - 192,
+        }}
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.5, 0.3],
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      {/* Hero Section */}
+      <section className="relative z-20 min-h-screen flex items-center justify-center px-6 py-20">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+          {/* Left Side - Content */}
           <motion.div
-            initial={{ opacity: 0, x: -60 }}
+            initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-            className="space-y-10"
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="space-y-8"
           >
-            <div>
+            {/* Name and Title with animated gradient */}
+            <div className="space-y-6">
               <motion.h1
-                className="tom-ford-heading text-display luxury-text-primary mb-8"
+                className="text-6xl lg:text-8xl font-bold bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent leading-tight"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 1 }}
+                transition={{ delay: 0.2, duration: 0.8 }}
               >
                 AAKRITI
                 <br />
-                <span className="gold-shimmer">GUPTA</span>
+                GUPTA
               </motion.h1>
 
               <motion.div
-                className="space-y-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 1 }}
+                transition={{ delay: 0.5, duration: 0.8 }}
+                className="space-y-3"
               >
-                <p className="tom-ford-subheading luxury-text-accent text-title mb-4">
-                  SENIOR ML ENGINEER
-                </p>
-                <p className="tom-ford-subheading luxury-text-secondary text-title mb-4">
-                  AI RESEARCHER
-                </p>
-                <p className="tom-ford-subheading luxury-text-muted text-body">
-                  TECHNOLOGY VISIONARY
-                </p>
-              </motion.div>
-
-              <motion.div
-                className="mt-12 space-y-4 luxury-text-muted font-light text-lg leading-relaxed max-w-lg"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.9, duration: 1 }}
-              >
-                <p>From Delhi to Silicon Valley</p>
-
-                {/* Company Logos */}
-                <div className="space-y-4">
-                  <div className="flex items-center gap-6">
-                    {/* Meta Logo */}
-                    <div className="flex items-center gap-4 tom-ford-card px-6 py-4 touch-target">
-                      <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center text-white font-bold border-2 border-blue-600">
-                        f
-                      </div>
-                      <span className="luxury-text-primary text-body font-semibold">
-                        META
-                      </span>
-                    </div>
-
-                    {/* eBay Logo */}
-                    <div className="flex items-center gap-4 tom-ford-card px-6 py-4 touch-target">
-                      <div className="w-10 h-10 bg-gradient-to-r from-red-500 via-yellow-400 to-blue-500 rounded-lg flex items-center justify-center text-white font-bold border-2 border-gray-300">
-                        eB
-                      </div>
-                      <span className="luxury-text-primary text-body font-semibold">
-                        EBAY
-                      </span>
-                    </div>
-
-                    {/* Yahoo Logo */}
-                    <div className="flex items-center gap-4 tom-ford-card px-6 py-4 touch-target">
-                      <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center text-white font-bold border-2 border-purple-700">
-                        Y!
-                      </div>
-                      <span className="luxury-text-primary text-body font-semibold">
-                        YAHOO
-                      </span>
-                    </div>
-                  </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-3 h-3 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full animate-pulse"></div>
+                  <p className="text-xl text-white/90 font-medium">
+                    Senior ML Engineer
+                  </p>
                 </div>
-
-                <p>Recognized by Dr. Yann LeCun</p>
-                <p>Building AI to make life simpler</p>
+                <div className="flex items-center gap-3">
+                  <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full animate-pulse"></div>
+                  <p className="text-xl text-white/90 font-medium">
+                    AI Researcher
+                  </p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-3 h-3 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full animate-pulse"></div>
+                  <p className="text-xl text-white/90 font-medium">
+                    Luxury Tech Visionary
+                  </p>
+                </div>
               </motion.div>
             </div>
 
-            {/* Sophisticated Action Buttons */}
+            {/* Achievement highlights */}
             <motion.div
-              className="flex flex-col gap-4 mt-16"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.8 }}
+              className="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10"
+            >
+              <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+                <span className="text-2xl">🏆</span>
+                Recognition & Achievements
+              </h3>
+              <div className="space-y-2 text-white/80">
+                <p>• Recognized by Dr. Yann LeCun at ICLR 2019</p>
+                <p>• Building AI to make life simpler</p>
+                <p>• From Delhi to Silicon Valley</p>
+              </div>
+            </motion.div>
+
+            {/* Company logos */}
+            <CompanyCarousel />
+
+            {/* Action Buttons */}
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.2, duration: 1 }}
+              transition={{ delay: 1.2, duration: 0.8 }}
+              className="flex flex-col gap-4"
             >
               <motion.a
                 href="https://drive.google.com/file/d/1Mnmk6nP9l_Av0LvpgJQ5Tkjb7BqhY7nb/view?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.05, y: -4 }}
-                className="relative mb-4 px-12 py-8 rounded-sm text-center font-light tracking-wider flex items-center justify-center gap-4 bg-gradient-to-r from-yellow-400/20 to-yellow-600/20 border-2 border-yellow-400 hover:border-yellow-300 transition-all duration-500 shadow-lg hover:shadow-yellow-400/30 hover:shadow-2xl"
-                style={{
-                  background:
-                    "linear-gradient(135deg, rgba(250, 204, 21, 0.15) 0%, rgba(234, 179, 8, 0.25) 100%)",
-                  boxShadow:
-                    "0 0 30px rgba(250, 204, 21, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
-                }}
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 group"
               >
-                <div className="flex items-center gap-6 p-6">
-                  <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white text-2xl font-bold shadow-lg border-2 border-blue-700">
-                    📄
-                  </div>
-                  <div className="flex flex-col items-start">
-                    <span className="text-headline luxury-text-primary font-bold">
-                      DOWNLOAD RESUME
-                    </span>
-                    <span className="text-body luxury-text-muted">
-                      Complete Professional Portfolio
-                    </span>
-                  </div>
-                  <div className="ml-auto text-blue-500 text-2xl">▶</div>
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative flex items-center justify-center gap-3">
+                  <span className="text-2xl">📄</span>
+                  <span>Download Resume</span>
+                  <span className="group-hover:translate-x-1 transition-transform duration-300">
+                    →
+                  </span>
                 </div>
               </motion.a>
 
+              <div className="grid grid-cols-2 gap-4">
+                <motion.button
+                  onClick={() => navigate("/games")}
+                  whileHover={{ scale: 1.02, y: -1 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-6 py-3 rounded-xl font-medium hover:bg-white/20 transition-all duration-300 flex items-center justify-center gap-2"
+                >
+                  <span className="text-xl">🎮</span>
+                  <span>Games</span>
+                </motion.button>
+
+                <motion.button
+                  onClick={() => navigate("/ai-playground")}
+                  whileHover={{ scale: 1.02, y: -1 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-6 py-3 rounded-xl font-medium hover:bg-white/20 transition-all duration-300 flex items-center justify-center gap-2"
+                >
+                  <span className="text-xl">🤖</span>
+                  <span>AI Tools</span>
+                </motion.button>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <motion.button
+                  onClick={() => navigate("/ai-discoveries")}
+                  whileHover={{ scale: 1.02, y: -1 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-6 py-3 rounded-xl font-medium hover:bg-white/20 transition-all duration-300 flex items-center justify-center gap-2"
+                >
+                  <span className="text-xl">🧠</span>
+                  <span>AI History</span>
+                </motion.button>
+
+                <motion.button
+                  onClick={() => navigate("/ai-tools")}
+                  whileHover={{ scale: 1.02, y: -1 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-6 py-3 rounded-xl font-medium hover:bg-white/20 transition-all duration-300 flex items-center justify-center gap-2"
+                >
+                  <span className="text-xl">🛠️</span>
+                  <span>Pro Tools</span>
+                </motion.button>
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* Right Side - Creative Photo Gallery */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+            className="relative"
+          >
+            <div className="aspect-[4/5] max-w-md mx-auto">
+              <PhotoGallery />
+            </div>
+
+            {/* Decorative elements */}
+            <motion.div
+              className="absolute -top-4 -right-4 w-32 h-32 bg-gradient-to-br from-blue-500/30 to-purple-500/30 rounded-full blur-2xl"
+              animate={{
+                scale: [1, 1.2, 1],
+                rotate: [0, 180, 360],
+              }}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            />
+            <motion.div
+              className="absolute -bottom-4 -left-4 w-24 h-24 bg-gradient-to-br from-pink-500/30 to-yellow-500/30 rounded-full blur-2xl"
+              animate={{
+                scale: [1.2, 1, 1.2],
+                rotate: [360, 180, 0],
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Skills & Talents Showcase */}
+      <section className="relative z-20 py-20 border-t border-white/10">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-5xl font-bold text-white mb-6">
+              Multi-Disciplinary
+              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                {" "}
+                Expertise
+              </span>
+            </h2>
+            <p className="text-white/70 text-xl max-w-3xl mx-auto">
+              A unique blend of technical mastery and diverse talents, from AI
+              research to luxury innovation
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                icon: "🔬",
+                title: "AI Research",
+                desc: "Published research, Yann LeCun recognition",
+                color: "from-blue-500 to-cyan-500",
+              },
+              {
+                icon: "💼",
+                title: "Tech Leadership",
+                desc: "Meta, eBay, Yahoo experience",
+                color: "from-purple-500 to-pink-500",
+              },
+              {
+                icon: "💎",
+                title: "Luxury Tech",
+                desc: "Founding Swarnawastra",
+                color: "from-yellow-500 to-orange-500",
+              },
+              {
+                icon: "🎯",
+                title: "Marksman",
+                desc: "Precision shooting expertise",
+                color: "from-red-500 to-rose-500",
+              },
+              {
+                icon: "🏇",
+                title: "Equestrian",
+                desc: "Professional horse riding",
+                color: "from-green-500 to-emerald-500",
+              },
+              {
+                icon: "✈️",
+                title: "Aviation",
+                desc: "Pilot training & certification",
+                color: "from-blue-500 to-indigo-500",
+              },
+              {
+                icon: "🏍️",
+                title: "Motorcycling",
+                desc: "High-performance riding",
+                color: "from-gray-500 to-slate-500",
+              },
+              {
+                icon: "🎹",
+                title: "Music",
+                desc: "Classical piano mastery",
+                color: "from-violet-500 to-purple-500",
+              },
+            ].map((skill, idx) => (
+              <motion.div
+                key={skill.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1, duration: 0.6 }}
+                whileHover={{ scale: 1.05, y: -5 }}
+                className="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300 cursor-pointer group"
+              >
+                <div
+                  className={`w-16 h-16 bg-gradient-to-br ${skill.color} rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform duration-300`}
+                >
+                  {skill.icon}
+                </div>
+                <h3 className="text-white font-semibold text-lg mb-2">
+                  {skill.title}
+                </h3>
+                <p className="text-white/70 text-sm">{skill.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="relative z-20 py-20 border-t border-white/10">
+        <div className="max-w-4xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl font-bold text-white mb-6">
+              Let's Build the
+              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                {" "}
+                Future Together
+              </span>
+            </h2>
+            <p className="text-white/70 text-lg">
+              Available for consulting, speaking engagements, and collaboration
+              opportunities
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Contact Links */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="space-y-6"
+            >
               <motion.a
                 href="https://www.linkedin.com/in/aakritigupta4894/"
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.02, y: -2 }}
-                className="button-secondary flex items-center justify-center gap-4 touch-target"
+                whileHover={{ scale: 1.02, x: 5 }}
+                className="flex items-center gap-4 bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:border-blue-500/50 transition-all duration-300 group"
               >
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold border-2 border-blue-700">
+                <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-white font-bold text-xl group-hover:scale-110 transition-transform duration-300">
                   in
                 </div>
-                <span className="text-body font-semibold">
-                  LINKEDIN PROFILE
-                </span>
+                <div>
+                  <h3 className="text-white font-semibold">LinkedIn</h3>
+                  <p className="text-white/70 text-sm">
+                    Professional network & experience
+                  </p>
+                </div>
+                <div className="ml-auto text-blue-400 group-hover:translate-x-2 transition-transform duration-300">
+                  →
+                </div>
               </motion.a>
 
               <motion.a
                 href="https://github.com/aakritigupta0408?tab=achievements"
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.02, y: -2 }}
-                className="button-secondary flex items-center justify-center gap-4 touch-target"
+                whileHover={{ scale: 1.02, x: 5 }}
+                className="flex items-center gap-4 bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:border-gray-500/50 transition-all duration-300 group"
               >
-                <div className="w-8 h-8 bg-slate-800 rounded-lg flex items-center justify-center text-white font-bold border-2 border-slate-900">
+                <div className="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center text-white font-bold text-lg group-hover:scale-110 transition-transform duration-300">
                   Git
                 </div>
-                <span className="text-body font-semibold">
-                  GITHUB PORTFOLIO
-                </span>
-              </motion.a>
-
-              <motion.button
-                onClick={() => navigate("/games")}
-                whileHover={{ scale: 1.02, y: -2 }}
-                className="button-primary touch-target"
-              >
-                🎮 INTERACTIVE GAMES
-              </motion.button>
-
-              <motion.button
-                onClick={() => navigate("/ai-playground")}
-                whileHover={{ scale: 1.02, y: -2 }}
-                className="button-success touch-target flex items-center gap-3"
-              >
-                <span className="text-xl">🤖</span>
-                <span className="text-body font-semibold">AI PLAYGROUND</span>
-              </motion.button>
-            </motion.div>
-          </motion.div>
-
-          {/* Right Side - Sophisticated Photo Gallery */}
-          <motion.div
-            initial={{ opacity: 0, x: 60 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
-            className="relative"
-          >
-            <div className="space-y-8">
-              {/* Main Portrait - Tom Ford Style */}
-              <motion.div
-                className="relative group"
-                whileHover={{ scale: 1.01 }}
-                transition={{ duration: 0.6 }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10 rounded-sm" />
-                <img
-                  src="https://cdn.builder.io/api/v1/image/assets%2Ff2155d07c4314be389b158f0dc3f31dc%2Fed0bc18cd21244e1939892616f236f8f?format=webp&width=800"
-                  alt="Aakriti Gupta - Professional Portrait"
-                  className="w-full object-contain rounded-sm shadow-2xl border border-white/10"
-                  style={{
-                    maxHeight: "500px",
-                    filter: "contrast(1.1) brightness(0.95)",
-                  }}
-                />
-              </motion.div>
-
-              {/* Secondary Photos Grid */}
-              <div className="grid grid-cols-2 gap-6">
-                <motion.div
-                  whileHover={{ scale: 1.03 }}
-                  transition={{ duration: 0.4 }}
-                  className="relative group"
-                >
-                  <img
-                    src="https://cdn.builder.io/api/v1/image/assets%2Ff2155d07c4314be389b158f0dc3f31dc%2F8eb1e0d8ff0f4e7e8a3cb9a919e054b1?format=webp&width=800"
-                    alt="Aakriti Gupta - Professional"
-                    className="w-full object-contain rounded-sm shadow-xl border border-white/10"
-                    style={{
-                      maxHeight: "200px",
-                      filter: "contrast(1.1) brightness(0.95)",
-                    }}
-                  />
-                </motion.div>
-
-                <motion.div
-                  whileHover={{ scale: 1.03 }}
-                  transition={{ duration: 0.4 }}
-                  className="relative group"
-                >
-                  <img
-                    src="https://cdn.builder.io/api/v1/image/assets%2Ff2155d07c4314be389b158f0dc3f31dc%2F84cf6b44dba445fcaeced4f15fd299f1?format=webp&width=800"
-                    alt="Aakriti Gupta - Fashion"
-                    className="w-full object-contain rounded-sm shadow-xl border border-white/10"
-                    style={{
-                      maxHeight: "200px",
-                      filter: "contrast(1.1) brightness(0.95)",
-                    }}
-                  />
-                </motion.div>
-
-                <motion.div
-                  whileHover={{ scale: 1.03 }}
-                  transition={{ duration: 0.4 }}
-                  className="relative group"
-                >
-                  <img
-                    src="https://cdn.builder.io/api/v1/image/assets%2Ff2155d07c4314be389b158f0dc3f31dc%2F4d9e8bcd67214b5b963eb37e44602024?format=webp&width=800"
-                    alt="Aakriti Gupta - Casual"
-                    className="w-full object-contain rounded-sm shadow-xl border border-white/10"
-                    style={{
-                      maxHeight: "150px",
-                      filter: "contrast(1.1) brightness(0.95)",
-                    }}
-                  />
-                </motion.div>
-
-                <motion.div
-                  whileHover={{ scale: 1.03 }}
-                  transition={{ duration: 0.4 }}
-                  className="relative group"
-                >
-                  <img
-                    src="https://cdn.builder.io/api/v1/image/assets%2Ff2155d07c4314be389b158f0dc3f31dc%2Fb2b65fd8e262453e9bd06e29a1b52798?format=webp&width=800"
-                    alt="Aakriti Gupta - Elegant"
-                    className="w-full object-contain rounded-sm shadow-xl border border-white/10"
-                    style={{
-                      maxHeight: "150px",
-                      filter: "contrast(1.1) brightness(0.95)",
-                    }}
-                  />
-                </motion.div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Professional Excellence Section */}
-      <section className="relative z-20 py-32 border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1 }}
-            className="text-center mb-20"
-          >
-            <h2 className="tom-ford-heading text-5xl md:text-6xl text-white mb-8">
-              PROFESSIONAL
-              <br />
-              <span className="gold-shimmer">EXCELLENCE</span>
-            </h2>
-            <p className="tom-ford-subheading text-white/60 text-lg tracking-widest max-w-3xl mx-auto">
-              REDEFINING THE INTERSECTION OF ARTIFICIAL INTELLIGENCE AND LUXURY
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-12">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1, duration: 1 }}
-              className="tom-ford-card rounded-sm p-10 text-center"
-            >
-              <div className="text-6xl text-yellow-400 mb-8">◆</div>
-              <h3 className="tom-ford-heading text-2xl text-white mb-6">
-                TECHNOLOGY LEADERSHIP
-              </h3>
-              <p className="text-white/70 font-light leading-relaxed mb-6">
-                Leading machine learning initiatives at premier technology
-                institutions. Serving billions of users through advanced AI
-                systems.
-              </p>
-
-              {/* Company Logos - Vertical Stack */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-yellow-400/20 rounded-sm px-3 py-2">
-                  <div className="w-6 h-6 bg-blue-500 rounded-sm flex items-center justify-center text-white font-bold text-xs">
-                    f
-                  </div>
-                  <span className="text-yellow-400/90 text-xs tracking-wider">
-                    META
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-yellow-400/20 rounded-sm px-3 py-2">
-                  <div className="w-6 h-6 bg-gradient-to-r from-red-500 via-yellow-400 to-blue-500 rounded-sm flex items-center justify-center text-white font-bold text-xs">
-                    eB
-                  </div>
-                  <span className="text-yellow-400/90 text-xs tracking-wider">
-                    EBAY
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-yellow-400/20 rounded-sm px-3 py-2">
-                  <div className="w-6 h-6 bg-purple-600 rounded-sm flex items-center justify-center text-white font-bold text-xs">
-                    Y!
-                  </div>
-                  <span className="text-yellow-400/90 text-xs tracking-wider">
-                    YAHOO
-                  </span>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2, duration: 1 }}
-              className="tom-ford-card rounded-sm p-10 text-center"
-            >
-              <div className="text-6xl text-yellow-400 mb-8">◇</div>
-              <h3 className="tom-ford-heading text-2xl text-white mb-6">
-                ACADEMIC RECOGNITION
-              </h3>
-              <p className="text-white/70 font-light leading-relaxed">
-                Awarded by Dr. Yann LeCun at ICLR 2019. Published research in
-                advanced machine learning methodologies.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3, duration: 1 }}
-              className="tom-ford-card rounded-sm p-10 text-center"
-            >
-              <div className="text-6xl text-yellow-400 mb-8">◈</div>
-              <h3 className="tom-ford-heading text-2xl text-white mb-6">
-                LUXURY INNOVATION
-              </h3>
-              <p className="text-white/70 font-light leading-relaxed">
-                Founding Swarnawastra. Pioneering AI-driven luxury fashion with
-                gold and lab-grown diamonds.
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Luxury Contact Section */}
-      <section className="relative z-20 py-32 border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="grid lg:grid-cols-2 gap-16 items-center"
-          >
-            {/* Contact Information */}
-            <div>
-              <h2 className="tom-ford-heading text-5xl text-white mb-12">
-                PROFESSIONAL
-                <br />
-                <span className="gold-shimmer">CONNECTION</span>
-              </h2>
-
-              <p className="text-white/70 text-lg font-light leading-relaxed mb-12 max-w-lg">
-                Available for consulting, speaking engagements, and
-                collaboration in artificial intelligence, luxury technology, and
-                innovative solutions.
-              </p>
-
-              <div className="space-y-8">
-                <motion.a
-                  href="https://www.linkedin.com/in/aakritigupta4894/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.01, x: 4 }}
-                  className="flex items-center gap-6 tom-ford-card p-8 rounded-sm hover:border-yellow-400/50 transition-all duration-300 group"
-                >
-                  <div className="relative">
-                    <div className="w-16 h-16 bg-blue-600 rounded-sm flex items-center justify-center border border-yellow-400/30 group-hover:border-blue-400 transition-colors">
-                      <span className="text-3xl text-white font-bold">in</span>
-                    </div>
-                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center">
-                      <span className="text-xs text-black font-bold">✓</span>
-                    </div>
-                  </div>
-                  <div className="flex-1">
-                    <div className="tom-ford-subheading text-white text-sm tracking-wider">
-                      LINKEDIN NETWORK
-                    </div>
-                    <div className="text-white/60 text-xs mt-1">
-                      Professional experience & connections
-                    </div>
-                    <div className="text-blue-400/80 text-xs mt-2 font-light">
-                      @aakritigupta4894
-                    </div>
-                  </div>
-                  <div className="text-yellow-400 group-hover:translate-x-2 transition-transform">
-                    ◆
-                  </div>
-                </motion.a>
-
-                <motion.a
-                  href="https://github.com/aakritigupta0408?tab=achievements"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.01, x: 4 }}
-                  className="flex items-center gap-6 tom-ford-card p-8 rounded-sm hover:border-yellow-400/50 transition-all duration-300 group"
-                >
-                  <div className="relative">
-                    <div className="w-16 h-16 bg-slate-800 rounded-sm flex items-center justify-center border border-yellow-400/30 group-hover:border-slate-400 transition-colors">
-                      <span className="text-2xl text-white font-bold">Git</span>
-                    </div>
-                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center">
-                      <span className="text-xs text-black font-bold">✓</span>
-                    </div>
-                  </div>
-                  <div className="flex-1">
-                    <div className="tom-ford-subheading text-white text-sm tracking-wider">
-                      GITHUB PORTFOLIO
-                    </div>
-                    <div className="text-white/60 text-xs mt-1">
-                      Open source contributions & achievements
-                    </div>
-                    <div className="text-slate-400/80 text-xs mt-2 font-light">
-                      @aakritigupta0408
-                    </div>
-                  </div>
-                  <div className="text-yellow-400 group-hover:translate-x-2 transition-transform">
-                    ◇
-                  </div>
-                </motion.a>
-              </div>
-            </div>
-
-            {/* Luxury Resume Request */}
-            <div className="tom-ford-card rounded-sm p-12">
-              <h3 className="tom-ford-heading text-3xl text-white mb-8">
-                EXECUTIVE
-                <br />
-                <span className="gold-shimmer">PORTFOLIO</span>
-              </h3>
-
-              <p className="text-white/70 font-light mb-10 leading-relaxed">
-                Request comprehensive professional documentation, detailed
-                project portfolios, and executive summary.
-              </p>
-
-              <form onSubmit={handleEmailSubmit} className="space-y-8">
                 <div>
-                  <label className="tom-ford-subheading block text-white/60 text-xs tracking-wider mb-4">
-                    PROFESSIONAL EMAIL
-                  </label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="executive@company.com"
-                    className="w-full px-6 py-4 bg-black/50 border border-white/20 rounded-sm text-white placeholder-white/40 focus:border-yellow-400 focus:outline-none transition-colors font-light"
-                    required
-                  />
+                  <h3 className="text-white font-semibold">GitHub</h3>
+                  <p className="text-white/70 text-sm">
+                    Open source contributions & projects
+                  </p>
                 </div>
+                <div className="ml-auto text-gray-400 group-hover:translate-x-2 transition-transform duration-300">
+                  →
+                </div>
+              </motion.a>
+            </motion.div>
 
+            {/* Email Subscription */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10"
+            >
+              <h3 className="text-white font-semibold text-xl mb-4">
+                Get Exclusive Updates
+              </h3>
+              <p className="text-white/70 mb-6">
+                Stay informed about latest AI research, projects, and speaking
+                engagements
+              </p>
+
+              <form onSubmit={handleEmailSubmit} className="space-y-4">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:border-blue-500 focus:outline-none transition-colors"
+                  required
+                />
                 <motion.button
                   type="submit"
                   disabled={emailSubmitted}
-                  whileHover={{
-                    scale: emailSubmitted ? 1 : 1.01,
-                    y: emailSubmitted ? 0 : -2,
-                  }}
-                  className={`w-full py-5 rounded-sm font-light tracking-widest transition-all duration-300 ${
+                  whileHover={{ scale: emailSubmitted ? 1 : 1.02 }}
+                  whileTap={{ scale: emailSubmitted ? 1 : 0.98 }}
+                  className={`w-full py-3 rounded-xl font-semibold transition-all duration-300 ${
                     emailSubmitted
-                      ? "bg-green-600/80 text-white border border-green-500"
-                      : "tom-ford-button"
+                      ? "bg-green-600 text-white"
+                      : "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700"
                   }`}
                 >
-                  {emailSubmitted
-                    ? "PORTFOLIO TRANSMITTED"
-                    : "REQUEST EXECUTIVE PORTFOLIO"}
+                  {emailSubmitted ? "✓ Subscribed!" : "Subscribe"}
                 </motion.button>
               </form>
-            </div>
-          </motion.div>
-
-          {/* Sophisticated Footer */}
-          <div className="mt-32 pt-16 border-t border-white/10 text-center">
-            <p className="tom-ford-subheading text-white/40 text-sm tracking-widest">
-              © 2024 AAKRITI GUPTA • SENIOR ML ENGINEER • LUXURY TECH VISIONARY
-            </p>
-            <div className="mt-8 flex justify-center gap-12 text-xs text-white/30 tracking-wider">
-              <span>MARKSMAN</span>
-              <span>EQUESTRIAN</span>
-              <span>AVIATOR</span>
-              <span>MOTORCYCLIST</span>
-              <span>PIANIST</span>
-            </div>
-
-            {/* Hidden Email Admin Panel (Ctrl+Shift+E to toggle) */}
-            <AnimatePresence>
-              {showEmailAdmin && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  className="mt-12 p-8 bg-black/80 backdrop-blur-sm border border-yellow-400/30 rounded-sm max-w-md mx-auto"
-                >
-                  <h3 className="tom-ford-subheading text-yellow-400 text-lg tracking-wider uppercase mb-6">
-                    EMAIL MANAGEMENT
-                  </h3>
-                  <div className="space-y-6 text-left">
-                    <div className="flex justify-between items-center">
-                      <span className="text-white/70 text-sm tracking-wide">
-                        EMAILS COLLECTED:
-                      </span>
-                      <span className="text-yellow-400 font-light text-lg">
-                        {emailCount}
-                      </span>
-                    </div>
-                    <motion.button
-                      onClick={handleDownloadEmails}
-                      whileHover={{ scale: 1.02, y: -1 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="w-full bg-yellow-400/20 hover:bg-yellow-400/30 border border-yellow-400/50 text-yellow-400 px-6 py-3 rounded-sm text-sm font-light tracking-widest transition-all duration-300"
-                    >
-                      DOWNLOAD ALL EMAILS
-                    </motion.button>
-                    <div className="text-center">
-                      <button
-                        onClick={() => setShowEmailAdmin(false)}
-                        className="text-white/40 hover:text-white/70 text-xs tracking-wider transition-colors"
-                      >
-                        CLOSE PANEL
-                      </button>
-                    </div>
-                    <div className="text-center text-xs text-white/30 tracking-wider">
-                      Press Ctrl+Shift+E to toggle
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* AI Assistant ChatBot */}
+      {/* Footer */}
+      <footer className="relative z-20 py-12 border-t border-white/10">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <p className="text-white/50 text-sm">
+            © 2024 Aakriti Gupta • Senior ML Engineer • AI Researcher • Luxury
+            Tech Visionary
+          </p>
+          <div className="mt-4 flex justify-center gap-8 text-xs text-white/30">
+            <span>Delhi to Silicon Valley</span>
+            <span>•</span>
+            <span>Meta • eBay • Yahoo</span>
+            <span>•</span>
+            <span>AI • Luxury • Innovation</span>
+          </div>
+        </div>
+      </footer>
+
       <ChatBot />
     </div>
   );
