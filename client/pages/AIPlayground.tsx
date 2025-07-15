@@ -108,6 +108,13 @@ const AI_DEMOS: AIDemo[] = [
       "Song lyrics about friendship",
       "A motivational speech about AI",
     ],
+    stateOfArt: {
+      name: "Claude 3.5 Sonnet",
+      url: "https://claude.ai",
+      description:
+        "Advanced AI assistant excelling at creative writing, poetry, and literary analysis",
+      company: "Anthropic",
+    },
   },
   {
     id: "data-analyst",
