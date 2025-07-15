@@ -24,8 +24,7 @@ const allDiscoveries: Discovery[] = [
     discoverer: "John McCarthy",
     discovererBio:
       "American computer scientist who coined the term 'Artificial Intelligence' and organized the famous Dartmouth Conference.",
-    paperTitle:
-      "A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence",
+    paperTitle: "A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence",
     paperLink: "http://jmc.stanford.edu/articles/dartmouth/dartmouth.pdf",
     description:
       "The formal beginning of AI as a field of study, defining the term and establishing research goals.",
@@ -58,8 +57,7 @@ const allDiscoveries: Discovery[] = [
     paperLink: "https://www.aaai.org/ojs/index.php/aimagazine/article/view/298",
     description:
       "First expert system that used domain-specific knowledge to solve complex problems.",
-    impact:
-      "Led to the first commercial AI applications and knowledge engineering.",
+    impact: "Led to the first commercial AI applications and knowledge engineering.",
     demoType: "expert",
   },
   {
@@ -83,8 +81,7 @@ const allDiscoveries: Discovery[] = [
     discoverer: "Peter Hart, Nils Nilsson, Bertram Raphael",
     discovererBio:
       "Researchers at Stanford Research Institute who developed optimal pathfinding algorithms.",
-    paperTitle:
-      "A Formal Basis for the Heuristic Determination of Minimum Cost Paths",
+    paperTitle: "A Formal Basis for the Heuristic Determination of Minimum Cost Paths",
     paperLink: "https://ieeexplore.ieee.org/document/4082128",
     description:
       "Graph traversal and path search algorithm that finds the optimal path efficiently.",
@@ -102,8 +99,7 @@ const allDiscoveries: Discovery[] = [
     paperLink: "https://www-bisc.cs.berkeley.edu/Zadeh-1965.pdf",
     description:
       "Mathematical framework for reasoning with uncertainty and imprecise information.",
-    impact:
-      "Enabled AI systems to handle real-world uncertainty and vagueness.",
+    impact: "Enabled AI systems to handle real-world uncertainty and vagueness.",
     demoType: "fuzzy",
   },
   {
@@ -192,8 +188,7 @@ const allDiscoveries: Discovery[] = [
     paperLink: "https://link.springer.com/article/10.1023/A:1010933404324",
     description:
       "Ensemble learning method using multiple decision trees for improved accuracy.",
-    impact:
-      "Widely used for classification and regression with excellent performance.",
+    impact: "Widely used for classification and regression with excellent performance.",
     demoType: "randomforest",
   },
   {
@@ -207,15 +202,119 @@ const allDiscoveries: Discovery[] = [
     paperLink: "https://www.cs.toronto.edu/~hinton/absps/fastnc.pdf",
     description:
       "Generative graphical model that can be trained layer by layer efficiently.",
-    impact:
-      "Sparked the deep learning revolution and renewed interest in neural networks.",
+    impact: "Sparked the deep learning revolution and renewed interest in neural networks.",
     demoType: "dbn",
   },
-  {
+    {
     id: 14,
     title: "Attention Mechanism",
     year: "2014",
     discoverer: "Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio",
+    discovererBio:
+      "Yoshua Bengio is a Canadian computer scientist and 2018 Turing Award winner for deep learning.",
+    paperTitle:
+      "Neural Machine Translation by Jointly Learning to Align and Translate",
+    paperLink: "https://arxiv.org/abs/1409.0473",
+    description:
+      "Mechanism allowing neural networks to focus on relevant parts of input when making predictions.",
+    impact:
+      "Enabled breakthrough improvements in machine translation and became foundation for Transformers.",
+    demoType: "attention",
+  },
+  {
+    id: 15,
+    title: "Generative Adversarial Networks (GANs)",
+    year: "2014",
+    discoverer: "Ian Goodfellow",
+    discovererBio:
+      "Canadian computer scientist and former Google researcher, known for inventing GANs.",
+    paperTitle: "Generative Adversarial Networks",
+    paperLink: "https://arxiv.org/abs/1406.2661",
+    description:
+      "Two neural networks competing against each other to generate realistic synthetic data.",
+    impact:
+      "Revolutionized image generation, art creation, and synthetic media production.",
+    demoType: "gan",
+  },
+  {
+    id: 16,
+    title: "ResNet (Residual Networks)",
+    year: "2015",
+    discoverer: "Kaiming He et al. (Microsoft)",
+    discovererBio:
+      "Kaiming He is a Chinese computer scientist at Meta AI Research, known for breakthrough deep learning architectures.",
+    paperTitle: "Deep Residual Learning for Image Recognition",
+    paperLink: "https://arxiv.org/abs/1512.03385",
+    description:
+      "Deep neural networks with skip connections that allow training of very deep networks.",
+    impact:
+      "Enabled training of networks with hundreds of layers, dramatically improving computer vision.",
+    demoType: "resnet",
+  },
+  {
+    id: 17,
+    title: "Deep Q-Networks (DQN)",
+    year: "2015",
+    discoverer: "Volodymyr Mnih et al. (DeepMind)",
+    discovererBio:
+      "Research team at DeepMind led by Volodymyr Mnih that combined deep learning with reinforcement learning.",
+    paperTitle: "Human-level control through deep reinforcement learning",
+    paperLink: "https://www.nature.com/articles/nature14236",
+    description:
+      "Combination of deep learning and Q-learning that can master complex games from raw pixels.",
+    impact:
+      "Achieved superhuman performance in Atari games and paved way for AlphaGo and game-playing AI.",
+    demoType: "dqn",
+  },
+  {
+    id: 18,
+    title: "Transformers",
+    year: "2017",
+    discoverer: "Ashish Vaswani et al. (Google)",
+    discovererBio:
+      "Team of Google researchers led by Ashish Vaswani who revolutionized natural language processing.",
+    paperTitle: "Attention Is All You Need",
+    paperLink: "https://arxiv.org/abs/1706.03762",
+    description:
+      "Architecture relying entirely on attention mechanisms, dispensing with recurrence and convolutions.",
+    impact:
+      "Enabled GPT, BERT, and modern large language models that power ChatGPT and similar systems.",
+    demoType: "transformer",
+  },
+  {
+    id: 19,
+    title: "AlphaGo",
+    year: "2016",
+    discoverer: "David Silver et al. (DeepMind)",
+    discovererBio:
+      "David Silver led the DeepMind team that created AlphaGo, the first AI to beat professional Go players.",
+    paperTitle: "Mastering the game of Go with deep neural networks and tree search",
+    paperLink: "https://www.nature.com/articles/nature16961",
+    description:
+      "AI system combining deep neural networks and Monte Carlo tree search to master Go.",
+    impact:
+      "Demonstrated AI could master complex strategic games previously thought impossible for computers.",
+    demoType: "alphago",
+  },
+  {
+    id: 20,
+    title: "BERT (Bidirectional Encoder Representations)",
+    year: "2018",
+    discoverer: "Jacob Devlin et al. (Google)",
+    discovererBio:
+      "Jacob Devlin and the Google AI Language team created BERT, revolutionizing NLP understanding.",
+    paperTitle: "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+    paperLink: "https://arxiv.org/abs/1810.04805",
+    description:
+      "Bidirectional transformer model that revolutionized natural language understanding tasks.",
+    impact:
+      "Set new benchmarks across NLP tasks and influenced all subsequent language models.",
+    demoType: "bert",
+  },
+];
+
+// Sort discoveries chronologically by year
+const discoveries = allDiscoveries.sort((a, b) => parseInt(a.year) - parseInt(b.year));
     discovererBio:
       "Yoshua Bengio is a Canadian computer scientist and 2018 Turing Award winner for deep learning.",
     paperTitle:
@@ -1159,7 +1258,7 @@ const LSTMDemo = () => {
           disabled={isRunning}
           className="button-primary disabled:opacity-50"
         >
-          {isRunning ? "🧠 Processing..." : "▶️ Run LSTM Sequence"}
+          {isRunning ? "🧠 Processing..." : "��️ Run LSTM Sequence"}
         </button>
       </div>
     </div>
