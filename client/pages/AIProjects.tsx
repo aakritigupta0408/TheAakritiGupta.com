@@ -1278,19 +1278,32 @@ export default function AIProjects() {
                 <div className="flex gap-4">
                   <motion.button
                     onClick={() => setSelectedProject(project)}
-                    className="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-3 rounded-2xl font-bold text-sm hover:from-pink-600 hover:to-purple-700 transition-all duration-300 border border-pink-400/30 shadow-xl"
+                    className="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-3 rounded-2xl font-bold text-sm hover:from-pink-600 hover:to-purple-700 transition-all duration-300 border border-pink-400/30 shadow-xl relative overflow-hidden group"
                     whileHover={{ scale: 1.02, y: -2 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    🚀 Full Guide
+                    <span className="relative z-10">🚀 Full Guide</span>
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      initial={{ x: "-100%" }}
+                      whileHover={{ x: "0%" }}
+                      transition={{ duration: 0.3 }}
+                    />
                   </motion.button>
                   <motion.button
                     onClick={() => toggleCode(project.id)}
-                    className="bg-white/10 backdrop-blur-md text-white px-6 py-3 rounded-2xl font-bold text-sm border border-white/20 hover:bg-white/20 transition-all duration-300"
+                    className={`bg-white/10 backdrop-blur-md text-white px-6 py-3 rounded-2xl font-bold text-sm border border-white/20 hover:bg-white/20 transition-all duration-300 relative overflow-hidden group ${
+                      showCode[project.id]
+                        ? "ring-2 ring-cyan-400/50 bg-cyan-500/20"
+                        : ""
+                    }`}
                     whileHover={{ scale: 1.02, y: -2 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    {showCode[project.id] ? "🙈 Hide Code" : "💻 Show Code"}
+                    <span className="relative z-10">
+                      {showCode[project.id] ? "🙈 Hide Code" : "💻 Show Code"}
+                    </span>
+                    <motion.div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </motion.button>
                 </div>
 
