@@ -119,7 +119,7 @@ for epoch in range(epochs):
         "Data Augmentation - Increase dataset diversity through transformations",
       ],
       keyTheory:
-        "CNNs use translation-invariant filters that share weights across spatial locations, enabling efficient feature detection regardless of object position. The hierarchical architecture learns increasingly complex features: edges → shapes → objects → concepts.",
+        "CNNs use translation-invariant filters that share weights across spatial locations, enabling efficient feature detection regardless of object position. The hierarchical architecture learns increasingly complex features: edges ��� shapes → objects → concepts.",
       mathematicalFoundations:
         "Convolution operation: (f * g)(x,y) = Σ Σ f(i,j) × g(x-i, y-j). Backpropagation through convolution layers requires computing gradients w.r.t filters and inputs using chain rule.",
       importantPapers: [
@@ -2403,217 +2403,290 @@ export default function AIProjects() {
           </div>
         </div>
 
+        {/* Results Count */}
+        <motion.div
+          className="text-center mb-8 relative z-10"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20 inline-block">
+            <span className="text-white font-bold">
+              🎯 Showing {getFilteredProjects().length} of {projects.length}{" "}
+              projects
+              {filterCategory !== "All" && ` in ${filterCategory}`}
+              {filterDifficulty !== "All" && ` (${filterDifficulty} level)`}
+            </span>
+          </div>
+        </motion.div>
+
         {/* Projects Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-12 relative z-10">
-          {getFilteredProjects().map((project, index) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 50, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{
-                duration: 0.6,
-                delay: index * 0.15,
-                ease: "backOut",
-              }}
-              className={`bg-white/10 backdrop-blur-xl rounded-3xl border overflow-hidden shadow-2xl group ${
-                showCode[project.id]
-                  ? "border-cyan-400/50 shadow-cyan-500/20"
-                  : "border-white/20"
-              }`}
-              whileHover={{
-                scale: 1.05,
-                rotateY: 3,
-                rotateX: 3,
-              }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="p-8">
-                {/* Header */}
-                <div className="flex items-start justify-between mb-6">
-                  <div className="flex items-center gap-4">
-                    <motion.div
-                      className="text-5xl group-hover:scale-110 transition-transform duration-300 relative"
-                      whileHover={{ rotate: 10, scale: 1.2 }}
-                    >
-                      {project.icon}
-                      {showCode[project.id] && (
-                        <motion.div
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          className="absolute -top-2 -right-2 w-5 h-5 bg-cyan-500 rounded-full flex items-center justify-center"
-                        >
-                          <span className="text-xs">💻</span>
-                        </motion.div>
-                      )}
-                    </motion.div>
-                    <div>
-                      <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-2xl font-black text-white group-hover:bg-gradient-to-r group-hover:from-pink-400 group-hover:to-purple-500 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
-                          {project.title}
-                        </h3>
+          {getFilteredProjects().length > 0 ? (
+            getFilteredProjects().map((project, index) => (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.15,
+                  ease: "backOut",
+                }}
+                className={`bg-white/10 backdrop-blur-xl rounded-3xl border overflow-hidden shadow-2xl group ${
+                  showCode[project.id]
+                    ? "border-cyan-400/50 shadow-cyan-500/20"
+                    : "border-white/20"
+                }`}
+                whileHover={{
+                  scale: 1.05,
+                  rotateY: 3,
+                  rotateX: 3,
+                }}
+                transition={{ duration: 0.5 }}
+              >
+                <div className="p-8">
+                  {/* Header */}
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="flex items-center gap-4">
+                      <motion.div
+                        className="text-5xl group-hover:scale-110 transition-transform duration-300 relative"
+                        whileHover={{ rotate: 10, scale: 1.2 }}
+                      >
+                        {project.icon}
                         {showCode[project.id] && (
-                          <motion.span
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            className="text-xs bg-cyan-500/30 text-cyan-200 px-2 py-1 rounded-full font-bold border border-cyan-400/50"
+                          <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            className="absolute -top-2 -right-2 w-5 h-5 bg-cyan-500 rounded-full flex items-center justify-center"
                           >
-                            CODE ACTIVE
-                          </motion.span>
+                            <span className="text-xs">💻</span>
+                          </motion.div>
                         )}
+                      </motion.div>
+                      <div>
+                        <div className="flex items-center gap-3 mb-2">
+                          <h3 className="text-2xl font-black text-white group-hover:bg-gradient-to-r group-hover:from-pink-400 group-hover:to-purple-500 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
+                            {project.title}
+                          </h3>
+                          {showCode[project.id] && (
+                            <motion.span
+                              initial={{ opacity: 0, scale: 0 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              className="text-xs bg-cyan-500/30 text-cyan-200 px-2 py-1 rounded-full font-bold border border-cyan-400/50"
+                            >
+                              CODE ACTIVE
+                            </motion.span>
+                          )}
+                        </div>
+                        <p className="text-sm text-gray-300 font-medium bg-white/10 rounded-full px-3 py-1 inline-block">
+                          {project.category}
+                        </p>
                       </div>
-                      <p className="text-sm text-gray-300 font-medium bg-white/10 rounded-full px-3 py-1 inline-block">
-                        {project.category}
-                      </p>
+                    </div>
+                    <div className="flex flex-col gap-3">
+                      <motion.span
+                        className={`px-4 py-2 rounded-full text-xs font-bold border-2 backdrop-blur-md ${
+                          project.difficulty === "Beginner"
+                            ? "bg-green-500/30 border-green-400/50 text-green-200"
+                            : project.difficulty === "Intermediate"
+                              ? "bg-orange-500/30 border-orange-400/50 text-orange-200"
+                              : "bg-red-500/30 border-red-400/50 text-red-200"
+                        }`}
+                        whileHover={{ scale: 1.1 }}
+                      >
+                        {project.difficulty === "Beginner"
+                          ? "🌱"
+                          : project.difficulty === "Intermediate"
+                            ? "🔥"
+                            : "🚀"}{" "}
+                        {project.difficulty}
+                      </motion.span>
+                      <span className="px-4 py-2 bg-blue-500/30 border-2 border-blue-400/50 text-blue-200 rounded-full text-xs font-bold backdrop-blur-md">
+                        ⏱️ {project.timeToComplete}
+                      </span>
                     </div>
                   </div>
-                  <div className="flex flex-col gap-3">
-                    <motion.span
-                      className={`px-4 py-2 rounded-full text-xs font-bold border-2 backdrop-blur-md ${
-                        project.difficulty === "Beginner"
-                          ? "bg-green-500/30 border-green-400/50 text-green-200"
-                          : project.difficulty === "Intermediate"
-                            ? "bg-orange-500/30 border-orange-400/50 text-orange-200"
-                            : "bg-red-500/30 border-red-400/50 text-red-200"
-                      }`}
-                      whileHover={{ scale: 1.1 }}
-                    >
-                      {project.difficulty === "Beginner"
-                        ? "🌱"
-                        : project.difficulty === "Intermediate"
-                          ? "🔥"
-                          : "🚀"}{" "}
-                      {project.difficulty}
-                    </motion.span>
-                    <span className="px-4 py-2 bg-blue-500/30 border-2 border-blue-400/50 text-blue-200 rounded-full text-xs font-bold backdrop-blur-md">
-                      ⏱️ {project.timeToComplete}
-                    </span>
-                  </div>
-                </div>
 
-                {/* Description */}
-                <p className="text-gray-100 mb-6 text-lg leading-relaxed">
-                  {project.description}
-                </p>
-
-                {/* Use Cases */}
-                <div className="mb-6">
-                  <h4 className="font-bold text-cyan-300 mb-3 text-lg">
-                    🎯 Common Use Cases:
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {project.useCases.slice(0, 3).map((useCase, idx) => (
-                      <motion.span
-                        key={idx}
-                        className="text-xs bg-white/20 text-gray-200 px-3 py-2 rounded-full font-medium border border-white/30 backdrop-blur-md"
-                        whileHover={{ scale: 1.05 }}
-                      >
-                        {useCase}
-                      </motion.span>
-                    ))}
-                    {project.useCases.length > 3 && (
-                      <span className="text-xs text-gray-300 font-medium bg-white/10 rounded-full px-3 py-2">
-                        +{project.useCases.length - 3} more
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Training Approach */}
-                <div className="mb-6">
-                  <h4 className="font-bold text-purple-300 mb-3 text-lg">
-                    🧠 Training Approach:
-                  </h4>
-                  <p className="text-sm text-gray-200 leading-relaxed bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
-                    {project.trainingApproach}
+                  {/* Description */}
+                  <p className="text-gray-100 mb-6 text-lg leading-relaxed">
+                    {project.description}
                   </p>
-                </div>
 
-                {/* Tags */}
-                <div className="mb-6">
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag, idx) => (
-                      <motion.span
-                        key={idx}
-                        className="text-xs bg-gradient-to-r from-blue-500/30 to-purple-500/30 text-blue-200 px-3 py-2 rounded-full border border-blue-400/50 font-bold backdrop-blur-md"
-                        whileHover={{ scale: 1.1, y: -2 }}
-                      >
-                        {tag}
-                      </motion.span>
-                    ))}
+                  {/* Use Cases */}
+                  <div className="mb-6">
+                    <h4 className="font-bold text-cyan-300 mb-3 text-lg">
+                      🎯 Common Use Cases:
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {project.useCases.slice(0, 3).map((useCase, idx) => (
+                        <motion.span
+                          key={idx}
+                          className="text-xs bg-white/20 text-gray-200 px-3 py-2 rounded-full font-medium border border-white/30 backdrop-blur-md"
+                          whileHover={{ scale: 1.05 }}
+                        >
+                          {useCase}
+                        </motion.span>
+                      ))}
+                      {project.useCases.length > 3 && (
+                        <span className="text-xs text-gray-300 font-medium bg-white/10 rounded-full px-3 py-2">
+                          +{project.useCases.length - 3} more
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
 
-                {/* Action Buttons */}
-                <div className="flex gap-4">
-                  <motion.button
-                    onClick={() => setSelectedProject(project)}
-                    className="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-3 rounded-2xl font-bold text-sm hover:from-pink-600 hover:to-purple-700 transition-all duration-300 border border-pink-400/30 shadow-xl relative overflow-hidden group"
-                    whileHover={{ scale: 1.02, y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <span className="relative z-10">🚀 Full Guide</span>
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-700"
-                      initial={{ scaleX: 0, opacity: 0 }}
-                      whileHover={{ scaleX: 1, opacity: 1 }}
-                      style={{ transformOrigin: "left" }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </motion.button>
-                  <motion.button
-                    onClick={() => toggleCode(project.id)}
-                    className={`bg-white/10 backdrop-blur-md text-white px-6 py-3 rounded-2xl font-bold text-sm border border-white/20 hover:bg-white/20 transition-all duration-300 relative overflow-hidden group ${
-                      showCode[project.id]
-                        ? "ring-2 ring-cyan-400/50 bg-cyan-500/20"
-                        : ""
-                    }`}
-                    whileHover={{ scale: 1.02, y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <span className="relative z-10">
-                      {showCode[project.id] ? "🙈 Hide Code" : "💻 Show Code"}
-                    </span>
-                    <motion.div
-                      className="absolute inset-0 bg-white/10"
-                      initial={{ opacity: 0 }}
-                      whileHover={{ opacity: 1 }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </motion.button>
-                </div>
+                  {/* Training Approach */}
+                  <div className="mb-6">
+                    <h4 className="font-bold text-purple-300 mb-3 text-lg">
+                      🧠 Training Approach:
+                    </h4>
+                    <p className="text-sm text-gray-200 leading-relaxed bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
+                      {project.trainingApproach}
+                    </p>
+                  </div>
 
-                {/* Code Example */}
-                <AnimatePresence>
-                  {showCode[project.id] && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0, y: -20 }}
-                      animate={{ opacity: 1, height: "auto", y: 0 }}
-                      exit={{ opacity: 0, height: 0, y: -20 }}
-                      transition={{ duration: 0.5, ease: "easeOut" }}
-                      className="mt-6"
+                  {/* Tags */}
+                  <div className="mb-6">
+                    <div className="flex flex-wrap gap-2">
+                      {project.tags.map((tag, idx) => (
+                        <motion.span
+                          key={idx}
+                          className="text-xs bg-gradient-to-r from-blue-500/30 to-purple-500/30 text-blue-200 px-3 py-2 rounded-full border border-blue-400/50 font-bold backdrop-blur-md"
+                          whileHover={{ scale: 1.1, y: -2 }}
+                        >
+                          {tag}
+                        </motion.span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex gap-4">
+                    <motion.button
+                      onClick={() => setSelectedProject(project)}
+                      className="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-3 rounded-2xl font-bold text-sm hover:from-pink-600 hover:to-purple-700 transition-all duration-300 border border-pink-400/30 shadow-xl relative overflow-hidden group"
+                      whileHover={{ scale: 1.02, y: -2 }}
+                      whileTap={{ scale: 0.98 }}
                     >
-                      <div className="bg-black/60 backdrop-blur-xl text-gray-100 p-6 rounded-2xl overflow-x-auto border border-white/20 shadow-2xl">
-                        <div className="flex items-center gap-2 mb-4">
-                          <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                          <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                          <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                          <span className="text-gray-400 text-sm font-mono ml-4">
-                            {project.title.toLowerCase().replace(/\s+/g, "_")}
-                            .py
-                          </span>
+                      <span className="relative z-10">🚀 Full Guide</span>
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-700"
+                        initial={{ scaleX: 0, opacity: 0 }}
+                        whileHover={{ scaleX: 1, opacity: 1 }}
+                        style={{ transformOrigin: "left" }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    </motion.button>
+                    <motion.button
+                      onClick={() => toggleCode(project.id)}
+                      className={`bg-white/10 backdrop-blur-md text-white px-6 py-3 rounded-2xl font-bold text-sm border border-white/20 hover:bg-white/20 transition-all duration-300 relative overflow-hidden group ${
+                        showCode[project.id]
+                          ? "ring-2 ring-cyan-400/50 bg-cyan-500/20"
+                          : ""
+                      }`}
+                      whileHover={{ scale: 1.02, y: -2 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <span className="relative z-10">
+                        {showCode[project.id] ? "🙈 Hide Code" : "💻 Show Code"}
+                      </span>
+                      <motion.div
+                        className="absolute inset-0 bg-white/10"
+                        initial={{ opacity: 0 }}
+                        whileHover={{ opacity: 1 }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    </motion.button>
+                  </div>
+
+                  {/* Code Example */}
+                  <AnimatePresence>
+                    {showCode[project.id] && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0, y: -20 }}
+                        animate={{ opacity: 1, height: "auto", y: 0 }}
+                        exit={{ opacity: 0, height: 0, y: -20 }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                        className="mt-6"
+                      >
+                        <div className="bg-black/60 backdrop-blur-xl text-gray-100 p-6 rounded-2xl overflow-x-auto border border-white/20 shadow-2xl">
+                          <div className="flex items-center gap-2 mb-4">
+                            <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                            <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                            <span className="text-gray-400 text-sm font-mono ml-4">
+                              {project.title.toLowerCase().replace(/\s+/g, "_")}
+                              .py
+                            </span>
+                          </div>
+                          <pre className="text-sm leading-relaxed">
+                            <code className="language-python">
+                              {project.codeExample}
+                            </code>
+                          </pre>
                         </div>
-                        <pre className="text-sm leading-relaxed">
-                          <code className="language-python">
-                            {project.codeExample}
-                          </code>
-                        </pre>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </motion.div>
+            ))
+          ) : (
+            // No results state
+            <motion.div
+              className="col-span-full text-center py-20"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-12 border border-white/20 max-w-2xl mx-auto">
+                <motion.div
+                  className="text-8xl mb-6"
+                  animate={{ rotate: [0, 10, -10, 0] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  🔍
+                </motion.div>
+                <h3 className="text-3xl font-black text-white mb-4">
+                  No Projects Found
+                </h3>
+                <p className="text-gray-200 text-lg mb-8">
+                  No projects match your current filters. Try adjusting your
+                  category or difficulty selection.
+                </p>
+                <div className="flex flex-wrap gap-4 justify-center">
+                  <motion.button
+                    onClick={() => setFilterCategory("All")}
+                    className="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-full font-bold hover:from-pink-600 hover:to-purple-700 transition-all duration-300"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    Reset Category
+                  </motion.button>
+                  <motion.button
+                    onClick={() => setFilterDifficulty("All")}
+                    className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-bold hover:from-cyan-600 hover:to-blue-700 transition-all duration-300"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    Reset Difficulty
+                  </motion.button>
+                  <motion.button
+                    onClick={() => {
+                      setFilterCategory("All");
+                      setFilterDifficulty("All");
+                    }}
+                    className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-full font-bold hover:from-emerald-600 hover:to-teal-700 transition-all duration-300"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    Reset All Filters
+                  </motion.button>
+                </div>
               </div>
             </motion.div>
-          ))}
+          )}
         </div>
 
         {/* Detailed Modal */}
