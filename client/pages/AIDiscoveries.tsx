@@ -1280,9 +1280,6 @@ const BackpropDemo = () => {
                   className="w-8 h-8 bg-green-500 rounded-full"
                   animate={{
                     scale: isTraining ? [1, 1.2, 1] : 1,
-                    backgroundColor: isTraining
-                      ? ["#10b981", "#ef4444", "#10b981"]
-                      : "#10b981",
                   }}
                   transition={{
                     duration: 0.6,
