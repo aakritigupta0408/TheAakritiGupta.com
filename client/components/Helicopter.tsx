@@ -595,10 +595,13 @@ export default function Helicopter() {
                 <div className="w-full bg-white/10 rounded-full h-1 mt-3">
                   <motion.div
                     className="bg-gradient-to-r from-yellow-400 to-yellow-600 h-1 rounded-full"
-                    initial={{ width: 0 }}
+                    initial={{ scaleX: 0 }}
                     animate={{
-                      width: `${(discoveredStories.length / ACHIEVEMENT_COLLECTIBLES.length) * 100}%`,
+                      scaleX:
+                        discoveredStories.length /
+                        ACHIEVEMENT_COLLECTIBLES.length,
                     }}
+                    style={{ transformOrigin: "left" }}
                     transition={{ duration: 0.5 }}
                   />
                 </div>
