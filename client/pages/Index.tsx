@@ -172,13 +172,9 @@ const FloatingSkills = () => {
             ease: "easeOut",
           }}
         >
-          <div className="ai-float px-4 py-2 rounded-xl text-white text-xs font-light tracking-wider flex items-center gap-2 shadow-lg quantum-float">
-            <span className="text-sm text-cyan-400 neural-pulse">
-              {skill.icon}
-            </span>
-            <span className="ai-subheading text-xs holo-text">
-              {skill.label}
-            </span>
+          <div className="tom-ford-float px-4 py-2 rounded-sm text-white text-xs font-light tracking-wider flex items-center gap-2 shadow-lg">
+            <span className="text-sm text-yellow-400">{skill.icon}</span>
+            <span className="tom-ford-subheading text-xs">{skill.label}</span>
           </div>
         </motion.div>
       ))}
@@ -378,20 +374,20 @@ export default function Index() {
                     "0 0 30px rgba(250, 204, 21, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
                 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/10 to-purple-400/10 rounded-xl neural-pulse" />
+                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/5 to-yellow-600/5 rounded-sm animate-pulse" />
                 <div className="relative flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-xl flex items-center justify-center text-white text-2xl font-bold shadow-lg shadow-cyan-500/50 quantum-float">
+                  <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-sm flex items-center justify-center text-black text-2xl font-bold shadow-lg">
                     ◆
                   </div>
                   <div className="flex flex-col items-start">
-                    <span className="text-2xl tracking-widest text-cyan-400 font-semibold ai-heading holo-text">
-                      NEURAL PORTFOLIO
+                    <span className="text-2xl tracking-widest text-yellow-400 font-semibold">
+                      EXECUTIVE RESUME
                     </span>
-                    <span className="text-sm text-cyan-400/90 tracking-wider uppercase ai-subheading">
-                      Download Complete Matrix
+                    <span className="text-sm text-yellow-400/90 tracking-wider uppercase">
+                      Download Complete Portfolio
                     </span>
                   </div>
-                  <div className="ml-4 text-cyan-400 text-xl quantum-float">
+                  <div className="ml-4 text-yellow-400 text-xl animate-bounce">
                     ▶
                   </div>
                 </div>
@@ -402,12 +398,12 @@ export default function Index() {
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02, y: -2 }}
-                className="ai-card border border-cyan-400/30 text-white px-8 py-4 rounded-xl font-light tracking-wider hover:border-cyan-400 hover:text-cyan-400 transition-all duration-300 flex items-center justify-center gap-3"
+                className="border border-white/30 text-white px-8 py-4 rounded-sm font-light tracking-wider hover:border-blue-400 hover:text-blue-400 transition-all duration-300 flex items-center justify-center gap-3"
               >
-                <div className="w-6 h-6 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-lg flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-blue-500/30">
+                <div className="w-6 h-6 bg-blue-600 rounded-sm flex items-center justify-center text-white text-sm font-bold">
                   in
                 </div>
-                <span className="ai-subheading">NEURAL NETWORK</span>
+                PROFESSIONAL NETWORK
               </motion.a>
 
               <motion.a
@@ -426,9 +422,9 @@ export default function Index() {
               <motion.button
                 onClick={() => navigate("/games")}
                 whileHover={{ scale: 1.02, y: -2 }}
-                className="ai-card border border-purple-400/50 text-purple-400 px-8 py-4 rounded-xl font-light tracking-wider hover:border-purple-400 hover:bg-purple-400/10 transition-all duration-300 data-stream"
+                className="border border-yellow-400/50 text-yellow-400 px-8 py-4 rounded-sm font-light tracking-wider hover:border-yellow-400 hover:bg-yellow-400/10 transition-all duration-300"
               >
-                <span className="ai-subheading">NEURAL SIMULATIONS</span>
+                PLAY INTERACTIVE GAMES
               </motion.button>
             </motion.div>
           </motion.div>
