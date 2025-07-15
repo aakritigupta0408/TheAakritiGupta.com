@@ -510,6 +510,37 @@ export default function Index() {
                   </div>
                 </div>
               </motion.button>
+
+              {/* AI Agent Training Button */}
+              <motion.button
+                onClick={() => navigate("/ai-agent-training")}
+                whileHover={{ scale: 1.05, y: -3 }}
+                whileTap={{ scale: 0.95 }}
+                className="relative group w-full bg-gradient-to-r from-cyan-500/20 to-blue-500/20 backdrop-blur-md border border-white/30 text-white px-6 py-4 rounded-2xl font-bold hover:from-cyan-500/30 hover:to-blue-500/30 transition-all duration-300 flex items-center justify-center gap-3 shadow-lg overflow-hidden"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.5 }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-600/0 to-blue-600/0 group-hover:from-cyan-600/20 group-hover:to-blue-600/20 transition-all duration-500"></div>
+                <motion.span
+                  className="text-2xl relative z-10"
+                  animate={{
+                    rotate: [0, 10, -10, 0],
+                    scale: [1, 1.2, 1],
+                  }}
+                  transition={{ duration: 2.5, repeat: Infinity }}
+                >
+                  🤖
+                </motion.span>
+                <div className="relative z-10 text-center">
+                  <div className="group-hover:text-cyan-200 transition-colors font-black">
+                    AI Agent Training
+                  </div>
+                  <div className="text-xs opacity-80 group-hover:opacity-100 transition-opacity">
+                    Build Intelligent Agents
+                  </div>
+                </div>
+              </motion.button>
             </motion.div>
           </motion.div>
 
