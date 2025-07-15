@@ -300,7 +300,7 @@ def generate_response(input_text, chat_history_ids=None):
     )
     
     return tokenizer.decode(chat_history_ids[:, bot_input_ids.shape[-1]:][0], skip_special_tokens=True)`,
-    icon: "💬",
+    icon: "����",
     tags: ["NLP", "Transformers", "GPT", "Conversational AI"],
     theoreticalConcepts: {
       fundamentals: [
@@ -356,6 +356,7 @@ def generate_response(input_text, chat_history_ids=None):
         description: "Fully managed ML service for recommendations",
         link: "https://aws.amazon.com/personalize/",
         pricing: "$0.05 per hour training",
+        category: "Commercial",
       },
       {
         name: "MovieLens Dataset",
@@ -363,6 +364,7 @@ def generate_response(input_text, chat_history_ids=None):
         description: "Movie ratings from 100K+ users",
         link: "https://grouplens.org/datasets/movielens/",
         pricing: "Free",
+        category: "Academic",
       },
       {
         name: "Surprise Library",
@@ -370,6 +372,49 @@ def generate_response(input_text, chat_history_ids=None):
         description: "Python scikit for recommender systems",
         link: "https://surprise.readthedocs.io/",
         pricing: "Free",
+        category: "Open Source",
+      },
+      {
+        name: "Netflix",
+        type: "Company",
+        description:
+          "Pioneered modern collaborative filtering and matrix factorization",
+        link: "https://research.netflix.com/",
+        pricing: "N/A",
+        category: "Industry",
+      },
+      {
+        name: "Amazon",
+        type: "Company",
+        description:
+          "Item-to-item collaborative filtering and personalization at scale",
+        link: "https://www.amazon.science/",
+        pricing: "N/A",
+        category: "Industry",
+      },
+      {
+        name: "YouTube AI",
+        type: "Research Lab",
+        description: "Deep neural networks for YouTube recommendations",
+        link: "https://research.google/teams/brain/",
+        pricing: "N/A",
+        category: "Industry",
+      },
+      {
+        name: "Netflix Prize Papers",
+        type: "Paper",
+        description: "Matrix factorization techniques for recommender systems",
+        link: "https://www.netflixprize.com/assets/GrandPrize2009_BPC_BellKor.pdf",
+        pricing: "Free",
+        category: "Academic",
+      },
+      {
+        name: "Neural Collaborative Filtering",
+        type: "Paper",
+        description: "Deep learning approach to collaborative filtering",
+        link: "https://arxiv.org/abs/1708.05031",
+        pricing: "Free",
+        category: "Academic",
       },
     ],
     codeExample: `import pandas as pd
