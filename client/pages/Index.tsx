@@ -112,12 +112,16 @@ const AchievementBadges = () => {
             scale: [0, 1, 1, 0],
             rotate: [0, 360],
             x: [
-              Math.random() * window.innerWidth,
-              Math.random() * window.innerWidth,
+              Math.random() *
+                (typeof window !== "undefined" ? window.innerWidth : 1200),
+              Math.random() *
+                (typeof window !== "undefined" ? window.innerWidth : 1200),
             ],
             y: [
-              Math.random() * window.innerHeight,
-              Math.random() * window.innerHeight,
+              Math.random() *
+                (typeof window !== "undefined" ? window.innerHeight : 800),
+              Math.random() *
+                (typeof window !== "undefined" ? window.innerHeight : 800),
             ],
           }}
           transition={{
