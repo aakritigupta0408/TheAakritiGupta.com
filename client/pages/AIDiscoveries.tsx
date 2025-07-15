@@ -2074,7 +2074,7 @@ export default function AIDiscoveries() {
     return discoveries;
   };
 
-    return (
+  return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
@@ -2087,7 +2087,7 @@ export default function AIDiscoveries() {
 
       <Navigation />
 
-            <div className="container mx-auto px-6 py-12 relative z-10">
+      <div className="container mx-auto px-6 py-12 relative z-10">
         <div className="text-center mb-16">
           <motion.div
             className="inline-block p-1 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 mb-8"
@@ -2108,7 +2108,8 @@ export default function AIDiscoveries() {
           >
             🚀 Explore the 20 fundamental breakthroughs that shaped artificial
             intelligence, chronologically ordered from 1950 to 2018! With
-            interactive demos and insights into the brilliant minds behind them. ✨
+            interactive demos and insights into the brilliant minds behind them.
+            ✨
           </motion.p>
 
           <motion.div
@@ -2128,14 +2129,16 @@ export default function AIDiscoveries() {
             </div>
           </motion.div>
 
-                    {/* Timeline indicator */}
+          {/* Timeline indicator */}
           <motion.div
             className="flex justify-center items-center gap-6 mb-10"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
-            <span className="text-lg font-bold text-cyan-300 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 border border-white/20">1950</span>
+            <span className="text-lg font-bold text-cyan-300 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 border border-white/20">
+              1950
+            </span>
             <div className="relative">
               <div className="w-80 h-2 bg-white/20 rounded-full overflow-hidden">
                 <motion.div
@@ -2147,8 +2150,10 @@ export default function AIDiscoveries() {
               </div>
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></div>
             </div>
-            <span className="text-lg font-bold text-pink-300 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 border border-white/20">2018</span>
-                    </motion.div>
+            <span className="text-lg font-bold text-pink-300 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 border border-white/20">
+              2018
+            </span>
+          </motion.div>
 
           {/* Sort controls */}
           <motion.div
@@ -2171,18 +2176,20 @@ export default function AIDiscoveries() {
               >
                 📅 Chronological
               </motion.button>
-            </button>
-            <button
-              onClick={() => setSortBy("alphabetical")}
-              className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
-                sortBy === "alphabetical"
-                  ? "bg-blue-500 text-white border-blue-500"
-                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
-              }`}
-            >
-              🔤 Alphabetical
-            </button>
-          </div>
+              <motion.button
+                onClick={() => setSortBy("alphabetical")}
+                className={`px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
+                  sortBy === "alphabetical"
+                    ? "bg-gradient-to-r from-purple-500 to-pink-600 text-white shadow-2xl scale-105"
+                    : "text-white hover:bg-white/20"
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                🔤 Alphabetical
+              </motion.button>
+            </div>
+          </motion.div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
