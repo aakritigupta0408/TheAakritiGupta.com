@@ -1306,7 +1306,7 @@ Week 7-8: Production deployment and monitoring
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 cursor-pointer group"
+                    className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-4 sm:p-6 hover:bg-white/15 transition-all duration-300 cursor-pointer group"
                     onClick={() => setSelectedTechnique(technique)}
                   >
                     <div className="flex items-center gap-3 mb-4">
