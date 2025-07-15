@@ -319,6 +319,265 @@ const allDiscoveries: Discovery[] = [
       "Set new benchmarks across NLP tasks and influenced all subsequent language models.",
     demoType: "bert",
   },
+  {
+    id: 21,
+    title: "GPT-2",
+    year: "2019",
+    discoverer: "Alec Radford et al. (OpenAI)",
+    discovererBio:
+      "Alec Radford and the OpenAI team developed GPT-2, demonstrating the power of unsupervised language model scaling.",
+    paperTitle: "Language Models are Unsupervised Multitask Learners",
+    paperLink:
+      "https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf",
+    description:
+      "Large-scale transformer language model that showed emergent capabilities and coherent text generation.",
+    impact:
+      "Demonstrated that scaling language models leads to emergent capabilities and sparked the GPT revolution.",
+    demoType: "concept",
+  },
+  {
+    id: 22,
+    title: "EfficientNet",
+    year: "2019",
+    discoverer: "Mingxing Tan & Quoc V. Le (Google)",
+    discovererBio:
+      "Google researchers who developed compound scaling methods for convolutional neural networks.",
+    paperTitle:
+      "EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks",
+    paperLink: "https://arxiv.org/abs/1905.11946",
+    description:
+      "Systematic approach to scaling CNNs by optimizing depth, width, and resolution simultaneously.",
+    impact:
+      "Achieved state-of-the-art accuracy with 10x fewer parameters, revolutionizing efficient model design.",
+    demoType: "concept",
+  },
+  {
+    id: 23,
+    title: "GPT-3",
+    year: "2020",
+    discoverer: "Tom Brown et al. (OpenAI)",
+    discovererBio:
+      "Tom Brown led the OpenAI team that created GPT-3, the breakthrough 175B parameter language model.",
+    paperTitle: "Language Models are Few-Shot Learners",
+    paperLink: "https://arxiv.org/abs/2005.14165",
+    description:
+      "175 billion parameter language model demonstrating few-shot learning across diverse tasks.",
+    impact:
+      "Showed that large language models can perform complex tasks with minimal examples, launching the AI API economy.",
+    demoType: "concept",
+  },
+  {
+    id: 24,
+    title: "AlphaFold 2",
+    year: "2020",
+    discoverer: "John Jumper et al. (DeepMind)",
+    discovererBio:
+      "John Jumper and the DeepMind team solved the 50-year-old protein folding problem using deep learning.",
+    paperTitle: "Highly accurate protein structure prediction with AlphaFold",
+    paperLink: "https://www.nature.com/articles/s41586-021-03819-2",
+    description:
+      "AI system that accurately predicts 3D protein structures from amino acid sequences.",
+    impact:
+      "Revolutionized biology and medicine by solving protein folding, accelerating drug discovery and disease research.",
+    demoType: "concept",
+  },
+  {
+    id: 25,
+    title: "DALL-E",
+    year: "2021",
+    discoverer: "Aditya Ramesh et al. (OpenAI)",
+    discovererBio:
+      "Aditya Ramesh and OpenAI researchers created the first transformer-based text-to-image generation model.",
+    paperTitle: "Zero-Shot Text-to-Image Generation",
+    paperLink: "https://arxiv.org/abs/2102.12092",
+    description:
+      "Transformer model that generates images from natural language descriptions with remarkable creativity.",
+    impact:
+      "Launched the text-to-image AI revolution, democratizing creative image generation and inspiring countless applications.",
+    demoType: "concept",
+  },
+  {
+    id: 26,
+    title: "GitHub Copilot",
+    year: "2021",
+    discoverer: "GitHub & OpenAI",
+    discovererBio:
+      "Collaboration between GitHub and OpenAI to create an AI programming assistant powered by Codex.",
+    paperTitle: "Evaluating Large Language Models Trained on Code",
+    paperLink: "https://arxiv.org/abs/2107.03374",
+    description:
+      "AI pair programmer that suggests code completions and entire functions based on natural language comments.",
+    impact:
+      "Transformed software development by providing real-time AI coding assistance, boosting developer productivity significantly.",
+    demoType: "concept",
+  },
+  {
+    id: 27,
+    title: "ChatGPT",
+    year: "2022",
+    discoverer: "OpenAI Team",
+    discovererBio:
+      "OpenAI team led by Sam Altman released ChatGPT, bringing conversational AI to the mainstream.",
+    paperTitle:
+      "Training language models to follow instructions with human feedback",
+    paperLink: "https://arxiv.org/abs/2203.02155",
+    description:
+      "Conversational AI based on GPT-3.5 with human feedback training for helpful, harmless, and honest responses.",
+    impact:
+      "Brought AI to mainstream consciousness, sparked global AI adoption, and launched the conversational AI era.",
+    demoType: "concept",
+  },
+  {
+    id: 28,
+    title: "Stable Diffusion",
+    year: "2022",
+    discoverer: "Robin Rombach et al. (Stability AI)",
+    discovererBio:
+      "Robin Rombach and team at Stability AI created the first open-source high-quality text-to-image diffusion model.",
+    paperTitle: "High-Resolution Image Synthesis with Latent Diffusion Models",
+    paperLink: "https://arxiv.org/abs/2112.10752",
+    description:
+      "Open-source latent diffusion model for high-quality text-to-image generation running on consumer hardware.",
+    impact:
+      "Democratized AI art creation by making powerful image generation accessible to everyone, sparking the open-source AI movement.",
+    demoType: "concept",
+  },
+  {
+    id: 29,
+    title: "GPT-4",
+    year: "2023",
+    discoverer: "OpenAI",
+    discovererBio:
+      "OpenAI's most advanced language model demonstrating human-level performance on many professional benchmarks.",
+    paperTitle: "GPT-4 Technical Report",
+    paperLink: "https://arxiv.org/abs/2303.08774",
+    description:
+      "Multimodal large language model capable of processing text and images with enhanced reasoning capabilities.",
+    impact:
+      "Set new standards for AI capabilities, passing professional exams and demonstrating advanced reasoning across domains.",
+    demoType: "concept",
+  },
+  {
+    id: 30,
+    title: "LLaMA",
+    year: "2023",
+    discoverer: "Hugo Touvron et al. (Meta)",
+    discovererBio:
+      "Meta AI Research team led by Hugo Touvron created efficient large language models for research.",
+    paperTitle: "LLaMA: Open and Efficient Foundation Language Models",
+    paperLink: "https://arxiv.org/abs/2302.13971",
+    description:
+      "Collection of foundation language models designed to be more efficient and accessible to researchers.",
+    impact:
+      "Accelerated open-source AI research by providing competitive models that can run on smaller hardware setups.",
+    demoType: "concept",
+  },
+  {
+    id: 31,
+    title: "Claude (Constitutional AI)",
+    year: "2023",
+    discoverer: "Anthropic",
+    discovererBio:
+      "Anthropic team led by Dario Amodei developed Claude using Constitutional AI training methods.",
+    paperTitle: "Constitutional AI: Harmlessness from AI Feedback",
+    paperLink: "https://arxiv.org/abs/2212.08073",
+    description:
+      "AI assistant trained using constitutional AI methods to be helpful, harmless, and honest without human feedback.",
+    impact:
+      "Advanced AI safety research by demonstrating self-supervised alignment techniques for more reliable AI systems.",
+    demoType: "concept",
+  },
+  {
+    id: 32,
+    title: "Midjourney V5",
+    year: "2023",
+    discoverer: "David Holz & Midjourney Team",
+    discovererBio:
+      "David Holz and the Midjourney team created one of the most photorealistic AI image generation systems.",
+    paperTitle: "Midjourney V5 Technical Overview",
+    paperLink: "https://docs.midjourney.com/",
+    description:
+      "Advanced text-to-image AI creating photorealistic images indistinguishable from photography.",
+    impact:
+      "Pushed the boundaries of AI-generated imagery, raising important questions about authenticity and creative authorship.",
+    demoType: "concept",
+  },
+  {
+    id: 33,
+    title: "Sora (Text-to-Video)",
+    year: "2024",
+    discoverer: "OpenAI",
+    discovererBio:
+      "OpenAI's video generation team developed Sora, the first realistic text-to-video AI model.",
+    paperTitle: "Video generation models as world simulators",
+    paperLink:
+      "https://openai.com/research/video-generation-models-as-world-simulators",
+    description:
+      "AI model capable of creating realistic and imaginative scenes from text instructions up to 60 seconds.",
+    impact:
+      "Revolutionized video creation industry and demonstrated AI's ability to understand and simulate physical world dynamics.",
+    demoType: "concept",
+  },
+  {
+    id: 34,
+    title: "Claude 3 (Opus)",
+    year: "2024",
+    discoverer: "Anthropic",
+    discovererBio:
+      "Anthropic's research team created Claude 3, featuring three models with Opus being the most capable.",
+    paperTitle: "The Claude 3 Model Family",
+    paperLink: "https://www.anthropic.com/news/claude-3-family",
+    description:
+      "Family of AI models with Opus achieving near-human performance on complex reasoning tasks.",
+    impact:
+      "Demonstrated significant advances in AI reasoning, analysis, and multimodal understanding capabilities.",
+    demoType: "concept",
+  },
+  {
+    id: 35,
+    title: "Gemini Ultra",
+    year: "2024",
+    discoverer: "Google DeepMind",
+    discovererBio:
+      "Google DeepMind team created Gemini, a multimodal AI model competing with GPT-4 and surpassing it on many benchmarks.",
+    paperTitle: "Gemini: A Family of Highly Capable Multimodal Models",
+    paperLink: "https://arxiv.org/abs/2312.11805",
+    description:
+      "Multimodal AI model that can understand and generate text, images, audio, and code with state-of-the-art performance.",
+    impact:
+      "First AI to exceed human expert performance on MMLU, demonstrating advanced multimodal reasoning capabilities.",
+    demoType: "concept",
+  },
+  {
+    id: 36,
+    title: "o1 (Reasoning Models)",
+    year: "2024",
+    discoverer: "OpenAI",
+    discovererBio:
+      "OpenAI's research team developed o1, a new series of AI models designed for complex reasoning tasks.",
+    paperTitle: "Learning to Reason with LLMs",
+    paperLink: "https://openai.com/index/learning-to-reason-with-llms/",
+    description:
+      "AI models trained with reinforcement learning to think step-by-step through complex problems.",
+    impact:
+      "Achieved breakthrough performance on challenging reasoning tasks, approaching PhD-level problem-solving in some domains.",
+    demoType: "concept",
+  },
+  {
+    id: 37,
+    title: "Agent AI Systems",
+    year: "2025",
+    discoverer: "Multiple Companies",
+    discovererBio:
+      "Collective advancement by OpenAI, Anthropic, Google, and others in developing autonomous AI agents.",
+    paperTitle: "The Dawn of AI Agents",
+    paperLink: "https://openai.com/agents",
+    description:
+      "AI systems capable of autonomous task execution, planning, and decision-making across complex multi-step workflows.",
+    impact:
+      "Marking the transition from AI assistants to autonomous AI agents capable of independent task completion and workflow automation.",
+    demoType: "concept",
+  },
 ];
 
 // Sort discoveries chronologically by year
