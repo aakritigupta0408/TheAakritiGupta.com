@@ -2379,10 +2379,14 @@ export default function AIDiscoveries() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            🚀 Explore the {discoveries.length} fundamental breakthroughs that
-            shaped artificial intelligence! Filter by decade, sort
-            chronologically or alphabetically, and dive into interactive demos
-            revealing the brilliant minds behind each discovery. ✨
+            🚀 Journey through {discoveries.length} revolutionary breakthroughs
+            that transformed artificial intelligence from science fiction to
+            reality! Discover the visionary researchers, groundbreaking papers,
+            and paradigm-shifting algorithms that created the foundation for
+            today's AI revolution. shaped artificial intelligence! Filter by
+            decade, sort chronologically or alphabetically, and dive into
+            interactive demos revealing the brilliant minds behind each
+            discovery. ✨
           </motion.p>
 
           <motion.div
