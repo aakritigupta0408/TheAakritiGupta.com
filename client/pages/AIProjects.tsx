@@ -280,6 +280,28 @@ for epoch in range(epochs):
         optimizer.step()`,
     icon: "📸",
     tags: ["CNN", "Transfer Learning", "PyTorch", "Classification"],
+    prerequisites: [
+      "Basic Python programming",
+      "Linear algebra fundamentals",
+      "Basic understanding of neural networks",
+      "Familiarity with image data formats",
+    ],
+    learningOutcomes: [
+      "Build and train convolutional neural networks",
+      "Apply transfer learning techniques",
+      "Implement data augmentation strategies",
+      "Deploy image classification models",
+      "Evaluate model performance with proper metrics",
+    ],
+    careerPaths: [
+      "Computer Vision Engineer",
+      "ML Engineer",
+      "AI Research Scientist",
+      "Data Scientist",
+      "Autonomous Vehicle Engineer",
+    ],
+    industryDemand: "Very High",
+    salaryRange: "$95,000 - $180,000",
     theoreticalConcepts: {
       fundamentals: [
         "Convolutional Neural Networks (CNNs) - Local receptive fields detect spatial patterns",
@@ -1247,7 +1269,7 @@ print(f"Autoencoder anomalies: {np.sum(anomalies_ae)}")`,
       keyTheory:
         "Anomaly detection identifies rare patterns that deviate from expected behavior. Isolation forests exploit the fact that anomalies are few and different, requiring fewer splits to isolate in random feature space partitions.",
       mathematicalFoundations:
-        "Isolation score: s(x,n) = 2^(-E(h(x))/c(n)) where E(h(x)) is average path length. Autoencoder loss: L = ||x - decoder(encoder(x))||��",
+        "Isolation score: s(x,n) = 2^(-E(h(x))/c(n)) where E(h(x)) is average path length. Autoencoder loss: L = ||x - decoder(encoder(x))||²",
       importantPapers: [
         "Isolation Forest (2008) - Efficient anomaly detection",
         "One-Class SVM (2001) - Support vector approach",
@@ -3295,7 +3317,7 @@ export default function AIProjects() {
                         transition={{ delay: 0.6 }}
                       >
                         <h3 className="text-2xl font-black text-white mb-4">
-                          🎯 Use Cases
+                          ��� Use Cases
                         </h3>
                         <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
                           <ul className="space-y-3">
