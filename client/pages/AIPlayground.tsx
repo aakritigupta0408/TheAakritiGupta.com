@@ -206,7 +206,16 @@ export default function AIPlayground() {
   const selectedDemoData = AI_DEMOS.find((demo) => demo.id === selectedDemo);
 
   return (
-    <div className="min-h-screen tom-ford-gradient relative overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 relative overflow-x-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-60 right-16 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl animate-bounce"></div>
+        <div className="absolute bottom-20 left-1/3 w-72 h-72 bg-pink-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-40 left-1/2 w-88 h-88 bg-cyan-500/20 rounded-full blur-3xl animate-bounce delay-500"></div>
+        <div className="absolute bottom-40 right-1/4 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl animate-pulse delay-700"></div>
+      </div>
+
       <Navigation />
 
       {/* Header Section */}
@@ -216,20 +225,54 @@ export default function AIPlayground() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
-            className="text-center mb-16"
+            className="text-center mb-16 relative z-10"
           >
-            <div className="w-24 h-24 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center text-white text-4xl font-bold mx-auto mb-8 shadow-2xl border-2 border-black">
+            <motion.div
+              className="w-32 h-32 bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 rounded-3xl flex items-center justify-center text-white text-5xl font-bold mx-auto mb-8 shadow-2xl border border-white/20 backdrop-blur-md"
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
               🤖
-            </div>
-            <h1 className="tom-ford-heading text-6xl md:text-8xl luxury-text-primary mb-8">
-              AI
-              <br />
-              <span className="gold-shimmer">PLAYGROUND</span>
-            </h1>
-            <p className="tom-ford-subheading luxury-text-muted text-xl tracking-widest max-w-4xl mx-auto">
-              EXPLORE THE MAGIC OF ARTIFICIAL INTELLIGENCE THROUGH INTERACTIVE
-              DEMOS
-            </p>
+            </motion.div>
+
+            <motion.div
+              className="inline-block p-1 rounded-full bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 mb-8"
+              initial={{ opacity: 0, scale: 0.5, rotateY: -180 }}
+              animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+              transition={{ duration: 1.2, ease: "backOut" }}
+            >
+              <h1 className="text-6xl md:text-8xl font-black bg-gradient-to-r from-white via-purple-100 to-cyan-100 bg-clip-text text-transparent px-8 py-6">
+                AI PLAYGROUND
+              </h1>
+            </motion.div>
+
+            <motion.p
+              className="text-xl text-gray-100 max-w-5xl mx-auto mb-8 leading-relaxed"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              🎮 EXPLORE THE MAGIC OF ARTIFICIAL INTELLIGENCE THROUGH
+              INTERACTIVE DEMOS! Ready to dive into the future? ✨
+            </motion.p>
+
+            <motion.div
+              className="flex flex-wrap justify-center gap-4 mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
+              <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
+                <span className="text-white font-bold">🧠 AI Powered</span>
+              </div>
+              <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
+                <span className="text-white font-bold">🚀 Interactive</span>
+              </div>
+              <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
+                <span className="text-white font-bold">✨ Creative</span>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
