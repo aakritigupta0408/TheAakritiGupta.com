@@ -227,12 +227,12 @@ const Navigation = () => {
 
             {/* Right Section */}
             <div className="flex items-center gap-2 lg:gap-4">
-              {/* Search Button */}
+              {/* Enhanced Search Button */}
               <motion.button
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="p-2 lg:p-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 transition-all duration-300"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                whileTap={{ scale: 0.9 }}
+                className="relative p-2 lg:p-3 rounded-xl bg-gradient-to-r from-cyan-500/20 to-blue-500/20 backdrop-blur-md border border-white/30 text-white hover:from-cyan-500/30 hover:to-blue-500/30 transition-all duration-300 shadow-lg"
               >
                 <svg
                   className="w-4 h-4 lg:w-5 lg:h-5"
