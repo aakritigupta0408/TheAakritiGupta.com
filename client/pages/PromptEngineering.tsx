@@ -404,7 +404,7 @@ const promptExamples: PromptExample[] = [
     badPrompt: "Review this code",
     goodPrompt:
       "As a senior software engineer, please review this Python function for: 1) Code quality and readability, 2) Performance optimizations, 3) Security vulnerabilities, 4) Best practices violations. Provide specific line-by-line feedback with severity levels (critical/warning/suggestion) and example fixes:\n\n```python\n[YOUR CODE HERE]\n```",
-        explanation:
+    explanation:
       "Effective code review prompts leverage role-based expertise, structured evaluation criteria, and severity-based feedback to transform vague requests into comprehensive technical assessments. The good prompt specifies the reviewer's role, defines review criteria, requests structured feedback with severity levels, and asks for actionable solutions.",
     tips: [
       "Define the reviewer's expertise level",
@@ -501,7 +501,7 @@ const promptExamples: PromptExample[] = [
     badPrompt: "Analyze this data",
     goodPrompt:
       "As a senior data scientist, analyze this dataset and provide: 1) Key statistical insights with confidence intervals, 2) Trend analysis with seasonality detection, 3) Anomaly identification with severity scores, 4) Actionable business recommendations with expected impact. Use statistical significance testing and explain your methodology:\n\n[DATA DESCRIPTION]\nDataset: Sales data (2020-2024)\nColumns: date, product_id, sales_amount, region, customer_segment\nSize: 1M+ records",
-        explanation:
+    explanation:
       "Data analysis prompts require domain expertise specification, statistical methodology clarity, and business context integration to generate actionable insights rather than raw data summaries. This prompt establishes expertise, defines analysis scope, requests statistical rigor, and connects insights to business value.",
     tips: [
       "Specify statistical requirements",
@@ -599,7 +599,7 @@ const promptExamples: PromptExample[] = [
     badPrompt: "Write a story",
     goodPrompt:
       "As a creative writing mentor, help me develop a short story with these elements: 1) Genre: Sci-fi thriller, 2) Setting: Mars colony in 2157, 3) Protagonist: Reluctant engineer with trust issues, 4) Central conflict: Sabotage threatens colony survival. \n\nProvide: Character backstory, plot outline with 3 acts, key dialogue samples, and writing techniques to build suspense. Focus on showing vs telling and create authentic character voices.",
-        explanation:
+    explanation:
       "Creative writing prompts succeed when they establish clear narrative constraints, character frameworks, and craft requirements that guide AI toward coherent storytelling rather than generic content. The prompt defines genre, setting, character, and conflict while requesting specific writing craft elements and techniques.",
     tips: [
       "Specify genre and setting clearly",
@@ -667,7 +667,7 @@ const promptExamples: PromptExample[] = [
     badPrompt: "Help with marketing",
     goodPrompt:
       "As a marketing strategist with expertise in B2B SaaS, develop a go-to-market strategy for our new AI analytics platform targeting mid-market companies (100-1000 employees). Include: 1) Customer persona profiles with pain points, 2) Value proposition canvas, 3) Multi-channel campaign strategy, 4) Content marketing roadmap, 5) KPI framework with benchmarks. \n\nBudget: $50K/month, Timeline: 6 months, Target: 100 qualified leads/month.",
-        explanation:
+    explanation:
       "Marketing strategy prompts must combine market research methodology, audience psychology understanding, and business constraint awareness to generate viable campaigns instead of theoretical concepts. This prompt establishes domain expertise, defines target market, specifies deliverables, and provides constraints for realistic recommendations.",
     tips: [
       "Define target market precisely",
@@ -734,7 +734,7 @@ const promptExamples: PromptExample[] = [
     badPrompt: "Teach me math",
     goodPrompt:
       "As an experienced math tutor, help me master calculus derivatives using these approaches: 1) Start with my current level (completed algebra, struggling with limits), 2) Use visual explanations and real-world examples, 3) Provide practice problems with step-by-step solutions, 4) Check my understanding with questions, 5) Adapt explanations based on my responses.\n\nMy learning style: Visual learner, prefer hands-on examples, need concepts broken into small steps.",
-        explanation:
+    explanation:
       "Educational prompts require learning theory integration, cognitive load management, and assessment frameworks to create personalized instruction rather than information dumps. The prompt establishes current knowledge level, specifies learning preferences, requests adaptive teaching methods, and emphasizes understanding verification.",
     tips: [
       "Specify current knowledge level",
@@ -801,8 +801,8 @@ const promptExamples: PromptExample[] = [
     badPrompt: "Fix this bug",
     goodPrompt:
       "As a debugging expert, help me resolve this production issue using systematic debugging methodology: 1) Analyze error logs and stack traces, 2) Identify potential root causes with likelihood scores, 3) Suggest debugging steps in priority order, 4) Provide code fixes with explanations, 5) Recommend prevention strategies.\n\nError: 'Memory leak in user session management'\nEnvironment: Node.js + Redis, 10K concurrent users\nSymptoms: Memory usage grows 50MB/hour, crashes after 6 hours\nRecent changes: Session timeout logic updated last week",
-        explanation:
-      "Technical debugging prompts need systematic diagnostic frameworks, environmental context, and solution prioritization to solve complex problems rather than suggesting random fixes. This prompt establishes systematic approach, provides context about the environment and symptoms, and requests prioritized solutions with prevention."
+    explanation:
+      "Technical debugging prompts need systematic diagnostic frameworks, environmental context, and solution prioritization to solve complex problems rather than suggesting random fixes. This prompt establishes systematic approach, provides context about the environment and symptoms, and requests prioritized solutions with prevention.",
     tips: [
       "Provide complete error context",
       "Describe environment and scale",
