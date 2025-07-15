@@ -408,39 +408,173 @@ const PerceptronDemo = () => {
 const AttentionDemo = () => {
   const [sentence] = useState("The cat sat on the mat");
   const [focusWord, setFocusWord] = useState("cat");
+  const [showFlow, setShowFlow] = useState(false);
   const words = sentence.split(" ");
 
   const getAttentionWeight = (word: string) => {
     if (word === focusWord) return 1.0;
     if (word === "The" && focusWord === "cat") return 0.3;
     if (word === "sat" && focusWord === "cat") return 0.7;
+    if (word === "on" && focusWord === "cat") return 0.4;
+    if (word === "the" && focusWord === "cat") return 0.2;
+    if (word === "mat" && focusWord === "cat") return 0.6;
     return 0.1;
+  };
+
+  const triggerAttentionFlow = () => {
+    setShowFlow(true);
+    setTimeout(() => setShowFlow(false), 3000);
   };
 
   return (
     <div className="bg-white p-6 rounded-lg border border-gray-200">
       <h4 className="text-lg font-semibold mb-4">Attention Mechanism Demo</h4>
-      <p className="mb-4">Click on words to see how attention focuses:</p>
-      <div className="space-y-4">
-        <div className="flex flex-wrap gap-2">
-          {words.map((word, idx) => (
-            <button
-              key={idx}
-              onClick={() => setFocusWord(word)}
-              className={`px-3 py-2 rounded transition-all ${
-                word === focusWord
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-100 hover:bg-gray-200"
-              }`}
-              style={{
-                opacity: 0.3 + 0.7 * getAttentionWeight(word),
-                transform: `scale(${0.9 + 0.1 * getAttentionWeight(word)})`,
+
+      {/* Attention Visualization */}
+      <div className="mb-6 bg-gray-50 p-6 rounded-lg relative">
+        <h5 className="text-sm font-semibold mb-4">
+          Query-Key-Value Attention:
+        </h5>
+
+        {/* Words with attention connections */}
+        <div className="relative">
+          <div className="flex flex-wrap gap-4 justify-center mb-6">
+            {words.map((word, idx) => {
+              const weight = getAttentionWeight(word);
+              const isQuery = word === focusWord;
+
+              return (
+                <motion.button
+                  key={idx}
+                  onClick={() => setFocusWord(word)}
+                  className={`px-4 py-3 rounded-lg border-2 font-medium relative ${
+                    isQuery
+                      ? "border-blue-500 bg-blue-100 text-blue-700"
+                      : "border-gray-300 bg-white hover:bg-gray-50"
+                  }`}
+                  animate={{
+                    scale: 0.9 + 0.2 * weight,
+                    opacity: 0.4 + 0.6 * weight,
+                    y: showFlow && !isQuery ? [0, -10, 0] : 0,
+                  }}
+                  transition={{
+                    duration: 0.3,
+                    y: { duration: 1, delay: idx * 0.1 },
+                  }}
+                >
+                  {word}
+
+                  {/* Attention weight badge */}
+                  <motion.div
+                    className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold"
+                    animate={{
+                      scale: showFlow ? [1, 1.5, 1] : weight + 0.5,
+                      backgroundColor: `rgba(239, 68, 68, ${weight})`,
+                    }}
+                    transition={{ duration: 0.5, delay: idx * 0.05 }}
+                  >
+                    {weight.toFixed(1)}
+                  </motion.div>
+
+                  {/* Attention flow lines */}
+                  {showFlow && !isQuery && weight > 0.2 && (
+                    <motion.div
+                      className="absolute top-1/2 left-1/2 w-1 bg-blue-400 origin-bottom z-10"
+                      style={{
+                        height: `${weight * 50}px`,
+                        transform: "translate(-50%, -50%) rotate(-45deg)",
+                      }}
+                      initial={{ scaleY: 0 }}
+                      animate={{ scaleY: 1 }}
+                      transition={{ duration: 0.8, delay: idx * 0.1 }}
+                    />
+                  )}
+                </motion.button>
+              );
+            })}
+          </div>
+
+          {/* Central Query Node */}
+          <div className="text-center">
+            <motion.div
+              className="inline-block px-6 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl font-bold text-lg"
+              animate={{
+                scale: showFlow ? [1, 1.2, 1] : 1,
+                rotate: showFlow ? [0, 360] : 0,
               }}
+              transition={{ duration: 2 }}
             >
-              {word}
-            </button>
-          ))}
+              Query: "{focusWord}"
+            </motion.div>
+          </div>
         </div>
+      </div>
+
+      {/* Interactive Controls */}
+      <div className="space-y-4">
+        <div>
+          <p className="mb-2 text-sm font-medium">
+            Click on words to see attention patterns:
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {words.map((word, idx) => (
+              <button
+                key={idx}
+                onClick={() => setFocusWord(word)}
+                className={`px-3 py-2 rounded transition-all ${
+                  word === focusWord
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-100 hover:bg-gray-200"
+                }`}
+                style={{
+                  opacity: 0.3 + 0.7 * getAttentionWeight(word),
+                  transform: `scale(${0.9 + 0.1 * getAttentionWeight(word)})`,
+                }}
+              >
+                {word}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="text-center">
+          <button onClick={triggerAttentionFlow} className="button-primary">
+            ⚡ Show Attention Flow
+          </button>
+        </div>
+
+        {/* Attention Matrix Visualization */}
+        <div className="bg-gray-50 p-4 rounded-lg">
+          <h5 className="text-sm font-semibold mb-3">Attention Matrix:</h5>
+          <div
+            className="grid gap-1"
+            style={{ gridTemplateColumns: `repeat(${words.length}, 1fr)` }}
+          >
+            {words.map((queryWord, qIdx) =>
+              words.map((keyWord, kIdx) => {
+                const attention =
+                  queryWord === focusWord ? getAttentionWeight(keyWord) : 0.1;
+                return (
+                  <motion.div
+                    key={`${qIdx}-${kIdx}`}
+                    className="w-8 h-8 border border-gray-300 rounded flex items-center justify-center text-xs font-bold"
+                    animate={{
+                      backgroundColor: `rgba(59, 130, 246, ${attention})`,
+                      color: attention > 0.5 ? "#ffffff" : "#374151",
+                    }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {attention.toFixed(1)}
+                  </motion.div>
+                );
+              }),
+            )}
+          </div>
+          <div className="mt-2 text-xs text-gray-600">
+            <p>Rows: Query words, Columns: Key words</p>
+          </div>
+        </div>
+
         <div className="bg-gray-50 p-4 rounded">
           <p>
             <strong>Focused on:</strong> "{focusWord}"
@@ -448,11 +582,23 @@ const AttentionDemo = () => {
           <p>
             <strong>Attention weights:</strong>
           </p>
-          {words.map((word, idx) => (
-            <span key={idx} className="inline-block mr-4">
-              {word}: {getAttentionWeight(word).toFixed(1)}
-            </span>
-          ))}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
+            {words.map((word, idx) => (
+              <motion.div
+                key={idx}
+                className="flex justify-between items-center bg-white px-2 py-1 rounded border"
+                animate={{
+                  borderColor: `rgba(59, 130, 246, ${getAttentionWeight(word)})`,
+                  backgroundColor: `rgba(59, 130, 246, ${getAttentionWeight(word) * 0.1})`,
+                }}
+              >
+                <span className="font-medium">{word}:</span>
+                <span className="font-mono text-sm">
+                  {getAttentionWeight(word).toFixed(1)}
+                </span>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
