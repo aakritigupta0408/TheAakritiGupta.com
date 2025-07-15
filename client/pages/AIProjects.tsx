@@ -110,6 +110,27 @@ for epoch in range(epochs):
         optimizer.step()`,
     icon: "📸",
     tags: ["CNN", "Transfer Learning", "PyTorch", "Classification"],
+    theoreticalConcepts: {
+      fundamentals: [
+        "Convolutional Neural Networks (CNNs) - Local receptive fields detect spatial patterns",
+        "Feature Maps - Each filter detects specific visual features like edges, textures",
+        "Pooling Layers - Reduce spatial dimensions while retaining important information",
+        "Transfer Learning - Leverage pre-trained features from large datasets like ImageNet",
+        "Data Augmentation - Increase dataset diversity through transformations",
+      ],
+      keyTheory:
+        "CNNs use translation-invariant filters that share weights across spatial locations, enabling efficient feature detection regardless of object position. The hierarchical architecture learns increasingly complex features: edges → shapes → objects → concepts.",
+      mathematicalFoundations:
+        "Convolution operation: (f * g)(x,y) = Σ Σ f(i,j) × g(x-i, y-j). Backpropagation through convolution layers requires computing gradients w.r.t filters and inputs using chain rule.",
+      importantPapers: [
+        "LeNet (1998) - First CNN for digit recognition",
+        "AlexNet (2012) - Breakthrough in ImageNet competition",
+        "ResNet (2015) - Skip connections for very deep networks",
+        "EfficientNet (2019) - Scaling CNNs with compound coefficients",
+      ],
+      businessImpact:
+        "Enables automated visual inspection, medical diagnosis, autonomous vehicles, content moderation, and quality control - reducing human error and processing time by 90%+",
+    },
   },
   {
     id: 2,
@@ -1058,7 +1079,7 @@ export default function AIProjects() {
                 {/* Use Cases */}
                 <div className="mb-6">
                   <h4 className="font-bold text-cyan-300 mb-3 text-lg">
-                    ��� Common Use Cases:
+                    🎯 Common Use Cases:
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {project.useCases.slice(0, 3).map((useCase, idx) => (
