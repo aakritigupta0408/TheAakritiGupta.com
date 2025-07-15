@@ -2017,16 +2017,43 @@ export default function AIDiscoveries() {
     null,
   );
   const [sortBy, setSortBy] = useState<string>("chronological");
+  const [filterDecade, setFilterDecade] = useState<string>("All");
 
-  const getSortedDiscoveries = () => {
-    if (sortBy === "chronological") {
-      return [...discoveries].sort(
-        (a, b) => parseInt(a.year) - parseInt(b.year),
-      );
-    } else if (sortBy === "alphabetical") {
-      return [...discoveries].sort((a, b) => a.title.localeCompare(b.title));
+  const getFilteredAndSortedDiscoveries = () => {
+    let filtered = [...discoveries];
+
+    // Apply decade filter
+    if (filterDecade !== "All") {
+      filtered = filtered.filter((discovery) => {
+        const year = parseInt(discovery.year);
+        const decade = Math.floor(year / 10) * 10;
+        return decade.toString() === filterDecade;
+      });
     }
-    return discoveries;
+
+    // Apply sorting
+    if (sortBy === "chronological") {
+      return filtered.sort((a, b) => parseInt(a.year) - parseInt(b.year));
+    } else if (sortBy === "alphabetical") {
+      return filtered.sort((a, b) => a.title.localeCompare(b.title));
+    }
+    return filtered;
+  };
+
+  // Get unique decades for filter options
+  const getDecades = () => {
+    const decades = new Set(
+      discoveries.map((discovery) => {
+        const year = parseInt(discovery.year);
+        return Math.floor(year / 10) * 10;
+      }),
+    );
+    return [
+      "All",
+      ...Array.from(decades)
+        .sort()
+        .map((d) => d.toString()),
+    ];
   };
 
   return (
@@ -2061,10 +2088,10 @@ export default function AIDiscoveries() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            🚀 Explore the 20 fundamental breakthroughs that shaped artificial
-            intelligence, chronologically ordered from 1950 to 2018! With
-            interactive demos and insights into the brilliant minds behind them.
-            ✨
+            🚀 Explore the {discoveries.length} fundamental breakthroughs that
+            shaped artificial intelligence! Filter by decade, sort
+            chronologically or alphabetically, and dive into interactive demos
+            revealing the brilliant minds behind each discovery. ✨
           </motion.p>
 
           <motion.div
@@ -2111,6 +2138,33 @@ export default function AIDiscoveries() {
             </span>
           </motion.div>
 
+          {/* Decade Filter */}
+          <motion.div
+            className="flex flex-wrap gap-4 justify-center mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.9 }}
+          >
+            <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 border border-white/20 flex flex-wrap items-center gap-4">
+              <span className="text-white font-bold">🗓️ Filter by Decade:</span>
+              {getDecades().map((decade) => (
+                <motion.button
+                  key={decade}
+                  onClick={() => setFilterDecade(decade)}
+                  className={`px-4 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
+                    filterDecade === decade
+                      ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-xl scale-105"
+                      : "text-white hover:bg-white/20"
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {decade === "All" ? "All" : `${decade}s`}
+                </motion.button>
+              ))}
+            </div>
+          </motion.div>
+
           {/* Sort controls */}
           <motion.div
             className="flex justify-center gap-6 mb-12"
@@ -2149,7 +2203,7 @@ export default function AIDiscoveries() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
-          {getSortedDiscoveries().map((discovery, index) => (
+          {getFilteredAndSortedDiscoveries().map((discovery, index) => (
             <motion.div
               key={discovery.id}
               className="bg-white/20 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 overflow-hidden cursor-pointer group hover:bg-white/25"
