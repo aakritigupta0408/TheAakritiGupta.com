@@ -87,6 +87,13 @@ const AI_DEMOS: AIDemo[] = [
       "React component for a search bar",
       "Python script to analyze CSV data",
     ],
+    stateOfArt: {
+      name: "GitHub Copilot",
+      url: "https://github.com/features/copilot",
+      description:
+        "AI pair programmer that helps you write code faster with whole-line & function suggestions",
+      company: "GitHub & OpenAI",
+    },
   },
   {
     id: "creative-writer",
