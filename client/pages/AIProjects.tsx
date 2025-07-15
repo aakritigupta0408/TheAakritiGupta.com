@@ -2784,7 +2784,7 @@ export default function AIProjects() {
       <Navigation />
 
       <div className="container mx-auto px-6 py-12">
-        {/* Header */}
+        {/* Enhanced Header */}
         <div className="text-center mb-16 relative z-10">
           <motion.div
             className="inline-block p-1 rounded-full bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 mb-8"
@@ -2795,6 +2795,43 @@ export default function AIProjects() {
             <h1 className="text-6xl md:text-8xl font-black bg-gradient-to-r from-white via-purple-100 to-cyan-100 bg-clip-text text-transparent px-8 py-6">
               AI Projects Guide
             </h1>
+          </motion.div>
+
+          {/* Navigation Tabs */}
+          <motion.div
+            className="flex justify-center gap-2 mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
+            {[
+              { id: "projects", label: "🚀 Projects", desc: "Browse & Learn" },
+              {
+                id: "pathways",
+                label: "🗺️ Learning Paths",
+                desc: "Structured Routes",
+              },
+              {
+                id: "analytics",
+                label: "📊 Analytics",
+                desc: "Track Progress",
+              },
+            ].map((tab) => (
+              <motion.button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={`px-6 py-4 rounded-2xl font-bold text-sm transition-all duration-300 ${
+                  activeTab === tab.id
+                    ? "bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-2xl scale-105"
+                    : "bg-white/10 backdrop-blur-md text-white border border-white/20 hover:bg-white/20"
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <div>{tab.label}</div>
+                <div className="text-xs opacity-80">{tab.desc}</div>
+              </motion.button>
+            ))}
           </motion.div>
 
           <motion.p
