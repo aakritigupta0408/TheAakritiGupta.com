@@ -3012,9 +3012,10 @@ export default function AIProjects() {
                   <AnimatePresence>
                     {showCode[project.id] && (
                       <motion.div
-                        initial={{ opacity: 0, height: 0, y: -20 }}
-                                                animate={{ opacity: 1, scaleY: 1, y: 0 }}\n                        style={{ originY: 0 }}
-                        exit={{ opacity: 0, height: 0, y: -20 }}
+                        initial={{ opacity: 0, scaleY: 0, y: -20 }}
+                        animate={{ opacity: 1, scaleY: 1, y: 0 }}
+                        exit={{ opacity: 0, scaleY: 0, y: -20 }}
+                        style={{ originY: 0 }}
                         transition={{ duration: 0.5, ease: "easeOut" }}
                         className="mt-6"
                       >
