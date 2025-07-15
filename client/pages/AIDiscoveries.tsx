@@ -142,13 +142,13 @@ const allDiscoveries: Discovery[] = [
     year: "1986",
     discoverer: "Geoffrey Hinton, David Rumelhart, Ronald Williams",
     discovererBio:
-      "Geoffrey Hinton is known as the 'Godfather of Deep Learning' and won the 2018 Turing Award for his work on neural networks.",
+      "Geoffrey Hinton, the 'Godfather of Deep Learning' and 2018 Turing Award winner, collaborated with cognitive scientist David Rumelhart and engineer Ronald Williams to solve the fundamental challenge of training multi-layer neural networks, igniting the modern AI revolution.",
     paperTitle: "Learning representations by back-propagating errors",
     paperLink: "https://www.nature.com/articles/323533a0",
     description:
-      "Algorithm for training multi-layer neural networks by calculating gradients and updating weights.",
+      "Breakthrough algorithm that enables efficient training of multi-layer neural networks by propagating error gradients backward through the network, automatically adjusting billions of connection weights to minimize prediction errors through gradient descent optimization.",
     impact:
-      "Enabled training of deep neural networks, making modern AI possible.",
+      "Solved the critical bottleneck preventing deep neural network training, directly enabling the deep learning revolution that powers modern AI systems including computer vision, natural language processing, speech recognition, and generative AI technologies like ChatGPT and DALL-E.",
     demoType: "backprop",
   },
   {
@@ -157,13 +157,13 @@ const allDiscoveries: Discovery[] = [
     year: "1989",
     discoverer: "Chris Watkins",
     discovererBio:
-      "British computer scientist who developed Q-learning as part of his PhD thesis at Cambridge University.",
+      "Pioneering British computer scientist who, during his PhD at Cambridge University, solved the fundamental problem of learning optimal behavior in uncertain environments without explicit supervision, creating the mathematical foundation for autonomous agent learning.",
     paperTitle: "Learning from Delayed Rewards",
     paperLink: "https://www.cs.rhul.ac.uk/~chrisw/new_thesis.pdf",
     description:
-      "Algorithm that enables agents to learn optimal actions in an environment through trial and error.",
+      "Revolutionary algorithm that enables autonomous agents to discover optimal decision-making strategies through trial-and-error interaction with their environment, learning to maximize long-term rewards even when feedback is delayed or sparse.",
     impact:
-      "Foundation for game-playing AI, robotics, and autonomous systems like AlphaGo.",
+      "Provided the theoretical foundation for training game-playing AI systems like AlphaGo and OpenAI Five, autonomous robotics, algorithmic trading systems, recommendation engines, and any AI system that must learn optimal behavior through environmental interaction.",
     demoType: "qlearning",
   },
   {
@@ -2228,7 +2228,7 @@ const DQNDemo = () => {
           disabled={isTraining}
           className="button-primary disabled:opacity-50"
         >
-          {isTraining ? "🧠 Learning..." : "🎮 Start DQN Training"}
+          {isTraining ? "��� Learning..." : "🎮 Start DQN Training"}
         </button>
       </div>
 
