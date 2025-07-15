@@ -1168,7 +1168,11 @@ export default function AIProjects() {
                 delay: index * 0.15,
                 ease: "backOut",
               }}
-              className="bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 overflow-hidden hover:scale-105 transition-all duration-500 shadow-2xl hover:shadow-purple-500/25 group"
+              className={`bg-white/10 backdrop-blur-xl rounded-3xl border overflow-hidden hover:scale-105 transition-all duration-500 shadow-2xl hover:shadow-purple-500/25 group ${
+                showCode[project.id]
+                  ? "border-cyan-400/50 shadow-cyan-500/20"
+                  : "border-white/20"
+              }`}
               whileHover={{
                 scale: 1.02,
                 rotateY: 3,
