@@ -3217,9 +3217,16 @@ export default function AIProjects() {
                               whileHover={{ scale: 1.02, y: -5 }}
                             >
                               <div className="flex justify-between items-start mb-4">
-                                <h4 className="font-black text-white text-lg group-hover:text-cyan-300 transition-colors">
-                                  {resource.name}
-                                </h4>
+                                <div>
+                                  <h4 className="font-black text-white text-lg group-hover:text-cyan-300 transition-colors">
+                                    {resource.name}
+                                  </h4>
+                                  {resource.category && (
+                                    <span className="text-xs text-gray-300 font-medium">
+                                      {resource.category}
+                                    </span>
+                                  )}
+                                </div>
                                 <span
                                   className={`px-3 py-2 rounded-full text-xs font-bold border backdrop-blur-md ${
                                     resource.type === "API"
