@@ -928,7 +928,7 @@ threshold = np.percentile(mse, 95)
 anomalies_ae = mse > threshold
 
 print(f"Autoencoder anomalies: {np.sum(anomalies_ae)}")`,
-    icon: "��",
+    icon: "🚨",
     tags: ["Anomaly Detection", "Isolation Forest", "Autoencoders", "Outliers"],
     theoreticalConcepts: {
       fundamentals: [
@@ -1069,8 +1069,9 @@ export default function AIProjects() {
               </div>
             </motion.div>
             <motion.div
-              className="bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl group hover:scale-105 transition-all duration-300"
-              whileHover={{ y: -10, rotateY: 5 }}
+              className="bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl group"
+              whileHover={{ y: -10, rotateY: 5, scale: 1.05 }}
+              transition={{ duration: 0.3 }}
             >
               <div className="text-5xl font-black bg-gradient-to-r from-emerald-400 to-green-500 bg-clip-text text-transparent">
                 40+
@@ -1233,7 +1234,7 @@ export default function AIProjects() {
                       {project.difficulty === "Beginner"
                         ? "🌱"
                         : project.difficulty === "Intermediate"
-                          ? "��"
+                          ? "🔥"
                           : "🚀"}{" "}
                       {project.difficulty}
                     </motion.span>
