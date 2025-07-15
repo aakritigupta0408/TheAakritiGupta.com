@@ -367,6 +367,63 @@ function processUser(data) {
       "Learn from open-source code review patterns",
     ],
     useCase: "Development teams, code quality automation, CI/CD pipelines",
+    resources: {
+      codeExamples: [
+        {
+          title: "GitHub Copilot Code Review Implementation",
+          url: "https://github.com/github/copilot-docs",
+          language: "Various",
+        },
+        {
+          title: "SonarQube AI Code Analysis",
+          url: "https://github.com/SonarSource/sonarqube",
+          language: "Java",
+        },
+        {
+          title: "DeepCode AI Code Review",
+          url: "https://github.com/DeepCodeAI/cli",
+          language: "Python",
+        },
+      ],
+      tutorials: [
+        {
+          title: "Building AI Code Review Systems",
+          url: "https://docs.github.com/en/codespaces/developing-in-codespaces/using-github-copilot-in-codespaces",
+          difficulty: "Advanced",
+        },
+        {
+          title: "Static Analysis with AI",
+          url: "https://semgrep.dev/docs/",
+          difficulty: "Intermediate",
+        },
+      ],
+      videos: [
+        {
+          title: "AI-Powered Code Review Best Practices",
+          url: "https://www.youtube.com/watch?v=8c5NQbJNQkE",
+          creator: "GitHub",
+          duration: "28 min",
+        },
+        {
+          title: "Building Code Analysis Tools with AI",
+          url: "https://www.youtube.com/watch?v=v8dDj28x2nE",
+          creator: "Code With Me",
+          duration: "42 min",
+        },
+      ],
+      documentation: [
+        {
+          title: "GitHub Copilot API",
+          url: "https://docs.github.com/en/copilot",
+          type: "Platform Guide",
+        },
+        {
+          title: "OpenAI Codex Documentation",
+          url: "https://platform.openai.com/docs/guides/code",
+          type: "API Reference",
+        },
+      ],
+    },
   },
   {
     id: "data-analyst",
