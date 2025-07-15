@@ -851,7 +851,7 @@ export default function AIProjects() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Your ultimate comprehensive guide to the most common AI projects 🚀
+            Your ultimate comprehensive guide to the most common AI projects ���
             Step-by-step training approaches, recommended APIs, pre-trained
             models, datasets, and production-ready code examples to launch your
             AI career! ✨
@@ -1160,107 +1160,168 @@ export default function AIProjects() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+              className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50"
               onClick={() => setSelectedProject(null)}
             >
               <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                className="bg-white rounded-xl max-w-6xl w-full max-h-[90vh] overflow-y-auto"
+                initial={{ scale: 0.8, opacity: 0, rotateY: -30 }}
+                animate={{ scale: 1, opacity: 1, rotateY: 0 }}
+                exit={{ scale: 0.8, opacity: 0, rotateY: 30 }}
+                transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
+                className="bg-gradient-to-br from-violet-900/95 via-indigo-900/95 to-cyan-900/95 backdrop-blur-xl rounded-3xl max-w-7xl w-full max-h-[90vh] overflow-y-auto border border-white/20 shadow-2xl"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="p-8">
+                <div className="p-10">
                   {/* Header */}
-                  <div className="flex justify-between items-start mb-8">
-                    <div className="flex items-center gap-4">
-                      <div className="text-6xl">{selectedProject.icon}</div>
+                  <div className="flex justify-between items-start mb-10">
+                    <div className="flex items-center gap-6">
+                      <motion.div
+                        className="text-8xl"
+                        initial={{ scale: 0, rotate: -180 }}
+                        animate={{ scale: 1, rotate: 0 }}
+                        transition={{ delay: 0.2, type: "spring", bounce: 0.6 }}
+                      >
+                        {selectedProject.icon}
+                      </motion.div>
                       <div>
-                        <h2 className="text-4xl font-bold text-black mb-2">
+                        <motion.h2
+                          className="text-5xl font-black bg-gradient-to-r from-white via-pink-200 to-cyan-200 bg-clip-text text-transparent mb-4"
+                          initial={{ opacity: 0, x: -50 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.3 }}
+                        >
                           {selectedProject.title}
-                        </h2>
-                        <div className="flex items-center gap-4">
-                          <span className="text-gray-600">
+                        </motion.h2>
+                        <div className="flex flex-wrap items-center gap-4">
+                          <span className="text-gray-200 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 font-bold">
                             {selectedProject.category}
                           </span>
-                          <span
-                            className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                          <motion.span
+                            className={`px-4 py-2 rounded-full text-sm font-bold border-2 backdrop-blur-md ${
                               selectedProject.difficulty === "Beginner"
-                                ? "bg-green-100 text-green-800"
+                                ? "bg-green-500/30 border-green-400/50 text-green-200"
                                 : selectedProject.difficulty === "Intermediate"
-                                  ? "bg-yellow-100 text-yellow-800"
-                                  : "bg-red-100 text-red-800"
+                                  ? "bg-orange-500/30 border-orange-400/50 text-orange-200"
+                                  : "bg-red-500/30 border-red-400/50 text-red-200"
                             }`}
+                            initial={{ opacity: 0, scale: 0 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.4 }}
                           >
+                            {selectedProject.difficulty === "Beginner"
+                              ? "🌱"
+                              : selectedProject.difficulty === "Intermediate"
+                                ? "🔥"
+                                : "🚀"}{" "}
                             {selectedProject.difficulty}
-                          </span>
-                          <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">
-                            {selectedProject.timeToComplete}
+                          </motion.span>
+                          <span className="px-4 py-2 bg-blue-500/30 border-2 border-blue-400/50 text-blue-200 rounded-full text-sm font-bold backdrop-blur-md">
+                            ⏱️ {selectedProject.timeToComplete}
                           </span>
                         </div>
                       </div>
                     </div>
-                    <button
+                    <motion.button
                       onClick={() => setSelectedProject(null)}
-                      className="text-gray-500 hover:text-gray-700 text-3xl font-light"
+                      className="text-white hover:text-red-400 text-4xl font-bold bg-white/10 backdrop-blur-md rounded-full w-14 h-14 flex items-center justify-center border border-white/20 hover:bg-red-500/20 transition-all duration-300"
+                      whileHover={{ scale: 1.1, rotate: 90 }}
+                      whileTap={{ scale: 0.9 }}
                     >
                       ×
-                    </button>
+                    </motion.button>
                   </div>
 
                   {/* Content Grid */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                     {/* Left Column */}
-                    <div className="space-y-6">
+                    <div className="space-y-8">
                       {/* Description */}
-                      <div>
-                        <h3 className="text-xl font-bold mb-3">
-                          Project Overview
+                      <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.5 }}
+                      >
+                        <h3 className="text-2xl font-black text-white mb-4">
+                          💬 Project Overview
                         </h3>
-                        <p className="text-gray-700">
+                        <p className="text-gray-200 text-lg leading-relaxed bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
                           {selectedProject.description}
                         </p>
-                      </div>
+                      </motion.div>
 
                       {/* Use Cases */}
-                      <div>
-                        <h3 className="text-xl font-bold mb-3">Use Cases</h3>
-                        <ul className="space-y-2">
-                          {selectedProject.useCases.map((useCase, idx) => (
-                            <li key={idx} className="flex items-start gap-2">
-                              <span className="text-blue-500 mt-1">•</span>
-                              <span className="text-gray-700">{useCase}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                      <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.6 }}
+                      >
+                        <h3 className="text-2xl font-black text-white mb-4">
+                          🎯 Use Cases
+                        </h3>
+                        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+                          <ul className="space-y-3">
+                            {selectedProject.useCases.map((useCase, idx) => (
+                              <motion.li
+                                key={idx}
+                                className="flex items-start gap-3"
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.7 + idx * 0.1 }}
+                              >
+                                <span className="text-pink-400 mt-1 text-lg">
+                                  •
+                                </span>
+                                <span className="text-gray-200">{useCase}</span>
+                              </motion.li>
+                            ))}
+                          </ul>
+                        </div>
+                      </motion.div>
 
                       {/* Training Approach */}
-                      <div>
-                        <h3 className="text-xl font-bold mb-3">
-                          Training Approach
+                      <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.8 }}
+                      >
+                        <h3 className="text-2xl font-black text-white mb-4">
+                          🧠 Training Approach
                         </h3>
-                        <p className="text-gray-700">
+                        <p className="text-gray-200 leading-relaxed bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
                           {selectedProject.trainingApproach}
                         </p>
-                      </div>
+                      </motion.div>
 
                       {/* Key Steps */}
-                      <div>
-                        <h3 className="text-xl font-bold mb-3">
-                          Implementation Steps
+                      <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.9 }}
+                      >
+                        <h3 className="text-2xl font-black text-white mb-4">
+                          🚀 Implementation Steps
                         </h3>
-                        <ol className="space-y-2">
-                          {selectedProject.keySteps.map((step, idx) => (
-                            <li key={idx} className="flex items-start gap-3">
-                              <span className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
-                                {idx + 1}
-                              </span>
-                              <span className="text-gray-700">{step}</span>
-                            </li>
-                          ))}
-                        </ol>
-                      </div>
+                        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+                          <ol className="space-y-4">
+                            {selectedProject.keySteps.map((step, idx) => (
+                              <motion.li
+                                key={idx}
+                                className="flex items-start gap-4"
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 1.0 + idx * 0.1 }}
+                              >
+                                <span className="w-8 h-8 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold border border-pink-400/50">
+                                  {idx + 1}
+                                </span>
+                                <span className="text-gray-200 leading-relaxed">
+                                  {step}
+                                </span>
+                              </motion.li>
+                            ))}
+                          </ol>
+                        </div>
+                      </motion.div>
                     </div>
 
                     {/* Right Column */}
