@@ -1,0 +1,1233 @@
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import Navigation from "../components/Navigation";
+
+interface Resource {
+  name: string;
+  type: "API" | "Dataset" | "Model" | "Framework";
+  description: string;
+  link: string;
+  pricing: string;
+}
+
+interface Project {
+  id: number;
+  title: string;
+  category: string;
+  description: string;
+  difficulty: "Beginner" | "Intermediate" | "Advanced";
+  timeToComplete: string;
+  useCases: string[];
+  trainingApproach: string;
+  keySteps: string[];
+  resources: Resource[];
+  codeExample: string;
+  icon: string;
+  tags: string[];
+}
+
+const projects: Project[] = [
+  {
+    id: 1,
+    title: "Image Classification",
+    category: "Computer Vision",
+    description:
+      "Classify images into predefined categories using deep learning models.",
+    difficulty: "Beginner",
+    timeToComplete: "1-2 weeks",
+    useCases: [
+      "Medical image diagnosis",
+      "Product quality control",
+      "Content moderation",
+      "Wildlife monitoring",
+      "Food recognition apps",
+    ],
+    trainingApproach:
+      "Transfer learning with pre-trained CNNs like ResNet, EfficientNet, or Vision Transformers. Fine-tune on your specific dataset.",
+    keySteps: [
+      "Collect and label training images",
+      "Data preprocessing and augmentation",
+      "Load pre-trained model (ImageNet)",
+      "Replace classification head",
+      "Fine-tune on your dataset",
+      "Evaluate and optimize performance",
+    ],
+    resources: [
+      {
+        name: "Google Cloud Vision API",
+        type: "API",
+        description: "Ready-to-use image classification and object detection",
+        link: "https://cloud.google.com/vision",
+        pricing: "$1.50 per 1000 requests",
+      },
+      {
+        name: "ImageNet Dataset",
+        type: "Dataset",
+        description: "1.2M labeled images across 1000 categories",
+        link: "https://www.image-net.org/",
+        pricing: "Free",
+      },
+      {
+        name: "PyTorch Vision Models",
+        type: "Model",
+        description: "Pre-trained models: ResNet, VGG, EfficientNet",
+        link: "https://pytorch.org/vision/stable/models.html",
+        pricing: "Free",
+      },
+    ],
+    codeExample: `import torch
+import torchvision.models as models
+from torchvision import transforms
+
+# Load pre-trained ResNet
+model = models.resnet50(pretrained=True)
+model.fc = torch.nn.Linear(2048, num_classes)
+
+# Data preprocessing
+transform = transforms.Compose([
+    transforms.Resize(256),
+    transforms.CenterCrop(224),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], 
+                        std=[0.229, 0.224, 0.225])
+])
+
+# Training loop
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+for epoch in range(epochs):
+    for batch in dataloader:
+        outputs = model(batch['image'])
+        loss = criterion(outputs, batch['label'])
+        loss.backward()
+        optimizer.step()`,
+    icon: "📸",
+    tags: ["CNN", "Transfer Learning", "PyTorch", "Classification"],
+  },
+  {
+    id: 2,
+    title: "Chatbot Development",
+    category: "Natural Language Processing",
+    description:
+      "Build intelligent conversational agents using large language models.",
+    difficulty: "Intermediate",
+    timeToComplete: "2-4 weeks",
+    useCases: [
+      "Customer support automation",
+      "Personal assistants",
+      "Educational tutoring",
+      "Mental health support",
+      "E-commerce recommendations",
+    ],
+    trainingApproach:
+      "Fine-tune pre-trained language models (GPT, BERT) on domain-specific conversation data or use retrieval-augmented generation (RAG).",
+    keySteps: [
+      "Define conversation scope and intents",
+      "Collect/create training conversations",
+      "Choose base model (GPT-3.5, GPT-4, Llama)",
+      "Implement RAG or fine-tuning pipeline",
+      "Add safety and content filtering",
+      "Deploy and monitor performance",
+    ],
+    resources: [
+      {
+        name: "OpenAI GPT API",
+        type: "API",
+        description: "Access to GPT-3.5 and GPT-4 for chat applications",
+        link: "https://platform.openai.com/docs/guides/gpt",
+        pricing: "$0.002 per 1K tokens",
+      },
+      {
+        name: "Hugging Face Transformers",
+        type: "Framework",
+        description: "Open-source library for transformer models",
+        link: "https://huggingface.co/transformers/",
+        pricing: "Free",
+      },
+      {
+        name: "PersonaChat Dataset",
+        type: "Dataset",
+        description: "Conversations with personality traits",
+        link: "https://huggingface.co/datasets/persona_chat",
+        pricing: "Free",
+      },
+    ],
+    codeExample: `from transformers import AutoTokenizer, AutoModelForCausalLM
+import torch
+
+# Load pre-trained model
+model_name = "microsoft/DialoGPT-medium"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForCausalLM.from_pretrained(model_name)
+
+def generate_response(input_text, chat_history_ids=None):
+    # Encode input
+    new_user_input_ids = tokenizer.encode(
+        input_text + tokenizer.eos_token, 
+        return_tensors='pt'
+    )
+    
+    # Append to chat history
+    bot_input_ids = torch.cat([chat_history_ids, new_user_input_ids], dim=-1) if chat_history_ids is not None else new_user_input_ids
+    
+    # Generate response
+    chat_history_ids = model.generate(
+        bot_input_ids,
+        max_length=1000,
+        num_beams=5,
+        no_repeat_ngram_size=3,
+        do_sample=True,
+        top_k=100,
+        top_p=0.7,
+        temperature=0.8,
+        pad_token_id=tokenizer.eos_token_id
+    )
+    
+    return tokenizer.decode(chat_history_ids[:, bot_input_ids.shape[-1]:][0], skip_special_tokens=True)`,
+    icon: "💬",
+    tags: ["NLP", "Transformers", "GPT", "Conversational AI"],
+  },
+  {
+    id: 3,
+    title: "Recommendation System",
+    category: "Machine Learning",
+    description:
+      "Build personalized recommendation engines for products, content, or services.",
+    difficulty: "Intermediate",
+    timeToComplete: "3-5 weeks",
+    useCases: [
+      "E-commerce product recommendations",
+      "Movie/music streaming suggestions",
+      "News article recommendations",
+      "Social media content feeds",
+      "Job matching platforms",
+    ],
+    trainingApproach:
+      "Collaborative filtering, content-based filtering, or hybrid approaches using matrix factorization, deep learning embeddings, or neural collaborative filtering.",
+    keySteps: [
+      "Collect user interaction data",
+      "Data preprocessing and feature engineering",
+      "Choose recommendation algorithm",
+      "Train and validate model",
+      "Implement real-time inference",
+      "A/B test and optimize recommendations",
+    ],
+    resources: [
+      {
+        name: "Amazon Personalize",
+        type: "API",
+        description: "Fully managed ML service for recommendations",
+        link: "https://aws.amazon.com/personalize/",
+        pricing: "$0.05 per hour training",
+      },
+      {
+        name: "MovieLens Dataset",
+        type: "Dataset",
+        description: "Movie ratings from 100K+ users",
+        link: "https://grouplens.org/datasets/movielens/",
+        pricing: "Free",
+      },
+      {
+        name: "Surprise Library",
+        type: "Framework",
+        description: "Python scikit for recommender systems",
+        link: "https://surprise.readthedocs.io/",
+        pricing: "Free",
+      },
+    ],
+    codeExample: `import pandas as pd
+from surprise import Dataset, Reader, SVD
+from surprise.model_selection import train_test_split
+from surprise import accuracy
+
+# Load data
+df = pd.read_csv('ratings.csv')
+reader = Reader(rating_scale=(1, 5))
+data = Dataset.load_from_df(df[['user_id', 'item_id', 'rating']], reader)
+
+# Split data
+trainset, testset = train_test_split(data, test_size=0.2)
+
+# Train SVD model
+model = SVD(n_factors=50, lr_all=0.005, reg_all=0.02)
+model.fit(trainset)
+
+# Make predictions
+predictions = model.test(testset)
+rmse = accuracy.rmse(predictions)
+
+# Get recommendations for user
+def get_recommendations(user_id, n_recommendations=10):
+    # Get list of all items
+    all_items = df['item_id'].unique()
+    
+    # Get items user has already rated
+    user_items = df[df['user_id'] == user_id]['item_id'].unique()
+    
+    # Predict ratings for unrated items
+    predictions = []
+    for item_id in all_items:
+        if item_id not in user_items:
+            pred = model.predict(user_id, item_id)
+            predictions.append((item_id, pred.est))
+    
+    # Sort by predicted rating
+    predictions.sort(key=lambda x: x[1], reverse=True)
+    return predictions[:n_recommendations]`,
+    icon: "🎯",
+    tags: ["Collaborative Filtering", "Matrix Factorization", "Embeddings"],
+  },
+  {
+    id: 4,
+    title: "Object Detection",
+    category: "Computer Vision",
+    description:
+      "Detect and localize multiple objects within images using bounding boxes.",
+    difficulty: "Advanced",
+    timeToComplete: "4-6 weeks",
+    useCases: [
+      "Autonomous vehicle perception",
+      "Security surveillance systems",
+      "Retail inventory management",
+      "Sports analytics",
+      "Medical imaging diagnostics",
+    ],
+    trainingApproach:
+      "Use YOLO, R-CNN, or Transformer-based models (DETR). Transfer learning from COCO pre-trained models and fine-tune on custom datasets.",
+    keySteps: [
+      "Collect and annotate bounding box data",
+      "Data augmentation for robustness",
+      "Choose detection architecture (YOLO, R-CNN)",
+      "Configure anchor boxes and loss functions",
+      "Train with proper data loading pipeline",
+      "Post-processing with NMS and evaluation",
+    ],
+    resources: [
+      {
+        name: "YOLOv8 by Ultralytics",
+        type: "Model",
+        description: "State-of-the-art object detection model",
+        link: "https://github.com/ultralytics/ultralytics",
+        pricing: "Free",
+      },
+      {
+        name: "COCO Dataset",
+        type: "Dataset",
+        description: "330K images with 80 object categories",
+        link: "https://cocodataset.org/",
+        pricing: "Free",
+      },
+      {
+        name: "Detectron2",
+        type: "Framework",
+        description: "Facebook's detection and segmentation platform",
+        link: "https://detectron2.readthedocs.io/",
+        pricing: "Free",
+      },
+    ],
+    codeExample: `from ultralytics import YOLO
+import cv2
+
+# Load pre-trained YOLOv8 model
+model = YOLO('yolov8n.pt')
+
+# Train on custom dataset
+model.train(
+    data='path/to/dataset.yaml',
+    epochs=100,
+    imgsz=640,
+    batch=16
+)
+
+# Inference on new image
+results = model('path/to/image.jpg')
+
+# Process results
+for result in results:
+    boxes = result.boxes
+    for box in boxes:
+        # Get coordinates
+        x1, y1, x2, y2 = box.xyxy[0]
+        confidence = box.conf[0]
+        class_id = box.cls[0]
+        
+        # Draw bounding box
+        cv2.rectangle(image, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
+        cv2.putText(image, f'{model.names[int(class_id)]}: {confidence:.2f}', 
+                   (int(x1), int(y1)-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)`,
+    icon: "🔍",
+    tags: ["YOLO", "Object Detection", "Computer Vision", "Bounding Boxes"],
+  },
+  {
+    id: 5,
+    title: "Sentiment Analysis",
+    category: "Natural Language Processing",
+    description:
+      "Analyze emotional tone and opinions in text data for business insights.",
+    difficulty: "Beginner",
+    timeToComplete: "1-2 weeks",
+    useCases: [
+      "Social media monitoring",
+      "Customer review analysis",
+      "Brand reputation management",
+      "Market research insights",
+      "Content recommendation",
+    ],
+    trainingApproach:
+      "Fine-tune BERT-based models on sentiment datasets or use pre-trained sentiment analysis APIs for quick deployment.",
+    keySteps: [
+      "Collect labeled sentiment data",
+      "Text preprocessing and tokenization",
+      "Choose model architecture (BERT, RoBERTa)",
+      "Fine-tune on sentiment dataset",
+      "Evaluate on test data",
+      "Deploy for real-time inference",
+    ],
+    resources: [
+      {
+        name: "Google Cloud Natural Language API",
+        type: "API",
+        description: "Ready-to-use sentiment analysis",
+        link: "https://cloud.google.com/natural-language",
+        pricing: "$1 per 1000 requests",
+      },
+      {
+        name: "IMDB Movie Reviews",
+        type: "Dataset",
+        description: "50K movie reviews with sentiment labels",
+        link: "https://ai.stanford.edu/~amaas/data/sentiment/",
+        pricing: "Free",
+      },
+      {
+        name: "DistilBERT",
+        type: "Model",
+        description: "Lightweight BERT for sentiment analysis",
+        link: "https://huggingface.co/distilbert-base-uncased",
+        pricing: "Free",
+      },
+    ],
+    codeExample: `from transformers import AutoTokenizer, AutoModelForSequenceClassification
+import torch
+
+# Load pre-trained sentiment model
+model_name = "cardiffnlp/twitter-roberta-base-sentiment-latest"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForSequenceClassification.from_pretrained(model_name)
+
+def analyze_sentiment(text):
+    # Tokenize input
+    inputs = tokenizer(text, return_tensors="pt", truncation=True, max_length=512)
+    
+    # Get prediction
+    with torch.no_grad():
+        outputs = model(**inputs)
+        predictions = torch.nn.functional.softmax(outputs.logits, dim=-1)
+    
+    # Map to labels
+    labels = ['negative', 'neutral', 'positive']
+    scores = predictions[0].tolist()
+    
+    result = {
+        'sentiment': labels[torch.argmax(predictions).item()],
+        'scores': dict(zip(labels, scores))
+    }
+    
+    return result
+
+# Example usage
+text = "I love this product! It's amazing."
+sentiment = analyze_sentiment(text)
+print(f"Sentiment: {sentiment['sentiment']}")
+print(f"Confidence: {max(sentiment['scores'].values()):.3f}")`,
+    icon: "😊",
+    tags: ["BERT", "Text Classification", "NLP", "Sentiment"],
+  },
+  {
+    id: 6,
+    title: "Time Series Forecasting",
+    category: "Machine Learning",
+    description:
+      "Predict future values based on historical time series data patterns.",
+    difficulty: "Intermediate",
+    timeToComplete: "2-4 weeks",
+    useCases: [
+      "Stock price prediction",
+      "Sales forecasting",
+      "Energy demand prediction",
+      "Weather forecasting",
+      "Traffic flow prediction",
+    ],
+    trainingApproach:
+      "Use LSTM/GRU networks, Transformer models, or traditional methods like ARIMA. Consider seasonal patterns and external features.",
+    keySteps: [
+      "Data collection and cleaning",
+      "Feature engineering (lags, rolling averages)",
+      "Handle seasonality and trends",
+      "Choose model (LSTM, Prophet, ARIMA)",
+      "Train with proper validation strategy",
+      "Evaluate forecast accuracy",
+    ],
+    resources: [
+      {
+        name: "Facebook Prophet",
+        type: "Framework",
+        description: "Automatic forecasting tool",
+        link: "https://facebook.github.io/prophet/",
+        pricing: "Free",
+      },
+      {
+        name: "Yahoo Finance Data",
+        type: "Dataset",
+        description: "Historical stock and financial data",
+        link: "https://finance.yahoo.com/",
+        pricing: "Free",
+      },
+      {
+        name: "TensorFlow Time Series",
+        type: "Framework",
+        description: "Deep learning for time series",
+        link: "https://www.tensorflow.org/tutorials/structured_data/time_series",
+        pricing: "Free",
+      },
+    ],
+    codeExample: `import pandas as pd
+import numpy as np
+from prophet import Prophet
+import matplotlib.pyplot as plt
+
+# Load time series data
+df = pd.read_csv('timeseries_data.csv')
+df['ds'] = pd.to_datetime(df['date'])
+df['y'] = df['value']
+
+# Initialize and fit Prophet model
+model = Prophet(
+    yearly_seasonality=True,
+    weekly_seasonality=True,
+    daily_seasonality=False,
+    changepoint_prior_scale=0.05
+)
+
+# Add custom seasonality if needed
+model.add_seasonality(name='monthly', period=30.5, fourier_order=5)
+
+# Fit model
+model.fit(df[['ds', 'y']])
+
+# Create future dataframe
+future = model.make_future_dataframe(periods=365)  # 365 days forecast
+
+# Make predictions
+forecast = model.predict(future)
+
+# Plot results
+fig = model.plot(forecast)
+plt.title('Time Series Forecast')
+plt.xlabel('Date')
+plt.ylabel('Value')
+plt.show()
+
+# Get forecast components
+fig2 = model.plot_components(forecast)
+plt.show()
+
+# Calculate accuracy metrics
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+
+y_true = df['y'].values
+y_pred = forecast.loc[:len(df)-1, 'yhat'].values
+
+mae = mean_absolute_error(y_true, y_pred)
+rmse = np.sqrt(mean_squared_error(y_true, y_pred))
+
+print(f"MAE: {mae:.2f}")
+print(f"RMSE: {rmse:.2f}")`,
+    icon: "📈",
+    tags: ["Time Series", "Prophet", "LSTM", "Forecasting"],
+  },
+  {
+    id: 7,
+    title: "Text Generation",
+    category: "Natural Language Processing",
+    description:
+      "Generate human-like text for content creation, creative writing, and automation.",
+    difficulty: "Advanced",
+    timeToComplete: "3-5 weeks",
+    useCases: [
+      "Content marketing automation",
+      "Creative writing assistance",
+      "Code generation",
+      "Email automation",
+      "Language translation",
+    ],
+    trainingApproach:
+      "Fine-tune GPT-based models on domain-specific text or use prompt engineering with large language models.",
+    keySteps: [
+      "Collect domain-specific text data",
+      "Data preprocessing and tokenization",
+      "Choose base model (GPT-2, GPT-3, T5)",
+      "Fine-tune or prompt engineering",
+      "Implement generation strategies",
+      "Quality evaluation and filtering",
+    ],
+    resources: [
+      {
+        name: "OpenAI GPT-4 API",
+        type: "API",
+        description: "State-of-the-art text generation",
+        link: "https://platform.openai.com/docs/models/gpt-4",
+        pricing: "$0.03 per 1K tokens",
+      },
+      {
+        name: "Common Crawl",
+        type: "Dataset",
+        description: "Web crawl data for training",
+        link: "https://commoncrawl.org/",
+        pricing: "Free",
+      },
+      {
+        name: "GPT-2 by Hugging Face",
+        type: "Model",
+        description: "Open-source text generation model",
+        link: "https://huggingface.co/gpt2",
+        pricing: "Free",
+      },
+    ],
+    codeExample: `from transformers import GPT2LMHeadModel, GPT2Tokenizer
+import torch
+
+# Load pre-trained GPT-2 model
+model_name = "gpt2-medium"
+tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+model = GPT2LMHeadModel.from_pretrained(model_name)
+
+# Add padding token
+tokenizer.pad_token = tokenizer.eos_token
+
+def generate_text(prompt, max_length=150, temperature=0.8, top_p=0.9):
+    # Encode input
+    input_ids = tokenizer.encode(prompt, return_tensors='pt')
+    
+    # Generate text
+    with torch.no_grad():
+        output = model.generate(
+            input_ids,
+            max_length=max_length,
+            temperature=temperature,
+            top_p=top_p,
+            do_sample=True,
+            pad_token_id=tokenizer.eos_token_id,
+            no_repeat_ngram_size=2
+        )
+    
+    # Decode generated text
+    generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
+    return generated_text[len(prompt):]
+
+# Example usage
+prompt = "The future of artificial intelligence is"
+generated = generate_text(prompt)
+print(f"Prompt: {prompt}")
+print(f"Generated: {generated}")
+
+# Fine-tuning example
+from transformers import Trainer, TrainingArguments
+
+def fine_tune_gpt2(train_dataset, output_dir):
+    training_args = TrainingArguments(
+        output_dir=output_dir,
+        overwrite_output_dir=True,
+        num_train_epochs=3,
+        per_device_train_batch_size=4,
+        save_steps=1000,
+        save_total_limit=2,
+        prediction_loss_only=True,
+        learning_rate=5e-5,
+    )
+    
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=train_dataset,
+        tokenizer=tokenizer,
+    )
+    
+    trainer.train()
+    trainer.save_model()`,
+    icon: "✍️",
+    tags: ["GPT", "Text Generation", "Language Models", "Fine-tuning"],
+  },
+  {
+    id: 8,
+    title: "Anomaly Detection",
+    category: "Machine Learning",
+    description:
+      "Identify unusual patterns or outliers in data for fraud detection and monitoring.",
+    difficulty: "Intermediate",
+    timeToComplete: "2-3 weeks",
+    useCases: [
+      "Credit card fraud detection",
+      "Network intrusion detection",
+      "Manufacturing quality control",
+      "System monitoring and alerts",
+      "Medical diagnosis assistance",
+    ],
+    trainingApproach:
+      "Use isolation forests, autoencoders, or one-class SVM. For time series, use LSTM autoencoders or statistical methods.",
+    keySteps: [
+      "Collect normal and anomalous data",
+      "Feature engineering and normalization",
+      "Choose algorithm (Isolation Forest, Autoencoder)",
+      "Train on normal data patterns",
+      "Set anomaly threshold",
+      "Validate and deploy monitoring",
+    ],
+    resources: [
+      {
+        name: "Scikit-learn Anomaly Detection",
+        type: "Framework",
+        description: "Built-in anomaly detection algorithms",
+        link: "https://scikit-learn.org/stable/modules/outlier_detection.html",
+        pricing: "Free",
+      },
+      {
+        name: "KDD Cup 99 Dataset",
+        type: "Dataset",
+        description: "Network intrusion detection data",
+        link: "http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html",
+        pricing: "Free",
+      },
+      {
+        name: "PyOD Library",
+        type: "Framework",
+        description: "Python outlier detection toolkit",
+        link: "https://pyod.readthedocs.io/",
+        pricing: "Free",
+      },
+    ],
+    codeExample: `import pandas as pd
+import numpy as np
+from sklearn.ensemble import IsolationForest
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+
+# Load data
+df = pd.read_csv('data.csv')
+features = df.select_dtypes(include=[np.number])
+
+# Standardize features
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(features)
+
+# Train Isolation Forest
+iso_forest = IsolationForest(
+    contamination=0.1,  # Expected proportion of anomalies
+    random_state=42,
+    n_estimators=100
+)
+
+# Fit and predict
+anomaly_labels = iso_forest.fit_predict(X_scaled)
+anomaly_scores = iso_forest.decision_function(X_scaled)
+
+# Add results to dataframe
+df['anomaly'] = anomaly_labels
+df['anomaly_score'] = anomaly_scores
+
+# Identify anomalies (-1 indicates anomaly)
+anomalies = df[df['anomaly'] == -1]
+normal_data = df[df['anomaly'] == 1]
+
+print(f"Total samples: {len(df)}")
+print(f"Anomalies detected: {len(anomalies)}")
+print(f"Anomaly rate: {len(anomalies)/len(df)*100:.2f}%")
+
+# Autoencoder approach for anomaly detection
+import tensorflow as tf
+from tensorflow.keras import layers
+
+def create_autoencoder(input_dim, encoding_dim=32):
+    # Encoder
+    input_layer = layers.Input(shape=(input_dim,))
+    encoded = layers.Dense(encoding_dim, activation='relu')(input_layer)
+    encoded = layers.Dense(encoding_dim//2, activation='relu')(encoded)
+    
+    # Decoder
+    decoded = layers.Dense(encoding_dim, activation='relu')(encoded)
+    decoded = layers.Dense(input_dim, activation='linear')(decoded)
+    
+    autoencoder = tf.keras.Model(input_layer, decoded)
+    autoencoder.compile(optimizer='adam', loss='mse')
+    
+    return autoencoder
+
+# Train autoencoder on normal data only
+autoencoder = create_autoencoder(X_scaled.shape[1])
+autoencoder.fit(X_scaled, X_scaled, epochs=50, batch_size=32, verbose=0)
+
+# Calculate reconstruction error
+reconstructions = autoencoder.predict(X_scaled)
+mse = np.mean(np.power(X_scaled - reconstructions, 2), axis=1)
+
+# Set threshold (e.g., 95th percentile)
+threshold = np.percentile(mse, 95)
+anomalies_ae = mse > threshold
+
+print(f"Autoencoder anomalies: {np.sum(anomalies_ae)}")`,
+    icon: "🚨",
+    tags: ["Anomaly Detection", "Isolation Forest", "Autoencoders", "Outliers"],
+  },
+];
+
+export default function AIProjects() {
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [filterCategory, setFilterCategory] = useState<string>("All");
+  const [filterDifficulty, setFilterDifficulty] = useState<string>("All");
+  const [showCode, setShowCode] = useState<{ [key: number]: boolean }>({});
+
+  const categories = [
+    "All",
+    "Computer Vision",
+    "Natural Language Processing",
+    "Machine Learning",
+  ];
+  const difficulties = ["All", "Beginner", "Intermediate", "Advanced"];
+
+  const getFilteredProjects = () => {
+    let filtered = [...projects];
+
+    if (filterCategory !== "All") {
+      filtered = filtered.filter(
+        (project) => project.category === filterCategory,
+      );
+    }
+
+    if (filterDifficulty !== "All") {
+      filtered = filtered.filter(
+        (project) => project.difficulty === filterDifficulty,
+      );
+    }
+
+    return filtered;
+  };
+
+  const toggleCode = (projectId: number) => {
+    setShowCode((prev) => ({
+      ...prev,
+      [projectId]: !prev[projectId],
+    }));
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+      <Navigation />
+
+      <div className="container mx-auto px-6 py-12">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <motion.h1
+            className="text-6xl font-bold text-black mb-6"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            AI Projects & Solutions Guide
+          </motion.h1>
+          <motion.p
+            className="text-xl text-gray-600 max-w-4xl mx-auto mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            Comprehensive guide to the most common AI projects with step-by-step
+            training approaches, recommended APIs, pre-trained models, datasets,
+            and code examples to get you started.
+          </motion.p>
+
+          {/* Quick Stats */}
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-4xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+              <div className="text-3xl font-bold text-blue-600">
+                {projects.length}
+              </div>
+              <div className="text-sm text-gray-600">AI Project Types</div>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+              <div className="text-3xl font-bold text-green-600">40+</div>
+              <div className="text-sm text-gray-600">Use Cases Covered</div>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+              <div className="text-3xl font-bold text-purple-600">25+</div>
+              <div className="text-sm text-gray-600">APIs & Tools</div>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+              <div className="text-3xl font-bold text-orange-600">100%</div>
+              <div className="text-sm text-gray-600">Production Ready</div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Filters */}
+        <div className="mb-8 space-y-4">
+          <div className="flex flex-wrap gap-2 justify-center">
+            <span className="text-sm font-medium text-gray-700 px-3 py-2">
+              Filter by Category:
+            </span>
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setFilterCategory(category)}
+                className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
+                  filterCategory === category
+                    ? "bg-blue-500 text-white border-blue-500"
+                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap gap-2 justify-center">
+            <span className="text-sm font-medium text-gray-700 px-3 py-2">
+              Filter by Difficulty:
+            </span>
+            {difficulties.map((difficulty) => (
+              <button
+                key={difficulty}
+                onClick={() => setFilterDifficulty(difficulty)}
+                className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
+                  filterDifficulty === difficulty
+                    ? "bg-purple-500 text-white border-purple-500"
+                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                }`}
+              >
+                {difficulty}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Projects Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+          {getFilteredProjects().map((project, index) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden"
+            >
+              <div className="p-6">
+                {/* Header */}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="text-3xl">{project.icon}</div>
+                    <div>
+                      <h3 className="text-xl font-bold text-black">
+                        {project.title}
+                      </h3>
+                      <p className="text-sm text-gray-600">
+                        {project.category}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                        project.difficulty === "Beginner"
+                          ? "bg-green-100 text-green-800"
+                          : project.difficulty === "Intermediate"
+                            ? "bg-yellow-100 text-yellow-800"
+                            : "bg-red-100 text-red-800"
+                      }`}
+                    >
+                      {project.difficulty}
+                    </span>
+                    <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">
+                      {project.timeToComplete}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Description */}
+                <p className="text-gray-700 mb-4">{project.description}</p>
+
+                {/* Use Cases */}
+                <div className="mb-4">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Common Use Cases:
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {project.useCases.slice(0, 3).map((useCase, idx) => (
+                      <span
+                        key={idx}
+                        className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"
+                      >
+                        {useCase}
+                      </span>
+                    ))}
+                    {project.useCases.length > 3 && (
+                      <span className="text-xs text-gray-500">
+                        +{project.useCases.length - 3} more
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Training Approach */}
+                <div className="mb-4">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    Training Approach:
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    {project.trainingApproach}
+                  </p>
+                </div>
+
+                {/* Tags */}
+                <div className="mb-4">
+                  <div className="flex flex-wrap gap-2">
+                    {project.tags.map((tag, idx) => (
+                      <span
+                        key={idx}
+                        className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded border border-blue-200"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => setSelectedProject(project)}
+                    className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors font-medium text-sm"
+                  >
+                    View Full Guide
+                  </button>
+                  <button
+                    onClick={() => toggleCode(project.id)}
+                    className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors font-medium text-sm"
+                  >
+                    {showCode[project.id] ? "Hide Code" : "Show Code"}
+                  </button>
+                </div>
+
+                {/* Code Example */}
+                <AnimatePresence>
+                  {showCode[project.id] && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="mt-4"
+                    >
+                      <div className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+                        <pre className="text-sm">
+                          <code>{project.codeExample}</code>
+                        </pre>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Detailed Modal */}
+        <AnimatePresence>
+          {selectedProject && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+              onClick={() => setSelectedProject(null)}
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="bg-white rounded-xl max-w-6xl w-full max-h-[90vh] overflow-y-auto"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="p-8">
+                  {/* Header */}
+                  <div className="flex justify-between items-start mb-8">
+                    <div className="flex items-center gap-4">
+                      <div className="text-6xl">{selectedProject.icon}</div>
+                      <div>
+                        <h2 className="text-4xl font-bold text-black mb-2">
+                          {selectedProject.title}
+                        </h2>
+                        <div className="flex items-center gap-4">
+                          <span className="text-gray-600">
+                            {selectedProject.category}
+                          </span>
+                          <span
+                            className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                              selectedProject.difficulty === "Beginner"
+                                ? "bg-green-100 text-green-800"
+                                : selectedProject.difficulty === "Intermediate"
+                                  ? "bg-yellow-100 text-yellow-800"
+                                  : "bg-red-100 text-red-800"
+                            }`}
+                          >
+                            {selectedProject.difficulty}
+                          </span>
+                          <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">
+                            {selectedProject.timeToComplete}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => setSelectedProject(null)}
+                      className="text-gray-500 hover:text-gray-700 text-3xl font-light"
+                    >
+                      ×
+                    </button>
+                  </div>
+
+                  {/* Content Grid */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    {/* Left Column */}
+                    <div className="space-y-6">
+                      {/* Description */}
+                      <div>
+                        <h3 className="text-xl font-bold mb-3">
+                          Project Overview
+                        </h3>
+                        <p className="text-gray-700">
+                          {selectedProject.description}
+                        </p>
+                      </div>
+
+                      {/* Use Cases */}
+                      <div>
+                        <h3 className="text-xl font-bold mb-3">Use Cases</h3>
+                        <ul className="space-y-2">
+                          {selectedProject.useCases.map((useCase, idx) => (
+                            <li key={idx} className="flex items-start gap-2">
+                              <span className="text-blue-500 mt-1">•</span>
+                              <span className="text-gray-700">{useCase}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* Training Approach */}
+                      <div>
+                        <h3 className="text-xl font-bold mb-3">
+                          Training Approach
+                        </h3>
+                        <p className="text-gray-700">
+                          {selectedProject.trainingApproach}
+                        </p>
+                      </div>
+
+                      {/* Key Steps */}
+                      <div>
+                        <h3 className="text-xl font-bold mb-3">
+                          Implementation Steps
+                        </h3>
+                        <ol className="space-y-2">
+                          {selectedProject.keySteps.map((step, idx) => (
+                            <li key={idx} className="flex items-start gap-3">
+                              <span className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                                {idx + 1}
+                              </span>
+                              <span className="text-gray-700">{step}</span>
+                            </li>
+                          ))}
+                        </ol>
+                      </div>
+                    </div>
+
+                    {/* Right Column */}
+                    <div className="space-y-6">
+                      {/* Resources */}
+                      <div>
+                        <h3 className="text-xl font-bold mb-3">
+                          Recommended Resources
+                        </h3>
+                        <div className="space-y-4">
+                          {selectedProject.resources.map((resource, idx) => (
+                            <div
+                              key={idx}
+                              className="bg-gray-50 p-4 rounded-lg border border-gray-200"
+                            >
+                              <div className="flex justify-between items-start mb-2">
+                                <h4 className="font-semibold text-gray-800">
+                                  {resource.name}
+                                </h4>
+                                <span
+                                  className={`px-2 py-1 rounded text-xs font-medium ${
+                                    resource.type === "API"
+                                      ? "bg-blue-100 text-blue-800"
+                                      : resource.type === "Dataset"
+                                        ? "bg-green-100 text-green-800"
+                                        : resource.type === "Model"
+                                          ? "bg-purple-100 text-purple-800"
+                                          : "bg-orange-100 text-orange-800"
+                                  }`}
+                                >
+                                  {resource.type}
+                                </span>
+                              </div>
+                              <p className="text-gray-600 text-sm mb-2">
+                                {resource.description}
+                              </p>
+                              <div className="flex justify-between items-center">
+                                <span className="text-green-600 font-semibold text-sm">
+                                  {resource.pricing}
+                                </span>
+                                <a
+                                  href={resource.link}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-blue-600 hover:underline text-sm"
+                                >
+                                  Access Resource →
+                                </a>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Code Example */}
+                      <div>
+                        <h3 className="text-xl font-bold mb-3">Code Example</h3>
+                        <div className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+                          <pre className="text-sm">
+                            <code>{selectedProject.codeExample}</code>
+                          </pre>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Bottom Navigation */}
+        <div className="text-center">
+          <Link to="/" className="button-secondary">
+            ← Back to Portfolio
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
