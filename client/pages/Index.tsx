@@ -422,9 +422,18 @@ export default function Index() {
               <motion.button
                 onClick={() => navigate("/games")}
                 whileHover={{ scale: 1.02, y: -2 }}
-                className="border border-yellow-400/50 text-yellow-400 px-8 py-4 rounded-sm font-light tracking-wider hover:border-yellow-400 hover:bg-yellow-400/10 transition-all duration-300"
+                className="border-2 border-black luxury-text-primary px-8 py-4 rounded-xl font-light tracking-wider hover:bg-yellow-100 transition-all duration-300"
               >
                 PLAY INTERACTIVE GAMES
+              </motion.button>
+
+              <motion.button
+                onClick={() => navigate("/ai-playground")}
+                whileHover={{ scale: 1.02, y: -2 }}
+                className="border-2 border-purple-400 text-purple-600 px-8 py-4 rounded-xl font-light tracking-wider hover:bg-purple-50 transition-all duration-300 flex items-center gap-3"
+              >
+                <span className="text-xl">🤖</span>
+                EXPLORE AI PLAYGROUND
               </motion.button>
             </motion.div>
           </motion.div>
