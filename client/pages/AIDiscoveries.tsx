@@ -708,7 +708,6 @@ const AttentionDemo = () => {
                     key={`${qIdx}-${kIdx}`}
                     className="w-8 h-8 border border-gray-300 rounded flex items-center justify-center text-xs font-bold"
                     animate={{
-                      backgroundColor: `rgba(59, 130, 246, ${attention})`,
                       color: attention > 0.5 ? "#ffffff" : "#374151",
                     }}
                     transition={{ duration: 0.3 }}
