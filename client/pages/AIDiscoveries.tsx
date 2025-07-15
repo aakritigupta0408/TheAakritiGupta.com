@@ -2195,11 +2195,7 @@ export default function AIDiscoveries() {
               key={discovery.id}
               className="bg-white/20 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 overflow-hidden cursor-pointer group"
               onClick={() => setSelectedDiscovery(discovery)}
-              whileHover={{
-                scale: 1.02,
-                y: -5,
-                backgroundColor: "rgba(255, 255, 255, 0.25)",
-              }}
+              whileHover={{ scale: 1.02, y: -5 }}
               whileTap={{ scale: 0.98 }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
