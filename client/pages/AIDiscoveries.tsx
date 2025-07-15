@@ -315,19 +315,6 @@ const allDiscoveries: Discovery[] = [
 
 // Sort discoveries chronologically by year
 const discoveries = allDiscoveries.sort((a, b) => parseInt(a.year) - parseInt(b.year));
-    discovererBio:
-      "Yoshua Bengio is a Canadian computer scientist and 2018 Turing Award winner for deep learning.",
-    paperTitle:
-      "Neural Machine Translation by Jointly Learning to Align and Translate",
-    paperLink: "https://arxiv.org/abs/1409.0473",
-    description:
-      "Mechanism allowing neural networks to focus on relevant parts of input when making predictions.",
-    impact:
-      "Enabled breakthrough improvements in machine translation and became foundation for Transformers.",
-    demoType: "attention",
-  },
-  {
-    id: 7,
     title: "Transformers",
     year: "2017",
     discoverer: "Ashish Vaswani et al. (Google)",
