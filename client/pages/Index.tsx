@@ -421,22 +421,40 @@ export default function Index() {
               <div className="grid grid-cols-2 gap-4">
                 <motion.button
                   onClick={() => navigate("/games")}
-                  whileHover={{ scale: 1.02, y: -1 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-6 py-3 rounded-xl font-medium hover:bg-white/20 transition-all duration-300 flex items-center justify-center gap-2"
+                  whileHover={{ scale: 1.05, y: -3 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="relative group bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-md border border-white/30 text-white px-6 py-4 rounded-2xl font-bold hover:from-purple-500/30 hover:to-pink-500/30 transition-all duration-300 flex items-center justify-center gap-3 shadow-lg overflow-hidden"
                 >
-                  <span className="text-xl">🎮</span>
-                  <span>Games</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600/0 to-pink-600/0 group-hover:from-purple-600/20 group-hover:to-pink-600/20 transition-all duration-500"></div>
+                  <motion.span
+                    className="text-2xl relative z-10"
+                    animate={{ rotate: [0, 5, -5, 0] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    🎮
+                  </motion.span>
+                  <span className="relative z-10 group-hover:text-pink-200 transition-colors">
+                    Games
+                  </span>
                 </motion.button>
 
                 <motion.button
                   onClick={() => navigate("/ai-playground")}
-                  whileHover={{ scale: 1.02, y: -1 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-6 py-3 rounded-xl font-medium hover:bg-white/20 transition-all duration-300 flex items-center justify-center gap-2"
+                  whileHover={{ scale: 1.05, y: -3 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="relative group bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-md border border-white/30 text-white px-6 py-4 rounded-2xl font-bold hover:from-blue-500/30 hover:to-cyan-500/30 transition-all duration-300 flex items-center justify-center gap-3 shadow-lg overflow-hidden"
                 >
-                  <span className="text-xl">🤖</span>
-                  <span>AI Tools</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600/0 to-cyan-600/0 group-hover:from-blue-600/20 group-hover:to-cyan-600/20 transition-all duration-500"></div>
+                  <motion.span
+                    className="text-2xl relative z-10"
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    🤖
+                  </motion.span>
+                  <span className="relative z-10 group-hover:text-cyan-200 transition-colors">
+                    AI Tools
+                  </span>
                 </motion.button>
               </div>
 
