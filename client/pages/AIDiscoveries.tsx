@@ -619,7 +619,6 @@ const AttentionDemo = () => {
                     className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold"
                     animate={{
                       scale: showFlow ? [1, 1.5, 1] : weight + 0.5,
-                      backgroundColor: `rgba(239, 68, 68, ${weight})`,
                     }}
                     transition={{ duration: 0.5, delay: idx * 0.05 }}
                   >
