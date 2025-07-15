@@ -1064,24 +1064,673 @@ const BackpropDemo = () => {
   );
 };
 
-const SimpleDemo = ({ type }: { type: string }) => {
-  const demoContent = {
-    transformer:
-      "Transformers process all parts of a sequence simultaneously using attention, allowing them to understand relationships between any two words regardless of distance.",
-    gan: "GANs pit two networks against each other: a generator creates fake data while a discriminator tries to detect fakes. They improve together until the generator creates realistic data.",
-    resnet:
-      "ResNets use skip connections that allow information to flow directly to later layers, solving the problem of very deep networks losing information during training.",
-    dqn: "DQNs combine deep learning with Q-learning to play games from raw pixels. They learn to predict the value of taking different actions in different game states.",
+const TransformerDemo = () => {
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const sentence = ["The", "cat", "sat", "on", "mat"];
+  const steps = ["Self-Attention", "Feed Forward", "Layer Norm", "Output"];
+
+  const runTransformer = () => {
+    setIsProcessing(true);
+    setCurrentStep(0);
+
+    let step = 0;
+    const interval = setInterval(() => {
+      step += 1;
+      setCurrentStep(step);
+
+      if (step >= steps.length) {
+        clearInterval(interval);
+        setTimeout(() => setIsProcessing(false), 1000);
+      }
+    }, 1500);
   };
 
   return (
     <div className="bg-white p-6 rounded-lg border border-gray-200">
-      <h4 className="text-lg font-semibold mb-4">How it Works</h4>
-      <p className="text-gray-700">
-        {demoContent[type as keyof typeof demoContent]}
-      </p>
+      <h4 className="text-lg font-semibold mb-4">Transformer Architecture</h4>
+
+      {/* Input Tokens */}
+      <div className="mb-6">
+        <h5 className="text-sm font-semibold mb-2">Input Sequence:</h5>
+        <div className="flex gap-2 justify-center">
+          {sentence.map((word, idx) => (
+            <motion.div
+              key={idx}
+              className="px-3 py-2 bg-blue-100 border border-blue-300 rounded font-medium"
+              animate={{
+                y: isProcessing ? [0, -10, 0] : 0,
+                backgroundColor: isProcessing
+                  ? ["#dbeafe", "#bfdbfe", "#dbeafe"]
+                  : "#dbeafe",
+              }}
+              transition={{
+                duration: 1,
+                delay: idx * 0.2,
+                repeat: isProcessing ? Infinity : 0,
+              }}
+            >
+              {word}
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* Multi-Head Attention Visualization */}
+      <div className="mb-6 bg-gray-50 p-4 rounded-lg">
+        <h5 className="text-sm font-semibold mb-3">
+          Multi-Head Self-Attention
+        </h5>
+        <div className="grid grid-cols-8 gap-1 mb-4">
+          {Array.from({ length: 40 }).map((_, idx) => {
+            const row = Math.floor(idx / 8);
+            const col = idx % 8;
+            const isActive = currentStep >= 1 && isProcessing;
+            const intensity = Math.random();
+
+            return (
+              <motion.div
+                key={idx}
+                className="w-6 h-6 border border-gray-300 rounded-sm"
+                animate={{
+                  backgroundColor: isActive
+                    ? `rgba(59, 130, 246, ${intensity})`
+                    : "#ffffff",
+                  scale: isActive && intensity > 0.7 ? [1, 1.2, 1] : 1,
+                }}
+                transition={{ duration: 0.5, delay: (row + col) * 0.05 }}
+              />
+            );
+          })}
+        </div>
+        <p className="text-xs text-gray-600">
+          Attention matrix showing relationships between all token pairs
+        </p>
+      </div>
+
+      {/* Processing Steps */}
+      <div className="mb-6">
+        <h5 className="text-sm font-semibold mb-3">Processing Pipeline:</h5>
+        <div className="flex justify-between">
+          {steps.map((step, idx) => (
+            <motion.div
+              key={idx}
+              className={`px-4 py-2 rounded-lg border-2 text-sm font-medium ${
+                idx < currentStep
+                  ? "border-green-500 bg-green-100 text-green-700"
+                  : idx === currentStep
+                    ? "border-orange-500 bg-orange-100 text-orange-700"
+                    : "border-gray-300 bg-gray-100 text-gray-500"
+              }`}
+              animate={{
+                scale: idx === currentStep ? [1, 1.1, 1] : 1,
+                rotate: idx === currentStep ? [0, 5, -5, 0] : 0,
+              }}
+              transition={{
+                duration: 0.5,
+                repeat: idx === currentStep ? 3 : 0,
+              }}
+            >
+              {step}
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      <div className="text-center">
+        <button
+          onClick={runTransformer}
+          disabled={isProcessing}
+          className="button-primary disabled:opacity-50"
+        >
+          {isProcessing ? "⚡ Processing..." : "🧠 Run Transformer"}
+        </button>
+      </div>
+
+      <div className="mt-4 text-sm text-gray-600">
+        <p>
+          <strong>Key Innovation:</strong> Parallel processing using
+          self-attention allows understanding of relationships between all words
+          simultaneously, not sequentially.
+        </p>
+      </div>
     </div>
   );
+};
+
+const GANDemo = () => {
+  const [isTraining, setIsTraining] = useState(false);
+  const [epoch, setEpoch] = useState(0);
+  const [generatorLoss, setGeneratorLoss] = useState(2.5);
+  const [discriminatorLoss, setDiscriminatorLoss] = useState(0.3);
+  const [imageQuality, setImageQuality] = useState(0.1);
+
+  const startGANTraining = () => {
+    setIsTraining(true);
+    setEpoch(0);
+    setGeneratorLoss(2.5);
+    setDiscriminatorLoss(0.3);
+    setImageQuality(0.1);
+
+    let currentEpoch = 0;
+    const interval = setInterval(() => {
+      currentEpoch += 1;
+      setEpoch(currentEpoch);
+
+      // Simulate adversarial training dynamics
+      setGeneratorLoss((prev) =>
+        Math.max(0.1, prev * 0.95 + Math.random() * 0.2 - 0.1),
+      );
+      setDiscriminatorLoss((prev) =>
+        Math.max(0.1, prev + Math.random() * 0.1 - 0.05),
+      );
+      setImageQuality((prev) =>
+        Math.min(1.0, prev + 0.08 + Math.random() * 0.02),
+      );
+
+      if (currentEpoch >= 15) {
+        clearInterval(interval);
+        setIsTraining(false);
+      }
+    }, 600);
+  };
+
+  return (
+    <div className="bg-white p-6 rounded-lg border border-gray-200">
+      <h4 className="text-lg font-semibold mb-4">GAN Training Battle</h4>
+
+      {/* Generator vs Discriminator */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        {/* Generator */}
+        <div className="text-center">
+          <motion.div
+            className="w-24 h-24 bg-gradient-to-r from-purple-500 to-purple-700 rounded-lg mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl"
+            animate={{
+              scale: isTraining ? [1, 1.1, 1] : 1,
+              rotate: isTraining ? [0, 5, -5, 0] : 0,
+            }}
+            transition={{ duration: 1, repeat: isTraining ? Infinity : 0 }}
+          >
+            G
+          </motion.div>
+          <h5 className="font-semibold text-purple-700">Generator</h5>
+          <p className="text-sm text-gray-600">Creates fake images</p>
+          <div className="mt-2">
+            <div className="text-sm font-mono">
+              Loss: {generatorLoss.toFixed(2)}
+            </div>
+            <motion.div
+              className="w-full h-2 bg-purple-200 rounded-full mt-1 overflow-hidden"
+              animate={{ opacity: isTraining ? [0.5, 1, 0.5] : 1 }}
+              transition={{ duration: 0.8, repeat: isTraining ? Infinity : 0 }}
+            >
+              <motion.div
+                className="h-full bg-purple-500 rounded-full"
+                animate={{ width: `${Math.max(0, 100 - generatorLoss * 20)}%` }}
+                transition={{ duration: 0.5 }}
+              />
+            </motion.div>
+          </div>
+        </div>
+
+        {/* VS */}
+        <div className="hidden md:flex items-center justify-center">
+          <motion.div
+            className="text-4xl font-bold text-red-500"
+            animate={{
+              scale: isTraining ? [1, 1.3, 1] : 1,
+              rotate: isTraining ? [0, 180, 360] : 0,
+            }}
+            transition={{ duration: 2, repeat: isTraining ? Infinity : 0 }}
+          >
+            ⚔️
+          </motion.div>
+        </div>
+
+        {/* Discriminator */}
+        <div className="text-center">
+          <motion.div
+            className="w-24 h-24 bg-gradient-to-r from-green-500 to-green-700 rounded-lg mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl"
+            animate={{
+              scale: isTraining ? [1, 1.1, 1] : 1,
+              rotate: isTraining ? [0, -5, 5, 0] : 0,
+            }}
+            transition={{
+              duration: 1,
+              delay: 0.5,
+              repeat: isTraining ? Infinity : 0,
+            }}
+          >
+            D
+          </motion.div>
+          <h5 className="font-semibold text-green-700">Discriminator</h5>
+          <p className="text-sm text-gray-600">Detects fake images</p>
+          <div className="mt-2">
+            <div className="text-sm font-mono">
+              Loss: {discriminatorLoss.toFixed(2)}
+            </div>
+            <motion.div
+              className="w-full h-2 bg-green-200 rounded-full mt-1 overflow-hidden"
+              animate={{ opacity: isTraining ? [0.5, 1, 0.5] : 1 }}
+              transition={{
+                duration: 0.8,
+                delay: 0.4,
+                repeat: isTraining ? Infinity : 0,
+              }}
+            >
+              <motion.div
+                className="h-full bg-green-500 rounded-full"
+                animate={{
+                  width: `${Math.min(100, discriminatorLoss * 100)}%`,
+                }}
+                transition={{ duration: 0.5 }}
+              />
+            </motion.div>
+          </div>
+        </div>
+      </div>
+
+      {/* Generated Images Quality */}
+      <div className="mb-6 bg-gray-50 p-4 rounded-lg">
+        <h5 className="text-sm font-semibold mb-3">Generated Image Quality</h5>
+        <div className="grid grid-cols-5 gap-2 mb-4">
+          {Array.from({ length: 10 }).map((_, idx) => {
+            const quality = Math.min(
+              1,
+              imageQuality + (Math.random() - 0.5) * 0.2,
+            );
+            return (
+              <motion.div
+                key={idx}
+                className="w-12 h-12 border border-gray-300 rounded"
+                style={{
+                  background: `linear-gradient(45deg,
+                    rgba(255,255,255,${1 - quality}),
+                    rgba(59,130,246,${quality}),
+                    rgba(147,51,234,${quality * 0.8})
+                  )`,
+                }}
+                animate={{
+                  opacity: isTraining ? [0.3, 1, 0.3] : 1,
+                  scale: isTraining ? [0.9, 1.1, 0.9] : 1,
+                }}
+                transition={{
+                  duration: 1,
+                  delay: idx * 0.1,
+                  repeat: isTraining ? Infinity : 0,
+                }}
+              />
+            );
+          })}
+        </div>
+        <div className="text-center">
+          <div className="text-lg font-bold text-blue-600">
+            {(imageQuality * 100).toFixed(0)}%
+          </div>
+          <div className="text-sm text-gray-600">Quality Score</div>
+        </div>
+      </div>
+
+      {/* Training Stats */}
+      <div className="text-center mb-6">
+        <div className="text-xl font-bold text-gray-800">Epoch: {epoch}</div>
+      </div>
+
+      <div className="text-center">
+        <button
+          onClick={startGANTraining}
+          disabled={isTraining}
+          className="button-primary disabled:opacity-50"
+        >
+          {isTraining ? "⚔️ Training Battle..." : "🎨 Start GAN Training"}
+        </button>
+      </div>
+
+      <div className="mt-4 text-sm text-gray-600">
+        <p>
+          <strong>Adversarial Training:</strong> The generator learns to create
+          better fakes while the discriminator learns to detect them better,
+          pushing both to improve.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+const ResNetDemo = () => {
+  const [showSkipConnections, setShowSkipConnections] = useState(false);
+  const [layerDepth, setLayerDepth] = useState(8);
+
+  const toggleDemo = () => {
+    setShowSkipConnections(!showSkipConnections);
+  };
+
+  return (
+    <div className="bg-white p-6 rounded-lg border border-gray-200">
+      <h4 className="text-lg font-semibold mb-4">ResNet Skip Connections</h4>
+
+      <div className="mb-6">
+        <label className="block text-sm font-medium mb-2">
+          Network Depth: {layerDepth} layers
+        </label>
+        <input
+          type="range"
+          min="4"
+          max="16"
+          value={layerDepth}
+          onChange={(e) => setLayerDepth(parseInt(e.target.value))}
+          className="w-full"
+        />
+      </div>
+
+      {/* Network Visualization */}
+      <div className="mb-6 bg-gray-50 p-6 rounded-lg overflow-x-auto">
+        <div className="flex items-center gap-4 min-w-max">
+          {Array.from({ length: layerDepth }).map((_, idx) => (
+            <div key={idx} className="relative">
+              {/* Layer */}
+              <motion.div
+                className="w-12 h-16 bg-blue-500 rounded flex items-center justify-center text-white font-bold"
+                animate={{
+                  opacity: showSkipConnections ? [0.5, 1, 0.5] : 1,
+                  y: showSkipConnections ? [0, -5, 0] : 0,
+                }}
+                transition={{
+                  duration: 0.8,
+                  delay: idx * 0.1,
+                  repeat: showSkipConnections ? Infinity : 0,
+                }}
+              >
+                L{idx + 1}
+              </motion.div>
+
+              {/* Skip Connection */}
+              {showSkipConnections && idx % 2 === 0 && idx < layerDepth - 2 && (
+                <motion.div
+                  className="absolute top-0 left-6"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                >
+                  <svg className="w-24 h-16" viewBox="0 0 96 64">
+                    <motion.path
+                      d="M 0 32 Q 48 0 96 32"
+                      stroke="#ef4444"
+                      strokeWidth="3"
+                      fill="none"
+                      strokeDasharray="5,5"
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ duration: 1, delay: idx * 0.2 }}
+                    />
+                    <motion.circle
+                      cx="48"
+                      cy="16"
+                      r="3"
+                      fill="#ef4444"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: [0, 1.5, 1] }}
+                      transition={{ duration: 0.5, delay: 1 + idx * 0.2 }}
+                    />
+                  </svg>
+                  <div className="absolute top-0 left-8 text-xs text-red-600 font-bold bg-white px-1 rounded">
+                    Skip
+                  </div>
+                </motion.div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Information Flow */}
+      <div className="mb-6">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="text-center">
+            <div className="text-lg font-bold text-blue-600">
+              Without Skip Connections
+            </div>
+            <div className="text-sm text-gray-600">
+              Information degrades through deep layers
+            </div>
+            <motion.div
+              className="w-full h-4 bg-gradient-to-r from-blue-500 to-gray-300 rounded-full mt-2"
+              animate={{ opacity: showSkipConnections ? 0.3 : 1 }}
+            />
+          </div>
+          <div className="text-center">
+            <div className="text-lg font-bold text-red-600">
+              With Skip Connections
+            </div>
+            <div className="text-sm text-gray-600">
+              Information preserved across layers
+            </div>
+            <motion.div
+              className="w-full h-4 bg-gradient-to-r from-red-500 to-red-400 rounded-full mt-2"
+              animate={{ opacity: showSkipConnections ? 1 : 0.3 }}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="text-center">
+        <button onClick={toggleDemo} className="button-primary">
+          {showSkipConnections
+            ? "🚫 Hide Skip Connections"
+            : "✨ Show Skip Connections"}
+        </button>
+      </div>
+
+      <div className="mt-4 text-sm text-gray-600">
+        <p>
+          <strong>Innovation:</strong> Skip connections allow gradients to flow
+          directly to earlier layers, enabling training of very deep networks
+          (50+ layers).
+        </p>
+      </div>
+    </div>
+  );
+};
+
+const DQNDemo = () => {
+  const [gameState, setGameState] = useState({
+    agent: 2,
+    goal: 7,
+    obstacles: [4, 5],
+  });
+  const [qValues, setQValues] = useState(
+    Array(10)
+      .fill(null)
+      .map(() => [Math.random(), Math.random()]),
+  );
+  const [episode, setEpisode] = useState(0);
+  const [isTraining, setIsTraining] = useState(false);
+
+  const actions = ["Left", "Right"];
+
+  const trainDQN = () => {
+    setIsTraining(true);
+    setEpisode(0);
+
+    let currentEpisode = 0;
+    const interval = setInterval(() => {
+      currentEpisode += 1;
+      setEpisode(currentEpisode);
+
+      // Simulate learning
+      setQValues((prev) =>
+        prev.map((values, idx) => {
+          if (idx === gameState.goal) return [5, 5]; // High value for goal
+          if (gameState.obstacles.includes(idx)) return [-5, -5]; // Low value for obstacles
+          return values.map((v) => v + (Math.random() - 0.5) * 0.1);
+        }),
+      );
+
+      if (currentEpisode >= 20) {
+        clearInterval(interval);
+        setIsTraining(false);
+      }
+    }, 300);
+  };
+
+  const moveAgent = (action: number) => {
+    if (isTraining) return;
+
+    setGameState((prev) => {
+      const newPos =
+        action === 0
+          ? Math.max(0, prev.agent - 1)
+          : Math.min(9, prev.agent + 1);
+      return { ...prev, agent: newPos };
+    });
+  };
+
+  return (
+    <div className="bg-white p-6 rounded-lg border border-gray-200">
+      <h4 className="text-lg font-semibold mb-4">DQN Game Environment</h4>
+
+      {/* Game Grid */}
+      <div className="mb-6">
+        <h5 className="text-sm font-semibold mb-2">Game State:</h5>
+        <div className="grid grid-cols-10 gap-1 mb-4">
+          {Array.from({ length: 10 }).map((_, idx) => {
+            const isAgent = idx === gameState.agent;
+            const isGoal = idx === gameState.goal;
+            const isObstacle = gameState.obstacles.includes(idx);
+
+            return (
+              <motion.div
+                key={idx}
+                className={`w-10 h-10 border-2 rounded flex items-center justify-center font-bold ${
+                  isAgent
+                    ? "bg-blue-500 border-blue-700 text-white"
+                    : isGoal
+                      ? "bg-green-500 border-green-700 text-white"
+                      : isObstacle
+                        ? "bg-red-500 border-red-700 text-white"
+                        : "bg-gray-100 border-gray-300"
+                }`}
+                animate={{
+                  scale: isAgent ? [1, 1.2, 1] : 1,
+                  rotate: isTraining && isAgent ? [0, 10, -10, 0] : 0,
+                }}
+                transition={{
+                  duration: 0.5,
+                  repeat: isTraining && isAgent ? Infinity : 0,
+                }}
+              >
+                {isAgent ? "🤖" : isGoal ? "🏆" : isObstacle ? "⚠️" : idx}
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Q-Values */}
+      <div className="mb-6 bg-gray-50 p-4 rounded-lg">
+        <h5 className="text-sm font-semibold mb-2">
+          Q-Values (State-Action Values):
+        </h5>
+        <div className="grid grid-cols-5 gap-2 text-xs">
+          {qValues.slice(0, 5).map((values, idx) => (
+            <div key={idx} className="text-center">
+              <div className="font-semibold">State {idx}</div>
+              <div className="space-y-1">
+                {values.map((value, actionIdx) => (
+                  <motion.div
+                    key={actionIdx}
+                    className={`px-2 py-1 rounded text-white font-mono ${
+                      value > 0 ? "bg-green-500" : "bg-red-500"
+                    }`}
+                    animate={{
+                      scale: isTraining ? [1, 1.1, 1] : 1,
+                      backgroundColor: isTraining
+                        ? value > 0
+                          ? ["#10b981", "#059669", "#10b981"]
+                          : ["#ef4444", "#dc2626", "#ef4444"]
+                        : value > 0
+                          ? "#10b981"
+                          : "#ef4444",
+                    }}
+                    transition={{
+                      duration: 0.5,
+                      delay: idx * 0.1 + actionIdx * 0.05,
+                    }}
+                  >
+                    {actions[actionIdx]}: {value.toFixed(1)}
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Controls */}
+      <div className="grid grid-cols-2 gap-4 mb-6">
+        <button
+          onClick={() => moveAgent(0)}
+          disabled={isTraining}
+          className="button-secondary disabled:opacity-50"
+        >
+          ← Move Left
+        </button>
+        <button
+          onClick={() => moveAgent(1)}
+          disabled={isTraining}
+          className="button-secondary disabled:opacity-50"
+        >
+          Move Right →
+        </button>
+      </div>
+
+      <div className="text-center mb-4">
+        <div className="text-lg font-bold text-blue-600">
+          Episode: {episode}
+        </div>
+      </div>
+
+      <div className="text-center">
+        <button
+          onClick={trainDQN}
+          disabled={isTraining}
+          className="button-primary disabled:opacity-50"
+        >
+          {isTraining ? "🧠 Learning..." : "🎮 Start DQN Training"}
+        </button>
+      </div>
+
+      <div className="mt-4 text-sm text-gray-600">
+        <p>
+          <strong>Deep Q-Learning:</strong> Combines neural networks with
+          reinforcement learning to learn optimal policies for complex
+          environments from raw observations.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+const SimpleDemo = ({ type }: { type: string }) => {
+  switch (type) {
+    case "transformer":
+      return <TransformerDemo />;
+    case "gan":
+      return <GANDemo />;
+    case "resnet":
+      return <ResNetDemo />;
+    case "dqn":
+      return <DQNDemo />;
+    default:
+      return (
+        <div className="bg-white p-6 rounded-lg border border-gray-200">
+          <h4 className="text-lg font-semibold mb-4">How it Works</h4>
+          <p className="text-gray-700">
+            This fundamental AI discovery shaped the field in significant ways.
+          </p>
+        </div>
+      );
+  }
 };
 
 const renderDemo = (discovery: Discovery) => {
