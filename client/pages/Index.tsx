@@ -279,7 +279,7 @@ export default function Index() {
           >
             <div>
               <motion.h1
-                className="tom-ford-heading text-6xl md:text-8xl luxury-text-primary mb-8"
+                className="tom-ford-heading text-display luxury-text-primary mb-8"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 1 }}
@@ -295,14 +295,14 @@ export default function Index() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 1 }}
               >
-                <p className="tom-ford-subheading luxury-text-accent text-lg tracking-widest">
+                <p className="tom-ford-subheading luxury-text-accent text-title mb-4">
                   SENIOR ML ENGINEER
                 </p>
-                <p className="tom-ford-subheading luxury-text-secondary text-base tracking-wider">
+                <p className="tom-ford-subheading luxury-text-secondary text-title mb-4">
                   AI RESEARCHER
                 </p>
-                <p className="tom-ford-subheading luxury-text-muted text-sm tracking-wider">
-                  LUXURY TECH VISIONARY
+                <p className="tom-ford-subheading luxury-text-muted text-body">
+                  TECHNOLOGY VISIONARY
                 </p>
               </motion.div>
 
@@ -318,31 +318,31 @@ export default function Index() {
                 <div className="space-y-4">
                   <div className="flex items-center gap-6">
                     {/* Meta Logo */}
-                    <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-sm px-4 py-2">
-                      <div className="w-8 h-8 bg-blue-500 rounded-sm flex items-center justify-center text-white font-bold text-sm">
+                    <div className="flex items-center gap-4 tom-ford-card px-6 py-4 touch-target">
+                      <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center text-white font-bold border-2 border-blue-600">
                         f
                       </div>
-                      <span className="text-white text-sm tracking-wider">
+                      <span className="luxury-text-primary text-body font-semibold">
                         META
                       </span>
                     </div>
 
                     {/* eBay Logo */}
-                    <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-sm px-4 py-2">
-                      <div className="w-8 h-8 bg-gradient-to-r from-red-500 via-yellow-400 to-blue-500 rounded-sm flex items-center justify-center text-white font-bold text-xs">
+                    <div className="flex items-center gap-4 tom-ford-card px-6 py-4 touch-target">
+                      <div className="w-10 h-10 bg-gradient-to-r from-red-500 via-yellow-400 to-blue-500 rounded-lg flex items-center justify-center text-white font-bold border-2 border-gray-300">
                         eB
                       </div>
-                      <span className="text-white text-sm tracking-wider">
+                      <span className="luxury-text-primary text-body font-semibold">
                         EBAY
                       </span>
                     </div>
 
                     {/* Yahoo Logo */}
-                    <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-sm px-4 py-2">
-                      <div className="w-8 h-8 bg-purple-600 rounded-sm flex items-center justify-center text-white font-bold text-sm">
+                    <div className="flex items-center gap-4 tom-ford-card px-6 py-4 touch-target">
+                      <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center text-white font-bold border-2 border-purple-700">
                         Y!
                       </div>
-                      <span className="text-white text-sm tracking-wider">
+                      <span className="luxury-text-primary text-body font-semibold">
                         YAHOO
                       </span>
                     </div>
