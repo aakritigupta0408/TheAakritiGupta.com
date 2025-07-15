@@ -495,10 +495,11 @@ export default function Snake() {
                 <div className="w-full bg-purple-200 dark:bg-purple-700 rounded-full h-2 mt-2">
                   <motion.div
                     className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full"
-                    initial={{ width: 0 }}
+                    initial={{ scaleX: 0 }}
                     animate={{
-                      width: `${(discoveredStories.length / STORY_FOODS.length) * 100}%`,
+                      scaleX: discoveredStories.length / STORY_FOODS.length,
                     }}
+                    style={{ transformOrigin: "left" }}
                     transition={{ duration: 0.5 }}
                   />
                 </div>
