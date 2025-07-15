@@ -834,165 +834,258 @@ export default function AITools() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-40 right-20 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl animate-bounce"></div>
+        <div className="absolute bottom-20 left-1/4 w-80 h-80 bg-pink-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-60 left-1/2 w-64 h-64 bg-cyan-400/20 rounded-full blur-3xl animate-bounce delay-500"></div>
+      </div>
+
       <Navigation />
 
       <div className="container mx-auto px-6 py-12">
         {/* Header */}
-        <div className="text-center mb-16">
-          <motion.h1
-            className="text-6xl font-bold text-black mb-6"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+        <div className="text-center mb-16 relative z-10">
+          <motion.div
+            className="inline-block p-1 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 mb-6"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, ease: "backOut" }}
           >
-            AI Tools for Every Profession
-          </motion.h1>
+            <h1 className="text-6xl md:text-7xl font-black bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent px-8 py-4">
+              AI Tools for Every Profession
+            </h1>
+          </motion.div>
+
           <motion.p
-            className="text-xl text-gray-600 max-w-4xl mx-auto mb-8"
+            className="text-xl text-gray-100 max-w-4xl mx-auto mb-8 leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
           >
             Discover the most impactful AI tools transforming the top 20
             professions. Each recommendation includes pricing, features, and
-            time-saving potential.
+            time-saving potential. ✨
           </motion.p>
+
+          <motion.div
+            className="flex justify-center gap-4 mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          >
+            <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
+              <span className="text-white font-medium">🚀 Trending Tools</span>
+            </div>
+            <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
+              <span className="text-white font-medium">💡 Pro Tips</span>
+            </div>
+            <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
+              <span className="text-white font-medium">⚡ AI Powered</span>
+            </div>
+          </motion.div>
 
           {/* Statistics */}
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-4xl mx-auto"
+            className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-5xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
-              <div className="text-3xl font-bold text-blue-600">20</div>
-              <div className="text-sm text-gray-600">Professions Covered</div>
-            </div>
-            <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
-              <div className="text-3xl font-bold text-green-600">60+</div>
-              <div className="text-sm text-gray-600">AI Tools Reviewed</div>
-            </div>
-            <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
-              <div className="text-3xl font-bold text-purple-600">50-85%</div>
-              <div className="text-sm text-gray-600">Average Time Saved</div>
-            </div>
-            <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
-              <div className="text-3xl font-bold text-orange-600">$2.8T</div>
-              <div className="text-sm text-gray-600">Market Impact</div>
-            </div>
+            <motion.div
+              className="bg-white/10 backdrop-blur-xl p-6 rounded-2xl border border-white/20 shadow-2xl hover:scale-105 transition-all duration-300"
+              whileHover={{ y: -10 }}
+            >
+              <div className="text-4xl font-black bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                20
+              </div>
+              <div className="text-sm text-gray-200 font-medium">
+                Professions Covered
+              </div>
+            </motion.div>
+            <motion.div
+              className="bg-white/10 backdrop-blur-xl p-6 rounded-2xl border border-white/20 shadow-2xl hover:scale-105 transition-all duration-300"
+              whileHover={{ y: -10 }}
+            >
+              <div className="text-4xl font-black bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
+                60+
+              </div>
+              <div className="text-sm text-gray-200 font-medium">
+                AI Tools Reviewed
+              </div>
+            </motion.div>
+            <motion.div
+              className="bg-white/10 backdrop-blur-xl p-6 rounded-2xl border border-white/20 shadow-2xl hover:scale-105 transition-all duration-300"
+              whileHover={{ y: -10 }}
+            >
+              <div className="text-4xl font-black bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+                50-85%
+              </div>
+              <div className="text-sm text-gray-200 font-medium">
+                Average Time Saved
+              </div>
+            </motion.div>
+            <motion.div
+              className="bg-white/10 backdrop-blur-xl p-6 rounded-2xl border border-white/20 shadow-2xl hover:scale-105 transition-all duration-300"
+              whileHover={{ y: -10 }}
+            >
+              <div className="text-4xl font-black bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
+                $2.8T
+              </div>
+              <div className="text-sm text-gray-200 font-medium">
+                Market Impact
+              </div>
+            </motion.div>
           </motion.div>
         </div>
 
         {/* Filters and Sort */}
-        <div className="mb-8 flex flex-wrap gap-4 justify-center">
-          <div className="flex gap-2">
-            <span className="text-sm font-medium text-gray-700 px-3 py-2">
-              Filter by Impact:
+        <div className="mb-12 space-y-6 relative z-10">
+          <div className="flex flex-wrap gap-3 justify-center">
+            <span className="text-sm font-bold text-white px-4 py-3 bg-white/10 backdrop-blur-md rounded-full border border-white/20">
+              🎯 Filter by Impact:
             </span>
             {["All", "Critical", "High", "Medium"].map((category) => (
-              <button
+              <motion.button
                 key={category}
                 onClick={() => setFilterCategory(category)}
-                className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
+                className={`px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
                   filterCategory === category
-                    ? "bg-blue-500 text-white border-blue-500"
-                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                    ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-2xl scale-105"
+                    : "bg-white/10 backdrop-blur-md text-white border border-white/20 hover:bg-white/20 hover:scale-105"
                 }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 {category}
-              </button>
+              </motion.button>
             ))}
           </div>
 
-          <div className="flex gap-2">
-            <span className="text-sm font-medium text-gray-700 px-3 py-2">
-              Sort by:
+          <div className="flex flex-wrap gap-3 justify-center">
+            <span className="text-sm font-bold text-white px-4 py-3 bg-white/10 backdrop-blur-md rounded-full border border-white/20">
+              🔄 Sort by:
             </span>
             {[
-              { value: "impact", label: "Impact Level" },
-              { value: "adoption", label: "AI Adoption" },
-              { value: "name", label: "Name" },
+              { value: "impact", label: "Impact Level", emoji: "⚡" },
+              { value: "adoption", label: "AI Adoption", emoji: "📈" },
+              { value: "name", label: "Name", emoji: "🔤" },
             ].map((sort) => (
-              <button
+              <motion.button
                 key={sort.value}
                 onClick={() => setSortBy(sort.value)}
-                className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
+                className={`px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
                   sortBy === sort.value
-                    ? "bg-blue-500 text-white border-blue-500"
-                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                    ? "bg-gradient-to-r from-purple-500 to-pink-600 text-white shadow-2xl scale-105"
+                    : "bg-white/10 backdrop-blur-md text-white border border-white/20 hover:bg-white/20 hover:scale-105"
                 }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                {sort.label}
-              </button>
+                {sort.emoji} {sort.label}
+              </motion.button>
             ))}
           </div>
         </div>
 
         {/* Profession Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12 relative z-10">
           {getFilteredProfessions().map((profession, index) => (
             <motion.div
               key={profession.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group"
+              initial={{ opacity: 0, y: 50, scale: 0.8 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{
+                duration: 0.6,
+                delay: index * 0.1,
+                ease: "backOut",
+              }}
+              className="bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 overflow-hidden hover:scale-105 transition-all duration-500 cursor-pointer group shadow-2xl hover:shadow-cyan-500/25"
               onClick={() => setSelectedProfession(profession)}
+              whileHover={{
+                scale: 1.05,
+                rotateY: 5,
+                rotateX: 5,
+              }}
+              whileTap={{ scale: 0.95 }}
             >
-              <div className="p-6">
+              <div className="p-8">
                 {/* Header */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="text-4xl">{profession.icon}</div>
-                  <div
-                    className={`px-3 py-1 rounded-full text-xs font-semibold border ${impactColors[profession.impactLevel]}`}
+                <div className="flex items-center justify-between mb-6">
+                  <motion.div
+                    className="text-5xl transform group-hover:scale-110 transition-transform duration-300"
+                    whileHover={{ rotate: 10, scale: 1.2 }}
+                  >
+                    {profession.icon}
+                  </motion.div>
+                  <motion.div
+                    className={`px-4 py-2 rounded-full text-xs font-bold border-2 backdrop-blur-md ${
+                      profession.impactLevel === "Critical"
+                        ? "bg-red-500/20 border-red-400/50 text-red-200"
+                        : profession.impactLevel === "High"
+                          ? "bg-orange-500/20 border-orange-400/50 text-orange-200"
+                          : "bg-yellow-500/20 border-yellow-400/50 text-yellow-200"
+                    }`}
+                    whileHover={{ scale: 1.1 }}
                   >
                     {profession.impactLevel} Impact
-                  </div>
+                  </motion.div>
                 </div>
 
                 {/* Title */}
-                <h3 className="text-lg font-bold text-black mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-black text-white mb-4 group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-blue-500 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
                   {profession.title}
                 </h3>
 
                 {/* AI Adoption */}
-                <div className="mb-4">
-                  <div className="flex justify-between items-center mb-1">
-                    <span className="text-sm text-gray-600">AI Adoption</span>
-                    <span className="text-sm font-semibold text-gray-800">
+                <div className="mb-6">
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-sm text-gray-200 font-medium">
+                      🤖 AI Adoption
+                    </span>
+                    <span className="text-sm font-bold text-white bg-white/20 rounded-full px-3 py-1">
                       {profession.aiAdoption}%
                     </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="w-full bg-white/20 rounded-full h-3 overflow-hidden">
                     <motion.div
-                      className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full"
+                      className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 h-3 rounded-full relative"
                       initial={{ width: 0 }}
                       animate={{ width: `${profession.aiAdoption}%` }}
-                      transition={{ duration: 1, delay: index * 0.1 + 0.5 }}
-                    />
+                      transition={{
+                        duration: 1.5,
+                        delay: index * 0.1 + 0.8,
+                        ease: "easeOut",
+                      }}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></div>
+                    </motion.div>
                   </div>
                 </div>
 
                 {/* Primary Tool */}
-                <div className="border-t pt-4">
-                  <div className="text-sm font-semibold text-gray-800 mb-1">
-                    Recommended Tool:
+                <div className="border-t border-white/20 pt-6">
+                  <div className="text-sm font-bold text-gray-200 mb-2">
+                    🚀 Recommended Tool:
                   </div>
-                  <div className="text-blue-600 font-medium text-sm">
+                  <div className="text-cyan-300 font-bold text-base mb-2">
                     {profession.primaryTool.name}
                   </div>
-                  <div className="text-xs text-gray-500 mt-1">
-                    {profession.timesSaved}
+                  <div className="text-xs text-gray-300 bg-white/10 rounded-full px-3 py-1 inline-block">
+                    ⚡ {profession.timesSaved}
                   </div>
                 </div>
 
                 {/* View Details Button */}
-                <div className="mt-4 text-center">
-                  <div className="text-xs text-blue-600 font-medium group-hover:underline">
-                    Click to explore tools →
-                  </div>
+                <div className="mt-6 text-center">
+                  <motion.div
+                    className="text-sm text-white font-bold group-hover:text-cyan-300 transition-colors duration-300 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-full px-4 py-2 border border-cyan-400/30"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    ✨ Click to explore tools →
+                  </motion.div>
                 </div>
               </div>
             </motion.div>
@@ -1159,10 +1252,15 @@ export default function AITools() {
         </AnimatePresence>
 
         {/* Bottom Navigation */}
-        <div className="text-center">
-          <Link to="/" className="button-secondary">
-            ← Back to Portfolio
-          </Link>
+        <div className="text-center relative z-10">
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link
+              to="/"
+              className="inline-block bg-gradient-to-r from-purple-500 to-pink-600 text-white font-bold px-8 py-4 rounded-full hover:from-purple-600 hover:to-pink-700 transition-all duration-300 shadow-2xl border border-white/20 backdrop-blur-md"
+            >
+              ← Back to Portfolio
+            </Link>
+          </motion.div>
         </div>
       </div>
     </div>
