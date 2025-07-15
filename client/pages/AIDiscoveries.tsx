@@ -394,11 +394,6 @@ const PerceptronDemo = () => {
                 initial={{ pathLength: 0 }}
                 animate={{
                   pathLength: animateSignal ? [0, 1] : 1,
-                  stroke: animateSignal
-                    ? ["#3b82f6", weight2 > 0 ? "#10b981" : "#ef4444"]
-                    : weight2 > 0
-                      ? "#10b981"
-                      : "#ef4444",
                 }}
                 transition={{ duration: 0.8, delay: 0.1 }}
               />
