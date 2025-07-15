@@ -90,14 +90,14 @@ const Navigation = () => {
               whileHover={{ scale: 1.02 }}
               className="flex items-center gap-3"
             >
-              <div className="w-10 h-10 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-sm flex items-center justify-center">
-                <span className="text-black font-bold text-lg">◆</span>
+              <div className="w-10 h-10 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-lg flex items-center justify-center border-2 border-black">
+                <span className="text-white font-bold text-lg">◆</span>
               </div>
               <div className="text-left">
-                <div className="tom-ford-heading text-white text-lg tracking-wider">
+                <div className="tom-ford-heading luxury-text-primary text-lg tracking-wider">
                   AAKRITI GUPTA
                 </div>
-                <div className="tom-ford-subheading text-yellow-400/80 text-xs tracking-widest">
+                <div className="tom-ford-subheading luxury-text-accent text-xs tracking-widest">
                   ML ENGINEER & VISIONARY
                 </div>
               </div>
