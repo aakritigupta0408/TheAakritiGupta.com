@@ -282,15 +282,35 @@ export default function Index() {
             {/* Name and Title with animated gradient */}
             <div className="space-y-6">
               <motion.h1
-                className="text-6xl lg:text-8xl font-bold bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent leading-tight"
+                className="text-6xl lg:text-8xl font-black bg-gradient-to-r from-white via-cyan-200 to-purple-200 bg-clip-text text-transparent leading-tight"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.8 }}
+                whileHover={{ scale: 1.02 }}
+                style={{
+                  backgroundSize: "200% 200%",
+                  animation: "gradientShift 4s ease infinite",
+                }}
               >
                 AAKRITI
                 <br />
                 GUPTA
               </motion.h1>
+
+              {/* Add gradient animation keyframes */}
+              <style jsx>{`
+                @keyframes gradientShift {
+                  0% {
+                    background-position: 0% 50%;
+                  }
+                  50% {
+                    background-position: 100% 50%;
+                  }
+                  100% {
+                    background-position: 0% 50%;
+                  }
+                }
+              `}</style>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -372,7 +392,7 @@ export default function Index() {
                   whileTap={{ scale: 0.98 }}
                   className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-6 py-3 rounded-xl font-medium hover:bg-white/20 transition-all duration-300 flex items-center justify-center gap-2"
                 >
-                  <span className="text-xl">🎮</span>
+                  <span className="text-xl">����</span>
                   <span>Games</span>
                 </motion.button>
 
