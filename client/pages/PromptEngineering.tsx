@@ -14,6 +14,27 @@ interface PromptExample {
   tips: string[];
   useCase: string;
   icon: string;
+  resources: {
+    tutorials: {
+      title: string;
+      url: string;
+      platform: string;
+      duration?: string;
+    }[];
+    videos: { title: string; url: string; creator: string; duration: string }[];
+    tools: {
+      name: string;
+      url: string;
+      description: string;
+      pricing: string;
+    }[];
+    templates: {
+      name: string;
+      url: string;
+      description: string;
+      category: string;
+    }[];
+  };
 }
 
 interface PromptTechnique {
@@ -24,6 +45,17 @@ interface PromptTechnique {
   whenToUse: string;
   icon: string;
   color: string;
+  resources: {
+    guides: { title: string; url: string; author: string; type: string }[];
+    papers: { title: string; url: string; authors: string; year: string }[];
+    courses: { title: string; url: string; provider: string; level: string }[];
+    communities: {
+      name: string;
+      url: string;
+      platform: string;
+      members: string;
+    }[];
+  };
 }
 
 const promptTechniques: PromptTechnique[] = [
