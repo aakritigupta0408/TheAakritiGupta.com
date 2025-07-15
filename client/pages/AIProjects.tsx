@@ -930,6 +930,27 @@ anomalies_ae = mse > threshold
 print(f"Autoencoder anomalies: {np.sum(anomalies_ae)}")`,
     icon: "🚨",
     tags: ["Anomaly Detection", "Isolation Forest", "Autoencoders", "Outliers"],
+    theoreticalConcepts: {
+      fundamentals: [
+        "Outlier Detection - Identify data points significantly different from normal",
+        "Isolation Forest - Anomalies are easier to isolate in random partitions",
+        "Autoencoder Reconstruction - Normal patterns reconstruct well, anomalies don't",
+        "One-Class SVM - Learn boundary around normal data distribution",
+        "Statistical Methods - Z-score, IQR, and distribution-based detection",
+      ],
+      keyTheory:
+        "Anomaly detection identifies rare patterns that deviate from expected behavior. Isolation forests exploit the fact that anomalies are few and different, requiring fewer splits to isolate in random feature space partitions.",
+      mathematicalFoundations:
+        "Isolation score: s(x,n) = 2^(-E(h(x))/c(n)) where E(h(x)) is average path length. Autoencoder loss: L = ||x - decoder(encoder(x))||²",
+      importantPapers: [
+        "Isolation Forest (2008) - Efficient anomaly detection",
+        "One-Class SVM (2001) - Support vector approach",
+        "Autoencoder-based Anomaly Detection (2015)",
+        "Deep SVDD (2018) - Deep one-class classification",
+      ],
+      businessImpact:
+        "Prevents fraud saving billions annually, detects cyber threats in real-time, identifies equipment failures before costly breakdowns, and ensures system reliability.",
+    },
   },
 ];
 
