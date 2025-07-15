@@ -1883,10 +1883,24 @@ const renderDemo = (discovery: Discovery) => {
   switch (discovery.demoType) {
     case "perceptron":
       return <PerceptronDemo />;
-    case "attention":
-      return <AttentionDemo />;
+    case "backprop":
+      return <BackpropDemo />;
+    case "cnn":
+      return <CNNDemo />;
+    case "lstm":
+      return <LSTMDemo />;
     case "qlearning":
       return <QLearningDemo />;
+    case "attention":
+      return <AttentionDemo />;
+    case "transformer":
+      return <TransformerDemo />;
+    case "gan":
+      return <GANDemo />;
+    case "resnet":
+      return <ResNetDemo />;
+    case "dqn":
+      return <DQNDemo />;
     default:
       return <SimpleDemo type={discovery.demoType} />;
   }
