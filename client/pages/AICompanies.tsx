@@ -995,44 +995,58 @@ export default function AICompanies() {
                   {company.name}
                 </h3>
 
-                <div className="space-y-2 mb-4">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Founded:</span>
-                    <span className="font-semibold">{company.founded}</span>
+                <div className="space-y-3 mb-6">
+                  <div className="flex justify-between text-sm bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20">
+                    <span className="text-gray-200 font-medium">
+                      📅 Founded:
+                    </span>
+                    <span className="font-bold text-white">
+                      {company.founded}
+                    </span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Valuation:</span>
-                    <span className="font-semibold text-green-600">
+                  <div className="flex justify-between text-sm bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20">
+                    <span className="text-gray-200 font-medium">
+                      💰 Valuation:
+                    </span>
+                    <span className="font-bold text-emerald-300">
                       {company.valuation}
                     </span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Employees:</span>
-                    <span className="font-semibold">{company.employees}</span>
+                  <div className="flex justify-between text-sm bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20">
+                    <span className="text-gray-200 font-medium">
+                      👥 Employees:
+                    </span>
+                    <span className="font-bold text-white">
+                      {company.employees}
+                    </span>
                   </div>
                 </div>
 
                 {/* Description */}
-                <p className="text-gray-600 text-sm line-clamp-3 mb-4">
+                <p className="text-gray-200 text-sm line-clamp-3 mb-6 leading-relaxed">
                   {company.description}
                 </p>
 
                 {/* Key Products Preview */}
-                <div className="border-t pt-4">
-                  <p className="text-xs font-semibold text-gray-800 mb-2">
-                    Key Products:
+                <div className="border-t border-white/20 pt-6">
+                  <p className="text-xs font-bold text-cyan-300 mb-3">
+                    🚀 Key Products:
                   </p>
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-wrap gap-2">
                     {company.keyProducts.slice(0, 3).map((product, idx) => (
-                      <span
+                      <motion.span
                         key={idx}
-                        className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"
+                        className="text-xs bg-white/20 text-gray-200 px-3 py-2 rounded-full font-medium border border-white/30 backdrop-blur-md"
+                        whileHover={{
+                          scale: 1.05,
+                          backgroundColor: "rgba(255,255,255,0.3)",
+                        }}
                       >
                         {product}
-                      </span>
+                      </motion.span>
                     ))}
                     {company.keyProducts.length > 3 && (
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-300 font-medium bg-white/10 rounded-full px-3 py-2">
                         +{company.keyProducts.length - 3} more
                       </span>
                     )}
@@ -1040,10 +1054,13 @@ export default function AICompanies() {
                 </div>
 
                 {/* View Details Button */}
-                <div className="mt-4 text-center">
-                  <div className="text-xs text-blue-600 font-medium group-hover:underline">
-                    Click to explore journey →
-                  </div>
+                <div className="mt-6 text-center">
+                  <motion.div
+                    className="text-sm text-white font-bold group-hover:text-emerald-300 transition-colors duration-300 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-full px-4 py-2 border border-emerald-400/30"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    ✨ Click to explore journey →
+                  </motion.div>
                 </div>
               </div>
             </motion.div>
@@ -1236,10 +1253,15 @@ export default function AICompanies() {
         </AnimatePresence>
 
         {/* Bottom Navigation */}
-        <div className="text-center">
-          <Link to="/" className="button-secondary">
-            ← Back to Portfolio
-          </Link>
+        <div className="text-center relative z-10">
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link
+              to="/"
+              className="inline-block bg-gradient-to-r from-emerald-500 to-cyan-600 text-white font-bold px-8 py-4 rounded-full hover:from-emerald-600 hover:to-cyan-700 transition-all duration-300 shadow-2xl border border-white/20 backdrop-blur-md"
+            >
+              ← Back to Portfolio
+            </Link>
+          </motion.div>
         </div>
       </div>
     </div>
