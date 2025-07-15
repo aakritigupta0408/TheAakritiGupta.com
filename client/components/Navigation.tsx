@@ -74,6 +74,7 @@ const Navigation = () => {
   const navLinks = [
     { path: "/", label: "PORTFOLIO", emoji: "🏠" },
     { path: "/games", label: "GAMES", emoji: "🎮" },
+    { path: "/ai-champions", label: "AI CHAMPIONS", emoji: "🏆" },
     { path: "/ai-playground", label: "AI PLAYGROUND", emoji: "🤖" },
     { path: "/ai-discoveries", label: "AI DISCOVERIES", emoji: "🔬" },
     { path: "/ai-tools", label: "AI TOOLS", emoji: "🛠️" },
