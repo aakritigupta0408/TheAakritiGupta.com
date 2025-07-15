@@ -679,6 +679,42 @@ Total Time: 4.2h → 1.0h (76% improvement)
     ],
     useCase:
       "Operations management, business process improvement, supply chain optimization",
+    resources: {
+      codeExamples: [
+        {
+          title: "Process Mining with AI",
+          url: "https://github.com/pm4py/pm4py-core",
+          language: "Python",
+        },
+        {
+          title: "Workflow Automation Framework",
+          url: "https://github.com/n8n-io/n8n",
+          language: "TypeScript",
+        },
+      ],
+      tutorials: [
+        {
+          title: "Business Process Optimization with AI",
+          url: "https://docs.celonis.com/en/process-mining.html",
+          difficulty: "Intermediate",
+        },
+      ],
+      videos: [
+        {
+          title: "AI for Business Process Automation",
+          url: "https://www.youtube.com/watch?v=qGhyKNl5Cs8",
+          creator: "Process Street",
+          duration: "34 min",
+        },
+      ],
+      documentation: [
+        {
+          title: "Microsoft Power Automate AI",
+          url: "https://docs.microsoft.com/en-us/power-automate/",
+          type: "Platform Guide",
+        },
+      ],
+    },
   },
 ];
 
