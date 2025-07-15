@@ -265,10 +265,6 @@ export default function AIChampions() {
           >
             <motion.h1
               className="text-6xl md:text-8xl font-bold text-black mb-8"
-              animate={{
-                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-              }}
-              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
               style={{
                 background:
                   "linear-gradient(90deg, #000000, #dc2626, #7c3aed, #000000)",
@@ -276,6 +272,7 @@ export default function AIChampions() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
+                animation: "gradient-shift 4s linear infinite",
               }}
             >
               AI vs HUMAN
@@ -388,7 +385,7 @@ export default function AIChampions() {
                   <motion.div
                     className="absolute inset-0 bg-white/10"
                     animate={{
-                      x: hoveredGame === victory.id ? [200, -200] : 200,
+                      x: hoveredGame === victory.id ? -200 : 200,
                     }}
                     transition={{ duration: 0.6 }}
                   />
