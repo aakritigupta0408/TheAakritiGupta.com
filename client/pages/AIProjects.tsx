@@ -168,10 +168,14 @@ for epoch in range(epochs):
       mathematicalFoundations:
         "Convolution operation: (f * g)(x,y) = Σ Σ f(i,j) × g(x-i, y-j). Backpropagation through convolution layers requires computing gradients w.r.t filters and inputs using chain rule.",
       importantPapers: [
-        "LeNet (1998) - First CNN for digit recognition",
-        "AlexNet (2012) - Breakthrough in ImageNet competition",
-        "ResNet (2015) - Skip connections for very deep networks",
-        "EfficientNet (2019) - Scaling CNNs with compound coefficients",
+        "LeNet-5 (LeCun et al., 1998) - First CNN for digit recognition",
+        "AlexNet (Krizhevsky et al., 2012) - Breakthrough in ImageNet competition using ReLU and dropout",
+        "VGGNet (Simonyan & Zisserman, 2014) - Deep networks with small 3x3 filters",
+        "ResNet (He et al., 2015) - Skip connections enabling 152+ layer networks",
+        "Inception (Szegedy et al., 2015) - Multi-scale feature extraction with efficient architecture",
+        "EfficientNet (Tan & Le, 2019) - Compound scaling method for CNNs",
+        "Vision Transformer (Dosovitskiy et al., 2020) - Transformers applied to image classification",
+        "ConvNeXt (Liu et al., 2022) - Modernizing ConvNets to compete with Transformers",
       ],
       businessImpact:
         "Enables automated visual inspection, medical diagnosis, autonomous vehicles, content moderation, and quality control - reducing human error and processing time by 90%+",
