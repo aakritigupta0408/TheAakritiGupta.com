@@ -16,9 +16,24 @@ interface Discovery {
   demoType: string;
 }
 
-const discoveries: Discovery[] = [
+const allDiscoveries: Discovery[] = [
   {
     id: 1,
+    title: "Artificial Intelligence Term Coined",
+    year: "1956",
+    discoverer: "John McCarthy",
+    discovererBio:
+      "American computer scientist who coined the term 'Artificial Intelligence' and organized the famous Dartmouth Conference.",
+    paperTitle:
+      "A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence",
+    paperLink: "http://jmc.stanford.edu/articles/dartmouth/dartmouth.pdf",
+    description:
+      "The formal beginning of AI as a field of study, defining the term and establishing research goals.",
+    impact: "Established AI as an academic discipline and research field.",
+    demoType: "concept",
+  },
+  {
+    id: 2,
     title: "The Perceptron",
     year: "1957",
     discoverer: "Frank Rosenblatt",
@@ -33,7 +48,66 @@ const discoveries: Discovery[] = [
     demoType: "perceptron",
   },
   {
-    id: 2,
+    id: 3,
+    title: "Expert Systems",
+    year: "1965",
+    discoverer: "Edward Feigenbaum & Joshua Lederberg",
+    discovererBio:
+      "Edward Feigenbaum, known as the 'Father of Expert Systems', pioneered knowledge-based AI systems.",
+    paperTitle: "DENDRAL: A Case Study of the First Expert System",
+    paperLink: "https://www.aaai.org/ojs/index.php/aimagazine/article/view/298",
+    description:
+      "First expert system that used domain-specific knowledge to solve complex problems.",
+    impact:
+      "Led to the first commercial AI applications and knowledge engineering.",
+    demoType: "expert",
+  },
+  {
+    id: 4,
+    title: "Minimax Algorithm",
+    year: "1950",
+    discoverer: "Claude Shannon",
+    discovererBio:
+      "American mathematician and electrical engineer, known as the 'Father of Information Theory'.",
+    paperTitle: "Programming a Computer for Playing Chess",
+    paperLink: "https://www.pi.infn.it/~carosi/chess/shannon.txt",
+    description:
+      "Game-theoretic algorithm for optimal decision-making in zero-sum games.",
+    impact: "Foundation for game-playing AI and decision-making algorithms.",
+    demoType: "minimax",
+  },
+  {
+    id: 5,
+    title: "A* Search Algorithm",
+    year: "1968",
+    discoverer: "Peter Hart, Nils Nilsson, Bertram Raphael",
+    discovererBio:
+      "Researchers at Stanford Research Institute who developed optimal pathfinding algorithms.",
+    paperTitle:
+      "A Formal Basis for the Heuristic Determination of Minimum Cost Paths",
+    paperLink: "https://ieeexplore.ieee.org/document/4082128",
+    description:
+      "Graph traversal and path search algorithm that finds the optimal path efficiently.",
+    impact: "Widely used in robotics, games, and navigation systems.",
+    demoType: "astar",
+  },
+  {
+    id: 6,
+    title: "Fuzzy Logic",
+    year: "1965",
+    discoverer: "Lotfi Zadeh",
+    discovererBio:
+      "Iranian-American mathematician who introduced fuzzy set theory and fuzzy logic.",
+    paperTitle: "Fuzzy Sets",
+    paperLink: "https://www-bisc.cs.berkeley.edu/Zadeh-1965.pdf",
+    description:
+      "Mathematical framework for reasoning with uncertainty and imprecise information.",
+    impact:
+      "Enabled AI systems to handle real-world uncertainty and vagueness.",
+    demoType: "fuzzy",
+  },
+  {
+    id: 7,
     title: "Backpropagation",
     year: "1986",
     discoverer: "Geoffrey Hinton, David Rumelhart, Ronald Williams",
@@ -48,7 +122,22 @@ const discoveries: Discovery[] = [
     demoType: "backprop",
   },
   {
-    id: 3,
+    id: 8,
+    title: "Q-Learning (Reinforcement Learning)",
+    year: "1989",
+    discoverer: "Chris Watkins",
+    discovererBio:
+      "British computer scientist who developed Q-learning as part of his PhD thesis at Cambridge University.",
+    paperTitle: "Learning from Delayed Rewards",
+    paperLink: "https://www.cs.rhul.ac.uk/~chrisw/new_thesis.pdf",
+    description:
+      "Algorithm that enables agents to learn optimal actions in an environment through trial and error.",
+    impact:
+      "Foundation for game-playing AI, robotics, and autonomous systems like AlphaGo.",
+    demoType: "qlearning",
+  },
+  {
+    id: 9,
     title: "Convolutional Neural Networks",
     year: "1989",
     discoverer: "Yann LeCun",
@@ -63,7 +152,21 @@ const discoveries: Discovery[] = [
     demoType: "cnn",
   },
   {
-    id: 4,
+    id: 10,
+    title: "Support Vector Machines",
+    year: "1995",
+    discoverer: "Vladimir Vapnik & Corinna Cortes",
+    discovererBio:
+      "Vladimir Vapnik is a Russian-American computer scientist who developed statistical learning theory.",
+    paperTitle: "Support Vector Networks",
+    paperLink: "https://link.springer.com/article/10.1007/BF00994018",
+    description:
+      "Machine learning method for classification and regression with optimal margin separation.",
+    impact: "Dominant machine learning method before deep learning era.",
+    demoType: "svm",
+  },
+  {
+    id: 11,
     title: "Long Short-Term Memory (LSTM)",
     year: "1997",
     discoverer: "Sepp Hochreiter & Jürgen Schmidhuber",
@@ -79,22 +182,37 @@ const discoveries: Discovery[] = [
     demoType: "lstm",
   },
   {
-    id: 5,
-    title: "Q-Learning (Reinforcement Learning)",
-    year: "1989",
-    discoverer: "Chris Watkins",
+    id: 12,
+    title: "Random Forest",
+    year: "2001",
+    discoverer: "Leo Breiman",
     discovererBio:
-      "British computer scientist who developed Q-learning as part of his PhD thesis at Cambridge University.",
-    paperTitle: "Learning from Delayed Rewards",
-    paperLink: "https://www.cs.rhul.ac.uk/~chrisw/new_thesis.pdf",
+      "American statistician who developed ensemble methods and random forests.",
+    paperTitle: "Random Forests",
+    paperLink: "https://link.springer.com/article/10.1023/A:1010933404324",
     description:
-      "Algorithm that enables agents to learn optimal actions in an environment through trial and error.",
+      "Ensemble learning method using multiple decision trees for improved accuracy.",
     impact:
-      "Foundation for game-playing AI, robotics, and autonomous systems like AlphaGo.",
-    demoType: "qlearning",
+      "Widely used for classification and regression with excellent performance.",
+    demoType: "randomforest",
   },
   {
-    id: 6,
+    id: 13,
+    title: "Deep Belief Networks",
+    year: "2006",
+    discoverer: "Geoffrey Hinton",
+    discovererBio:
+      "Geoffrey Hinton's breakthrough in training deep networks sparked the deep learning revolution.",
+    paperTitle: "A Fast Learning Algorithm for Deep Belief Nets",
+    paperLink: "https://www.cs.toronto.edu/~hinton/absps/fastnc.pdf",
+    description:
+      "Generative graphical model that can be trained layer by layer efficiently.",
+    impact:
+      "Sparked the deep learning revolution and renewed interest in neural networks.",
+    demoType: "dbn",
+  },
+  {
+    id: 14,
     title: "Attention Mechanism",
     year: "2014",
     discoverer: "Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio",
