@@ -380,26 +380,54 @@ export default function Games() {
               </div>
             </div>
 
-            {/* Skills Showcase */}
+            {/* Related Pages */}
             <div>
               <h3 className="text-lg font-bold text-black mb-4">
-                Skills Demonstrated
+                Explore More
               </h3>
-              <div className="flex flex-wrap gap-2">
-                {[
-                  "Strategic Thinking",
-                  "Problem Solving",
-                  "AI/ML",
-                  "Game Theory",
-                  "Pattern Recognition",
-                ].map((skill, idx) => (
-                  <span
-                    key={idx}
-                    className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium"
-                  >
-                    {skill}
-                  </span>
-                ))}
+              <div className="space-y-2">
+                <motion.button
+                  onClick={() => navigate("/ai-champions")}
+                  whileHover={{ scale: 1.02, x: 5 }}
+                  className="block w-full text-left p-3 bg-gradient-to-r from-red-50 to-orange-50 border border-red-200 rounded-lg hover:from-red-100 hover:to-orange-100 transition-all duration-300 group"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">🏆</span>
+                    <div>
+                      <div className="font-bold text-gray-800 group-hover:text-red-700">
+                        AI vs Human Champions
+                      </div>
+                      <div className="text-xs text-gray-600">
+                        Historic AI victories in chess, Go, poker & more
+                      </div>
+                    </div>
+                    <span className="text-red-500 group-hover:translate-x-1 transition-transform">
+                      →
+                    </span>
+                  </div>
+                </motion.button>
+
+                <div className="pt-2">
+                  <h4 className="text-sm font-semibold text-gray-800 mb-2">
+                    Skills Demonstrated
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      "Strategic Thinking",
+                      "Problem Solving",
+                      "AI/ML",
+                      "Game Theory",
+                      "Pattern Recognition",
+                    ].map((skill, idx) => (
+                      <span
+                        key={idx}
+                        className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
