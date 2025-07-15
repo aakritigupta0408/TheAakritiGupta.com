@@ -1405,9 +1405,6 @@ const TransformerDemo = () => {
                 key={idx}
                 className="w-6 h-6 border border-gray-300 rounded-sm"
                 animate={{
-                  backgroundColor: isActive
-                    ? `rgba(59, 130, 246, ${intensity})`
-                    : "#ffffff",
                   scale: isActive && intensity > 0.7 ? [1, 1.2, 1] : 1,
                 }}
                 transition={{ duration: 0.5, delay: (row + col) * 0.05 }}
