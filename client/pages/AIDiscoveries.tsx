@@ -1,53 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-
-// Temporary fix: create a safe motion wrapper
-const SafeMotion = {
-  div: ({
-    children,
-    className,
-    style,
-    onClick,
-    whileHover,
-    whileTap,
-    initial,
-    animate,
-    transition,
-    ...props
-  }: any) => (
-    <div className={className} style={style} onClick={onClick} {...props}>
-      {children}
-    </div>
-  ),
-  p: ({
-    children,
-    className,
-    whileHover,
-    initial,
-    animate,
-    transition,
-    ...props
-  }: any) => (
-    <p className={className} {...props}>
-      {children}
-    </p>
-  ),
-  button: ({
-    children,
-    className,
-    onClick,
-    whileHover,
-    whileTap,
-    ...props
-  }: any) => (
-    <button className={className} onClick={onClick} {...props}>
-      {children}
-    </button>
-  ),
-  path: ({ ...props }: any) => <path {...props} />,
-  circle: ({ ...props }: any) => <circle {...props} />,
-};
 import Navigation from "../components/Navigation";
 
 interface Discovery {
