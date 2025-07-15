@@ -740,6 +740,60 @@ const trainingTechniques: TrainingTechnique[] = [
       "Improves response quality over time",
       "Adaptable to different use cases",
     ],
+    resources: {
+      tutorials: [
+        {
+          title: "Introduction to RLHF",
+          url: "https://huggingface.co/blog/rlhf",
+          type: "Comprehensive Guide",
+        },
+        {
+          title: "OpenAI RLHF Research",
+          url: "https://openai.com/research/learning-from-human-preferences",
+          type: "Research Paper",
+        },
+        {
+          title: "Implementing RLHF with TRL",
+          url: "https://github.com/huggingface/trl",
+          type: "Code Repository",
+        },
+      ],
+      videos: [
+        {
+          title: "RLHF Explained: Training AI with Human Feedback",
+          url: "https://www.youtube.com/watch?v=2MBJOuVq380",
+          duration: "18 min",
+        },
+        {
+          title: "ChatGPT Training Process Deep Dive",
+          url: "https://www.youtube.com/watch?v=VPRSBzXzavo",
+          duration: "45 min",
+        },
+        {
+          title: "Building RLHF Systems from Scratch",
+          url: "https://www.youtube.com/watch?v=TfBpKRj-7K4",
+          duration: "1 hr 12 min",
+        },
+      ],
+      papers: [
+        {
+          title:
+            "Training language models to follow instructions with human feedback",
+          url: "https://arxiv.org/abs/2203.02155",
+          authors: "Ouyang et al. (OpenAI)",
+        },
+        {
+          title: "Learning to summarize from human feedback",
+          url: "https://arxiv.org/abs/2009.01325",
+          authors: "Stiennon et al. (OpenAI)",
+        },
+        {
+          title: "Deep reinforcement learning from human preferences",
+          url: "https://arxiv.org/abs/1706.03741",
+          authors: "Christiano et al.",
+        },
+      ],
+    },
   },
   {
     id: "multi-agent-systems",
