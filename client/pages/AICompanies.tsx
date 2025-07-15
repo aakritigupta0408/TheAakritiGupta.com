@@ -884,72 +884,114 @@ export default function AICompanies() {
         </div>
 
         {/* Filters and Sort */}
-        <div className="mb-8 space-y-4">
-          <div className="flex flex-wrap gap-2 justify-center">
-            <span className="text-sm font-medium text-gray-700 px-3 py-2">
-              Filter by Category:
+        <div className="mb-12 space-y-6 relative z-10">
+          <div className="flex flex-wrap gap-4 justify-center">
+            <span className="text-sm font-black text-white px-6 py-3 bg-white/10 backdrop-blur-md rounded-full border border-white/20">
+              🎨 Filter by Category:
             </span>
-            {categories.map((category) => (
-              <button
+            {categories.slice(0, 6).map((category) => (
+              <motion.button
                 key={category}
                 onClick={() => setFilterCategory(category)}
-                className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
+                className={`px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
                   filterCategory === category
-                    ? "bg-blue-500 text-white border-blue-500"
-                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                    ? "bg-gradient-to-r from-emerald-500 to-cyan-600 text-white shadow-2xl scale-105 border border-emerald-400/50"
+                    : "bg-white/10 backdrop-blur-md text-white border border-white/20 hover:bg-white/20 hover:scale-105"
                 }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 {category}
-              </button>
+              </motion.button>
             ))}
           </div>
 
-          <div className="flex gap-2 justify-center">
-            <span className="text-sm font-medium text-gray-700 px-3 py-2">
-              Sort by:
+          {categories.length > 6 && (
+            <div className="flex flex-wrap gap-4 justify-center">
+              {categories.slice(6).map((category) => (
+                <motion.button
+                  key={category}
+                  onClick={() => setFilterCategory(category)}
+                  className={`px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
+                    filterCategory === category
+                      ? "bg-gradient-to-r from-emerald-500 to-cyan-600 text-white shadow-2xl scale-105 border border-emerald-400/50"
+                      : "bg-white/10 backdrop-blur-md text-white border border-white/20 hover:bg-white/20 hover:scale-105"
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {category}
+                </motion.button>
+              ))}
+            </div>
+          )}
+
+          <div className="flex flex-wrap gap-4 justify-center">
+            <span className="text-sm font-black text-white px-6 py-3 bg-white/10 backdrop-blur-md rounded-full border border-white/20">
+              🔄 Sort by:
             </span>
             {[
-              { value: "valuation", label: "Valuation" },
-              { value: "founded", label: "Founded Date" },
-              { value: "employees", label: "Company Size" },
+              { value: "valuation", label: "Valuation", emoji: "💰" },
+              { value: "founded", label: "Founded Date", emoji: "📅" },
+              { value: "employees", label: "Company Size", emoji: "👥" },
             ].map((sort) => (
-              <button
+              <motion.button
                 key={sort.value}
                 onClick={() => setSortBy(sort.value)}
-                className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
+                className={`px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
                   sortBy === sort.value
-                    ? "bg-blue-500 text-white border-blue-500"
-                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                    ? "bg-gradient-to-r from-teal-500 to-cyan-600 text-white shadow-2xl scale-105 border border-teal-400/50"
+                    : "bg-white/10 backdrop-blur-md text-white border border-white/20 hover:bg-white/20 hover:scale-105"
                 }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                {sort.label}
-              </button>
+                {sort.emoji} {sort.label}
+              </motion.button>
             ))}
           </div>
         </div>
 
         {/* Companies Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12 relative z-10">
           {getFilteredCompanies().map((company, index) => (
             <motion.div
               key={company.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group"
+              initial={{ opacity: 0, y: 50, scale: 0.8 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{
+                duration: 0.6,
+                delay: index * 0.1,
+                ease: "backOut",
+              }}
+              className="bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 overflow-hidden hover:scale-105 transition-all duration-500 cursor-pointer group shadow-2xl hover:shadow-emerald-500/25"
               onClick={() => setSelectedCompany(company)}
+              whileHover={{
+                scale: 1.05,
+                rotateY: 5,
+                rotateX: 5,
+              }}
+              whileTap={{ scale: 0.95 }}
             >
-              <div className="p-6">
+              <div className="p-8">
                 {/* Header */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="text-4xl">{company.logo}</div>
-                  <div className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-medium">
+                <div className="flex items-center justify-between mb-6">
+                  <motion.div
+                    className="text-5xl group-hover:scale-110 transition-transform duration-300"
+                    whileHover={{ rotate: 10, scale: 1.2 }}
+                  >
+                    {company.logo}
+                  </motion.div>
+                  <motion.div
+                    className="text-xs bg-emerald-500/30 text-emerald-200 px-4 py-2 rounded-full font-bold border border-emerald-400/50 backdrop-blur-md"
+                    whileHover={{ scale: 1.1 }}
+                  >
                     {company.category}
-                  </div>
+                  </motion.div>
                 </div>
 
                 {/* Company Name & Basic Info */}
-                <h3 className="text-lg font-bold text-black mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-black text-white mb-4 group-hover:bg-gradient-to-r group-hover:from-emerald-400 group-hover:to-cyan-500 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
                   {company.name}
                 </h3>
 
