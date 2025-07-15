@@ -3013,7 +3013,7 @@ export default function AIProjects() {
                     {showCode[project.id] && (
                       <motion.div
                         initial={{ opacity: 0, height: 0, y: -20 }}
-                        animate={{ opacity: 1, height: "auto", y: 0 }}
+                                                animate={{ opacity: 1, scaleY: 1, y: 0 }}\n                        style={{ originY: 0 }}
                         exit={{ opacity: 0, height: 0, y: -20 }}
                         transition={{ duration: 0.5, ease: "easeOut" }}
                         className="mt-6"
