@@ -541,6 +541,32 @@ export default function Index() {
                   </div>
                 </div>
               </motion.button>
+
+              {/* AI Champions Button */}
+              <motion.button
+                onClick={() => navigate("/ai-champions")}
+                whileHover={{ scale: 1.05, y: -3 }}
+                whileTap={{ scale: 0.95 }}
+                className="relative group w-full bg-gradient-to-r from-red-500/20 to-orange-500/20 backdrop-blur-md border border-white/30 text-white px-6 py-4 rounded-2xl font-bold hover:from-red-500/30 hover:to-orange-500/30 transition-all duration-300 flex items-center justify-center gap-3 shadow-lg overflow-hidden"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.6 }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-red-600/0 to-orange-600/0 group-hover:from-red-600/20 group-hover:to-orange-600/20 transition-all duration-500"></div>
+                <motion.span
+                  className="text-2xl relative z-10"
+                  animate={{
+                    rotate: [0, 10, -10, 0],
+                    scale: [1, 1.2, 1],
+                  }}
+                  transition={{ duration: 2.5, repeat: Infinity }}
+                >
+                  🏆
+                </motion.span>
+                <span className="relative z-10 group-hover:text-orange-200 transition-colors">
+                  AI vs Champions
+                </span>
+              </motion.button>
             </motion.div>
           </motion.div>
 
