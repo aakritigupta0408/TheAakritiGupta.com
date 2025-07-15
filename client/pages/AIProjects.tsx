@@ -427,6 +427,27 @@ for result in results:
                    (int(x1), int(y1)-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)`,
     icon: "🔍",
     tags: ["YOLO", "Object Detection", "Computer Vision", "Bounding Boxes"],
+    theoreticalConcepts: {
+      fundamentals: [
+        "Two-Stage Detection - Region proposal then classification (R-CNN family)",
+        "One-Stage Detection - Direct prediction of boxes and classes (YOLO, SSD)",
+        "Anchor Boxes - Pre-defined box shapes at different scales and ratios",
+        "Non-Maximum Suppression - Remove duplicate detections of same object",
+        "IoU (Intersection over Union) - Metric for bounding box overlap",
+      ],
+      keyTheory:
+        "Object detection combines classification (what) and localization (where). Modern detectors use feature pyramids to detect objects at multiple scales and aspect ratios efficiently in a single forward pass.",
+      mathematicalFoundations:
+        "IoU = |A ∩ B| / |A ∪ B|. Loss = Classification_loss + Localization_loss + Confidence_loss. Smooth L1 loss for bounding box regression.",
+      importantPapers: [
+        "R-CNN (2014) - First deep learning object detector",
+        "YOLO (2016) - Real-time single-stage detection",
+        "Faster R-CNN (2015) - End-to-end trainable detector",
+        "EfficientDet (2020) - Efficient compound scaling",
+      ],
+      businessImpact:
+        "Powers autonomous vehicles, security systems, medical imaging, and retail analytics - enabling real-time decision making with 95%+ accuracy in critical applications.",
+    },
   },
   {
     id: 5,
