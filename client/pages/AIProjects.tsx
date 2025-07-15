@@ -19,6 +19,37 @@ interface Resource {
   category?: "Industry" | "Academic" | "Open Source" | "Commercial";
 }
 
+interface LearningPath {
+  id: string;
+  name: string;
+  description: string;
+  projects: number[];
+  estimatedTime: string;
+  skills: string[];
+  icon: string;
+}
+
+interface SkillAssessment {
+  id: string;
+  skill: string;
+  questions: {
+    question: string;
+    options: string[];
+    correct: number;
+    explanation: string;
+  }[];
+}
+
+interface ProjectTemplate {
+  id: string;
+  projectId: number;
+  name: string;
+  description: string;
+  githubUrl: string;
+  technologies: string[];
+  difficulty: string;
+}
+
 interface Project {
   id: number;
   title: string;
@@ -33,6 +64,11 @@ interface Project {
   codeExample: string;
   icon: string;
   tags: string[];
+  prerequisites: string[];
+  learningOutcomes: string[];
+  careerPaths: string[];
+  industryDemand: "Low" | "Medium" | "High" | "Very High";
+  salaryRange: string;
   theoreticalConcepts: {
     fundamentals: string[];
     keyTheory: string;
