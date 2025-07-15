@@ -679,7 +679,7 @@ export default function AIChampions() {
                   </div>
                 </motion.div>
 
-                                {/* Game Content */}
+                {/* Game Content */}
                 <motion.div
                   className="bg-gray-50 min-h-[600px]"
                   initial={{ opacity: 0 }}
@@ -690,9 +690,11 @@ export default function AIChampions() {
                   {activeGame === "alphago-go" && <AlphaGoDemo />}
                   {activeGame === "libratus-poker" && <LibratusPoker />}
                   {activeGame &&
-                    !["deep-blue-chess", "alphago-go", "libratus-poker"].includes(
-                      activeGame,
-                    ) && (
+                    ![
+                      "deep-blue-chess",
+                      "alphago-go",
+                      "libratus-poker",
+                    ].includes(activeGame) && (
                       <div className="p-8 flex items-center justify-center">
                         <div className="text-center">
                           <div className="text-6xl mb-4">🚧</div>
@@ -701,9 +703,9 @@ export default function AIChampions() {
                           </h4>
                           <p className="text-gray-600 max-w-2xl mx-auto">
                             Interactive demo for{" "}
-                            {aiVictories.find((v) => v.id === activeGame)?.game} is
-                            under development. You'll soon be able to play against the
-                            same AI that defeated world champions!
+                            {aiVictories.find((v) => v.id === activeGame)?.game}{" "}
+                            is under development. You'll soon be able to play
+                            against the same AI that defeated world champions!
                           </p>
                           <motion.button
                             whileHover={{ scale: 1.05 }}
@@ -716,6 +718,7 @@ export default function AIChampions() {
                         </div>
                       </div>
                     )}
+                </motion.div>
               </motion.div>
             </div>
           </section>
