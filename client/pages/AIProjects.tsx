@@ -1306,8 +1306,9 @@ export default function AIProjects() {
                     <span className="relative z-10">🚀 Full Guide</span>
                     <motion.div
                       className="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      initial={{ x: "-100%" }}
-                      whileHover={{ x: "0%" }}
+                      initial={{ scaleX: 0 }}
+                      whileHover={{ scaleX: 1 }}
+                      style={{ transformOrigin: "left" }}
                       transition={{ duration: 0.3 }}
                     />
                   </motion.button>
