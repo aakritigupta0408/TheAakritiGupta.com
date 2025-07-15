@@ -453,6 +453,29 @@ def generate_response(input_text, chat_history_ids=None):
     return tokenizer.decode(chat_history_ids[:, bot_input_ids.shape[-1]:][0], skip_special_tokens=True)`,
     icon: "💬",
     tags: ["NLP", "Transformers", "GPT", "Conversational AI"],
+    prerequisites: [
+      "Python programming proficiency",
+      "Basic NLP concepts",
+      "Understanding of neural networks",
+      "API development experience",
+      "Database fundamentals",
+    ],
+    learningOutcomes: [
+      "Build conversational AI systems",
+      "Implement attention mechanisms",
+      "Fine-tune large language models",
+      "Create production chatbot pipelines",
+      "Handle multi-turn conversations",
+    ],
+    careerPaths: [
+      "NLP Engineer",
+      "Conversational AI Developer",
+      "AI Product Manager",
+      "Chatbot Architect",
+      "AI Research Scientist",
+    ],
+    industryDemand: "Very High",
+    salaryRange: "$100,000 - $190,000",
     theoreticalConcepts: {
       fundamentals: [
         "Transformer Architecture - Self-attention mechanism processes sequences in parallel",
@@ -1466,7 +1489,7 @@ print(f"Transcription: {transcription}")`,
       keyTheory:
         "Speech recognition transforms acoustic signals into text through feature extraction, sequence modeling, and language understanding. Modern approaches use transformer architectures with attention to align audio frames with text tokens efficiently.",
       mathematicalFoundations:
-        "CTC Loss: L = -log(∑π∈B⁻¹(y) ∏ᵗ p(πₜ|x)). Attention: αᵢⱼ = exp(eᵢⱼ)/∑ₖ exp(eᵢₖ) where eᵢⱼ = score(sᵢ₋₁, hⱼ)",
+        "CTC Loss: L = -log(∑π∈B⁻¹(y) ∏ᵗ p(πₜ|x)). Attention: αᵢⱼ = exp(e���ⱼ)/∑ₖ exp(eᵢₖ) where eᵢⱼ = score(sᵢ₋₁, hⱼ)",
       importantPapers: [
         "Deep Speech (2014) - End-to-end deep learning for speech",
         "Listen, Attend and Spell (2015) - Attention-based speech recognition",
@@ -1874,7 +1897,7 @@ trained_agent = train_dqn_agent()`,
       keyTheory:
         "Reinforcement learning optimizes sequential decision making through trial and error. Agents learn optimal policies by maximizing cumulative rewards while exploring the environment to discover better strategies.",
       mathematicalFoundations:
-        "Bellman equation: Q(s,a) = E[r + γ max Q(s',a')]. Policy gradient: ∇θ J(θ) = E[∇θ log π(a|s)Q(s,a)]",
+        "Bellman equation: Q(s,a) = E[r + γ max Q(s',a')]. Policy gradient: ��θ J(θ) = E[∇θ log π(a|s)Q(s,a)]",
       importantPapers: [
         "Q-Learning (1989) - Model-free reinforcement learning",
         "DQN (2015) - Deep Q-Networks for Atari games",
@@ -3317,7 +3340,7 @@ export default function AIProjects() {
                         transition={{ delay: 0.6 }}
                       >
                         <h3 className="text-2xl font-black text-white mb-4">
-                          ��� Use Cases
+                          🎯 Use Cases
                         </h3>
                         <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
                           <ul className="space-y-3">
