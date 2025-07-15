@@ -124,6 +124,13 @@ const Navigation = () => {
         type: "page",
       },
       {
+        title: "AI vs Human Champions",
+        url: "/ai-champions",
+        description:
+          "Historic victories where AI defeated world champions in chess, Go, poker, and other strategic games with interactive demos.",
+        type: "page",
+      },
+      {
         title: "AI Projects & Solutions Guide",
         url: "/ai-projects",
         description:
