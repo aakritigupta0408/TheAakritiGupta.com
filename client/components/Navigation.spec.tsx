@@ -156,18 +156,21 @@ describe("Navigation", () => {
       view.getByRole("button", { name: /open website search/i }),
     );
     fireEvent.change(
-      view.getByPlaceholderText(/search the website with ai-powered search/i),
+      view.getByPlaceholderText(/search pages, companies, tools, profiles, and topics on this website/i),
       {
         target: {
-          value: "agent training",
+          value: "anthropic",
         },
       },
     );
 
-    await new Promise((resolve) => setTimeout(resolve, 1400));
+    const companyResult = (await view.findAllByRole("button", { name: /anthropic/i })).find(
+      (button) => button.textContent?.includes("AI Companies"),
+    );
 
-    fireEvent.click(await view.findByRole("button", { name: /ai agent training/i }));
+    expect(companyResult).toBeDefined();
+    fireEvent.click(companyResult!);
 
-    expect(view.getByTestId("location").textContent).toBe("/ai-agent-training");
+    expect(view.getByTestId("location").textContent).toBe("/ai-companies");
   });
 });

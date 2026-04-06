@@ -263,6 +263,9 @@ describe("AI page interactions", () => {
     vi.useFakeTimers();
     const view = renderPage(<AIAgentTraining />);
 
+    expect(view.getByTestId("navigation")).not.toBeNull();
+    expect(view.getByTestId("chatbot")).not.toBeNull();
+
     fireEvent.click(view.getByRole("button", { name: /agent builder/i }));
 
     const input = view.getByPlaceholderText(

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
+import { searchSiteContent, type SiteSearchEntry } from "@/data/siteSearch";
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -10,8 +11,7 @@ const Navigation = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<any[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
+  const [searchResults, setSearchResults] = useState<SiteSearchEntry[]>([]);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const resumeUrl =
     "https://drive.google.com/file/d/1Mnmk6nP9l_Av0LvpgJQ5Tkjb7BqhY7nb/view?usp=sharing";
@@ -98,104 +98,10 @@ const Navigation = () => {
     },
   ];
 
-  // Simulated Perplexity search function
-  const searchWebsite = async (query: string) => {
-    if (!query.trim()) return [];
-
-    setIsSearching(true);
-
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    // Mock search results based on website content
-    const mockResults = [
-      {
-        title: "AI Tools for Every Profession",
-        url: "/ai-tools",
-        description:
-          "Discover the most impactful AI tools transforming the top 20 professions. Each recommendation includes pricing, features, and time-saving potential.",
-        type: "page",
-      },
-      {
-        title: "20 Fundamental AI Discoveries",
-        url: "/ai-discoveries",
-        description:
-          "Explore the breakthroughs that shaped AI from 1950 through the latest 2025-2026 frontier developments with interactive demos.",
-        type: "page",
-      },
-      {
-        title: "AI Companies Leading the Revolution",
-        url: "/ai-companies",
-        description:
-          "Major AI labs, infrastructure companies, and startups with current product snapshots, research signals, and category filters.",
-        type: "page",
-      },
-      {
-        title: "Interactive Demos",
-        url: "/ai-playground",
-        description:
-          "Interactive AI demos, generated examples, and hands-on exploration of current AI workflows.",
-        type: "page",
-      },
-      {
-        title: "AI vs Human Champions",
-        url: "/ai-champions",
-        description:
-          "Historic victories where AI defeated world champions in chess, Go, poker, and other strategic games with interactive demos.",
-        type: "page",
-      },
-      {
-        title: "AI Projects & Solutions Guide",
-        url: "/ai-projects",
-        description:
-          "Comprehensive guide to the most common AI projects with step-by-step training approaches and code examples.",
-        type: "page",
-      },
-      {
-        title: "Prompt Engineering & Agent Workflows",
-        url: "/prompt-engineering",
-        description:
-          "Current prompting patterns, examples, techniques, and a playground for improving real prompts.",
-        type: "page",
-      },
-      {
-        title: "AI Agent Training",
-        url: "/ai-agent-training",
-        description:
-          "Modern agent examples, techniques, and builder guidance for multi-step AI systems.",
-        type: "page",
-      },
-      {
-        title: "Resume Builder",
-        url: "/resume-builder",
-        description:
-          "Resume resources, tailoring prompts, and links to Aakriti Gupta's current resume and profiles.",
-        type: "page",
-      },
-      {
-        title: "Games",
-        url: "/games",
-        description:
-          "A curated collection of classic and modern games showcasing AI algorithms and strategic thinking.",
-        type: "page",
-      },
-    ].filter(
-      (result) =>
-        result.title.toLowerCase().includes(query.toLowerCase()) ||
-        result.description.toLowerCase().includes(query.toLowerCase()),
-    );
-
-    setSearchResults(mockResults);
-    setIsSearching(false);
-  };
-
   useEffect(() => {
     if (searchQuery) {
-      const debounceTimer = setTimeout(() => {
-        searchWebsite(searchQuery);
-      }, 300);
-
-      return () => clearTimeout(debounceTimer);
+      setSearchResults(searchSiteContent(searchQuery));
+      return;
     } else {
       setSearchResults([]);
     }
@@ -552,33 +458,22 @@ const Navigation = () => {
                       type="text"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Search the website with AI-powered search..."
+                      placeholder="Search pages, companies, tools, profiles, and topics on this website..."
                       className="w-full rounded-3xl border border-slate-200 bg-white px-12 py-4 pr-4 text-slate-900 placeholder-slate-400 shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-sky-500"
                     />
                     <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
-                      <div className="flex items-center gap-2 text-sm text-slate-400">
-                        <span className="hidden sm:inline">Powered by</span>
-                        <div className="flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-2 py-1">
-                          <div className="h-4 w-4 rounded-full bg-slate-900"></div>
-                          <span className="text-xs font-semibold text-slate-700">
-                            Perplexity
-                          </span>
-                        </div>
+                      <div className="hidden rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 sm:block">
+                        Website Search
                       </div>
                     </div>
                   </div>
 
-                  {/* Search Results */}
-                  {isSearching && (
-                    <div className="flex items-center justify-center py-8">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-                      <span className="ml-3 text-slate-500">
-                        Searching with AI...
-                      </span>
-                    </div>
-                  )}
+                  <div className="mb-4 text-sm text-slate-500">
+                    Searches information already available across this website, including pages, companies, tools, projects, discoveries, and profiles.
+                  </div>
 
-                  {searchResults.length > 0 && !isSearching && (
+                  {/* Search Results */}
+                  {searchResults.length > 0 && (
                     <div className="space-y-2">
                       <div className="mb-3 text-sm text-slate-500">
                         Found {searchResults.length} result
@@ -594,10 +489,28 @@ const Navigation = () => {
                           className="group w-full rounded-3xl border border-slate-200 bg-white p-4 text-left shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
                         >
                           <div className="flex items-start gap-3">
-                            <div className="text-2xl">
-                              {result.type === "page" ? "📄" : "🔗"}
+                            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-lg text-slate-700">
+                              {result.type === "Page"
+                                ? "📄"
+                                : result.type === "Profile"
+                                  ? "👤"
+                                  : result.type === "Company"
+                                    ? "🏢"
+                                    : result.type === "Tool"
+                                      ? "🛠️"
+                                      : result.type === "Project"
+                                        ? "🚀"
+                                        : "🔬"}
                             </div>
                             <div className="flex-1">
+                              <div className="mb-2 flex flex-wrap items-center gap-2">
+                                <span className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
+                                  {result.type}
+                                </span>
+                                <span className="text-xs font-medium text-slate-400">
+                                  {result.section}
+                                </span>
+                              </div>
                               <h3 className="font-semibold text-slate-900 transition-colors group-hover:text-sky-600">
                                 {result.title}
                               </h3>
@@ -618,13 +531,12 @@ const Navigation = () => {
                   )}
 
                   {searchQuery &&
-                    !isSearching &&
                     searchResults.length === 0 && (
                       <div className="py-8 text-center text-slate-500">
                         <div className="text-4xl mb-2">🔍</div>
                         <p>No results found for "{searchQuery}"</p>
                         <p className="text-sm mt-1">
-                          Try searching for AI tools, discoveries, or companies
+                          Try searching for company names, tools, talent profiles, projects, or research topics
                         </p>
                       </div>
                     )}

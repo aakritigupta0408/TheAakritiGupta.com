@@ -17,6 +17,8 @@ import {
   FaGraduationCap,
   FaRocket,
 } from "react-icons/fa";
+import Navigation from "@/components/Navigation";
+import ChatBot from "@/components/ChatBot";
 import { agentTabSignals } from "../data/aiSignals";
 
 interface AgentExample {
@@ -1183,7 +1185,9 @@ Week 7-8: Production rollout, tracing, and monitoring
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 pt-24">
+      <Navigation />
+
       {/* Header */}
       <div className="relative overflow-hidden py-12 sm:py-16 lg:py-20 px-4 sm:px-6">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-cyan-600/20" />
@@ -1953,6 +1957,8 @@ Week 7-8: Production rollout, tracing, and monitoring
           </motion.div>
         )}
       </AnimatePresence>
+
+      <ChatBot />
     </div>
   );
 };
