@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { z } from "zod";
 import type { ChatResponse } from "../../shared/api";
-import { CHAT_SYSTEM_PROMPT, getLocalChatResponse } from "../../shared/chat";
+import { buildChatSystemPrompt, getLocalChatResponse } from "../../shared/chat";
 
 const chatRequestSchema = z.object({
   message: z.string().trim().min(1),
@@ -53,15 +53,15 @@ export const handleChat: RequestHandler = async (req, res) => {
           messages: [
             {
               role: "system",
-              content: CHAT_SYSTEM_PROMPT,
+              content: buildChatSystemPrompt(message),
             },
             {
               role: "user",
               content: message,
             },
           ],
-          max_tokens: 150,
-          temperature: 0.7,
+          max_tokens: 220,
+          temperature: 0.3,
         }),
       },
     );

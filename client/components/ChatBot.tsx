@@ -24,7 +24,7 @@ export default function ChatBot() {
     {
       id: "welcome",
       content:
-        "Hi. I can answer questions about Aakriti Gupta's AI work, engineering background, research recognition, projects, and journey from Delhi to Silicon Valley.",
+        "Hi. I answer using the information currently available across this website about Aakriti Gupta's work, projects, research recognition, resume resources, and portfolio sections.",
       sender: "assistant",
       timestamp: new Date(),
     },
@@ -116,7 +116,8 @@ export default function ChatBot() {
             </div>
             <div className="mb-4 text-sm leading-6 text-slate-600">
               Ask about Aakriti's work in AI, her experience at Meta, eBay, and
-              Yahoo, or the projects and research featured across the site.
+              Yahoo, her current resume resources, or the projects and research
+              featured across the site.
             </div>
             <div className="flex items-center gap-3 text-[11px] font-medium tracking-[0.08em] text-slate-400">
               <span>Always available</span>
@@ -203,7 +204,7 @@ export default function ChatBot() {
                     Ask Aakriti's AI
                   </h3>
                   <p className="text-sm text-slate-500">
-                    Work, research, projects, and background
+                    Grounded in the current website content
                   </p>
                 </div>
               </div>
