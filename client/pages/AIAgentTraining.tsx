@@ -17,6 +17,7 @@ import {
   FaGraduationCap,
   FaRocket,
 } from "react-icons/fa";
+import { agentTabSignals } from "../data/aiSignals";
 
 interface AgentExample {
   id: string;
@@ -101,7 +102,7 @@ Agent: I completely understand your frustration - waiting for an order can be re
     resources: {
       codeExamples: [
         {
-          title: "OpenAI GPT-4 Customer Service Bot",
+          title: "OpenAI Customer Service Workflow Example",
           url: "https://github.com/openai/openai-cookbook/blob/main/examples/How_to_build_a_customer_service_chatbot.ipynb",
           language: "Python",
         },
@@ -155,7 +156,7 @@ Agent: I completely understand your frustration - waiting for an order can be re
       ],
       documentation: [
         {
-          title: "OpenAI Assistant API Documentation",
+          title: "OpenAI Platform Documentation",
           url: "https://platform.openai.com/docs/assistants/overview",
           type: "API Reference",
         },
@@ -231,8 +232,8 @@ Agent: I'll conduct a comprehensive analysis of AI's impact on healthcare across
           language: "Python",
         },
         {
-          title: "AutoGPT Research Implementation",
-          url: "https://github.com/Significant-Gravitas/AutoGPT",
+          title: "LangGraph Agent Runtime",
+          url: "https://github.com/langchain-ai/langgraph",
           language: "Python",
         },
         {
@@ -1130,6 +1131,7 @@ const AIAgentTraining: React.FC = () => {
     useState<TrainingTechnique | null>(null);
   const [playgroundInput, setPlaygroundInput] = useState("");
   const [playgroundOutput, setPlaygroundOutput] = useState("");
+  const activeSignals = agentTabSignals[activeTab];
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -1154,28 +1156,29 @@ const AIAgentTraining: React.FC = () => {
 Input: "${playgroundInput}"
 
 🎯 **RECOMMENDED ARCHITECTURE**
-- **Agent Type**: Multi-modal task specialist
-- **Memory System**: Vector database with conversation history
-- **Tool Integration**: 3-4 specialized APIs recommended
-- **Safety Layer**: Constitutional AI with human oversight
+- **Agent Type**: Goal-driven specialist with tool use
+- **Memory System**: Retrieval + scoped working memory for active tasks
+- **Tool Integration**: Connectors or MCP-style tools for files, search, and actions
+- **Safety Layer**: Human approval checkpoints for sensitive operations
 
 ⚙️ **TRAINING APPROACH**
-1. **Foundation**: Start with general task understanding
-2. **Specialization**: Fine-tune on domain-specific data
-3. **RLHF**: Human feedback on 1000+ interactions
-4. **Evaluation**: A/B testing against success metrics
+1. **Task Framing**: Define objective, inputs, constraints, and deliverables
+2. **Grounding**: Add retrieval, source quality rules, and tool permissions
+3. **Behavior Training**: Use curated examples, eval tasks, and human feedback
+4. **Verification**: Score outputs with task-specific rubrics before deployment
 
 🚀 **IMPLEMENTATION ROADMAP**
 Week 1-2: Data collection and preprocessing
-Week 3-4: Initial model training and testing
-Week 5-6: RLHF integration and safety testing
-Week 7-8: Production deployment and monitoring
+Week 3-4: Tool wiring, retrieval setup, and prompt scaffolding
+Week 5-6: Evals, failure-case handling, and human-in-the-loop checks
+Week 7-8: Production rollout, tracing, and monitoring
 
 📊 **SUCCESS METRICS**
 - Task completion rate: Target 95%+
 - User satisfaction: Target 4.5/5 stars
 - Response time: Target <2 seconds
-- Safety compliance: 100% requirement`);
+- Safety compliance: 100% requirement
+- Citation / artifact quality: Review-ready output on every run`);
     }, 1500);
   };
 
@@ -1242,6 +1245,65 @@ Week 7-8: Production deployment and monitoring
 
       {/* Content */}
       <div className="max-w-6xl mx-auto px-6 pb-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mb-8 rounded-3xl border border-white/15 bg-white/10 p-6 sm:p-8 backdrop-blur-xl"
+        >
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-6">
+            <div>
+              <div className="inline-flex rounded-full border border-cyan-300/30 bg-cyan-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-cyan-100 mb-3">
+                Frontier Signals · April 2026
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white">
+                {activeTab === "examples" && "What Real Production Agents Look Like"}
+                {activeTab === "techniques" && "Techniques That Matter In Modern Agent Systems"}
+                {activeTab === "playground" && "How To Frame Better Agent Builder Inputs"}
+              </h2>
+            </div>
+            <p className="text-sm text-slate-300 max-w-2xl">
+              Each tab now includes current product patterns from 2025-2026 so
+              the training guidance reflects how agent systems are actually
+              being built and deployed.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            {activeSignals.map((signal, index) => (
+              <motion.a
+                key={signal.id}
+                href={signal.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: index * 0.08 }}
+                className="rounded-2xl border border-white/15 bg-slate-950/30 p-5 hover:bg-slate-950/40 transition-all duration-300"
+              >
+                <div className="flex items-center justify-between gap-3 mb-3">
+                  <span className="rounded-full border border-purple-300/30 bg-purple-400/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-purple-100">
+                    {signal.category}
+                  </span>
+                  <span className="text-xs font-semibold text-slate-400">
+                    {signal.date}
+                  </span>
+                </div>
+                <h3 className="text-lg font-bold text-white mb-2">
+                  {signal.title}
+                </h3>
+                <p className="text-sm text-cyan-100 mb-3">{signal.org}</p>
+                <p className="text-sm text-slate-300 leading-relaxed mb-3">
+                  {signal.summary}
+                </p>
+                <p className="text-sm text-slate-200 leading-relaxed">
+                  {signal.impact}
+                </p>
+              </motion.a>
+            ))}
+          </div>
+        </motion.div>
+
         <AnimatePresence mode="wait">
           {activeTab === "examples" && (
             <motion.div

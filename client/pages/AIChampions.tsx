@@ -786,7 +786,7 @@ export default function AIChampions() {
           {/* Copyright */}
           <div className="text-center pt-8 border-t border-gray-200">
             <p className="text-gray-500 text-sm">
-              © 2024 Aakriti Gupta • Senior ML Engineer • AI Champion Analyst
+              © 2026 Aakriti Gupta • Senior ML Engineer • AI Champion Analyst
             </p>
             <div className="mt-4 flex justify-center gap-8 text-xs text-gray-400">
               <span>Deep Blue Era</span>

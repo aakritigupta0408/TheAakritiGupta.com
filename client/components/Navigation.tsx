@@ -5,12 +5,16 @@ import { useNavigate, useLocation } from "react-router-dom";
 const Navigation = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isAboutOpen, setIsAboutOpen] = useState(false);
+  const [isResourcesOpen, setIsResourcesOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const resumeUrl =
+    "https://drive.google.com/file/d/1Mnmk6nP9l_Av0LvpgJQ5Tkjb7BqhY7nb/view?usp=sharing";
 
   const talents = [
     {
@@ -72,16 +76,26 @@ const Navigation = () => {
   ];
 
   const navLinks = [
-    { path: "/", label: "PORTFOLIO", emoji: "🏠" },
-    { path: "/games", label: "GAMES", emoji: "🎮" },
-    { path: "/ai-champions", label: "AI CHAMPIONS", emoji: "🏆" },
-    { path: "/ai-playground", label: "AI PLAYGROUND", emoji: "🤖" },
+    { path: "/", label: "HOME", emoji: "🏠" },
+    { path: "/ai-playground", label: "INTERACTIVE DEMOS", emoji: "🎮" },
+    { path: "/ai-champions", label: "AI VS HUMANS", emoji: "🏆" },
     { path: "/ai-discoveries", label: "AI DISCOVERIES", emoji: "🔬" },
     { path: "/ai-tools", label: "AI TOOLS", emoji: "🛠️" },
     { path: "/ai-companies", label: "AI COMPANIES", emoji: "🏢" },
     { path: "/ai-projects", label: "AI PROJECTS", emoji: "🚀" },
     { path: "/prompt-engineering", label: "PROMPT MASTERY", emoji: "✨" },
     { path: "/ai-agent-training", label: "AGENT TRAINING", emoji: "🤖" },
+    { path: "/resume-builder", label: "RESUME BUILDER", emoji: "📄" },
+    { path: "/games", label: "GAMES", emoji: "🎯" },
+  ];
+
+  const resourceLinks = [
+    {
+      href: resumeUrl,
+      label: "RESUME",
+      emoji: "📄",
+      description: "Open Aakriti's current resume",
+    },
   ];
 
   // Simulated Perplexity search function
@@ -106,21 +120,21 @@ const Navigation = () => {
         title: "20 Fundamental AI Discoveries",
         url: "/ai-discoveries",
         description:
-          "Explore the groundbreaking discoveries that shaped artificial intelligence from 1950 to 2018 with interactive demos.",
+          "Explore the breakthroughs that shaped AI from 1950 through the latest 2025-2026 frontier developments with interactive demos.",
         type: "page",
       },
       {
         title: "AI Companies Leading the Revolution",
         url: "/ai-companies",
         description:
-          "Top 20 companies shaping the AI landscape with their groundbreaking discoveries and innovative products.",
+          "Major AI labs, infrastructure companies, and startups with current product snapshots, research signals, and category filters.",
         type: "page",
       },
       {
-        title: "Interactive Games Collection",
-        url: "/games",
+        title: "Interactive Demos",
+        url: "/ai-playground",
         description:
-          "A curated collection of classic and modern games showcasing AI algorithms and strategic thinking.",
+          "Interactive AI demos, generated examples, and hands-on exploration of current AI workflows.",
         type: "page",
       },
       {
@@ -135,6 +149,34 @@ const Navigation = () => {
         url: "/ai-projects",
         description:
           "Comprehensive guide to the most common AI projects with step-by-step training approaches and code examples.",
+        type: "page",
+      },
+      {
+        title: "Prompt Engineering & Agent Workflows",
+        url: "/prompt-engineering",
+        description:
+          "Current prompting patterns, examples, techniques, and a playground for improving real prompts.",
+        type: "page",
+      },
+      {
+        title: "AI Agent Training",
+        url: "/ai-agent-training",
+        description:
+          "Modern agent examples, techniques, and builder guidance for multi-step AI systems.",
+        type: "page",
+      },
+      {
+        title: "Resume Builder",
+        url: "/resume-builder",
+        description:
+          "Resume resources, tailoring prompts, and links to Aakriti Gupta's current resume and profiles.",
+        type: "page",
+      },
+      {
+        title: "Games",
+        url: "/games",
+        description:
+          "A curated collection of classic and modern games showcasing AI algorithms and strategic thinking.",
         type: "page",
       },
     ].filter(
@@ -165,19 +207,28 @@ const Navigation = () => {
     }
   }, [isSearchOpen]);
 
-  const handleTalentClick = (talentId: string) => {
-    navigate(`/talent/${talentId}`);
-    setIsOpen(false);
+  const closeMenus = () => {
+    setIsAboutOpen(false);
+    setIsResourcesOpen(false);
+    setIsSearchOpen(false);
+    setIsMobileMenuOpen(false);
   };
 
-  const handleSearchResultClick = (url: string) => {
-    navigate(url);
-    setIsSearchOpen(false);
+  const handleNavigate = (path: string) => {
+    navigate(path);
+    closeMenus();
     setSearchQuery("");
     setSearchResults([]);
   };
 
-  const isHomePage = location.pathname === "/";
+  const handleTalentClick = (talentId: string) => {
+    navigate(`/talent/${talentId}`);
+    closeMenus();
+  };
+
+  const handleSearchResultClick = (url: string) => {
+    handleNavigate(url);
+  };
 
   return (
     <>
@@ -189,10 +240,14 @@ const Navigation = () => {
         transition={{ delay: 2, duration: 0.5, type: "spring", bounce: 0.5 }}
       >
         <motion.button
+          aria-label="Open AI website search"
           whileHover={{ scale: 1.1, rotate: 5 }}
           whileTap={{ scale: 0.9 }}
-          className="relative w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full shadow-2xl flex items-center justify-center text-white text-2xl border-2 border-white/20 group"
+          className="group relative flex h-14 w-14 items-center justify-center rounded-full border border-slate-200/80 bg-white/90 text-xl text-slate-900 shadow-[0_18px_40px_rgba(15,23,42,0.16)] backdrop-blur-xl"
           onClick={() => {
+            setIsAboutOpen(false);
+            setIsResourcesOpen(false);
+            setIsMobileMenuOpen(false);
             setIsSearchOpen(true);
             if (searchInputRef.current) {
               searchInputRef.current.focus();
@@ -208,14 +263,14 @@ const Navigation = () => {
 
           {/* Pulsing ring */}
           <motion.div
-            className="absolute inset-0 rounded-full border-2 border-cyan-400"
+            className="absolute inset-0 rounded-full border border-sky-300/70"
             animate={{ scale: [1, 1.5], opacity: [1, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
           />
 
           {/* Tooltip */}
-          <div className="absolute bottom-20 right-0 bg-black/90 backdrop-blur-md text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-            Ask AI Assistant
+          <div className="pointer-events-none absolute bottom-16 right-0 whitespace-nowrap rounded-full border border-slate-200 bg-white/95 px-3 py-2 text-xs font-medium text-slate-700 opacity-0 shadow-lg transition-opacity duration-300 group-hover:opacity-100">
+            Search this site
           </div>
         </motion.button>
       </motion.div>
@@ -225,66 +280,48 @@ const Navigation = () => {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1, ease: "easeOut" }}
-        className="fixed top-0 left-0 right-0 z-50 bg-black/60 backdrop-blur-2xl border-b border-white/10 shadow-2xl"
-        style={{
-          background:
-            "linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(30,30,60,0.8) 50%, rgba(0,0,0,0.7) 100%)",
-        }}
+        className="luxury-nav fixed top-0 left-0 right-0 z-50"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16 lg:h-20">
+          <div className="flex h-16 items-center justify-between gap-3">
             {/* Logo/Home */}
             <motion.button
               onClick={() => navigate("/")}
-              whileHover={{ scale: 1.02 }}
-              className="flex items-center gap-3 flex-shrink-0"
+              whileHover={{ scale: 1.01 }}
+              className="flex flex-shrink-0 items-center gap-3 text-left"
             >
-              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center border border-white/20 shadow-lg">
-                <span className="text-white font-black text-lg lg:text-xl">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-[0_10px_24px_rgba(15,23,42,0.08)]">
+                <span className="bg-gradient-to-br from-slate-900 to-slate-500 bg-clip-text text-base font-black text-transparent">
                   AG
                 </span>
               </div>
-              <div className="hidden sm:block text-left">
-                <div className="text-white font-black text-sm lg:text-base">
+              <div className="min-w-0">
+                <div className="truncate text-sm font-semibold tracking-[-0.02em] text-slate-900 sm:text-[15px]">
                   AAKRITI GUPTA
                 </div>
-                <div className="text-gray-300 text-xs lg:text-sm">
-                  ML ENGINEER & AI RESEARCHER
+                <div className="hidden text-[11px] font-medium tracking-[0.01em] text-slate-500 sm:block">
+                  ML Engineer and AI Researcher
                 </div>
               </div>
             </motion.button>
 
-            {/* Center Navigation - Hidden on small screens */}
-            <nav className="hidden xl:flex items-center gap-1">
-              {navLinks.map((link) => (
-                <motion.button
-                  key={link.path}
-                  onClick={() => navigate(link.path)}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold tracking-wider transition-all duration-300 ${
-                    location.pathname === link.path
-                      ? "bg-gradient-to-r from-blue-500/30 to-purple-500/30 text-white border border-blue-400/50"
-                      : "text-gray-300 hover:text-white hover:bg-white/10"
-                  }`}
-                >
-                  <span className="mr-1">{link.emoji}</span>
-                  {link.label}
-                </motion.button>
-              ))}
-            </nav>
-
             {/* Right Section */}
-            <div className="flex items-center gap-2 lg:gap-4">
+            <div className="flex items-center gap-2">
               {/* Enhanced Search Button */}
               <motion.button
-                onClick={() => setIsSearchOpen(!isSearchOpen)}
-                whileHover={{ scale: 1.1, rotate: 5 }}
+                aria-label="Open website search"
+                onClick={() => {
+                  setIsSearchOpen((current) => !current);
+                  setIsAboutOpen(false);
+                  setIsResourcesOpen(false);
+                  setIsMobileMenuOpen(false);
+                }}
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.9 }}
-                className="relative p-2 lg:p-3 rounded-xl bg-gradient-to-r from-cyan-500/20 to-blue-500/20 backdrop-blur-md border border-white/30 text-white hover:from-cyan-500/30 hover:to-blue-500/30 transition-all duration-300 shadow-lg"
+                className="rounded-full border border-slate-200 bg-white/85 p-2.5 text-slate-700 transition-all duration-300 hover:bg-white"
               >
                 <svg
-                  className="w-4 h-4 lg:w-5 lg:h-5"
+                  className="h-4 w-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -296,24 +333,84 @@ const Navigation = () => {
                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                   />
                 </svg>
-                {/* Notification Badge */}
-                <motion.div
-                  className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-pink-500 to-red-500 rounded-full border border-white/50"
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                />
               </motion.button>
 
-              {/* Talents Dropdown - Desktop */}
-              <div className="hidden lg:block relative">
+              {/* Free Resources Dropdown - Desktop */}
+              <div className="relative hidden lg:block">
                 <motion.button
-                  onClick={() => setIsOpen(!isOpen)}
-                  whileHover={{ scale: 1.05 }}
-                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-md border border-white/30 text-white hover:from-purple-500/30 hover:to-pink-500/30 transition-all duration-300 flex items-center gap-2 text-sm font-bold shadow-lg"
+                  onClick={() => {
+                    setIsResourcesOpen((current) => !current);
+                    setIsAboutOpen(false);
+                  }}
+                  whileHover={{ scale: 1.02 }}
+                  className="flex items-center gap-2 rounded-full border border-slate-200 bg-white/85 px-3 py-2 text-[11px] font-medium tracking-[0.02em] text-slate-700 transition-all duration-300 hover:bg-white"
                 >
-                  🎭 TALENTS
+                  Free Resources
                   <motion.span
-                    animate={{ rotate: isOpen ? 180 : 0 }}
+                    animate={{ rotate: isResourcesOpen ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    ▼
+                  </motion.span>
+                </motion.button>
+
+                <AnimatePresence>
+                  {isResourcesOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute top-full right-0 mt-3 w-72 overflow-hidden rounded-3xl border border-slate-200 bg-white/96 backdrop-blur-xl shadow-[0_24px_60px_rgba(15,23,42,0.14)]"
+                    >
+                      <div className="p-2">
+                        {resourceLinks.map((resource, index) => (
+                          <motion.a
+                            key={resource.label}
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.05 }}
+                            href={resource.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block w-full rounded-xl p-3 text-left transition-all duration-300 hover:bg-white/10 group"
+                            onClick={() => closeMenus()}
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className="text-2xl">{resource.emoji}</div>
+                              <div className="flex-1">
+                                <div className="text-sm font-semibold text-slate-900 transition-colors group-hover:text-sky-600">
+                                  {resource.label}
+                                </div>
+                                <div className="mt-1 text-xs text-slate-500">
+                                  {resource.description}
+                                </div>
+                              </div>
+                              <div className="text-slate-300 transition-all duration-300 group-hover:translate-x-1 group-hover:text-sky-600">
+                                →
+                              </div>
+                            </div>
+                          </motion.a>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* About Dropdown - Desktop */}
+              <div className="relative hidden lg:block">
+                <motion.button
+                  onClick={() => {
+                    setIsAboutOpen((current) => !current);
+                    setIsResourcesOpen(false);
+                  }}
+                  whileHover={{ scale: 1.02 }}
+                  className="flex items-center gap-2 rounded-full border border-slate-200 bg-white/85 px-3 py-2 text-[11px] font-medium tracking-[0.02em] text-slate-700 transition-all duration-300 hover:bg-white"
+                >
+                  Know More About AG
+                  <motion.span
+                    animate={{ rotate: isAboutOpen ? 180 : 0 }}
                     transition={{ duration: 0.3 }}
                   >
                     ▼
@@ -322,13 +419,13 @@ const Navigation = () => {
 
                 {/* Dropdown Menu */}
                 <AnimatePresence>
-                  {isOpen && (
+                  {isAboutOpen && (
                     <motion.div
                       initial={{ opacity: 0, y: -10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: -10, scale: 0.95 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute top-full right-0 mt-2 w-80 bg-black/95 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl overflow-hidden"
+                      className="absolute top-full right-0 mt-3 w-80 overflow-hidden rounded-3xl border border-slate-200 bg-white/96 shadow-[0_24px_60px_rgba(15,23,42,0.14)] backdrop-blur-xl"
                     >
                       <div className="p-2">
                         {talents.map((talent, index) => (
@@ -343,14 +440,14 @@ const Navigation = () => {
                             <div className="flex items-center gap-3">
                               <div className="text-2xl">{talent.icon}</div>
                               <div className="flex-1">
-                                <div className="text-white text-sm font-bold group-hover:text-blue-400 transition-colors">
+                                <div className="text-sm font-semibold text-slate-900 transition-colors group-hover:text-sky-600">
                                   {talent.title}
                                 </div>
-                                <div className="text-gray-400 text-xs mt-1">
+                                <div className="mt-1 text-xs text-slate-500">
                                   {talent.subtitle}
                                 </div>
                               </div>
-                              <div className="text-blue-400/60 group-hover:text-blue-400 group-hover:translate-x-1 transition-all duration-300">
+                              <div className="text-slate-300 transition-all duration-300 group-hover:translate-x-1 group-hover:text-sky-600">
                                 →
                               </div>
                             </div>
@@ -362,46 +459,61 @@ const Navigation = () => {
                 </AnimatePresence>
               </div>
 
-              {/* Resume Link */}
-              <motion.a
-                href="https://drive.google.com/file/d/1Mnmk6nP9l_Av0LvpgJQ5Tkjb7BqhY7nb/view?usp=sharing"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                className="hidden lg:block px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl text-sm font-bold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 border border-blue-400/30"
-              >
-                📄 RESUME
-              </motion.a>
-
               {/* Mobile Menu Button */}
               <motion.button
-                onClick={() => setIsOpen(!isOpen)}
+                aria-label="Open navigation menu"
+                onClick={() => {
+                  setIsMobileMenuOpen((current) => !current);
+                  setIsAboutOpen(false);
+                  setIsResourcesOpen(false);
+                  setIsSearchOpen(false);
+                }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="xl:hidden p-2 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-white"
+                className="rounded-full border border-slate-200 bg-white/85 p-2 text-slate-700 lg:hidden"
               >
                 <div className="w-5 h-5 flex flex-col justify-center items-center">
                   <motion.span
                     animate={{
-                      rotate: isOpen ? 45 : 0,
-                      y: isOpen ? 6 : 0,
+                      rotate: isMobileMenuOpen ? 45 : 0,
+                      y: isMobileMenuOpen ? 6 : 0,
                     }}
-                    className="w-full h-0.5 bg-white mb-1 origin-center transition-all duration-300"
+                    className="mb-1 h-0.5 w-full origin-center bg-slate-700 transition-all duration-300"
                   />
                   <motion.span
-                    animate={{ opacity: isOpen ? 0 : 1 }}
-                    className="w-full h-0.5 bg-white mb-1 transition-all duration-300"
+                    animate={{ opacity: isMobileMenuOpen ? 0 : 1 }}
+                    className="mb-1 h-0.5 w-full bg-slate-700 transition-all duration-300"
                   />
                   <motion.span
                     animate={{
-                      rotate: isOpen ? -45 : 0,
-                      y: isOpen ? -6 : 0,
+                      rotate: isMobileMenuOpen ? -45 : 0,
+                      y: isMobileMenuOpen ? -6 : 0,
                     }}
-                    className="w-full h-0.5 bg-white origin-center transition-all duration-300"
+                    className="h-0.5 w-full origin-center bg-slate-700 transition-all duration-300"
                   />
                 </div>
               </motion.button>
             </div>
+          </div>
+
+          <div className="hidden h-12 items-center border-t border-slate-200/80 lg:flex">
+            <nav className="flex min-w-0 flex-1 items-center gap-1 overflow-x-auto py-2 [scrollbar-width:none] [-ms-overflow-style:none]">
+              {navLinks.map((link) => (
+                <motion.button
+                  key={link.path}
+                  onClick={() => handleNavigate(link.path)}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`shrink-0 whitespace-nowrap rounded-full px-3 py-2 text-[10px] font-medium tracking-[0.02em] transition-all duration-300 xl:text-[11px] ${
+                    location.pathname === link.path
+                      ? "border border-slate-300 bg-slate-900 text-white"
+                      : "text-slate-600 hover:bg-white hover:text-slate-900"
+                  }`}
+                >
+                  {link.label}
+                </motion.button>
+              ))}
+            </nav>
           </div>
         </div>
 
@@ -414,7 +526,7 @@ const Navigation = () => {
               exit={{ opacity: 0, scaleY: 0 }}
               style={{ originY: 0 }}
               transition={{ duration: 0.3 }}
-              className="border-t border-white/10 bg-black/95 backdrop-blur-xl"
+              className="border-t border-slate-200 bg-[#fbfbfd]/95 backdrop-blur-2xl"
             >
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                 <div className="relative">
@@ -422,7 +534,7 @@ const Navigation = () => {
                   <div className="relative mb-4">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                       <svg
-                        className="h-5 w-5 text-gray-400"
+                      className="h-5 w-5 text-slate-400"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -441,14 +553,14 @@ const Navigation = () => {
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder="Search the website with AI-powered search..."
-                      className="w-full pl-12 pr-4 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full rounded-3xl border border-slate-200 bg-white px-12 py-4 pr-4 text-slate-900 placeholder-slate-400 shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-sky-500"
                     />
                     <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
-                      <div className="flex items-center gap-2 text-sm text-gray-400">
+                      <div className="flex items-center gap-2 text-sm text-slate-400">
                         <span className="hidden sm:inline">Powered by</span>
-                        <div className="flex items-center gap-1 bg-blue-500/20 px-2 py-1 rounded-lg border border-blue-400/30">
-                          <div className="w-4 h-4 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"></div>
-                          <span className="text-blue-300 font-bold text-xs">
+                        <div className="flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-2 py-1">
+                          <div className="h-4 w-4 rounded-full bg-slate-900"></div>
+                          <span className="text-xs font-semibold text-slate-700">
                             Perplexity
                           </span>
                         </div>
@@ -460,7 +572,7 @@ const Navigation = () => {
                   {isSearching && (
                     <div className="flex items-center justify-center py-8">
                       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-                      <span className="ml-3 text-gray-300">
+                      <span className="ml-3 text-slate-500">
                         Searching with AI...
                       </span>
                     </div>
@@ -468,7 +580,7 @@ const Navigation = () => {
 
                   {searchResults.length > 0 && !isSearching && (
                     <div className="space-y-2">
-                      <div className="text-sm text-gray-400 mb-3">
+                      <div className="mb-3 text-sm text-slate-500">
                         Found {searchResults.length} result
                         {searchResults.length !== 1 ? "s" : ""}
                       </div>
@@ -479,24 +591,24 @@ const Navigation = () => {
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: index * 0.1 }}
                           onClick={() => handleSearchResultClick(result.url)}
-                          className="w-full text-left p-4 bg-white/5 hover:bg-white/10 rounded-xl border border-white/10 hover:border-white/20 transition-all duration-300 group"
+                          className="group w-full rounded-3xl border border-slate-200 bg-white p-4 text-left shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
                         >
                           <div className="flex items-start gap-3">
                             <div className="text-2xl">
                               {result.type === "page" ? "📄" : "🔗"}
                             </div>
                             <div className="flex-1">
-                              <h3 className="text-white font-bold group-hover:text-blue-400 transition-colors">
+                              <h3 className="font-semibold text-slate-900 transition-colors group-hover:text-sky-600">
                                 {result.title}
                               </h3>
-                              <p className="text-gray-400 text-sm mt-1 line-clamp-2">
+                              <p className="mt-1 line-clamp-2 text-sm text-slate-500">
                                 {result.description}
                               </p>
-                              <div className="text-blue-400 text-xs mt-2 font-mono">
+                              <div className="mt-2 font-mono text-xs text-sky-600">
                                 {result.url}
                               </div>
                             </div>
-                            <div className="text-blue-400/60 group-hover:text-blue-400 group-hover:translate-x-1 transition-all duration-300">
+                            <div className="text-slate-300 transition-all duration-300 group-hover:translate-x-1 group-hover:text-sky-600">
                               →
                             </div>
                           </div>
@@ -508,7 +620,7 @@ const Navigation = () => {
                   {searchQuery &&
                     !isSearching &&
                     searchResults.length === 0 && (
-                      <div className="text-center py-8 text-gray-400">
+                      <div className="py-8 text-center text-slate-500">
                         <div className="text-4xl mb-2">🔍</div>
                         <p>No results found for "{searchQuery}"</p>
                         <p className="text-sm mt-1">
@@ -524,47 +636,62 @@ const Navigation = () => {
 
         {/* Mobile Menu */}
         <AnimatePresence>
-          {isOpen && (
+          {isMobileMenuOpen && (
             <motion.div
               initial={{ opacity: 0, scaleY: 0 }}
               animate={{ opacity: 1, scaleY: 1 }}
               exit={{ opacity: 0, scaleY: 0 }}
               style={{ originY: 0 }}
               transition={{ duration: 0.3 }}
-              className="xl:hidden bg-black/95 backdrop-blur-xl border-t border-white/10"
+              className="border-t border-slate-200 bg-[#fbfbfd]/95 backdrop-blur-2xl lg:hidden"
             >
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-3">
+                <div className="rounded-3xl border border-slate-200 bg-white p-3 shadow-sm">
+                  <div className="mb-3 text-sm font-semibold text-slate-900">
+                    Free Resources
+                  </div>
+                  {resourceLinks.map((resource) => (
+                    <motion.a
+                      key={resource.label}
+                      href={resource.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => closeMenus()}
+                      className="block w-full rounded-2xl p-3 text-left font-semibold text-slate-900 transition-all duration-300 hover:bg-slate-50"
+                    >
+                      <span className="mr-3">{resource.emoji}</span>
+                      {resource.label}
+                    </motion.a>
+                  ))}
+                </div>
+
                 {navLinks.map((link) => (
                   <motion.button
                     key={link.path}
-                    onClick={() => {
-                      navigate(link.path);
-                      setIsOpen(false);
-                    }}
-                    className="block w-full text-left p-3 text-white hover:bg-white/10 rounded-xl transition-all duration-300 font-bold"
+                    onClick={() => handleNavigate(link.path)}
+                    className="block w-full rounded-2xl p-3 text-left font-semibold text-slate-900 transition-all duration-300 hover:bg-white"
                   >
-                    <span className="mr-3">{link.emoji}</span>
                     {link.label}
                   </motion.button>
                 ))}
 
-                <div className="border-t border-white/10 pt-4">
-                  <div className="text-blue-400 font-bold text-sm mb-3">
-                    🎭 TALENTS
+                <div className="border-t border-slate-200 pt-4">
+                  <div className="mb-3 text-sm font-semibold text-slate-900">
+                    Know More About AG
                   </div>
                   {talents.map((talent) => (
                     <motion.button
                       key={talent.id}
                       onClick={() => handleTalentClick(talent.id)}
-                      className="block w-full text-left p-3 hover:bg-white/10 rounded-xl transition-all duration-300 mb-2"
+                      className="mb-2 block w-full rounded-2xl p-3 text-left transition-all duration-300 hover:bg-white"
                     >
                       <div className="flex items-center gap-3">
                         <div className="text-2xl">{talent.icon}</div>
                         <div>
-                          <div className="text-white text-sm font-bold">
+                          <div className="text-sm font-semibold text-slate-900">
                             {talent.title}
                           </div>
-                          <div className="text-gray-400 text-xs">
+                          <div className="text-xs text-slate-500">
                             {talent.subtitle}
                           </div>
                         </div>
@@ -572,15 +699,6 @@ const Navigation = () => {
                     </motion.button>
                   ))}
                 </div>
-
-                <motion.a
-                  href="https://drive.google.com/file/d/1Mnmk6nP9l_Av0LvpgJQ5Tkjb7BqhY7nb/view?usp=sharing"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full text-center p-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl font-bold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 border border-blue-400/30"
-                >
-                  📄 RESUME
-                </motion.a>
               </div>
             </motion.div>
           )}
@@ -589,16 +707,13 @@ const Navigation = () => {
 
       {/* Click outside to close */}
       <AnimatePresence>
-        {(isOpen || isSearchOpen) && (
+        {(isAboutOpen || isResourcesOpen || isSearchOpen || isMobileMenuOpen) && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => {
-              setIsOpen(false);
-              setIsSearchOpen(false);
-            }}
-            className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm"
+            onClick={closeMenus}
+            className="fixed inset-0 z-40 bg-slate-900/10 backdrop-blur-sm"
           />
         )}
       </AnimatePresence>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Navigation from "../components/Navigation";
+import { buildNowProjectTracks } from "../data/aiSignals";
 
 interface Resource {
   name: string;
@@ -40,7 +41,7 @@ interface Project {
     importantPapers: string[];
     businessImpact: string;
   };
-  implementationGuides: {
+  implementationGuides?: {
     tutorials: {
       title: string;
       url: string;
@@ -231,7 +232,7 @@ for epoch in range(epochs):
     keySteps: [
       "Define conversation scope and intents",
       "Collect/create training conversations",
-      "Choose base model (GPT-3.5, GPT-4, Llama)",
+      "Choose a current base model (GPT-4.1/4o, Claude, Gemini, or Llama)",
       "Implement RAG or fine-tuning pipeline",
       "Add safety and content filtering",
       "Deploy and monitor performance",
@@ -240,9 +241,10 @@ for epoch in range(epochs):
       {
         name: "OpenAI GPT API",
         type: "API",
-        description: "Access to GPT-3.5 and GPT-4 for chat applications",
+        description:
+          "Access current OpenAI chat and multimodal models for conversational applications",
         link: "https://platform.openai.com/docs/guides/gpt",
-        pricing: "$0.002 per 1K tokens",
+        pricing: "Usage-based",
         category: "Commercial",
       },
       {
@@ -909,18 +911,18 @@ print(f"RMSE: {rmse:.2f}")`,
     keySteps: [
       "Collect domain-specific text data",
       "Data preprocessing and tokenization",
-      "Choose base model (GPT-2, GPT-3, T5)",
+      "Choose a current base model (GPT-4-class, Claude, Gemini, or open models like Llama/Gemma)",
       "Fine-tune or prompt engineering",
       "Implement generation strategies",
       "Quality evaluation and filtering",
     ],
     resources: [
       {
-        name: "OpenAI GPT-4 API",
+        name: "OpenAI frontier text models",
         type: "API",
         description: "State-of-the-art text generation",
-        link: "https://platform.openai.com/docs/models/gpt-4",
-        pricing: "$0.03 per 1K tokens",
+        link: "https://platform.openai.com/docs/models",
+        pricing: "Usage-based",
       },
       {
         name: "Common Crawl",
@@ -2735,6 +2737,82 @@ export default function AIProjects() {
             </motion.div>
           </motion.div>
         </div>
+
+        {/* Build-Now Tracks */}
+        <motion.div
+          className="mb-14 relative z-10"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.95 }}
+        >
+          <div className="rounded-[2rem] border border-white/15 bg-slate-950/25 backdrop-blur-xl p-8">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-2 rounded-full border border-pink-300/30 bg-pink-400/10 px-4 py-2 text-sm font-semibold text-pink-100">
+                Updated for April 2026
+              </div>
+              <h2 className="mt-4 text-3xl md:text-4xl font-black text-white">
+                Highest-Leverage AI Projects To Build Right Now
+              </h2>
+              <p className="mt-3 max-w-4xl mx-auto text-gray-100 leading-relaxed">
+                The strongest new projects are grounded, agentic, and tied to
+                specific workflows such as research, coding, document
+                intelligence, enterprise search, voice support, and brand-safe
+                media generation.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              {buildNowProjectTracks.map((track, index) => (
+                <motion.a
+                  key={track.id}
+                  href={track.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 1 + index * 0.08 }}
+                  className="group rounded-3xl border border-white/15 bg-white/10 p-6 transition-all duration-300 hover:-translate-y-1 hover:bg-white/15"
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+                    <span className="rounded-full border border-cyan-300/30 bg-cyan-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-cyan-100">
+                      {track.category}
+                    </span>
+                    <span
+                      className={`rounded-full px-3 py-1 text-xs font-bold ${
+                        track.difficulty === "Beginner"
+                          ? "bg-green-500/20 text-green-100 border border-green-300/30"
+                          : track.difficulty === "Intermediate"
+                            ? "bg-yellow-500/20 text-yellow-100 border border-yellow-300/30"
+                            : "bg-pink-500/20 text-pink-100 border border-pink-300/30"
+                      }`}
+                    >
+                      {track.difficulty}
+                    </span>
+                  </div>
+                  <h3 className="text-2xl font-black text-white mb-3 group-hover:text-cyan-200">
+                    {track.title}
+                  </h3>
+                  <p className="text-sm text-gray-100 leading-relaxed mb-4">
+                    {track.summary}
+                  </p>
+                  <p className="text-sm text-cyan-100 leading-relaxed mb-4">
+                    {track.outcome}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {track.stack.map((item) => (
+                      <span
+                        key={item}
+                        className="rounded-full border border-white/15 bg-black/20 px-3 py-1 text-xs font-medium text-gray-100"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </motion.a>
+              ))}
+            </div>
+          </div>
+        </motion.div>
 
         {/* Filters */}
         <div className="mb-12 space-y-6 relative z-10">

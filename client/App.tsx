@@ -16,6 +16,7 @@ import AIProjects from "./pages/AIProjects";
 import PromptEngineering from "./pages/PromptEngineering";
 import AIAgentTraining from "./pages/AIAgentTraining";
 import AIChampions from "./pages/AIChampions";
+import ResumeBuilder from "./pages/ResumeBuilder";
 import AIResearcher from "./pages/talents/AIResearcher";
 import SocialEntrepreneur from "./pages/talents/SocialEntrepreneur";
 import Marksman from "./pages/talents/Marksman";
@@ -44,6 +45,7 @@ const App = () => (
           <Route path="/prompt-engineering" element={<PromptEngineering />} />
           <Route path="/ai-agent-training" element={<AIAgentTraining />} />
           <Route path="/ai-champions" element={<AIChampions />} />
+          <Route path="/resume-builder" element={<ResumeBuilder />} />
           <Route path="/talent/ai-researcher" element={<AIResearcher />} />
           <Route
             path="/talent/social-entrepreneur"

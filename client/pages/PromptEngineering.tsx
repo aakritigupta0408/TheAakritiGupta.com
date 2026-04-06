@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navigation from "../components/Navigation";
+import { promptTabSignals } from "../data/aiSignals";
 
 interface PromptExample {
   id: string;
@@ -189,9 +190,9 @@ const promptTechniques: PromptTechnique[] = [
       ],
       communities: [
         {
-          name: "AI/ML Twitter Community",
-          url: "https://twitter.com/search?q=%23FewShotLearning",
-          platform: "Twitter",
+          name: "OpenAI Developer Community",
+          url: "https://community.openai.com/",
+          platform: "Community Forum",
           members: "100K+",
         },
       ],
@@ -873,6 +874,7 @@ export default function PromptEngineering() {
   const [userPrompt, setUserPrompt] = useState("");
   const [improvedPrompt, setImprovedPrompt] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const activePromptSignals = promptTabSignals[activeTab];
 
   const analyzePrompt = () => {
     if (!userPrompt.trim()) return;
@@ -882,12 +884,12 @@ export default function PromptEngineering() {
     // Simulate AI analysis
     setTimeout(() => {
       const improvements = [
-        "Add specific role definition (e.g., 'As an expert in...')",
-        "Include clear output format requirements",
-        "Specify constraints and parameters",
-        "Add context and background information",
-        "Request step-by-step reasoning",
-        "Include examples or patterns to follow",
+        "Assign a concrete role and explicit objective",
+        "Add the business or user context the model needs",
+        "Specify the exact output artifact you want back",
+        "List constraints, priorities, and non-goals",
+        "Define what sources, tools, or files may be used",
+        "Add success criteria so the answer can be reviewed",
       ];
 
       const randomImprovements = improvements.slice(
@@ -897,16 +899,26 @@ export default function PromptEngineering() {
 
       setImprovedPrompt(`**Improved Prompt:**
 
-As a [DEFINE ROLE/EXPERTISE], ${userPrompt.toLowerCase()}
+Role: You are a domain expert helping with this task.
+Objective: ${userPrompt}
 
-Please provide:
+Context:
+- Relevant background:
+- Audience:
+- Inputs or files available:
+
+Constraints:
 ${randomImprovements.map((imp, idx) => `${idx + 1}. ${imp}`).join("\n")}
 
+Deliverable:
+- Return the answer as a structured output I can review quickly.
+- Cite sources or assumptions when factual accuracy matters.
+- End with the top 3 next actions.
+
 **Analysis:**
-- Added role specification for expert context
-- Structured output requirements for clarity
-- Enhanced with specific constraints
-- Improved formatting for better results`);
+- Reframed the request as an operating brief instead of a vague question
+- Added explicit constraints and reviewable deliverables
+- Improved the prompt for current research and agent-style workflows`);
 
       setIsAnalyzing(false);
     }, 2000);
@@ -1010,6 +1022,66 @@ ${randomImprovements.map((imp, idx) => `${idx + 1}. ${imp}`).join("\n")}
             ))}
           </motion.div>
         </div>
+
+        <motion.div
+          className="mb-10 rounded-[2rem] border border-white/15 bg-white/10 p-6 md:p-8 backdrop-blur-xl"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.7 }}
+        >
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-6">
+            <div>
+              <div className="inline-flex rounded-full border border-cyan-300/30 bg-cyan-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-cyan-100 mb-3">
+                Latest Prompt Patterns · April 2026
+              </div>
+              <h2 className="text-2xl md:text-3xl font-black text-white">
+                {activeTab === "examples" && "Current Examples Of High-Leverage Prompting"}
+                {activeTab === "techniques" && "Technique Shifts Driven By Agentic AI"}
+                {activeTab === "playground" && "What To Practice In Modern Prompt Workshops"}
+              </h2>
+            </div>
+            <p className="text-sm text-gray-200 max-w-2xl">
+              The strongest prompts now act more like operating briefs for
+              assistants and agents than like one-line magic phrases.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            {activePromptSignals.map((signal, index) => (
+              <motion.a
+                key={signal.id}
+                href={signal.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: index * 0.08 }}
+                className="rounded-2xl border border-white/15 bg-slate-950/25 p-5 transition-all duration-300 hover:bg-slate-950/35"
+              >
+                <div className="flex items-center justify-between gap-3 mb-3">
+                  <span className="rounded-full border border-purple-300/30 bg-purple-400/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-purple-100">
+                    {signal.category}
+                  </span>
+                  <span className="text-xs font-semibold text-gray-300">
+                    {signal.date}
+                  </span>
+                </div>
+                <h3 className="text-lg font-black text-white mb-2">
+                  {signal.title}
+                </h3>
+                <p className="text-sm font-semibold text-cyan-100 mb-3">
+                  {signal.org}
+                </p>
+                <p className="text-sm text-gray-200 leading-relaxed mb-3">
+                  {signal.summary}
+                </p>
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  {signal.impact}
+                </p>
+              </motion.a>
+            ))}
+          </div>
+        </motion.div>
 
         {/* Examples Section */}
         {activeTab === "examples" && (

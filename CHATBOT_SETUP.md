@@ -24,7 +24,7 @@ The chatbot knows about:
 - ✅ Professional dark/light theme integration
 - ✅ Suggested questions for easy starting
 - ✅ Typing indicators and smooth animations
-- ✅ Local fallback responses (currently active)
+- ✅ Server-side `/api/chat` endpoint with local fallback responses
 
 ## 🚀 To Enable OpenAI API Integration
 
@@ -39,46 +39,39 @@ The chatbot knows about:
 
 Add to your `.env` file:
 
-```
+```bash
 OPENAI_API_KEY=your_api_key_here
+OPENAI_CHAT_MODEL=gpt-4o-mini
 ```
 
-### Step 3: Create API Endpoint
+### Step 3: Start the Existing API Endpoint
 
-Create `pages/api/chat.ts` (or `app/api/chat/route.ts` for App Router):
+This repo already includes the chat endpoint:
 
-```typescript
-import { callOpenAI } from "@/api/chat";
-
-export async function POST(request: Request) {
-  try {
-    const { message } = await request.json();
-    const response = await callOpenAI(message);
-
-    return new Response(JSON.stringify({ response }), {
-      headers: { "Content-Type": "application/json" },
-    });
-  } catch (error) {
-    return new Response(
-      JSON.stringify({ error: "Failed to process message" }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
-  }
-}
+```text
+POST /api/chat
 ```
 
-### Step 4: Enable API in ChatBot
+It is wired through:
 
-In `client/components/ChatBot.tsx`, uncomment the API call section (lines ~85-95) and remove the local fallback.
+- `client/components/ChatBot.tsx`
+- `client/api/chat.ts`
+- `server/routes/chat.ts`
+- `shared/chat.ts`
+
+### Step 4: Run the App
+
+```bash
+npm run dev
+```
 
 ## 💡 Current Status
 
-**Currently Running**: Local intelligent responses (no API key required)
+**Currently Running**: Server-backed chat with local intelligent fallback
 
-- The chatbot is fully functional with smart local responses
+- The chatbot is fully functional without an API key
+- If `OPENAI_API_KEY` is set, `/api/chat` calls OpenAI from the server
+- If the API key is missing or the request fails, the chatbot falls back locally
 - Covers all major questions about your background
 - Professional and conversational tone
 - Ready to use immediately
@@ -115,7 +108,7 @@ When users first open the chat:
 
 ### Modify Responses
 
-Edit the responses in `client/components/ChatBot.tsx` in the `simulateAIResponse` function.
+Edit the fallback responses in `shared/chat.ts`.
 
 ### Change Appearance
 
@@ -125,7 +118,7 @@ Edit the responses in `client/components/ChatBot.tsx` in the `simulateAIResponse
 
 ### Add More Knowledge
 
-Update the `SYSTEM_PROMPT` in `client/api/chat.ts` to include additional information about your work.
+Update the system prompt and fallback responses in `shared/chat.ts`.
 
 ## 🚀 The chatbot is now live on your website!
 

@@ -10,3 +10,20 @@
 export interface DemoResponse {
   message: string;
 }
+
+export interface SaveEmailRequest {
+  email: string;
+}
+
+export interface SaveEmailResponse {
+  success: boolean;
+  message: string;
+}
+
+export interface ChatRequest {
+  message: string;
+}
+
+export interface ChatResponse {
+  response: string;
+}

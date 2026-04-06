@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import ChatBot from "@/components/ChatBot";
 import { saveEmailToLocalStorage } from "@/api/save-email";
+import type { SaveEmailRequest, SaveEmailResponse } from "@shared/api";
 
 // Photo gallery with creative transitions
 const PhotoGallery = () => {
@@ -226,38 +227,73 @@ export default function Index() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [isSavingEmail, setIsSavingEmail] = useState(false);
+  const [emailMessage, setEmailMessage] = useState<string | null>(null);
+  const [emailMessageTone, setEmailMessageTone] = useState<
+    "success" | "error" | null
+  >(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      try {
-        saveEmailToLocalStorage(email);
+    const normalizedEmail = email.trim();
 
-        try {
-          await fetch("/api/save-email", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email }),
-          });
-        } catch (serverError) {
-          console.log("Server save failed, using localStorage:", serverError);
-        }
-
-        setEmailSubmitted(true);
-        setTimeout(() => {
-          setEmailSubmitted(false);
-          setEmail("");
-        }, 3000);
-      } catch (error) {
-        console.error("Error saving email:", error);
-        setEmailSubmitted(true);
-        setTimeout(() => {
-          setEmailSubmitted(false);
-          setEmail("");
-        }, 3000);
-      }
+    if (!normalizedEmail || isSavingEmail) {
+      return;
     }
+
+    setIsSavingEmail(true);
+    setEmailMessage(null);
+    setEmailMessageTone(null);
+
+    const savedLocally = saveEmailToLocalStorage(normalizedEmail);
+    let savedRemotely = false;
+
+    try {
+      const requestBody: SaveEmailRequest = { email: normalizedEmail };
+      const response = await fetch("/api/save-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        const errorBody = (await response
+          .json()
+          .catch(() => null)) as SaveEmailResponse | null;
+
+        throw new Error(
+          errorBody?.message || "Server failed to save the email.",
+        );
+      }
+
+      savedRemotely = true;
+    } catch (serverError) {
+      console.log("Server save failed, using localStorage:", serverError);
+    } finally {
+      setIsSavingEmail(false);
+    }
+
+    if (savedLocally || savedRemotely) {
+      setEmailSubmitted(true);
+      setEmailMessageTone("success");
+      setEmailMessage(
+        savedRemotely
+          ? "Thanks. You are on the list."
+          : "Saved locally for now. It will sync once the server is available.",
+      );
+      setTimeout(() => {
+        setEmailSubmitted(false);
+        setEmail("");
+        setEmailMessage(null);
+        setEmailMessageTone(null);
+      }, 3000);
+      return;
+    }
+
+    setEmailSubmitted(false);
+    setEmailMessageTone("error");
+    setEmailMessage("Could not save your email right now. Please try again.");
   };
 
   useEffect(() => {
@@ -269,32 +305,24 @@ export default function Index() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-black relative overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden bg-[#f5f5f7] text-slate-900">
       <Navigation />
 
-      {/* Floating achievement badges */}
-      <AchievementBadges />
-
-      {/* Dynamic cursor glow */}
-      <motion.div
-        className="fixed w-96 h-96 bg-blue-500/20 rounded-full blur-3xl pointer-events-none z-0"
-        style={{
-          left: mousePosition.x - 192,
-          top: mousePosition.y - 192,
-        }}
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
+      <div className="pointer-events-none absolute inset-0 z-0">
+        <div className="absolute left-1/2 top-0 h-[32rem] w-[32rem] -translate-x-1/2 rounded-full bg-white blur-3xl opacity-90" />
+        <motion.div
+          className="absolute h-80 w-80 rounded-full bg-sky-100/60 blur-3xl"
+          style={{
+            left: mousePosition.x / 12,
+            top: mousePosition.y / 12,
+          }}
+          animate={{ opacity: [0.35, 0.55, 0.35] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </div>
 
       {/* Hero Section */}
-      <section className="relative z-20 min-h-screen flex items-center justify-center px-6 py-20">
+      <section className="relative z-20 flex min-h-screen items-center justify-center px-6 py-24 pt-32 lg:pt-40">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           {/* Left Side - Content */}
           <motion.div
@@ -306,35 +334,16 @@ export default function Index() {
             {/* Name and Title with animated gradient */}
             <div className="space-y-6">
               <motion.h1
-                className="text-6xl lg:text-8xl font-black bg-gradient-to-r from-white via-cyan-200 to-purple-200 bg-clip-text text-transparent leading-tight"
+                className="text-5xl font-semibold leading-[0.92] tracking-[-0.06em] text-slate-900 sm:text-6xl lg:text-8xl"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.8 }}
                 whileHover={{ scale: 1.02 }}
-                style={{
-                  backgroundSize: "200% 200%",
-                  animation: "gradientShift 4s ease infinite",
-                }}
               >
                 AAKRITI
                 <br />
                 GUPTA
               </motion.h1>
-
-              {/* Add gradient animation keyframes */}
-              <style>{`
-                @keyframes gradientShift {
-                  0% {
-                    background-position: 0% 50%;
-                  }
-                  50% {
-                    background-position: 100% 50%;
-                  }
-                  100% {
-                    background-position: 0% 50%;
-                  }
-                }
-              `}</style>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -342,6 +351,10 @@ export default function Index() {
                 transition={{ delay: 0.5, duration: 0.8 }}
                 className="space-y-3"
               >
+                <div className="max-w-xl text-lg leading-8 text-slate-600">
+                  Building thoughtful AI products, research-driven systems, and
+                  modern interactive learning experiences.
+                </div>
                 <div className="space-y-4">
                   {[
                     {
@@ -365,14 +378,14 @@ export default function Index() {
                   ].map((role, idx) => (
                     <motion.div
                       key={idx}
-                      className="group flex items-center gap-4 p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300"
+                      className="group flex items-center gap-4 rounded-3xl border border-slate-200/80 bg-white/75 p-4 shadow-[0_12px_30px_rgba(15,23,42,0.06)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 hover:bg-white"
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.6 + idx * 0.1 }}
-                      whileHover={{ scale: 1.02, x: 10 }}
+                      whileHover={{ scale: 1.01 }}
                     >
                       <motion.div
-                        className={`w-12 h-12 bg-gradient-to-r ${role.gradient} rounded-full flex items-center justify-center text-lg shadow-lg`}
+                        className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-lg shadow-inner"
                         animate={{ scale: [1, 1.1, 1] }}
                         transition={{
                           duration: 2,
@@ -383,10 +396,10 @@ export default function Index() {
                         {role.icon}
                       </motion.div>
                       <div>
-                        <p className="text-xl text-white font-bold group-hover:text-cyan-300 transition-colors">
+                        <p className="text-xl font-semibold text-slate-900 transition-colors">
                           {role.title}
                         </p>
-                        <p className="text-sm text-gray-300 group-hover:text-white transition-colors">
+                        <p className="text-sm text-slate-500 transition-colors">
                           {role.desc}
                         </p>
                       </div>
@@ -401,13 +414,13 @@ export default function Index() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.8 }}
-              className="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10"
+              className="rounded-[2rem] border border-slate-200/80 bg-white/78 p-6 shadow-[0_18px_40px_rgba(15,23,42,0.08)] backdrop-blur-xl"
             >
-              <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+              <h3 className="mb-4 flex items-center gap-2 font-semibold text-slate-900">
                 <span className="text-2xl">🏆</span>
                 Recognition & Achievements
               </h3>
-              <div className="space-y-2 text-white/80">
+              <div className="space-y-2 text-slate-600">
                 <p>• Recognized by Dr. Yann LeCun at ICLR 2019</p>
                 <p>• Building AI to make life simpler</p>
                 <p>• From Delhi to Silicon Valley</p>
@@ -428,11 +441,10 @@ export default function Index() {
                 href="https://drive.google.com/file/d/1Mnmk6nP9l_Av0LvpgJQ5Tkjb7BqhY7nb/view?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.05, y: -2 }}
+                whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 group"
+                className="group relative overflow-hidden rounded-full bg-slate-900 px-8 py-4 text-lg font-medium text-white shadow-[0_16px_36px_rgba(15,23,42,0.18)] transition-all duration-300"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative flex items-center justify-center gap-3">
                   <span className="text-2xl">📄</span>
                   <span>Download Resume</span>
@@ -445,11 +457,10 @@ export default function Index() {
               <div className="grid grid-cols-2 gap-4">
                 <motion.button
                   onClick={() => navigate("/games")}
-                  whileHover={{ scale: 1.05, y: -3 }}
+                  whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="relative group bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-md border border-white/30 text-white px-6 py-4 rounded-2xl font-bold hover:from-purple-500/30 hover:to-pink-500/30 transition-all duration-300 flex items-center justify-center gap-3 shadow-lg overflow-hidden"
+                  className="group relative flex items-center justify-center gap-3 overflow-hidden rounded-3xl border border-slate-200 bg-white/82 px-6 py-4 font-medium text-slate-900 shadow-sm transition-all duration-300 hover:bg-white"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600/0 to-pink-600/0 group-hover:from-purple-600/20 group-hover:to-pink-600/20 transition-all duration-500"></div>
                   <motion.span
                     className="text-2xl relative z-10"
                     animate={{ rotate: [0, 5, -5, 0] }}
@@ -457,18 +468,15 @@ export default function Index() {
                   >
                     🎮
                   </motion.span>
-                  <span className="relative z-10 group-hover:text-pink-200 transition-colors">
-                    Games
-                  </span>
+                  <span className="relative z-10 transition-colors">Games</span>
                 </motion.button>
 
                 <motion.button
                   onClick={() => navigate("/ai-playground")}
-                  whileHover={{ scale: 1.05, y: -3 }}
+                  whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="relative group bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-md border border-white/30 text-white px-6 py-4 rounded-2xl font-bold hover:from-blue-500/30 hover:to-cyan-500/30 transition-all duration-300 flex items-center justify-center gap-3 shadow-lg overflow-hidden"
+                  className="group relative flex items-center justify-center gap-3 overflow-hidden rounded-3xl border border-slate-200 bg-white/82 px-6 py-4 font-medium text-slate-900 shadow-sm transition-all duration-300 hover:bg-white"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600/0 to-cyan-600/0 group-hover:from-blue-600/20 group-hover:to-cyan-600/20 transition-all duration-500"></div>
                   <motion.span
                     className="text-2xl relative z-10"
                     animate={{ scale: [1, 1.1, 1] }}
@@ -476,8 +484,8 @@ export default function Index() {
                   >
                     🤖
                   </motion.span>
-                  <span className="relative z-10 group-hover:text-cyan-200 transition-colors">
-                    AI Tools
+                  <span className="relative z-10">
+                    Interactive Demos
                   </span>
                 </motion.button>
               </div>
@@ -487,7 +495,7 @@ export default function Index() {
                   onClick={() => navigate("/ai-discoveries")}
                   whileHover={{ scale: 1.02, y: -1 }}
                   whileTap={{ scale: 0.98 }}
-                  className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-6 py-3 rounded-xl font-medium hover:bg-white/20 transition-all duration-300 flex items-center justify-center gap-2"
+                  className="flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-transparent px-6 py-3 font-medium text-slate-700 transition-all duration-300 hover:bg-white"
                 >
                   <span className="text-xl">🧠</span>
                   <span>AI History</span>
@@ -497,7 +505,7 @@ export default function Index() {
                   onClick={() => navigate("/ai-tools")}
                   whileHover={{ scale: 1.02, y: -1 }}
                   whileTap={{ scale: 0.98 }}
-                  className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-6 py-3 rounded-xl font-medium hover:bg-white/20 transition-all duration-300 flex items-center justify-center gap-2"
+                  className="flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-transparent px-6 py-3 font-medium text-slate-700 transition-all duration-300 hover:bg-white"
                 >
                   <span className="text-xl">🛠️</span>
                   <span>Pro Tools</span>
@@ -507,14 +515,13 @@ export default function Index() {
               {/* New Prompt Engineering Button */}
               <motion.button
                 onClick={() => navigate("/prompt-engineering")}
-                whileHover={{ scale: 1.05, y: -3 }}
+                whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative group w-full bg-gradient-to-r from-violet-500/20 to-fuchsia-500/20 backdrop-blur-md border border-white/30 text-white px-6 py-4 rounded-2xl font-bold hover:from-violet-500/30 hover:to-fuchsia-500/30 transition-all duration-300 flex items-center justify-center gap-3 shadow-lg overflow-hidden"
+                className="group relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-3xl border border-slate-200 bg-white/82 px-6 py-4 text-slate-900 shadow-sm transition-all duration-300 hover:bg-white"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.4 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-violet-600/0 to-fuchsia-600/0 group-hover:from-violet-600/20 group-hover:to-fuchsia-600/20 transition-all duration-500"></div>
                 <motion.span
                   className="text-2xl relative z-10"
                   animate={{
@@ -526,10 +533,10 @@ export default function Index() {
                   ✨
                 </motion.span>
                 <div className="relative z-10 text-center">
-                  <div className="group-hover:text-fuchsia-200 transition-colors font-black">
+                  <div className="font-semibold transition-colors">
                     Prompt Engineering Mastery
                   </div>
-                  <div className="text-xs opacity-80 group-hover:opacity-100 transition-opacity">
+                  <div className="text-xs text-slate-500 transition-opacity">
                     Master AI Communication
                   </div>
                 </div>
@@ -538,14 +545,13 @@ export default function Index() {
               {/* AI Agent Training Button */}
               <motion.button
                 onClick={() => navigate("/ai-agent-training")}
-                whileHover={{ scale: 1.05, y: -3 }}
+                whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative group w-full bg-gradient-to-r from-cyan-500/20 to-blue-500/20 backdrop-blur-md border border-white/30 text-white px-6 py-4 rounded-2xl font-bold hover:from-cyan-500/30 hover:to-blue-500/30 transition-all duration-300 flex items-center justify-center gap-3 shadow-lg overflow-hidden"
+                className="group relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-3xl border border-slate-200 bg-white/82 px-6 py-4 text-slate-900 shadow-sm transition-all duration-300 hover:bg-white"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.5 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-600/0 to-blue-600/0 group-hover:from-cyan-600/20 group-hover:to-blue-600/20 transition-all duration-500"></div>
                 <motion.span
                   className="text-2xl relative z-10"
                   animate={{
@@ -557,10 +563,10 @@ export default function Index() {
                   🤖
                 </motion.span>
                 <div className="relative z-10 text-center">
-                  <div className="group-hover:text-cyan-200 transition-colors font-black">
+                  <div className="font-semibold transition-colors">
                     AI Agent Training
                   </div>
-                  <div className="text-xs opacity-80 group-hover:opacity-100 transition-opacity">
+                  <div className="text-xs text-slate-500 transition-opacity">
                     Build Intelligent Agents
                   </div>
                 </div>
@@ -569,14 +575,13 @@ export default function Index() {
               {/* AI Champions Button */}
               <motion.button
                 onClick={() => navigate("/ai-champions")}
-                whileHover={{ scale: 1.05, y: -3 }}
+                whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative group w-full bg-gradient-to-r from-red-500/20 to-orange-500/20 backdrop-blur-md border border-white/30 text-white px-6 py-4 rounded-2xl font-bold hover:from-red-500/30 hover:to-orange-500/30 transition-all duration-300 flex items-center justify-center gap-3 shadow-lg overflow-hidden"
+                className="group relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-3xl border border-slate-200 bg-white/82 px-6 py-4 text-slate-900 shadow-sm transition-all duration-300 hover:bg-white"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.6 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-red-600/0 to-orange-600/0 group-hover:from-red-600/20 group-hover:to-orange-600/20 transition-all duration-500"></div>
                 <motion.span
                   className="text-2xl relative z-10"
                   animate={{
@@ -587,7 +592,7 @@ export default function Index() {
                 >
                   🏆
                 </motion.span>
-                <span className="relative z-10 group-hover:text-orange-200 transition-colors">
+                <span className="relative z-10">
                   AI vs Champions
                 </span>
               </motion.button>
@@ -601,41 +606,27 @@ export default function Index() {
             transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
             className="relative"
           >
-            <div className="aspect-[4/5] max-w-md mx-auto">
+            <div className="mx-auto aspect-[4/5] max-w-md rounded-[2rem] border border-white/70 bg-white/80 p-4 shadow-[0_28px_80px_rgba(15,23,42,0.12)] backdrop-blur-xl">
               <PhotoGallery />
             </div>
 
             {/* Decorative elements */}
             <motion.div
-              className="absolute -top-4 -right-4 w-32 h-32 bg-gradient-to-br from-blue-500/30 to-purple-500/30 rounded-full blur-2xl"
-              animate={{
-                scale: [1, 1.2, 1],
-                rotate: [0, 180, 360],
-              }}
-              transition={{
-                duration: 10,
-                repeat: Infinity,
-                ease: "linear",
-              }}
+              className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-sky-100/80 blur-3xl"
+              animate={{ scale: [1, 1.08, 1] }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
             />
             <motion.div
-              className="absolute -bottom-4 -left-4 w-24 h-24 bg-gradient-to-br from-pink-500/30 to-yellow-500/30 rounded-full blur-2xl"
-              animate={{
-                scale: [1.2, 1, 1.2],
-                rotate: [360, 180, 0],
-              }}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-                ease: "linear",
-              }}
+              className="absolute -bottom-8 -left-8 h-28 w-28 rounded-full bg-slate-200/80 blur-3xl"
+              animate={{ scale: [1.06, 1, 1.06] }}
+              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
             />
           </motion.div>
         </div>
       </section>
 
       {/* Skills & Talents Showcase */}
-      <section className="relative z-20 py-20 border-t border-white/10">
+      <section className="relative z-20 border-t border-slate-200 py-20">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -644,14 +635,14 @@ export default function Index() {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h2 className="text-5xl font-bold text-white mb-6">
+            <h2 className="mb-6 text-5xl font-semibold text-slate-900">
               Multi-Disciplinary
-              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <span className="text-slate-500">
                 {" "}
                 Expertise
               </span>
             </h2>
-            <p className="text-white/70 text-xl max-w-3xl mx-auto">
+            <p className="mx-auto max-w-3xl text-xl text-slate-600">
               A unique blend of technical mastery and diverse talents, from AI
               research to luxury innovation
             </p>
@@ -715,17 +706,17 @@ export default function Index() {
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1, duration: 0.6 }}
                 whileHover={{ scale: 1.05, y: -5 }}
-                className="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300 cursor-pointer group"
+                className="group cursor-pointer rounded-[2rem] border border-slate-200 bg-white/82 p-6 shadow-[0_16px_34px_rgba(15,23,42,0.06)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white"
               >
                 <div
-                  className={`w-16 h-16 bg-gradient-to-br ${skill.color} rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform duration-300`}
+                  className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-2xl transition-transform duration-300 group-hover:scale-105"
                 >
                   {skill.icon}
                 </div>
-                <h3 className="text-white font-semibold text-lg mb-2">
+                <h3 className="mb-2 text-lg font-semibold text-slate-900">
                   {skill.title}
                 </h3>
-                <p className="text-white/70 text-sm">{skill.desc}</p>
+                <p className="text-sm text-slate-500">{skill.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -733,7 +724,7 @@ export default function Index() {
       </section>
 
       {/* Contact Section */}
-      <section className="relative z-20 py-20 border-t border-white/10">
+      <section className="relative z-20 border-t border-slate-200 py-20">
         <div className="max-w-4xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -742,14 +733,14 @@ export default function Index() {
             transition={{ duration: 0.8 }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl font-bold text-white mb-6">
+            <h2 className="mb-6 text-4xl font-semibold text-slate-900">
               Let's Build the
-              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <span className="text-slate-500">
                 {" "}
                 Future Together
               </span>
             </h2>
-            <p className="text-white/70 text-lg">
+            <p className="text-lg text-slate-600">
               Available for consulting, speaking engagements, and collaboration
               opportunities
             </p>
@@ -769,18 +760,18 @@ export default function Index() {
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02, x: 5 }}
-                className="flex items-center gap-4 bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:border-blue-500/50 transition-all duration-300 group"
+                className="group flex items-center gap-4 rounded-[2rem] border border-slate-200 bg-white/82 p-6 shadow-[0_14px_32px_rgba(15,23,42,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-white"
               >
-                <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-white font-bold text-xl group-hover:scale-110 transition-transform duration-300">
+                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#0071e3] text-xl font-semibold text-white transition-transform duration-300 group-hover:scale-105">
                   in
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold">LinkedIn</h3>
-                  <p className="text-white/70 text-sm">
+                  <h3 className="font-semibold text-slate-900">LinkedIn</h3>
+                  <p className="text-sm text-slate-500">
                     Professional network & experience
                   </p>
                 </div>
-                <div className="ml-auto text-blue-400 group-hover:translate-x-2 transition-transform duration-300">
+                <div className="ml-auto text-slate-300 transition-transform duration-300 group-hover:translate-x-2 group-hover:text-[#0071e3]">
                   →
                 </div>
               </motion.a>
@@ -790,18 +781,18 @@ export default function Index() {
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02, x: 5 }}
-                className="flex items-center gap-4 bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:border-gray-500/50 transition-all duration-300 group"
+                className="group flex items-center gap-4 rounded-[2rem] border border-slate-200 bg-white/82 p-6 shadow-[0_14px_32px_rgba(15,23,42,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-white"
               >
-                <div className="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center text-white font-bold text-lg group-hover:scale-110 transition-transform duration-300">
+                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-900 text-lg font-semibold text-white transition-transform duration-300 group-hover:scale-105">
                   Git
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold">GitHub</h3>
-                  <p className="text-white/70 text-sm">
+                  <h3 className="font-semibold text-slate-900">GitHub</h3>
+                  <p className="text-sm text-slate-500">
                     Open source contributions & projects
                   </p>
                 </div>
-                <div className="ml-auto text-gray-400 group-hover:translate-x-2 transition-transform duration-300">
+                <div className="ml-auto text-slate-300 transition-transform duration-300 group-hover:translate-x-2 group-hover:text-slate-900">
                   →
                 </div>
               </motion.a>
@@ -813,12 +804,12 @@ export default function Index() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10"
+              className="rounded-[2rem] border border-slate-200 bg-white/82 p-8 shadow-[0_18px_40px_rgba(15,23,42,0.08)] backdrop-blur-xl"
             >
-              <h3 className="text-white font-semibold text-xl mb-4">
+              <h3 className="mb-4 text-xl font-semibold text-slate-900">
                 Get Exclusive Updates
               </h3>
-              <p className="text-white/70 mb-6">
+              <p className="mb-6 text-slate-600">
                 Stay informed about latest AI research, projects, and speaking
                 engagements
               </p>
@@ -829,22 +820,39 @@ export default function Index() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your@email.com"
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:border-blue-500 focus:outline-none transition-colors"
+                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 transition-colors focus:border-sky-500 focus:outline-none"
                   required
                 />
                 <motion.button
                   type="submit"
-                  disabled={emailSubmitted}
-                  whileHover={{ scale: emailSubmitted ? 1 : 1.02 }}
-                  whileTap={{ scale: emailSubmitted ? 1 : 0.98 }}
+                  disabled={emailSubmitted || isSavingEmail}
+                  whileHover={{ scale: emailSubmitted || isSavingEmail ? 1 : 1.02 }}
+                  whileTap={{ scale: emailSubmitted || isSavingEmail ? 1 : 0.98 }}
                   className={`w-full py-3 rounded-xl font-semibold transition-all duration-300 ${
                     emailSubmitted
                       ? "bg-green-600 text-white"
-                      : "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700"
+                      : isSavingEmail
+                        ? "cursor-wait bg-slate-800/80 text-white"
+                        : "bg-slate-900 text-white hover:bg-slate-800"
                   }`}
                 >
-                  {emailSubmitted ? "✓ Subscribed!" : "Subscribe"}
+                  {emailSubmitted
+                    ? "✓ Subscribed!"
+                    : isSavingEmail
+                      ? "Saving..."
+                      : "Subscribe"}
                 </motion.button>
+                {emailMessage && (
+                  <p
+                    className={`text-sm ${
+                      emailMessageTone === "error"
+                        ? "text-red-600"
+                        : "text-emerald-600"
+                    }`}
+                  >
+                    {emailMessage}
+                  </p>
+                )}
               </form>
             </motion.div>
           </div>
@@ -852,13 +860,13 @@ export default function Index() {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-20 py-12 border-t border-white/10">
+      <footer className="relative z-20 border-t border-slate-200 py-12">
         <div className="max-w-7xl mx-auto px-6 text-center">
-          <p className="text-white/50 text-sm">
-            © 2024 Aakriti Gupta • Senior ML Engineer • AI Researcher • Luxury
+          <p className="text-sm text-slate-500">
+            © 2026 Aakriti Gupta • Senior ML Engineer • AI Researcher • Luxury
             Tech Visionary
           </p>
-          <div className="mt-4 flex justify-center gap-8 text-xs text-white/30">
+          <div className="mt-4 flex justify-center gap-8 text-xs text-slate-400">
             <span>Delhi to Silicon Valley</span>
             <span>•</span>
             <span>Meta • eBay • Yahoo</span>

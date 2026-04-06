@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Navigation from "../components/Navigation";
+import {
+  aiUseCasesNow,
+  latestAIProductLaunches,
+} from "../data/aiSignals";
 
 interface AITool {
   name: string;
@@ -34,7 +38,7 @@ interface Profession {
   alternativeTools: AITool[];
   useCase: string;
   timesSaved: string;
-  learningResources: {
+  learningResources?: {
     courses: { title: string; url: string; provider: string; price: string }[];
     communities: {
       name: string;
@@ -65,25 +69,27 @@ const professions: Profession[] = [
       name: "GitHub Copilot",
       link: "https://github.com/features/copilot",
       description:
-        "AI pair programmer that suggests code and entire functions in real-time as you type.",
-      pricing: "$10/month",
+        "AI coding assistant for chat, code generation, pull request help, and larger review-ready development tasks.",
+      pricing: "See pricing",
       category: "Code Generation",
       rating: 4.8,
     },
     alternativeTools: [
       {
-        name: "Tabnine",
-        link: "https://www.tabnine.com/",
-        description: "AI code completion that learns from your codebase",
-        pricing: "Free / $12/month",
-        category: "Code Completion",
-        rating: 4.5,
+        name: "Codex",
+        link: "https://openai.com/index/introducing-gpt-5-3-codex/",
+        description:
+          "OpenAI's interactive coding workspace for supervising longer-running agentic software tasks.",
+        pricing: "Included with supported OpenAI plans",
+        category: "Coding Agents",
+        rating: 4.6,
       },
       {
         name: "Cursor",
-        link: "https://cursor.sh/",
-        description: "AI-first code editor built for pair programming with AI",
-        pricing: "$20/month",
+        link: "https://cursor.com/blog/cursor-3",
+        description:
+          "Agent-first coding workspace built for multi-file edits, code understanding, and longer execution loops.",
+        pricing: "See pricing",
         category: "IDE",
         rating: 4.7,
       },
@@ -101,10 +107,10 @@ const professions: Profession[] = [
     aiAdoption: 88,
     primaryTool: {
       name: "ChatGPT",
-      link: "https://chat.openai.com/",
+      link: "https://chatgpt.com/",
       description:
-        "Advanced AI assistant for writing, editing, brainstorming, and content strategy.",
-      pricing: "Free / $20/month",
+        "General-purpose writing assistant used for drafting, restructuring, editing, brainstorming, and content strategy.",
+      pricing: "Free / Paid plans",
       category: "Writing Assistant",
       rating: 4.6,
     },
@@ -118,12 +124,13 @@ const professions: Profession[] = [
         rating: 4.4,
       },
       {
-        name: "Copy.ai",
-        link: "https://www.copy.ai/",
-        description: "AI copywriting platform for marketing and sales content",
-        pricing: "Free / $36/month",
-        category: "Marketing Copy",
-        rating: 4.3,
+        name: "Claude",
+        link: "https://claude.ai/",
+        description:
+          "Strong long-form writing and editing assistant favored for structured drafts and revision-heavy work.",
+        pricing: "Free / Paid plans",
+        category: "Writing Assistant",
+        rating: 4.5,
       },
     ],
     useCase:
@@ -179,12 +186,12 @@ const professions: Profession[] = [
     impactLevel: "Critical",
     aiAdoption: 92,
     primaryTool: {
-      name: "DataRobot",
-      link: "https://www.datarobot.com/",
+      name: "Databricks",
+      link: "https://www.databricks.com/product/data-intelligence-platform",
       description:
-        "Automated machine learning platform that accelerates data science workflows.",
-      pricing: "Contact Sales",
-      category: "AutoML",
+        "Data and AI platform used for model development, analytics, orchestration, and governed enterprise data workflows.",
+      pricing: "See pricing",
+      category: "Data Platform",
       rating: 4.6,
     },
     alternativeTools: [
@@ -197,11 +204,12 @@ const professions: Profession[] = [
         rating: 4.5,
       },
       {
-        name: "Databricks",
-        link: "https://databricks.com/",
-        description: "Unified analytics platform for data science and ML",
-        pricing: "Pay-as-you-go",
-        category: "Data Platform",
+        name: "DataRobot",
+        link: "https://www.datarobot.com/",
+        description:
+          "AutoML and enterprise AI tooling for predictive modeling, governance, and operational analytics.",
+        pricing: "See pricing",
+        category: "AutoML",
         rating: 4.4,
       },
     ],
@@ -256,30 +264,32 @@ const professions: Profession[] = [
     impactLevel: "High",
     aiAdoption: 78,
     primaryTool: {
-      name: "Zendesk Answer Bot",
-      link: "https://www.zendesk.com/service/answer-bot/",
+      name: "Zendesk AI Agents",
+      link: "https://www.zendesk.com/service/ai/ai-agents/?id=0",
       description:
-        "AI-powered chatbot that resolves customer inquiries automatically.",
-      pricing: "$5/agent/month",
+        "Agentic customer-service system designed to resolve support issues across channels using business context and workflows.",
+      pricing: "See pricing",
       category: "Customer Support",
-      rating: 4.3,
+      rating: 4.5,
     },
     alternativeTools: [
       {
-        name: "Intercom Resolution Bot",
-        link: "https://www.intercom.com/resolution-bot",
-        description: "AI customer service bot with natural language processing",
-        pricing: "$87/month",
+        name: "Intercom Fin",
+        link: "https://www.intercom.com/fin",
+        description:
+          "AI support agent focused on customer support resolution, routing, and connected support workflows.",
+        pricing: "See pricing",
         category: "Customer Support",
         rating: 4.4,
       },
       {
-        name: "LivePerson",
-        link: "https://www.liveperson.com/",
-        description: "Conversational AI platform for customer engagement",
+        name: "Sierra",
+        link: "https://sierra.ai/platform",
+        description:
+          "Customer-experience agent platform built around brand control, memory, orchestration, and measured service quality.",
         pricing: "Contact Sales",
         category: "Conversational AI",
-        rating: 4.2,
+        rating: 4.5,
       },
     ],
     useCase: "Automated responses, ticket routing, sentiment analysis",
@@ -370,22 +380,23 @@ const professions: Profession[] = [
     impactLevel: "Medium",
     aiAdoption: 65,
     primaryTool: {
-      name: "LawGeex",
-      link: "https://www.lawgeex.com/",
+      name: "Harvey",
+      link: "https://www.harvey.ai/",
       description:
-        "AI platform for automated contract review and legal document analysis.",
+        "Legal AI platform focused on research, drafting, review, and agent-powered workflows inside professional legal work.",
       pricing: "Contact Sales",
       category: "Legal Tech",
-      rating: 4.5,
+      rating: 4.6,
     },
     alternativeTools: [
       {
-        name: "Westlaw Edge",
-        link: "https://legal.thomsonreuters.com/en/products/westlaw",
-        description: "AI-enhanced legal research platform",
-        pricing: "Subscription",
+        name: "CoCounsel Legal",
+        link: "https://legal.thomsonreuters.com/en/products/cocounsel-legal/corp",
+        description:
+          "Thomson Reuters' legal AI assistant for research, drafting, contract analysis, and review workflows.",
+        pricing: "See pricing",
         category: "Legal Research",
-        rating: 4.3,
+        rating: 4.4,
       },
       {
         name: "Luminance",
@@ -408,19 +419,20 @@ const professions: Profession[] = [
     impactLevel: "Critical",
     aiAdoption: 70,
     primaryTool: {
-      name: "IBM Watson Health",
-      link: "https://www.ibm.com/watson-health",
+      name: "Microsoft Dragon Copilot",
+      link: "https://www.microsoft.com/en-us/health-solutions/clinical-workflow/dragon-copilot?cid=7016T000002DBUqQAO",
       description:
-        "AI platform for healthcare data analysis, diagnostics, and treatment recommendations.",
-      pricing: "Enterprise",
+        "Clinical AI assistant focused on documentation, workflow support, and surfacing critical information across care settings.",
+      pricing: "See pricing",
       category: "Healthcare AI",
-      rating: 4.3,
+      rating: 4.5,
     },
     alternativeTools: [
       {
-        name: "Zebra Medical Vision",
-        link: "https://www.zebra-med.com/",
-        description: "AI medical imaging analysis for radiology",
+        name: "Aidoc",
+        link: "https://www.aidoc.com/",
+        description:
+          "Clinical AI platform for imaging workflows, triage, and operational support in healthcare settings.",
         pricing: "Contact Sales",
         category: "Medical Imaging",
         rating: 4.4,
@@ -446,29 +458,31 @@ const professions: Profession[] = [
     impactLevel: "Medium",
     aiAdoption: 60,
     primaryTool: {
-      name: "Gradescope",
-      link: "https://www.gradescope.com/",
+      name: "Khanmigo",
+      link: "https://www.khanacademy.org/college-careers-more/khanmigo-for-students/x5443352261243283%3Aintroducing-khanmigo/x5443352261243283%3Agetting-started-with-khanmigo/v/khanmigo-for-students-what-is-khanmigo-and-how-does-it-work",
       description:
-        "AI-assisted grading platform that streamlines assessment and feedback.",
-      pricing: "Free / $3/student",
-      category: "Educational Assessment",
+        "Khan Academy's AI tutor and teaching assistant for guided learning, student help, and classroom support.",
+      pricing: "Free / Supported plans",
+      category: "Learning Platform",
       rating: 4.6,
     },
     alternativeTools: [
       {
-        name: "Khan Academy",
-        link: "https://www.khanacademy.org/",
-        description: "AI-powered personalized learning platform",
-        pricing: "Free",
-        category: "Learning Platform",
-        rating: 4.7,
+        name: "MagicSchool",
+        link: "https://www.magicschool.ai/",
+        description:
+          "AI toolkit built for educators to save prep time, create lessons, and support responsible classroom use.",
+        pricing: "Free / Paid plans",
+        category: "Teacher Workflow",
+        rating: 4.6,
       },
       {
-        name: "Carnegie Learning",
-        link: "https://www.carnegielearning.com/",
-        description: "AI tutoring systems for mathematics education",
-        pricing: "Contact Sales",
-        category: "Intelligent Tutoring",
+        name: "Gradescope",
+        link: "https://www.gradescope.com/",
+        description:
+          "Assessment and grading workflow platform that helps instructors scale feedback and evaluation.",
+        pricing: "See pricing",
+        category: "Educational Assessment",
         rating: 4.4,
       },
     ],
@@ -599,22 +613,23 @@ const professions: Profession[] = [
     impactLevel: "Medium",
     aiAdoption: 55,
     primaryTool: {
-      name: "Quill by Narrative Science",
-      link: "https://narrativescience.com/",
+      name: "Perplexity Deep Research",
+      link: "https://www.perplexity.ai/hub/blog/introducing-perplexity-deep-research",
       description:
-        "AI platform that generates written narratives from data automatically.",
-      pricing: "Contact Sales",
-      category: "Automated Writing",
-      rating: 4.2,
+        "Citation-first research assistant used for fast source collection, synthesis, and background reporting.",
+      pricing: "Free / Paid plans",
+      category: "Research Assistant",
+      rating: 4.5,
     },
     alternativeTools: [
       {
-        name: "Wordsmith",
-        link: "https://automatedinsights.com/wordsmith",
-        description: "Natural language generation platform for data stories",
-        pricing: "Contact Sales",
-        category: "Data Journalism",
-        rating: 4.1,
+        name: "ChatGPT",
+        link: "https://chatgpt.com/",
+        description:
+          "General-purpose reporting and drafting assistant for outlines, rewrites, and interview prep.",
+        pricing: "Free / Paid plans",
+        category: "Writing Assistant",
+        rating: 4.5,
       },
       {
         name: "Grammarly",
@@ -678,13 +693,13 @@ const professions: Profession[] = [
     impactLevel: "Medium",
     aiAdoption: 70,
     primaryTool: {
-      name: "Luminar AI",
-      link: "https://skylum.com/luminar",
+      name: "Adobe Photoshop with Firefly",
+      link: "https://www.adobe.com/products/photoshop.html",
       description:
-        "AI-powered photo editing software with intelligent enhancement tools.",
-      pricing: "$79 one-time",
+        "Professional photo-editing workflow with generative fill, removal, expansion, and AI-assisted correction features.",
+      pricing: "See pricing",
       category: "Photo Editing",
-      rating: 4.4,
+      rating: 4.6,
     },
     alternativeTools: [
       {
@@ -696,13 +711,13 @@ const professions: Profession[] = [
         rating: 4.6,
       },
       {
-        name: "Adobe Photoshop AI",
-        link: "https://www.adobe.com/products/photoshop.html",
+        name: "Luminar Neo",
+        link: "https://skylum.com/luminar",
         description:
-          "AI-powered features in Photoshop including neural filters",
-        pricing: "$20.99/month",
-        category: "Professional Editing",
-        rating: 4.5,
+          "AI-assisted photo editor focused on enhancement, masking, and workflow acceleration.",
+        pricing: "See pricing",
+        category: "Photo Editing",
+        rating: 4.4,
       },
     ],
     useCase:
@@ -756,13 +771,13 @@ const professions: Profession[] = [
     impactLevel: "High",
     aiAdoption: 65,
     primaryTool: {
-      name: "Semantic Scholar",
-      link: "https://www.semanticscholar.org/",
+      name: "OpenAI Deep Research",
+      link: "https://openai.com/index/introducing-deep-research/",
       description:
-        "AI-powered academic search engine that understands scientific literature.",
-      pricing: "Free",
-      category: "Academic Research",
-      rating: 4.5,
+        "Research workflow that plans investigation steps, checks sources, and returns cited reports for complex knowledge work.",
+      pricing: "Included with supported plans",
+      category: "Research Assistant",
+      rating: 4.6,
     },
     alternativeTools: [
       {
@@ -774,12 +789,13 @@ const professions: Profession[] = [
         rating: 4.4,
       },
       {
-        name: "ResearchRabbit",
-        link: "https://www.researchrabbit.ai/",
-        description: "AI tool for discovering and organizing research papers",
+        name: "Semantic Scholar",
+        link: "https://www.semanticscholar.org/",
+        description:
+          "AI-powered academic search engine for paper discovery, citation trails, and literature exploration.",
         pricing: "Free",
-        category: "Literature Discovery",
-        rating: 4.3,
+        category: "Academic Research",
+        rating: 4.4,
       },
     ],
     useCase:
@@ -872,7 +888,7 @@ export default function AITools() {
 
       <Navigation />
 
-      <div className="container mx-auto px-6 py-12">
+      <div className="container mx-auto px-6 pt-28 pb-12 sm:pt-32">
         {/* Header */}
         <div className="text-center mb-16 relative z-10">
           <motion.div
@@ -881,7 +897,7 @@ export default function AITools() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: "backOut" }}
           >
-            <h1 className="text-6xl md:text-7xl font-black bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent px-8 py-4">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent px-6 py-4 sm:px-8">
               AI Tools for Every Profession
             </h1>
           </motion.div>
@@ -898,7 +914,7 @@ export default function AITools() {
           </motion.p>
 
           <motion.div
-            className="flex justify-center gap-4 mb-8"
+            className="flex flex-wrap justify-center gap-4 mb-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
@@ -967,6 +983,116 @@ export default function AITools() {
             </motion.div>
           </motion.div>
         </div>
+
+        {/* Current AI Signals */}
+        <motion.div
+          className="mb-14 relative z-10 space-y-8"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.9 }}
+        >
+          <div className="text-center">
+            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-300/30 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-100">
+              Updated for April 2026
+            </div>
+            <h2 className="mt-4 text-3xl md:text-4xl font-black text-white">
+              Where AI Is Actually Being Used Now
+            </h2>
+            <p className="mt-3 max-w-4xl mx-auto text-gray-200 leading-relaxed">
+              The newest AI wave is centered on research copilots, coding
+              agents, grounded enterprise assistants, voice automation, and
+              domain-specific systems in science and robotics.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {aiUseCasesNow.map((trend, index) => (
+              <motion.div
+                key={trend.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 1 + index * 0.08 }}
+                className="rounded-3xl border border-white/15 bg-slate-950/30 backdrop-blur-xl p-6 shadow-2xl"
+              >
+                <div className="mb-3 inline-flex rounded-full border border-cyan-300/30 bg-cyan-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-cyan-100">
+                  Live Use Case
+                </div>
+                <h3 className="text-xl font-black text-white mb-3">
+                  {trend.title}
+                </h3>
+                <p className="text-sm text-gray-200 leading-relaxed mb-4">
+                  {trend.summary}
+                </p>
+                <p className="text-sm text-cyan-100 leading-relaxed mb-4">
+                  {trend.signal}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {trend.examples.map((example) => (
+                    <span
+                      key={example}
+                      className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium text-gray-100"
+                    >
+                      {example}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="rounded-[2rem] border border-white/15 bg-black/20 backdrop-blur-xl p-8">
+            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-6">
+              <div>
+                <h3 className="text-2xl md:text-3xl font-black text-white">
+                  Product Radar
+                </h3>
+                <p className="text-gray-200 max-w-3xl mt-2">
+                  These launches are shaping the current tooling landscape for
+                  professionals using AI in day-to-day work.
+                </p>
+              </div>
+              <p className="text-sm text-cyan-100 font-medium">
+                Official launch links included
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {latestAIProductLaunches.slice(0, 4).map((signal, index) => (
+                <motion.a
+                  key={signal.id}
+                  href={signal.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 1.2 + index * 0.08 }}
+                  className="group rounded-3xl border border-white/15 bg-white/10 p-5 transition-all duration-300 hover:-translate-y-1 hover:bg-white/15"
+                >
+                  <div className="flex items-center justify-between gap-4 mb-3">
+                    <div className="rounded-full border border-fuchsia-300/30 bg-fuchsia-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-fuchsia-100">
+                      {signal.category}
+                    </div>
+                    <span className="text-xs font-semibold text-gray-300">
+                      {signal.date}
+                    </span>
+                  </div>
+                  <h4 className="text-lg font-black text-white mb-2 group-hover:text-cyan-200">
+                    {signal.title}
+                  </h4>
+                  <p className="text-sm font-semibold text-cyan-100 mb-2">
+                    {signal.org}
+                  </p>
+                  <p className="text-sm text-gray-200 leading-relaxed mb-3">
+                    {signal.summary}
+                  </p>
+                  <p className="text-sm text-gray-300 leading-relaxed">
+                    {signal.impact}
+                  </p>
+                </motion.a>
+              ))}
+            </div>
+          </div>
+        </motion.div>
 
         {/* Filters and Sort */}
         <div className="mb-12 space-y-6 relative z-10">
@@ -1143,12 +1269,12 @@ export default function AITools() {
                 className="bg-gradient-to-br from-indigo-900/95 via-purple-900/95 to-pink-900/95 backdrop-blur-xl rounded-3xl max-w-6xl w-full max-h-[90vh] overflow-y-auto border border-white/20 shadow-2xl"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="p-10">
+                <div className="p-6 sm:p-8 lg:p-10">
                   {/* Header */}
-                  <div className="flex justify-between items-start mb-8">
-                    <div className="flex items-center gap-6">
+                  <div className="mb-8 flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
                       <motion.div
-                        className="text-7xl"
+                        className="text-6xl sm:text-7xl"
                         initial={{ scale: 0, rotate: -180 }}
                         animate={{ scale: 1, rotate: 0 }}
                         transition={{ delay: 0.2, type: "spring", bounce: 0.6 }}
@@ -1157,7 +1283,7 @@ export default function AITools() {
                       </motion.div>
                       <div>
                         <motion.h2
-                          className="text-4xl font-black bg-gradient-to-r from-white via-cyan-200 to-purple-200 bg-clip-text text-transparent mb-3"
+                          className="mb-3 text-3xl sm:text-4xl font-black bg-gradient-to-r from-white via-cyan-200 to-purple-200 bg-clip-text text-transparent"
                           initial={{ opacity: 0, x: -50 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: 0.3 }}
@@ -1183,7 +1309,7 @@ export default function AITools() {
                     </div>
                     <motion.button
                       onClick={() => setSelectedProfession(null)}
-                      className="text-white hover:text-red-400 text-3xl font-bold bg-white/10 backdrop-blur-md rounded-full w-12 h-12 flex items-center justify-center border border-white/20 hover:bg-red-500/20 transition-all duration-300"
+                      className="self-end text-white hover:text-red-400 text-3xl font-bold bg-white/10 backdrop-blur-md rounded-full w-12 h-12 flex items-center justify-center border border-white/20 hover:bg-red-500/20 transition-all duration-300 md:self-auto"
                       whileHover={{ scale: 1.1, rotate: 90 }}
                       whileTap={{ scale: 0.9 }}
                     >
@@ -1198,7 +1324,7 @@ export default function AITools() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 }}
                   >
-                    <p className="text-gray-100 text-xl leading-relaxed mb-6">
+                    <p className="mb-6 text-lg sm:text-xl leading-relaxed text-gray-100">
                       {selectedProfession.description}
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

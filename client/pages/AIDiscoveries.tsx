@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Navigation from "../components/Navigation";
+import { latestAIResearchBreakthroughs } from "../data/aiSignals";
 
 interface Discovery {
   id: number;
@@ -596,17 +597,18 @@ const allDiscoveries: Discovery[] = [
   },
   {
     id: 37,
-    title: "Agent AI Systems",
+    title: "Gemini Robotics 1.5",
     year: "2025",
-    discoverer: "Multiple Companies",
+    discoverer: "Google DeepMind",
     discovererBio:
-      "Collective advancement by OpenAI, Anthropic, Google, and others in developing autonomous AI agents.",
-    paperTitle: "The Dawn of AI Agents",
-    paperLink: "https://openai.com/agents",
+      "Google DeepMind's robotics team extended Gemini with embodied reasoning, planning, and action for real-world robotic systems.",
+    paperTitle: "Gemini Robotics 1.5 brings AI agents into the physical world",
+    paperLink:
+      "https://deepmind.google/en/blog/gemini-robotics-15-brings-ai-agents-into-the-physical-world/",
     description:
-      "AI systems capable of autonomous task execution, planning, and decision-making across complex multi-step workflows.",
+      "A multimodal robotics system that reasons through multi-step physical tasks, uses tools, and generalizes behavior to new environments.",
     impact:
-      "Marking the transition from AI assistants to autonomous AI agents capable of independent task completion and workflow automation.",
+      "Marked a major shift from screen-bound assistants toward embodied agents that can perceive, plan, and act in the physical world.",
     demoType: "concept",
   },
 ];
@@ -2397,7 +2399,8 @@ export default function AIDiscoveries() {
             that transformed artificial intelligence from science fiction to
             reality! Discover the visionary researchers, groundbreaking papers,
             and paradigm-shifting algorithms that created the foundation for
-            today's AI revolution. shaped artificial intelligence! Filter by
+            today's AI revolution, then compare them with the newest frontier
+            discoveries reshaping science, robotics, and forecasting. Filter by
             decade, sort chronologically or alphabetically, and dive into
             interactive demos revealing the brilliant minds behind each
             discovery. ✨
@@ -2417,6 +2420,66 @@ export default function AIDiscoveries() {
             </div>
             <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
               <span className="text-white font-bold">👥 AI Pioneers</span>
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="mb-10 rounded-[2rem] border border-white/15 bg-slate-950/25 backdrop-blur-xl p-8"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.75 }}
+          >
+            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-6">
+              <div>
+                <div className="inline-flex rounded-full border border-cyan-300/30 bg-cyan-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-cyan-100 mb-3">
+                  Latest Frontier Discoveries · April 2026
+                </div>
+                <h2 className="text-3xl md:text-4xl font-black text-white">
+                  The Discovery Story Didn't Stop In 2025
+                </h2>
+              </div>
+              <p className="text-sm text-gray-200 max-w-2xl">
+                This page still preserves the historical timeline, but these
+                newer breakthroughs show where the research frontier is moving
+                now: science, robotics, document intelligence, and operational
+                forecasting.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+              {latestAIResearchBreakthroughs.map((signal, index) => (
+                <motion.a
+                  key={signal.id}
+                  href={signal.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.85 + index * 0.08 }}
+                  className="rounded-3xl border border-white/15 bg-white/10 p-5 transition-all duration-300 hover:bg-white/15"
+                >
+                  <div className="flex items-center justify-between gap-3 mb-3">
+                    <span className="rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-emerald-100">
+                      {signal.category}
+                    </span>
+                    <span className="text-xs font-semibold text-gray-300">
+                      {signal.date}
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-black text-white mb-2">
+                    {signal.title}
+                  </h3>
+                  <p className="text-sm font-semibold text-cyan-100 mb-2">
+                    {signal.org}
+                  </p>
+                  <p className="text-sm text-gray-200 leading-relaxed mb-3">
+                    {signal.summary}
+                  </p>
+                  <p className="text-sm text-gray-300 leading-relaxed">
+                    {signal.impact}
+                  </p>
+                </motion.a>
+              ))}
             </div>
           </motion.div>
 
@@ -2443,7 +2506,7 @@ export default function AIDiscoveries() {
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></div>
             </div>
             <span className="text-lg font-bold text-pink-300 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 border border-white/20">
-              2025
+              2026
             </span>
           </motion.div>
 

@@ -7,7 +7,7 @@ export default function Motorcyclist() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen tom-ford-gradient relative overflow-x-hidden">
+    <div className="apple-profile-page min-h-screen tom-ford-gradient relative overflow-x-hidden">
       <Navigation />
 
       {/* Hero Section */}

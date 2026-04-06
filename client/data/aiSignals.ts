@@ -1,0 +1,653 @@
+export interface AISignal {
+  id: string;
+  title: string;
+  org: string;
+  date: string;
+  category: string;
+  summary: string;
+  impact: string;
+  url: string;
+}
+
+export interface AIUseCaseSignal {
+  id: string;
+  title: string;
+  summary: string;
+  signal: string;
+  examples: string[];
+}
+
+export interface StartupWatchItem {
+  id: string;
+  name: string;
+  focus: string;
+  latestMove: string;
+  date: string;
+  whyItMatters: string;
+  url: string;
+}
+
+export interface BuildTrack {
+  id: string;
+  title: string;
+  category: string;
+  difficulty: "Beginner" | "Intermediate" | "Advanced";
+  summary: string;
+  outcome: string;
+  stack: string[];
+  url: string;
+}
+
+export const latestAIResearchBreakthroughs: AISignal[] = [
+  {
+    id: "alphafold-3",
+    title: "AlphaFold 3 expands AI from protein folding to molecular interactions",
+    org: "Google DeepMind + Isomorphic Labs",
+    date: "May 8, 2024",
+    category: "Science AI",
+    summary:
+      "AlphaFold 3 predicts interactions across proteins, DNA, RNA, ligands, and other molecules instead of only protein structure.",
+    impact:
+      "This is one of the clearest signals that frontier AI is becoming practical scientific infrastructure for biology, drug discovery, and materials research.",
+    url: "https://blog.google/technology/ai/google-deepmind-isomorphic-alphafold-3-ai-model/",
+  },
+  {
+    id: "gemini-robotics",
+    title: "Gemini Robotics 1.5 brings agent planning into the physical world",
+    org: "Google DeepMind",
+    date: "Late 2025",
+    category: "Robotics",
+    summary:
+      "Gemini Robotics 1.5 combines multimodal reasoning, tool use, and embodied control so robots can plan and execute multi-step real-world tasks.",
+    impact:
+      "AI is moving beyond chat windows into embodied workflows such as manipulation, navigation, assisted operations, and human-robot collaboration.",
+    url: "https://deepmind.google/en/blog/gemini-robotics-15-brings-ai-agents-into-the-physical-world/",
+  },
+  {
+    id: "gemini-25-pro",
+    title: "Gemini 2.5 Pro pushes frontier reasoning and coding forward",
+    org: "Google",
+    date: "2026 latest preview",
+    category: "Frontier Models",
+    summary:
+      "Google's latest Gemini 2.5 Pro preview emphasizes stronger coding, reasoning, and enterprise-ready multimodal performance.",
+    impact:
+      "The frontier race is increasingly about models that can move fluidly across software, analysis, and multimodal professional workflows instead of isolated benchmarks.",
+    url: "https://blog.google/products-and-platforms/products/gemini/gemini-2-5-pro-latest-preview/",
+  },
+  {
+    id: "anthropic-economic-index",
+    title: "The Anthropic Economic Index tracks how AI is actually being used at work",
+    org: "Anthropic",
+    date: "February 10, 2025",
+    category: "Labor Market Research",
+    summary:
+      "Anthropic published a public research effort based on millions of anonymized Claude conversations to study where AI is augmenting real-world work.",
+    impact:
+      "It is one of the strongest public signals that AI adoption is concentrating around writing, software, analysis, and operational knowledge work rather than generic novelty use.",
+    url: "https://www.anthropic.com/news/the-anthropic-economic-index/",
+  },
+  {
+    id: "mistral-ocr",
+    title: "Mistral OCR turns document-heavy workflows into structured AI inputs",
+    org: "Mistral AI",
+    date: "2025 release",
+    category: "Document AI",
+    summary:
+      "Mistral OCR is a specialized model family for extracting structure from scans, PDFs, tables, equations, and image-heavy business documents.",
+    impact:
+      "A major share of enterprise AI value is shifting from text chat toward ingestion of messy, high-volume business documents that previously blocked automation.",
+    url: "https://legal.mistral.ai/ai-governance/models",
+  },
+];
+
+export const latestAIProductLaunches: AISignal[] = [
+  {
+    id: "gpt-53-codex",
+    title: "GPT-5.3-Codex makes Codex more interactive for parallel coding work",
+    org: "OpenAI",
+    date: "2026 launch cycle",
+    category: "Coding Agents",
+    summary:
+      "OpenAI positions Codex as an interactive workspace where developers can steer agents in real time instead of waiting only for final outputs.",
+    impact:
+      "The center of gravity in developer tooling is shifting from autocomplete toward coordinated, agentic execution over larger scopes of work.",
+    url: "https://openai.com/index/introducing-gpt-5-3-codex/",
+  },
+  {
+    id: "openai-deep-research",
+    title: "Deep research now connects to MCP and trusted sources",
+    org: "OpenAI",
+    date: "February 10, 2026 update",
+    category: "Research Agents",
+    summary:
+      "OpenAI's deep research workflow now supports app and MCP connections, trusted-site constraints, real-time progress tracking, and in-flight refinement.",
+    impact:
+      "Research is becoming one of the defining AI product patterns, especially for strategy, diligence, product analysis, and executive prep.",
+    url: "https://openai.com/index/introducing-deep-research/",
+  },
+  {
+    id: "cursor-3",
+    title: "Cursor 3 turns the IDE into a workspace for multiple agents",
+    org: "Cursor",
+    date: "April 2, 2026",
+    category: "Coding Workspace",
+    summary:
+      "Cursor 3 expands from pair-programming into multi-agent, multi-repo, browser-assisted software workflows with stronger orchestration.",
+    impact:
+      "The developer stack is evolving toward persistent software coworkers that can investigate, patch, test, and hand work back for review.",
+    url: "https://cursor.com/blog/cursor-3",
+  },
+  {
+    id: "claude-opus-45",
+    title: "Claude Opus 4.5 raises the bar for coding, agents, and computer use",
+    org: "Anthropic",
+    date: "November 24, 2025",
+    category: "Enterprise Agents",
+    summary:
+      "Anthropic positioned Opus 4.5 as a major step forward for coding, computer use, deep research, and spreadsheet or slide-heavy professional work.",
+    impact:
+      "Enterprise buyers increasingly care less about raw chat quality and more about whether assistants can operate software reliably and finish real tasks.",
+    url: "https://www.anthropic.com/news/claude-opus-4-5",
+  },
+  {
+    id: "glean-agents",
+    title: "Glean pushes enterprise AI toward grounded autonomous agents",
+    org: "Glean",
+    date: "2025-2026 rollout",
+    category: "Enterprise Actions",
+    summary:
+      "Glean's current product direction centers on enterprise search, agent orchestration, security, permissions, and enterprise-ready actions.",
+    impact:
+      "Enterprise AI differentiation is moving toward grounded execution, access control, and reliable action across internal systems.",
+    url: "https://www.glean.com/product/ai-agents",
+  },
+  {
+    id: "runway-fund",
+    title: "Runway expands from model company to broader AI media platform",
+    org: "Runway",
+    date: "March 31, 2026",
+    category: "Creative AI",
+    summary:
+      "Runway introduced Runway Fund while continuing to frame itself as infrastructure for AI-native media, world simulation, and new creative tooling.",
+    impact:
+      "Creative startups are maturing into platform companies that span models, applications, and ecosystem investment.",
+    url: "https://runwayml.com/news/introducing-runway-fund",
+  },
+];
+
+export const aiUseCasesNow: AIUseCaseSignal[] = [
+  {
+    id: "research-analysts",
+    title: "AI is being used as a deep research analyst",
+    summary:
+      "Teams increasingly use AI to plan research, crawl sources, compare evidence, and return structured reports with citations.",
+    signal:
+      "Deep research has become a first-class product category across OpenAI, Mistral, and Perplexity.",
+    examples: [
+      "Market mapping and product intelligence",
+      "Competitive teardown briefs",
+      "Due diligence and executive prep",
+    ],
+  },
+  {
+    id: "coding-agents",
+    title: "Coding is shifting from autocomplete to agent supervision",
+    summary:
+      "Developers are now delegating repo-wide edits, code review, debugging, test repair, and PR preparation to coding agents.",
+    signal:
+      "OpenAI Codex, Cursor 3, and Claude Code all emphasize long-running, parallel, or agent-first software workflows.",
+    examples: [
+      "Refactors across multiple files",
+      "Autonomous bug investigation",
+      "Commit-to-PR workflows",
+    ],
+  },
+  {
+    id: "enterprise-work-ai",
+    title: "Enterprise AI is becoming context-rich work infrastructure",
+    summary:
+      "The winning enterprise products combine search, knowledge retrieval, connected tools, and controlled actions rather than only chat.",
+    signal:
+      "Glean, Le Chat Enterprise, and Sierra all emphasize connectors, MCP-style integration, and grounded execution.",
+    examples: [
+      "Salesforce and Jira actions",
+      "Company-wide knowledge search",
+      "Slide generation and document drafting",
+    ],
+  },
+  {
+    id: "voice-agents",
+    title: "Voice AI is moving into production operations",
+    summary:
+      "Fast turn-taking, multilingual routing, and real-time speech systems are making voice agents viable for support and outbound workflows.",
+    signal:
+      "ElevenLabs and Sierra both focus on more human, always-on agent experiences across channels.",
+    examples: [
+      "Call center automation",
+      "Appointment and support handling",
+      "Voice-based onboarding and triage",
+    ],
+  },
+  {
+    id: "scientific-ai",
+    title: "Scientific AI is becoming a real commercial wedge",
+    summary:
+      "AI is producing value in biology, chemistry, weather forecasting, and other expert domains with measurable downstream impact.",
+    signal:
+      "AlphaFold 3 and WeatherNext 2 show that some of the most durable AI value will come from specialized models, not only general chat.",
+    examples: [
+      "Drug discovery acceleration",
+      "Operational weather forecasting",
+      "Higher-quality lab and planning decisions",
+    ],
+  },
+  {
+    id: "robotics-and-embodiment",
+    title: "Embodied AI is becoming a serious frontier again",
+    summary:
+      "The newest wave of robotics work combines multimodal reasoning with action planning so models can operate in the physical world.",
+    signal:
+      "Gemini Robotics is a strong signal that frontier labs now see embodiment as the next major deployment surface.",
+    examples: [
+      "Robot manipulation",
+      "Warehouse assistance",
+      "Physical task planning and execution",
+    ],
+  },
+];
+
+export const startupWatchlist: StartupWatchItem[] = [
+  {
+    id: "cursor",
+    name: "Cursor",
+    focus: "Agentic software development",
+    latestMove:
+      "Cursor 3 launched as a unified workspace for multiple agents, multi-repo work, browser-assisted tasks, and commit-to-PR flows.",
+    date: "April 2, 2026",
+    whyItMatters:
+      "Cursor captures the shift from IDE copilots to persistent engineering agents with real workflow ownership.",
+    url: "https://cursor.com/blog/cursor-3",
+  },
+  {
+    id: "perplexity",
+    name: "Perplexity",
+    focus: "Research and answer engines",
+    latestMove:
+      "Perplexity Deep Research keeps expanding the category of citation-first AI analysis for market, finance, and product work.",
+    date: "2025-2026",
+    whyItMatters:
+      "Research assistants are becoming a durable product category, and Perplexity remains one of the clearest non-incumbent winners there.",
+    url: "https://www.perplexity.ai/hub/blog/introducing-perplexity-deep-research",
+  },
+  {
+    id: "harvey",
+    name: "Harvey",
+    focus: "Professional and legal AI",
+    latestMove:
+      "Harvey announced agent-powered legal workflows inside Microsoft 365 Copilot, extending from questions into execution and document work.",
+    date: "March 4, 2026",
+    whyItMatters:
+      "Vertical AI startups are winning by embedding expert context into the software professionals already use every day.",
+    url: "https://www.harvey.ai/blog/agent-platform-and-microsoft-365-copilot",
+  },
+  {
+    id: "elevenlabs",
+    name: "ElevenLabs",
+    focus: "Voice agents",
+    latestMove:
+      "ElevenLabs keeps pushing low-latency voice and chat agents toward real customer operations instead of demo voicebots.",
+    date: "2026 platform push",
+    whyItMatters:
+      "Voice AI is no longer just synthetic speech; it is becoming a deployable agent layer for customer operations.",
+    url: "https://elevenlabs.io/conversational-ai",
+  },
+  {
+    id: "sierra",
+    name: "Sierra",
+    focus: "Customer experience agents",
+    latestMove:
+      "Sierra detailed its multi-model architecture for on-brand service agents and expanded toward memory and customer context infrastructure.",
+    date: "December 3, 2025",
+    whyItMatters:
+      "Customer-facing AI leaders are differentiating on orchestration, reliability, guardrails, and brand control rather than raw model access.",
+    url: "https://sierra.ai/blog/constellation-of-models",
+  },
+  {
+    id: "runway",
+    name: "Runway",
+    focus: "AI-native media production",
+    latestMove:
+      "Runway is broadening into a larger creative-AI ecosystem with investment, model, and production ambitions.",
+    date: "March 31, 2026",
+    whyItMatters:
+      "Creative AI startups are maturing from demo products into full-stack media platforms with production ambitions.",
+    url: "https://runwayml.com/news/introducing-runway-fund",
+  },
+  {
+    id: "mistral",
+    name: "Mistral AI",
+    focus: "Enterprise assistants with sovereignty and control",
+    latestMove:
+      "Mistral continues to position itself around controllable enterprise deployment, multilingual assistants, and a growing set of specialized models.",
+    date: "May 7, 2025",
+    whyItMatters:
+      "Mistral remains important because many teams want strong AI systems without locking themselves into a single hyperscaler stack.",
+    url: "https://legal.mistral.ai/ai-governance/models",
+  },
+];
+
+export const buildNowProjectTracks: BuildTrack[] = [
+  {
+    id: "research-agent",
+    title: "Deep Research Analyst",
+    category: "Natural Language Processing",
+    difficulty: "Intermediate",
+    summary:
+      "Build an internal analyst that turns a business question into a research plan, collects sources, compares evidence, and outputs a cited memo.",
+    outcome:
+      "Useful for strategy, product intelligence, market maps, and investor-grade briefs.",
+    stack: ["LLM orchestration", "Web retrieval", "Citation pipeline", "Structured reports"],
+    url: "https://openai.com/index/introducing-deep-research/",
+  },
+  {
+    id: "coding-agent",
+    title: "Repo-Specific Coding Agent",
+    category: "Machine Learning",
+    difficulty: "Advanced",
+    summary:
+      "Ship a coding agent that understands your codebase, drafts fixes, explains changes, and prepares review-ready patches.",
+    outcome:
+      "High leverage for engineering teams doing repetitive maintenance, migrations, triage, and review assistance.",
+    stack: ["Repo retrieval", "Tool calling", "Tests and evals", "PR workflow"],
+    url: "https://openai.com/index/introducing-gpt-5-3-codex/",
+  },
+  {
+    id: "voice-agent",
+    title: "Real-Time Voice Support Agent",
+    category: "Natural Language Processing",
+    difficulty: "Intermediate",
+    summary:
+      "Create a voice-first assistant with fast turn-taking, retrieval, guardrails, and escalation logic for customer operations.",
+    outcome:
+      "A practical build for support, booking, onboarding, and after-hours assistance.",
+    stack: ["Speech-to-text", "LLM reasoning", "Text-to-speech", "RAG and routing"],
+    url: "https://elevenlabs.io/docs/conversational-ai/docs/agent-setup",
+  },
+  {
+    id: "document-ai",
+    title: "Document Intelligence Pipeline",
+    category: "Machine Learning",
+    difficulty: "Intermediate",
+    summary:
+      "Process scanned PDFs, contracts, reports, and forms into structured data that downstream agents can search and act on.",
+    outcome:
+      "Ideal for legal, operations, finance, procurement, and compliance workflows.",
+    stack: ["OCR", "Document parsing", "Structured extraction", "Human review loop"],
+    url: "https://legal.mistral.ai/ai-governance/models/mistral-ocr",
+  },
+  {
+    id: "enterprise-search",
+    title: "Grounded Enterprise Search Copilot",
+    category: "Natural Language Processing",
+    difficulty: "Beginner",
+    summary:
+      "Connect company tools and build a search assistant that answers from internal systems instead of hallucinating from generic training data.",
+    outcome:
+      "One of the fastest ways to deliver visible AI value inside a company.",
+    stack: ["Connectors", "ACL-aware retrieval", "Grounded generation", "Audit trails"],
+    url: "https://help.mistral.ai/en/articles/316355-can-le-chat-enterprise-be-integrated-with-our-existing-enterprise-systems-and-workflows",
+  },
+  {
+    id: "video-generation",
+    title: "Consistent Brand Video Generator",
+    category: "Computer Vision",
+    difficulty: "Advanced",
+    summary:
+      "Prototype a video workflow that keeps characters, scenes, and visual identity stable across multiple generated shots.",
+    outcome:
+      "Useful for marketing teams experimenting with AI-native content production at higher creative quality.",
+    stack: ["Prompt templates", "Shot planning", "Asset consistency", "Post-production"],
+    url: "https://runwayml.com/news/introducing-runway-fund",
+  },
+];
+
+export const agentTabSignals: Record<
+  "examples" | "techniques" | "playground",
+  AISignal[]
+> = {
+  examples: [
+    {
+      id: "examples-codex",
+      title: "Coding agents now own longer-running engineering tasks",
+      org: "OpenAI + Cursor + Anthropic",
+      date: "2025-2026",
+      category: "Examples",
+      summary:
+        "The frontier examples are no longer short completions. They are repo-aware agents that investigate, patch, test, and prepare mergeable work.",
+      impact:
+        "Good training examples should show delegation, verification, artifact handling, and handoff instead of only single-turn prompting.",
+      url: "https://openai.com/index/introducing-gpt-5-3-codex/",
+    },
+    {
+      id: "examples-research",
+      title: "Research agents are becoming a canonical AI workflow",
+      org: "OpenAI + Mistral + Perplexity",
+      date: "2025-2026",
+      category: "Examples",
+      summary:
+        "Research products now plan, search, synthesize, and cite. That makes them excellent examples for multi-step agent training.",
+      impact:
+        "Agent examples should demonstrate scoped objectives, source quality control, and structured report generation.",
+      url: "https://openai.com/index/introducing-deep-research/",
+    },
+    {
+      id: "examples-cx",
+      title: "Customer-experience agents are judged on memory, empathy, and control",
+      org: "Sierra + ElevenLabs",
+      date: "2025-2026",
+      category: "Examples",
+      summary:
+        "The strongest production examples combine tone, memory, retrieval, escalation rules, and fast response timing across channels.",
+      impact:
+        "This is where simple chatbot demos fail; real agents need state, brand alignment, and measurable outcomes.",
+      url: "https://sierra.ai/platform",
+    },
+  ],
+  techniques: [
+    {
+      id: "techniques-mcp",
+      title: "Tool ecosystems now rely on connectors and MCP-style patterns",
+      org: "Anthropic + Mistral + enterprise AI vendors",
+      date: "2025-2026",
+      category: "Techniques",
+      summary:
+        "Modern agents are effective when they can discover tools, use structured inputs, and stay grounded in connected systems.",
+    impact:
+      "Training techniques should cover tool schemas, permission boundaries, retrieval quality, and recoverable failure modes.",
+      url: "https://help.mistral.ai/en/articles/316355-can-le-chat-enterprise-be-integrated-with-our-existing-enterprise-systems-and-workflows",
+    },
+    {
+      id: "techniques-evals",
+      title: "Evaluation is now a core agent technique, not an afterthought",
+      org: "Cursor + Harvey + frontier labs",
+      date: "2026",
+      category: "Techniques",
+      summary:
+        "Agent products increasingly benchmark real tasks, reviewer outcomes, and workflow success instead of only model-level benchmarks.",
+      impact:
+        "Strong training systems need rubrics, replayable tasks, and success metrics tied to the job to be done.",
+      url: "https://www.harvey.ai/blog/introducing-big-law-bench-global",
+    },
+    {
+      id: "techniques-computer-use",
+      title: "Computer use turns UI navigation into part of the model loop",
+      org: "Anthropic + Cursor",
+      date: "2025-2026",
+      category: "Techniques",
+      summary:
+        "A growing class of agents can browse, click, inspect apps, and operate real interfaces rather than only return text.",
+      impact:
+        "That changes training priorities toward observation, safety checkpoints, retries, and environment-aware reasoning.",
+      url: "https://cursor.com/blog/cursor-3",
+    },
+  ],
+  playground: [
+    {
+      id: "playground-briefs",
+      title: "The best playground inputs read like operational briefs",
+      org: "Frontier product pattern",
+      date: "2026",
+      category: "Playground",
+      summary:
+        "High-performing agents work best when you specify objective, context, tools, constraints, deliverable, and success criteria.",
+      impact:
+        "Your sandbox should teach users to describe work, not just ask vague questions.",
+      url: "https://openai.com/index/introducing-deep-research/",
+    },
+    {
+      id: "playground-artifacts",
+      title: "Agent prompts should request artifacts, not just answers",
+      org: "Current product pattern",
+      date: "2026",
+      category: "Playground",
+      summary:
+        "The most useful agent outputs are plans, diffs, tables, citations, tickets, and reports that plug into real workflows.",
+      impact:
+        "Playgrounds should encourage structured deliverables and clear review surfaces.",
+      url: "https://www.glean.com/product/ai-agents",
+    },
+    {
+      id: "playground-guardrails",
+      title: "Every serious agent build now needs operating boundaries",
+      org: "Current product pattern",
+      date: "2026",
+      category: "Playground",
+      summary:
+        "Action limits, review checkpoints, and escalation rules are part of the default agent spec for production use.",
+      impact:
+        "Prompt builders should ask what the agent may do automatically and where a human must stay in the loop.",
+      url: "https://www.harvey.ai/blog/agent-platform-and-microsoft-365-copilot",
+    },
+  ],
+};
+
+export const promptTabSignals: Record<
+  "examples" | "techniques" | "playground",
+  AISignal[]
+> = {
+  examples: [
+    {
+      id: "prompt-example-research",
+      title: "Best-in-class prompts now look like research briefs",
+      org: "OpenAI + Perplexity + Mistral",
+      date: "2025-2026",
+      category: "Examples",
+      summary:
+        "Modern research prompts state the goal, scope, source preferences, exclusions, and the report format expected at the end.",
+      impact:
+        "Prompt quality increasingly depends on giving AI a clear operating brief rather than a clever one-line instruction.",
+      url: "https://openai.com/index/introducing-deep-research/",
+    },
+    {
+      id: "prompt-example-agents",
+      title: "Agent prompts specify actions, not just tone",
+      org: "Cursor + Codex + Claude Code",
+      date: "2026",
+      category: "Examples",
+      summary:
+        "The strongest prompts now assign ownership, define permissions, and ask for verifiable artifacts such as diffs, notes, or structured output.",
+      impact:
+        "That is the difference between a chat response and work that can be reviewed and shipped.",
+      url: "https://cursor.com/blog/cursor-3",
+    },
+    {
+      id: "prompt-example-voice",
+      title: "Voice prompts must encode timing, escalation, and fallback behavior",
+      org: "ElevenLabs + Sierra",
+      date: "2025-2026",
+      category: "Examples",
+      summary:
+        "Voice systems need explicit guidance for interruptions, latency, tone, re-asking, and routing to humans.",
+      impact:
+        "Prompt design is no longer only about wording; it now includes interaction policy.",
+      url: "https://elevenlabs.io/docs/conversational-ai/docs/agent-setup",
+    },
+  ],
+  techniques: [
+    {
+      id: "prompt-technique-constraints",
+      title: "Constraints beat adjectives",
+      org: "Current prompting pattern",
+      date: "2026",
+      category: "Techniques",
+      summary:
+        "Structured constraints around scope, source quality, file format, and deliverables improve outputs more reliably than vague style instructions.",
+      impact:
+        "Use prompts that define hard boundaries and acceptance criteria.",
+      url: "https://openai.com/index/introducing-deep-research/",
+    },
+    {
+      id: "prompt-technique-context",
+      title: "Context layering is replacing giant one-shot prompts",
+      org: "Current prompting pattern",
+      date: "2026",
+      category: "Techniques",
+      summary:
+        "Strong systems separate durable instructions, task-specific briefings, retrieved context, and user edits instead of cramming everything into one block.",
+      impact:
+        "This makes prompts easier to maintain, debug, and evaluate.",
+      url: "https://help.mistral.ai/en/articles/316355-can-le-chat-enterprise-be-integrated-with-our-existing-enterprise-systems-and-workflows",
+    },
+    {
+      id: "prompt-technique-evals",
+      title: "Prompt engineering now includes evaluation design",
+      org: "Current prompting pattern",
+      date: "2026",
+      category: "Techniques",
+      summary:
+        "Teams increasingly pair prompts with test cases, benchmark tasks, and reviewer rubrics to track whether changes really improve quality.",
+      impact:
+        "The prompt is only half the system; the eval loop is what keeps it dependable.",
+      url: "https://www.harvey.ai/blog/introducing-big-law-bench-global",
+    },
+  ],
+  playground: [
+    {
+      id: "prompt-playground-brief",
+      title: "Use a six-part structure for better prompts",
+      org: "Practical pattern",
+      date: "2026",
+      category: "Playground",
+      summary:
+        "A strong working prompt usually includes role, objective, context, constraints, output format, and success criteria.",
+      impact:
+        "This structure maps cleanly onto how current research and coding agents expect work to be framed.",
+      url: "https://www.anthropic.com/news/the-anthropic-economic-index/",
+    },
+    {
+      id: "prompt-playground-artifacts",
+      title: "Ask for reviewable deliverables",
+      org: "Practical pattern",
+      date: "2026",
+      category: "Playground",
+      summary:
+        "Request tables, checklists, diffs, plans, or memos so outputs can slot into real work instead of staying conversational.",
+      impact:
+        "Useful prompts shorten the path from response to action.",
+      url: "https://www.glean.com/product/ai-agents",
+    },
+    {
+      id: "prompt-playground-safety",
+      title: "Specify permission boundaries in the prompt itself",
+      org: "Practical pattern",
+      date: "2026",
+      category: "Playground",
+      summary:
+        "For agentic work, prompts should say what may be automated, what must be reviewed, and what should be escalated or refused.",
+      impact:
+        "That makes outputs safer, more trustworthy, and much easier to adopt in real teams.",
+      url: "https://www.harvey.ai/blog/agent-platform-and-microsoft-365-copilot",
+    },
+  ],
+};

@@ -1,27 +1,9 @@
-import fs from "fs";
-import path from "path";
-
-export const saveEmailToFile = async (email: string): Promise<void> => {
+export const saveEmailToLocalStorage = (email: string): boolean => {
   try {
-    const timestamp = new Date().toISOString();
-    const emailEntry = `${timestamp} - ${email}\n`;
+    if (typeof window === "undefined") {
+      return false;
+    }
 
-    // Define the path for the emails file
-    const emailsFilePath = path.join(process.cwd(), "emails.txt");
-
-    // Append the email to the file
-    await fs.promises.appendFile(emailsFilePath, emailEntry, "utf8");
-
-    console.log(`Email saved: ${email} at ${timestamp}`);
-  } catch (error) {
-    console.error("Error saving email to file:", error);
-    throw error;
-  }
-};
-
-// For client-side fallback - save to localStorage as backup
-export const saveEmailToLocalStorage = (email: string): void => {
-  try {
     const timestamp = new Date().toISOString();
     const existingEmails = localStorage.getItem("submittedEmails") || "";
     const newEmailEntry = `${timestamp} - ${email}\n`;
@@ -29,14 +11,20 @@ export const saveEmailToLocalStorage = (email: string): void => {
 
     localStorage.setItem("submittedEmails", updatedEmails);
     console.log("Email saved to localStorage as backup:", email);
+    return true;
   } catch (error) {
     console.error("Error saving email to localStorage:", error);
+    return false;
   }
 };
 
 // Export emails from localStorage to downloadable file
 export const downloadEmailsFromLocalStorage = (): void => {
   try {
+    if (typeof window === "undefined") {
+      return;
+    }
+
     const emails = localStorage.getItem("submittedEmails") || "No emails found";
     const blob = new Blob([emails], { type: "text/plain" });
     const url = URL.createObjectURL(blob);

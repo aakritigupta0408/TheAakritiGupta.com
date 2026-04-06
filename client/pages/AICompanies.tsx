@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Navigation from "../components/Navigation";
+import {
+  latestAIResearchBreakthroughs,
+  startupWatchlist,
+} from "../data/aiSignals";
 
 interface Company {
   id: number;
@@ -20,6 +24,10 @@ interface Company {
   logo: string;
   website: string;
   stockSymbol?: string;
+  isRecentAddition?: boolean;
+  sortScale?: number;
+  sortEmployees?: number;
+  sortFounded?: number;
 }
 
 const companies: Company[] = [
@@ -43,16 +51,17 @@ const companies: Company[] = [
     ],
     keyProducts: [
       "ChatGPT",
-      "GPT-4 API",
-      "DALL-E 3",
+      "ChatGPT agent and deep research",
+      "Codex",
+      "gpt-image-1",
       "Whisper (speech recognition)",
-      "Codex (code generation)",
+      "Sora",
     ],
     achievements: [
       "100M+ ChatGPT users in 2 months",
       "Pioneered large language model applications",
       "Set new standards for AI safety research",
-      "First to achieve GPT-4 level performance",
+      "Expanded from chat into research and coding agents",
     ],
     category: "AI Research",
     logo: "🤖",
@@ -77,10 +86,10 @@ const companies: Company[] = [
       "Deep Q-Networks (DQN)",
     ],
     keyProducts: [
-      "Bard (conversational AI)",
-      "Gemini (multimodal AI)",
-      "AlphaFold database",
-      "Google Search AI integration",
+      "Gemini app and Gemini model family",
+      "Gemini Robotics",
+      "AlphaFold 3 and AlphaFold Server",
+      "Veo and multimodal generation tools",
       "YouTube recommendations",
     ],
     achievements: [
@@ -113,9 +122,10 @@ const companies: Company[] = [
     ],
     keyProducts: [
       "Claude (AI assistant)",
-      "Claude Pro",
-      "Constitutional AI framework",
-      "AI safety research publications",
+      "Claude Opus 4.5",
+      "Claude Code",
+      "Model Context Protocol (MCP)",
+      "Computer Use and agent tooling",
     ],
     achievements: [
       "Pioneered constitutional AI approach",
@@ -182,7 +192,7 @@ const companies: Company[] = [
       "Self-supervised learning research",
     ],
     keyProducts: [
-      "Llama 2 (open-source LLM)",
+      "Llama open model family",
       "Ray-Ban Meta smart glasses",
       "Instagram/Facebook AI features",
       "PyTorch framework",
@@ -215,13 +225,13 @@ const companies: Company[] = [
       "Partnership with OpenAI",
       "Azure AI cloud services",
       "Copilot AI assistant integration",
-      "Bing Chat search enhancement",
+      "AI-powered search and work integrations",
     ],
     keyProducts: [
       "Microsoft Copilot",
-      "Bing Chat",
+      "Microsoft 365 Copilot",
       "Azure OpenAI Service",
-      "Office 365 AI features",
+      "Copilot Studio",
       "GitHub Copilot",
     ],
     achievements: [
@@ -724,12 +734,348 @@ const companies: Company[] = [
     logo: "⚡",
     website: "https://graphcore.ai",
   },
+  {
+    id: 21,
+    name: "Mistral AI",
+    founded: "2023",
+    founders: ["Arthur Mensch", "Timothée Lacroix", "Guillaume Lample"],
+    headquarters: "Paris, France",
+    valuation: "Le Chat Enterprise + frontier model platform",
+    employees: "Fast-growing global team",
+    description:
+      "Frontier AI company building open-weight and enterprise-ready models, assistants, document intelligence, and sovereign deployment options.",
+    journey:
+      "Founded in 2023 by former DeepMind and Meta researchers, Mistral quickly became one of Europe's most important AI companies. Its 2025-2026 product cycle emphasized Le Chat Enterprise, deep research, OCR, and flexible cloud or self-hosted deployments for customers that want strong models with infrastructure control.",
+    landmarkDiscoveries: [
+      "Mistral and Mixtral open-weight model releases",
+      "Le Chat Enterprise platform for work AI",
+      "Mistral OCR for document-heavy workflows",
+      "Enterprise deployment model spanning cloud and self-hosted options",
+    ],
+    keyProducts: [
+      "Le Chat",
+      "Le Chat Enterprise",
+      "Mistral OCR",
+      "Deep Research in Le Chat",
+      "AI Studio and enterprise deployments",
+    ],
+    achievements: [
+      "Established Europe as a serious frontier-model contender",
+      "Positioned around privacy, sovereignty, and deployment flexibility",
+      "Expanded beyond chat into document AI and research workflows",
+      "Joined NVIDIA's Nemotron Coalition in March 2026",
+    ],
+    category: "AI Research",
+    logo: "🇫🇷",
+    website: "https://mistral.ai",
+    isRecentAddition: true,
+    sortScale: 185,
+    sortEmployees: 450,
+    sortFounded: 2023,
+  },
+  {
+    id: 22,
+    name: "Cursor",
+    founded: "2022",
+    founders: ["Michael Truell", "Sualeh Asif", "Arvid Lunnemark", "Aman Sanger"],
+    headquarters: "San Francisco, CA",
+    valuation: "$1B+ annualized revenue signal",
+    employees: "Growing research + product team",
+    description:
+      "Agentic coding company turning the IDE into a multi-agent software workspace for editing, testing, browsing, and preparing PRs.",
+    journey:
+      "Cursor moved from AI-assisted editing into full agentic software development in 2025 and 2026. Its company updates highlighted a Series D and more than $1B in annualized revenue, while Cursor 3 reframed the product around persistent agents, multi-repo workflows, and clearer human review surfaces.",
+    landmarkDiscoveries: [
+      "Agent-first coding workspace design",
+      "Composer 2 research for longer-horizon coding tasks",
+      "Marketplace plugin ecosystem for tool-connected development",
+      "Local and cloud agent handoff inside the same workflow",
+    ],
+    keyProducts: [
+      "Cursor 3",
+      "Composer 2",
+      "Cursor Marketplace",
+      "Self-hosted cloud agents",
+      "JetBrains IDE support",
+    ],
+    achievements: [
+      "Pushed coding tools beyond autocomplete into agent supervision",
+      "Added multi-agent and multi-repo workflows in April 2026",
+      "Expanded ecosystem integrations through the Cursor Marketplace",
+      "Shared that it had passed $1B in annualized revenue in November 2025",
+    ],
+    category: "AI Platform",
+    logo: "⌨️",
+    website: "https://cursor.com",
+    isRecentAddition: true,
+    sortScale: 240,
+    sortEmployees: 180,
+    sortFounded: 2022,
+  },
+  {
+    id: 23,
+    name: "Perplexity",
+    founded: "2022",
+    founders: ["Aravind Srinivas", "Denis Yarats", "Johnny Ho", "Andy Konwinski"],
+    headquarters: "San Francisco, CA",
+    valuation: "Deep Research + Computer platform",
+    employees: "Fast-growing research and product team",
+    description:
+      "Research and answer engine company expanding from citation-first search into computer-use, finance workflows, and enterprise automation.",
+    journey:
+      "Perplexity built early momentum with answer-engine search, then expanded into deeper reasoning and tool use. By early 2026 it had moved into Perplexity Computer, Personal Computer, Comet Enterprise, and finance tooling, broadening the company from search assistant into a more capable work system.",
+    landmarkDiscoveries: [
+      "Citation-first AI answer engine pattern",
+      "Perplexity Deep Research workflow",
+      "Computer-use orchestration across tools and web workflows",
+      "Finance and enterprise context integration",
+    ],
+    keyProducts: [
+      "Perplexity Search",
+      "Deep Research",
+      "Perplexity Computer",
+      "Personal Computer",
+      "Comet Enterprise",
+    ],
+    achievements: [
+      "Helped define the answer-engine category",
+      "Scaled from search into agentic research and computer use",
+      "Added enterprise and finance-specific product surfaces in 2026",
+      "Emphasized auditable, source-grounded analysis workflows",
+    ],
+    category: "AI Platform",
+    logo: "🔎",
+    website: "https://www.perplexity.ai",
+    isRecentAddition: true,
+    sortScale: 210,
+    sortEmployees: 220,
+    sortFounded: 2022,
+  },
+  {
+    id: 24,
+    name: "Glean",
+    founded: "2019",
+    founders: ["Arvind Jain", "Tony Gentilcore", "Piyush Prahladka", "T.R. Vishwanath"],
+    headquarters: "Palo Alto, CA",
+    valuation: ">$200M ARR in Dec 2025",
+    employees: "Enterprise-scale team",
+    description:
+      "Work AI platform focused on enterprise search, grounded assistants, and autonomous agents built on organizational context and permissions.",
+    journey:
+      "Glean started with enterprise search, then expanded into a broader Work AI platform. Its 2025-2026 releases emphasized Glean Agents, Enterprise Context, proactive assistants, and autonomous agents that can work across tools like Salesforce, Jira, GitHub, and Microsoft ecosystems.",
+    landmarkDiscoveries: [
+      "Enterprise Graph and organizational context layer",
+      "Open horizontal agent platform for work AI",
+      "Autonomous agents grounded in connectors, memory, and governance",
+      "Permission-aware enterprise search plus action workflows",
+    ],
+    keyProducts: [
+      "Glean Assistant",
+      "Glean Agents",
+      "Enterprise Context",
+      "Agent Builder",
+      "Deep Research",
+    ],
+    achievements: [
+      "Reported surpassing $200M ARR in December 2025",
+      "Launched autonomous agents with enterprise context",
+      "Expanded connectors, actions, and governance across enterprise tools",
+      "Positioned itself as a core enterprise AI platform rather than a point assistant",
+    ],
+    category: "Enterprise AI",
+    logo: "🏢",
+    website: "https://www.glean.com",
+    isRecentAddition: true,
+    sortScale: 220,
+    sortEmployees: 900,
+    sortFounded: 2019,
+  },
+  {
+    id: 25,
+    name: "Harvey",
+    founded: "2022",
+    founders: ["Winston Weinberg", "Gabriel Pereyra"],
+    headquarters: "San Francisco, CA",
+    valuation: "Global legal AI platform momentum",
+    employees: "Growing legal AI team",
+    description:
+      "Vertical AI company building legal research, drafting, review, and workflow systems tailored to law firms and in-house legal teams.",
+    journey:
+      "Harvey became one of the clearest examples of vertical AI becoming real software. Its 2026 momentum centered on agent-powered legal workflows, Microsoft 365 Copilot integration, expanding global benchmarks, and high-profile enterprise rollouts across firms and regulated organizations.",
+    landmarkDiscoveries: [
+      "BigLaw Bench evaluation framework",
+      "Agentic legal workflow orchestration",
+      "Jurisdiction-aware legal research benchmarking",
+      "Document review and matter-centric analysis flows",
+    ],
+    keyProducts: [
+      "Harvey Assistant",
+      "Workflow Agents",
+      "Vault and Review Tables",
+      "Deep Analysis",
+      "Microsoft 365 Copilot integration",
+    ],
+    achievements: [
+      "Expanded BigLaw Bench with global and research-focused datasets in 2026",
+      "Embedded legal intelligence into Microsoft 365 Copilot in March 2026",
+      "Won major enterprise deployments including HSBC",
+      "Broadened regional legal data coverage and workflow tooling",
+    ],
+    category: "Enterprise AI",
+    logo: "⚖️",
+    website: "https://www.harvey.ai",
+    isRecentAddition: true,
+    sortScale: 205,
+    sortEmployees: 300,
+    sortFounded: 2022,
+  },
+  {
+    id: 26,
+    name: "Sierra",
+    founded: "2023",
+    founders: ["Bret Taylor", "Clay Bavor"],
+    headquarters: "San Francisco, CA",
+    valuation: ">$150M ARR signal in Feb 2026",
+    employees: "Growing enterprise CX team",
+    description:
+      "Customer-experience AI company building on-brand agents that can reason, take action, use memory, and operate across channels.",
+    journey:
+      "Sierra launched as a customer-service agent platform and quickly evolved toward a full Agent OS. Its late-2025 and early-2026 updates focused on Agent OS 2.0, Agent Data Platform, multi-model orchestration, voice quality, and metrics tied to real end-to-end task completion.",
+    landmarkDiscoveries: [
+      "Agent OS architecture for customer operations",
+      "Agent Data Platform for memory and context",
+      "Constellation-of-models orchestration across 15+ models",
+      "Tau-bench expansions for knowledge and voice evaluation",
+    ],
+    keyProducts: [
+      "Sierra Agent OS",
+      "Agent Studio 2.0",
+      "Agent Data Platform",
+      "Voice performance tooling",
+      "Ghostwriter agent builder",
+    ],
+    achievements: [
+      "Reported over $150M ARR in February 2026",
+      "Expanded from answers into memory, action, and continuous improvement",
+      "Built a differentiated multi-model architecture for brand-safe agents",
+      "Advanced benchmarking for knowledge and voice-based agents",
+    ],
+    category: "Enterprise AI",
+    logo: "🎯",
+    website: "https://sierra.ai",
+    isRecentAddition: true,
+    sortScale: 215,
+    sortEmployees: 250,
+    sortFounded: 2023,
+  },
+  {
+    id: 27,
+    name: "ElevenLabs",
+    founded: "2022",
+    founders: ["Mati Staniszewski", "Piotr Dabkowski"],
+    headquarters: "London, UK / New York, NY",
+    valuation: "33M+ conversations handled in 2026",
+    employees: "200+",
+    description:
+      "Voice AI company expanding from high-quality text-to-speech into full conversational agents that can talk, type, retrieve knowledge, and take actions.",
+    journey:
+      "ElevenLabs became widely known for speech synthesis, then broadened into low-latency conversational systems. Its March 2026 updates reframed the platform as ElevenLabs Agents, layering turn-taking, RAG, multimodality, telephony, and enterprise readiness onto its core voice stack.",
+    landmarkDiscoveries: [
+      "Human-like low-latency text-to-speech",
+      "Turn-taking model for live voice agents",
+      "Multimodal voice + text conversational agents",
+      "Integrated RAG inside voice workflows",
+    ],
+    keyProducts: [
+      "ElevenLabs Agents",
+      "Conversational AI 2.0",
+      "Multimodal Conversational AI",
+      "Voice Library",
+      "Telephony and SIP integrations",
+    ],
+    achievements: [
+      "Repositioned from speech tooling to a full agent platform in March 2026",
+      "Shared that customers created more than 2 million agents",
+      "Reported more than 33 million conversations handled in 2026",
+      "Added stronger enterprise-readiness, multimodality, and broader telephony support",
+    ],
+    category: "Generative AI",
+    logo: "🎙️",
+    website: "https://elevenlabs.io",
+    isRecentAddition: true,
+    sortScale: 200,
+    sortEmployees: 220,
+    sortFounded: 2022,
+  },
+  {
+    id: 28,
+    name: "Runway",
+    founded: "2018",
+    founders: ["Cristóbal Valenzuela", "Alejandro Matamala", "Anastasis Germanidis"],
+    headquarters: "New York, NY",
+    valuation: "$315M Series E in Feb 2026",
+    employees: "Growing media + research team",
+    description:
+      "Creative AI company building video, image, and world-simulation products for media creation, digital characters, and interactive visual experiences.",
+    journey:
+      "Runway helped define generative video, then spent 2025 and 2026 broadening into world models, API products, real-time characters, an incubator, and a startup fund. The company now positions itself as both a media-generation platform and a broader world-simulation company.",
+    landmarkDiscoveries: [
+      "Gen-4 and Gen-4.5 for controllable video generation",
+      "World model framing for media and simulation",
+      "Runway Characters real-time video agent API",
+      "API-first tooling for creative and product builders",
+    ],
+    keyProducts: [
+      "Runway Gen-4",
+      "Runway Gen-4.5",
+      "Runway Characters",
+      "Runway Builders",
+      "Runway Fund",
+    ],
+    achievements: [
+      "Raised a $315M Series E in February 2026",
+      "Shipped real-time video agent tooling with Runway Characters",
+      "Expanded beyond creation tools into Runway Builders and Runway Fund",
+      "Continued pushing consistency and controllability in AI media generation",
+    ],
+    category: "Generative AI",
+    logo: "🎬",
+    website: "https://runwayml.com",
+    isRecentAddition: true,
+    sortScale: 230,
+    sortEmployees: 400,
+    sortFounded: 2018,
+  },
 ];
 
 export default function AICompanies() {
   const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
   const [filterCategory, setFilterCategory] = useState<string>("All");
   const [sortBy, setSortBy] = useState<string>("valuation");
+
+  const recentAdditionsCount = useMemo(
+    () => companies.filter((company) => company.isRecentAddition).length,
+    [],
+  );
+
+  const parseScaleValue = (value: string) => {
+    const normalized = value.toLowerCase();
+    const match = normalized.match(/(\d+(\.\d+)?)/);
+
+    if (!match) return 0;
+
+    const amount = parseFloat(match[1]);
+
+    if (/\btrillion\b|t(?=[)\s]|$)/.test(normalized)) {
+      return amount * 1000;
+    }
+
+    if (/\bmillion\b|m(?=[)\s]|$)/.test(normalized)) {
+      return amount / 1000;
+    }
+
+    return amount;
+  };
 
   const categories = [
     "All",
@@ -746,7 +1092,17 @@ export default function AICompanies() {
     "AI Safety",
   ];
 
-  const getFilteredCompanies = () => {
+  const parseEmployeeValue = (value: string) => {
+    const match = value.replace(/,/g, "").match(/(\d+)/);
+    return match ? parseInt(match[1], 10) : 0;
+  };
+
+  const parseFoundedValue = (value: string) => {
+    const match = value.match(/(\d{4})/);
+    return match ? parseInt(match[1], 10) : 0;
+  };
+
+  const filteredCompanies = useMemo(() => {
     let filtered = [...companies];
 
     if (filterCategory !== "All") {
@@ -757,27 +1113,35 @@ export default function AICompanies() {
 
     if (sortBy === "valuation") {
       filtered.sort((a, b) => {
-        const valA = parseFloat(a.valuation.replace(/[$TB,\s]/g, ""));
-        const valB = parseFloat(b.valuation.replace(/[$TB,\s]/g, ""));
+        const valA = a.sortScale ?? parseScaleValue(a.valuation);
+        const valB = b.sortScale ?? parseScaleValue(b.valuation);
         return valB - valA;
       });
     } else if (sortBy === "founded") {
-      filtered.sort((a, b) => parseInt(b.founded) - parseInt(a.founded));
+      filtered.sort(
+        (a, b) =>
+          (b.sortFounded ?? parseFoundedValue(b.founded)) -
+          (a.sortFounded ?? parseFoundedValue(a.founded)),
+      );
     } else if (sortBy === "employees") {
       filtered.sort((a, b) => {
-        const empA = parseInt(a.employees.replace(/[,+\s]/g, ""));
-        const empB = parseInt(b.employees.replace(/[,+\s]/g, ""));
+        const empA = a.sortEmployees ?? parseEmployeeValue(a.employees);
+        const empB = b.sortEmployees ?? parseEmployeeValue(b.employees);
         return empB - empA;
       });
     }
 
     return filtered;
-  };
+  }, [filterCategory, sortBy]);
+
+  const visibleRecentAdditions = filteredCompanies.filter(
+    (company) => company.isRecentAddition,
+  ).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-900 via-teal-900 to-cyan-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-900 via-teal-900 to-cyan-900 relative overflow-x-hidden">
       {/* Animated Background Elements */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-20 left-20 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute top-60 right-16 w-80 h-80 bg-cyan-500/20 rounded-full blur-3xl animate-bounce"></div>
         <div className="absolute bottom-20 left-1/3 w-72 h-72 bg-teal-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
@@ -787,16 +1151,16 @@ export default function AICompanies() {
 
       <Navigation />
 
-      <div className="container mx-auto px-6 py-12">
+      <div className="container mx-auto px-6 pt-28 pb-12 sm:pt-32">
         {/* Header */}
         <div className="text-center mb-16 relative z-10">
           <motion.div
             className="inline-block p-1 rounded-full bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 mb-8"
-            initial={{ opacity: 0, scale: 0.5, rotateY: -180 }}
-            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+            initial={{ opacity: 0, scale: 0.92, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 1.2, ease: "backOut" }}
           >
-            <h1 className="text-6xl md:text-8xl font-black bg-gradient-to-r from-white via-emerald-100 to-cyan-100 bg-clip-text text-transparent px-8 py-6">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl xl:text-8xl font-black bg-gradient-to-r from-white via-emerald-100 to-cyan-100 bg-clip-text text-transparent px-6 py-5 sm:px-8 sm:py-6">
               AI Companies Revolution
             </h1>
           </motion.div>
@@ -807,9 +1171,10 @@ export default function AICompanies() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            🚀 Explore the top 20 companies shaping the AI landscape! Discover
-            their groundbreaking discoveries, innovative products, and
-            transformative journeys from startups to industry giants. ✨
+            🚀 Explore the companies shaping the AI landscape right now. The
+            grid below now includes the newer AI leaders that surged after
+            August 2025, alongside the established labs, infrastructure firms,
+            and enterprise platforms already on the page. ✨
           </motion.p>
 
           <motion.div
@@ -822,7 +1187,7 @@ export default function AICompanies() {
               <span className="text-white font-bold">🏢 Industry Giants</span>
             </div>
             <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
-              <span className="text-white font-bold">💰 Valuations</span>
+              <span className="text-white font-bold">📊 Scale Snapshots</span>
             </div>
             <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
               <span className="text-white font-bold">🔬 Innovations</span>
@@ -838,53 +1203,189 @@ export default function AICompanies() {
           >
             <motion.div
               className="bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl group hover:scale-105 transition-all duration-300"
-              whileHover={{ y: -10, rotateY: 5 }}
+              whileHover={{ y: -8, scale: 1.03 }}
             >
               <div className="text-5xl font-black bg-gradient-to-r from-emerald-400 to-green-500 bg-clip-text text-transparent">
-                $2.8T+
+                {companies.length}
               </div>
               <div className="text-sm text-gray-200 font-bold mt-2">
-                Combined Valuation
+                Company Cards
               </div>
             </motion.div>
             <motion.div
               className="bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl group hover:scale-105 transition-all duration-300"
-              whileHover={{ y: -10, rotateY: 5 }}
+              whileHover={{ y: -8, scale: 1.03 }}
             >
               <div className="text-5xl font-black bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                500K+
+                {recentAdditionsCount}
               </div>
               <div className="text-sm text-gray-200 font-bold mt-2">
-                Total Employees
+                New Since Aug 2025
               </div>
             </motion.div>
             <motion.div
               className="bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl group hover:scale-105 transition-all duration-300"
-              whileHover={{ y: -10, rotateY: 5 }}
+              whileHover={{ y: -8, scale: 1.03 }}
             >
               <div className="text-5xl font-black bg-gradient-to-r from-teal-400 to-emerald-500 bg-clip-text text-transparent">
-                100+
+                {categories.length - 1}
               </div>
               <div className="text-sm text-gray-200 font-bold mt-2">
-                Breakthrough Products
+                Filter Categories
               </div>
             </motion.div>
             <motion.div
               className="bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl group hover:scale-105 transition-all duration-300"
-              whileHover={{ y: -10, rotateY: 5 }}
+              whileHover={{ y: -8, scale: 1.03 }}
             >
               <div className="text-5xl font-black bg-gradient-to-r from-blue-400 to-cyan-500 bg-clip-text text-transparent">
-                20+
+                {filteredCompanies.length}
               </div>
               <div className="text-sm text-gray-200 font-bold mt-2">
-                Years Combined History
+                Matching Current Filter
               </div>
             </motion.div>
           </motion.div>
         </div>
 
+        {/* Current Company Watch */}
+        <motion.div
+          className="mb-14 relative z-10 space-y-8"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.95 }}
+        >
+          <div className="text-center">
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-100">
+              Startup and Scale-Up Watch · April 2026
+            </div>
+            <h2 className="mt-4 text-3xl md:text-4xl font-black text-white">
+              Who Has Momentum Right Now
+            </h2>
+            <p className="mt-3 max-w-4xl mx-auto text-gray-100 leading-relaxed">
+              Beyond the established giants, the market is being reshaped by
+              startups building agentic coding, enterprise work AI, legal AI,
+              customer-experience agents, voice systems, and AI-native media
+              platforms.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {startupWatchlist.slice(0, 6).map((item, index) => (
+              <motion.a
+                key={item.id}
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 1 + index * 0.07 }}
+                className="group rounded-3xl border border-white/15 bg-slate-950/25 backdrop-blur-xl p-6 shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:bg-slate-950/35"
+              >
+                <div className="flex items-start justify-between gap-4 mb-4">
+                  <div>
+                    <div className="rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-emerald-100 inline-flex mb-3">
+                      {item.focus}
+                    </div>
+                    <h3 className="text-2xl font-black text-white group-hover:text-emerald-200">
+                      {item.name}
+                    </h3>
+                  </div>
+                  <span className="text-xs font-semibold text-gray-300">
+                    {item.date}
+                  </span>
+                </div>
+                <p className="text-sm text-gray-100 leading-relaxed mb-4">
+                  {item.latestMove}
+                </p>
+                <p className="text-sm text-cyan-100 leading-relaxed">
+                  {item.whyItMatters}
+                </p>
+              </motion.a>
+            ))}
+          </div>
+
+          <div className="rounded-[2rem] border border-white/15 bg-white/10 backdrop-blur-xl p-8">
+            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-6">
+              <div>
+                <h3 className="text-2xl md:text-3xl font-black text-white">
+                  Research Frontier Driving Company Strategy
+                </h3>
+                <p className="text-gray-100 mt-2 max-w-3xl">
+                  The companies with the strongest stories right now are the
+                  ones translating frontier research into deployable systems.
+                </p>
+              </div>
+              <p className="text-sm text-emerald-100 font-medium">
+                Official lab announcements
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+              {latestAIResearchBreakthroughs.slice(0, 3).map((signal, index) => (
+                <motion.a
+                  key={signal.id}
+                  href={signal.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 1.15 + index * 0.08 }}
+                  className="rounded-3xl border border-white/15 bg-black/20 p-5 transition-all duration-300 hover:bg-black/30"
+                >
+                  <div className="flex items-center justify-between gap-4 mb-3">
+                    <span className="rounded-full border border-cyan-300/30 bg-cyan-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-cyan-100">
+                      {signal.category}
+                    </span>
+                    <span className="text-xs font-semibold text-gray-300">
+                      {signal.date}
+                    </span>
+                  </div>
+                  <h4 className="text-lg font-black text-white mb-2">
+                    {signal.title}
+                  </h4>
+                  <p className="text-sm font-semibold text-emerald-100 mb-2">
+                    {signal.org}
+                  </p>
+                  <p className="text-sm text-gray-100 leading-relaxed mb-3">
+                    {signal.summary}
+                  </p>
+                  <p className="text-sm text-gray-300 leading-relaxed">
+                    {signal.impact}
+                  </p>
+                </motion.a>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
         {/* Filters and Sort */}
         <div className="mb-12 space-y-6 relative z-10">
+          <div className="mx-auto flex max-w-5xl flex-col gap-4 rounded-3xl border border-white/15 bg-white/10 p-5 text-center backdrop-blur-xl md:flex-row md:items-center md:justify-between md:text-left">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-emerald-100">
+                Company Grid Status
+              </p>
+              <p className="mt-2 text-lg font-semibold text-white">
+                Showing {filteredCompanies.length} of {companies.length} companies
+              </p>
+              <p className="mt-1 text-sm text-gray-200">
+                {visibleRecentAdditions} recent additions are visible in this
+                view.
+              </p>
+            </div>
+            {filterCategory !== "All" && (
+              <motion.button
+                onClick={() => setFilterCategory("All")}
+                className="rounded-full border border-emerald-300/40 bg-emerald-400/15 px-5 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-emerald-400/25"
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
+              >
+                Clear Category Filter
+              </motion.button>
+            )}
+          </div>
+
           <div className="flex flex-wrap gap-4 justify-center">
             <span className="text-sm font-black text-white px-6 py-3 bg-white/10 backdrop-blur-md rounded-full border border-white/20">
               🎨 Filter by Category:
@@ -931,7 +1432,7 @@ export default function AICompanies() {
               🔄 Sort by:
             </span>
             {[
-              { value: "valuation", label: "Valuation", emoji: "💰" },
+              { value: "valuation", label: "Scale Snapshot", emoji: "📊" },
               { value: "founded", label: "Founded Date", emoji: "📅" },
               { value: "employees", label: "Company Size", emoji: "👥" },
             ].map((sort) => (
@@ -953,118 +1454,150 @@ export default function AICompanies() {
         </div>
 
         {/* Companies Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12 relative z-10">
-          {getFilteredCompanies().map((company, index) => (
-            <motion.div
-              key={company.id}
-              initial={{ opacity: 0, y: 50, scale: 0.8 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{
-                duration: 0.6,
-                delay: index * 0.1,
-                ease: "backOut",
+        {filteredCompanies.length === 0 ? (
+          <div className="mb-12 rounded-[2rem] border border-white/15 bg-white/10 p-10 text-center shadow-2xl backdrop-blur-xl relative z-10">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-emerald-100">
+              No Matches Right Now
+            </p>
+            <h3 className="mt-3 text-3xl font-black text-white">
+              The current filters hid every company card.
+            </h3>
+            <p className="mx-auto mt-3 max-w-2xl text-gray-100">
+              Reset the category filter to bring the full company grid back and
+              compare the newly added 2025-2026 companies with the older
+              leaders.
+            </p>
+            <motion.button
+              onClick={() => {
+                setFilterCategory("All");
+                setSortBy("valuation");
               }}
-              className="bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 overflow-hidden hover:scale-105 transition-all duration-500 cursor-pointer group shadow-2xl hover:shadow-emerald-500/25"
-              onClick={() => setSelectedCompany(company)}
-              whileHover={{
-                scale: 1.05,
-                rotateY: 5,
-                rotateX: 5,
-              }}
+              className="mt-6 rounded-full border border-emerald-300/40 bg-gradient-to-r from-emerald-500 to-cyan-600 px-6 py-3 text-sm font-bold text-white shadow-2xl"
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <div className="p-8">
-                {/* Header */}
-                <div className="flex items-center justify-between mb-6">
-                  <motion.div
-                    className="text-5xl group-hover:scale-110 transition-transform duration-300"
-                    whileHover={{ rotate: 10, scale: 1.2 }}
-                  >
-                    {company.logo}
-                  </motion.div>
-                  <motion.div
-                    className="text-xs bg-emerald-500/30 text-emerald-200 px-4 py-2 rounded-full font-bold border border-emerald-400/50 backdrop-blur-md"
-                    whileHover={{ scale: 1.1 }}
-                  >
-                    {company.category}
-                  </motion.div>
-                </div>
-
-                {/* Company Name & Basic Info */}
-                <h3 className="text-xl font-black text-white mb-4 group-hover:bg-gradient-to-r group-hover:from-emerald-400 group-hover:to-cyan-500 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
-                  {company.name}
-                </h3>
-
-                <div className="space-y-3 mb-6">
-                  <div className="flex justify-between text-sm bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20">
-                    <span className="text-gray-200 font-medium">
-                      📅 Founded:
-                    </span>
-                    <span className="font-bold text-white">
-                      {company.founded}
-                    </span>
+              Reset Filters
+            </motion.button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12 relative z-10">
+            {filteredCompanies.map((company, index) => (
+              <motion.div
+                key={company.id}
+                initial={{ opacity: 0, y: 50, scale: 0.8 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{
+                  duration: 0.6,
+                  delay: Math.min(index * 0.04, 0.32),
+                  ease: "backOut",
+                }}
+                className="relative bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 overflow-hidden transition-all duration-500 cursor-pointer group shadow-2xl hover:shadow-emerald-500/25 will-change-transform"
+                onClick={() => setSelectedCompany(company)}
+                whileHover={{
+                  y: -8,
+                  scale: 1.02,
+                }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <div className="p-8">
+                  {/* Header */}
+                  <div className="flex items-center justify-between mb-6">
+                    <motion.div
+                      className="text-5xl group-hover:scale-110 transition-transform duration-300"
+                      whileHover={{ rotate: 10, scale: 1.2 }}
+                    >
+                      {company.logo}
+                    </motion.div>
+                    <motion.div
+                      className="text-xs bg-emerald-500/30 text-emerald-200 px-4 py-2 rounded-full font-bold border border-emerald-400/50 backdrop-blur-md"
+                      whileHover={{ scale: 1.1 }}
+                    >
+                      {company.category}
+                    </motion.div>
                   </div>
-                  <div className="flex justify-between text-sm bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20">
-                    <span className="text-gray-200 font-medium">
-                      💰 Valuation:
-                    </span>
-                    <span className="font-bold text-emerald-300">
-                      {company.valuation}
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-sm bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20">
-                    <span className="text-gray-200 font-medium">
-                      👥 Employees:
-                    </span>
-                    <span className="font-bold text-white">
-                      {company.employees}
-                    </span>
-                  </div>
-                </div>
 
-                {/* Description */}
-                <p className="text-gray-200 text-sm line-clamp-3 mb-6 leading-relaxed">
-                  {company.description}
-                </p>
+                  {company.isRecentAddition && (
+                    <div className="mb-4 inline-flex rounded-full border border-cyan-300/40 bg-cyan-400/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.2em] text-cyan-100">
+                      New Since Aug 2025
+                    </div>
+                  )}
 
-                {/* Key Products Preview */}
-                <div className="border-t border-white/20 pt-6">
-                  <p className="text-xs font-bold text-cyan-300 mb-3">
-                    🚀 Key Products:
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {company.keyProducts.slice(0, 3).map((product, idx) => (
-                      <motion.span
-                        key={idx}
-                        className="text-xs bg-white/20 text-gray-200 px-3 py-2 rounded-full font-medium border border-white/30 backdrop-blur-md"
-                        whileHover={{
-                          scale: 1.05,
-                        }}
-                      >
-                        {product}
-                      </motion.span>
-                    ))}
-                    {company.keyProducts.length > 3 && (
-                      <span className="text-xs text-gray-300 font-medium bg-white/10 rounded-full px-3 py-2">
-                        +{company.keyProducts.length - 3} more
+                  {/* Company Name & Basic Info */}
+                  <h3 className="text-xl font-black text-white mb-4 group-hover:bg-gradient-to-r group-hover:from-emerald-400 group-hover:to-cyan-500 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
+                    {company.name}
+                  </h3>
+
+                  <div className="space-y-3 mb-6">
+                    <div className="flex justify-between text-sm bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20">
+                      <span className="text-gray-200 font-medium">
+                        📅 Founded:
                       </span>
-                    )}
+                      <span className="font-bold text-white">
+                        {company.founded}
+                      </span>
+                    </div>
+                    <div className="flex justify-between text-sm bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20">
+                      <span className="text-gray-200 font-medium">
+                        📊 Scale:
+                      </span>
+                      <span className="font-bold text-emerald-300">
+                        {company.valuation}
+                      </span>
+                    </div>
+                    <div className="flex justify-between text-sm bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20">
+                      <span className="text-gray-200 font-medium">
+                        👥 Employees:
+                      </span>
+                      <span className="font-bold text-white">
+                        {company.employees}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-gray-200 text-sm line-clamp-3 mb-6 leading-relaxed">
+                    {company.description}
+                  </p>
+
+                  {/* Key Products Preview */}
+                  <div className="border-t border-white/20 pt-6">
+                    <p className="text-xs font-bold text-cyan-300 mb-3">
+                      🚀 Key Products:
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {company.keyProducts.slice(0, 3).map((product, idx) => (
+                        <motion.span
+                          key={idx}
+                          className="text-xs bg-white/20 text-gray-200 px-3 py-2 rounded-full font-medium border border-white/30 backdrop-blur-md"
+                          whileHover={{
+                            scale: 1.05,
+                          }}
+                        >
+                          {product}
+                        </motion.span>
+                      ))}
+                      {company.keyProducts.length > 3 && (
+                        <span className="text-xs text-gray-300 font-medium bg-white/10 rounded-full px-3 py-2">
+                          +{company.keyProducts.length - 3} more
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* View Details Button */}
+                  <div className="mt-6 text-center">
+                    <motion.div
+                      className="text-sm text-white font-bold group-hover:text-emerald-300 transition-colors duration-300 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-full px-4 py-2 border border-emerald-400/30"
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      ✨ Click to explore journey →
+                    </motion.div>
                   </div>
                 </div>
-
-                {/* View Details Button */}
-                <div className="mt-6 text-center">
-                  <motion.div
-                    className="text-sm text-white font-bold group-hover:text-emerald-300 transition-colors duration-300 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-full px-4 py-2 border border-emerald-400/30"
-                    whileHover={{ scale: 1.05 }}
-                  >
-                    ✨ Click to explore journey →
-                  </motion.div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
 
         {/* Detailed Modal */}
         <AnimatePresence>
@@ -1083,16 +1616,18 @@ export default function AICompanies() {
                 className="bg-white rounded-xl max-w-6xl w-full max-h-[90vh] overflow-y-auto"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="p-8">
+                <div className="p-6 sm:p-8">
                   {/* Header */}
-                  <div className="flex justify-between items-start mb-8">
-                    <div className="flex items-center gap-6">
-                      <div className="text-6xl">{selectedCompany.logo}</div>
+                  <div className="mb-8 flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+                      <div className="text-5xl sm:text-6xl">
+                        {selectedCompany.logo}
+                      </div>
                       <div>
-                        <h2 className="text-4xl font-bold text-black mb-2">
+                        <h2 className="mb-2 text-3xl sm:text-4xl font-bold text-black">
                           {selectedCompany.name}
                         </h2>
-                        <div className="flex items-center gap-4 text-lg">
+                        <div className="flex flex-col gap-2 text-base sm:flex-row sm:items-center sm:gap-4 sm:text-lg">
                           <span className="text-gray-600">
                             Founded: <strong>{selectedCompany.founded}</strong>
                           </span>
@@ -1104,12 +1639,17 @@ export default function AICompanies() {
                           <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
                             {selectedCompany.category}
                           </span>
+                          {selectedCompany.isRecentAddition && (
+                            <span className="ml-2 inline-block rounded-full bg-emerald-100 px-3 py-1 text-sm font-medium text-emerald-700">
+                              New since Aug 2025
+                            </span>
+                          )}
                         </div>
                       </div>
                     </div>
                     <button
                       onClick={() => setSelectedCompany(null)}
-                      className="text-gray-500 hover:text-gray-700 text-3xl font-light"
+                      className="self-end text-3xl font-light text-gray-500 hover:text-gray-700 md:self-auto"
                     >
                       ×
                     </button>
