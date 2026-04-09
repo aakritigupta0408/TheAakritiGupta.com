@@ -39,6 +39,16 @@ const pageEntries: SiteSearchEntry[] = [
     keywords: ["interactive demos", "playground", "code generator", "story generator"],
   },
   {
+    id: "page-trade-recommendation-demo",
+    title: "AI Trade Recommendation System Demo",
+    url: "/ai-playground/trade-recommendation-system",
+    description:
+      "Interactive replay of a local-first AI trade recommendation workflow with request budgeting, recommendation gating, loop state, and end-of-day updates.",
+    type: "Page",
+    section: "Main Pages",
+    keywords: ["trade recommendation system", "paper trading", "daily-only", "alphavantage", "interactive replay"],
+  },
+  {
     id: "page-ai-champions",
     title: "AI vs Humans",
     url: "/ai-champions",

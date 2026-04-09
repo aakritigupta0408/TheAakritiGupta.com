@@ -8,6 +8,7 @@ import AITools from "./AITools";
 import AICompanies from "./AICompanies";
 import AIProjects from "./AIProjects";
 import AIPlayground from "./AIPlayground";
+import TradeRecommendationSystemDemo from "./TradeRecommendationSystemDemo";
 import PromptEngineering from "./PromptEngineering";
 import AIAgentTraining from "./AIAgentTraining";
 import AIDiscoveries from "./AIDiscoveries";
@@ -222,6 +223,28 @@ describe("AI page interactions", () => {
     },
     20000,
   );
+
+  it("replays the trade recommendation system timeline", async () => {
+    vi.useFakeTimers();
+    const view = renderPage(<TradeRecommendationSystemDemo />);
+
+    expect(
+      view.getByRole("heading", { name: /ai trade recommendation system/i }),
+    ).not.toBeNull();
+    expect(view.getByText(/09:20 ET · pre-market ingest/i)).not.toBeNull();
+
+    fireEvent.click(view.getByRole("button", { name: /next tick/i }));
+
+    expect(view.getByText(/09:35 ET · opening scan/i)).not.toBeNull();
+    expect(view.getAllByText(/BUY · OPEN/i).length).toBeGreaterThan(0);
+
+    fireEvent.click(view.getByRole("button", { name: /run replay/i }));
+    await vi.advanceTimersByTimeAsync(4500);
+
+    expect(view.getByText(/16:12 ET · end-of-day closeout/i)).not.toBeNull();
+    expect(view.getByText(/EOD summary:/i)).not.toBeNull();
+    vi.useRealTimers();
+  });
 
   it(
     "switches prompt engineering tabs and generates an improved prompt",

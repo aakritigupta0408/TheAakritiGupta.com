@@ -422,6 +422,75 @@ export default function AIPlayground() {
         </div>
       </section>
 
+      {/* Featured System Demo */}
+      <section className="relative z-20 pb-10">
+        <div className="max-w-7xl mx-auto px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="overflow-hidden rounded-[2rem] border border-emerald-300/20 bg-gradient-to-br from-emerald-500/12 via-cyan-500/10 to-amber-300/10 p-8 backdrop-blur-xl"
+          >
+            <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+              <div>
+                <div className="inline-flex rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-emerald-100">
+                  New interactive demo
+                </div>
+                <h2 className="mt-5 text-4xl font-black text-white md:text-5xl">
+                  AI Trade Recommendation System
+                </h2>
+                <p className="mt-5 max-w-3xl text-base leading-8 text-slate-100">
+                  Explore a replay of the production trading system running in
+                  daily-only mode with local-first data access, request-budget
+                  awareness, deterministic recommendations, market-hours paper
+                  execution, and end-of-day adaptive updates.
+                </p>
+                <div className="mt-6 flex flex-wrap gap-3 text-sm text-slate-100">
+                  <span className="rounded-full border border-white/15 bg-white/8 px-4 py-2">
+                    Local-first ingest
+                  </span>
+                  <span className="rounded-full border border-white/15 bg-white/8 px-4 py-2">
+                    Daily-only forecasts
+                  </span>
+                  <span className="rounded-full border border-white/15 bg-white/8 px-4 py-2">
+                    Paper trading only
+                  </span>
+                </div>
+              </div>
+
+              <div className="rounded-[1.8rem] border border-white/15 bg-slate-950/45 p-6">
+                <div className="grid grid-cols-2 gap-4 text-sm text-slate-100">
+                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <p className="text-xs uppercase tracking-[0.18em] text-slate-400">
+                      Route
+                    </p>
+                    <p className="mt-3 font-semibold">
+                      /ai-playground/trade-recommendation-system
+                    </p>
+                  </div>
+                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <p className="text-xs uppercase tracking-[0.18em] text-slate-400">
+                      What it shows
+                    </p>
+                    <p className="mt-3 font-semibold">Loop, budget, decisions, EOD</p>
+                  </div>
+                </div>
+                <motion.button
+                  onClick={() =>
+                    navigate("/ai-playground/trade-recommendation-system")
+                  }
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="mt-6 w-full rounded-2xl bg-gradient-to-r from-emerald-400 via-cyan-400 to-amber-300 px-5 py-4 text-sm font-black tracking-[0.14em] text-slate-950 shadow-[0_18px_40px_rgba(52,211,153,0.24)]"
+                >
+                  OPEN SYSTEM DEMO
+                </motion.button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Demo Grid */}
       <section className="relative z-20 py-20">
         <div className="max-w-7xl mx-auto px-8">
