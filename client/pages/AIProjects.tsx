@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import Navigation from "../components/Navigation";
+import SubpageLayout from "@/components/SubpageLayout";
 import { buildNowProjectTracks } from "../data/aiSignals";
 
 interface Resource {
@@ -2624,119 +2623,40 @@ export default function AIProjects() {
     }));
   };
 
+  const filteredProjects = getFilteredProjects();
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-900 via-indigo-900 to-cyan-900 relative overflow-hidden pt-20">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-10 left-20 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-60 right-10 w-80 h-80 bg-cyan-500/20 rounded-full blur-3xl animate-bounce"></div>
-        <div className="absolute bottom-10 left-1/3 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-40 left-1/2 w-64 h-64 bg-emerald-500/20 rounded-full blur-3xl animate-bounce delay-700"></div>
-        <div className="absolute bottom-40 right-1/3 w-88 h-88 bg-orange-500/20 rounded-full blur-3xl animate-pulse delay-500"></div>
-      </div>
-
-      <Navigation />
-
-      <div className="container mx-auto px-6 py-12">
-        {/* Header */}
-        <div className="text-center mb-16 relative z-10">
-          <motion.div
-            className="inline-block p-1 rounded-full bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 mb-8"
-            initial={{ opacity: 0, scale: 0.5, rotateY: -180 }}
-            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-            transition={{ duration: 1.2, ease: "backOut" }}
-          >
-            <h1 className="text-6xl md:text-8xl font-black bg-gradient-to-r from-white via-purple-100 to-cyan-100 bg-clip-text text-transparent px-8 py-6">
-              AI Projects Guide
-            </h1>
-          </motion.div>
-
-          <motion.p
-            className="text-xl text-gray-100 max-w-5xl mx-auto mb-8 leading-relaxed"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            Your ultimate comprehensive guide to the most common AI projects 🚀
-            Step-by-step training approaches, recommended APIs, pre-trained
-            models, datasets, and production-ready code examples to launch your
-            AI career! ✨
-          </motion.p>
-
-          <motion.div
-            className="flex flex-wrap justify-center gap-4 mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
-              <span className="text-white font-bold">🎆 Trending Projects</span>
-            </div>
-            <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
-              <span className="text-white font-bold">💻 Code Examples</span>
-            </div>
-            <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
-              <span className="text-white font-bold">📊 Real Projects</span>
-            </div>
-          </motion.div>
-
-          {/* Quick Stats */}
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-6xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-          >
-            <motion.div
-              className="bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl group"
-              whileHover={{ y: -10, rotateY: 5, scale: 1.05 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="text-5xl font-black bg-gradient-to-r from-pink-400 to-rose-500 bg-clip-text text-transparent">
-                {projects.length}
-              </div>
-              <div className="text-sm text-gray-200 font-bold mt-2">
-                AI Project Types
-              </div>
-            </motion.div>
-            <motion.div
-              className="bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl group"
-              whileHover={{ y: -10, rotateY: 5, scale: 1.05 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="text-5xl font-black bg-gradient-to-r from-emerald-400 to-green-500 bg-clip-text text-transparent">
-                40+
-              </div>
-              <div className="text-sm text-gray-200 font-bold mt-2">
-                Use Cases Covered
-              </div>
-            </motion.div>
-            <motion.div
-              className="bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl group"
-              whileHover={{ y: -10, rotateY: 5, scale: 1.05 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="text-5xl font-black bg-gradient-to-r from-purple-400 to-violet-500 bg-clip-text text-transparent">
-                25+
-              </div>
-              <div className="text-sm text-gray-200 font-bold mt-2">
-                APIs & Tools
-              </div>
-            </motion.div>
-            <motion.div
-              className="bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl group"
-              whileHover={{ y: -10, rotateY: 5, scale: 1.05 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="text-5xl font-black bg-gradient-to-r from-orange-400 to-amber-500 bg-clip-text text-transparent">
-                100%
-              </div>
-              <div className="text-sm text-gray-200 font-bold mt-2">
-                Production Ready
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
+    <SubpageLayout
+      route="/ai-projects"
+      eyebrow="AI build guide"
+      title="Common AI project patterns, with enough depth to choose and build the right one"
+      description="The long-form project library now opens with the same shared hierarchy and sibling navigation as the other level-one pages, while keeping the project cards, filters, code snippets, and modal details intact."
+      accent="rose"
+      chips={[
+        "Build-now project tracks",
+        "Difficulty and category filters",
+        "Code examples and implementation notes",
+      ]}
+      metrics={[
+        {
+          value: projects.length.toString(),
+          label: "Project types",
+        },
+        {
+          value: buildNowProjectTracks.length.toString(),
+          label: "Build-now tracks",
+        },
+        {
+          value: (categories.length - 1).toString(),
+          label: "Main categories",
+        },
+        {
+          value: filteredProjects.length.toString(),
+          label: "Results in current view",
+        },
+      ]}
+    >
+      <div className="container mx-auto px-6 py-10 sm:py-12">
 
         {/* Build-Now Tracks */}
         <motion.div
@@ -2899,7 +2819,7 @@ export default function AIProjects() {
         >
           <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20 inline-block">
             <span className="text-white font-bold">
-              🎯 Showing {getFilteredProjects().length} of {projects.length}{" "}
+              Showing {filteredProjects.length} of {projects.length}{" "}
               projects
               {filterCategory !== "All" && ` in ${filterCategory}`}
               {filterDifficulty !== "All" && ` (${filterDifficulty} level)`}
@@ -2909,8 +2829,8 @@ export default function AIProjects() {
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-12 relative z-10">
-          {getFilteredProjects().length > 0 ? (
-            getFilteredProjects().map((project, index) => (
+          {filteredProjects.length > 0 ? (
+            filteredProjects.map((project, index) => (
               <motion.div
                 key={project.id}
                 initial={{ opacity: 0, y: 50, scale: 0.9 }}
@@ -3551,18 +3471,7 @@ export default function AIProjects() {
           )}
         </AnimatePresence>
 
-        {/* Bottom Navigation */}
-        <div className="text-center relative z-10">
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Link
-              to="/"
-              className="inline-block bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold px-8 py-4 rounded-full hover:from-cyan-600 hover:to-blue-700 transition-all duration-300 shadow-2xl border border-white/20 backdrop-blur-md"
-            >
-              ← Back to Portfolio
-            </Link>
-          </motion.div>
-        </div>
       </div>
-    </div>
+    </SubpageLayout>
   );
 }

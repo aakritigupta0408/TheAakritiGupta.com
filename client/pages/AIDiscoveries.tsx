@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import Navigation from "../components/Navigation";
+import SubpageLayout from "@/components/SubpageLayout";
 import { latestAIResearchBreakthroughs } from "../data/aiSignals";
 
 interface Discovery {
@@ -2363,79 +2362,54 @@ export default function AIDiscoveries() {
     ];
   };
 
+  const filteredDiscoveries = getFilteredAndSortedDiscoveries();
+  const decades = getDecades();
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 relative overflow-hidden pt-20">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-16 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-60 right-20 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-bounce"></div>
-        <div className="absolute bottom-20 left-1/4 w-72 h-72 bg-pink-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-40 left-1/2 w-88 h-88 bg-emerald-500/20 rounded-full blur-3xl animate-bounce delay-500"></div>
-        <div className="absolute bottom-40 right-1/3 w-64 h-64 bg-orange-500/20 rounded-full blur-3xl animate-pulse delay-700"></div>
-      </div>
-
-      <Navigation />
-
-      <div className="container mx-auto px-6 py-20 relative z-10">
-        <div className="text-center mb-16">
-          <motion.div
-            className="inline-block p-1 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 mb-8"
-            initial={{ opacity: 0, scale: 0.5, rotateY: -180 }}
-            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-            transition={{ duration: 1.2, ease: "backOut" }}
-          >
-            <h1 className="text-6xl md:text-8xl font-black bg-gradient-to-r from-white via-cyan-100 to-purple-100 bg-clip-text text-transparent px-8 py-6">
-              AI Landmark Discoveries
-            </h1>
-          </motion.div>
-
-          <motion.p
-            className="text-xl text-gray-100 max-w-5xl mx-auto mb-8 leading-relaxed"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            🚀 Journey through {discoveries.length} revolutionary breakthroughs
-            that transformed artificial intelligence from science fiction to
-            reality! Discover the visionary researchers, groundbreaking papers,
-            and paradigm-shifting algorithms that created the foundation for
-            today's AI revolution, then compare them with the newest frontier
-            discoveries reshaping science, robotics, and forecasting. Filter by
-            decade, sort chronologically or alphabetically, and dive into
-            interactive demos revealing the brilliant minds behind each
-            discovery. ✨
-          </motion.p>
-
-          <motion.div
-            className="flex flex-wrap justify-center gap-4 mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
-              <span className="text-white font-bold">🔬 Interactive Demos</span>
-            </div>
-            <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
-              <span className="text-white font-bold">📜 Research Papers</span>
-            </div>
-            <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
-              <span className="text-white font-bold">👥 AI Pioneers</span>
-            </div>
-          </motion.div>
-
-          <motion.div
-            className="mb-10 rounded-[2rem] border border-white/15 bg-slate-950/25 backdrop-blur-xl p-8"
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.75 }}
-          >
+    <SubpageLayout
+      route="/ai-discoveries"
+      eyebrow="AI history and frontier research"
+      title="The discoveries that built modern AI, plus the breakthroughs shaping what comes next"
+      description="The archive, filters, and demo overlays remain intact, but the page now enters through the same theme-compatible hero and level-one wayfinding used across the rest of the site."
+      accent="blue"
+      chips={[
+        "Historical milestones and original papers",
+        "Frontier research updates",
+        "Filter by decade and sort order",
+      ]}
+      metrics={[
+        {
+          value: discoveries.length.toString(),
+          label: "Milestones in the archive",
+        },
+        {
+          value: (decades.length - 1).toString(),
+          label: "Decades covered",
+        },
+        {
+          value: latestAIResearchBreakthroughs.length.toString(),
+          label: "Current frontier signals",
+        },
+        {
+          value: filteredDiscoveries.length.toString(),
+          label: "Results in current view",
+        },
+      ]}
+    >
+      <div className="container mx-auto px-6 py-10 relative z-10 sm:py-12">
+        <motion.div
+          className="mb-10 rounded-[2rem] border border-white/15 bg-slate-950/25 backdrop-blur-xl p-8"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.15 }}
+        >
             <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-6">
               <div>
                 <div className="inline-flex rounded-full border border-cyan-300/30 bg-cyan-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-cyan-100 mb-3">
                   Latest Frontier Discoveries · April 2026
                 </div>
                 <h2 className="text-3xl md:text-4xl font-black text-white">
-                  The Discovery Story Didn't Stop In 2025
+                  The discovery story did not stop in 2025
                 </h2>
               </div>
               <p className="text-sm text-gray-200 max-w-2xl">
@@ -2455,7 +2429,7 @@ export default function AIDiscoveries() {
                   rel="noopener noreferrer"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.85 + index * 0.08 }}
+                  transition={{ duration: 0.5, delay: 0.2 + index * 0.08 }}
                   className="rounded-3xl border border-white/15 bg-white/10 p-5 transition-all duration-300 hover:bg-white/15"
                 >
                   <div className="flex items-center justify-between gap-3 mb-3">
@@ -2539,7 +2513,7 @@ export default function AIDiscoveries() {
           >
             <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 border border-white/20 flex flex-wrap items-center gap-4">
               <span className="text-white font-bold">🗓️ Filter by Decade:</span>
-              {getDecades().map((decade) => (
+              {decades.map((decade) => (
                 <motion.button
                   key={decade}
                   onClick={() => setFilterDecade(decade)}
@@ -2591,8 +2565,7 @@ export default function AIDiscoveries() {
                 🔤 Alphabetical
               </motion.button>
             </div>
-          </motion.div>
-        </div>
+        </motion.div>
 
         {/* Results Count */}
         <motion.div
@@ -2603,7 +2576,7 @@ export default function AIDiscoveries() {
         >
           <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20 inline-block">
             <span className="text-white font-bold">
-              🎯 Showing {getFilteredAndSortedDiscoveries().length} of{" "}
+              Showing {filteredDiscoveries.length} of{" "}
               {discoveries.length} discoveries
               {filterDecade !== "All" && ` from the ${filterDecade}s`}
               {sortBy === "alphabetical" ? " (A-Z)" : " (chronological)"}
@@ -2612,8 +2585,8 @@ export default function AIDiscoveries() {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
-          {getFilteredAndSortedDiscoveries().length > 0 ? (
-            getFilteredAndSortedDiscoveries().map((discovery, index) => (
+          {filteredDiscoveries.length > 0 ? (
+            filteredDiscoveries.map((discovery, index) => (
               <motion.div
                 key={discovery.id}
                 className="bg-white/20 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 overflow-hidden cursor-pointer group hover:bg-white/25"
@@ -2770,17 +2743,7 @@ export default function AIDiscoveries() {
           </div>
         )}
 
-        <div className="text-center">
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Link
-              to="/"
-              className="inline-block bg-gradient-to-r from-purple-500 to-pink-600 text-white font-bold px-8 py-4 rounded-full hover:from-purple-600 hover:to-pink-700 transition-all duration-300 shadow-2xl border border-white/20 backdrop-blur-md"
-            >
-              ← Back to Portfolio
-            </Link>
-          </motion.div>
-        </div>
       </div>
-    </div>
+    </SubpageLayout>
   );
 }

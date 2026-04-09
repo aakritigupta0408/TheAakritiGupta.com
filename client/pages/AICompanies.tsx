@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import Navigation from "../components/Navigation";
+import SubpageLayout from "@/components/SubpageLayout";
 import {
   latestAIResearchBreakthroughs,
   startupWatchlist,
@@ -1139,114 +1138,37 @@ export default function AICompanies() {
   ).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-900 via-teal-900 to-cyan-900 relative overflow-x-hidden">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 left-20 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-60 right-16 w-80 h-80 bg-cyan-500/20 rounded-full blur-3xl animate-bounce"></div>
-        <div className="absolute bottom-20 left-1/3 w-72 h-72 bg-teal-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-40 left-1/2 w-88 h-88 bg-blue-500/20 rounded-full blur-3xl animate-bounce delay-500"></div>
-        <div className="absolute bottom-40 right-1/4 w-64 h-64 bg-green-500/20 rounded-full blur-3xl animate-pulse delay-700"></div>
-      </div>
-
-      <Navigation />
-
-      <div className="container mx-auto px-6 pt-28 pb-12 sm:pt-32">
-        {/* Header */}
-        <div className="text-center mb-16 relative z-10">
-          <motion.div
-            className="inline-block p-1 rounded-full bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 mb-8"
-            initial={{ opacity: 0, scale: 0.92, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 1.2, ease: "backOut" }}
-          >
-            <h1 className="text-4xl sm:text-5xl md:text-7xl xl:text-8xl font-black bg-gradient-to-r from-white via-emerald-100 to-cyan-100 bg-clip-text text-transparent px-6 py-5 sm:px-8 sm:py-6">
-              AI Companies Revolution
-            </h1>
-          </motion.div>
-
-          <motion.p
-            className="text-xl text-gray-100 max-w-5xl mx-auto mb-8 leading-relaxed"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            🚀 Explore the companies shaping the AI landscape right now. The
-            grid below now includes the newer AI leaders that surged after
-            August 2025, alongside the established labs, infrastructure firms,
-            and enterprise platforms already on the page. ✨
-          </motion.p>
-
-          <motion.div
-            className="flex flex-wrap justify-center gap-4 mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
-              <span className="text-white font-bold">🏢 Industry Giants</span>
-            </div>
-            <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
-              <span className="text-white font-bold">📊 Scale Snapshots</span>
-            </div>
-            <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
-              <span className="text-white font-bold">🔬 Innovations</span>
-            </div>
-          </motion.div>
-
-          {/* Statistics */}
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-6xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-          >
-            <motion.div
-              className="bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl group hover:scale-105 transition-all duration-300"
-              whileHover={{ y: -8, scale: 1.03 }}
-            >
-              <div className="text-5xl font-black bg-gradient-to-r from-emerald-400 to-green-500 bg-clip-text text-transparent">
-                {companies.length}
-              </div>
-              <div className="text-sm text-gray-200 font-bold mt-2">
-                Company Cards
-              </div>
-            </motion.div>
-            <motion.div
-              className="bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl group hover:scale-105 transition-all duration-300"
-              whileHover={{ y: -8, scale: 1.03 }}
-            >
-              <div className="text-5xl font-black bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                {recentAdditionsCount}
-              </div>
-              <div className="text-sm text-gray-200 font-bold mt-2">
-                New Since Aug 2025
-              </div>
-            </motion.div>
-            <motion.div
-              className="bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl group hover:scale-105 transition-all duration-300"
-              whileHover={{ y: -8, scale: 1.03 }}
-            >
-              <div className="text-5xl font-black bg-gradient-to-r from-teal-400 to-emerald-500 bg-clip-text text-transparent">
-                {categories.length - 1}
-              </div>
-              <div className="text-sm text-gray-200 font-bold mt-2">
-                Filter Categories
-              </div>
-            </motion.div>
-            <motion.div
-              className="bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl group hover:scale-105 transition-all duration-300"
-              whileHover={{ y: -8, scale: 1.03 }}
-            >
-              <div className="text-5xl font-black bg-gradient-to-r from-blue-400 to-cyan-500 bg-clip-text text-transparent">
-                {filteredCompanies.length}
-              </div>
-              <div className="text-sm text-gray-200 font-bold mt-2">
-                Matching Current Filter
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
+    <SubpageLayout
+      route="/ai-companies"
+      eyebrow="AI market map"
+      title="The AI company landscape, from frontier labs to workflow startups"
+      description="The page keeps its company research and filters, but now shares the same theme-compatible hero, level-one navigation, and content framing as the other main sections."
+      accent="emerald"
+      chips={[
+        "Established labs and newer entrants",
+        "Filter by sector, valuation, and headcount",
+        "Live watchlist for recent additions",
+      ]}
+      metrics={[
+        {
+          value: companies.length.toString(),
+          label: "Company cards",
+        },
+        {
+          value: recentAdditionsCount.toString(),
+          label: "Added since Aug 2025",
+        },
+        {
+          value: (categories.length - 1).toString(),
+          label: "Filter categories",
+        },
+        {
+          value: filteredCompanies.length.toString(),
+          label: "Matches current filter",
+        },
+      ]}
+    >
+      <div className="container mx-auto px-6 py-10 sm:py-12">
 
         {/* Current Company Watch */}
         <motion.div
@@ -1791,18 +1713,7 @@ export default function AICompanies() {
           )}
         </AnimatePresence>
 
-        {/* Bottom Navigation */}
-        <div className="text-center relative z-10">
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Link
-              to="/"
-              className="inline-block bg-gradient-to-r from-emerald-500 to-cyan-600 text-white font-bold px-8 py-4 rounded-full hover:from-emerald-600 hover:to-cyan-700 transition-all duration-300 shadow-2xl border border-white/20 backdrop-blur-md"
-            >
-              ← Back to Portfolio
-            </Link>
-          </motion.div>
-        </div>
       </div>
-    </div>
+    </SubpageLayout>
   );
 }

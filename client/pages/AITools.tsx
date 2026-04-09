@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import Navigation from "../components/Navigation";
+import SubpageLayout from "@/components/SubpageLayout";
 import {
   aiUseCasesNow,
   latestAIProductLaunches,
@@ -876,113 +875,40 @@ export default function AITools() {
     return filtered;
   };
 
+  const filteredProfessions = getFilteredProfessions();
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 relative overflow-hidden">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-40 right-20 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl animate-bounce"></div>
-        <div className="absolute bottom-20 left-1/4 w-80 h-80 bg-pink-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-60 left-1/2 w-64 h-64 bg-cyan-400/20 rounded-full blur-3xl animate-bounce delay-500"></div>
-      </div>
-
-      <Navigation />
-
-      <div className="container mx-auto px-6 pt-28 pb-12 sm:pt-32">
-        {/* Header */}
-        <div className="text-center mb-16 relative z-10">
-          <motion.div
-            className="inline-block p-1 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 mb-6"
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: "backOut" }}
-          >
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent px-6 py-4 sm:px-8">
-              AI Tools for Every Profession
-            </h1>
-          </motion.div>
-
-          <motion.p
-            className="text-xl text-gray-100 max-w-4xl mx-auto mb-8 leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            Discover the most impactful AI tools transforming the top 20
-            professions. Each recommendation includes pricing, features, and
-            time-saving potential. ✨
-          </motion.p>
-
-          <motion.div
-            className="flex flex-wrap justify-center gap-4 mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-          >
-            <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
-              <span className="text-white font-medium">🚀 Trending Tools</span>
-            </div>
-            <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
-              <span className="text-white font-medium">💡 Pro Tips</span>
-            </div>
-            <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
-              <span className="text-white font-medium">⚡ AI Powered</span>
-            </div>
-          </motion.div>
-
-          {/* Statistics */}
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-5xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            <motion.div
-              className="bg-white/10 backdrop-blur-xl p-6 rounded-2xl border border-white/20 shadow-2xl hover:scale-105 transition-all duration-300"
-              whileHover={{ y: -10 }}
-            >
-              <div className="text-4xl font-black bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                20
-              </div>
-              <div className="text-sm text-gray-200 font-medium">
-                Professions Covered
-              </div>
-            </motion.div>
-            <motion.div
-              className="bg-white/10 backdrop-blur-xl p-6 rounded-2xl border border-white/20 shadow-2xl hover:scale-105 transition-all duration-300"
-              whileHover={{ y: -10 }}
-            >
-              <div className="text-4xl font-black bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
-                60+
-              </div>
-              <div className="text-sm text-gray-200 font-medium">
-                AI Tools Reviewed
-              </div>
-            </motion.div>
-            <motion.div
-              className="bg-white/10 backdrop-blur-xl p-6 rounded-2xl border border-white/20 shadow-2xl hover:scale-105 transition-all duration-300"
-              whileHover={{ y: -10 }}
-            >
-              <div className="text-4xl font-black bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-                50-85%
-              </div>
-              <div className="text-sm text-gray-200 font-medium">
-                Average Time Saved
-              </div>
-            </motion.div>
-            <motion.div
-              className="bg-white/10 backdrop-blur-xl p-6 rounded-2xl border border-white/20 shadow-2xl hover:scale-105 transition-all duration-300"
-              whileHover={{ y: -10 }}
-            >
-              <div className="text-4xl font-black bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
-                $2.8T
-              </div>
-              <div className="text-sm text-gray-200 font-medium">
-                Market Impact
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
+    <SubpageLayout
+      route="/ai-tools"
+      eyebrow="AI workflow index"
+      title="AI tools mapped to real professional workflows"
+      description="This page now sits inside the shared level-one shell: clearer hierarchy up top, faster sibling-page navigation, and the original tool research preserved inside a single content frame."
+      accent="blue"
+      chips={[
+        "Profession-based recommendations",
+        "Current launches and use cases",
+        "Filter by impact and adoption",
+      ]}
+      metrics={[
+        {
+          value: professions.length.toString(),
+          label: "Professions covered",
+        },
+        {
+          value: "60+",
+          label: "Tools reviewed",
+        },
+        {
+          value: "50-85%",
+          label: "Typical time saved",
+        },
+        {
+          value: filteredProfessions.length.toString(),
+          label: "Results in current view",
+        },
+      ]}
+    >
+      <div className="container mx-auto px-6 py-10 sm:py-12">
 
         {/* Current AI Signals */}
         <motion.div
@@ -1145,7 +1071,7 @@ export default function AITools() {
 
         {/* Profession Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12 relative z-10">
-          {getFilteredProfessions().map((profession, index) => (
+          {filteredProfessions.map((profession, index) => (
             <motion.div
               key={profession.id}
               initial={{ opacity: 0, y: 50, scale: 0.8 }}
@@ -1454,18 +1380,7 @@ export default function AITools() {
           )}
         </AnimatePresence>
 
-        {/* Bottom Navigation */}
-        <div className="text-center relative z-10">
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Link
-              to="/"
-              className="inline-block bg-gradient-to-r from-purple-500 to-pink-600 text-white font-bold px-8 py-4 rounded-full hover:from-purple-600 hover:to-pink-700 transition-all duration-300 shadow-2xl border border-white/20 backdrop-blur-md"
-            >
-              ← Back to Portfolio
-            </Link>
-          </motion.div>
-        </div>
       </div>
-    </div>
+    </SubpageLayout>
   );
 }

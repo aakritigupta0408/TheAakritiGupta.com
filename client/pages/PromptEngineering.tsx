@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Navigation from "../components/Navigation";
+import SubpageLayout from "@/components/SubpageLayout";
 import { promptTabSignals } from "../data/aiSignals";
 
 interface PromptExample {
@@ -925,69 +925,43 @@ Deliverable:
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 relative overflow-hidden">
-      {/* Enhanced Animated Background */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,_rgba(120,119,198,0.3),_transparent_50%),radial-gradient(circle_at_80%_20%,_rgba(255,119,198,0.3),_transparent_50%),radial-gradient(circle_at_40%_40%,_rgba(120,200,255,0.3),_transparent_50%)]"></div>
-
-        {/* Floating prompt bubbles */}
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-32 h-32 bg-white/5 rounded-full blur-xl"
-            animate={{
-              x: [0, 100, 0],
-              y: [0, -100, 0],
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.6, 0.3],
-            }}
-            transition={{
-              duration: 10 + i * 2,
-              repeat: Infinity,
-              delay: i * 1.5,
-            }}
-            style={{
-              left: `${20 + i * 15}%`,
-              top: `${10 + i * 10}%`,
-            }}
-          />
-        ))}
-      </div>
-
-      <Navigation />
-
-      <div className="container mx-auto px-6 py-24 relative z-10">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <motion.div
-            className="inline-block p-1 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 mb-8"
-            initial={{ opacity: 0, scale: 0.5, rotateY: -180 }}
-            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-            transition={{ duration: 1.2, ease: "backOut" }}
-          >
-            <h1 className="text-5xl md:text-7xl font-black bg-gradient-to-r from-white via-cyan-100 to-purple-100 bg-clip-text text-transparent px-8 py-6">
-              Prompt Engineering Mastery
-            </h1>
-          </motion.div>
-
-          <motion.p
-            className="text-xl text-gray-100 max-w-4xl mx-auto mb-12 leading-relaxed"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            🚀 Master the art of communicating with AI! Learn advanced
-            techniques, explore real-world examples, and practice with
-            interactive demos to unlock the full potential of AI systems. ✨
-          </motion.p>
-
-          {/* Navigation Tabs */}
-          <motion.div
-            className="flex justify-center gap-2 mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
+    <SubpageLayout
+      route="/prompt-engineering"
+      eyebrow="Prompt design lab"
+      title="Prompting patterns, examples, and practice workflows for modern AI systems"
+      description="The examples, techniques, and playground stay intact, but the page now opens with the same level-one hierarchy and navigation as the other main sections."
+      accent="rose"
+      chips={[
+        "Examples, techniques, and playground",
+        "Modern agent-style prompting signals",
+        "Faster navigation across sibling pages",
+      ]}
+      metrics={[
+        {
+          value: promptExamples.length.toString(),
+          label: "Worked prompt examples",
+        },
+        {
+          value: promptTechniques.length.toString(),
+          label: "Core techniques",
+        },
+        {
+          value: Object.keys(promptTabSignals).length.toString(),
+          label: "Practice views",
+        },
+        {
+          value: activePromptSignals.length.toString(),
+          label: "Signals in active tab",
+        },
+      ]}
+    >
+      <div className="container mx-auto px-6 py-10 relative z-10 sm:py-12">
+        <motion.div
+          className="flex justify-center gap-2 mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+        >
             {[
               {
                 id: "examples",
@@ -1020,8 +994,7 @@ Deliverable:
                 <div className="text-xs opacity-80">{tab.desc}</div>
               </motion.button>
             ))}
-          </motion.div>
-        </div>
+        </motion.div>
 
         <motion.div
           className="mb-10 rounded-[2rem] border border-white/15 bg-white/10 p-6 md:p-8 backdrop-blur-xl"
@@ -1725,6 +1698,6 @@ Deliverable:
           )}
         </AnimatePresence>
       </div>
-    </div>
+    </SubpageLayout>
   );
 }

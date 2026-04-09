@@ -1,7 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import Navigation from "@/components/Navigation";
+import SubpageLayout from "@/components/SubpageLayout";
 
 const resumeUrl =
   "https://drive.google.com/file/d/1Mnmk6nP9l_Av0LvpgJQ5Tkjb7BqhY7nb/view?usp=sharing";
@@ -41,30 +40,43 @@ const promptTemplates = [
 
 export default function ResumeBuilder() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-indigo-950 text-white">
-      <Navigation />
-
-      <div className="container mx-auto px-6 pt-28 pb-16 sm:pt-32">
+    <SubpageLayout
+      route="/resume-builder"
+      eyebrow="Career toolkit"
+      title="Resume assets, profile links, and reusable prompt templates in one place"
+      description="This page now follows the shared level-one shell so the practical resume resources feel like part of the same product system instead of a visually separate microsite."
+      accent="blue"
+      chips={[
+        "Current public resume",
+        "LinkedIn and GitHub references",
+        "Copy-ready AI prompt templates",
+      ]}
+      metrics={[
+        {
+          value: "1",
+          label: "Public resume link",
+        },
+        {
+          value: profileLinks.length.toString(),
+          label: "Profile references",
+        },
+        {
+          value: promptTemplates.length.toString(),
+          label: "Prompt templates",
+        },
+        {
+          value: "4",
+          label: "Usage steps",
+        },
+      ]}
+    >
+      <div className="container mx-auto px-6 py-10 sm:py-12">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
           className="mx-auto max-w-5xl"
         >
-          <div className="text-center mb-12">
-            <div className="inline-flex rounded-full border border-cyan-300/30 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-100">
-              Resume Resources
-            </div>
-            <h1 className="mt-5 text-4xl sm:text-5xl md:text-6xl font-black bg-gradient-to-r from-white via-cyan-100 to-blue-200 bg-clip-text text-transparent">
-              Resume Builder
-            </h1>
-            <p className="mt-4 max-w-3xl mx-auto text-base sm:text-lg text-slate-200 leading-relaxed">
-              Use this page to open Aakriti Gupta&apos;s current resume, review
-              professional profiles, and reuse prompt templates for tailoring
-              your own resume with AI.
-            </p>
-          </div>
-
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
             <motion.a
               href={resumeUrl}
@@ -138,17 +150,8 @@ export default function ResumeBuilder() {
               ))}
             </div>
           </div>
-
-          <div className="mt-10 text-center">
-            <Link
-              to="/"
-              className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 py-3 font-bold text-white transition-all duration-300 hover:bg-white/15"
-            >
-              ← Back to Home
-            </Link>
-          </div>
         </motion.div>
       </div>
-    </div>
+    </SubpageLayout>
   );
 }

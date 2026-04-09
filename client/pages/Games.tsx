@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import Navigation from "@/components/Navigation";
 import Chess from "@/components/Chess";
 import BaghChal from "@/components/BaghChal";
 import Pacman from "@/components/Pacman";
 import Snake from "@/components/Snake";
 import MarioGradientDescent from "@/components/MarioGradientDescent";
 import Helicopter from "@/components/Helicopter";
+import SubpageLayout from "@/components/SubpageLayout";
 
 type GameTab =
   | "chess"
@@ -95,103 +95,42 @@ export default function Games() {
     },
   ];
 
+  const categoryCount = new Set(gameCards.map((game) => game.category)).size;
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-black relative overflow-x-hidden">
-      {/* Enhanced Animated Background */}
-      <div className="absolute inset-0">
-        <div className="absolute top-10 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-40 right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-bounce"></div>
-        <div className="absolute bottom-20 left-1/4 w-80 h-80 bg-pink-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-60 left-1/2 w-64 h-64 bg-cyan-500/20 rounded-full blur-3xl animate-bounce delay-500"></div>
-        <div className="absolute bottom-10 right-10 w-88 h-88 bg-yellow-500/20 rounded-full blur-3xl animate-pulse delay-700"></div>
-      </div>
-
-      <Navigation />
-
-      {/* Hero Section */}
-      <section className="relative z-20 pt-32 pb-16">
-        <div className="max-w-7xl mx-auto px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-12"
-          >
-            <motion.h1
-              className="text-6xl md:text-8xl font-bold text-black mb-8"
-              animate={{
-                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-              }}
-              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-              style={{
-                background:
-                  "linear-gradient(90deg, #000000, #2563eb, #7c3aed, #000000)",
-                backgroundSize: "200% 100%",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              INTERACTIVE
-              <br />
-              GAMES
-            </motion.h1>
-            <motion.p
-              className="text-xl text-gray-100 tracking-wide max-w-4xl mx-auto mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-            >
-              🎮 Discover professional mastery through sophisticated gameplay
-              experiences! Ready to challenge yourself? ✨
-            </motion.p>
-
-            {/* Gaming Stats */}
-            <motion.div
-              className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-2xl mx-auto"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-            >
-              <motion.div
-                className="bg-white/10 backdrop-blur-xl p-6 rounded-2xl border border-white/20 shadow-2xl hover:scale-105 transition-all duration-300"
-                whileHover={{ y: -5 }}
-              >
-                <div className="text-3xl font-black bg-gradient-to-r from-blue-400 to-cyan-500 bg-clip-text text-transparent">
-                  6
-                </div>
-                <div className="text-sm text-gray-200 font-bold">
-                  Interactive Games
-                </div>
-              </motion.div>
-              <motion.div
-                className="bg-white/10 backdrop-blur-xl p-6 rounded-2xl border border-white/20 shadow-2xl hover:scale-105 transition-all duration-300"
-                whileHover={{ y: -5 }}
-              >
-                <div className="text-3xl font-black bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-                  AI-Powered
-                </div>
-                <div className="text-sm text-gray-200 font-bold">
-                  Smart Gameplay
-                </div>
-              </motion.div>
-              <motion.div
-                className="bg-white/10 backdrop-blur-xl p-6 rounded-2xl border border-white/20 shadow-2xl hover:scale-105 transition-all duration-300"
-                whileHover={{ y: -5 }}
-              >
-                <div className="text-3xl font-black bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
-                  Portfolio
-                </div>
-                <div className="text-sm text-gray-200 font-bold">
-                  Integration
-                </div>
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
+    <SubpageLayout
+      route="/games"
+      eyebrow="Interactive portfolio games"
+      title="Playable experiences that showcase strategy, AI thinking, and experimentation"
+      description="The games page now enters through the same shared shell as the other level-one routes, while keeping the game grid, live demos, and supporting context below."
+      accent="amber"
+      chips={[
+        "Strategy, arcade, and educational games",
+        "Playable components embedded in-page",
+        "Cross-links into AI competition history",
+      ]}
+      metrics={[
+        {
+          value: gameCards.length.toString(),
+          label: "Playable game cards",
+        },
+        {
+          value: categoryCount.toString(),
+          label: "Game categories",
+        },
+        {
+          value: activeGame ? "1" : "0",
+          label: "Active game session",
+        },
+        {
+          value: "1-2",
+          label: "Supported players",
+        },
+      ]}
+    >
 
       {/* Game Selection Grid */}
-      <section className="relative z-20 py-16">
+      <section className="relative z-20 py-16 pt-10">
         <div className="max-w-7xl mx-auto px-8">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -447,6 +386,6 @@ export default function Games() {
           </div>
         </div>
       </section>
-    </div>
+    </SubpageLayout>
   );
 }

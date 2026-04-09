@@ -17,8 +17,8 @@ import {
   FaGraduationCap,
   FaRocket,
 } from "react-icons/fa";
-import Navigation from "@/components/Navigation";
 import ChatBot from "@/components/ChatBot";
+import SubpageLayout from "@/components/SubpageLayout";
 import { agentTabSignals } from "../data/aiSignals";
 
 interface AgentExample {
@@ -1185,36 +1185,37 @@ Week 7-8: Production rollout, tracing, and monitoring
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 pt-24">
-      <Navigation />
-
-      {/* Header */}
-      <div className="relative overflow-hidden py-12 sm:py-16 lg:py-20 px-4 sm:px-6">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-cyan-600/20" />
-        <div className="relative max-w-6xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="mb-8"
-          >
-            <FaRobot className="text-4xl sm:text-5xl lg:text-6xl text-blue-400 mx-auto mb-4 sm:mb-6" />
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6">
-              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                AI Agent Training
-              </span>
-            </h1>
-            <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
-              Master the art of building, training, and deploying intelligent AI
-              agents. Learn advanced techniques, best practices, and hands-on
-              implementation strategies.
-            </p>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Navigation Tabs */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-6 sm:mb-8">
+    <SubpageLayout
+      route="/ai-agent-training"
+      eyebrow="Agent systems workshop"
+      title="How to frame, train, and evaluate AI agents that operate in real workflows"
+      description="This page keeps its examples, techniques, and playground, but now uses the shared level-one shell so the dense training content starts with cleaner hierarchy and faster sibling navigation."
+      accent="blue"
+      chips={[
+        "Production-agent examples",
+        "Training and evaluation techniques",
+        "Interactive builder playground",
+      ]}
+      metrics={[
+        {
+          value: aiAgentExamples.length.toString(),
+          label: "Training examples",
+        },
+        {
+          value: trainingTechniques.length.toString(),
+          label: "Advanced techniques",
+        },
+        {
+          value: Object.keys(agentTabSignals).length.toString(),
+          label: "Learning views",
+        },
+        {
+          value: activeSignals.length.toString(),
+          label: "Signals in active tab",
+        },
+      ]}
+    >
+      <div className="max-w-6xl mx-auto px-4 py-10 sm:px-6 sm:py-12">
         <div className="flex justify-center">
           <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-1 sm:p-2 overflow-x-auto">
             {[
@@ -1959,7 +1960,7 @@ Week 7-8: Production rollout, tracing, and monitoring
       </AnimatePresence>
 
       <ChatBot />
-    </div>
+    </SubpageLayout>
   );
 };
 

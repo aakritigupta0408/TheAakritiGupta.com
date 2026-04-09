@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import Navigation from "@/components/Navigation";
 import DeepBlueChess from "@/components/games/DeepBlueChess";
 import AlphaGoDemo from "@/components/games/AlphaGoDemo";
 import LibratusPoker from "@/components/games/LibratusPoker";
+import SubpageLayout from "@/components/SubpageLayout";
 
 interface AIVictory {
   id: string;
@@ -241,103 +241,44 @@ export default function AIChampions() {
   const [selectedVictory, setSelectedVictory] = useState<AIVictory | null>(
     null,
   );
+  const playableVictoryCount = aiVictories.filter(
+    (victory) => victory.playableDemo,
+  ).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-black relative overflow-x-hidden">
-      {/* Enhanced Animated Background */}
-      <div className="absolute inset-0">
-        <div className="absolute top-10 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-40 right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-bounce"></div>
-        <div className="absolute bottom-20 left-1/4 w-80 h-80 bg-pink-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-60 left-1/2 w-64 h-64 bg-cyan-500/20 rounded-full blur-3xl animate-bounce delay-500"></div>
-        <div className="absolute bottom-10 right-10 w-88 h-88 bg-yellow-500/20 rounded-full blur-3xl animate-pulse delay-700"></div>
-      </div>
-
-      <Navigation />
-
-      {/* Hero Section */}
-      <section className="relative z-20 pt-32 pb-16">
-        <div className="max-w-7xl mx-auto px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-12"
-          >
-            <motion.h1
-              className="text-6xl md:text-8xl font-bold text-black mb-8"
-              style={{
-                background:
-                  "linear-gradient(90deg, #000000, #dc2626, #7c3aed, #000000)",
-                backgroundSize: "200% 100%",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-                animation: "gradient-shift 4s linear infinite",
-              }}
-            >
-              AI vs HUMAN
-              <br />
-              CHAMPIONS
-            </motion.h1>
-            <motion.p
-              className="text-xl text-gray-100 tracking-wide max-w-4xl mx-auto mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-            >
-              🏆 Witness the historic moments when artificial intelligence
-              defeated world champions in games once thought impossible for
-              machines to master! Experience these legendary battles firsthand!
-              ⚔️
-            </motion.p>
-
-            {/* Victory Stats */}
-            <motion.div
-              className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-            >
-              <motion.div
-                className="bg-white/10 backdrop-blur-xl p-6 rounded-2xl border border-white/20 shadow-2xl hover:scale-105 transition-all duration-300"
-                whileHover={{ y: -5 }}
-              >
-                <div className="text-3xl font-black bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
-                  {aiVictories.length}
-                </div>
-                <div className="text-sm text-gray-200 font-bold">
-                  Historic Victories
-                </div>
-              </motion.div>
-              <motion.div
-                className="bg-white/10 backdrop-blur-xl p-6 rounded-2xl border border-white/20 shadow-2xl hover:scale-105 transition-all duration-300"
-                whileHover={{ y: -5 }}
-              >
-                <div className="text-3xl font-black bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
-                  1997-2020
-                </div>
-                <div className="text-sm text-gray-200 font-bold">
-                  Era of Dominance
-                </div>
-              </motion.div>
-              <motion.div
-                className="bg-white/10 backdrop-blur-xl p-6 rounded-2xl border border-white/20 shadow-2xl hover:scale-105 transition-all duration-300"
-                whileHover={{ y: -5 }}
-              >
-                <div className="text-3xl font-black bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">
-                  Play Now
-                </div>
-                <div className="text-sm text-gray-200 font-bold">
-                  Interactive Demos
-                </div>
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
+    <SubpageLayout
+      route="/ai-champions"
+      eyebrow="AI competition history"
+      title="Historic moments when AI systems beat world-class human champions"
+      description="The matchup cards, modal deep dives, and playable demos are still here, but the page now enters through the same shell and level-one wayfinding as the rest of the site."
+      accent="amber"
+      chips={[
+        "Historic matchups and context",
+        "Playable demos where available",
+        "Cross-links into discoveries and games",
+      ]}
+      metrics={[
+        {
+          value: aiVictories.length.toString(),
+          label: "Historic victories tracked",
+        },
+        {
+          value: playableVictoryCount.toString(),
+          label: "Playable demo matchups",
+        },
+        {
+          value: selectedVictory ? "1" : "0",
+          label: "Victory story open",
+        },
+        {
+          value: activeGame ? "1" : "0",
+          label: "Interactive demo running",
+        },
+      ]}
+    >
 
       {/* AI Victories Grid */}
-      <section className="relative z-20 py-16">
+      <section className="relative z-20 py-16 pt-10">
         <div className="max-w-7xl mx-auto px-8">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -796,6 +737,6 @@ export default function AIChampions() {
           </div>
         </div>
       </section>
-    </div>
+    </SubpageLayout>
   );
 }
