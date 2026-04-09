@@ -491,6 +491,73 @@ export default function AIPlayground() {
         </div>
       </section>
 
+      {/* Vedic Astrology Demo */}
+      <section className="relative z-20 pb-10">
+        <div className="max-w-7xl mx-auto px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="overflow-hidden rounded-[2rem] border border-violet-300/20 bg-gradient-to-br from-violet-500/12 via-rose-500/10 to-amber-300/10 p-8 backdrop-blur-xl"
+          >
+            <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+              <div>
+                <div className="inline-flex rounded-full border border-violet-300/30 bg-violet-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-violet-100">
+                  New interactive demo
+                </div>
+                <h2 className="mt-5 text-4xl font-black text-white md:text-5xl">
+                  Vedic Astrology AI System
+                </h2>
+                <p className="mt-5 max-w-3xl text-base leading-8 text-slate-100">
+                  A multi-agent system grounded in classical BPHS rules.
+                  Generates structured natal, Dasha, transit, and divisional
+                  chart readings — self-corrected by a critic–reviser loop and
+                  personalised through a convergence calibration engine.
+                </p>
+                <div className="mt-6 flex flex-wrap gap-3 text-sm text-slate-100">
+                  <span className="rounded-full border border-white/15 bg-white/8 px-4 py-2">
+                    Multi-agent pipeline
+                  </span>
+                  <span className="rounded-full border border-white/15 bg-white/8 px-4 py-2">
+                    BPHS rules engine
+                  </span>
+                  <span className="rounded-full border border-white/15 bg-white/8 px-4 py-2">
+                    Critic · Reviser loop
+                  </span>
+                </div>
+              </div>
+
+              <div className="rounded-[1.8rem] border border-white/15 bg-slate-950/45 p-6">
+                <div className="grid grid-cols-2 gap-4 text-sm text-slate-100">
+                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <p className="text-xs uppercase tracking-[0.18em] text-slate-400">
+                      Route
+                    </p>
+                    <p className="mt-3 font-semibold">
+                      /ai-playground/vedic-astro-ai
+                    </p>
+                  </div>
+                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <p className="text-xs uppercase tracking-[0.18em] text-slate-400">
+                      What it shows
+                    </p>
+                    <p className="mt-3 font-semibold">Chart · Dasha · Reading · Calibrate</p>
+                  </div>
+                </div>
+                <motion.button
+                  onClick={() => navigate("/ai-playground/vedic-astro-ai")}
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="mt-6 w-full rounded-2xl bg-gradient-to-r from-violet-400 via-rose-400 to-amber-300 px-5 py-4 text-sm font-black tracking-[0.14em] text-slate-950 shadow-[0_18px_40px_rgba(139,92,246,0.24)]"
+                >
+                  OPEN VEDIC ASTRO DEMO
+                </motion.button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Demo Grid */}
       <section className="relative z-20 py-20">
         <div className="max-w-7xl mx-auto px-8">
