@@ -22,6 +22,7 @@ export default function Games() {
   const navigate = useNavigate();
   const [activeGame, setActiveGame] = useState<GameTab | null>(null);
   const [hoveredGame, setHoveredGame] = useState<GameTab | null>(null);
+  const [visibleCount, setVisibleCount] = useState(6);
 
   const gameCards = [
     {
@@ -97,6 +98,7 @@ export default function Games() {
   ];
 
   const categoryCount = new Set(gameCards.map((game) => game.category)).size;
+  const visibleGames = gameCards.slice(0, visibleCount);
   const pageRefresh = getPageRefreshContent("/games");
 
   return (
@@ -132,27 +134,42 @@ export default function Games() {
       {/* Game Selection Grid */}
       <section className="relative z-20 py-16 pt-10">
         <div className="max-w-7xl mx-auto px-8">
+          <div className="mx-auto mb-10 flex max-w-5xl flex-col gap-4 rounded-3xl border border-white/15 bg-white/10 p-5 text-center backdrop-blur-xl md:flex-row md:items-center md:justify-between md:text-left">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-amber-100">
+                Playable collection
+              </p>
+              <p className="mt-2 text-lg font-semibold text-white">
+                Showing {visibleGames.length} portfolio games across {categoryCount} categories
+              </p>
+            </div>
+            <p className="text-sm text-slate-300 md:max-w-md">
+              The page now behaves more like a curated arcade shelf than a dense
+              gallery. Pick one game, play it, then jump back for the next.
+            </p>
+          </div>
+
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Choose Your
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 {" "}
                 Adventure
               </span>
             </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg text-gray-300 max-w-3xl mx-auto">
               Select from our collection of interactive games that showcase
               different aspects of strategic thinking and problem-solving
             </p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {gameCards.map((game, index) => (
+            {visibleGames.map((game, index) => (
               <motion.div
                 key={game.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -220,6 +237,19 @@ export default function Games() {
               </motion.div>
             ))}
           </div>
+
+          {visibleCount < gameCards.length && (
+            <div className="mt-10 flex justify-center">
+              <motion.button
+                onClick={() => setVisibleCount((current) => current + 3)}
+                className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-bold text-white shadow-xl backdrop-blur-md transition-all duration-300 hover:bg-white/15"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                Show 3 more games
+              </motion.button>
+            </div>
+          )}
         </div>
       </section>
 

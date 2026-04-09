@@ -2325,6 +2325,7 @@ export default function AIDiscoveries() {
   );
   const [sortBy, setSortBy] = useState<string>("chronological");
   const [filterDecade, setFilterDecade] = useState<string>("All");
+  const [visibleCount, setVisibleCount] = useState(8);
 
   const getFilteredAndSortedDiscoveries = () => {
     let filtered = [...discoveries];
@@ -2364,8 +2365,15 @@ export default function AIDiscoveries() {
   };
 
   const filteredDiscoveries = getFilteredAndSortedDiscoveries();
+  const visibleDiscoveries = filteredDiscoveries.slice(0, visibleCount);
+  const hasMoreDiscoveries =
+    visibleDiscoveries.length < filteredDiscoveries.length;
   const decades = getDecades();
   const pageRefresh = getPageRefreshContent("/ai-discoveries");
+
+  useEffect(() => {
+    setVisibleCount(8);
+  }, [filterDecade, sortBy]);
 
   return (
     <SubpageLayout
@@ -2576,8 +2584,8 @@ export default function AIDiscoveries() {
         >
           <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20 inline-block">
             <span className="text-white font-bold">
-              Showing {filteredDiscoveries.length} of{" "}
-              {discoveries.length} discoveries
+              Showing {visibleDiscoveries.length} of{" "}
+              {filteredDiscoveries.length} discoveries
               {filterDecade !== "All" && ` from the ${filterDecade}s`}
               {sortBy === "alphabetical" ? " (A-Z)" : " (chronological)"}
             </span>
@@ -2586,7 +2594,7 @@ export default function AIDiscoveries() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
           {filteredDiscoveries.length > 0 ? (
-            filteredDiscoveries.map((discovery, index) => (
+            visibleDiscoveries.map((discovery, index) => (
               <motion.div
                 key={discovery.id}
                 className="bg-white/20 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 overflow-hidden cursor-pointer group hover:bg-white/25"
@@ -2664,6 +2672,19 @@ export default function AIDiscoveries() {
             </motion.div>
           )}
         </div>
+
+        {hasMoreDiscoveries && (
+          <div className="mb-12 flex justify-center">
+            <motion.button
+              onClick={() => setVisibleCount((current) => current + 8)}
+              className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-bold text-white shadow-xl backdrop-blur-md transition-all duration-300 hover:bg-white/15"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              Show 8 more discoveries
+            </motion.button>
+          </div>
+        )}
 
         {selectedDiscovery && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">

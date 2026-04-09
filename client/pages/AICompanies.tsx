@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SubpageLayout from "@/components/SubpageLayout";
 import { getPageRefreshContent } from "@/data/siteRefreshContent";
@@ -1052,6 +1052,7 @@ export default function AICompanies() {
   const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
   const [filterCategory, setFilterCategory] = useState<string>("All");
   const [sortBy, setSortBy] = useState<string>("valuation");
+  const [visibleCount, setVisibleCount] = useState(8);
 
   const recentAdditionsCount = useMemo(
     () => companies.filter((company) => company.isRecentAddition).length,
@@ -1137,7 +1138,13 @@ export default function AICompanies() {
   const visibleRecentAdditions = filteredCompanies.filter(
     (company) => company.isRecentAddition,
   ).length;
+  const visibleCompanies = filteredCompanies.slice(0, visibleCount);
+  const hasMoreCompanies = visibleCompanies.length < filteredCompanies.length;
   const pageRefresh = getPageRefreshContent("/ai-companies");
+
+  useEffect(() => {
+    setVisibleCount(8);
+  }, [filterCategory, sortBy]);
 
   return (
     <SubpageLayout
@@ -1289,7 +1296,7 @@ export default function AICompanies() {
                 Company Grid Status
               </p>
               <p className="mt-2 text-lg font-semibold text-white">
-                Showing {filteredCompanies.length} of {companies.length} companies
+                Showing {visibleCompanies.length} of {filteredCompanies.length} companies
               </p>
               <p className="mt-1 text-sm text-gray-200">
                 {visibleRecentAdditions} recent additions are visible in this
@@ -1403,7 +1410,7 @@ export default function AICompanies() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12 relative z-10">
-            {filteredCompanies.map((company, index) => (
+            {visibleCompanies.map((company, index) => (
               <motion.div
                 key={company.id}
                 initial={{ opacity: 0, y: 50, scale: 0.8 }}
@@ -1518,6 +1525,19 @@ export default function AICompanies() {
                 </div>
               </motion.div>
             ))}
+          </div>
+        )}
+
+        {hasMoreCompanies && (
+          <div className="mb-12 flex justify-center">
+            <motion.button
+              onClick={() => setVisibleCount((current) => current + 8)}
+              className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-bold text-white shadow-xl backdrop-blur-md transition-all duration-300 hover:bg-white/15"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              Show 8 more companies
+            </motion.button>
           </div>
         )}
 

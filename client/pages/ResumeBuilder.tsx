@@ -78,6 +78,21 @@ export default function ResumeBuilder() {
           transition={{ duration: 0.7 }}
           className="mx-auto max-w-5xl"
         >
+          <div className="mb-8 rounded-3xl border border-white/15 bg-white/10 p-5 text-center backdrop-blur-xl md:flex md:items-center md:justify-between md:text-left">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-cyan-100">
+                Career toolkit status
+              </p>
+              <p className="mt-2 text-lg font-semibold text-white">
+                Everything needed to tailor the core profile is on one page.
+              </p>
+            </div>
+            <p className="mt-2 text-sm text-slate-300 md:mt-0 md:max-w-md">
+              Open the current resume first, then use the prompt templates to
+              rewrite for a specific role without losing the strongest signal.
+            </p>
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
             <motion.a
               href={resumeUrl}
@@ -87,7 +102,9 @@ export default function ResumeBuilder() {
               className="rounded-3xl border border-white/15 bg-white/10 p-8 backdrop-blur-xl shadow-2xl"
             >
               <div className="text-4xl mb-4">📄</div>
-              <h2 className="text-2xl font-black mb-3">Open Current Resume</h2>
+              <h2 className="text-2xl font-black mb-3 text-white">
+                Open Current Resume
+              </h2>
               <p className="text-slate-200 leading-relaxed">
                 Direct access to the latest public resume for downloading,
                 reviewing, or using as a reference while tailoring applications.
@@ -96,7 +113,9 @@ export default function ResumeBuilder() {
             </motion.a>
 
             <div className="rounded-3xl border border-white/15 bg-slate-950/30 p-8 backdrop-blur-xl shadow-2xl">
-              <h2 className="text-2xl font-black mb-4">How To Use It</h2>
+              <h2 className="text-2xl font-black mb-4 text-white">
+                How To Use It
+              </h2>
               <div className="space-y-3 text-slate-200 leading-relaxed">
                 <p>1. Open the resume and copy the most relevant experience.</p>
                 <p>2. Match it to the target role before rewriting anything.</p>
@@ -119,7 +138,9 @@ export default function ResumeBuilder() {
                 whileHover={{ scale: 1.02, y: -3 }}
                 className={`rounded-3xl border border-white/15 bg-gradient-to-r ${profile.accent} p-6 backdrop-blur-xl shadow-2xl`}
               >
-                <h3 className="text-xl font-black mb-2">{profile.title}</h3>
+                <h3 className="text-xl font-black mb-2 text-white">
+                  {profile.title}
+                </h3>
                 <p className="text-slate-200">{profile.description}</p>
                 <div className="mt-4 text-cyan-200 font-bold">
                   Open profile →
@@ -129,7 +150,7 @@ export default function ResumeBuilder() {
           </div>
 
           <div className="rounded-[2rem] border border-white/15 bg-white/10 p-8 backdrop-blur-xl shadow-2xl">
-            <h2 className="text-2xl sm:text-3xl font-black mb-6">
+            <h2 className="text-2xl sm:text-3xl font-black mb-6 text-white">
               AI Prompt Templates
             </h2>
             <div className="grid grid-cols-1 gap-5">

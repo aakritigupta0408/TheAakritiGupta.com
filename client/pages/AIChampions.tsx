@@ -242,9 +242,12 @@ export default function AIChampions() {
   const [selectedVictory, setSelectedVictory] = useState<AIVictory | null>(
     null,
   );
+  const [visibleCount, setVisibleCount] = useState(6);
   const playableVictoryCount = aiVictories.filter(
     (victory) => victory.playableDemo,
   ).length;
+  const visibleVictories = aiVictories.slice(0, visibleCount);
+  const hasMoreVictories = visibleVictories.length < aiVictories.length;
   const pageRefresh = getPageRefreshContent("/ai-champions");
 
   return (
@@ -299,8 +302,33 @@ export default function AIChampions() {
             </p>
           </motion.div>
 
+          <div className="mx-auto mb-10 flex max-w-5xl flex-col gap-4 rounded-3xl border border-white/15 bg-white/10 p-5 text-center backdrop-blur-xl md:flex-row md:items-center md:justify-between md:text-left">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-amber-100">
+                Victory grid status
+              </p>
+              <p className="mt-2 text-lg font-semibold text-white">
+                Showing {visibleVictories.length} of {aiVictories.length} matchups
+              </p>
+              <p className="mt-1 text-sm text-gray-200">
+                Open a card for the deeper historical context, then launch a
+                playable demo where one is available.
+              </p>
+            </div>
+            {selectedVictory && (
+              <motion.button
+                onClick={() => setSelectedVictory(null)}
+                className="rounded-full border border-amber-300/40 bg-amber-400/15 px-5 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-amber-400/25"
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
+              >
+                Close open story
+              </motion.button>
+            )}
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {aiVictories.map((victory, index) => (
+            {visibleVictories.map((victory, index) => (
               <motion.div
                 key={victory.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -390,6 +418,19 @@ export default function AIChampions() {
               </motion.div>
             ))}
           </div>
+
+          {hasMoreVictories && (
+            <div className="mt-10 flex justify-center">
+              <motion.button
+                onClick={() => setVisibleCount((current) => current + 3)}
+                className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-bold text-white shadow-xl backdrop-blur-md transition-all duration-300 hover:bg-white/15"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                Show 3 more matchups
+              </motion.button>
+            </div>
+          )}
         </div>
       </section>
 

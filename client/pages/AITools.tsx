@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SubpageLayout from "@/components/SubpageLayout";
 import { getPageRefreshContent } from "@/data/siteRefreshContent";
@@ -848,6 +848,7 @@ export default function AITools() {
     useState<Profession | null>(null);
   const [filterCategory, setFilterCategory] = useState<string>("All");
   const [sortBy, setSortBy] = useState<string>("impact");
+  const [visibleCount, setVisibleCount] = useState(8);
 
   const impactColors = {
     Critical: "bg-red-100 text-red-800 border-red-200",
@@ -877,7 +878,13 @@ export default function AITools() {
   };
 
   const filteredProfessions = getFilteredProfessions();
+  const visibleProfessions = filteredProfessions.slice(0, visibleCount);
+  const hasMoreProfessions = visibleProfessions.length < filteredProfessions.length;
   const pageRefresh = getPageRefreshContent("/ai-tools");
+
+  useEffect(() => {
+    setVisibleCount(8);
+  }, [filterCategory, sortBy]);
 
   return (
     <SubpageLayout
@@ -1022,6 +1029,34 @@ export default function AITools() {
 
         {/* Filters and Sort */}
         <div className="mb-12 space-y-6 relative z-10">
+          <div className="mx-auto flex max-w-5xl flex-col gap-4 rounded-3xl border border-white/15 bg-white/10 p-5 text-center backdrop-blur-xl md:flex-row md:items-center md:justify-between md:text-left">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-cyan-100">
+                Tool library status
+              </p>
+              <p className="mt-2 text-lg font-semibold text-white">
+                Showing {visibleProfessions.length} of {filteredProfessions.length} results
+              </p>
+              <p className="mt-1 text-sm text-gray-200">
+                Start with the current-signal cards above, then open the
+                profession catalog below for deeper comparison.
+              </p>
+            </div>
+            {(filterCategory !== "All" || sortBy !== "impact") && (
+              <motion.button
+                onClick={() => {
+                  setFilterCategory("All");
+                  setSortBy("impact");
+                }}
+                className="rounded-full border border-cyan-300/40 bg-cyan-400/15 px-5 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-cyan-400/25"
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
+              >
+                Reset filters
+              </motion.button>
+            )}
+          </div>
+
           <div className="flex flex-wrap gap-3 justify-center">
             <span className="text-sm font-bold text-white px-4 py-3 bg-white/10 backdrop-blur-md rounded-full border border-white/20">
               🎯 Filter by Impact:
@@ -1071,23 +1106,19 @@ export default function AITools() {
 
         {/* Profession Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12 relative z-10">
-          {filteredProfessions.map((profession, index) => (
+          {visibleProfessions.map((profession, index) => (
             <motion.div
               key={profession.id}
               initial={{ opacity: 0, y: 50, scale: 0.8 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{
                 duration: 0.6,
-                delay: index * 0.1,
-                ease: "backOut",
+                delay: Math.min(index * 0.06, 0.32),
+                ease: "easeOut",
               }}
-              className="bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 overflow-hidden hover:scale-105 transition-all duration-500 cursor-pointer group shadow-2xl hover:shadow-cyan-500/25"
+              className="bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 overflow-hidden transition-all duration-500 cursor-pointer group shadow-2xl hover:-translate-y-2 hover:shadow-cyan-500/20"
               onClick={() => setSelectedProfession(profession)}
-              whileHover={{
-                scale: 1.05,
-                rotateY: 5,
-                rotateX: 5,
-              }}
+              whileHover={{ scale: 1.02, y: -6 }}
               whileTap={{ scale: 0.95 }}
             >
               <div className="p-8">
@@ -1176,6 +1207,19 @@ export default function AITools() {
             </motion.div>
           ))}
         </div>
+
+        {hasMoreProfessions && (
+          <div className="mb-12 flex justify-center">
+            <motion.button
+              onClick={() => setVisibleCount((current) => current + 8)}
+              className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-bold text-white shadow-xl backdrop-blur-md transition-all duration-300 hover:bg-white/15"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              Show 8 more professions
+            </motion.button>
+          </div>
+        )}
 
         {/* Detailed Modal */}
         <AnimatePresence>

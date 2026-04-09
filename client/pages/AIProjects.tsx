@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SubpageLayout from "@/components/SubpageLayout";
 import { getPageRefreshContent } from "@/data/siteRefreshContent";
@@ -2590,6 +2590,7 @@ export default function AIProjects() {
   const [filterCategory, setFilterCategory] = useState<string>("All");
   const [filterDifficulty, setFilterDifficulty] = useState<string>("All");
   const [showCode, setShowCode] = useState<{ [key: number]: boolean }>({});
+  const [visibleCount, setVisibleCount] = useState(6);
 
   const categories = [
     "All",
@@ -2625,7 +2626,13 @@ export default function AIProjects() {
   };
 
   const filteredProjects = getFilteredProjects();
+  const visibleProjects = filteredProjects.slice(0, visibleCount);
+  const hasMoreProjects = visibleProjects.length < filteredProjects.length;
   const pageRefresh = getPageRefreshContent("/ai-projects");
+
+  useEffect(() => {
+    setVisibleCount(6);
+  }, [filterCategory, filterDifficulty]);
 
   return (
     <SubpageLayout
@@ -2818,8 +2825,8 @@ export default function AIProjects() {
           transition={{ duration: 0.6 }}
         >
           <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20 inline-block">
-            <span className="text-white font-bold">
-              Showing {filteredProjects.length} of {projects.length}{" "}
+              <span className="text-white font-bold">
+              Showing {visibleProjects.length} of {filteredProjects.length}{" "}
               projects
               {filterCategory !== "All" && ` in ${filterCategory}`}
               {filterDifficulty !== "All" && ` (${filterDifficulty} level)`}
@@ -2830,26 +2837,22 @@ export default function AIProjects() {
         {/* Projects Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-12 relative z-10">
           {filteredProjects.length > 0 ? (
-            filteredProjects.map((project, index) => (
+            visibleProjects.map((project, index) => (
               <motion.div
                 key={project.id}
                 initial={{ opacity: 0, y: 50, scale: 0.9 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{
                   duration: 0.6,
-                  delay: index * 0.15,
-                  ease: "backOut",
+                  delay: Math.min(index * 0.08, 0.36),
+                  ease: "easeOut",
                 }}
                 className={`bg-white/10 backdrop-blur-xl rounded-3xl border overflow-hidden shadow-2xl group ${
                   showCode[project.id]
                     ? "border-cyan-400/50 shadow-cyan-500/20"
                     : "border-white/20"
                 }`}
-                whileHover={{
-                  scale: 1.05,
-                  rotateY: 3,
-                  rotateX: 3,
-                }}
+                whileHover={{ scale: 1.02, y: -6 }}
               >
                 <div className="p-8">
                   {/* Header */}
@@ -3095,6 +3098,19 @@ export default function AIProjects() {
             </motion.div>
           )}
         </div>
+
+        {hasMoreProjects && (
+          <div className="mb-12 flex justify-center">
+            <motion.button
+              onClick={() => setVisibleCount((current) => current + 6)}
+              className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-bold text-white shadow-xl backdrop-blur-md transition-all duration-300 hover:bg-white/15"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              Show 6 more projects
+            </motion.button>
+          </div>
+        )}
 
         {/* Detailed Modal */}
         <AnimatePresence>

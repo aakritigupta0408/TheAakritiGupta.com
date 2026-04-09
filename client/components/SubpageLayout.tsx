@@ -250,6 +250,22 @@ export default function SubpageLayout({
                   );
                 })}
               </div>
+
+              <div className="mt-5 rounded-2xl border border-white/80 bg-white/88 p-4">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
+                  How to use this page
+                </div>
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  Start with the current-now modules at the top, then move into
+                  the deeper library sections once you know what you are looking
+                  for.
+                </p>
+                {refreshSummary && (
+                  <p className="mt-3 text-sm leading-6 text-slate-500">
+                    {refreshSummary}
+                  </p>
+                )}
+              </div>
             </motion.aside>
           </motion.div>
         </section>
