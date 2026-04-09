@@ -6,6 +6,10 @@ import {
   promptTabSignals,
   startupWatchlist,
 } from "./aiSignals";
+import { companies } from "./companyArchive";
+import { projects } from "./projectArchive";
+import { professions } from "./toolArchive";
+import { victories } from "./victoryArchive";
 
 export interface SiteSearchEntry {
   id: string;
@@ -213,236 +217,68 @@ const profileEntries: SiteSearchEntry[] = [
   },
 ];
 
-const companyEntries: SiteSearchEntry[] = [
-  {
-    id: "company-openai",
-    title: "OpenAI",
-    url: "/ai-companies",
-    description:
-      "Frontier AI lab behind ChatGPT, Codex, Sora, deep research, and multimodal model products.",
-    type: "Company",
-    section: "AI Companies",
-    keywords: ["chatgpt", "codex", "sora", "openai"],
-  },
-  {
-    id: "company-anthropic",
-    title: "Anthropic",
-    url: "/ai-companies",
-    description:
-      "AI safety company behind Claude, Claude Code, MCP, and enterprise-focused agent capabilities.",
-    type: "Company",
-    section: "AI Companies",
-    keywords: ["anthropic", "claude", "mcp", "ai safety"],
-  },
-  {
-    id: "company-google-deepmind",
-    title: "Google DeepMind",
-    url: "/ai-companies",
-    description:
-      "Research organization behind Gemini, AlphaFold, robotics work, and major scientific AI breakthroughs.",
-    type: "Company",
-    section: "AI Companies",
-    keywords: ["deepmind", "gemini", "alphafold", "robotics"],
-  },
-  {
-    id: "company-microsoft",
-    title: "Microsoft",
-    url: "/ai-companies",
-    description:
-      "Enterprise AI platform and product company spanning Copilot, Azure OpenAI Service, and Microsoft 365.",
-    type: "Company",
-    section: "AI Companies",
-    keywords: ["microsoft", "copilot", "azure openai", "github copilot"],
-  },
-  {
-    id: "company-meta-ai",
-    title: "Meta AI",
-    url: "/ai-companies",
-    description:
-      "Meta's AI organization behind Llama, PyTorch, computer vision work, and smart glasses products.",
-    type: "Company",
-    section: "AI Companies",
-    keywords: ["meta", "llama", "pytorch", "ray-ban meta"],
-  },
-  {
-    id: "company-nvidia",
-    title: "Nvidia",
-    url: "/ai-companies",
-    description:
-      "Core AI infrastructure company providing GPUs, CUDA, and data-center hardware for modern model training.",
-    type: "Company",
-    section: "AI Companies",
-    keywords: ["nvidia", "cuda", "h100", "ai infrastructure", "gpu"],
-  },
-  {
-    id: "company-mistral",
-    title: "Mistral AI",
-    url: "/ai-companies",
-    description:
-      "European AI company focused on open-weight models, document AI, research workflows, and enterprise products.",
-    type: "Company",
-    section: "AI Companies",
-    keywords: ["mistral", "le chat", "ocr", "document ai"],
-  },
-  {
-    id: "company-cursor",
-    title: "Cursor",
-    url: "/ai-companies",
-    description:
-      "Agent-first coding workspace built for multi-file edits, repo understanding, and developer supervision loops.",
-    type: "Company",
-    section: "AI Companies",
-    keywords: ["cursor", "coding workspace", "ide", "agents"],
-  },
-  {
-    id: "company-perplexity",
-    title: "Perplexity",
-    url: "/ai-companies",
-    description:
-      "Research-oriented AI product company known for answer engines, deep research, and grounded web synthesis.",
-    type: "Company",
-    section: "AI Companies",
-    keywords: ["perplexity", "search", "deep research", "answer engine"],
-  },
-  {
-    id: "company-glean",
-    title: "Glean",
-    url: "/ai-companies",
-    description:
-      "Enterprise search and agent platform centered on grounded execution, permissions, and connected knowledge.",
-    type: "Company",
-    section: "AI Companies",
-    keywords: ["glean", "enterprise search", "agents", "knowledge"],
-  },
-  {
-    id: "company-harvey",
-    title: "Harvey",
-    url: "/ai-companies",
-    description:
-      "Vertical AI company building professional workflows for legal and enterprise knowledge work.",
-    type: "Company",
-    section: "AI Companies",
-    keywords: ["harvey", "legal ai", "professional services"],
-  },
-  {
-    id: "company-sierra",
-    title: "Sierra",
-    url: "/ai-companies",
-    description:
-      "AI company focused on conversational agents and customer-facing execution across business channels.",
-    type: "Company",
-    section: "AI Companies",
-    keywords: ["sierra", "voice ai", "customer agents", "conversation"],
-  },
-  {
-    id: "company-elevenlabs",
-    title: "ElevenLabs",
-    url: "/ai-companies",
-    description:
-      "Speech and voice AI company focused on multilingual voice generation and conversational systems.",
-    type: "Company",
-    section: "AI Companies",
-    keywords: ["elevenlabs", "voice ai", "speech", "audio"],
-  },
-  {
-    id: "company-runway",
-    title: "Runway",
-    url: "/ai-companies",
-    description:
-      "Creative AI company working on video generation, media tooling, and broader AI-native creative platforms.",
-    type: "Company",
-    section: "AI Companies",
-    keywords: ["runway", "video generation", "creative ai", "media"],
-  },
-];
+const companyEntries: SiteSearchEntry[] = companies.map((company) => ({
+  id: `company-${company.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
+  title: company.name,
+  url: "/ai-companies",
+  description: `${company.description} ${company.currentFocus}`,
+  type: "Company",
+  section: "AI Companies",
+  keywords: [
+    company.name,
+    company.category,
+    ...company.keyProducts,
+    ...company.landmarkContributions,
+  ],
+}));
 
-const toolEntries: SiteSearchEntry[] = [
-  {
-    id: "tool-software-developers",
-    title: "Software Developers",
-    url: "/ai-tools",
-    description:
-      "Coding assistants and agentic development tools for generation, debugging, documentation, testing, and review.",
-    type: "Tool",
-    section: "AI Tools",
-    keywords: ["software developers", "github copilot", "codex", "cursor", "coding"],
-  },
-  {
-    id: "tool-content-writers",
-    title: "Content Writers",
-    url: "/ai-tools",
-    description:
-      "Writing assistants and editorial workflows for drafting, editing, structuring, and content strategy.",
-    type: "Tool",
-    section: "AI Tools",
-    keywords: ["content writers", "chatgpt", "claude", "jasper", "writing"],
-  },
-  {
-    id: "tool-data-scientists",
-    title: "Data Scientists",
-    url: "/ai-tools",
-    description:
-      "Data and AI platforms for analysis, AutoML, model development, and enterprise workflows.",
-    type: "Tool",
-    section: "AI Tools",
-    keywords: ["data scientists", "databricks", "h2o", "datarobot", "analysis"],
-  },
-  {
-    id: "tool-teachers",
-    title: "Teachers & Educators",
-    url: "/ai-tools",
-    description:
-      "Education-oriented assistants and tutoring tools for lesson planning, feedback, and differentiated support.",
-    type: "Tool",
-    section: "AI Tools",
-    keywords: ["teachers", "educators", "khanmigo", "education", "lesson planning"],
-  },
-  {
-    id: "tool-healthcare",
-    title: "Healthcare Professionals",
-    url: "/ai-tools",
-    description:
-      "Clinical and operational AI tools used for documentation, triage support, and workflow acceleration.",
-    type: "Tool",
-    section: "AI Tools",
-    keywords: ["healthcare", "clinical ai", "medical", "documentation"],
-  },
-];
+const toolEntries: SiteSearchEntry[] = professions.map((profession) => ({
+  id: `tool-${profession.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
+  title: profession.title,
+  url: "/ai-tools",
+  description: `${profession.description} ${profession.workflowNow}`,
+  type: "Tool",
+  section: "AI Tools",
+  keywords: [
+    profession.title,
+    profession.impactLevel,
+    profession.primaryTool.name,
+    profession.primaryTool.category,
+    ...profession.alternativeTools.map((tool) => tool.name),
+  ],
+}));
 
-const projectEntries: SiteSearchEntry[] = [
-  {
-    id: "project-image-classification",
-    title: "Image Classification",
-    url: "/ai-projects",
-    description:
-      "Computer vision starter project with code examples, implementation steps, and practical deployment framing.",
-    type: "Project",
-    section: "AI Projects",
-    keywords: ["image classification", "computer vision", "project", "python"],
-  },
-  {
-    id: "project-object-detection",
-    title: "Object Detection",
-    url: "/ai-projects",
-    description:
-      "A practical project for detecting and localizing objects in images or video with model and code guidance.",
-    type: "Project",
-    section: "AI Projects",
-    keywords: ["object detection", "computer vision", "yolo", "project"],
-  },
-  {
-    id: "project-recommendation-systems",
-    title: "Recommendation Systems",
-    url: "/ai-projects",
-    description:
-      "Applied AI project patterns for personalized ranking, suggestions, and user-facing recommendations.",
-    type: "Project",
-    section: "AI Projects",
-    keywords: ["recommendation systems", "ranking", "personalization", "project"],
-  },
-];
+const projectEntries: SiteSearchEntry[] = projects.map((project) => ({
+  id: `project-${project.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
+  title: project.title,
+  url: "/ai-projects",
+  description: `${project.summary} ${project.buildNow}`,
+  type: "Project",
+  section: "AI Projects",
+  keywords: [
+    project.title,
+    project.category,
+    ...project.tags,
+    ...project.useCases,
+  ],
+}));
 
 const researchEntries: SiteSearchEntry[] = [
+  ...victories.map((victory) => ({
+    id: `victory-${victory.id}`,
+    title: `${victory.aiName} vs ${victory.opponent}`,
+    url: "/ai-champions",
+    description: `${victory.game}. ${victory.significance} ${victory.todayContext}`,
+    type: "Research" as const,
+    section: "AI Champions",
+    keywords: [
+      victory.aiName,
+      victory.opponent,
+      victory.game,
+      victory.recordType,
+      ...victory.methods,
+    ],
+  })),
   ...latestAIResearchBreakthroughs.map((signal) => ({
     id: `research-${signal.id}`,
     title: signal.title,

@@ -1,254 +1,59 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import DeepBlueChess from "@/components/games/DeepBlueChess";
 import AlphaGoDemo from "@/components/games/AlphaGoDemo";
 import LibratusPoker from "@/components/games/LibratusPoker";
 import SubpageLayout from "@/components/SubpageLayout";
 import { getPageRefreshContent } from "@/data/siteRefreshContent";
+import { victories, type VictoryRecord } from "@/data/victoryArchive";
 
-interface AIVictory {
-  id: string;
-  game: string;
-  aiName: string;
-  champion: string;
-  year: number;
-  location: string;
-  icon: string;
-  matchScore: string;
-  significance: string;
-  description: string;
-  aiTechnology: string[];
-  gameRules: string;
-  playableDemo: boolean;
-  historicalContext: string;
-  impact: string;
-  videoUrl?: string;
-  gradient: string;
-  accent: string;
-}
+type MatchFilter = "All" | VictoryRecord["recordType"];
 
-const aiVictories: AIVictory[] = [
-  {
-    id: "deep-blue-chess",
-    game: "Chess",
-    aiName: "Deep Blue",
-    champion: "Garry Kasparov",
-    year: 1997,
-    location: "New York City",
-    icon: "♛",
-    matchScore: "3.5 - 2.5",
-    significance:
-      "First computer to defeat a reigning world chess champion in a match",
-    description:
-      "IBM's Deep Blue made history by becoming the first computer to defeat a reigning world chess champion in a six-game match. This watershed moment demonstrated that brute-force computation could overcome human intuition and strategic thinking in complex games.",
-    aiTechnology: [
-      "Specialized chess processors",
-      "Alpha-beta pruning",
-      "Evaluation functions",
-      "Opening book",
-      "Endgame databases",
-    ],
-    gameRules: "Standard FIDE chess rules with classical time control",
-    playableDemo: true,
-    historicalContext:
-      "Following its 1996 loss to Kasparov, IBM upgraded Deep Blue significantly, increasing its processing power from 100 million to 200 million positions per second.",
-    impact:
-      "Marked the beginning of the AI era in strategy games and sparked global interest in computer chess and artificial intelligence capabilities.",
-    gradient: "from-blue-600 to-indigo-800",
-    accent: "border-blue-500",
-  },
-  {
-    id: "alphago-go",
-    game: "Go",
-    aiName: "AlphaGo",
-    champion: "Lee Sedol",
-    year: 2016,
-    location: "Seoul, South Korea",
-    icon: "⚫",
-    matchScore: "4 - 1",
-    significance:
-      "Conquered the ancient game of Go, thought to be decades away from AI mastery",
-    description:
-      "DeepMind's AlphaGo stunned the world by defeating 18-time world champion Lee Sedol in Go, a game with more possible positions than atoms in the observable universe. This victory came a decade earlier than experts predicted.",
-    aiTechnology: [
-      "Deep neural networks",
-      "Monte Carlo tree search",
-      "Reinforcement learning",
-      "Self-play training",
-      "Value and policy networks",
-    ],
-    gameRules: "Standard 19x19 Go board with Chinese rules",
-    playableDemo: true,
-    historicalContext:
-      "Go was considered the last bastion of human supremacy in board games due to its astronomical complexity and reliance on intuition rather than calculation.",
-    impact:
-      "Revolutionized AI research by demonstrating that neural networks could master intuitive, pattern-recognition based games, leading to breakthroughs in many other domains.",
-    gradient: "from-gray-700 to-black",
-    accent: "border-gray-600",
-  },
-  {
-    id: "libratus-poker",
-    game: "No-Limit Texas Hold'em Poker",
-    aiName: "Libratus",
-    champion: "Top Human Professionals",
-    year: 2017,
-    location: "Pittsburgh, PA",
-    icon: "🂡",
-    matchScore: "$1.8M profit",
-    significance:
-      "First AI to defeat top professionals in no-limit poker, mastering imperfect information",
-    description:
-      "Carnegie Mellon's Libratus defeated four of the world's best no-limit Texas Hold'em players in a 20-day tournament, winning by a statistically significant margin and demonstrating AI's ability to handle incomplete information and bluffing.",
-    aiTechnology: [
-      "Counterfactual regret minimization",
-      "Abstraction techniques",
-      "Real-time strategy computation",
-      "Nash equilibrium approximation",
-    ],
-    gameRules: "No-limit Texas Hold'em heads-up format",
-    playableDemo: true,
-    historicalContext:
-      "Poker presented unique challenges as an imperfect information game where players cannot see opponents' cards, requiring sophisticated deception and psychological reasoning.",
-    impact:
-      "Showed AI could excel in scenarios involving uncertainty, deception, and incomplete information - crucial for real-world applications like negotiations and security.",
-    gradient: "from-red-600 to-red-900",
-    accent: "border-red-500",
-  },
-  {
-    id: "alphazero-multiple",
-    game: "Chess, Shogi & Go",
-    aiName: "AlphaZero",
-    champion: "Stockfish, Elmo & AlphaGo",
-    year: 2017,
-    location: "London, UK",
-    icon: "🎯",
-    matchScore: "Dominated all three",
-    significance:
-      "Self-taught AI that mastered three different games using only the rules",
-    description:
-      "DeepMind's AlphaZero learned chess, shogi, and Go from scratch using only the game rules and self-play, defeating the world's best programs in each game within hours of training, including its predecessor AlphaGo.",
-    aiTechnology: [
-      "Self-play reinforcement learning",
-      "Deep neural networks",
-      "Monte Carlo tree search",
-      "No domain knowledge",
-      "General game-playing architecture",
-    ],
-    gameRules: "Standard rules for Chess, Shogi (Japanese chess), and Go",
-    playableDemo: true,
-    historicalContext:
-      "Unlike previous AIs that relied on human knowledge and handcrafted features, AlphaZero started with only the rules and discovered strategies through pure self-play.",
-    impact:
-      "Demonstrated that AI could discover novel strategies and playing styles, often superior to centuries of human knowledge, purely through self-directed learning.",
-    gradient: "from-purple-600 to-purple-900",
-    accent: "border-purple-500",
-  },
-  {
-    id: "openai-five-dota",
-    game: "Dota 2",
-    aiName: "OpenAI Five",
-    champion: "Team OG",
-    year: 2019,
-    location: "San Francisco, CA",
-    icon: "🏆",
-    matchScore: "2 - 0",
-    significance:
-      "First AI to defeat world champions in a complex team-based video game",
-    description:
-      "OpenAI Five became the first AI system to defeat the reigning world champions of Dota 2, one of the most complex esports games requiring real-time strategy, teamwork, and adaptation to millions of possible game states.",
-    aiTechnology: [
-      "Proximal policy optimization",
-      "Long short-term memory",
-      "Hierarchical reinforcement learning",
-      "Self-play at scale",
-      "Multi-agent coordination",
-    ],
-    gameRules: "Standard Dota 2 5v5 format with minor restrictions",
-    playableDemo: false,
-    historicalContext:
-      "Dota 2 presents challenges far beyond traditional board games: real-time action, partial observability, high-dimensional action spaces, and the need for team coordination.",
-    impact:
-      "Proved AI could handle the complexity of modern video games and multi-agent environments, opening possibilities for AI applications in dynamic, collaborative scenarios.",
-    gradient: "from-green-600 to-teal-800",
-    accent: "border-green-500",
-  },
-  {
-    id: "pluribus-poker",
-    game: "Six-Player No-Limit Texas Hold'em",
-    aiName: "Pluribus",
-    champion: "World-Class Professionals",
-    year: 2019,
-    location: "Online",
-    icon: "🃏",
-    matchScore: "Decisive victory",
-    significance:
-      "First AI to defeat multiple world-class players simultaneously in multiplayer poker",
-    description:
-      "Facebook AI's Pluribus achieved superhuman performance in six-player no-limit Texas Hold'em poker, demonstrating AI's ability to handle the complex dynamics of multiplayer games with shifting alliances and coalitions.",
-    aiTechnology: [
-      "Monte Carlo counterfactual regret minimization",
-      "Abstraction techniques",
-      "Blueprint strategy",
-      "Real-time search",
-      "Multi-player game theory",
-    ],
-    gameRules: "Six-player no-limit Texas Hold'em tournament format",
-    playableDemo: true,
-    historicalContext:
-      "Multiplayer poker is exponentially more complex than heads-up poker due to the need to model multiple opponents and their interactions with each other.",
-    impact:
-      "Extended AI poker mastery to multiplayer scenarios, relevant for auction theory, cybersecurity, and any domain involving multiple competing agents.",
-    gradient: "from-yellow-600 to-orange-700",
-    accent: "border-yellow-500",
-  },
-  {
-    id: "muzero-atari",
-    game: "Atari Games",
-    aiName: "MuZero",
-    champion: "Human World Records",
-    year: 2020,
-    location: "London, UK",
-    icon: "🕹️",
-    matchScore: "57 of 57 games",
-    significance:
-      "Achieved superhuman performance in classic video games without knowing the rules",
-    description:
-      "DeepMind's MuZero mastered chess, shogi, Go, and 57 different Atari games without being programmed with the rules of any game, learning everything through interaction and achieving superhuman performance across all domains.",
-    aiTechnology: [
-      "Model-based reinforcement learning",
-      "Learned world models",
-      "Monte Carlo tree search",
-      "Deep neural networks",
-      "Planning in latent space",
-    ],
-    gameRules: "Various - from board games to classic arcade games",
-    playableDemo: true,
-    historicalContext:
-      "MuZero represents the culmination of combining model-free and model-based RL, learning its own internal model of game dynamics while playing.",
-    impact:
-      "Demonstrated that a single AI architecture could master diverse game types without domain-specific programming, pointing toward artificial general intelligence.",
-    gradient: "from-cyan-600 to-blue-800",
-    accent: "border-cyan-500",
-  },
-];
-
-type GameTab = string | null;
+const matchFilters: MatchFilter[] = ["All", "Champion match", "Benchmark leap"];
 
 export default function AIChampions() {
   const navigate = useNavigate();
-  const [activeGame, setActiveGame] = useState<GameTab>(null);
-  const [hoveredGame, setHoveredGame] = useState<GameTab>(null);
-  const [selectedVictory, setSelectedVictory] = useState<AIVictory | null>(
+  const [activeGame, setActiveGame] = useState<string | null>(null);
+  const [selectedVictory, setSelectedVictory] = useState<VictoryRecord | null>(
     null,
   );
+  const [filterType, setFilterType] = useState<MatchFilter>("All");
   const [visibleCount, setVisibleCount] = useState(6);
-  const playableVictoryCount = aiVictories.filter(
-    (victory) => victory.playableDemo,
-  ).length;
-  const visibleVictories = aiVictories.slice(0, visibleCount);
-  const hasMoreVictories = visibleVictories.length < aiVictories.length;
+
   const pageRefresh = getPageRefreshContent("/ai-champions");
+
+  const championMatchCount = useMemo(
+    () =>
+      victories.filter((victory) => victory.recordType === "Champion match")
+        .length,
+    [],
+  );
+  const benchmarkLeapCount = victories.length - championMatchCount;
+  const playableVictoryCount = useMemo(
+    () => victories.filter((victory) => victory.playableDemo).length,
+    [],
+  );
+
+  const filteredVictories = useMemo(
+    () =>
+      filterType === "All"
+        ? victories
+        : victories.filter((victory) => victory.recordType === filterType),
+    [filterType],
+  );
+
+  useEffect(() => {
+    setVisibleCount(6);
+  }, [filterType]);
+
+  const visibleVictories = filteredVictories.slice(0, visibleCount);
+  const hasMoreVictories = visibleVictories.length < filteredVictories.length;
+  const activeVictory =
+    victories.find((victory) => victory.id === activeGame) ?? null;
+  const featuredVictories = victories.filter((victory) =>
+    ["deep-blue-chess", "alphago-go", "openai-five-dota"].includes(victory.id),
+  );
 
   return (
     <SubpageLayout
@@ -262,522 +67,534 @@ export default function AIChampions() {
       updatedAtLabel={pageRefresh.updatedAtLabel}
       metrics={[
         {
-          value: aiVictories.length.toString(),
-          label: "Historic victories tracked",
+          value: victories.length.toString(),
+          label: "Landmark matchups tracked",
+        },
+        {
+          value: championMatchCount.toString(),
+          label: "Direct human wins",
+        },
+        {
+          value: benchmarkLeapCount.toString(),
+          label: "Benchmark leaps",
         },
         {
           value: playableVictoryCount.toString(),
-          label: "Playable demo matchups",
-        },
-        {
-          value: selectedVictory ? "1" : "0",
-          label: "Victory story open",
-        },
-        {
-          value: activeGame ? "1" : "0",
-          label: "Interactive demo running",
+          label: "Playable demos",
         },
       ]}
     >
-
-      {/* AI Victories Grid */}
-      <section className="relative z-20 py-16 pt-10">
-        <div className="max-w-7xl mx-auto px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Historic
-              <span className="bg-gradient-to-r from-red-400 to-purple-600 bg-clip-text text-transparent">
-                {" "}
-                AI Victories
-              </span>
-            </h2>
-            <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-              Experience the pivotal moments when artificial intelligence proved
-              it could surpass human champions in their own domains
-            </p>
-          </motion.div>
-
-          <div className="mx-auto mb-10 flex max-w-5xl flex-col gap-4 rounded-3xl border border-white/15 bg-white/10 p-5 text-center backdrop-blur-xl md:flex-row md:items-center md:justify-between md:text-left">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-amber-100">
-                Victory grid status
+      <div className="container mx-auto px-6 py-10 sm:py-12">
+        <motion.section
+          className="mb-14 space-y-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+        >
+          <div className="grid gap-6 xl:grid-cols-[1.05fr,0.95fr]">
+            <div className="rounded-[2rem] border border-white/15 bg-slate-950/25 p-8 backdrop-blur-xl">
+              <div className="mb-5">
+                <div className="mb-3 inline-flex rounded-full border border-amber-300/30 bg-amber-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-amber-100">
+                  What this page tracks now
+                </div>
+                <h2 className="text-3xl font-black text-white md:text-4xl">
+                  Human-vs-AI moments, but with cleaner historical framing
+                </h2>
+              </div>
+              <p className="mb-6 max-w-3xl text-sm leading-relaxed text-gray-200">
+                The archive now separates direct champion defeats from broader
+                benchmark leaps, links every story back to primary sources, and
+                focuses on what each moment unlocked for modern AI.
               </p>
-              <p className="mt-2 text-lg font-semibold text-white">
-                Showing {visibleVictories.length} of {aiVictories.length} matchups
-              </p>
-              <p className="mt-1 text-sm text-gray-200">
-                Open a card for the deeper historical context, then launch a
-                playable demo where one is available.
-              </p>
-            </div>
-            {selectedVictory && (
-              <motion.button
-                onClick={() => setSelectedVictory(null)}
-                className="rounded-full border border-amber-300/40 bg-amber-400/15 px-5 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-amber-400/25"
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.96 }}
-              >
-                Close open story
-              </motion.button>
-            )}
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {visibleVictories.map((victory, index) => (
-              <motion.div
-                key={victory.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.6 }}
-                whileHover={{ scale: 1.02, y: -5 }}
-                onHoverStart={() => setHoveredGame(victory.id)}
-                onHoverEnd={() => setHoveredGame(null)}
-                onClick={() => setSelectedVictory(victory)}
-                className={`cursor-pointer bg-white rounded-2xl shadow-lg border-2 transition-all duration-300 overflow-hidden group ${
-                  selectedVictory?.id === victory.id
-                    ? `${victory.accent} shadow-2xl`
-                    : hoveredGame === victory.id
-                      ? "border-gray-300 shadow-xl"
-                      : "border-gray-200 hover:shadow-xl"
-                }`}
-              >
-                {/* Victory Header */}
-                <div
-                  className={`p-6 bg-gradient-to-r ${victory.gradient} text-white relative overflow-hidden`}
-                >
-                  <motion.div
-                    className="absolute inset-0 bg-white/10"
-                    animate={{
-                      x: hoveredGame === victory.id ? -200 : 200,
-                    }}
-                    transition={{ duration: 0.6 }}
-                  />
-                  <div className="relative z-10">
-                    <div className="text-4xl mb-3">{victory.icon}</div>
-                    <h3 className="text-xl font-bold mb-2">{victory.game}</h3>
-                    <p className="text-sm mb-2 opacity-90">
-                      {victory.aiName} vs {victory.champion}
-                    </p>
-                    <div className="flex gap-2 flex-wrap">
-                      <span className="text-xs bg-white/20 px-2 py-1 rounded-full">
+              <div className="grid gap-4 md:grid-cols-3">
+                {featuredVictories.map((victory, index) => (
+                  <motion.button
+                    key={victory.id}
+                    type="button"
+                    onClick={() => setSelectedVictory(victory)}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.45, delay: index * 0.06 }}
+                    className="rounded-3xl border border-white/15 bg-white/10 p-5 text-left transition-all duration-300 hover:-translate-y-1 hover:bg-white/15"
+                  >
+                    <div className="mb-3 flex items-center justify-between gap-3">
+                      <span className="text-3xl">{victory.icon}</span>
+                      <span className="rounded-full border border-white/15 bg-black/20 px-3 py-1 text-xs font-semibold text-gray-100">
                         {victory.year}
                       </span>
-                      <span className="text-xs bg-white/20 px-2 py-1 rounded-full">
-                        {victory.matchScore}
-                      </span>
-                      {victory.playableDemo && (
-                        <span className="text-xs bg-green-500/30 px-2 py-1 rounded-full">
-                          Playable
-                        </span>
-                      )}
                     </div>
-                  </div>
-                </div>
-
-                {/* Victory Content */}
-                <div className="p-6">
-                  <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                    {victory.significance}
-                  </p>
-
-                  <div className="space-y-2 mb-4">
-                    <div className="flex justify-between text-xs">
-                      <span className="text-gray-500">Location:</span>
-                      <span className="font-medium text-gray-700">
-                        {victory.location}
-                      </span>
-                    </div>
-                    <div className="flex justify-between text-xs">
-                      <span className="text-gray-500">Technology:</span>
-                      <span className="font-medium text-gray-700">
-                        {victory.aiTechnology[0]}
-                      </span>
-                    </div>
-                  </div>
-
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`w-full py-3 px-4 rounded-xl font-semibold transition-all duration-300 ${
-                      selectedVictory?.id === victory.id
-                        ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white"
-                        : "bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300"
-                    }`}
-                  >
-                    {selectedVictory?.id === victory.id
-                      ? "Selected"
-                      : "View Details"}
-                  </motion.button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {hasMoreVictories && (
-            <div className="mt-10 flex justify-center">
-              <motion.button
-                onClick={() => setVisibleCount((current) => current + 3)}
-                className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-bold text-white shadow-xl backdrop-blur-md transition-all duration-300 hover:bg-white/15"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                Show 3 more matchups
-              </motion.button>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Victory Details Modal */}
-      <AnimatePresence>
-        {selectedVictory && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-            onClick={() => setSelectedVictory(null)}
-          >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0, y: 50 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.8, opacity: 0, y: 50 }}
-              className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Modal Header */}
-              <div
-                className={`p-6 bg-gradient-to-r ${selectedVictory.gradient} text-white`}
-              >
-                <div className="flex justify-between items-start">
-                  <div>
-                    <div className="text-5xl mb-3">{selectedVictory.icon}</div>
-                    <h2 className="text-3xl font-bold mb-2">
-                      {selectedVictory.game}
-                    </h2>
-                    <p className="text-xl opacity-90">
-                      {selectedVictory.aiName} defeats{" "}
-                      {selectedVictory.champion}
-                    </p>
-                    <p className="text-lg opacity-80 mt-1">
-                      {selectedVictory.year} • {selectedVictory.location}
-                    </p>
-                  </div>
-                  <motion.button
-                    whileHover={{ scale: 1.1, rotate: 90 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={() => setSelectedVictory(null)}
-                    className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
-                  >
-                    <span className="text-2xl">✕</span>
-                  </motion.button>
-                </div>
-              </div>
-
-              {/* Modal Content */}
-              <div className="p-8">
-                {/* Match Details */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-800 mb-4">
-                      Match Results
+                    <h3 className="text-lg font-black text-white">
+                      {victory.aiName}
                     </h3>
-                    <div className="bg-gray-50 p-4 rounded-xl space-y-3">
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Final Score:</span>
-                        <span className="font-bold text-gray-800">
-                          {selectedVictory.matchScore}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Year:</span>
-                        <span className="font-bold text-gray-800">
-                          {selectedVictory.year}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Location:</span>
-                        <span className="font-bold text-gray-800">
-                          {selectedVictory.location}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Playable Demo:</span>
-                        <span
-                          className={`font-bold ${selectedVictory.playableDemo ? "text-green-600" : "text-red-600"}`}
-                        >
-                          {selectedVictory.playableDemo
-                            ? "Available"
-                            : "Not Available"}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-800 mb-4">
-                      AI Technology
-                    </h3>
-                    <div className="space-y-2">
-                      {selectedVictory.aiTechnology.map((tech, idx) => (
-                        <div key={idx} className="flex items-center gap-2">
-                          <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                          <span className="text-gray-700 text-sm">{tech}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Description */}
-                <div className="mb-8">
-                  <h3 className="text-xl font-bold text-gray-800 mb-4">
-                    The Historic Victory
-                  </h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    {selectedVictory.description}
-                  </p>
-                </div>
-
-                {/* Historical Context */}
-                <div className="mb-8">
-                  <h3 className="text-xl font-bold text-gray-800 mb-4">
-                    Historical Context
-                  </h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    {selectedVictory.historicalContext}
-                  </p>
-                </div>
-
-                {/* Impact */}
-                <div className="mb-8">
-                  <h3 className="text-xl font-bold text-gray-800 mb-4">
-                    Impact on AI
-                  </h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    {selectedVictory.impact}
-                  </p>
-                </div>
-
-                {/* Game Rules */}
-                <div className="mb-8">
-                  <h3 className="text-xl font-bold text-gray-800 mb-4">
-                    Game Format
-                  </h3>
-                  <div className="bg-blue-50 p-4 rounded-xl">
-                    <p className="text-gray-700">{selectedVictory.gameRules}</p>
-                  </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex gap-4 flex-wrap">
-                  {selectedVictory.playableDemo && (
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => {
-                        setSelectedVictory(null);
-                        setActiveGame(selectedVictory.id);
-                      }}
-                      className="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-semibold hover:from-blue-600 hover:to-blue-700 transition-all"
-                    >
-                      🎮 Play Demo
-                    </motion.button>
-                  )}
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => navigate("/ai-discoveries")}
-                    className="px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-xl font-semibold hover:from-purple-600 hover:to-purple-700 transition-all"
-                  >
-                    📚 Learn More About AI
+                    <p className="mt-1 text-sm font-semibold text-amber-100">
+                      {victory.game}
+                    </p>
+                    <p className="mt-3 text-sm leading-relaxed text-gray-100">
+                      {victory.significance}
+                    </p>
                   </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => navigate("/games")}
-                    className="px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl font-semibold hover:from-green-600 hover:to-green-700 transition-all"
-                  >
-                    🎯 More Games
-                  </motion.button>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Interactive Game Demo */}
-      <AnimatePresence mode="wait">
-        {activeGame && (
-          <section className="relative z-20 py-16">
-            <div className="max-w-7xl mx-auto px-8">
-              <motion.div
-                key={activeGame}
-                initial={{ opacity: 0, y: 60, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -60, scale: 0.95 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden"
-              >
-                {/* Game Header */}
-                <motion.div
-                  className={`p-6 bg-gradient-to-r ${aiVictories.find((v) => v.id === activeGame)?.gradient} text-white relative`}
-                  initial={{ x: -100, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-4">
-                      <div className="text-4xl">
-                        {aiVictories.find((v) => v.id === activeGame)?.icon}
-                      </div>
-                      <div>
-                        <h3 className="text-2xl font-bold">
-                          {aiVictories.find((v) => v.id === activeGame)?.game}
-                        </h3>
-                        <p className="text-white/80 text-sm">
-                          Historic AI vs Human Champion Demo
-                        </p>
-                      </div>
-                    </div>
-                    <motion.button
-                      whileHover={{ scale: 1.1, rotate: 90 }}
-                      whileTap={{ scale: 0.9 }}
-                      onClick={() => setActiveGame(null)}
-                      className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
-                    >
-                      <span className="text-xl">✕</span>
-                    </motion.button>
-                  </div>
-                </motion.div>
-
-                {/* Game Content */}
-                <motion.div
-                  className="bg-gray-50 min-h-[600px]"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                >
-                  {activeGame === "deep-blue-chess" && <DeepBlueChess />}
-                  {activeGame === "alphago-go" && <AlphaGoDemo />}
-                  {activeGame === "libratus-poker" && <LibratusPoker />}
-                  {activeGame &&
-                    ![
-                      "deep-blue-chess",
-                      "alphago-go",
-                      "libratus-poker",
-                    ].includes(activeGame) && (
-                      <div className="p-8 flex items-center justify-center">
-                        <div className="text-center">
-                          <div className="text-6xl mb-4">🚧</div>
-                          <h4 className="text-2xl font-bold text-gray-800 mb-4">
-                            Demo Coming Soon
-                          </h4>
-                          <p className="text-gray-600 max-w-2xl mx-auto">
-                            Interactive demo for{" "}
-                            {aiVictories.find((v) => v.id === activeGame)?.game}{" "}
-                            is under development. You'll soon be able to play
-                            against the same AI that defeated world champions!
-                          </p>
-                          <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => navigate("/games")}
-                            className="mt-6 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-semibold hover:from-blue-600 hover:to-blue-700 transition-all"
-                          >
-                            Play Other Games
-                          </motion.button>
-                        </div>
-                      </div>
-                    )}
-                </motion.div>
-              </motion.div>
-            </div>
-          </section>
-        )}
-      </AnimatePresence>
-
-      {/* Enhanced Footer */}
-      <section className="relative z-20 py-16 bg-gray-100 border-t border-gray-200">
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-            {/* About Section */}
-            <div>
-              <h3 className="text-lg font-bold text-black mb-4">
-                AI vs Human Champions
-              </h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Explore the pivotal moments in AI history when machines
-                surpassed human champions in games that defined strategic
-                thinking for centuries.
-              </p>
-            </div>
-
-            {/* Victory Timeline */}
-            <div>
-              <h3 className="text-lg font-bold text-black mb-4">
-                Victory Timeline
-              </h3>
-              <div className="space-y-2 text-sm">
-                <div className="text-gray-600">
-                  1997 • Deep Blue vs Kasparov
-                </div>
-                <div className="text-gray-600">2016 • AlphaGo vs Lee Sedol</div>
-                <div className="text-gray-600">
-                  2017 • Libratus vs Poker Pros
-                </div>
-                <div className="text-gray-600">
-                  2019 • OpenAI Five vs Team OG
-                </div>
-                <div className="text-gray-600">2020 • MuZero vs All Games</div>
+                ))}
               </div>
             </div>
 
-            {/* Technologies */}
-            <div>
-              <h3 className="text-lg font-bold text-black mb-4">
-                AI Technologies
-              </h3>
-              <div className="flex flex-wrap gap-2">
+            <div className="rounded-[2rem] border border-white/15 bg-white/10 p-8 backdrop-blur-xl">
+              <div className="mb-5">
+                <div className="mb-3 inline-flex rounded-full border border-cyan-300/30 bg-cyan-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-cyan-100">
+                  Read the archive like a builder
+                </div>
+                <h3 className="text-2xl font-black text-white md:text-3xl">
+                  Each card answers a different engineering question
+                </h3>
+              </div>
+
+              <div className="space-y-4">
                 {[
-                  "Deep Learning",
-                  "Monte Carlo Tree Search",
-                  "Reinforcement Learning",
-                  "Neural Networks",
-                  "Self-Play",
-                  "Game Theory",
-                ].map((tech, idx) => (
-                  <span
-                    key={idx}
-                    className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-medium"
+                  {
+                    title: "Champion match",
+                    description:
+                      "A system beat elite humans directly under competitive conditions. These are the public proof points.",
+                  },
+                  {
+                    title: "Benchmark leap",
+                    description:
+                      "A system changed the field even without a marquee human match, usually by proving a stronger general recipe.",
+                  },
+                  {
+                    title: "Why it still matters",
+                    description:
+                      "Every modal now includes the bridge from game result to modern AI work such as planning, agents, or multi-step decision systems.",
+                  },
+                ].map((item) => (
+                  <div
+                    key={item.title}
+                    className="rounded-3xl border border-white/15 bg-black/20 p-5"
                   >
-                    {tech}
-                  </span>
+                    <p className="text-sm font-black uppercase tracking-[0.18em] text-cyan-100">
+                      {item.title}
+                    </p>
+                    <p className="mt-3 text-sm leading-relaxed text-gray-100">
+                      {item.description}
+                    </p>
+                  </div>
                 ))}
               </div>
             </div>
           </div>
+        </motion.section>
 
-          {/* Copyright */}
-          <div className="text-center pt-8 border-t border-gray-200">
-            <p className="text-gray-500 text-sm">
-              © 2026 Aakriti Gupta • Senior ML Engineer • AI Champion Analyst
-            </p>
-            <div className="mt-4 flex justify-center gap-8 text-xs text-gray-400">
-              <span>Deep Blue Era</span>
-              <span>AlphaGo Revolution</span>
-              <span>Modern AI Supremacy</span>
+        <section className="mb-8 space-y-6">
+          <div className="mx-auto flex max-w-5xl flex-col gap-4 rounded-3xl border border-white/15 bg-white/10 p-5 text-center backdrop-blur-xl md:flex-row md:items-center md:justify-between md:text-left">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-amber-100">
+                Matchup grid status
+              </p>
+              <p className="mt-2 text-lg font-semibold text-white">
+                Showing {visibleVictories.length} of {filteredVictories.length} landmark
+                records
+              </p>
+              <p className="mt-1 text-sm text-gray-200">
+                Open a story for methods, historical impact, and primary source
+                links. Launch a demo where one is available.
+              </p>
             </div>
+            {filterType !== "All" && (
+              <motion.button
+                onClick={() => setFilterType("All")}
+                className="rounded-full border border-amber-300/40 bg-amber-400/15 px-5 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-amber-400/25"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                Clear matchup filter
+              </motion.button>
+            )}
           </div>
+
+          <div className="flex flex-wrap justify-center gap-4">
+            <span className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-black text-white backdrop-blur-md">
+              Filter by record type
+            </span>
+            {matchFilters.map((filter) => (
+              <motion.button
+                key={filter}
+                onClick={() => setFilterType(filter)}
+                className={`rounded-full px-6 py-3 text-sm font-bold transition-all duration-300 ${
+                  filterType === filter
+                    ? "scale-105 border border-amber-400/50 bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-2xl"
+                    : "border border-white/20 bg-white/10 text-white backdrop-blur-md hover:bg-white/20"
+                }`}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                {filter}
+              </motion.button>
+            ))}
+          </div>
+        </section>
+
+        <div className="mb-12 grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
+          {visibleVictories.map((victory, index) => (
+            <motion.button
+              key={victory.id}
+              type="button"
+              onClick={() => setSelectedVictory(victory)}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, delay: Math.min(index * 0.05, 0.25) }}
+              className={`group overflow-hidden rounded-3xl border bg-white text-left shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-amber-500/10 ${
+                selectedVictory?.id === victory.id
+                  ? `${victory.accent} shadow-amber-500/20`
+                  : "border-gray-200"
+              }`}
+            >
+              <div
+                className={`bg-gradient-to-r ${victory.gradient} p-6 text-white`}
+              >
+                <div className="mb-4 flex items-start justify-between gap-4">
+                  <div>
+                    <div className="text-4xl">{victory.icon}</div>
+                    <h3 className="mt-3 text-2xl font-black">{victory.game}</h3>
+                    <p className="mt-1 text-sm font-semibold text-white/90">
+                      {victory.aiName} vs {victory.opponent}
+                    </p>
+                  </div>
+                  <span className="rounded-full border border-white/20 bg-white/10 px-3 py-2 text-xs font-semibold">
+                    {victory.year}
+                  </span>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold">
+                    {victory.recordType}
+                  </span>
+                  <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold">
+                    {victory.scoreLabel}
+                  </span>
+                  {victory.playableDemo && (
+                    <span className="rounded-full border border-emerald-200/30 bg-emerald-400/20 px-3 py-1 text-xs font-semibold">
+                      Playable demo
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div className="p-6">
+                <p className="mb-4 text-sm leading-relaxed text-gray-700">
+                  {victory.significance}
+                </p>
+
+                <div className="mb-5 rounded-2xl border border-gray-100 bg-gray-50 p-4">
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500">
+                    Why it mattered
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-700">
+                    {victory.whyItMattered}
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {victory.methods.slice(0, 3).map((method) => (
+                    <span
+                      key={method}
+                      className="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-semibold text-gray-700"
+                    >
+                      {method}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.button>
+          ))}
         </div>
-      </section>
+
+        {hasMoreVictories && (
+          <div className="mb-12 flex justify-center">
+            <motion.button
+              onClick={() => setVisibleCount((current) => current + 3)}
+              className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-bold text-white shadow-xl backdrop-blur-md transition-all duration-300 hover:bg-white/15"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              Show 3 more records
+            </motion.button>
+          </div>
+        )}
+
+        <AnimatePresence>
+          {selectedVictory && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 p-4 backdrop-blur-md"
+              onClick={() => setSelectedVictory(null)}
+            >
+              <motion.div
+                initial={{ scale: 0.94, opacity: 0, y: 24 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.94, opacity: 0, y: 24 }}
+                transition={{ duration: 0.25 }}
+                className="max-h-[90vh] w-full max-w-5xl overflow-y-auto rounded-[2rem] border border-white/15 bg-slate-950 shadow-2xl"
+                onClick={(event) => event.stopPropagation()}
+              >
+                <div
+                  className={`bg-gradient-to-br ${selectedVictory.gradient} p-8 text-white`}
+                >
+                  <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+                    <div className="max-w-3xl">
+                      <div className="mb-4 flex items-center gap-4">
+                        <span className="text-5xl">{selectedVictory.icon}</span>
+                        <div>
+                          <div className="mb-2 inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em]">
+                            {selectedVictory.recordType}
+                          </div>
+                          <h2 className="text-3xl font-black md:text-4xl">
+                            {selectedVictory.aiName}
+                          </h2>
+                        </div>
+                      </div>
+                      <p className="text-lg font-semibold text-white/90">
+                        {selectedVictory.game} · {selectedVictory.year} ·{" "}
+                        {selectedVictory.location}
+                      </p>
+                      <p className="mt-4 text-base leading-relaxed text-white/95">
+                        {selectedVictory.summary}
+                      </p>
+                    </div>
+
+                    <motion.button
+                      whileHover={{ scale: 1.08, rotate: 90 }}
+                      whileTap={{ scale: 0.92 }}
+                      onClick={() => setSelectedVictory(null)}
+                      className="flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-white/10 text-2xl transition-colors hover:bg-white/15"
+                    >
+                      ✕
+                    </motion.button>
+                  </div>
+                </div>
+
+                <div className="p-8">
+                  <div className="mb-8 grid gap-4 md:grid-cols-3">
+                    <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
+                      <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-100">
+                        Score or result
+                      </p>
+                      <p className="mt-3 text-2xl font-black text-white">
+                        {selectedVictory.scoreLabel}
+                      </p>
+                    </div>
+                    <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
+                      <p className="text-xs font-bold uppercase tracking-[0.18em] text-cyan-100">
+                        Opponent
+                      </p>
+                      <p className="mt-3 text-2xl font-black text-white">
+                        {selectedVictory.opponent}
+                      </p>
+                    </div>
+                    <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
+                      <p className="text-xs font-bold uppercase tracking-[0.18em] text-emerald-100">
+                        Playable
+                      </p>
+                      <p className="mt-3 text-2xl font-black text-white">
+                        {selectedVictory.playableDemo ? "Yes" : "No"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mb-8 grid gap-6 lg:grid-cols-[1fr,1fr]">
+                    <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+                      <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-300">
+                        Why it mattered
+                      </p>
+                      <p className="mt-3 text-base leading-relaxed text-gray-100">
+                        {selectedVictory.whyItMattered}
+                      </p>
+                    </div>
+                    <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+                      <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-300">
+                        Today context
+                      </p>
+                      <p className="mt-3 text-base leading-relaxed text-gray-100">
+                        {selectedVictory.todayContext}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-6">
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-cyan-100">
+                      Match format
+                    </p>
+                    <p className="mt-3 text-base leading-relaxed text-gray-100">
+                      {selectedVictory.format}
+                    </p>
+                  </div>
+
+                  <div className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-6">
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-violet-100">
+                      Core methods
+                    </p>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {selectedVictory.methods.map((method) => (
+                        <span
+                          key={method}
+                          className="rounded-full border border-white/10 bg-black/20 px-3 py-2 text-sm font-semibold text-white"
+                        >
+                          {method}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-6">
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-emerald-100">
+                      Primary sources
+                    </p>
+                    <div className="mt-4 grid gap-4 md:grid-cols-2">
+                      {selectedVictory.sources.map((source) => (
+                        <motion.a
+                          key={source.url}
+                          href={source.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="rounded-2xl border border-white/10 bg-black/20 p-4 transition-colors hover:bg-black/30"
+                        >
+                          <p className="text-sm font-black text-white">
+                            {source.label}
+                          </p>
+                          <p className="mt-2 text-xs font-semibold uppercase tracking-[0.16em] text-gray-300">
+                            {source.kind}
+                          </p>
+                        </motion.a>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-4">
+                    {selectedVictory.playableDemo && (
+                      <motion.button
+                        whileHover={{ scale: 1.04 }}
+                        whileTap={{ scale: 0.96 }}
+                        onClick={() => {
+                          setSelectedVictory(null);
+                          setActiveGame(selectedVictory.id);
+                        }}
+                        className="rounded-full bg-gradient-to-r from-amber-500 to-orange-600 px-6 py-3 text-sm font-bold text-white shadow-lg transition-all"
+                      >
+                        Play demo
+                      </motion.button>
+                    )}
+                    <motion.button
+                      whileHover={{ scale: 1.04 }}
+                      whileTap={{ scale: 0.96 }}
+                      onClick={() => navigate("/ai-discoveries")}
+                      className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-bold text-white transition-all hover:bg-white/10"
+                    >
+                      Explore AI discoveries
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.04 }}
+                      whileTap={{ scale: 0.96 }}
+                      onClick={() => navigate("/games")}
+                      className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-bold text-white transition-all hover:bg-white/10"
+                    >
+                      Open games
+                    </motion.button>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence mode="wait">
+          {activeVictory && (
+            <section className="mb-12">
+              <div className="rounded-[2rem] border border-white/15 bg-white shadow-2xl">
+                <motion.div
+                  key={activeVictory.id}
+                  initial={{ opacity: 0, y: 32, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -24, scale: 0.98 }}
+                  transition={{ duration: 0.45 }}
+                >
+                  <div
+                    className={`flex flex-col gap-4 rounded-t-[2rem] bg-gradient-to-r ${activeVictory.gradient} p-6 text-white md:flex-row md:items-center md:justify-between`}
+                  >
+                    <div className="flex items-center gap-4">
+                      <span className="text-4xl">{activeVictory.icon}</span>
+                      <div>
+                        <h3 className="text-2xl font-black">
+                          {activeVictory.game}
+                        </h3>
+                        <p className="text-sm font-semibold text-white/90">
+                          Historic AI demo based on {activeVictory.aiName}
+                        </p>
+                      </div>
+                    </div>
+                    <motion.button
+                      whileHover={{ scale: 1.08, rotate: 90 }}
+                      whileTap={{ scale: 0.92 }}
+                      onClick={() => setActiveGame(null)}
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-xl transition-colors hover:bg-white/15"
+                    >
+                      ✕
+                    </motion.button>
+                  </div>
+
+                  <div className="min-h-[600px] bg-gray-50">
+                    {activeGame === "deep-blue-chess" && <DeepBlueChess />}
+                    {activeGame === "alphago-go" && <AlphaGoDemo />}
+                    {activeGame === "libratus-poker" && <LibratusPoker />}
+                  </div>
+                </motion.div>
+              </div>
+            </section>
+          )}
+        </AnimatePresence>
+
+        <section className="rounded-[2rem] border border-white/15 bg-white/10 p-8 backdrop-blur-xl">
+          <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <div className="mb-3 inline-flex rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-gray-200">
+                Timeline view
+              </div>
+              <h3 className="text-2xl font-black text-white md:text-3xl">
+                From search systems to multi-agent strategy
+              </h3>
+            </div>
+            <p className="max-w-2xl text-sm text-gray-200">
+              These records are not just trivia. They map the progression from
+              search-heavy systems to deep reinforcement learning, imperfect
+              information reasoning, and coordinated agents.
+            </p>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {victories.map((victory) => (
+              <motion.button
+                key={`timeline-${victory.id}`}
+                type="button"
+                onClick={() => setSelectedVictory(victory)}
+                className="rounded-3xl border border-white/15 bg-black/20 p-5 text-left transition-colors hover:bg-black/30"
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-2xl">{victory.icon}</span>
+                  <span className="text-xs font-semibold text-gray-300">
+                    {victory.year}
+                  </span>
+                </div>
+                <p className="mt-4 text-lg font-black text-white">
+                  {victory.aiName}
+                </p>
+                <p className="mt-1 text-sm text-amber-100">{victory.game}</p>
+                <p className="mt-3 text-sm leading-relaxed text-gray-100">
+                  {victory.significance}
+                </p>
+              </motion.button>
+            ))}
+          </div>
+        </section>
+      </div>
     </SubpageLayout>
   );
 }
