@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import SubpageLayout from "@/components/SubpageLayout";
+import { getPageRefreshContent } from "@/data/siteRefreshContent";
 
 const resumeUrl =
   "https://drive.google.com/file/d/1Mnmk6nP9l_Av0LvpgJQ5Tkjb7BqhY7nb/view?usp=sharing";
@@ -39,18 +40,18 @@ const promptTemplates = [
 ];
 
 export default function ResumeBuilder() {
+  const pageRefresh = getPageRefreshContent("/resume-builder");
+
   return (
     <SubpageLayout
       route="/resume-builder"
-      eyebrow="Career toolkit"
-      title="Resume assets, profile links, and reusable prompt templates in one place"
-      description="This page now follows the shared level-one shell so the practical resume resources feel like part of the same product system instead of a visually separate microsite."
+      eyebrow={pageRefresh.eyebrow}
+      title={pageRefresh.title}
+      description={pageRefresh.description}
       accent="blue"
-      chips={[
-        "Current public resume",
-        "LinkedIn and GitHub references",
-        "Copy-ready AI prompt templates",
-      ]}
+      chips={pageRefresh.chips}
+      refreshSummary={pageRefresh.refreshSummary}
+      updatedAtLabel={pageRefresh.updatedAtLabel}
       metrics={[
         {
           value: "1",

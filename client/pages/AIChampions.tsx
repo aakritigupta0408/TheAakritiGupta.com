@@ -5,6 +5,7 @@ import DeepBlueChess from "@/components/games/DeepBlueChess";
 import AlphaGoDemo from "@/components/games/AlphaGoDemo";
 import LibratusPoker from "@/components/games/LibratusPoker";
 import SubpageLayout from "@/components/SubpageLayout";
+import { getPageRefreshContent } from "@/data/siteRefreshContent";
 
 interface AIVictory {
   id: string;
@@ -244,19 +245,18 @@ export default function AIChampions() {
   const playableVictoryCount = aiVictories.filter(
     (victory) => victory.playableDemo,
   ).length;
+  const pageRefresh = getPageRefreshContent("/ai-champions");
 
   return (
     <SubpageLayout
       route="/ai-champions"
-      eyebrow="AI competition history"
-      title="Historic moments when AI systems beat world-class human champions"
-      description="The matchup cards, modal deep dives, and playable demos are still here, but the page now enters through the same shell and level-one wayfinding as the rest of the site."
+      eyebrow={pageRefresh.eyebrow}
+      title={pageRefresh.title}
+      description={pageRefresh.description}
       accent="amber"
-      chips={[
-        "Historic matchups and context",
-        "Playable demos where available",
-        "Cross-links into discoveries and games",
-      ]}
+      chips={pageRefresh.chips}
+      refreshSummary={pageRefresh.refreshSummary}
+      updatedAtLabel={pageRefresh.updatedAtLabel}
       metrics={[
         {
           value: aiVictories.length.toString(),

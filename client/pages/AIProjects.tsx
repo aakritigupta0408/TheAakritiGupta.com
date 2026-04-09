@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SubpageLayout from "@/components/SubpageLayout";
+import { getPageRefreshContent } from "@/data/siteRefreshContent";
 import { buildNowProjectTracks } from "../data/aiSignals";
 
 interface Resource {
@@ -2624,19 +2625,18 @@ export default function AIProjects() {
   };
 
   const filteredProjects = getFilteredProjects();
+  const pageRefresh = getPageRefreshContent("/ai-projects");
 
   return (
     <SubpageLayout
       route="/ai-projects"
-      eyebrow="AI build guide"
-      title="Common AI project patterns, with enough depth to choose and build the right one"
-      description="The long-form project library now opens with the same shared hierarchy and sibling navigation as the other level-one pages, while keeping the project cards, filters, code snippets, and modal details intact."
+      eyebrow={pageRefresh.eyebrow}
+      title={pageRefresh.title}
+      description={pageRefresh.description}
       accent="rose"
-      chips={[
-        "Build-now project tracks",
-        "Difficulty and category filters",
-        "Code examples and implementation notes",
-      ]}
+      chips={pageRefresh.chips}
+      refreshSummary={pageRefresh.refreshSummary}
+      updatedAtLabel={pageRefresh.updatedAtLabel}
       metrics={[
         {
           value: projects.length.toString(),

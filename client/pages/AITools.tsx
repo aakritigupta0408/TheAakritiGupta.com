@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SubpageLayout from "@/components/SubpageLayout";
+import { getPageRefreshContent } from "@/data/siteRefreshContent";
 import {
   aiUseCasesNow,
   latestAIProductLaunches,
@@ -876,19 +877,18 @@ export default function AITools() {
   };
 
   const filteredProfessions = getFilteredProfessions();
+  const pageRefresh = getPageRefreshContent("/ai-tools");
 
   return (
     <SubpageLayout
       route="/ai-tools"
-      eyebrow="AI workflow index"
-      title="AI tools mapped to real professional workflows"
-      description="This page now sits inside the shared level-one shell: clearer hierarchy up top, faster sibling-page navigation, and the original tool research preserved inside a single content frame."
+      eyebrow={pageRefresh.eyebrow}
+      title={pageRefresh.title}
+      description={pageRefresh.description}
       accent="blue"
-      chips={[
-        "Profession-based recommendations",
-        "Current launches and use cases",
-        "Filter by impact and adoption",
-      ]}
+      chips={pageRefresh.chips}
+      refreshSummary={pageRefresh.refreshSummary}
+      updatedAtLabel={pageRefresh.updatedAtLabel}
       metrics={[
         {
           value: professions.length.toString(),

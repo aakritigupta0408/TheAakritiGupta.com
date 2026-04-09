@@ -19,6 +19,7 @@ import {
 } from "react-icons/fa";
 import ChatBot from "@/components/ChatBot";
 import SubpageLayout from "@/components/SubpageLayout";
+import { getPageRefreshContent } from "@/data/siteRefreshContent";
 import { agentTabSignals } from "../data/aiSignals";
 
 interface AgentExample {
@@ -1134,6 +1135,7 @@ const AIAgentTraining: React.FC = () => {
   const [playgroundInput, setPlaygroundInput] = useState("");
   const [playgroundOutput, setPlaygroundOutput] = useState("");
   const activeSignals = agentTabSignals[activeTab];
+  const pageRefresh = getPageRefreshContent("/ai-agent-training");
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -1187,15 +1189,13 @@ Week 7-8: Production rollout, tracing, and monitoring
   return (
     <SubpageLayout
       route="/ai-agent-training"
-      eyebrow="Agent systems workshop"
-      title="How to frame, train, and evaluate AI agents that operate in real workflows"
-      description="This page keeps its examples, techniques, and playground, but now uses the shared level-one shell so the dense training content starts with cleaner hierarchy and faster sibling navigation."
+      eyebrow={pageRefresh.eyebrow}
+      title={pageRefresh.title}
+      description={pageRefresh.description}
       accent="blue"
-      chips={[
-        "Production-agent examples",
-        "Training and evaluation techniques",
-        "Interactive builder playground",
-      ]}
+      chips={pageRefresh.chips}
+      refreshSummary={pageRefresh.refreshSummary}
+      updatedAtLabel={pageRefresh.updatedAtLabel}
       metrics={[
         {
           value: aiAgentExamples.length.toString(),

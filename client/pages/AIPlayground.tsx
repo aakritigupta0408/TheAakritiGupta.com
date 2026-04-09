@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import ChatBot from "@/components/ChatBot";
 import SubpageLayout from "@/components/SubpageLayout";
+import { getPageRefreshContent } from "@/data/siteRefreshContent";
 import { latestAIProductLaunches } from "../data/aiSignals";
 
 type DemoType =
@@ -293,19 +294,18 @@ export default function AIPlayground() {
   };
 
   const selectedDemoData = AI_DEMOS.find((demo) => demo.id === selectedDemo);
+  const pageRefresh = getPageRefreshContent("/ai-playground");
 
   return (
     <SubpageLayout
       route="/ai-playground"
-      eyebrow="Interactive AI demos"
-      title="Hands-on AI experiences, plus direct paths into the more serious demos"
-      description="The playground still behaves like a demo hub, but the page now opens with the same navigation and theme treatment as the rest of the level-one sections."
+      eyebrow={pageRefresh.eyebrow}
+      title={pageRefresh.title}
+      description={pageRefresh.description}
       accent="rose"
-      chips={[
-        "Creative and analytical demos",
-        "Live product radar",
-        "Direct links into deeper showcase builds",
-      ]}
+      chips={pageRefresh.chips}
+      refreshSummary={pageRefresh.refreshSummary}
+      updatedAtLabel={pageRefresh.updatedAtLabel}
       metrics={[
         {
           value: AI_DEMOS.length.toString(),

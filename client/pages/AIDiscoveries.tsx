@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SubpageLayout from "@/components/SubpageLayout";
+import { getPageRefreshContent } from "@/data/siteRefreshContent";
 import { latestAIResearchBreakthroughs } from "../data/aiSignals";
 
 interface Discovery {
@@ -2364,19 +2365,18 @@ export default function AIDiscoveries() {
 
   const filteredDiscoveries = getFilteredAndSortedDiscoveries();
   const decades = getDecades();
+  const pageRefresh = getPageRefreshContent("/ai-discoveries");
 
   return (
     <SubpageLayout
       route="/ai-discoveries"
-      eyebrow="AI history and frontier research"
-      title="The discoveries that built modern AI, plus the breakthroughs shaping what comes next"
-      description="The archive, filters, and demo overlays remain intact, but the page now enters through the same theme-compatible hero and level-one wayfinding used across the rest of the site."
+      eyebrow={pageRefresh.eyebrow}
+      title={pageRefresh.title}
+      description={pageRefresh.description}
       accent="blue"
-      chips={[
-        "Historical milestones and original papers",
-        "Frontier research updates",
-        "Filter by decade and sort order",
-      ]}
+      chips={pageRefresh.chips}
+      refreshSummary={pageRefresh.refreshSummary}
+      updatedAtLabel={pageRefresh.updatedAtLabel}
       metrics={[
         {
           value: discoveries.length.toString(),

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SubpageLayout from "@/components/SubpageLayout";
+import { getPageRefreshContent } from "@/data/siteRefreshContent";
 import { promptTabSignals } from "../data/aiSignals";
 
 interface PromptExample {
@@ -924,18 +925,18 @@ Deliverable:
     }, 2000);
   };
 
+  const pageRefresh = getPageRefreshContent("/prompt-engineering");
+
   return (
     <SubpageLayout
       route="/prompt-engineering"
-      eyebrow="Prompt design lab"
-      title="Prompting patterns, examples, and practice workflows for modern AI systems"
-      description="The examples, techniques, and playground stay intact, but the page now opens with the same level-one hierarchy and navigation as the other main sections."
+      eyebrow={pageRefresh.eyebrow}
+      title={pageRefresh.title}
+      description={pageRefresh.description}
       accent="rose"
-      chips={[
-        "Examples, techniques, and playground",
-        "Modern agent-style prompting signals",
-        "Faster navigation across sibling pages",
-      ]}
+      chips={pageRefresh.chips}
+      refreshSummary={pageRefresh.refreshSummary}
+      updatedAtLabel={pageRefresh.updatedAtLabel}
       metrics={[
         {
           value: promptExamples.length.toString(),

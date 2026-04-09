@@ -1,0 +1,73 @@
+name: Weekly Site Refresh
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+    inputs:
+      trigger_source:
+        description: "What triggered this refresh"
+        required: false
+        default: "manual"
+      trigger_note:
+        description: "Optional note for the workflow run"
+        required: false
+        default: ""
+
+concurrency:
+  group: site-refresh
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify OpenAI configuration
+        run: |
+          if [ -z "${OPENAI_API_KEY}" ]; then
+            echo "OPENAI_API_KEY is required for the site refresh workflow."
+            exit 1
+          fi
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: Run site refresh agent
+        run: npm run site:refresh
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_SITE_REFRESH_MODEL: ${{ vars.OPENAI_SITE_REFRESH_MODEL }}
+          OPENAI_SITE_REFRESH_REASONING_EFFORT: ${{ vars.OPENAI_SITE_REFRESH_REASONING_EFFORT }}
+
+      - name: Validate generated site
+        run: |
+          npm run typecheck
+          npm run build:client
+
+      - name: Commit and push refresh
+        run: |
+          if git diff --quiet; then
+            echo "No weekly refresh changes detected."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add client/data/aiSignals.ts client/data/siteRefreshContent.ts
+          git commit -m "Refresh weekly site content ($(date -u +%Y-%m-%d))"
+          git push

@@ -27,3 +27,15 @@ export interface ChatRequest {
 export interface ChatResponse {
   response: string;
 }
+
+export interface SiteRefreshTriggerRequest {
+  source?: string;
+}
+
+export interface SiteRefreshTriggerResponse {
+  success: boolean;
+  message: string;
+  workflowUrl?: string;
+  queuedAt?: string;
+  cooldownUntil?: string;
+}

@@ -8,6 +8,7 @@ import Snake from "@/components/Snake";
 import MarioGradientDescent from "@/components/MarioGradientDescent";
 import Helicopter from "@/components/Helicopter";
 import SubpageLayout from "@/components/SubpageLayout";
+import { getPageRefreshContent } from "@/data/siteRefreshContent";
 
 type GameTab =
   | "chess"
@@ -96,19 +97,18 @@ export default function Games() {
   ];
 
   const categoryCount = new Set(gameCards.map((game) => game.category)).size;
+  const pageRefresh = getPageRefreshContent("/games");
 
   return (
     <SubpageLayout
       route="/games"
-      eyebrow="Interactive portfolio games"
-      title="Playable experiences that showcase strategy, AI thinking, and experimentation"
-      description="The games page now enters through the same shared shell as the other level-one routes, while keeping the game grid, live demos, and supporting context below."
+      eyebrow={pageRefresh.eyebrow}
+      title={pageRefresh.title}
+      description={pageRefresh.description}
       accent="amber"
-      chips={[
-        "Strategy, arcade, and educational games",
-        "Playable components embedded in-page",
-        "Cross-links into AI competition history",
-      ]}
+      chips={pageRefresh.chips}
+      refreshSummary={pageRefresh.refreshSummary}
+      updatedAtLabel={pageRefresh.updatedAtLabel}
       metrics={[
         {
           value: gameCards.length.toString(),

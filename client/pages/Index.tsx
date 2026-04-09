@@ -4,7 +4,12 @@ import { useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import ChatBot from "@/components/ChatBot";
 import { saveEmailToLocalStorage } from "@/api/save-email";
-import type { SaveEmailRequest, SaveEmailResponse } from "@shared/api";
+import { siteRefreshMeta } from "@/data/siteRefreshContent";
+import type {
+  SaveEmailRequest,
+  SaveEmailResponse,
+  SiteRefreshTriggerResponse,
+} from "@shared/api";
 
 // Photo gallery with creative transitions
 const PhotoGallery = () => {
@@ -225,11 +230,20 @@ const CompanyCarousel = () => {
 
 export default function Index() {
   const navigate = useNavigate();
+  const manualSiteRefreshUrl =
+    "https://github.com/aakritigupta0408/TheAakritiGupta.com/actions/workflows/site-refresh.yml";
   const [email, setEmail] = useState("");
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [isSavingEmail, setIsSavingEmail] = useState(false);
   const [emailMessage, setEmailMessage] = useState<string | null>(null);
   const [emailMessageTone, setEmailMessageTone] = useState<
+    "success" | "error" | null
+  >(null);
+  const [isTriggeringSiteRefresh, setIsTriggeringSiteRefresh] = useState(false);
+  const [siteRefreshMessage, setSiteRefreshMessage] = useState<string | null>(
+    null,
+  );
+  const [siteRefreshMessageTone, setSiteRefreshMessageTone] = useState<
     "success" | "error" | null
   >(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -294,6 +308,48 @@ export default function Index() {
     setEmailSubmitted(false);
     setEmailMessageTone("error");
     setEmailMessage("Could not save your email right now. Please try again.");
+  };
+
+  const handleSiteRefreshTrigger = async () => {
+    if (isTriggeringSiteRefresh) {
+      return;
+    }
+
+    setIsTriggeringSiteRefresh(true);
+    setSiteRefreshMessage(null);
+    setSiteRefreshMessageTone(null);
+
+    try {
+      const response = await fetch("/api/site-refresh/run", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ source: "homepage" }),
+      });
+
+      const payload = (await response
+        .json()
+        .catch(() => null)) as SiteRefreshTriggerResponse | null;
+
+      if (!response.ok || !payload?.success) {
+        throw new Error(
+          payload?.message || "Could not queue the site refresh workflow.",
+        );
+      }
+
+      setSiteRefreshMessageTone("success");
+      setSiteRefreshMessage(payload.message);
+    } catch (error) {
+      if (typeof window !== "undefined") {
+        window.open(manualSiteRefreshUrl, "_blank", "noopener,noreferrer");
+      }
+
+      setSiteRefreshMessageTone("success");
+      setSiteRefreshMessage(
+        "This site is currently served from GitHub Pages, so the manual trigger opens the GitHub Actions workflow page in a new tab. Weekly scheduled runs still use the same workflow automatically.",
+      );
+    } finally {
+      setIsTriggeringSiteRefresh(false);
+    }
   };
 
   useEffect(() => {
@@ -596,6 +652,52 @@ export default function Index() {
                   AI vs Champions
                 </span>
               </motion.button>
+
+              <motion.div
+                className="rounded-[2rem] border border-slate-200 bg-white/82 p-5 shadow-sm"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.7 }}
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
+                      {siteRefreshMeta.headline}
+                    </div>
+                    <div className="mt-2 text-base font-semibold text-slate-900">
+                      Refresh the latest AI sections and redeploy
+                    </div>
+                    <p className="mt-2 text-sm leading-6 text-slate-600">
+                      {siteRefreshMeta.description}
+                    </p>
+                    <div className="mt-3 text-xs font-medium text-slate-500">
+                      Last refresh template updated {siteRefreshMeta.updatedAtLabel}
+                    </div>
+                  </div>
+
+                  <motion.button
+                    onClick={handleSiteRefreshTrigger}
+                    whileHover={{ scale: 1.02, y: -1 }}
+                    whileTap={{ scale: 0.98 }}
+                    disabled={isTriggeringSiteRefresh}
+                    className="rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-[0_14px_30px_rgba(15,23,42,0.16)] transition-all duration-300 hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70"
+                  >
+                    {isTriggeringSiteRefresh ? "Queuing..." : "Run agent now"}
+                  </motion.button>
+                </div>
+
+                {siteRefreshMessage && (
+                  <div
+                    className={`mt-4 rounded-2xl border px-4 py-3 text-sm ${
+                      siteRefreshMessageTone === "success"
+                        ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+                        : "border-rose-200 bg-rose-50 text-rose-700"
+                    }`}
+                  >
+                    {siteRefreshMessage}
+                  </div>
+                )}
+              </motion.div>
             </motion.div>
           </motion.div>
 

@@ -27,6 +27,8 @@ interface SubpageLayoutProps {
   metrics: SubpageMetric[];
   chips?: string[];
   accent?: AccentTone;
+  refreshSummary?: string;
+  updatedAtLabel?: string;
   children: ReactNode;
   frameClassName?: string;
 }
@@ -91,6 +93,8 @@ export default function SubpageLayout({
   metrics,
   chips = [],
   accent = "blue",
+  refreshSummary,
+  updatedAtLabel,
   children,
   frameClassName,
 }: SubpageLayoutProps) {
@@ -157,6 +161,21 @@ export default function SubpageLayout({
                       {chip}
                     </span>
                   ))}
+                </div>
+              )}
+
+              {(updatedAtLabel || refreshSummary) && (
+                <div className="mt-6 rounded-[24px] border border-slate-200/80 bg-white/80 p-4 shadow-[0_12px_30px_rgba(15,23,42,0.06)]">
+                  {updatedAtLabel && (
+                    <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
+                      Last refreshed {updatedAtLabel}
+                    </div>
+                  )}
+                  {refreshSummary && (
+                    <p className="mt-2 text-sm leading-6 text-slate-600">
+                      {refreshSummary}
+                    </p>
+                  )}
                 </div>
               )}
 

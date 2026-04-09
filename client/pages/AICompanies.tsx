@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SubpageLayout from "@/components/SubpageLayout";
+import { getPageRefreshContent } from "@/data/siteRefreshContent";
 import {
   latestAIResearchBreakthroughs,
   startupWatchlist,
@@ -1136,19 +1137,18 @@ export default function AICompanies() {
   const visibleRecentAdditions = filteredCompanies.filter(
     (company) => company.isRecentAddition,
   ).length;
+  const pageRefresh = getPageRefreshContent("/ai-companies");
 
   return (
     <SubpageLayout
       route="/ai-companies"
-      eyebrow="AI market map"
-      title="The AI company landscape, from frontier labs to workflow startups"
-      description="The page keeps its company research and filters, but now shares the same theme-compatible hero, level-one navigation, and content framing as the other main sections."
+      eyebrow={pageRefresh.eyebrow}
+      title={pageRefresh.title}
+      description={pageRefresh.description}
       accent="emerald"
-      chips={[
-        "Established labs and newer entrants",
-        "Filter by sector, valuation, and headcount",
-        "Live watchlist for recent additions",
-      ]}
+      chips={pageRefresh.chips}
+      refreshSummary={pageRefresh.refreshSummary}
+      updatedAtLabel={pageRefresh.updatedAtLabel}
       metrics={[
         {
           value: companies.length.toString(),
