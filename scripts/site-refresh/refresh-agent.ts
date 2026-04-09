@@ -111,19 +111,114 @@ const pageShellOutputSchema = z.object({
   pages: z.array(pageShellSchema).length(pageRefreshSpecs.length),
 });
 
-interface ResponsesApiTextContent {
+interface TextContentPart {
   text?: string;
   type?: string;
 }
 
-interface ResponsesApiOutputItem {
-  content?: ResponsesApiTextContent[];
+interface HuggingFaceChatCompletionMessage {
+  content?: string | TextContentPart[];
 }
 
-interface ResponsesApiResponse {
-  output_text?: string;
-  output?: ResponsesApiOutputItem[];
+interface HuggingFaceChatCompletionChoice {
+  message?: HuggingFaceChatCompletionMessage;
 }
+
+interface HuggingFaceChatCompletionResponse {
+  choices?: HuggingFaceChatCompletionChoice[];
+}
+
+interface ResearchSearchTask {
+  id: string;
+  label: string;
+  query: string;
+  maxResults: number;
+  previewCount: number;
+}
+
+interface ResearchSource {
+  title: string;
+  url: string;
+  snippet: string;
+  publishedAt?: string;
+  preview?: string;
+}
+
+interface ResearchSearchResult {
+  id: string;
+  label: string;
+  query: string;
+  results: ResearchSource[];
+}
+
+interface ResearchDossier {
+  generatedAt: string;
+  searches: ResearchSearchResult[];
+}
+
+const REQUEST_HEADERS = {
+  "User-Agent":
+    "TheAakritiGuptaSiteRefresh/1.0 (+https://www.theaakritigupta.com)",
+  "Accept-Language": "en-US,en;q=0.9",
+};
+
+const SEARCH_TASKS: ResearchSearchTask[] = [
+  {
+    id: "frontier-research",
+    label: "Frontier research breakthroughs",
+    query:
+      'AI research breakthrough 2026 arXiv OpenAI Anthropic DeepMind Meta multimodal reasoning',
+    maxResults: 4,
+    previewCount: 2,
+  },
+  {
+    id: "product-launches",
+    label: "Latest AI product launches",
+    query:
+      'AI product launch 2026 OpenAI Anthropic Google Mistral Perplexity enterprise release',
+    maxResults: 4,
+    previewCount: 2,
+  },
+  {
+    id: "agent-patterns",
+    label: "Agent workflows and coding systems",
+    query:
+      'AI agent coding workspace deep research MCP workflow 2026 official announcement',
+    maxResults: 4,
+    previewCount: 2,
+  },
+  {
+    id: "enterprise-use-cases",
+    label: "Enterprise AI use cases",
+    query:
+      'enterprise AI use case rollout 2026 copilots agents workflow automation official',
+    maxResults: 4,
+    previewCount: 2,
+  },
+  {
+    id: "startup-watch",
+    label: "AI startups to watch",
+    query: 'AI startup funding launch 2026 model infrastructure agent',
+    maxResults: 4,
+    previewCount: 1,
+  },
+  {
+    id: "build-now-projects",
+    label: "Build-now project signals",
+    query:
+      'AI GitHub Hugging Face project framework repository launch 2026 agents multimodal',
+    maxResults: 4,
+    previewCount: 2,
+  },
+  {
+    id: "prompt-patterns",
+    label: "Prompt engineering and reasoning patterns",
+    query:
+      'prompt engineering agent workflow reasoning guide 2026 OpenAI Anthropic Google',
+    maxResults: 4,
+    previewCount: 2,
+  },
+];
 
 function requireEnv(name: string) {
   const value = process.env[name];
@@ -164,59 +259,298 @@ function extractJsonText(text: string) {
   return cleaned.slice(firstBrace, lastBrace + 1);
 }
 
-function getOutputText(response: ResponsesApiResponse) {
-  if (response.output_text?.trim()) {
-    return response.output_text.trim();
-  }
-
-  const fallback = response.output
-    ?.flatMap((item) => item.content ?? [])
-    .map((content) => content.text ?? "")
-    .join("")
-    .trim();
-
-  if (!fallback) {
-    throw new Error("OpenAI response did not include output text.");
-  }
-
-  return fallback;
+function compactWhitespace(value: string) {
+  return value.replace(/\s+/g, " ").trim();
 }
 
-async function generateJsonWithWebSearch<T>(
-  prompt: string,
-  schema: z.ZodSchema<T>,
+function truncate(value: string, maxLength: number) {
+  if (value.length <= maxLength) {
+    return value;
+  }
+
+  return `${value.slice(0, maxLength - 1).trimEnd()}…`;
+}
+
+function decodeHtmlEntities(value: string) {
+  return value
+    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/gi, "$1")
+    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, code) =>
+      String.fromCharCode(Number.parseInt(code, 16)),
+    )
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'");
+}
+
+function stripTags(value: string) {
+  return compactWhitespace(decodeHtmlEntities(value).replace(/<[^>]+>/g, " "));
+}
+
+function extractTagValue(block: string, tagName: string) {
+  const match = block.match(
+    new RegExp(`<${tagName}[^>]*>([\\s\\S]*?)<\\/${tagName}>`, "i"),
+  );
+
+  return match?.[1] ?? "";
+}
+
+async function fetchText(
+  url: string,
+  headers: Record<string, string>,
+  timeoutMs = 12000,
 ) {
-  const apiKey = requireEnv("OPENAI_API_KEY");
-  const model = process.env.OPENAI_SITE_REFRESH_MODEL || "gpt-5.4-mini";
-  const reasoningEffort =
-    process.env.OPENAI_SITE_REFRESH_REASONING_EFFORT || "low";
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-  const response = await fetch("https://api.openai.com/v1/responses", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model,
-      reasoning: { effort: reasoningEffort },
-      tools: [{ type: "web_search_preview" }],
-      input: prompt,
-    }),
-  });
+  try {
+    const response = await fetch(url, {
+      headers,
+      signal: controller.signal,
+    });
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(
-      `OpenAI site refresh request failed (${response.status}): ${errorText}`,
+    if (!response.ok) {
+      throw new Error(`Request failed (${response.status}) for ${url}`);
+    }
+
+    return await response.text();
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+function parseBingRss(xml: string) {
+  const items = xml.match(/<item\b[\s\S]*?<\/item>/gi) ?? [];
+
+  return items
+    .map((item) => {
+      const title = stripTags(extractTagValue(item, "title"));
+      const url = compactWhitespace(stripTags(extractTagValue(item, "link")));
+      const snippet = truncate(
+        stripTags(extractTagValue(item, "description")),
+        280,
+      );
+      const publishedAt = compactWhitespace(
+        stripTags(extractTagValue(item, "pubDate")),
+      );
+
+      return {
+        title,
+        url,
+        snippet,
+        publishedAt: publishedAt || undefined,
+      } satisfies ResearchSource;
+    })
+    .filter((item) => item.title && item.url);
+}
+
+function normalizePreview(html: string) {
+  const title = stripTags(extractTagValue(html, "title"));
+  const metaDescriptionMatch = html.match(
+    /<meta[^>]+(?:name|property)=["'](?:description|og:description)["'][^>]+content=["']([^"']+)["'][^>]*>/i,
+  );
+  const description = metaDescriptionMatch
+    ? stripTags(metaDescriptionMatch[1])
+    : "";
+  const bodyText = stripTags(
+    html
+      .replace(/<script\b[\s\S]*?<\/script>/gi, " ")
+      .replace(/<style\b[\s\S]*?<\/style>/gi, " "),
+  );
+
+  return truncate(
+    compactWhitespace([title, description, bodyText].filter(Boolean).join(" | ")),
+    700,
+  );
+}
+
+const previewCache = new Map<string, Promise<string | undefined>>();
+
+function getPagePreview(url: string) {
+  if (!previewCache.has(url)) {
+    previewCache.set(
+      url,
+      (async () => {
+        try {
+          const html = await fetchText(
+            url,
+            {
+              ...REQUEST_HEADERS,
+              Accept: "text/html,application/xhtml+xml;q=0.9,*/*;q=0.8",
+            },
+            10000,
+          );
+
+          return normalizePreview(html);
+        } catch {
+          return undefined;
+        }
+      })(),
     );
   }
 
-  const payload = (await response.json()) as ResponsesApiResponse;
-  const outputText = extractJsonText(getOutputText(payload));
-  const parsed = JSON.parse(outputText);
+  return previewCache.get(url)!;
+}
 
-  return schema.parse(parsed);
+async function runSearchTask(task: ResearchSearchTask) {
+  try {
+    const rss = await fetchText(
+      `https://www.bing.com/search?format=rss&q=${encodeURIComponent(task.query)}`,
+      {
+        ...REQUEST_HEADERS,
+        Accept: "application/rss+xml,application/xml,text/xml;q=0.9,*/*;q=0.8",
+      },
+    );
+
+    const uniqueResults = new Map<string, ResearchSource>();
+
+    for (const item of parseBingRss(rss)) {
+      if (!uniqueResults.has(item.url)) {
+        uniqueResults.set(item.url, item);
+      }
+    }
+
+    const results = Array.from(uniqueResults.values()).slice(0, task.maxResults);
+
+    await Promise.all(
+      results.slice(0, task.previewCount).map(async (result) => {
+        result.preview = await getPagePreview(result.url);
+      }),
+    );
+
+    return {
+      id: task.id,
+      label: task.label,
+      query: task.query,
+      results,
+    } satisfies ResearchSearchResult;
+  } catch (error) {
+    console.warn(`Search task failed for "${task.label}":`, error);
+
+    return {
+      id: task.id,
+      label: task.label,
+      query: task.query,
+      results: [],
+    } satisfies ResearchSearchResult;
+  }
+}
+
+async function buildResearchDossier() {
+  console.log("Collecting research context for the weekly refresh...");
+
+  const searches = await Promise.all(SEARCH_TASKS.map(runSearchTask));
+  const sourceCount = searches.reduce(
+    (count, search) => count + search.results.length,
+    0,
+  );
+
+  if (sourceCount === 0) {
+    throw new Error(
+      "The site refresh agent could not collect any research sources from the web.",
+    );
+  }
+
+  return {
+    generatedAt: new Date().toISOString(),
+    searches,
+  } satisfies ResearchDossier;
+}
+
+function getChatCompletionText(payload: HuggingFaceChatCompletionResponse) {
+  const message = payload.choices?.[0]?.message?.content;
+
+  if (typeof message === "string" && message.trim()) {
+    return message.trim();
+  }
+
+  if (Array.isArray(message)) {
+    const fallback = message
+      .map((item) => item.text ?? "")
+      .join("")
+      .trim();
+
+    if (fallback) {
+      return fallback;
+    }
+  }
+
+  throw new Error("Hugging Face response did not include message content.");
+}
+
+async function generateJsonWithHuggingFace<T>(
+  prompt: string,
+  schema: z.ZodSchema<T>,
+  responseFormatName: string,
+) {
+  const token = requireEnv("HF_TOKEN");
+  const model = process.env.HF_SITE_REFRESH_MODEL || "openai/gpt-oss-20b";
+  const reasoningEffort =
+    process.env.HF_SITE_REFRESH_REASONING_EFFORT || "low";
+
+  let attemptPrompt = prompt;
+
+  for (let attempt = 1; attempt <= 2; attempt += 1) {
+    const response = await fetch(
+      "https://router.huggingface.co/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model,
+          reasoning_effort: reasoningEffort,
+          temperature: 0.1,
+          max_tokens: 7000,
+          response_format: { type: "json_object" },
+          messages: [
+            {
+              role: "system",
+              content:
+                "Return only valid JSON. Do not use markdown, code fences, or explanatory text.",
+            },
+            {
+              role: "user",
+              content: attemptPrompt,
+            },
+          ],
+        }),
+      },
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(
+        `Hugging Face site refresh request failed (${response.status}): ${errorText}`,
+      );
+    }
+
+    const payload = (await response.json()) as HuggingFaceChatCompletionResponse;
+    const outputText = extractJsonText(getChatCompletionText(payload));
+
+    try {
+      const parsed = JSON.parse(outputText);
+      return schema.parse(parsed);
+    } catch (error) {
+      if (attempt === 2) {
+        throw new Error(
+          `Hugging Face output did not match the expected ${responseFormatName} schema: ${String(
+            error,
+          )}`,
+        );
+      }
+
+      attemptPrompt = `${prompt}
+
+Your previous response did not parse correctly. Return one valid JSON object that exactly matches the requested shape.`;
+    }
+  }
+
+  throw new Error("Hugging Face generation failed unexpectedly.");
 }
 
 function serializeAiSignalsModule(data: z.infer<typeof signalSetSchema>) {
@@ -341,17 +675,22 @@ export function getPageRefreshContent(route: RefreshableRoute) {
 `;
 }
 
-function buildSignalsPrompt() {
-  return `You are a weekly website-refresh agent for a public AI portfolio. Use web search to refresh the latest-information datasets that power the site.
+function buildSignalsPrompt(researchDossier: ResearchDossier) {
+  return `You are a weekly website-refresh agent for a public AI portfolio. Use the research dossier below to refresh the latest-information datasets that power the site.
 
 Rules:
 - Return JSON only. No markdown, no code fences, no commentary.
 - Keep the exact top-level keys requested.
 - Use absolute dates like "April 9, 2026" when possible. If a source only supports a broader time range, use a precise range string such as "2025-2026 rollout".
-- Prefer official or primary sources for URLs.
+- Prefer official or primary sources for URLs when the dossier includes them.
 - Keep the tone concise, factual, and useful for a premium portfolio site.
 - Update only current-information datasets. Do not turn evergreen sections into news feeds.
 - Preserve the current array lengths exactly.
+- Only use sources that appear in the research dossier below.
+- If the dossier is thin for a specific slot, keep the current item rather than inventing one.
+
+Research dossier:
+${JSON.stringify(researchDossier, null, 2)}
 
 Current dataset snapshot:
 ${JSON.stringify(
@@ -454,17 +793,20 @@ Return a JSON object with this exact shape:
 
 async function main() {
   const updatedAtLabel = ISO_DATE_LABEL.format(new Date());
+  const researchDossier = await buildResearchDossier();
 
   console.log("Refreshing latest AI signal datasets...");
-  const refreshedSignals = await generateJsonWithWebSearch(
-    buildSignalsPrompt(),
+  const refreshedSignals = await generateJsonWithHuggingFace(
+    buildSignalsPrompt(researchDossier),
     signalSetSchema,
+    "site refresh signals",
   );
 
   console.log("Refreshing page-shell copy...");
-  const refreshedPageShells = await generateJsonWithWebSearch(
+  const refreshedPageShells = await generateJsonWithHuggingFace(
     buildPageShellPrompt(refreshedSignals, updatedAtLabel),
     pageShellOutputSchema,
+    "page shell refresh content",
   );
 
   await writeFile(
