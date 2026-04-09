@@ -4,7 +4,10 @@ import { useNavigate } from "react-router-dom";
 
 import Navigation from "@/components/Navigation";
 
-const HF_SPACE_URL = "https://radha006-vedic-astro-ai.hf.space";
+// RENDER_URL is injected at build time via Vite env.
+// Falls back to the HF Space while the Render service is being set up.
+const DEMO_URL =
+  import.meta.env.VITE_VEDIC_ASTRO_URL ?? "https://radha006-vedic-astro-ai.hf.space";
 
 const FEATURES = [
   { icon: Star, label: "Multi-agent pipeline", desc: "Natal · Dasha · Transit · Divisional agents run in parallel" },
@@ -71,13 +74,13 @@ export default function VedicAstroDemo() {
           </div>
 
           <a
-            href={HF_SPACE_URL}
+            href={DEMO_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-xs text-slate-500 hover:text-slate-300 transition-colors mb-2"
           >
             <ExternalLink size={12} />
-            Open in full screen on Hugging Face
+            Open in full screen
           </a>
         </div>
       </section>
@@ -92,7 +95,7 @@ export default function VedicAstroDemo() {
             className="rounded-[2rem] overflow-hidden border border-violet-300/20 shadow-[0_0_80px_rgba(139,92,246,0.12)]"
           >
             <iframe
-              src={HF_SPACE_URL}
+              src={DEMO_URL}
               title="Vedic Astrology AI — live demo"
               width="100%"
               height="900"
