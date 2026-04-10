@@ -27,7 +27,10 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --include=dev
+
+      - name: Verify build toolchain
+        run: npm ls vite framer-motion --depth=0
 
       - name: Build client
         run: npm run build:client
