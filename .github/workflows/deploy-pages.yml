@@ -33,7 +33,26 @@ jobs:
         run: npm ls vite framer-motion --depth=0
 
       - name: Build client
-        run: npm run build:client
+        run: |
+          set -o pipefail
+          npm run build:client 2>&1 | tee /tmp/build-client.log
+
+      - name: Surface build failure details
+        if: failure()
+        run: |
+          if [ ! -f /tmp/build-client.log ]; then
+            echo "::error::Build failed before the log file was created."
+            exit 0
+          fi
+
+          tail -n 80 /tmp/build-client.log > /tmp/build-client-tail.log
+
+          while IFS= read -r line; do
+            safe_line="${line//'%'/'%25'}"
+            safe_line="${safe_line//$'\r'/'%0D'}"
+            safe_line="${safe_line//$'\n'/'%0A'}"
+            echo "::error::$safe_line"
+          done < /tmp/build-client-tail.log
 
       - name: Prepare GitHub Pages artifacts
         run: |
