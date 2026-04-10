@@ -28,6 +28,55 @@ export interface ChatResponse {
   response: string;
 }
 
+export interface ResumeAgentBuildRequest {
+  candidateName?: string;
+  resumeText: string;
+  projectNotes: string;
+}
+
+export interface ResumeAgentSection {
+  id: string;
+  title: string;
+  bullets: string[];
+}
+
+export interface ResumeAgentProfile {
+  candidateName: string;
+  professionalHeadline: string;
+  summary: string;
+  sections: ResumeAgentSection[];
+  suggestedQuestions: string[];
+}
+
+export interface ResumeAgentBuildResponse {
+  profile: ResumeAgentProfile;
+  shareToken: string;
+  shareId?: string;
+  usedModel: boolean;
+}
+
+export interface ResumeAgentChatTurn {
+  role: "user" | "assistant";
+  content: string;
+}
+
+export interface ResumeAgentChatRequest {
+  profile: ResumeAgentProfile;
+  message: string;
+  history?: ResumeAgentChatTurn[];
+}
+
+export interface ResumeAgentChatResponse {
+  response: string;
+  usedModel: boolean;
+}
+
+export interface ResumeAgentFetchResponse {
+  profile: ResumeAgentProfile;
+  shareId: string;
+  usedModel: boolean;
+}
+
 export interface SiteRefreshTriggerRequest {
   source?: string;
 }

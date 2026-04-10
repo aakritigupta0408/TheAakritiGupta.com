@@ -4,6 +4,12 @@ import { handleChat } from "./routes/chat";
 import { handleDemo } from "./routes/demo";
 import { handleSaveEmail } from "./routes/save-email";
 import { handleSiteRefreshTrigger } from "./routes/site-refresh-trigger";
+import { proxyRequest } from "./routes/trade-system";
+import {
+  handleResumeAgentBuild,
+  handleResumeAgentChat,
+  handleResumeAgentFetch,
+} from "./routes/resume-agent";
 
 export function createServer() {
   const app = express();
@@ -20,8 +26,15 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
   app.post("/api/chat", handleChat);
+  app.get("/api/resume-agent/:agentId", handleResumeAgentFetch);
+  app.post("/api/resume-agent/build", handleResumeAgentBuild);
+  app.post("/api/resume-agent/chat", handleResumeAgentChat);
   app.post("/api/save-email", handleSaveEmail);
   app.post("/api/site-refresh/run", handleSiteRefreshTrigger);
+
+  // Trade system proxy → Python FastAPI on port 8000
+  app.all("/api/trade-system/*", proxyRequest);
+  app.all("/api/trade-system", proxyRequest);
 
   return app;
 }
