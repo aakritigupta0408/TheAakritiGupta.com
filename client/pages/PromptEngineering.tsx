@@ -121,24 +121,24 @@ const promptTechniques: PromptTechnique[] = [
           level: "Intermediate",
         },
         {
-          title: "Advanced Prompt Engineering",
-          url: "https://www.coursera.org/learn/prompt-engineering",
-          provider: "Coursera",
+          title: "OpenAI Prompt Engineering Guide",
+          url: "https://platform.openai.com/docs/guides/prompt-engineering",
+          provider: "OpenAI",
           level: "Advanced",
         },
       ],
       communities: [
         {
-          name: "r/PromptEngineering",
-          url: "https://reddit.com/r/PromptEngineering",
-          platform: "Reddit",
-          members: "50K+",
+          name: "OpenAI Developer Community",
+          url: "https://community.openai.com/",
+          platform: "Forum",
+          members: "100K+",
         },
         {
-          name: "Prompt Engineering Discord",
-          url: "https://discord.gg/promptengineering",
-          platform: "Discord",
-          members: "25K+",
+          name: "Prompting Guide",
+          url: "https://www.promptingguide.ai/",
+          platform: "Reference Library",
+          members: "Open access",
         },
       ],
     },
@@ -183,9 +183,9 @@ const promptTechniques: PromptTechnique[] = [
       ],
       courses: [
         {
-          title: "Few-Shot Learning Masterclass",
-          url: "https://www.udemy.com/course/few-shot-learning/",
-          provider: "Udemy",
+          title: "Anthropic Prompt Engineering Overview",
+          url: "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview",
+          provider: "Anthropic",
           level: "Intermediate",
         },
       ],
@@ -233,9 +233,9 @@ const promptTechniques: PromptTechnique[] = [
       ],
       courses: [
         {
-          title: "Creative AI Writing",
-          url: "https://www.masterclass.com/classes/ai-writing",
-          provider: "MasterClass",
+          title: "OpenAI Text Generation Guide",
+          url: "https://platform.openai.com/docs/guides/text?api-mode=responses",
+          provider: "OpenAI",
           level: "Beginner",
         },
       ],
@@ -277,18 +277,18 @@ const promptTechniques: PromptTechnique[] = [
       ],
       courses: [
         {
-          title: "Structured Output Generation",
-          url: "https://www.edx.org/course/structured-ai",
-          provider: "edX",
+          title: "Structured Outputs Guide",
+          url: "https://platform.openai.com/docs/guides/structured-outputs",
+          provider: "OpenAI",
           level: "Advanced",
         },
       ],
       communities: [
         {
-          name: "Structured AI Generation",
-          url: "https://discord.gg/structuredai",
-          platform: "Discord",
-          members: "5K+",
+          name: "OpenAI Developer Community",
+          url: "https://community.openai.com/",
+          platform: "Forum",
+          members: "100K+",
         },
       ],
     },
@@ -321,18 +321,18 @@ const promptTechniques: PromptTechnique[] = [
       ],
       courses: [
         {
-          title: "Advanced Conversation Design",
-          url: "https://www.coursera.org/learn/conversation-design",
-          provider: "Coursera",
+          title: "Prompt Engineering Guide",
+          url: "https://platform.openai.com/docs/guides/prompt-engineering",
+          provider: "OpenAI",
           level: "Advanced",
         },
       ],
       communities: [
         {
-          name: "Prompt Optimization",
-          url: "https://reddit.com/r/PromptOptimization",
-          platform: "Reddit",
-          members: "15K+",
+          name: "OpenAI Developer Community",
+          url: "https://community.openai.com/",
+          platform: "Forum",
+          members: "100K+",
         },
       ],
     },
@@ -523,10 +523,10 @@ const promptExamples: PromptExample[] = [
           duration: "4 hours",
         },
         {
-          title: "Prompt Engineering for Data Science",
-          url: "https://www.coursera.org/learn/prompt-engineering-for-data-science",
-          platform: "Coursera",
-          duration: "6 weeks",
+          title: "OpenAI Evals Guide",
+          url: "https://platform.openai.com/docs/guides/evals",
+          platform: "OpenAI",
+          duration: "20 min",
         },
         {
           title: "Statistical Analysis with AI Assistants",
@@ -615,10 +615,10 @@ const promptExamples: PromptExample[] = [
     resources: {
       tutorials: [
         {
-          title: "AI-Assisted Creative Writing",
-          url: "https://www.masterclass.com/classes/ai-writing",
-          platform: "MasterClass",
-          duration: "3 hours",
+          title: "OpenAI Text Generation Guide",
+          url: "https://platform.openai.com/docs/guides/text?api-mode=responses",
+          platform: "OpenAI",
+          duration: "20 min",
         },
         {
           title: "Story Development with AI",
@@ -750,16 +750,16 @@ const promptExamples: PromptExample[] = [
     resources: {
       tutorials: [
         {
-          title: "AI Tutoring Systems",
-          url: "https://www.edx.org/course/artificial-intelligence-in-education",
-          platform: "edX",
-          duration: "6 weeks",
+          title: "OpenAI for Education",
+          url: "https://openai.com/education/",
+          platform: "OpenAI",
+          duration: "Overview",
         },
         {
-          title: "Personalized Learning with AI",
-          url: "https://www.coursera.org/learn/ai-for-education",
-          platform: "Coursera",
-          duration: "4 weeks",
+          title: "Khan Labs",
+          url: "https://www.khanacademy.org/khan-labs",
+          platform: "Khan Academy",
+          duration: "Overview",
         },
       ],
       videos: [],
@@ -816,10 +816,10 @@ const promptExamples: PromptExample[] = [
           duration: "20 min",
         },
         {
-          title: "Systematic Debugging with AI",
-          url: "https://www.pluralsight.com/courses/debugging-applications-ai",
-          platform: "Pluralsight",
-          duration: "3 hours",
+          title: "OpenAI Code Guide",
+          url: "https://platform.openai.com/docs/guides/code",
+          platform: "OpenAI",
+          duration: "20 min",
         },
       ],
       videos: [],
@@ -1608,11 +1608,11 @@ Deliverable:
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                      {/* Courses */}
+                      {/* Further Reading */}
                       <div>
                         <h4 className="text-lg font-bold text-purple-400 mb-3 flex items-center gap-2">
                           <span>🎓</span>
-                          Online Courses
+                          Further Reading
                         </h4>
                         <div className="space-y-2">
                           {selectedTechnique.resources.courses.map(
@@ -1643,11 +1643,11 @@ Deliverable:
                         </div>
                       </div>
 
-                      {/* Communities */}
+                      {/* Practice Hubs */}
                       <div>
                         <h4 className="text-lg font-bold text-yellow-400 mb-3 flex items-center gap-2">
                           <span>👥</span>
-                          Communities
+                          Practice Hubs
                         </h4>
                         <div className="space-y-2">
                           {selectedTechnique.resources.communities.map(

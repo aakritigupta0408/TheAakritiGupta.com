@@ -4,8 +4,10 @@ import { Link2, ShieldCheck, Upload } from "lucide-react";
 import SubpageLayout from "@/components/SubpageLayout";
 import RecruiterAgentChat from "@/components/resume-agent/RecruiterAgentChat";
 import { buildResumeAgent } from "@/api/resume-agent";
+import { useExperiment } from "@/lib/experiments";
 import { isResumeAgentPersistenceConfigured } from "@/lib/resume-agent-persistence";
 import { extractResumeTextFromFile } from "@/lib/resume-upload";
+import { buildStaticSiteUrl } from "@/lib/site-routing";
 import type { ResumeAgentProfile } from "@shared/resume-agent";
 
 const defaultFactSections = [
@@ -38,6 +40,8 @@ const defaultFactSections = [
 export default function ResumeBuilder() {
   const persistenceConfigured = isResumeAgentPersistenceConfigured();
   const linkedInImportAvailable = false;
+  const layoutExperiment = useExperiment("resume-builder-layout");
+  const isGuidedLayout = layoutExperiment.variant === "guided";
   const [candidateName, setCandidateName] = useState("");
   const [resumeText, setResumeText] = useState("");
   const [projectNotes, setProjectNotes] = useState("");
@@ -57,25 +61,17 @@ export default function ResumeBuilder() {
   );
 
   const shareUrl = useMemo(() => {
-    if (typeof window === "undefined") {
-      return "";
+    if (shareId) {
+      return buildStaticSiteUrl(`/resume-builder/recruiter/${shareId}`);
     }
 
-    const url = shareId
-      ? new URL(`/resume-builder/recruiter/${shareId}`, window.location.origin)
-      : shareToken
-        ? new URL("/resume-builder/recruiter", window.location.origin)
-        : null;
-
-    if (!url) {
-      return "";
+    if (shareToken) {
+      return buildStaticSiteUrl("/resume-builder/recruiter", {
+        agent: shareToken,
+      });
     }
 
-    if (!shareId) {
-      url.searchParams.set("agent", shareToken);
-    }
-
-    return url.toString();
+    return "";
   }, [shareId, shareToken]);
 
   const recruiterLinkMode = shareId
@@ -90,6 +86,58 @@ export default function ResumeBuilder() {
       ) + 2
     : 0;
   const factSections = agentProfile?.sections ?? defaultFactSections;
+  const heroCards = isGuidedLayout
+    ? [
+        {
+          icon: Upload,
+          iconClassName: "text-cyan-100",
+          title: "Add evidence",
+          detail: "Resume text plus simple-English project notes.",
+        },
+        {
+          icon: ShieldCheck,
+          iconClassName: "text-violet-100",
+          title: "Approve facts",
+          detail: "The bot can only speak from what the candidate provided.",
+        },
+        {
+          icon: Link2,
+          iconClassName: "text-emerald-100",
+          title: "Share static link",
+          detail: "GitHub Pages-safe recruiter URL with redirect on finish.",
+        },
+      ]
+    : [
+        {
+          icon: Upload,
+          iconClassName: "text-cyan-100",
+          title: "Upload resume",
+          detail: "PDF, TXT, or Markdown.",
+        },
+        {
+          icon: ShieldCheck,
+          iconClassName: "text-violet-100",
+          title: "Approve facts",
+          detail: "Add project context in simple English.",
+        },
+        {
+          icon: Link2,
+          iconClassName: "text-emerald-100",
+          title: "Share recruiter link",
+          detail: "Redirects back after review.",
+        },
+      ];
+  const groundingRules = isGuidedLayout
+    ? [
+        "Use only resume text, project notes, and approved LinkedIn data when configured.",
+        "Treat missing facts as missing. Never improvise around them.",
+        "Publish a static share link that works on GitHub Pages.",
+      ]
+    : [
+        "Use only resume text, project notes, and approved LinkedIn data when configured.",
+        "Do not invent skills, dates, employers, metrics, or outcomes.",
+        "If a detail is missing, say it was not provided.",
+      ];
 
   const handleCopyShareUrl = async () => {
     if (!shareUrl) {
@@ -99,6 +147,9 @@ export default function ResumeBuilder() {
     try {
       await navigator.clipboard.writeText(shareUrl);
       setCopyState("copied");
+      layoutExperiment.trackMetric("share_link_copied", {
+        recruiter_link_mode: recruiterLinkMode,
+      });
     } catch (error) {
       console.error("Failed to copy recruiter share link:", error);
       setCopyState("failed");
@@ -129,6 +180,9 @@ export default function ResumeBuilder() {
 
       setUploadedFileName(file.name);
       setResumeText(extractedText);
+      layoutExperiment.trackMetric("resume_loaded", {
+        source: "file_upload",
+      });
       setBuilderMessage(
         "Resume loaded. Add project context, then publish the recruiter link.",
       );
@@ -151,6 +205,10 @@ export default function ResumeBuilder() {
       return;
     }
 
+    layoutExperiment.trackMetric("build_clicked", {
+      has_project_notes: Boolean(projectNotes.trim()),
+      has_candidate_name: Boolean(candidateName.trim()),
+    });
     setIsBuildingAgent(true);
     setParseError("");
     setBuilderMessage("");
@@ -166,6 +224,10 @@ export default function ResumeBuilder() {
       setShareToken(result.shareToken);
       setShareId(result.shareId || "");
       setUsedModel(result.usedModel);
+      layoutExperiment.trackMetric("build_completed", {
+        recruiter_link_mode: result.shareId ? "stable" : "portable",
+        used_model: result.usedModel,
+      });
       setBuilderMessage(
         result.shareId
           ? "Recruiter link is live and tied to the approved candidate facts."
@@ -214,45 +276,45 @@ export default function ResumeBuilder() {
           <div className="grid gap-4 lg:grid-cols-[1.15fr,0.85fr]">
             <section className="rounded-[2rem] border border-white/15 bg-white/10 p-5 shadow-2xl backdrop-blur-xl sm:p-6">
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-cyan-100">
-                What this page does
+                {isGuidedLayout
+                  ? "Static-safe recruiter handoff"
+                  : "What this page does"}
               </p>
               <h2 className="mt-3 text-2xl font-black text-white sm:text-3xl">
-                Create one grounded recruiter link from the candidate&apos;s own material.
+                {isGuidedLayout
+                  ? "Turn approved candidate evidence into one recruiter-safe link."
+                  : "Create one grounded recruiter link from the candidate&apos;s own material."}
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-200">
-                The builder takes resume evidence and plain-English project notes,
-                turns them into an approved fact sheet, and publishes a recruiter
-                chat that refuses to guess beyond those facts.
+                {isGuidedLayout
+                  ? "This variant leads with a tighter handoff flow: collect evidence, lock the fact sheet, and publish a recruiter chat that stays inside those facts."
+                  : "The builder takes resume evidence and plain-English project notes, turns them into an approved fact sheet, and publishes a recruiter chat that refuses to guess beyond those facts."}
               </p>
+              {layoutExperiment.isOverride && (
+                <p className="mt-3 text-xs font-bold uppercase tracking-[0.18em] text-cyan-100/90">
+                  Variant override active: {layoutExperiment.variant}
+                </p>
+              )}
 
               <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                <div className="rounded-3xl border border-white/10 bg-black/20 p-4">
-                  <Upload className="h-5 w-5 text-cyan-100" />
-                  <p className="mt-3 text-sm font-semibold text-white">
-                    Upload resume
-                  </p>
-                  <p className="mt-2 text-sm leading-6 text-slate-300">
-                    PDF, TXT, or Markdown.
-                  </p>
-                </div>
-                <div className="rounded-3xl border border-white/10 bg-black/20 p-4">
-                  <ShieldCheck className="h-5 w-5 text-violet-100" />
-                  <p className="mt-3 text-sm font-semibold text-white">
-                    Approve facts
-                  </p>
-                  <p className="mt-2 text-sm leading-6 text-slate-300">
-                    Add project context in simple English.
-                  </p>
-                </div>
-                <div className="rounded-3xl border border-white/10 bg-black/20 p-4">
-                  <Link2 className="h-5 w-5 text-emerald-100" />
-                  <p className="mt-3 text-sm font-semibold text-white">
-                    Share recruiter link
-                  </p>
-                  <p className="mt-2 text-sm leading-6 text-slate-300">
-                    Redirects back after review.
-                  </p>
-                </div>
+                {heroCards.map((card) => {
+                  const Icon = card.icon;
+
+                  return (
+                    <div
+                      key={card.title}
+                      className="rounded-3xl border border-white/10 bg-black/20 p-4"
+                    >
+                      <Icon className={`h-5 w-5 ${card.iconClassName}`} />
+                      <p className="mt-3 text-sm font-semibold text-white">
+                        {card.title}
+                      </p>
+                      <p className="mt-2 text-sm leading-6 text-slate-300">
+                        {card.detail}
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
             </section>
 
@@ -261,11 +323,7 @@ export default function ResumeBuilder() {
                 Grounding rules
               </p>
               <div className="mt-4 space-y-3">
-                {[
-                  "Use only resume text, project notes, and approved LinkedIn data when configured.",
-                  "Do not invent skills, dates, employers, metrics, or outcomes.",
-                  "If a detail is missing, say it was not provided.",
-                ].map((rule) => (
+                {groundingRules.map((rule) => (
                   <div
                     key={rule}
                     className="rounded-3xl border border-white/10 bg-white/5 p-4 text-sm leading-6 text-slate-200"
@@ -456,6 +514,11 @@ export default function ResumeBuilder() {
                     href={shareUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() =>
+                      layoutExperiment.trackMetric("share_link_opened", {
+                        recruiter_link_mode: recruiterLinkMode,
+                      })
+                    }
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     className="rounded-full border border-cyan-300/30 bg-cyan-400/10 px-5 py-3 text-center text-sm font-bold text-white transition-colors hover:bg-cyan-400/15"

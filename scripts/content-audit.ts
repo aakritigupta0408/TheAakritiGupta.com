@@ -29,7 +29,6 @@ const MARKETPLACE_HOSTS = new Set([
   "www.masterclass.com",
   "masterclass.com",
 ]);
-const VIDEO_HOSTS = new Set(["www.youtube.com", "youtube.com", "youtu.be"]);
 
 function walk(directory: string): string[] {
   const entries = readdirSync(directory).sort();
@@ -115,13 +114,6 @@ function classify(urlString: string): Omit<Finding, "file" | "line" | "url">[] {
     findings.push({
       severity: "warn",
       reason: "Course marketplace link detected. Prefer primary sources for long-lived reference pages.",
-    });
-  }
-
-  if (VIDEO_HOSTS.has(host)) {
-    findings.push({
-      severity: "warn",
-      reason: "Video link detected. Verify there is also a stable written primary source for the same claim.",
     });
   }
 

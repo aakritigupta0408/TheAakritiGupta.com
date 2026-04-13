@@ -5,7 +5,8 @@ import { createRoot } from "react-dom/client";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
+import RouteAnalytics from "@/components/RouteAnalytics";
 import Index from "./pages/Index";
 import Games from "./pages/Games";
 import AIPlayground from "./pages/AIPlayground";
@@ -36,7 +37,8 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <HashRouter>
+        <RouteAnalytics />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/games" element={<Games />} />
@@ -78,7 +80,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </TooltipProvider>
   </QueryClientProvider>
 );
