@@ -29,7 +29,7 @@ export interface SiteRefreshMeta {
 export const siteRefreshMeta: SiteRefreshMeta = {
   "headline": "Weekly AI site refresh",
   "description": "Refreshes the latest-information sections, page shell copy, and content priorities across the main AI pages, then deploys the result through the normal GitHub-to-hosting pipeline.",
-  "updatedAtLabel": "April 9, 2026"
+  "updatedAtLabel": "April 13, 2026"
 };
 
 export const pageRefreshContentByRoute: Record<
@@ -47,7 +47,7 @@ export const pageRefreshContentByRoute: Record<
       "Deep‑dive showcase"
     ],
     "refreshSummary": "Update the product radar and demo framing while preserving the interactive generators and featured deep‑dive demos.",
-    "updatedAtLabel": "April 9, 2026"
+    "updatedAtLabel": "April 13, 2026"
   },
   "/ai-discoveries": {
     "route": "/ai-discoveries",
@@ -60,7 +60,7 @@ export const pageRefreshContentByRoute: Record<
       "Filter by decade"
     ],
     "refreshSummary": "Refresh the frontier‑discoveries module and shell copy without disturbing the long historical timeline and interactive demos.",
-    "updatedAtLabel": "April 9, 2026"
+    "updatedAtLabel": "April 13, 2026"
   },
   "/ai-tools": {
     "route": "/ai-tools",
@@ -73,7 +73,7 @@ export const pageRefreshContentByRoute: Record<
       "Filter by impact"
     ],
     "refreshSummary": "Refresh the launch snapshot and practical‑use framing while keeping the profession catalog and filters stable.",
-    "updatedAtLabel": "April 9, 2026"
+    "updatedAtLabel": "April 13, 2026"
   },
   "/ai-companies": {
     "route": "/ai-companies",
@@ -86,7 +86,7 @@ export const pageRefreshContentByRoute: Record<
       "Live watchlist for recent additions"
     ],
     "refreshSummary": "Refresh the startup watchlist, market context, and page framing while preserving the larger company directory.",
-    "updatedAtLabel": "April 9, 2026"
+    "updatedAtLabel": "April 13, 2026"
   },
   "/ai-projects": {
     "route": "/ai-projects",
@@ -99,7 +99,7 @@ export const pageRefreshContentByRoute: Record<
       "Code examples and implementation notes"
     ],
     "refreshSummary": "Refresh the build‑now tracks and summary framing while preserving the underlying project library and code examples.",
-    "updatedAtLabel": "April 9, 2026"
+    "updatedAtLabel": "April 13, 2026"
   },
   "/prompt-engineering": {
     "route": "/prompt-engineering",
@@ -112,7 +112,7 @@ export const pageRefreshContentByRoute: Record<
       "Faster navigation across sibling pages"
     ],
     "refreshSummary": "Refresh the latest prompt‑pattern signals and shell copy while preserving the examples, techniques, and analyzer flow.",
-    "updatedAtLabel": "April 9, 2026"
+    "updatedAtLabel": "April 13, 2026"
   },
   "/ai-agent-training": {
     "route": "/ai-agent-training",
@@ -125,7 +125,7 @@ export const pageRefreshContentByRoute: Record<
       "Interactive builder playground"
     ],
     "refreshSummary": "Refresh the frontier‑signals module and page framing while keeping the examples, techniques, and builder intact.",
-    "updatedAtLabel": "April 9, 2026"
+    "updatedAtLabel": "April 13, 2026"
   },
   "/ai-champions": {
     "route": "/ai-champions",
@@ -138,7 +138,7 @@ export const pageRefreshContentByRoute: Record<
       "Cross‑links into discoveries and games"
     ],
     "refreshSummary": "Refresh the overview framing and UX priorities while preserving the matchup library and embedded demos.",
-    "updatedAtLabel": "April 9, 2026"
+    "updatedAtLabel": "April 13, 2026"
   },
   "/resume-builder": {
     "route": "/resume-builder",
@@ -151,7 +151,7 @@ export const pageRefreshContentByRoute: Record<
       "Copy‑ready AI prompt templates"
     ],
     "refreshSummary": "Refresh the framing copy and prompt‑template positioning while keeping the direct resume and profile links stable.",
-    "updatedAtLabel": "April 9, 2026"
+    "updatedAtLabel": "April 13, 2026"
   },
   "/games": {
     "route": "/games",
@@ -164,7 +164,7 @@ export const pageRefreshContentByRoute: Record<
       "Cross‑links into AI competition history"
     ],
     "refreshSummary": "Refresh the framing and section priorities while preserving the playable components and supporting cross‑links.",
-    "updatedAtLabel": "April 9, 2026"
+    "updatedAtLabel": "April 13, 2026"
   }
 };
 
