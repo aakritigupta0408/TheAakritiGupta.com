@@ -160,17 +160,17 @@ Agent: I completely understand your frustration - waiting for an order can be re
       documentation: [
         {
           title: "OpenAI Platform Documentation",
-          url: "https://platform.openai.com/docs/assistants/overview",
+          url: "https://platform.openai.com/docs/guides/tools?api-mode=responses",
           type: "API Reference",
         },
         {
           title: "Anthropic Claude for Customer Service",
-          url: "https://docs.anthropic.com/claude/docs/intro-to-claude",
+          url: "https://docs.anthropic.com/en/docs/build-with-claude/overview",
           type: "Guide",
         },
         {
           title: "Azure Bot Service Documentation",
-          url: "https://docs.microsoft.com/en-us/azure/bot-service/",
+          url: "https://learn.microsoft.com/en-us/azure/bot-service/",
           type: "Platform Guide",
         },
       ],
@@ -714,7 +714,7 @@ Total Time: 4.2h → 1.0h (76% improvement)
       documentation: [
         {
           title: "Microsoft Power Automate AI",
-          url: "https://docs.microsoft.com/en-us/power-automate/",
+          url: "https://learn.microsoft.com/en-us/power-automate/",
           type: "Platform Guide",
         },
       ],

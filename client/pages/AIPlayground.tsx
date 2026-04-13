@@ -35,6 +35,41 @@ interface AIDemo {
   };
 }
 
+const FEATURED_SHOWCASES = [
+  {
+    id: "trade-recommendation-system",
+    badge: "Featured demo",
+    title: "AI Trade Recommendation System",
+    summary:
+      "Replay the production trading loop in daily-only mode with deterministic recommendations, request-budget awareness, and paper execution.",
+    tags: ["Local-first ingest", "Daily-only forecasts", "Paper trading only"],
+    route: "/ai-playground/trade-recommendation-system",
+    meta: "Loop, budget, decisions, EOD",
+    accent:
+      "from-emerald-500/14 via-cyan-500/10 to-amber-300/10 border-emerald-300/20",
+    badgeClass:
+      "border-emerald-300/30 bg-emerald-400/10 text-emerald-100",
+    buttonClass:
+      "from-emerald-400 via-cyan-400 to-amber-300 text-slate-950 shadow-[0_18px_40px_rgba(52,211,153,0.24)]",
+  },
+  {
+    id: "vedic-astro-ai",
+    badge: "Featured demo",
+    title: "Vedic Astrology AI System",
+    summary:
+      "Explore a BPHS-grounded multi-agent system that assembles natal, Dasha, transit, and divisional chart readings with critic-reviser loops.",
+    tags: ["Multi-agent pipeline", "BPHS rules engine", "Critic-reviser loop"],
+    route: "/ai-playground/vedic-astro-ai",
+    meta: "Chart, Dasha, reading, calibrate",
+    accent:
+      "from-violet-500/14 via-rose-500/10 to-amber-300/10 border-violet-300/20",
+    badgeClass:
+      "border-violet-300/30 bg-violet-400/10 text-violet-100",
+    buttonClass:
+      "from-violet-400 via-rose-400 to-amber-300 text-slate-950 shadow-[0_18px_40px_rgba(139,92,246,0.24)]",
+  },
+] as const;
+
 const AI_DEMOS: AIDemo[] = [
   {
     id: "text-generator",
@@ -295,6 +330,7 @@ export default function AIPlayground() {
 
   const selectedDemoData = AI_DEMOS.find((demo) => demo.id === selectedDemo);
   const pageRefresh = getPageRefreshContent("/ai-playground");
+  const productRadar = latestAIProductLaunches.slice(0, 4);
 
   return (
     <SubpageLayout
@@ -326,229 +362,142 @@ export default function AIPlayground() {
       ]}
     >
 
-      {/* Product Radar */}
-      <section className="relative z-20 pb-8 pt-10">
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="rounded-[2rem] border border-white/15 bg-slate-950/30 backdrop-blur-xl p-8">
-            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-6">
+      <section className="relative z-20 px-4 py-6 sm:px-6 sm:py-8">
+        <div className="mx-auto max-w-7xl space-y-5">
+          <div className="rounded-[1.9rem] border border-white/15 bg-slate-950/30 p-5 backdrop-blur-xl sm:p-6">
+            <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
               <div>
-                <div className="inline-flex rounded-full border border-cyan-300/30 bg-cyan-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-cyan-100 mb-3">
-                  Product Radar · April 2026
+                <div className="mb-2 inline-flex rounded-full border border-cyan-300/30 bg-cyan-400/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-cyan-100">
+                  Product radar
                 </div>
-                <h2 className="text-3xl md:text-4xl font-black text-white">
-                  Latest AI Products Worth Trying
+                <h2 className="text-2xl font-black text-white sm:text-3xl">
+                  Current AI launches
                 </h2>
               </div>
-              <p className="text-sm text-gray-200 max-w-2xl">
-                These are current official launches and upgrades shaping how
-                people create, code, research, and ship work with AI.
+              <p className="max-w-2xl text-sm leading-6 text-gray-200">
+                Fast links to current products shaping writing, coding, research,
+                and image workflows.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
-              {latestAIProductLaunches.slice(0, 4).map((signal, index) => (
+            <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+              {productRadar.map((signal, index) => (
                 <motion.a
                   key={signal.id}
                   href={signal.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.08 }}
-                  className="rounded-3xl border border-white/15 bg-white/10 p-5 hover:bg-white/15 transition-all duration-300"
+                  transition={{ duration: 0.45, delay: index * 0.06 }}
+                  className="rounded-[1.5rem] border border-white/15 bg-white/8 p-4 transition-all duration-300 hover:bg-white/12"
                 >
-                  <div className="flex items-center justify-between gap-3 mb-3">
-                    <span className="rounded-full border border-fuchsia-300/30 bg-fuchsia-400/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia-100">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="rounded-full border border-fuchsia-300/30 bg-fuchsia-400/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-fuchsia-100">
                       {signal.category}
                     </span>
-                    <span className="text-xs font-semibold text-gray-300">
+                    <span className="text-[11px] font-semibold text-gray-300">
                       {signal.date}
                     </span>
                   </div>
-                  <h3 className="text-lg font-black text-white mb-2">
+                  <h3 className="mt-3 text-base font-black text-white">
                     {signal.title}
                   </h3>
-                  <p className="text-sm font-semibold text-cyan-100 mb-3">
+                  <p className="mt-1 text-sm font-semibold text-cyan-100">
                     {signal.org}
                   </p>
-                  <p className="text-sm text-gray-200 leading-relaxed">
+                  <p className="mt-2 text-sm leading-6 text-gray-200">
                     {signal.summary}
                   </p>
                 </motion.a>
               ))}
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Featured System Demo */}
-      <section className="relative z-20 pb-10">
-        <div className="max-w-7xl mx-auto px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="overflow-hidden rounded-[2rem] border border-emerald-300/20 bg-gradient-to-br from-emerald-500/12 via-cyan-500/10 to-amber-300/10 p-8 backdrop-blur-xl"
-          >
-            <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-              <div>
-                <div className="inline-flex rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-emerald-100">
-                  New interactive demo
-                </div>
-                <h2 className="mt-5 text-4xl font-black text-white md:text-5xl">
-                  AI Trade Recommendation System
-                </h2>
-                <p className="mt-5 max-w-3xl text-base leading-8 text-slate-100">
-                  Explore a replay of the production trading system running in
-                  daily-only mode with local-first data access, request-budget
-                  awareness, deterministic recommendations, market-hours paper
-                  execution, and end-of-day adaptive updates.
-                </p>
-                <div className="mt-6 flex flex-wrap gap-3 text-sm text-slate-100">
-                  <span className="rounded-full border border-white/15 bg-white/8 px-4 py-2">
-                    Local-first ingest
-                  </span>
-                  <span className="rounded-full border border-white/15 bg-white/8 px-4 py-2">
-                    Daily-only forecasts
-                  </span>
-                  <span className="rounded-full border border-white/15 bg-white/8 px-4 py-2">
-                    Paper trading only
-                  </span>
-                </div>
-              </div>
-
-              <div className="rounded-[1.8rem] border border-white/15 bg-slate-950/45 p-6">
-                <div className="grid grid-cols-2 gap-4 text-sm text-slate-100">
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                    <p className="text-xs uppercase tracking-[0.18em] text-slate-400">
-                      Route
-                    </p>
-                    <p className="mt-3 font-semibold">
-                      /ai-playground/trade-recommendation-system
+          <div className="grid gap-4 lg:grid-cols-2">
+            {FEATURED_SHOWCASES.map((showcase, index) => (
+              <motion.section
+                key={showcase.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: index * 0.08 }}
+                className={`overflow-hidden rounded-[1.9rem] border bg-gradient-to-br p-5 backdrop-blur-xl sm:p-6 ${showcase.accent}`}
+              >
+                <div className="flex flex-col gap-5">
+                  <div>
+                    <div
+                      className={`inline-flex rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] ${showcase.badgeClass}`}
+                    >
+                      {showcase.badge}
+                    </div>
+                    <h2 className="mt-4 text-2xl font-black text-white sm:text-3xl">
+                      {showcase.title}
+                    </h2>
+                    <p className="mt-3 text-sm leading-6 text-slate-100">
+                      {showcase.summary}
                     </p>
                   </div>
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                    <p className="text-xs uppercase tracking-[0.18em] text-slate-400">
-                      What it shows
-                    </p>
-                    <p className="mt-3 font-semibold">Loop, budget, decisions, EOD</p>
-                  </div>
-                </div>
-                <motion.button
-                  onClick={() =>
-                    navigate("/ai-playground/trade-recommendation-system")
-                  }
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="mt-6 w-full rounded-2xl bg-gradient-to-r from-emerald-400 via-cyan-400 to-amber-300 px-5 py-4 text-sm font-black tracking-[0.14em] text-slate-950 shadow-[0_18px_40px_rgba(52,211,153,0.24)]"
-                >
-                  OPEN SYSTEM DEMO
-                </motion.button>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
 
-      {/* Vedic Astrology Demo */}
-      <section className="relative z-20 pb-10">
-        <div className="max-w-7xl mx-auto px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="overflow-hidden rounded-[2rem] border border-violet-300/20 bg-gradient-to-br from-violet-500/12 via-rose-500/10 to-amber-300/10 p-8 backdrop-blur-xl"
-          >
-            <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-              <div>
-                <div className="inline-flex rounded-full border border-violet-300/30 bg-violet-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-violet-100">
-                  New interactive demo
-                </div>
-                <h2 className="mt-5 text-4xl font-black text-white md:text-5xl">
-                  Vedic Astrology AI System
-                </h2>
-                <p className="mt-5 max-w-3xl text-base leading-8 text-slate-100">
-                  A multi-agent system grounded in classical BPHS rules.
-                  Generates structured natal, Dasha, transit, and divisional
-                  chart readings — self-corrected by a critic–reviser loop and
-                  personalised through a convergence calibration engine.
-                </p>
-                <div className="mt-6 flex flex-wrap gap-3 text-sm text-slate-100">
-                  <span className="rounded-full border border-white/15 bg-white/8 px-4 py-2">
-                    Multi-agent pipeline
-                  </span>
-                  <span className="rounded-full border border-white/15 bg-white/8 px-4 py-2">
-                    BPHS rules engine
-                  </span>
-                  <span className="rounded-full border border-white/15 bg-white/8 px-4 py-2">
-                    Critic · Reviser loop
-                  </span>
-                </div>
-              </div>
+                  <div className="flex flex-wrap gap-2 text-xs text-slate-100">
+                    {showcase.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-white/15 bg-white/8 px-3 py-1.5"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
 
-              <div className="rounded-[1.8rem] border border-white/15 bg-slate-950/45 p-6">
-                <div className="grid grid-cols-2 gap-4 text-sm text-slate-100">
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                    <p className="text-xs uppercase tracking-[0.18em] text-slate-400">
-                      Route
-                    </p>
-                    <p className="mt-3 font-semibold">
-                      /ai-playground/vedic-astro-ai
-                    </p>
-                  </div>
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                    <p className="text-xs uppercase tracking-[0.18em] text-slate-400">
-                      What it shows
-                    </p>
-                    <p className="mt-3 font-semibold">Chart · Dasha · Reading · Calibrate</p>
+                  <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
+                    <div className="rounded-[1.4rem] border border-white/15 bg-slate-950/45 p-4 text-sm text-slate-100">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                        What it shows
+                      </p>
+                      <p className="mt-2 font-semibold">{showcase.meta}</p>
+                    </div>
+                    <motion.button
+                      onClick={() => navigate(showcase.route)}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className={`w-full rounded-2xl bg-gradient-to-r px-5 py-3 text-sm font-black tracking-[0.12em] sm:w-auto ${showcase.buttonClass}`}
+                    >
+                      VIEW DEMO
+                    </motion.button>
                   </div>
                 </div>
-                <motion.button
-                  onClick={() => navigate("/ai-playground/vedic-astro-ai")}
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="mt-6 w-full rounded-2xl bg-gradient-to-r from-violet-400 via-rose-400 to-amber-300 px-5 py-4 text-sm font-black tracking-[0.14em] text-slate-950 shadow-[0_18px_40px_rgba(139,92,246,0.24)]"
-                >
-                  OPEN VEDIC ASTRO DEMO
-                </motion.button>
-              </div>
-            </div>
-          </motion.div>
+              </motion.section>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Demo Grid */}
-      <section className="relative z-20 py-20">
-        <div className="max-w-7xl mx-auto px-8">
+      <section className="relative z-20 px-4 pb-8 pt-2 sm:px-6 sm:pb-10">
+        <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="mb-8"
           >
             <motion.h2
-              className="text-5xl font-black text-white mb-6"
-              initial={{ opacity: 0, scale: 0.8 }}
+              className="text-2xl font-black text-white sm:text-3xl"
+              initial={{ opacity: 0, scale: 0.96 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
             >
-              CHOOSE YOUR
-              <br />
-              <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                AI ADVENTURE
-              </span>
+              Try an interactive generator
             </motion.h2>
-            <p className="tom-ford-subheading luxury-text-muted text-lg tracking-widest max-w-3xl mx-auto mb-4">
-              CLICK ANY DEMO TO START EXPLORING AI CAPABILITIES
-            </p>
-            <p className="luxury-text-primary text-sm max-w-2xl mx-auto">
-              🌟 Each demo includes links to the industry's most advanced
-              products for real-world use
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">
+              Select a demo, test the prompt flow, and compare it with the
+              current leading product for that use case.
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4 mb-8">
             {AI_DEMOS.map((demo, index) => (
               <motion.button
                 key={demo.id}
@@ -556,23 +505,23 @@ export default function AIPlayground() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}
-                whileHover={{ scale: 1.02, y: -4 }}
+                whileHover={{ scale: 1.02, y: -3 }}
                 onClick={() => {
                   setSelectedDemo(demo.id);
                   setInputText("");
                   setOutputText("");
                 }}
-                className={`tom-ford-card rounded-xl p-6 text-center transition-all duration-500 ${
+                className={`tom-ford-card rounded-[1.5rem] p-4 text-left transition-all duration-500 ${
                   selectedDemo === demo.id
-                    ? "border-4 border-yellow-500 transform scale-105"
+                    ? "border-4 border-yellow-500 transform scale-[1.01]"
                     : "hover:border-yellow-400/50"
                 }`}
               >
-                <div className="text-4xl mb-4">{demo.icon}</div>
-                <h3 className="tom-ford-subheading luxury-text-primary text-sm mb-2 tracking-widest">
+                <div className="text-3xl mb-3">{demo.icon}</div>
+                <h3 className="tom-ford-subheading luxury-text-primary text-sm mb-1 tracking-widest">
                   {demo.title}
                 </h3>
-                <p className="luxury-text-muted text-xs mb-3">
+                <p className="luxury-text-muted text-xs mb-2">
                   {demo.subtitle}
                 </p>
                 <p className="luxury-text-muted text-xs font-light leading-relaxed">
@@ -591,18 +540,18 @@ export default function AIPlayground() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -60 }}
                 transition={{ duration: 0.8 }}
-                className="tom-ford-glass rounded-xl overflow-hidden"
+                className="tom-ford-glass overflow-hidden rounded-[1.8rem]"
               >
-                <div className="p-8 border-b-2 border-black">
-                  <div className="flex justify-between items-center">
+                <div className="border-b-2 border-black p-5 sm:p-6">
+                  <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-4">
                       <div
-                        className={`w-16 h-16 bg-gradient-to-r ${selectedDemoData.color} rounded-xl flex items-center justify-center text-2xl border-2 border-black`}
+                        className={`flex h-14 w-14 items-center justify-center rounded-xl border-2 border-black bg-gradient-to-r text-2xl ${selectedDemoData.color}`}
                       >
                         {selectedDemoData.icon}
                       </div>
                       <div>
-                        <h3 className="tom-ford-heading text-2xl luxury-text-primary">
+                        <h3 className="tom-ford-heading text-xl luxury-text-primary sm:text-2xl">
                           {selectedDemoData.title}
                         </h3>
                         <p className="tom-ford-subheading luxury-text-muted text-sm">
@@ -619,8 +568,8 @@ export default function AIPlayground() {
                   </div>
                 </div>
 
-                <div className="p-8 bg-white/50">
-                  <div className="grid lg:grid-cols-2 gap-8">
+                <div className="bg-white/50 p-5 sm:p-6">
+                  <div className="grid gap-6 lg:grid-cols-2">
                     {/* Input Section */}
                     <div>
                       <label className="tom-ford-subheading luxury-text-primary text-sm tracking-wider mb-4 block">
@@ -649,7 +598,7 @@ export default function AIPlayground() {
                         value={inputText}
                         onChange={(e) => setInputText(e.target.value)}
                         placeholder={selectedDemoData.placeholder}
-                        className="w-full h-32 px-4 py-3 border-2 border-black rounded-xl luxury-text-primary placeholder-gray-500 focus:border-yellow-500 focus:outline-none transition-colors font-light resize-none bg-white"
+                        className="h-32 w-full resize-none rounded-xl border-2 border-black bg-white px-4 py-3 font-light luxury-text-primary placeholder-gray-500 transition-colors focus:border-yellow-500 focus:outline-none"
                       />
 
                       <motion.button
@@ -698,14 +647,14 @@ export default function AIPlayground() {
                   </div>
 
                   {/* State of the Art Product Section */}
-                  <div className="mt-8 p-6 bg-gradient-to-r from-yellow-50 to-orange-50 border-2 border-yellow-400 rounded-xl">
+                  <div className="mt-6 rounded-xl border-2 border-yellow-400 bg-gradient-to-r from-yellow-50 to-orange-50 p-5">
                     <div className="flex items-start gap-4">
                       <div className="text-3xl">🌟</div>
                       <div className="flex-1">
                         <h4 className="tom-ford-subheading luxury-text-primary text-sm tracking-wider mb-2">
                           INDUSTRY LEADING PRODUCT
                         </h4>
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                           <div>
                             <h5 className="font-bold text-lg luxury-text-primary mb-1">
                               {selectedDemoData.stateOfArt.name}
@@ -731,7 +680,7 @@ export default function AIPlayground() {
                             rel="noopener noreferrer"
                             whileHover={{ scale: 1.05, y: -2 }}
                             whileTap={{ scale: 0.95 }}
-                            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap"
+                            className="inline-flex items-center gap-2 whitespace-nowrap rounded-xl bg-gradient-to-r from-yellow-500 to-orange-500 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl"
                           >
                             <span>
                               🚀 Try {selectedDemoData.stateOfArt.name}
@@ -758,47 +707,6 @@ export default function AIPlayground() {
               </motion.div>
             )}
           </AnimatePresence>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="relative z-20 py-20 border-t-2 border-black">
-        <div className="max-w-7xl mx-auto px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="tom-ford-glass p-16 rounded-xl"
-          >
-            <div className="text-6xl mb-8">🚀</div>
-            <h2 className="tom-ford-heading text-4xl luxury-text-primary mb-8">
-              READY TO BUILD
-              <br />
-              <span className="gold-shimmer">YOUR OWN AI?</span>
-            </h2>
-            <p className="luxury-text-muted text-lg mb-8 max-w-2xl mx-auto">
-              These demos showcase just a fraction of AI's potential. Each demo
-              links to the industry's leading products for real-world
-              implementation. Let's discuss how we can build custom AI solutions
-              for your specific needs.
-            </p>
-            <div className="flex justify-center gap-6 flex-wrap">
-              <motion.button
-                onClick={() => navigate("/")}
-                whileHover={{ scale: 1.02, y: -2 }}
-                className="tom-ford-button px-8 py-4 rounded-xl text-white font-light tracking-wider"
-              >
-                EXPLORE MY PORTFOLIO
-              </motion.button>
-              <motion.button
-                onClick={() => navigate("/games")}
-                whileHover={{ scale: 1.02, y: -2 }}
-                className="border-2 border-black luxury-text-primary px-8 py-4 rounded-xl font-light tracking-wider hover:bg-yellow-100 transition-all duration-300"
-              >
-                TRY INTERACTIVE GAMES
-              </motion.button>
-            </div>
-          </motion.div>
         </div>
       </section>
 

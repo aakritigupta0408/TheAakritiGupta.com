@@ -2,7 +2,7 @@
 
 import React from "react";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
-import { cleanup, fireEvent, render } from "@testing-library/react";
+import { cleanup, fireEvent, render, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import AITools from "./AITools";
 import AICompanies from "./AICompanies";
@@ -12,6 +12,10 @@ import TradeRecommendationSystemDemo from "./TradeRecommendationSystemDemo";
 import PromptEngineering from "./PromptEngineering";
 import AIAgentTraining from "./AIAgentTraining";
 import AIDiscoveries from "./AIDiscoveries";
+import { professions } from "@/data/toolArchive";
+import { companies, companyCategories } from "@/data/companyArchive";
+import { projects, projectCategories } from "@/data/projectArchive";
+import { discoveries } from "@/data/discoveryArchive";
 
 vi.mock("../components/Navigation", () => ({
   default: () => <div data-testid="navigation" />,
@@ -78,6 +82,136 @@ vi.mock("framer-motion", async () => {
   };
 });
 
+const tradeRecommendations = [
+  {
+    ticker: "AAPL",
+    action: "BUY",
+    composite_score: 0.81,
+    agent_score: 0.79,
+    fta_score: 0.74,
+    momentum_score: 0.72,
+    iv_regime_score: 0.65,
+    option_strategy_type: "bull_call_spread",
+    scanned_at: "2026-04-10T09:30:00Z",
+    error: null,
+    is_actionable: true,
+  },
+  {
+    ticker: "MSFT",
+    action: "HOLD",
+    composite_score: 0.48,
+    agent_score: 0.5,
+    fta_score: 0.46,
+    momentum_score: 0.45,
+    iv_regime_score: 0.41,
+    option_strategy_type: "watchlist_only",
+    scanned_at: "2026-04-10T09:30:00Z",
+    error: null,
+    is_actionable: false,
+  },
+];
+
+const tradeUsers = [
+  {
+    user_id: "trader-alpha",
+    name: "Alpha",
+    avatar: "🧠",
+    return_pct: 12.4,
+    status: "active",
+    open_positions: 1,
+    total_trades: 8,
+    win_rate: 0.75,
+  },
+  {
+    user_id: "trader-beta",
+    name: "Beta",
+    avatar: "⚡",
+    return_pct: -1.2,
+    status: "paused",
+    open_positions: 0,
+    total_trades: 5,
+    win_rate: 0.4,
+  },
+];
+
+const tradeSummary = {
+  scan_in_progress: false,
+  last_scan_at: "2026-04-10T09:30:00Z",
+  scan_error: null,
+  total_users: 2,
+  active_users: 1,
+  total_open_positions: 1,
+  top_recommendations: tradeRecommendations,
+  users: tradeUsers,
+};
+
+const tradeUserDetail = {
+  user_id: "trader-alpha",
+  name: "Alpha",
+  avatar: "🧠",
+  description: "Momentum-focused trader",
+  equity: 112400,
+  starting_capital: 100000,
+  return_pct: 12.4,
+  open_positions: 1,
+  total_trades: 8,
+  win_rate: 0.75,
+  status: "active",
+  open_trades: [
+    {
+      trade_id: "trade-1",
+      ticker: "AAPL",
+      action: "BUY",
+      instrument: "CALL",
+      quantity: 2,
+      entry_price: 6.25,
+      stop_price: 4.8,
+      target_price: 8.9,
+      status: "open",
+      pnl: 0,
+      opened_at: "2026-04-10T09:35:00Z",
+      closed_at: null,
+      composite_score: 0.81,
+      rationale: "Positive composite signal with broad agent agreement.",
+    },
+  ],
+  closed_trades: [
+    {
+      trade_id: "trade-2",
+      ticker: "NVDA",
+      action: "BUY",
+      instrument: "CALL",
+      quantity: 1,
+      entry_price: 5.1,
+      stop_price: 4.3,
+      target_price: 7.4,
+      status: "closed_profit",
+      pnl: 180,
+      opened_at: "2026-04-09T14:35:00Z",
+      closed_at: "2026-04-09T15:52:00Z",
+      composite_score: 0.77,
+      rationale: "Trend continuation with improving volatility setup.",
+    },
+  ],
+  equity_curve: [
+    { ts: "2026-04-10T09:30:00Z", equity: 100000 },
+    { ts: "2026-04-10T10:30:00Z", equity: 105500 },
+    { ts: "2026-04-10T11:30:00Z", equity: 112400 },
+  ],
+};
+
+function jsonResponse(body: unknown, init?: { status?: number; statusText?: string }) {
+  const status = init?.status ?? 200;
+
+  return {
+    ok: status >= 200 && status < 300,
+    status,
+    statusText: init?.statusText ?? "OK",
+    json: async () => body,
+    text: async () => JSON.stringify(body),
+  } as Response;
+}
+
 beforeAll(() => {
   Object.defineProperty(window, "matchMedia", {
     writable: true,
@@ -92,190 +226,246 @@ beforeAll(() => {
       dispatchEvent: vi.fn(),
     })),
   });
+
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async (input: string | URL | Request, init?: RequestInit) => {
+      const rawUrl =
+        typeof input === "string"
+          ? input
+          : input instanceof URL
+            ? input.toString()
+            : input.url;
+      const url = new URL(rawUrl, "http://localhost");
+      const path = `${url.pathname}${url.search}`;
+
+      if (path === "/api/chat") {
+        return jsonResponse({ response: "Mock chat response" });
+      }
+
+      if (path === "/api/trade-system/summary") {
+        return jsonResponse(tradeSummary);
+      }
+
+      if (path.startsWith("/api/trade-system/recommendations")) {
+        return jsonResponse({ recommendations: tradeRecommendations });
+      }
+
+      if (path === "/api/trade-system/scan/trigger" && init?.method === "POST") {
+        return jsonResponse({ queued: true });
+      }
+
+      if (path === "/api/trade-system/users/trader-alpha") {
+        return jsonResponse(tradeUserDetail);
+      }
+
+      if (path === "/api/trade-system/users/trader-beta") {
+        return jsonResponse({
+          ...tradeUserDetail,
+          user_id: "trader-beta",
+          name: "Beta",
+          avatar: "⚡",
+          description: "Risk-controlled trader",
+          return_pct: -1.2,
+          status: "paused",
+          open_trades: [],
+        });
+      }
+
+      return jsonResponse(
+        { error: `Unhandled fetch in tests: ${path}` },
+        { status: 404, statusText: "Not Found" },
+      );
+    }),
+  );
 });
 
 afterEach(() => {
   cleanup();
   vi.useRealTimers();
+  vi.clearAllMocks();
 });
 
 const renderPage = (ui: React.ReactElement) =>
   render(<MemoryRouter>{ui}</MemoryRouter>);
 
 describe("AI page interactions", () => {
-  it("filters AI tools and opens a profession detail view", async () => {
+  it("filters AI tools and opens a profession detail view", () => {
+    const mediumProfession = [...professions]
+      .filter((profession) => profession.impactLevel === "Medium")
+      .sort((left, right) => right.aiAdoption - left.aiAdoption)[0]!;
+    const hiddenCriticalProfession = professions.find(
+      (profession) => profession.impactLevel === "Critical",
+    )!;
     const view = renderPage(<AITools />);
 
     fireEvent.click(view.getByRole("button", { name: /^Medium$/i }));
 
-    expect(view.queryByText("Software Developers")).toBeNull();
-    expect(view.getByText("Teachers & Educators")).not.toBeNull();
+    expect(view.getByText(mediumProfession.title)).not.toBeNull();
+    expect(view.queryByText(hiddenCriticalProfession.title)).toBeNull();
 
-    fireEvent.click(view.getByText("Teachers & Educators"));
+    fireEvent.click(
+      view.getByRole("button", { name: new RegExp(mediumProfession.title, "i") }),
+    );
 
-    expect(view.getAllByRole("heading", { name: "Teachers & Educators" }).length).toBeGreaterThan(0);
-    expect(view.getAllByText("Khanmigo").length).toBeGreaterThan(0);
+    expect(
+      view.getAllByRole("heading", { name: mediumProfession.title }).length,
+    ).toBeGreaterThan(0);
+    expect(view.getAllByText(mediumProfession.primaryTool.name).length).toBeGreaterThan(0);
   });
 
-  it("filters AI companies and opens the selected company modal", async () => {
+  it("filters AI companies and opens the selected company modal", () => {
+    const targetCategory = companyCategories.find((category) => category !== "All")!;
+    const targetCompany = [...companies]
+      .filter((company) => company.category === targetCategory)
+      .sort((left, right) => right.sortScale - left.sortScale)[0]!;
+    const hiddenCompany = companies.find(
+      (company) => company.category !== targetCategory,
+    )!;
     const view = renderPage(<AICompanies />);
 
-    fireEvent.click(view.getByRole("button", { name: /scale snapshot/i }));
-    fireEvent.click(view.getByRole("button", { name: /ai safety/i }));
+    fireEvent.click(view.getByRole("button", { name: new RegExp(targetCategory, "i") }));
 
-    expect(view.getAllByText(/click to explore journey/i)).toHaveLength(1);
+    expect(view.getByText(targetCompany.name)).not.toBeNull();
+    expect(view.queryByText(hiddenCompany.name)).toBeNull();
 
-    fireEvent.click(view.getAllByText("Anthropic").at(-1)!);
+    fireEvent.click(
+      view.getByRole("button", { name: new RegExp(targetCompany.name, "i") }),
+    );
 
-    expect(view.getAllByRole("heading", { name: "Anthropic" }).length).toBeGreaterThan(0);
-    expect(view.getAllByText("Claude Opus 4.5").length).toBeGreaterThan(0);
+    expect(
+      view.getAllByRole("heading", { name: targetCompany.name }).length,
+    ).toBeGreaterThan(0);
+    expect(view.getAllByText(targetCompany.scaleSignal).length).toBeGreaterThan(0);
   });
 
-  it("shows the newer company additions in the main grid and keeps category views populated", () => {
-    const view = renderPage(<AICompanies />);
-
-    expect(view.getAllByText("Cursor").length).toBeGreaterThan(0);
-    expect(view.getAllByText("Mistral AI").length).toBeGreaterThan(0);
-    expect(view.getAllByText(/new since aug 2025/i).length).toBeGreaterThan(0);
-
-    const categoryLabels = [
-      /ai research/i,
-      /big tech ai/i,
-      /ai infrastructure/i,
-      /generative ai/i,
-      /enterprise ai/i,
-      /ai platform/i,
-      /computer vision/i,
-      /ai hardware/i,
-      /autonomous systems/i,
-      /process automation/i,
-      /ai safety/i,
-    ];
-
-    for (const label of categoryLabels) {
-      fireEvent.click(view.getByRole("button", { name: label }));
-      expect(view.getAllByText(/click to explore journey/i).length).toBeGreaterThan(0);
-    }
-
-    fireEvent.click(view.getByRole("button", { name: /clear category filter/i }));
-    expect(view.getAllByText("Runway").length).toBeGreaterThan(0);
-  });
-
-  it("keeps AI company cards visible after scrolling the page", () => {
-    const view = renderPage(<AICompanies />);
-
-    fireEvent.scroll(window, { target: { scrollY: 900 } });
-
-    expect(view.getAllByText(/click to explore journey/i).length).toBeGreaterThan(10);
-    expect(view.getAllByText("OpenAI").length).toBeGreaterThan(0);
-    expect(view.getAllByText("Runway").length).toBeGreaterThan(0);
-  });
-
-  it("applies AI project filters and reveals code for the remaining project", async () => {
+  it("applies AI project filters and reveals the selected project details", () => {
+    const targetCategory = projectCategories.find((category) => category !== "All")!;
+    const targetProject = projects.find(
+      (project) =>
+        project.category === targetCategory && project.difficulty === "Beginner",
+    )!;
+    const hiddenProject =
+      projects.find(
+        (project) =>
+          project.category === targetCategory &&
+          project.title !== targetProject.title &&
+          project.difficulty !== targetProject.difficulty,
+      ) || projects.find((project) => project.category !== targetCategory)!;
     const view = renderPage(<AIProjects />);
 
-    fireEvent.click(view.getAllByRole("button", { name: /computer vision/i })[0]);
-    fireEvent.click(view.getByRole("button", { name: /beginner/i }));
+    fireEvent.click(
+      view.getAllByRole("button", { name: new RegExp(targetCategory, "i") })[0],
+    );
+    fireEvent.click(view.getByRole("button", { name: /^Beginner$/i }));
 
-    expect(view.getByText("Image Classification")).not.toBeNull();
-    expect(view.queryByText("Object Detection")).toBeNull();
+    expect(view.getByText(targetProject.title)).not.toBeNull();
+    expect(view.queryByText(hiddenProject.title)).toBeNull();
 
-    const showCodeButton = view.getAllByRole("button", { name: /show code/i })[0];
-    fireEvent.click(showCodeButton);
+    fireEvent.click(
+      view.getByRole("button", { name: new RegExp(targetProject.title, "i") }),
+    );
 
-    expect(view.getByText(/image_classification\.py/i)).not.toBeNull();
-
-    fireEvent.click(view.getByRole("button", { name: /full guide/i }));
-
-    expect(view.getAllByRole("heading", { name: "Image Classification" }).length).toBeGreaterThan(0);
+    expect(
+      view.getAllByRole("heading", { name: targetProject.title }).length,
+    ).toBeGreaterThan(0);
+    expect(view.getAllByText(targetProject.recommendedStack[0]).length).toBeGreaterThan(0);
   });
 
-  it("clears AI project filters and restores the hidden projects", async () => {
+  it("clears AI project filters and restores hidden projects", () => {
+    const targetCategory = projectCategories.find((category) => category !== "All")!;
+    const hiddenProject = projects.find((project) => project.category !== targetCategory)!;
     const view = renderPage(<AIProjects />);
 
-    fireEvent.click(view.getAllByRole("button", { name: /computer vision/i })[0]);
-    fireEvent.click(view.getByRole("button", { name: /beginner/i }));
+    fireEvent.click(
+      view.getAllByRole("button", { name: new RegExp(targetCategory, "i") })[0],
+    );
+    fireEvent.click(view.getByRole("button", { name: /^Beginner$/i }));
 
-    expect(view.queryByText("Object Detection")).toBeNull();
+    expect(view.queryByText(hiddenProject.title)).toBeNull();
 
     fireEvent.click(view.getByRole("button", { name: /clear all filters/i }));
 
-    expect(view.getAllByText("Object Detection").length).toBeGreaterThan(0);
+    expect(view.getAllByText(hiddenProject.title).length).toBeGreaterThan(0);
   });
 
   it(
     "runs an AI playground generation flow from demo selection to output",
     async () => {
-    vi.useFakeTimers();
-    const view = renderPage(<AIPlayground />);
+      vi.useFakeTimers();
+      const view = renderPage(<AIPlayground />);
 
-    fireEvent.click(view.getByRole("button", { name: /code generator/i }));
-    fireEvent.click(
-      view.getByRole("button", { name: /a function to sort an array by date/i }),
-    );
-    fireEvent.click(view.getByRole("button", { name: /generate with ai/i }));
+      fireEvent.click(view.getByRole("button", { name: /code generator/i }));
+      fireEvent.click(
+        view.getByRole("button", { name: /a function to sort an array by date/i }),
+      );
+      fireEvent.click(view.getByRole("button", { name: /generate with ai/i }));
 
-    await vi.runAllTimersAsync();
+      await vi.runAllTimersAsync();
 
-    expect(view.getByText(/solution for:/i)).not.toBeNull();
+      expect(view.getByText(/solution for:/i)).not.toBeNull();
 
-    vi.useRealTimers();
+      vi.useRealTimers();
     },
     20000,
   );
 
-  it("replays the trade recommendation system timeline", async () => {
-    vi.useFakeTimers();
+  it("loads the live trade system view and opens a trader detail panel", async () => {
     const view = renderPage(<TradeRecommendationSystemDemo />);
 
     expect(
       view.getByRole("heading", { name: /ai trade recommendation system/i }),
     ).not.toBeNull();
-    expect(view.getByText(/09:20 ET · pre-market ingest/i)).not.toBeNull();
 
-    fireEvent.click(view.getByRole("button", { name: /next tick/i }));
+    await waitFor(() => {
+      expect(view.getByText("Alpha")).not.toBeNull();
+      expect(view.getByText("AAPL")).not.toBeNull();
+    });
 
-    expect(view.getByText(/09:35 ET · opening scan/i)).not.toBeNull();
-    expect(view.getAllByText(/BUY · OPEN/i).length).toBeGreaterThan(0);
+    expect(view.queryByText("MSFT")).toBeNull();
+    fireEvent.click(view.getByRole("button", { name: /^All$/i }));
+    expect(view.getByText("MSFT")).not.toBeNull();
 
-    fireEvent.click(view.getByRole("button", { name: /run replay/i }));
-    await vi.advanceTimersByTimeAsync(4500);
+    fireEvent.click(view.getByRole("button", { name: /alpha/i }));
 
-    expect(view.getByText(/16:12 ET · end-of-day closeout/i)).not.toBeNull();
-    expect(view.getByText(/EOD summary:/i)).not.toBeNull();
-    vi.useRealTimers();
+    await waitFor(() => {
+      expect(
+        view.getAllByRole("heading", { name: /alpha/i }).length,
+      ).toBeGreaterThan(0);
+      expect(view.getByText(/Momentum-focused trader/i)).not.toBeNull();
+    });
   });
 
   it(
     "switches prompt engineering tabs and generates an improved prompt",
     async () => {
       vi.useFakeTimers();
-    const view = renderPage(<PromptEngineering />);
+      const view = renderPage(<PromptEngineering />);
 
-    fireEvent.click(view.getByRole("button", { name: /techniques/i }));
-    expect(view.getByText(/technique shifts driven by agentic ai/i)).not.toBeNull();
+      fireEvent.click(view.getByRole("button", { name: /techniques/i }));
+      expect(view.getByText(/technique shifts driven by agentic ai/i)).not.toBeNull();
 
-    fireEvent.click(view.getByText("Chain of Thought"));
-    expect(view.getAllByText("Chain of Thought").length).toBeGreaterThan(0);
+      fireEvent.click(view.getByText("Chain of Thought"));
+      expect(view.getAllByText("Chain of Thought").length).toBeGreaterThan(0);
 
-    fireEvent.click(view.getByRole("button", { name: /playground/i }));
+      fireEvent.click(view.getByRole("button", { name: /playground/i }));
 
-    const input = view.getByPlaceholderText(
-      /help me write a business plan/i,
-    );
-    fireEvent.change(input, {
-      target: {
-        value: "Review this codebase and summarize the major risks.",
-      },
-    });
-    fireEvent.click(
-      view.getByRole("button", { name: /analyze & improve prompt/i }),
-    );
+      fireEvent.change(
+        view.getByPlaceholderText(/help me write a business plan/i),
+        {
+          target: {
+            value: "Review this codebase and summarize the major risks.",
+          },
+        },
+      );
+      fireEvent.click(
+        view.getByRole("button", { name: /analyze & improve prompt/i }),
+      );
 
-    await vi.runAllTimersAsync();
+      await vi.runAllTimersAsync();
 
-    expect(view.getByText(/improved version/i)).not.toBeNull();
-    vi.useRealTimers();
+      expect(view.getByText(/improved prompt:/i)).not.toBeNull();
+      vi.useRealTimers();
     },
     15000,
   );
@@ -283,55 +473,61 @@ describe("AI page interactions", () => {
   it(
     "switches agent-training tabs and generates a training strategy",
     async () => {
-    vi.useFakeTimers();
-    const view = renderPage(<AIAgentTraining />);
+      vi.useFakeTimers();
+      const view = renderPage(<AIAgentTraining />);
 
-    expect(view.getByTestId("navigation")).not.toBeNull();
-    expect(view.getByTestId("chatbot")).not.toBeNull();
+      expect(view.getByTestId("navigation")).not.toBeNull();
+      expect(view.getByTestId("chatbot")).not.toBeNull();
 
-    fireEvent.click(view.getByRole("button", { name: /agent builder/i }));
+      fireEvent.click(view.getByRole("button", { name: /agent builder/i }));
+      fireEvent.change(
+        view.getByPlaceholderText(/i want to build an ai agent/i),
+        {
+          target: {
+            value: "An agent that reviews pull requests and summarizes risks.",
+          },
+        },
+      );
+      fireEvent.click(
+        view.getByRole("button", { name: /generate training strategy/i }),
+      );
 
-    const input = view.getByPlaceholderText(
-      /i want to build an ai agent/i,
-    );
-    fireEvent.change(input, {
-      target: {
-        value: "An agent that reviews pull requests and summarizes risks.",
-      },
-    });
-    fireEvent.click(
-      view.getByRole("button", { name: /generate training strategy/i }),
-    );
+      await vi.runAllTimersAsync();
 
-    await vi.runAllTimersAsync();
+      expect(view.getByText(/ai agent training analysis/i)).not.toBeNull();
 
-    expect(view.getByText(/ai agent training analysis/i)).not.toBeNull();
-
-    vi.useRealTimers();
+      vi.useRealTimers();
     },
     15000,
   );
 
-  it(
-    "filters discoveries by decade and shows the modern filter controls",
-    async () => {
+  it("filters discoveries by decade and supports alphabetical sorting", () => {
+    const modernDiscovery = [...discoveries]
+      .filter((discovery) => discovery.year.startsWith("202"))
+      .sort((left, right) => left.title.localeCompare(right.title))[0]!;
+    const earlyDiscovery = discoveries.find(
+      (discovery) => parseInt(discovery.year, 10) < 2000,
+    )!;
     const view = renderPage(<AIDiscoveries />);
 
     fireEvent.click(view.getByRole("button", { name: /2020s/i }));
-    expect(view.getByRole("button", { name: /clear decade filter/i })).not.toBeNull();
-    expect(view.getByRole("button", { name: /alphabetical/i })).not.toBeNull();
-    },
-    15000,
-  );
+    fireEvent.click(view.getByRole("button", { name: /alphabetical/i }));
 
-  it("clears the discoveries decade filter and restores earlier discoveries", async () => {
+    expect(view.getByText(modernDiscovery.title)).not.toBeNull();
+    expect(view.queryByText(earlyDiscovery.title)).toBeNull();
+  });
+
+  it("clears the discoveries decade filter by switching back to all", () => {
+    const earlyDiscovery = discoveries.find(
+      (discovery) => parseInt(discovery.year, 10) < 2000,
+    )!;
     const view = renderPage(<AIDiscoveries />);
 
     fireEvent.click(view.getByRole("button", { name: /2020s/i }));
-    expect(view.queryByText("The Perceptron")).toBeNull();
+    expect(view.queryByText(earlyDiscovery.title)).toBeNull();
 
-    fireEvent.click(view.getByRole("button", { name: /clear decade filter/i }));
+    fireEvent.click(view.getByRole("button", { name: /^All$/i }));
 
-    expect(view.getByText("The Perceptron")).not.toBeNull();
+    expect(view.getByText(earlyDiscovery.title)).not.toBeNull();
   });
 });

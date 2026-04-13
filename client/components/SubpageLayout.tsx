@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
-  ChevronRight,
   Compass,
   Home,
 } from "lucide-react";
@@ -124,83 +123,112 @@ export default function SubpageLayout({
         <div className="absolute inset-x-0 top-24 h-px bg-gradient-to-r from-transparent via-slate-300/50 to-transparent" />
       </div>
 
-      <main className="relative z-10 px-4 pb-16 pt-24 sm:px-6 lg:px-8">
+      <main className="relative z-10 px-4 pb-12 pt-24 sm:px-6 lg:px-8">
         <section className="mx-auto max-w-7xl">
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="grid gap-6 rounded-[32px] border border-white/80 bg-white/72 p-6 shadow-[0_28px_90px_rgba(15,23,42,0.14)] backdrop-blur-2xl lg:grid-cols-[minmax(0,1.3fr)_22rem] lg:p-8"
+            className="rounded-[30px] border border-white/80 bg-white/72 p-5 shadow-[0_28px_90px_rgba(15,23,42,0.14)] backdrop-blur-2xl sm:p-6 lg:p-7"
           >
-            <div>
-              <div
-                className={cn(
-                  "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em]",
-                  accentStyle.badge,
-                )}
-              >
-                <Compass className="h-3.5 w-3.5" />
-                {eyebrow}
-              </div>
+            <div className="flex flex-col gap-5">
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                <div className="max-w-4xl">
+                  <div
+                    className={cn(
+                      "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.24em]",
+                      accentStyle.badge,
+                    )}
+                  >
+                    <Compass className="h-3.5 w-3.5" />
+                    {eyebrow}
+                  </div>
 
-              <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-[-0.05em] text-slate-950 sm:text-5xl lg:text-6xl">
-                {title}
-              </h1>
+                  <h1 className="mt-4 max-w-4xl text-3xl font-semibold tracking-[-0.05em] text-slate-950 sm:text-4xl lg:text-5xl">
+                    {title}
+                  </h1>
 
-              <p className="mt-5 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">
-                {description}
-              </p>
+                  <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600 sm:text-base">
+                    {description}
+                  </p>
 
-              {chips.length > 0 && (
-                <div className="mt-6 flex flex-wrap gap-3">
+                  {refreshSummary && (
+                    <p className="mt-3 hidden max-w-3xl text-sm leading-6 text-slate-500 lg:block">
+                      {refreshSummary}
+                    </p>
+                  )}
+                </div>
+
+                <div className="flex flex-wrap gap-2 lg:max-w-sm lg:justify-end">
+                  {updatedAtLabel && (
+                    <span className="rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-xs font-semibold text-slate-500">
+                      Updated {updatedAtLabel}
+                    </span>
+                  )}
                   {chips.map((chip) => (
                     <span
                       key={chip}
-                      className="rounded-full border border-slate-200 bg-white/80 px-4 py-2 text-sm font-medium text-slate-600"
+                      className="rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-xs font-medium text-slate-600"
                     >
                       {chip}
                     </span>
                   ))}
                 </div>
-              )}
+              </div>
 
-              {(updatedAtLabel || refreshSummary) && (
-                <div className="mt-6 rounded-[24px] border border-slate-200/80 bg-white/80 p-4 shadow-[0_12px_30px_rgba(15,23,42,0.06)]">
-                  {updatedAtLabel && (
-                    <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
-                      Last refreshed {updatedAtLabel}
-                    </div>
-                  )}
-                  {refreshSummary && (
-                    <p className="mt-2 text-sm leading-6 text-slate-600">
-                      {refreshSummary}
-                    </p>
-                  )}
+              <div className="rounded-[24px] border border-slate-200/80 bg-slate-50/86 p-3 shadow-[0_18px_44px_rgba(15,23,42,0.08)]">
+                <div className="mb-3 flex items-center justify-between gap-3">
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500">
+                    Browse level-one pages
+                  </div>
+                  <div className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600">
+                    {currentIndex + 1}/{levelOnePages.length}
+                  </div>
                 </div>
-              )}
+                <div className="flex gap-2 overflow-x-auto pb-1">
+                  {levelOnePages.map((page) => {
+                    const isCurrent = page.path === route;
 
-              <div className="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                    return (
+                      <Link
+                        key={page.path}
+                        to={page.path}
+                        className={cn(
+                          "shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition-all duration-200",
+                          isCurrent
+                            ? accentStyle.activeLink
+                            : "border-white bg-white/88 text-slate-600 hover:border-slate-200 hover:bg-white hover:text-slate-900",
+                        )}
+                      >
+                        {page.label}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
                 {metrics.map((metric, index) => (
                   <motion.div
                     key={`${metric.label}-${metric.value}`}
                     initial={{ opacity: 0, y: 18 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.45, delay: 0.08 * index }}
-                    className="rounded-[24px] border border-slate-200/80 bg-white/88 p-4 shadow-[0_14px_40px_rgba(15,23,42,0.08)]"
+                    transition={{ duration: 0.45, delay: 0.06 * index }}
+                    className="rounded-[22px] border border-slate-200/80 bg-white/88 p-4 shadow-[0_14px_40px_rgba(15,23,42,0.08)]"
                   >
                     <div
                       className={cn(
-                        "bg-gradient-to-r bg-clip-text text-3xl font-semibold tracking-[-0.04em] text-transparent",
+                        "bg-gradient-to-r bg-clip-text text-2xl font-semibold tracking-[-0.04em] text-transparent sm:text-3xl",
                         accentStyle.value,
                       )}
                     >
                       {metric.value}
                     </div>
-                    <div className="mt-2 text-sm font-semibold text-slate-800">
+                    <div className="mt-1 text-sm font-semibold text-slate-800">
                       {metric.label}
                     </div>
                     {metric.detail && (
-                      <p className="mt-2 text-sm leading-6 text-slate-500">
+                      <p className="mt-1 text-xs leading-5 text-slate-500 sm:text-sm">
                         {metric.detail}
                       </p>
                     )}
@@ -208,69 +236,10 @@ export default function SubpageLayout({
                 ))}
               </div>
             </div>
-
-            <motion.aside
-              initial={{ opacity: 0, x: 24 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-              className="rounded-[28px] border border-slate-200/90 bg-slate-50/86 p-5 shadow-[0_18px_44px_rgba(15,23,42,0.08)]"
-            >
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500">
-                    Section Map
-                  </div>
-                  <h2 className="mt-2 text-xl font-semibold tracking-[-0.03em] text-slate-950">
-                    Browse level-one pages
-                  </h2>
-                </div>
-                <div className="rounded-full border border-slate-200 bg-white px-3 py-1 text-sm font-semibold text-slate-600">
-                  {currentIndex + 1}/{levelOnePages.length}
-                </div>
-              </div>
-
-              <div className="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
-                {levelOnePages.map((page) => {
-                  const isCurrent = page.path === route;
-
-                  return (
-                    <Link
-                      key={page.path}
-                      to={page.path}
-                      className={cn(
-                        "flex items-center justify-between rounded-2xl border px-4 py-3 text-sm font-medium transition-all duration-200",
-                        isCurrent
-                          ? accentStyle.activeLink
-                          : "border-white bg-white/88 text-slate-600 hover:border-slate-200 hover:bg-white hover:text-slate-900",
-                      )}
-                    >
-                      <span>{page.label}</span>
-                      <ChevronRight className="h-4 w-4" />
-                    </Link>
-                  );
-                })}
-              </div>
-
-              <div className="mt-5 rounded-2xl border border-white/80 bg-white/88 p-4">
-                <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
-                  How to use this page
-                </div>
-                <p className="mt-2 text-sm leading-6 text-slate-600">
-                  Start with the current-now modules at the top, then move into
-                  the deeper library sections once you know what you are looking
-                  for.
-                </p>
-                {refreshSummary && (
-                  <p className="mt-3 text-sm leading-6 text-slate-500">
-                    {refreshSummary}
-                  </p>
-                )}
-              </div>
-            </motion.aside>
           </motion.div>
         </section>
 
-        <section className="mx-auto mt-8 max-w-7xl">
+        <section className="mx-auto mt-6 max-w-7xl">
           <div
             className={cn(
               "overflow-hidden rounded-[34px] border border-slate-900/8 bg-[linear-gradient(180deg,rgba(15,23,42,0.97),rgba(17,24,39,0.985))] shadow-[0_30px_100px_rgba(15,23,42,0.18)]",
@@ -281,18 +250,18 @@ export default function SubpageLayout({
           </div>
         </section>
 
-        <section className="mx-auto mt-8 max-w-7xl">
-          <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+        <section className="mx-auto mt-6 max-w-7xl">
+          <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
             {previousPage ? (
               <Link
                 to={previousPage.path}
-                className="group rounded-[28px] border border-white/80 bg-white/72 p-5 shadow-[0_20px_50px_rgba(15,23,42,0.1)] backdrop-blur-xl transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90"
+                className="group rounded-[24px] border border-white/80 bg-white/72 p-4 shadow-[0_20px_50px_rgba(15,23,42,0.1)] backdrop-blur-xl transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90"
               >
-                <div className="flex items-center gap-2 text-sm font-semibold text-slate-500">
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
                   <ArrowLeft className="h-4 w-4" />
                   Previous
                 </div>
-                <div className="mt-3 text-lg font-semibold tracking-[-0.03em] text-slate-950">
+                <div className="mt-2 text-base font-semibold tracking-[-0.03em] text-slate-950">
                   {previousPage.label}
                 </div>
               </Link>
@@ -302,7 +271,7 @@ export default function SubpageLayout({
 
             <Link
               to="/"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-[0_14px_36px_rgba(15,23,42,0.08)] transition-all duration-200 hover:-translate-y-0.5 hover:text-slate-950"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-[0_14px_36px_rgba(15,23,42,0.08)] transition-all duration-200 hover:-translate-y-0.5 hover:text-slate-950"
             >
               <Home className="h-4 w-4" />
               Back to home
@@ -311,13 +280,13 @@ export default function SubpageLayout({
             {nextPage ? (
               <Link
                 to={nextPage.path}
-                className="group rounded-[28px] border border-white/80 bg-white/72 p-5 text-right shadow-[0_20px_50px_rgba(15,23,42,0.1)] backdrop-blur-xl transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90"
+                className="group rounded-[24px] border border-white/80 bg-white/72 p-4 text-right shadow-[0_20px_50px_rgba(15,23,42,0.1)] backdrop-blur-xl transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90"
               >
-                <div className="flex items-center justify-end gap-2 text-sm font-semibold text-slate-500">
+                <div className="flex items-center justify-end gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
                   Next
                   <ArrowRight className="h-4 w-4" />
                 </div>
-                <div className="mt-3 text-lg font-semibold tracking-[-0.03em] text-slate-950">
+                <div className="mt-2 text-base font-semibold tracking-[-0.03em] text-slate-950">
                   {nextPage.label}
                 </div>
               </Link>
