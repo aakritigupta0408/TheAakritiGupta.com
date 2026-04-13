@@ -29,7 +29,6 @@ export default function AIChampions() {
         .length,
     [],
   );
-  const benchmarkLeapCount = victories.length - championMatchCount;
   const playableVictoryCount = useMemo(
     () => victories.filter((victory) => victory.playableDemo).length,
     [],
@@ -68,15 +67,11 @@ export default function AIChampions() {
       metrics={[
         {
           value: victories.length.toString(),
-          label: "Landmark matchups tracked",
+          label: "Landmark matchups",
         },
         {
           value: championMatchCount.toString(),
           label: "Direct human wins",
-        },
-        {
-          value: benchmarkLeapCount.toString(),
-          label: "Benchmark leaps",
         },
         {
           value: playableVictoryCount.toString(),
@@ -86,150 +81,63 @@ export default function AIChampions() {
     >
       <div className="container mx-auto px-6 py-10 sm:py-12">
         <motion.section
-          className="mb-14 space-y-8"
+          className="mb-8 rounded-[1.75rem] border border-white/10 bg-slate-950/25 p-6 backdrop-blur-xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.6 }}
         >
-          <div className="grid gap-6 xl:grid-cols-[1.05fr,0.95fr]">
-            <div className="rounded-[2rem] border border-white/15 bg-slate-950/25 p-8 backdrop-blur-xl">
-              <div className="mb-5">
-                <div className="mb-3 inline-flex rounded-full border border-amber-300/30 bg-amber-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-amber-100">
-                  What this page tracks now
-                </div>
-                <h2 className="text-3xl font-black text-white md:text-4xl">
-                  Human-vs-AI moments, but with cleaner historical framing
-                </h2>
-              </div>
-              <p className="mb-6 max-w-3xl text-sm leading-relaxed text-gray-200">
-                The archive now separates direct champion defeats from broader
-                benchmark leaps, links every story back to primary sources, and
-                focuses on what each moment unlocked for modern AI.
-              </p>
+          <div className="mb-4 flex items-baseline justify-between gap-3">
+            <h2 className="text-lg font-semibold text-white">
+              Featured matchups
+            </h2>
+            <span className="text-[11px] uppercase tracking-[0.2em] text-gray-400">
+              Chess · Go · Dota 2
+            </span>
+          </div>
 
-              <div className="grid gap-4 md:grid-cols-3">
-                {featuredVictories.map((victory, index) => (
-                  <motion.button
-                    key={victory.id}
-                    type="button"
-                    onClick={() => setSelectedVictory(victory)}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.45, delay: index * 0.06 }}
-                    className="rounded-3xl border border-white/15 bg-white/10 p-5 text-left transition-all duration-300 hover:-translate-y-1 hover:bg-white/15"
-                  >
-                    <div className="mb-3 flex items-center justify-between gap-3">
-                      <span className="text-3xl">{victory.icon}</span>
-                      <span className="rounded-full border border-white/15 bg-black/20 px-3 py-1 text-xs font-semibold text-gray-100">
-                        {victory.year}
-                      </span>
-                    </div>
-                    <h3 className="text-lg font-black text-white">
-                      {victory.aiName}
-                    </h3>
-                    <p className="mt-1 text-sm font-semibold text-amber-100">
-                      {victory.game}
-                    </p>
-                    <p className="mt-3 text-sm leading-relaxed text-gray-100">
-                      {victory.significance}
-                    </p>
-                  </motion.button>
-                ))}
-              </div>
-            </div>
-
-            <div className="rounded-[2rem] border border-white/15 bg-white/10 p-8 backdrop-blur-xl">
-              <div className="mb-5">
-                <div className="mb-3 inline-flex rounded-full border border-cyan-300/30 bg-cyan-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-cyan-100">
-                  Read the archive like a builder
+          <div className="grid gap-3 md:grid-cols-3">
+            {featuredVictories.map((victory) => (
+              <button
+                key={victory.id}
+                type="button"
+                onClick={() => setSelectedVictory(victory)}
+                className="rounded-2xl border border-white/10 bg-white/5 p-4 text-left transition hover:bg-white/10"
+              >
+                <div className="mb-2 flex items-center justify-between gap-2 text-[11px] uppercase tracking-[0.18em] text-gray-400">
+                  <span className="text-xl leading-none">{victory.icon}</span>
+                  <span>{victory.year}</span>
                 </div>
-                <h3 className="text-2xl font-black text-white md:text-3xl">
-                  Each card answers a different engineering question
+                <h3 className="text-sm font-semibold leading-snug text-white">
+                  {victory.aiName}
                 </h3>
-              </div>
-
-              <div className="space-y-4">
-                {[
-                  {
-                    title: "Champion match",
-                    description:
-                      "A system beat elite humans directly under competitive conditions. These are the public proof points.",
-                  },
-                  {
-                    title: "Benchmark leap",
-                    description:
-                      "A system changed the field even without a marquee human match, usually by proving a stronger general recipe.",
-                  },
-                  {
-                    title: "Why it still matters",
-                    description:
-                      "Every modal now includes the bridge from game result to modern AI work such as planning, agents, or multi-step decision systems.",
-                  },
-                ].map((item) => (
-                  <div
-                    key={item.title}
-                    className="rounded-3xl border border-white/15 bg-black/20 p-5"
-                  >
-                    <p className="text-sm font-black uppercase tracking-[0.18em] text-cyan-100">
-                      {item.title}
-                    </p>
-                    <p className="mt-3 text-sm leading-relaxed text-gray-100">
-                      {item.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
+                <p className="mt-1 text-xs text-amber-100">{victory.game}</p>
+              </button>
+            ))}
           </div>
         </motion.section>
 
-        <section className="mb-8 space-y-6">
-          <div className="mx-auto flex max-w-5xl flex-col gap-4 rounded-3xl border border-white/15 bg-white/10 p-5 text-center backdrop-blur-xl md:flex-row md:items-center md:justify-between md:text-left">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-amber-100">
-                Matchup grid status
-              </p>
-              <p className="mt-2 text-lg font-semibold text-white">
-                Showing {visibleVictories.length} of {filteredVictories.length} landmark
-                records
-              </p>
-              <p className="mt-1 text-sm text-gray-200">
-                Open a story for methods, historical impact, and primary source
-                links. Launch a demo where one is available.
-              </p>
-            </div>
-            {filterType !== "All" && (
-              <motion.button
-                onClick={() => setFilterType("All")}
-                className="rounded-full border border-amber-300/40 bg-amber-400/15 px-5 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-amber-400/25"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                Clear matchup filter
-              </motion.button>
-            )}
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-4">
-            <span className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-black text-white backdrop-blur-md">
-              Filter by record type
+        <section className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur-md">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
+              Record
             </span>
             {matchFilters.map((filter) => (
-              <motion.button
+              <button
                 key={filter}
                 onClick={() => setFilterType(filter)}
-                className={`rounded-full px-6 py-3 text-sm font-bold transition-all duration-300 ${
+                className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                   filterType === filter
-                    ? "scale-105 border border-amber-400/50 bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-2xl"
-                    : "border border-white/20 bg-white/10 text-white backdrop-blur-md hover:bg-white/20"
+                    ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white"
+                    : "border border-white/15 bg-white/5 text-gray-200 hover:bg-white/10"
                 }`}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
               >
                 {filter}
-              </motion.button>
+              </button>
             ))}
           </div>
+          <span className="text-xs text-gray-400">
+            {visibleVictories.length} / {filteredVictories.length}
+          </span>
         </section>
 
         <div className="mb-12 grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
@@ -552,48 +460,6 @@ export default function AIChampions() {
           )}
         </AnimatePresence>
 
-        <section className="rounded-[2rem] border border-white/15 bg-white/10 p-8 backdrop-blur-xl">
-          <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-            <div>
-              <div className="mb-3 inline-flex rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-gray-200">
-                Timeline view
-              </div>
-              <h3 className="text-2xl font-black text-white md:text-3xl">
-                From search systems to multi-agent strategy
-              </h3>
-            </div>
-            <p className="max-w-2xl text-sm text-gray-200">
-              These records are not just trivia. They map the progression from
-              search-heavy systems to deep reinforcement learning, imperfect
-              information reasoning, and coordinated agents.
-            </p>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {victories.map((victory) => (
-              <motion.button
-                key={`timeline-${victory.id}`}
-                type="button"
-                onClick={() => setSelectedVictory(victory)}
-                className="rounded-3xl border border-white/15 bg-black/20 p-5 text-left transition-colors hover:bg-black/30"
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-2xl">{victory.icon}</span>
-                  <span className="text-xs font-semibold text-gray-300">
-                    {victory.year}
-                  </span>
-                </div>
-                <p className="mt-4 text-lg font-black text-white">
-                  {victory.aiName}
-                </p>
-                <p className="mt-1 text-sm text-amber-100">{victory.game}</p>
-                <p className="mt-3 text-sm leading-relaxed text-gray-100">
-                  {victory.significance}
-                </p>
-              </motion.button>
-            ))}
-          </div>
-        </section>
       </div>
     </SubpageLayout>
   );

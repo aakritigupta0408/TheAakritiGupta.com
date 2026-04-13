@@ -47,163 +47,100 @@ export default function AIProjects() {
       refreshSummary={pageRefresh.refreshSummary}
       updatedAtLabel={pageRefresh.updatedAtLabel}
       metrics={[
-        { value: projects.length.toString(), label: "Project types" },
+        { value: projects.length.toString(), label: "Project blueprints" },
         {
           value: buildNowProjectTracks.length.toString(),
           label: "Build-now tracks",
         },
         {
           value: (projectCategories.length - 1).toString(),
-          label: "Main categories",
-        },
-        {
-          value: filteredProjects.length.toString(),
-          label: "Results in current view",
+          label: "Categories",
         },
       ]}
     >
       <div className="container mx-auto px-6 py-10 sm:py-12">
         <motion.section
-          className="mb-14"
-          initial={{ opacity: 0, y: 22 }}
+          className="mb-8 rounded-[1.75rem] border border-white/10 bg-slate-950/25 p-6 backdrop-blur-xl"
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.6 }}
         >
-          <div className="rounded-[2rem] border border-white/15 bg-slate-950/25 p-8 backdrop-blur-xl">
-            <div className="mb-8 text-center">
-              <div className="inline-flex items-center gap-2 rounded-full border border-pink-300/30 bg-pink-400/10 px-4 py-2 text-sm font-semibold text-pink-100">
-                Updated for April 2026
-              </div>
-              <h2 className="mt-4 text-3xl font-black text-white md:text-4xl">
-                Highest-Leverage AI Projects To Build Right Now
-              </h2>
-              <p className="mx-auto mt-3 max-w-4xl text-gray-100 leading-relaxed">
-                The legacy project cards have been rewritten around current
-                stacks, current papers, and realistic build paths. The focus is
-                now production relevance, not outdated model name-dropping.
-              </p>
-            </div>
+          <div className="mb-4 flex items-baseline justify-between gap-3">
+            <h2 className="text-lg font-semibold text-white">
+              Build-now tracks
+            </h2>
+            <span className="text-[11px] uppercase tracking-[0.2em] text-gray-400">
+              Current stacks, realistic scope
+            </span>
+          </div>
 
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {buildNowProjectTracks.map((track, index) => (
-                <motion.a
-                  key={track.id}
-                  href={track.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.45, delay: index * 0.08 }}
-                  className="group rounded-3xl border border-white/15 bg-white/10 p-6 transition-all duration-300 hover:-translate-y-1 hover:bg-white/15"
-                >
-                  <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-                    <span className="rounded-full border border-cyan-300/30 bg-cyan-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-cyan-100">
-                      {track.category}
-                    </span>
-                    <span
-                      className={`rounded-full px-3 py-1 text-xs font-bold ${
-                        track.difficulty === "Beginner"
-                          ? "border border-green-300/30 bg-green-500/20 text-green-100"
-                          : track.difficulty === "Intermediate"
-                            ? "border border-yellow-300/30 bg-yellow-500/20 text-yellow-100"
-                            : "border border-pink-300/30 bg-pink-500/20 text-pink-100"
-                      }`}
-                    >
-                      {track.difficulty}
-                    </span>
-                  </div>
-                  <h3 className="mb-3 text-2xl font-black text-white group-hover:text-cyan-200">
-                    {track.title}
-                  </h3>
-                  <p className="mb-4 text-sm leading-relaxed text-gray-100">
-                    {track.summary}
-                  </p>
-                  <p className="mb-4 text-sm leading-relaxed text-cyan-100">
-                    {track.outcome}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {track.stack.map((item) => (
-                      <span
-                        key={item}
-                        className="rounded-full border border-white/15 bg-black/20 px-3 py-1 text-xs font-medium text-gray-100"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </motion.a>
-              ))}
-            </div>
+          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+            {buildNowProjectTracks.map((track) => (
+              <a
+                key={track.id}
+                href={track.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10"
+              >
+                <div className="mb-2 flex items-center justify-between gap-2 text-[11px] uppercase tracking-[0.18em] text-gray-400">
+                  <span className="bg-gradient-to-r from-pink-300 to-cyan-300 bg-clip-text text-transparent">
+                    {track.category}
+                  </span>
+                  <span>{track.difficulty}</span>
+                </div>
+                <h3 className="text-sm font-semibold leading-snug text-white">
+                  {track.title}
+                </h3>
+                <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-gray-300">
+                  {track.outcome}
+                </p>
+              </a>
+            ))}
           </div>
         </motion.section>
 
-        <section className="mb-12 space-y-6">
-          {(filterCategory !== "All" || filterDifficulty !== "All") && (
-            <div className="text-center">
-              <motion.button
-                onClick={() => {
-                  setFilterCategory("All");
-                  setFilterDifficulty("All");
-                }}
-                className="rounded-full border border-red-400/30 bg-gradient-to-r from-red-500 to-pink-600 px-6 py-3 font-bold text-white shadow-xl transition-all duration-300"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                Clear All Filters
-              </motion.button>
-            </div>
-          )}
-
-          <div className="flex flex-wrap justify-center gap-4">
-            <span className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-black text-white backdrop-blur-md">
-              Filter by Category
+        <section className="mb-6 space-y-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur-md">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
+              Category
             </span>
             {projectCategories.map((category) => (
-              <motion.button
+              <button
                 key={category}
                 onClick={() => setFilterCategory(category)}
-                className={`rounded-full px-6 py-3 text-sm font-bold transition-all duration-300 ${
+                className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                   filterCategory === category
-                    ? "scale-105 border border-pink-400/50 bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-2xl"
-                    : "border border-white/20 bg-white/10 text-white hover:bg-white/20"
+                    ? "bg-gradient-to-r from-pink-500 to-fuchsia-500 text-white"
+                    : "border border-white/15 bg-white/5 text-gray-200 hover:bg-white/10"
                 }`}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
               >
                 {category}
-              </motion.button>
+              </button>
             ))}
           </div>
-
-          <div className="flex flex-wrap justify-center gap-4">
-            <span className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-black text-white backdrop-blur-md">
-              Filter by Difficulty
-            </span>
-            {difficulties.map((difficulty) => (
-              <motion.button
-                key={difficulty}
-                onClick={() => setFilterDifficulty(difficulty)}
-                className={`rounded-full px-6 py-3 text-sm font-bold transition-all duration-300 ${
-                  filterDifficulty === difficulty
-                    ? "scale-105 border border-cyan-400/50 bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-2xl"
-                    : "border border-white/20 bg-white/10 text-white hover:bg-white/20"
-                }`}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                {difficulty}
-              </motion.button>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <div className="inline-block rounded-full border border-white/20 bg-white/10 px-6 py-3 backdrop-blur-md">
-              <span className="font-bold text-white">
-                Showing {visibleProjects.length} of {filteredProjects.length} projects
-                {filterCategory !== "All" && ` in ${filterCategory}`}
-                {filterDifficulty !== "All" && ` (${filterDifficulty})`}
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
+                Level
               </span>
+              {difficulties.map((difficulty) => (
+                <button
+                  key={difficulty}
+                  onClick={() => setFilterDifficulty(difficulty)}
+                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+                    filterDifficulty === difficulty
+                      ? "bg-gradient-to-r from-cyan-500 to-blue-500 text-white"
+                      : "border border-white/15 bg-white/5 text-gray-200 hover:bg-white/10"
+                  }`}
+                >
+                  {difficulty}
+                </button>
+              ))}
             </div>
+            <span className="text-xs text-gray-400">
+              {visibleProjects.length} / {filteredProjects.length}
+            </span>
           </div>
         </section>
 

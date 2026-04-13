@@ -926,7 +926,7 @@ Deliverable:
       metrics={[
         {
           value: promptExamples.length.toString(),
-          label: "Worked prompt examples",
+          label: "Worked examples",
         },
         {
           value: promptTechniques.length.toString(),
@@ -935,10 +935,6 @@ Deliverable:
         {
           value: Object.keys(promptTabSignals).length.toString(),
           label: "Practice views",
-        },
-        {
-          value: activePromptSignals.length.toString(),
-          label: "Signals in active tab",
         },
       ]}
     >

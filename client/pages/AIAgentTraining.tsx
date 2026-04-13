@@ -1209,10 +1209,6 @@ Week 7-8: Production rollout, tracing, and monitoring
           value: Object.keys(agentTabSignals).length.toString(),
           label: "Learning views",
         },
-        {
-          value: activeSignals.length.toString(),
-          label: "Signals in active tab",
-        },
       ]}
     >
       <div className="max-w-6xl mx-auto px-4 py-10 sm:px-6 sm:py-12">

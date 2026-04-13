@@ -345,72 +345,47 @@ export default function AIPlayground() {
       metrics={[
         {
           value: AI_DEMOS.length.toString(),
-          label: "Interactive demo types",
+          label: "Interactive demos",
         },
         {
-          value: latestAIProductLaunches.slice(0, 4).length.toString(),
-          label: "Radar cards at the top",
-        },
-        {
-          value: "2",
-          label: "Featured deep-dive demos",
-        },
-        {
-          value: selectedDemoData ? "1" : "0",
-          label: "Active demo selected",
+          value: FEATURED_SHOWCASES.length.toString(),
+          label: "Featured deep dives",
         },
       ]}
     >
 
       <section className="relative z-20 px-4 py-6 sm:px-6 sm:py-8">
         <div className="mx-auto max-w-7xl space-y-5">
-          <div className="rounded-[1.9rem] border border-white/15 bg-slate-950/30 p-5 backdrop-blur-xl sm:p-6">
-            <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-              <div>
-                <div className="mb-2 inline-flex rounded-full border border-cyan-300/30 bg-cyan-400/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-cyan-100">
-                  Product radar
-                </div>
-                <h2 className="text-2xl font-black text-white sm:text-3xl">
-                  Current AI launches
-                </h2>
-              </div>
-              <p className="max-w-2xl text-sm leading-6 text-gray-200">
-                Fast links to current products shaping writing, coding, research,
-                and image workflows.
-              </p>
+          <div className="rounded-[1.75rem] border border-white/10 bg-slate-950/30 p-5 backdrop-blur-xl sm:p-6">
+            <div className="mb-4 flex items-baseline justify-between gap-3">
+              <h2 className="text-lg font-semibold text-white">
+                Current AI launches
+              </h2>
+              <span className="text-[11px] uppercase tracking-[0.2em] text-gray-400">
+                Product radar
+              </span>
             </div>
 
             <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-              {productRadar.map((signal, index) => (
-                <motion.a
+              {productRadar.map((signal) => (
+                <a
                   key={signal.id}
                   href={signal.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.45, delay: index * 0.06 }}
-                  className="rounded-[1.5rem] border border-white/15 bg-white/8 p-4 transition-all duration-300 hover:bg-white/12"
+                  className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10"
                 >
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="rounded-full border border-fuchsia-300/30 bg-fuchsia-400/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-fuchsia-100">
+                  <div className="mb-2 flex items-center justify-between gap-2 text-[11px] uppercase tracking-[0.18em] text-gray-400">
+                    <span className="bg-gradient-to-r from-fuchsia-300 to-cyan-300 bg-clip-text text-transparent">
                       {signal.category}
                     </span>
-                    <span className="text-[11px] font-semibold text-gray-300">
-                      {signal.date}
-                    </span>
+                    <span>{signal.date}</span>
                   </div>
-                  <h3 className="mt-3 text-base font-black text-white">
+                  <h3 className="text-sm font-semibold leading-snug text-white">
                     {signal.title}
                   </h3>
-                  <p className="mt-1 text-sm font-semibold text-cyan-100">
-                    {signal.org}
-                  </p>
-                  <p className="mt-2 text-sm leading-6 text-gray-200">
-                    {signal.summary}
-                  </p>
-                </motion.a>
+                  <p className="mt-1 text-xs text-cyan-100">{signal.org}</p>
+                </a>
               ))}
             </div>
           </div>
@@ -646,61 +621,48 @@ export default function AIPlayground() {
                     </div>
                   </div>
 
-                  {/* State of the Art Product Section */}
-                  <div className="mt-6 rounded-xl border-2 border-yellow-400 bg-gradient-to-r from-yellow-50 to-orange-50 p-5">
-                    <div className="flex items-start gap-4">
-                      <div className="text-3xl">🌟</div>
-                      <div className="flex-1">
-                        <h4 className="tom-ford-subheading luxury-text-primary text-sm tracking-wider mb-2">
-                          INDUSTRY LEADING PRODUCT
-                        </h4>
-                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                          <div>
-                            <h5 className="font-bold text-lg luxury-text-primary mb-1">
-                              {selectedDemoData.stateOfArt.name}
-                            </h5>
-                            <p className="text-sm luxury-text-muted mb-2">
-                              by {selectedDemoData.stateOfArt.company}
-                            </p>
-                            <p className="text-sm luxury-text-primary leading-relaxed">
-                              {selectedDemoData.stateOfArt.description}
-                            </p>
-                            <div className="mt-3 space-y-2">
-                              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-700">
-                                Released {selectedDemoData.stateOfArt.released}
-                              </p>
-                              <p className="text-sm luxury-text-primary leading-relaxed">
-                                {selectedDemoData.stateOfArt.whyItMatters}
-                              </p>
-                            </div>
-                          </div>
-                          <motion.a
-                            href={selectedDemoData.stateOfArt.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            whileHover={{ scale: 1.05, y: -2 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="inline-flex items-center gap-2 whitespace-nowrap rounded-xl bg-gradient-to-r from-yellow-500 to-orange-500 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl"
-                          >
-                            <span>
-                              🚀 Try {selectedDemoData.stateOfArt.name}
-                            </span>
-                            <svg
-                              className="w-4 h-4"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                              />
-                            </svg>
-                          </motion.a>
-                        </div>
+                  <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-5">
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                      <div className="min-w-0">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
+                          Leading product
+                        </p>
+                        <h5 className="mt-1 text-lg font-semibold text-slate-900">
+                          {selectedDemoData.stateOfArt.name}
+                          <span className="ml-2 text-sm font-normal text-slate-500">
+                            · {selectedDemoData.stateOfArt.company}
+                          </span>
+                        </h5>
+                        <p className="mt-2 text-sm leading-relaxed text-slate-700">
+                          {selectedDemoData.stateOfArt.whyItMatters}
+                        </p>
+                        <p className="mt-2 text-xs text-slate-500">
+                          Released {selectedDemoData.stateOfArt.released}
+                        </p>
                       </div>
+                      <motion.a
+                        href={selectedDemoData.stateOfArt.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.97 }}
+                        className="inline-flex shrink-0 items-center gap-2 rounded-full bg-gradient-to-r from-fuchsia-500 via-rose-500 to-amber-400 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_10px_30px_rgba(244,63,94,0.28)]"
+                      >
+                        Open {selectedDemoData.stateOfArt.name}
+                        <svg
+                          className="h-4 w-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                          />
+                        </svg>
+                      </motion.a>
                     </div>
                   </div>
                 </div>

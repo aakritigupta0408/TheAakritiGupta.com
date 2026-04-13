@@ -114,19 +114,11 @@ export default function Games() {
       metrics={[
         {
           value: gameCards.length.toString(),
-          label: "Playable game cards",
+          label: "Playable games",
         },
         {
           value: categoryCount.toString(),
-          label: "Game categories",
-        },
-        {
-          value: activeGame ? "1" : "0",
-          label: "Active game session",
-        },
-        {
-          value: "1-2",
-          label: "Supported players",
+          label: "Categories",
         },
       ]}
     >

@@ -384,7 +384,8 @@ describe("AI page interactions", () => {
 
     expect(view.queryByText(hiddenProject.title)).toBeNull();
 
-    fireEvent.click(view.getByRole("button", { name: /clear all filters/i }));
+    fireEvent.click(view.getAllByRole("button", { name: /^All$/i })[0]);
+    fireEvent.click(view.getAllByRole("button", { name: /^All$/i })[1]);
 
     expect(view.getAllByText(hiddenProject.title).length).toBeGreaterThan(0);
   });
@@ -511,7 +512,9 @@ describe("AI page interactions", () => {
     const view = renderPage(<AIDiscoveries />);
 
     fireEvent.click(view.getByRole("button", { name: /2020s/i }));
-    fireEvent.click(view.getByRole("button", { name: /alphabetical/i }));
+    fireEvent.change(view.getByRole("combobox"), {
+      target: { value: "alphabetical" },
+    });
 
     expect(view.getByText(modernDiscovery.title)).not.toBeNull();
     expect(view.queryByText(earlyDiscovery.title)).toBeNull();

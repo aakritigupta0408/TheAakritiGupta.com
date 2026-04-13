@@ -7,10 +7,7 @@ import {
   type Company,
 } from "@/data/companyArchive";
 import { getPageRefreshContent } from "@/data/siteRefreshContent";
-import {
-  latestAIResearchBreakthroughs,
-  startupWatchlist,
-} from "../data/aiSignals";
+import { startupWatchlist } from "../data/aiSignals";
 
 type SortMode = "scale" | "founded" | "operating";
 
@@ -54,9 +51,6 @@ export default function AICompanies() {
 
   const visibleCompanies = filteredCompanies.slice(0, visibleCount);
   const hasMoreCompanies = visibleCompanies.length < filteredCompanies.length;
-  const visibleRecentAdditions = visibleCompanies.filter(
-    (company) => company.isRecentAddition,
-  ).length;
 
   return (
     <SubpageLayout
@@ -70,7 +64,7 @@ export default function AICompanies() {
       updatedAtLabel={pageRefresh.updatedAtLabel}
       metrics={[
         { value: companies.length.toString(), label: "Company cards" },
-        { value: recentAdditionsCount.toString(), label: "Added since Aug 2025" },
+        { value: recentAdditionsCount.toString(), label: "Recently added" },
         {
           value: (companyCategories.length - 1).toString(),
           label: "Filter categories",
@@ -83,184 +77,86 @@ export default function AICompanies() {
     >
       <div className="container mx-auto px-6 py-10 sm:py-12">
         <motion.section
-          className="mb-14 space-y-8"
-          initial={{ opacity: 0, y: 24 }}
+          className="mb-8 rounded-[1.75rem] border border-white/10 bg-slate-950/25 p-6 backdrop-blur-xl"
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.6 }}
         >
-          <div className="text-center">
-            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-100">
-              Startup and scale-up watch · April 2026
-            </div>
-            <h2 className="mt-4 text-3xl font-black text-white md:text-4xl">
-              Who Has Momentum Right Now
+          <div className="mb-4 flex items-baseline justify-between gap-3">
+            <h2 className="text-lg font-semibold text-white">
+              Who has momentum
             </h2>
-            <p className="mx-auto mt-3 max-w-4xl text-gray-100 leading-relaxed">
-              The archive below is now anchored to primary sources. Cards focus
-              on current product direction, operating footprint, and why each
-              company matters now instead of stale valuation trivia.
-            </p>
+            <span className="text-[11px] uppercase tracking-[0.2em] text-gray-400">
+              Startup & scale-up watch
+            </span>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {startupWatchlist.slice(0, 6).map((item, index) => (
-              <motion.a
+          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+            {startupWatchlist.slice(0, 6).map((item) => (
+              <a
                 key={item.id}
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.45, delay: 0.08 * index }}
-                className="group rounded-3xl border border-white/15 bg-slate-950/25 p-6 shadow-2xl backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-slate-950/35"
+                className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10"
               >
-                <div className="mb-4 flex items-start justify-between gap-4">
-                  <div>
-                    <div className="mb-3 inline-flex rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-emerald-100">
-                      {item.focus}
-                    </div>
-                    <h3 className="text-2xl font-black text-white group-hover:text-emerald-200">
-                      {item.name}
-                    </h3>
-                  </div>
-                  <span className="text-xs font-semibold text-gray-300">
-                    {item.date}
+                <div className="mb-2 flex items-center justify-between gap-2 text-[11px] uppercase tracking-[0.18em] text-gray-400">
+                  <span className="bg-gradient-to-r from-emerald-300 to-cyan-300 bg-clip-text text-transparent">
+                    {item.focus}
                   </span>
+                  <span>{item.date}</span>
                 </div>
-                <p className="mb-4 text-sm leading-relaxed text-gray-100">
+                <h3 className="text-sm font-semibold leading-snug text-white">
+                  {item.name}
+                </h3>
+                <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-gray-300">
                   {item.latestMove}
                 </p>
-                <p className="text-sm leading-relaxed text-cyan-100">
-                  {item.whyItMatters}
-                </p>
-              </motion.a>
+              </a>
             ))}
-          </div>
-
-          <div className="rounded-[2rem] border border-white/15 bg-white/10 p-8 backdrop-blur-xl">
-            <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-              <div>
-                <h3 className="text-2xl font-black text-white md:text-3xl">
-                  Research Frontier Driving Company Strategy
-                </h3>
-                <p className="mt-2 max-w-3xl text-gray-100">
-                  The strongest companies now are translating frontier research
-                  into deployable systems, not just publishing benchmarks.
-                </p>
-              </div>
-              <p className="text-sm font-medium text-emerald-100">
-                Official lab announcements
-              </p>
-            </div>
-
-            <div className="grid gap-5 lg:grid-cols-3">
-              {latestAIResearchBreakthroughs.slice(0, 3).map((signal, index) => (
-                <motion.a
-                  key={signal.id}
-                  href={signal.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  initial={{ opacity: 0, y: 18 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.45, delay: 0.1 * index }}
-                  className="rounded-3xl border border-white/15 bg-black/20 p-5 transition-all duration-300 hover:bg-black/30"
-                >
-                  <div className="mb-3 flex items-center justify-between gap-4">
-                    <span className="rounded-full border border-cyan-300/30 bg-cyan-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-cyan-100">
-                      {signal.category}
-                    </span>
-                    <span className="text-xs font-semibold text-gray-300">
-                      {signal.date}
-                    </span>
-                  </div>
-                  <h4 className="mb-2 text-lg font-black text-white">
-                    {signal.title}
-                  </h4>
-                  <p className="mb-2 text-sm font-semibold text-emerald-100">
-                    {signal.org}
-                  </p>
-                  <p className="mb-3 text-sm leading-relaxed text-gray-100">
-                    {signal.summary}
-                  </p>
-                  <p className="text-sm leading-relaxed text-gray-300">
-                    {signal.impact}
-                  </p>
-                </motion.a>
-              ))}
-            </div>
           </div>
         </motion.section>
 
-        <section className="mb-12 space-y-6">
-          <div className="mx-auto flex max-w-5xl flex-col gap-4 rounded-3xl border border-white/15 bg-white/10 p-5 text-center backdrop-blur-xl md:flex-row md:items-center md:justify-between md:text-left">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-emerald-100">
-                Company Grid Status
-              </p>
-              <p className="mt-2 text-lg font-semibold text-white">
-                Showing {visibleCompanies.length} of {filteredCompanies.length} companies
-              </p>
-              <p className="mt-1 text-sm text-gray-200">
-                {visibleRecentAdditions} recent additions are visible in this
-                view.
-              </p>
-            </div>
-            {filterCategory !== "All" && (
-              <motion.button
-                onClick={() => setFilterCategory("All")}
-                className="rounded-full border border-emerald-300/40 bg-emerald-400/15 px-5 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-emerald-400/25"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                Clear Category Filter
-              </motion.button>
-            )}
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-4">
-            <span className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-black text-white backdrop-blur-md">
-              Filter by Category
+        <section className="mb-6 space-y-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur-md">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
+              Category
             </span>
             {companyCategories.map((category) => (
-              <motion.button
+              <button
                 key={category}
                 onClick={() => setFilterCategory(category)}
-                className={`rounded-full px-6 py-3 text-sm font-bold transition-all duration-300 ${
+                className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                   filterCategory === category
-                    ? "scale-105 border border-emerald-400/50 bg-gradient-to-r from-emerald-500 to-cyan-600 text-white shadow-2xl"
-                    : "border border-white/20 bg-white/10 text-white backdrop-blur-md hover:bg-white/20"
+                    ? "bg-gradient-to-r from-emerald-500 to-cyan-500 text-white"
+                    : "border border-white/15 bg-white/5 text-gray-200 hover:bg-white/10"
                 }`}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
               >
                 {category}
-              </motion.button>
+              </button>
             ))}
           </div>
-
-          <div className="flex flex-wrap justify-center gap-4">
-            <span className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-black text-white backdrop-blur-md">
-              Sort by
-            </span>
-            {[
-              { value: "scale", label: "Market Relevance" },
-              { value: "operating", label: "Operating Footprint" },
-              { value: "founded", label: "Founded Date" },
-            ].map((option) => (
-              <motion.button
-                key={option.value}
-                onClick={() => setSortBy(option.value as SortMode)}
-                className={`rounded-full px-6 py-3 text-sm font-bold transition-all duration-300 ${
-                  sortBy === option.value
-                    ? "scale-105 border border-teal-400/50 bg-gradient-to-r from-teal-500 to-cyan-600 text-white shadow-2xl"
-                    : "border border-white/20 bg-white/10 text-white backdrop-blur-md hover:bg-white/20"
-                }`}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <select
+                value={sortBy}
+                onChange={(event) => setSortBy(event.target.value as SortMode)}
+                className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-gray-100 focus:outline-none"
               >
-                {option.label}
-              </motion.button>
-            ))}
+                <option value="scale" className="bg-slate-900">
+                  Market relevance
+                </option>
+                <option value="operating" className="bg-slate-900">
+                  Operating footprint
+                </option>
+                <option value="founded" className="bg-slate-900">
+                  Founded date
+                </option>
+              </select>
+            </div>
+            <span className="text-xs text-gray-400">
+              {visibleCompanies.length} / {filteredCompanies.length}
+            </span>
           </div>
         </section>
 
@@ -298,7 +194,7 @@ export default function AICompanies() {
 
                 {company.isRecentAddition && (
                   <div className="mb-4 inline-flex rounded-full border border-cyan-300/40 bg-cyan-400/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.2em] text-cyan-100">
-                    New since Aug 2025
+                    Recently added
                   </div>
                 )}
 
@@ -402,7 +298,7 @@ export default function AICompanies() {
                           </span>
                           {selectedCompany.isRecentAddition && (
                             <span className="rounded-full bg-cyan-100 px-4 py-2 text-sm font-semibold text-cyan-800">
-                              Added since Aug 2025
+                              Recently added
                             </span>
                           )}
                         </div>

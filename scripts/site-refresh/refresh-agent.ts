@@ -480,6 +480,134 @@ function getChatCompletionText(payload: HuggingFaceChatCompletionResponse) {
   throw new Error("Hugging Face response did not include message content.");
 }
 
+function extractFailedGeneration(errorBody: string): string | null {
+  try {
+    const parsed = JSON.parse(errorBody);
+    const candidate = parsed?.error?.failed_generation;
+    if (typeof candidate === "string" && candidate.trim()) {
+      return extractJsonText(candidate);
+    }
+  } catch {
+    // fall through to regex fallback
+  }
+  const match = errorBody.match(/"failed_generation"\s*:\s*"((?:\\.|[^"\\])*)"/);
+  if (match) {
+    try {
+      return extractJsonText(JSON.parse(`"${match[1]}"`));
+    } catch {
+      return null;
+    }
+  }
+  return null;
+}
+
+function stripStrayQuotesBetweenStructures(raw: string) {
+  let output = "";
+  let inString = false;
+  let escape = false;
+  for (let i = 0; i < raw.length; i += 1) {
+    const char = raw[i];
+    if (escape) {
+      output += char;
+      escape = false;
+      continue;
+    }
+    if (char === "\\") {
+      output += char;
+      escape = true;
+      continue;
+    }
+    if (char === '"') {
+      if (!inString) {
+        let j = i + 1;
+        while (j < raw.length && (raw[j] === " " || raw[j] === "\n" || raw[j] === "\t")) {
+          j += 1;
+        }
+        const next = raw[j];
+        if (next === "{" || next === "[") {
+          i = j - 1;
+          continue;
+        }
+        const prev = output.replace(/\s+$/, "").slice(-1);
+        if (prev === "}" || prev === "]") {
+          continue;
+        }
+      }
+      inString = !inString;
+      output += char;
+      continue;
+    }
+    output += char;
+  }
+  return output;
+}
+
+function tryRepairTruncatedJson(raw: string) {
+  let text = raw.trim();
+  if (!text.startsWith("{")) {
+    return null;
+  }
+  text = text.replace(/,\s*([}\]])/g, "$1");
+
+  const stack: string[] = [];
+  let inString = false;
+  let escape = false;
+  let safeEnd = 0;
+  let safeStack: string[] = [];
+  let truncated = false;
+
+  for (let i = 0; i < text.length; i += 1) {
+    const char = text[i];
+    if (escape) {
+      escape = false;
+      continue;
+    }
+    if (char === "\\") {
+      escape = true;
+      continue;
+    }
+    if (char === '"') {
+      inString = !inString;
+      continue;
+    }
+    if (inString) continue;
+    if (char === "{" || char === "[") {
+      stack.push(char);
+    } else if (char === "}" || char === "]") {
+      const open = stack[stack.length - 1];
+      const expected = char === "}" ? "{" : "[";
+      if (open === expected) {
+        stack.pop();
+        if (stack.length === 0) {
+          safeEnd = i + 1;
+          safeStack = [];
+        }
+      } else {
+        truncated = true;
+        break;
+      }
+    }
+    if (!inString && stack.length > 0) {
+      safeEnd = i + 1;
+      safeStack = [...stack];
+    }
+  }
+
+  if (truncated || inString || stack.length > 0) {
+    let closed = text.slice(0, safeEnd);
+    const closers = [...safeStack];
+    if (inString && !truncated) closed += '"';
+    closed = closed.replace(/,\s*$/, "").replace(/:\s*$/, "");
+    while (closers.length) {
+      const open = closers.pop();
+      closed += open === "{" ? "}" : "]";
+    }
+    return closed === raw.trim() ? null : closed;
+  }
+
+  return null;
+}
+
 async function generateJsonWithHuggingFace<T>(
   prompt: string,
   schema: z.ZodSchema<T>,
@@ -490,9 +618,11 @@ async function generateJsonWithHuggingFace<T>(
   const reasoningEffort =
     process.env.HF_SITE_REFRESH_REASONING_EFFORT || "low";
 
+  const maxAttempts = 4;
   let attemptPrompt = prompt;
+  let lastError: unknown;
 
-  for (let attempt = 1; attempt <= 2; attempt += 1) {
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
     const response = await fetch(
       "https://router.huggingface.co/v1/chat/completions",
       {
@@ -505,13 +635,13 @@ async function generateJsonWithHuggingFace<T>(
           model,
           reasoning_effort: reasoningEffort,
           temperature: 0.1,
-          max_tokens: 7000,
+          max_tokens: 8000,
           response_format: { type: "json_object" },
           messages: [
             {
               role: "system",
               content:
-                "Return only valid JSON. Do not use markdown, code fences, or explanatory text.",
+                "Return one valid JSON object. Do not use markdown, code fences, or explanatory text. Close every [ with ] and every { with }.",
             },
             {
               role: "user",
@@ -524,33 +654,84 @@ async function generateJsonWithHuggingFace<T>(
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(
-        `Hugging Face site refresh request failed (${response.status}): ${errorText}`,
+      lastError = new Error(
+        `HF ${response.status}: ${errorText.slice(0, 400)}`,
       );
+
+      const failedGen = extractFailedGeneration(errorText);
+      if (failedGen) {
+        const salvageCandidates: string[] = [failedGen];
+        const salvageCleaned = stripStrayQuotesBetweenStructures(failedGen);
+        if (salvageCleaned !== failedGen) salvageCandidates.push(salvageCleaned);
+        const salvageRepaired = tryRepairTruncatedJson(salvageCleaned);
+        if (salvageRepaired) salvageCandidates.push(salvageRepaired);
+        for (const candidate of salvageCandidates) {
+          try {
+            const parsed = JSON.parse(candidate);
+            const validated = schema.parse(parsed);
+            console.warn(
+              `Hugging Face attempt ${attempt} returned ${response.status} but failed_generation was repaired locally.`,
+            );
+            return validated;
+          } catch (error) {
+            lastError = error;
+          }
+        }
+      }
+
+      console.warn(
+        `Hugging Face attempt ${attempt}/${maxAttempts} failed (${response.status}). Retrying with a stricter prompt...`,
+      );
+      attemptPrompt = `${prompt}
+
+The previous attempt produced invalid JSON. Return exactly one JSON object that matches the requested shape. Between array items write only "},{" with no other characters. Close every array with "]" and every object with "}". Do not emit trailing commas or unbalanced brackets.`;
+      continue;
     }
 
     const payload = (await response.json()) as HuggingFaceChatCompletionResponse;
-    const outputText = extractJsonText(getChatCompletionText(payload));
+    const rawText = extractJsonText(getChatCompletionText(payload));
 
-    try {
-      const parsed = JSON.parse(outputText);
-      return schema.parse(parsed);
-    } catch (error) {
-      if (attempt === 2) {
-        throw new Error(
-          `Hugging Face output did not match the expected ${responseFormatName} schema: ${String(
-            error,
-          )}`,
-        );
-      }
-
-      attemptPrompt = `${prompt}
-
-Your previous response did not parse correctly. Return one valid JSON object that exactly matches the requested shape.`;
+    const candidates: string[] = [rawText];
+    const cleaned = stripStrayQuotesBetweenStructures(rawText);
+    if (cleaned !== rawText) {
+      candidates.push(cleaned);
     }
+    const repairedRaw = tryRepairTruncatedJson(rawText);
+    if (repairedRaw && repairedRaw !== rawText) {
+      candidates.push(repairedRaw);
+    }
+    const repairedCleaned = tryRepairTruncatedJson(cleaned);
+    if (
+      repairedCleaned &&
+      repairedCleaned !== cleaned &&
+      repairedCleaned !== repairedRaw
+    ) {
+      candidates.push(repairedCleaned);
+    }
+
+    for (const candidate of candidates) {
+      try {
+        const parsed = JSON.parse(candidate);
+        return schema.parse(parsed);
+      } catch (error) {
+        lastError = error;
+      }
+    }
+
+    if (attempt === maxAttempts) {
+      break;
+    }
+
+    attemptPrompt = `${prompt}
+
+Your previous response did not parse correctly. Return one valid JSON object that exactly matches the requested shape. Close every array and object. Do not include trailing commas.`;
   }
 
-  throw new Error("Hugging Face generation failed unexpectedly.");
+  throw new Error(
+    `Hugging Face output did not match the expected ${responseFormatName} schema after ${maxAttempts} attempts: ${String(
+      lastError,
+    )}`,
+  );
 }
 
 function serializeAiSignalsModule(data: z.infer<typeof signalSetSchema>) {

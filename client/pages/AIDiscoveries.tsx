@@ -76,149 +76,82 @@ export default function AIDiscoveries() {
           value: (decades.length - 1).toString(),
           label: "Decades covered",
         },
-        {
-          value: latestAIResearchBreakthroughs.length.toString(),
-          label: "Current frontier signals",
-        },
-        {
-          value: filteredDiscoveries.length.toString(),
-          label: "Results in current view",
-        },
       ]}
     >
       <div className="container mx-auto px-6 py-10 sm:py-12">
         <motion.section
-          className="mb-10 rounded-[2rem] border border-white/15 bg-slate-950/25 p-8 backdrop-blur-xl"
+          className="mb-8 rounded-[1.75rem] border border-white/10 bg-slate-950/25 p-6 backdrop-blur-xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.6 }}
         >
-          <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-            <div>
-              <div className="mb-3 inline-flex rounded-full border border-cyan-300/30 bg-cyan-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-cyan-100">
-                Latest frontier discoveries · April 2026
-              </div>
-              <h2 className="text-3xl font-black text-white md:text-4xl">
-                Historical milestones, now anchored to primary sources
-              </h2>
-            </div>
-            <p className="max-w-2xl text-sm text-gray-200">
-              The archive keeps the long timeline, but every card now emphasizes
-              what still matters today and links back to papers or official lab
-              material instead of stale hype copy.
-            </p>
+          <div className="mb-4 flex items-baseline justify-between gap-3">
+            <h2 className="text-lg font-semibold text-white">
+              Recent frontier signals
+            </h2>
+            <span className="text-xs uppercase tracking-[0.2em] text-gray-400">
+              Linked to primary sources
+            </span>
           </div>
 
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {latestAIResearchBreakthroughs.map((signal, index) => (
-              <motion.a
+          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+            {latestAIResearchBreakthroughs.slice(0, 3).map((signal) => (
+              <a
                 key={signal.id}
                 href={signal.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.45, delay: index * 0.08 }}
-                className="rounded-3xl border border-white/15 bg-white/10 p-5 transition-all duration-300 hover:bg-white/15"
+                className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10"
               >
-                <div className="mb-3 flex items-center justify-between gap-3">
-                  <span className="rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-emerald-100">
-                    {signal.category}
-                  </span>
-                  <span className="text-xs font-semibold text-gray-300">
-                    {signal.date}
-                  </span>
+                <div className="mb-2 flex items-center justify-between gap-2 text-[11px] uppercase tracking-[0.18em] text-gray-400">
+                  <span className="text-emerald-200">{signal.category}</span>
+                  <span>{signal.date}</span>
                 </div>
-                <h3 className="mb-2 text-lg font-black text-white">
+                <h3 className="mb-1 text-sm font-semibold leading-snug text-white">
                   {signal.title}
                 </h3>
-                <p className="mb-2 text-sm font-semibold text-cyan-100">
-                  {signal.org}
-                </p>
-                <p className="mb-3 text-sm leading-relaxed text-gray-200">
-                  {signal.summary}
-                </p>
-                <p className="text-sm leading-relaxed text-gray-300">
-                  {signal.impact}
-                </p>
-              </motion.a>
+                <p className="text-xs text-cyan-100">{signal.org}</p>
+              </a>
             ))}
           </div>
         </motion.section>
 
-        <section className="mb-8 space-y-6">
-          <div className="flex items-center justify-center gap-6">
-            <span className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-lg font-bold text-cyan-300">
-              1950
-            </span>
-            <div className="relative">
-              <div className="h-2 w-80 overflow-hidden rounded-full bg-white/20">
-                <motion.div
-                  className="h-full rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-emerald-500"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  style={{ transformOrigin: "left" }}
-                  transition={{ duration: 1.4, delay: 0.2 }}
-                />
-              </div>
-            </div>
-            <span className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-lg font-bold text-emerald-300">
-              2026
-            </span>
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-4">
-            <span className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-black text-white backdrop-blur-md">
-              Filter by Decade
+        <section className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur-md">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
+              Decade
             </span>
             {decades.map((decade) => (
-              <motion.button
+              <button
                 key={decade}
                 onClick={() => setFilterDecade(decade)}
-                className={`rounded-full px-5 py-3 text-sm font-bold transition-all duration-300 ${
+                className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                   filterDecade === decade
-                    ? "scale-105 bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-xl"
-                    : "border border-white/20 bg-white/10 text-white hover:bg-white/20"
+                    ? "bg-emerald-500 text-white"
+                    : "border border-white/15 bg-white/5 text-gray-200 hover:bg-white/10"
                 }`}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
               >
                 {decade === "All" ? "All" : `${decade}s`}
-              </motion.button>
+              </button>
             ))}
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4">
-            <span className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-black text-white backdrop-blur-md">
-              Sort by
+          <div className="flex items-center gap-3">
+            <select
+              value={sortBy}
+              onChange={(event) => setSortBy(event.target.value as SortMode)}
+              className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-gray-100 focus:outline-none"
+            >
+              <option value="chronological" className="bg-slate-900">
+                Chronological
+              </option>
+              <option value="alphabetical" className="bg-slate-900">
+                Alphabetical
+              </option>
+            </select>
+            <span className="text-xs text-gray-400">
+              {visibleDiscoveries.length} / {filteredDiscoveries.length}
             </span>
-            {[
-              { value: "chronological", label: "Chronological" },
-              { value: "alphabetical", label: "Alphabetical" },
-            ].map((option) => (
-              <motion.button
-                key={option.value}
-                onClick={() => setSortBy(option.value as SortMode)}
-                className={`rounded-full px-6 py-3 text-sm font-bold transition-all duration-300 ${
-                  sortBy === option.value
-                    ? "scale-105 bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-xl"
-                    : "border border-white/20 bg-white/10 text-white hover:bg-white/20"
-                }`}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                {option.label}
-              </motion.button>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <div className="inline-block rounded-full border border-white/20 bg-white/10 px-6 py-3 backdrop-blur-md">
-              <span className="font-bold text-white">
-                Showing {visibleDiscoveries.length} of {filteredDiscoveries.length} discoveries
-                {filterDecade !== "All" && ` from the ${filterDecade}s`}
-              </span>
-            </div>
           </div>
         </section>
 

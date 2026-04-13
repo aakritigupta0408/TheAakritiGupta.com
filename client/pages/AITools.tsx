@@ -7,10 +7,7 @@ import {
   type ProfessionProfile,
 } from "@/data/toolArchive";
 import { getPageRefreshContent } from "@/data/siteRefreshContent";
-import {
-  aiUseCasesNow,
-  latestAIProductLaunches,
-} from "../data/aiSignals";
+import { latestAIProductLaunches } from "../data/aiSignals";
 
 type SortMode = "adoption" | "impact" | "alphabetical";
 
@@ -104,205 +101,97 @@ export default function AITools() {
       metrics={[
         {
           value: professions.length.toString(),
-          label: "Role playbooks tracked",
+          label: "Role playbooks",
         },
         {
           value: uniqueToolCount.toString(),
-          label: "Official tools linked",
+          label: "Tools tracked",
         },
         {
           value: criticalRoleCount.toString(),
-          label: "Critical-shift professions",
-        },
-        {
-          value: filteredProfessions.length.toString(),
-          label: "Results in current view",
+          label: "Critical-shift roles",
         },
       ]}
     >
       <div className="container mx-auto px-6 py-10 sm:py-12">
         <motion.section
-          className="mb-14 space-y-8"
+          className="mb-8 rounded-[1.75rem] border border-white/10 bg-slate-950/25 p-6 backdrop-blur-xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.6 }}
         >
-          <div className="grid gap-6 xl:grid-cols-[1.1fr,0.9fr]">
-            <div className="rounded-[2rem] border border-white/15 bg-slate-950/25 p-8 backdrop-blur-xl">
-              <div className="mb-5 flex items-center justify-between gap-4">
-                <div>
-                  <div className="mb-3 inline-flex rounded-full border border-violet-300/30 bg-violet-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-violet-100">
-                    Product shifts shaping tool choice
-                  </div>
-                  <h2 className="text-3xl font-black text-white md:text-4xl">
-                    Current AI stacks are getting narrower and more operational
-                  </h2>
-                </div>
-                <span className="hidden rounded-full border border-white/15 bg-white/10 px-3 py-2 text-xs font-semibold text-gray-200 md:inline-flex">
-                  April 2026
-                </span>
-              </div>
-              <p className="mb-6 max-w-3xl text-sm leading-relaxed text-gray-200">
-                This page now prioritizes what teams actually deploy: official
-                products, real workflow fit, and stable pricing signals instead
-                of stale star ratings or one-off hype tools.
-              </p>
+          <div className="mb-4 flex items-baseline justify-between gap-3">
+            <h2 className="text-lg font-semibold text-white">
+              Current product shifts
+            </h2>
+            <span className="text-[11px] uppercase tracking-[0.2em] text-gray-400">
+              Pick the workflow, then the tool
+            </span>
+          </div>
 
-              <div className="grid gap-4 md:grid-cols-2">
-                {latestAIProductLaunches.slice(0, 4).map((launch, index) => (
-                  <motion.a
-                    key={launch.id}
-                    href={launch.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.45, delay: index * 0.06 }}
-                    className="rounded-3xl border border-white/15 bg-white/10 p-5 transition-all duration-300 hover:-translate-y-1 hover:bg-white/15"
-                  >
-                    <div className="mb-3 flex items-center justify-between gap-3">
-                      <span className="rounded-full border border-cyan-300/30 bg-cyan-400/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-cyan-100">
-                        {launch.category}
-                      </span>
-                      <span className="text-xs font-semibold text-gray-300">
-                        {launch.date}
-                      </span>
-                    </div>
-                    <h3 className="mb-2 text-lg font-black text-white">
-                      {launch.title}
-                    </h3>
-                    <p className="mb-2 text-sm font-semibold text-violet-100">
-                      {launch.org}
-                    </p>
-                    <p className="text-sm leading-relaxed text-gray-200">
-                      {launch.summary}
-                    </p>
-                  </motion.a>
-                ))}
-              </div>
-            </div>
-
-            <div className="rounded-[2rem] border border-white/15 bg-white/10 p-8 backdrop-blur-xl">
-              <div className="mb-5">
-                <div className="mb-3 inline-flex rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-emerald-100">
-                  How to use the archive
+          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {latestAIProductLaunches.slice(0, 4).map((launch) => (
+              <a
+                key={launch.id}
+                href={launch.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10"
+              >
+                <div className="mb-2 flex items-center justify-between gap-2 text-[11px] uppercase tracking-[0.18em] text-gray-400">
+                  <span className="bg-gradient-to-r from-violet-300 to-cyan-300 bg-clip-text text-transparent">
+                    {launch.category}
+                  </span>
+                  <span>{launch.date}</span>
                 </div>
-                <h3 className="text-2xl font-black text-white md:text-3xl">
-                  Pick the workflow first, then the tool
+                <h3 className="text-sm font-semibold leading-snug text-white">
+                  {launch.title}
                 </h3>
-              </div>
-
-              <div className="space-y-4">
-                {aiUseCasesNow.slice(0, 3).map((signal, index) => (
-                  <motion.div
-                    key={signal.id}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.45, delay: 0.08 * index }}
-                    className="rounded-3xl border border-white/15 bg-black/20 p-5"
-                  >
-                    <div className="mb-3 flex items-center justify-between gap-3">
-                      <span className="rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-100">
-                        {signal.title}
-                      </span>
-                      <span className="text-xs font-semibold text-gray-300">
-                        Now
-                      </span>
-                    </div>
-                    <p className="mb-3 text-sm leading-relaxed text-gray-100">
-                      {signal.summary}
-                    </p>
-                    <p className="mb-3 text-sm leading-relaxed text-cyan-100">
-                      {signal.signal}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {signal.examples.slice(0, 3).map((example) => (
-                        <span
-                          key={example}
-                          className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-semibold text-gray-100"
-                        >
-                          {example}
-                        </span>
-                      ))}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
+                <p className="mt-1 text-xs text-violet-100">{launch.org}</p>
+              </a>
+            ))}
           </div>
         </motion.section>
 
-        <section className="mb-8 space-y-6">
-          <div className="mx-auto flex max-w-5xl flex-col gap-4 rounded-3xl border border-white/15 bg-white/10 p-5 text-center backdrop-blur-xl md:flex-row md:items-center md:justify-between md:text-left">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-violet-100">
-                Profession grid status
-              </p>
-              <p className="mt-2 text-lg font-semibold text-white">
-                Showing {visibleProfessions.length} of {filteredProfessions.length} role
-                playbooks
-              </p>
-              <p className="mt-1 text-sm text-gray-200">
-                Each card opens a workflow brief, official product links, and a
-                tighter stack recommendation.
-              </p>
-            </div>
-            {filterImpact !== "All" && (
-              <motion.button
-                onClick={() => setFilterImpact("All")}
-                className="rounded-full border border-violet-300/40 bg-violet-400/15 px-5 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-violet-400/25"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                Clear impact filter
-              </motion.button>
-            )}
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-4">
-            <span className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-black text-white backdrop-blur-md">
-              Filter by impact
+        <section className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur-md">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
+              Impact
             </span>
             {impactFilters.map((impact) => (
-              <motion.button
+              <button
                 key={impact}
                 onClick={() => setFilterImpact(impact)}
-                className={`rounded-full px-6 py-3 text-sm font-bold transition-all duration-300 ${
+                className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                   filterImpact === impact
-                    ? "scale-105 border border-violet-400/50 bg-gradient-to-r from-violet-500 to-fuchsia-600 text-white shadow-2xl"
-                    : "border border-white/20 bg-white/10 text-white backdrop-blur-md hover:bg-white/20"
+                    ? "bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white"
+                    : "border border-white/15 bg-white/5 text-gray-200 hover:bg-white/10"
                 }`}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
               >
                 {impact}
-              </motion.button>
+              </button>
             ))}
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4">
-            <span className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-black text-white backdrop-blur-md">
-              Sort by
+          <div className="flex items-center gap-3">
+            <select
+              value={sortBy}
+              onChange={(event) => setSortBy(event.target.value as SortMode)}
+              className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-gray-100 focus:outline-none"
+            >
+              <option value="impact" className="bg-slate-900">
+                Impact shift
+              </option>
+              <option value="adoption" className="bg-slate-900">
+                AI adoption
+              </option>
+              <option value="alphabetical" className="bg-slate-900">
+                Alphabetical
+              </option>
+            </select>
+            <span className="text-xs text-gray-400">
+              {visibleProfessions.length} / {filteredProfessions.length}
             </span>
-            {[
-              { value: "impact", label: "Impact shift" },
-              { value: "adoption", label: "AI adoption" },
-              { value: "alphabetical", label: "Alphabetical" },
-            ].map((option) => (
-              <motion.button
-                key={option.value}
-                onClick={() => setSortBy(option.value as SortMode)}
-                className={`rounded-full px-6 py-3 text-sm font-bold transition-all duration-300 ${
-                  sortBy === option.value
-                    ? "scale-105 border border-cyan-400/50 bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-2xl"
-                    : "border border-white/20 bg-white/10 text-white backdrop-blur-md hover:bg-white/20"
-                }`}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                {option.label}
-              </motion.button>
-            ))}
           </div>
         </section>
 
