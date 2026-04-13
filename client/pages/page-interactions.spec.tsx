@@ -400,7 +400,7 @@ describe("AI page interactions", () => {
       fireEvent.click(
         view.getByRole("button", { name: /a function to sort an array by date/i }),
       );
-      fireEvent.click(view.getByRole("button", { name: /generate with ai/i }));
+      fireEvent.click(view.getByRole("button", { name: /show sample response/i }));
 
       await vi.runAllTimersAsync();
 

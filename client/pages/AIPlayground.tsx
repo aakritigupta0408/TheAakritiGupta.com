@@ -85,12 +85,12 @@ const AI_DEMOS: AIDemo[] = [
       "Cats secretly run the internet",
     ],
     stateOfArt: {
-      name: "Claude Opus 4.5",
-      url: "https://www.anthropic.com/news/claude-opus-4-5",
+      name: "Claude Opus 4.6",
+      url: "https://www.anthropic.com/news/claude-opus-4-6",
       description:
         "A frontier model built for long-form reasoning, deep research, and stronger professional writing tasks.",
       company: "Anthropic",
-      released: "November 24, 2025",
+      released: "February 5, 2026",
       whyItMatters:
         "Storytelling tools now benefit from models that can hold longer context and sustain higher-quality narrative structure.",
     },
@@ -138,7 +138,7 @@ const AI_DEMOS: AIDemo[] = [
       description:
         "A more interactive Codex experience built around real-time steering, parallel work, and longer-running engineering tasks.",
       company: "OpenAI",
-      released: "2026 launch cycle",
+      released: "2026",
       whyItMatters:
         "Code generation has expanded into full agent supervision, repo-wide changes, and longer-running engineering workflows.",
     },
@@ -162,7 +162,7 @@ const AI_DEMOS: AIDemo[] = [
       description:
         "Google's latest Gemini 2.5 Pro preview emphasizes stronger reasoning, coding, and multimodal writing performance.",
       company: "Google",
-      released: "2026 latest preview",
+      released: "2026 preview",
       whyItMatters:
         "Creative workflows increasingly blend text, images, audio, and web context instead of staying purely language-based.",
     },
@@ -253,12 +253,12 @@ const AI_DEMOS: AIDemo[] = [
       "A limerick about coffee",
     ],
     stateOfArt: {
-      name: "Claude Opus 4.5",
-      url: "https://www.anthropic.com/news/claude-opus-4-5",
+      name: "Claude Opus 4.6",
+      url: "https://www.anthropic.com/news/claude-opus-4-6",
       description:
         "A frontier writing model suited for tone control, longer context windows, and more deliberate creative generation.",
       company: "Anthropic",
-      released: "November 24, 2025",
+      released: "February 5, 2026",
       whyItMatters:
         "Creative generation now benefits from models built for depth, editing quality, and more reliable stylistic control.",
     },
@@ -581,39 +581,44 @@ export default function AIPlayground() {
                         disabled={!inputText.trim() || isGenerating}
                         whileHover={{ scale: inputText.trim() ? 1.02 : 1 }}
                         whileTap={{ scale: inputText.trim() ? 0.98 : 1 }}
-                        className={`w-full mt-4 py-4 rounded-xl font-light tracking-widest transition-all duration-300 ${
+                        className={`w-full mt-4 rounded-xl py-3 text-sm font-semibold tracking-wide transition-all duration-300 ${
                           inputText.trim()
-                            ? "tom-ford-button text-white"
-                            : "bg-gray-200 text-gray-400 cursor-not-allowed border-2 border-gray-300"
+                            ? "bg-slate-900 text-white hover:bg-slate-800"
+                            : "cursor-not-allowed border-2 border-gray-300 bg-gray-200 text-gray-400"
                         }`}
                       >
                         {isGenerating ? (
                           <div className="flex items-center justify-center gap-3">
-                            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                            GENERATING...
+                            <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                            Rendering sample…
                           </div>
                         ) : (
-                          `✨ GENERATE WITH AI`
+                          "Show sample response"
                         )}
                       </motion.button>
                     </div>
 
                     {/* Output Section */}
                     <div>
-                      <label className="tom-ford-subheading luxury-text-primary text-sm tracking-wider mb-4 block">
-                        AI OUTPUT
-                      </label>
-                      <div className="h-64 p-4 border-2 border-black rounded-xl bg-white overflow-y-auto">
+                      <div className="mb-3 flex items-center justify-between gap-2">
+                        <label className="text-sm font-semibold tracking-wide text-slate-900">
+                          Sample response
+                        </label>
+                        <span className="rounded-full border border-amber-300 bg-amber-50 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-700">
+                          Illustrative · not live AI
+                        </span>
+                      </div>
+                      <div className="h-64 overflow-y-auto rounded-xl border-2 border-black bg-white p-4">
                         {outputText ? (
-                          <pre className="luxury-text-primary font-light text-sm leading-relaxed whitespace-pre-wrap">
+                          <pre className="whitespace-pre-wrap text-sm font-light leading-relaxed text-slate-900">
                             {outputText}
                           </pre>
                         ) : (
-                          <div className="flex items-center justify-center h-full">
-                            <p className="luxury-text-muted text-sm text-center">
+                          <div className="flex h-full items-center justify-center">
+                            <p className="text-center text-sm text-slate-500">
                               {isGenerating
-                                ? "AI is working its magic..."
-                                : "Enter your input and click generate to see AI in action!"}
+                                ? "Assembling a representative response…"
+                                : "Pick an example, then render a canned illustration of the response shape. For real generation, open the linked product below."}
                             </p>
                           </div>
                         )}

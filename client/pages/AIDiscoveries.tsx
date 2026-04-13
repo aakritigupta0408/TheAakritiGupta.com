@@ -116,23 +116,35 @@ export default function AIDiscoveries() {
           </div>
         </motion.section>
 
-        <section className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur-md">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
+        <section className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-[20px] border border-white/10 bg-white/[0.04] px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-2xl">
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="mr-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-gray-400">
               Decade
             </span>
             {decades.map((decade) => (
-              <button
+              <motion.button
                 key={decade}
                 onClick={() => setFilterDecade(decade)}
-                className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+                whileHover={{ y: -1 }}
+                whileTap={{ scale: 0.94 }}
+                transition={{ type: "spring", stiffness: 420, damping: 24 }}
+                className={`relative rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors ${
                   filterDecade === decade
-                    ? "bg-emerald-500 text-white"
-                    : "border border-white/15 bg-white/5 text-gray-200 hover:bg-white/10"
+                    ? "text-white shadow-[0_6px_18px_rgba(52,211,153,0.38)]"
+                    : "text-gray-200 hover:text-white"
                 }`}
               >
-                {decade === "All" ? "All" : `${decade}s`}
-              </button>
+                {filterDecade === decade && (
+                  <motion.span
+                    layoutId="discoveryPill"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    className="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-500"
+                  />
+                )}
+                <span className="relative z-10">
+                  {decade === "All" ? "All" : `${decade}s`}
+                </span>
+              </motion.button>
             ))}
           </div>
 
@@ -140,7 +152,7 @@ export default function AIDiscoveries() {
             <select
               value={sortBy}
               onChange={(event) => setSortBy(event.target.value as SortMode)}
-              className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-gray-100 focus:outline-none"
+              className="rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs font-semibold text-gray-100 transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400/40"
             >
               <option value="chronological" className="bg-slate-900">
                 Chronological
@@ -149,7 +161,7 @@ export default function AIDiscoveries() {
                 Alphabetical
               </option>
             </select>
-            <span className="text-xs text-gray-400">
+            <span className="font-mono text-[11px] text-gray-400">
               {visibleDiscoveries.length} / {filteredDiscoveries.length}
             </span>
           </div>
@@ -163,38 +175,49 @@ export default function AIDiscoveries() {
             </p>
           </div>
         ) : (
-          <div className="mb-12 grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-4">
+          <div className="mb-12 grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-4">
             {visibleDiscoveries.map((discovery, index) => (
               <motion.button
                 key={discovery.id}
                 type="button"
                 onClick={() => setSelectedDiscovery(discovery)}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.45, delay: Math.min(index * 0.05, 0.25) }}
-                className="group rounded-3xl border border-white/20 bg-white/10 p-6 text-left shadow-2xl backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/15"
+                transition={{
+                  type: "spring",
+                  stiffness: 260,
+                  damping: 24,
+                  delay: Math.min(index * 0.04, 0.2),
+                }}
+                whileHover={{ y: -6, rotateX: 2, rotateY: -2 }}
+                whileTap={{ scale: 0.98 }}
+                style={{ transformStyle: "preserve-3d", perspective: 900 }}
+                className="group relative overflow-hidden rounded-[22px] border border-white/10 bg-gradient-to-br from-white/[0.09] to-white/[0.04] p-5 text-left shadow-[0_20px_48px_rgba(8,12,24,0.45),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl transition-colors duration-300 hover:border-white/25"
               >
-                <div className="mb-4 flex items-center justify-between gap-3">
-                  <span className="rounded-full border border-blue-300/40 bg-blue-400/10 px-3 py-1 text-sm font-bold text-blue-100">
+                <span className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-cyan-300/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <span className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-gradient-to-br from-cyan-400/15 via-transparent to-transparent opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
+
+                <div className="relative mb-4 flex items-center justify-between gap-3">
+                  <span className="rounded-full bg-gradient-to-r from-cyan-400/25 to-blue-500/25 px-3 py-1 text-xs font-bold tracking-wide text-cyan-50 ring-1 ring-inset ring-cyan-300/30">
                     {discovery.year}
                   </span>
-                  <span className="text-sm font-semibold text-gray-300">
-                    #{discovery.id}
+                  <span className="font-mono text-[11px] font-semibold text-gray-400">
+                    #{discovery.id.toString().padStart(2, "0")}
                   </span>
                 </div>
 
-                <h3 className="mb-3 text-xl font-black text-white group-hover:text-cyan-200">
+                <h3 className="relative mb-3 text-lg font-bold leading-snug text-white transition-colors group-hover:text-cyan-100">
                   {discovery.title}
                 </h3>
-                <p className="mb-5 line-clamp-4 text-sm leading-relaxed text-gray-100">
+                <p className="relative mb-5 line-clamp-3 text-sm leading-relaxed text-gray-300">
                   {discovery.summary}
                 </p>
 
-                <div className="border-t border-white/15 pt-5">
-                  <p className="text-sm font-bold text-cyan-100">
+                <div className="relative border-t border-white/10 pt-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-200/90">
                     {discovery.discoverer}
                   </p>
-                  <p className="mt-2 line-clamp-3 text-sm text-gray-300">
+                  <p className="mt-2 line-clamp-3 text-xs leading-relaxed text-gray-400">
                     {discovery.todayContext}
                   </p>
                 </div>
@@ -207,11 +230,13 @@ export default function AIDiscoveries() {
           <div className="mb-12 flex justify-center">
             <motion.button
               onClick={() => setVisibleCount((current) => current + 8)}
-              className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-bold text-white shadow-xl backdrop-blur-md transition-all duration-300 hover:bg-white/15"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ type: "spring", stiffness: 420, damping: 24 }}
+              className="group relative overflow-hidden rounded-full border border-white/15 bg-white/[0.06] px-6 py-2.5 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(8,12,24,0.35)] backdrop-blur-xl transition-colors hover:border-white/30 hover:bg-white/10"
             >
-              Show 8 more discoveries
+              <span className="absolute inset-0 bg-gradient-to-r from-cyan-400/0 via-cyan-400/20 to-cyan-400/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              <span className="relative">Load 8 more</span>
             </motion.button>
           </div>
         )}

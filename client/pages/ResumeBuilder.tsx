@@ -129,12 +129,12 @@ export default function ResumeBuilder() {
       ];
   const groundingRules = isGuidedLayout
     ? [
-        "Use only resume text, project notes, and approved LinkedIn data when configured.",
+        "Use only the resume text and project notes shared with this link.",
         "Treat missing facts as missing. Never improvise around them.",
         "Publish a static share link that works on GitHub Pages.",
       ]
     : [
-        "Use only resume text, project notes, and approved LinkedIn data when configured.",
+        "Use only the resume text and project notes shared with this link.",
         "Do not invent skills, dates, employers, metrics, or outcomes.",
         "If a detail is missing, say it was not provided.",
       ];
@@ -252,7 +252,7 @@ export default function ResumeBuilder() {
         {
           value: "3",
           label: "Inputs",
-          detail: "Resume, project notes, LinkedIn when configured",
+          detail: "Résumé, project notes",
         },
         {
           value: shareUrl ? recruiterLinkMode : "Draft",
@@ -417,21 +417,16 @@ export default function ResumeBuilder() {
                 className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm leading-6 text-white placeholder:text-slate-400 focus:border-violet-300/40 focus:outline-none"
               />
 
-              <div className="mt-5 rounded-3xl border border-amber-300/15 bg-amber-400/5 p-4">
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-100">
-                  LinkedIn import
-                </p>
-                <p className="mt-2 text-sm leading-6 text-slate-200">
-                  Use official LinkedIn data only when OAuth is configured. Until
-                  then, paste any approved profile facts here so the agent stays
-                  grounded.
-                </p>
-                <div className="mt-4 inline-flex rounded-full border border-amber-300/20 bg-amber-400/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-amber-100">
-                  {linkedInImportAvailable
-                    ? "LinkedIn ready"
-                    : "LinkedIn not configured"}
+              {linkedInImportAvailable && (
+                <div className="mt-5 rounded-3xl border border-amber-300/15 bg-amber-400/5 p-4">
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-100">
+                    LinkedIn import
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-slate-200">
+                    Use the approved LinkedIn profile facts pulled via OAuth.
+                  </p>
                 </div>
-              </div>
+              )}
             </section>
           </div>
 
