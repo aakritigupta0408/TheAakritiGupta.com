@@ -501,111 +501,103 @@ function extractFailedGeneration(errorBody: string): string | null {
   return null;
 }
 
-function stripStrayQuotesBetweenStructures(raw: string) {
-  let output = "";
+function stripStrayStructuralQuotes(raw: string) {
+  let out = "";
   let inString = false;
   let escape = false;
   for (let i = 0; i < raw.length; i += 1) {
     const char = raw[i];
     if (escape) {
-      output += char;
+      out += char;
       escape = false;
       continue;
     }
     if (char === "\\") {
-      output += char;
+      out += char;
       escape = true;
       continue;
     }
     if (char === '"') {
       if (!inString) {
         let j = i + 1;
-        while (j < raw.length && (raw[j] === " " || raw[j] === "\n" || raw[j] === "\t")) {
-          j += 1;
-        }
-        const next = raw[j];
-        if (next === "{" || next === "[") {
+        while (j < raw.length && /\s/.test(raw[j])) j += 1;
+        if (raw[j] === "{" || raw[j] === "[") {
           i = j - 1;
           continue;
         }
-        const prev = output.replace(/\s+$/, "").slice(-1);
-        if (prev === "}" || prev === "]") {
-          continue;
-        }
+        const prev = out.replace(/\s+$/, "").slice(-1);
+        if (prev === "}" || prev === "]") continue;
       }
       inString = !inString;
-      output += char;
+      out += char;
       continue;
     }
-    output += char;
+    out += char;
   }
-  return output;
+  return out;
 }
 
-function tryRepairTruncatedJson(raw: string) {
-  let text = raw.trim();
-  if (!text.startsWith("{")) {
-    return null;
-  }
-  text = text.replace(/,\s*([}\]])/g, "$1");
+function repairJsonStructure(raw: string) {
+  const text = raw.trim().replace(/,\s*([}\]])/g, "$1");
+  if (!text.startsWith("{") && !text.startsWith("[")) return null;
 
+  let out = "";
   const stack: string[] = [];
   let inString = false;
   let escape = false;
-  let safeEnd = 0;
-  let safeStack: string[] = [];
-  let truncated = false;
 
   for (let i = 0; i < text.length; i += 1) {
     const char = text[i];
-    if (escape) {
-      escape = false;
-      continue;
-    }
-    if (char === "\\") {
-      escape = true;
-      continue;
-    }
-    if (char === '"') {
-      inString = !inString;
-      continue;
-    }
+    out += char;
+    if (escape) { escape = false; continue; }
+    if (char === "\\") { escape = true; continue; }
+    if (char === '"') { inString = !inString; continue; }
     if (inString) continue;
-    if (char === "{" || char === "[") {
-      stack.push(char);
-    } else if (char === "}" || char === "]") {
-      const open = stack[stack.length - 1];
-      const expected = char === "}" ? "{" : "[";
-      if (open === expected) {
+    if (char === "{" || char === "[") { stack.push(char); continue; }
+    if (char === "}" || char === "]") {
+      const want = char === "}" ? "{" : "[";
+      if (stack[stack.length - 1] === want) {
         stack.pop();
-        if (stack.length === 0) {
-          safeEnd = i + 1;
-          safeStack = [];
-        }
-      } else {
-        truncated = true;
-        break;
+        continue;
       }
-    }
-    if (!inString && stack.length > 0) {
-      safeEnd = i + 1;
-      safeStack = [...stack];
+      // Mismatched closer: insert the right closers for any open structures
+      // that don't match, then consume this closer if it still fits.
+      out = out.slice(0, -1);
+      while (stack.length && stack[stack.length - 1] !== want) {
+        const wrong = stack.pop()!;
+        out += wrong === "{" ? "}" : "]";
+      }
+      if (stack.length) {
+        stack.pop();
+        out += char;
+      }
+      // Otherwise this closer is extraneous — drop it.
     }
   }
 
-  if (truncated || inString || stack.length > 0) {
-    let closed = text.slice(0, safeEnd);
-    const closers = [...safeStack];
-    if (inString && !truncated) closed += '"';
-    closed = closed.replace(/,\s*$/, "").replace(/:\s*$/, "");
-    while (closers.length) {
-      const open = closers.pop();
-      closed += open === "{" ? "}" : "]";
-    }
-    return closed === raw.trim() ? null : closed;
+  while (stack.length) {
+    const open = stack.pop()!;
+    out += open === "{" ? "}" : "]";
   }
 
-  return null;
+  return out === raw.trim() ? null : out;
+}
+
+function buildRepairCandidates(raw: string) {
+  const seen = new Set<string>();
+  const candidates: string[] = [];
+  const add = (value: string | null | undefined) => {
+    if (!value || seen.has(value)) return;
+    seen.add(value);
+    candidates.push(value);
+  };
+
+  add(raw);
+  const cleaned = stripStrayStructuralQuotes(raw);
+  add(cleaned);
+  add(repairJsonStructure(raw));
+  add(repairJsonStructure(cleaned));
+  return candidates;
 }
 
 async function generateJsonWithHuggingFace<T>(
@@ -660,15 +652,9 @@ async function generateJsonWithHuggingFace<T>(
 
       const failedGen = extractFailedGeneration(errorText);
       if (failedGen) {
-        const salvageCandidates: string[] = [failedGen];
-        const salvageCleaned = stripStrayQuotesBetweenStructures(failedGen);
-        if (salvageCleaned !== failedGen) salvageCandidates.push(salvageCleaned);
-        const salvageRepaired = tryRepairTruncatedJson(salvageCleaned);
-        if (salvageRepaired) salvageCandidates.push(salvageRepaired);
-        for (const candidate of salvageCandidates) {
+        for (const candidate of buildRepairCandidates(failedGen)) {
           try {
-            const parsed = JSON.parse(candidate);
-            const validated = schema.parse(parsed);
+            const validated = schema.parse(JSON.parse(candidate));
             console.warn(
               `Hugging Face attempt ${attempt} returned ${response.status} but failed_generation was repaired locally.`,
             );
@@ -691,28 +677,9 @@ The previous attempt produced invalid JSON. Return exactly one JSON object that 
     const payload = (await response.json()) as HuggingFaceChatCompletionResponse;
     const rawText = extractJsonText(getChatCompletionText(payload));
 
-    const candidates: string[] = [rawText];
-    const cleaned = stripStrayQuotesBetweenStructures(rawText);
-    if (cleaned !== rawText) {
-      candidates.push(cleaned);
-    }
-    const repairedRaw = tryRepairTruncatedJson(rawText);
-    if (repairedRaw && repairedRaw !== rawText) {
-      candidates.push(repairedRaw);
-    }
-    const repairedCleaned = tryRepairTruncatedJson(cleaned);
-    if (
-      repairedCleaned &&
-      repairedCleaned !== cleaned &&
-      repairedCleaned !== repairedRaw
-    ) {
-      candidates.push(repairedCleaned);
-    }
-
-    for (const candidate of candidates) {
+    for (const candidate of buildRepairCandidates(rawText)) {
       try {
-        const parsed = JSON.parse(candidate);
-        return schema.parse(parsed);
+        return schema.parse(JSON.parse(candidate));
       } catch (error) {
         lastError = error;
       }
