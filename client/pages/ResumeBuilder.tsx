@@ -283,7 +283,7 @@ export default function ResumeBuilder() {
               <h2 className="mt-3 text-2xl font-black text-white sm:text-3xl">
                 {isGuidedLayout
                   ? "Turn approved candidate evidence into one recruiter-safe link."
-                  : "Create one grounded recruiter link from the candidate&apos;s own material."}
+                  : "Create one grounded recruiter link from the candidate's own material."}
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-200">
                 {isGuidedLayout

@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import LevelOneLoadMoreButton from "@/components/LevelOneLoadMoreButton";
 import SubpageLayout from "@/components/SubpageLayout";
 import {
   professions,
@@ -195,76 +196,85 @@ export default function AITools() {
           </div>
         </section>
 
-        <div className="mb-12 grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
+        <div className="mb-12 grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-3">
           {visibleProfessions.map((profession, index) => (
             <motion.button
               key={profession.id}
               type="button"
               onClick={() => setSelectedProfession(profession)}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, delay: Math.min(index * 0.05, 0.25) }}
-              className="group rounded-3xl border border-white/20 bg-white/10 p-6 text-left shadow-2xl backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/15"
+              transition={{
+                type: "spring",
+                stiffness: 260,
+                damping: 24,
+                delay: Math.min(index * 0.05, 0.22),
+              }}
+              whileHover={{ y: -6, rotateX: 2, rotateY: -2 }}
+              whileTap={{ scale: 0.98 }}
+              style={{ transformStyle: "preserve-3d", perspective: 900 }}
+              className="group relative overflow-hidden rounded-[22px] border border-white/10 bg-gradient-to-br from-white/[0.09] to-white/[0.03] p-5 text-left shadow-[0_22px_52px_rgba(8,12,24,0.45),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl transition-colors duration-300 hover:border-white/25"
             >
-              <div className="mb-5 flex items-start justify-between gap-4">
-                <div className="flex items-center gap-4">
-                  <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/15 bg-black/20 text-3xl">
+              <span className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-violet-300/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              <span className="pointer-events-none absolute -right-14 -top-14 h-44 w-44 rounded-full bg-gradient-to-br from-violet-400/15 via-transparent to-transparent opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100" />
+
+              <div className="relative mb-4 flex items-start justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-black/30 text-2xl shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-transform duration-300 group-hover:scale-110">
                     {profession.icon}
                   </span>
                   <div>
-                    <div className="mb-2 inline-flex rounded-full border border-violet-300/30 bg-violet-400/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-violet-100">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-violet-200/80">
                       {profession.impactLevel}
-                    </div>
-                    <h3 className="text-2xl font-black text-white group-hover:text-violet-200">
+                    </p>
+                    <h3 className="mt-0.5 text-lg font-semibold leading-snug text-white transition-colors group-hover:text-violet-200">
                       {profession.title}
                     </h3>
                   </div>
                 </div>
-                <span className="rounded-full border border-white/15 bg-white/10 px-3 py-2 text-xs font-semibold text-gray-100">
-                  {profession.aiAdoption}% adoption
+                <span className="rounded-full bg-white/5 px-2.5 py-1 text-[10px] font-semibold text-slate-200 ring-1 ring-inset ring-white/10">
+                  {profession.aiAdoption}%
                 </span>
               </div>
 
-              <p className="mb-4 text-sm leading-relaxed text-gray-100">
+              <p className="relative mb-4 line-clamp-2 text-xs leading-relaxed text-slate-300">
                 {profession.description}
               </p>
 
-              <div className="mb-5 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-2xl border border-white/15 bg-black/20 p-4">
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-cyan-100">
+              <div className="relative mb-4 grid gap-2 sm:grid-cols-2">
+                <div className="rounded-xl border border-white/10 bg-black/25 p-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan-200">
                     Workflow now
                   </p>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-100">
+                  <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-slate-300">
                     {profession.workflowNow}
                   </p>
                 </div>
-                <div className="rounded-2xl border border-white/15 bg-black/20 p-4">
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-emerald-100">
+                <div className="rounded-xl border border-white/10 bg-black/25 p-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-emerald-200">
                     Time saved
                   </p>
-                  <p className="mt-2 text-sm font-semibold text-white">
+                  <p className="mt-1 text-xs font-semibold text-white">
                     {profession.timeSaved}
                   </p>
-                  <p className="mt-3 text-xs font-semibold uppercase tracking-[0.16em] text-gray-300">
-                    Primary tool
+                  <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                    Primary
                   </p>
-                  <p className="mt-1 text-sm text-cyan-100">
+                  <p className="text-xs text-cyan-100">
                     {profession.primaryTool.name}
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between gap-4 border-t border-white/15 pt-5">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-300">
-                    Alternatives
-                  </p>
-                  <p className="mt-2 text-sm text-white">
-                    {profession.alternativeTools.map((tool) => tool.name).join(" • ")}
-                  </p>
-                </div>
-                <span className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-semibold text-gray-100">
-                  View brief
+              <div className="relative flex items-center justify-between gap-3 border-t border-white/10 pt-3">
+                <p className="line-clamp-1 text-[11px] text-slate-300">
+                  {profession.alternativeTools
+                    .slice(0, 3)
+                    .map((tool) => tool.name)
+                    .join(" · ")}
+                </p>
+                <span className="text-xs font-semibold text-violet-200 transition-transform group-hover:translate-x-1">
+                  Open →
                 </span>
               </div>
             </motion.button>
@@ -273,14 +283,11 @@ export default function AITools() {
 
         {hasMoreProfessions && (
           <div className="mb-12 flex justify-center">
-            <motion.button
+            <LevelOneLoadMoreButton
+              label="Load 4 more"
+              glowClassName="from-violet-400/0 via-violet-400/20 to-violet-400/0"
               onClick={() => setVisibleCount((current) => current + 4)}
-              className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-bold text-white shadow-xl backdrop-blur-md transition-all duration-300 hover:bg-white/15"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              Show 4 more role playbooks
-            </motion.button>
+            />
           </div>
         )}
 

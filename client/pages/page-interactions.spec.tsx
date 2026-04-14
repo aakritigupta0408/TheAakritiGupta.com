@@ -7,15 +7,24 @@ import { MemoryRouter } from "react-router-dom";
 import AITools from "./AITools";
 import AICompanies from "./AICompanies";
 import AIProjects from "./AIProjects";
+import AIChampions from "./AIChampions";
 import AIPlayground from "./AIPlayground";
 import TradeRecommendationSystemDemo from "./TradeRecommendationSystemDemo";
 import PromptEngineering from "./PromptEngineering";
 import AIAgentTraining from "./AIAgentTraining";
 import AIDiscoveries from "./AIDiscoveries";
+import ResumeBuilder from "./ResumeBuilder";
+import { installMatchMediaMock } from "@/test/testUtils";
 import { professions } from "@/data/toolArchive";
 import { companies, companyCategories } from "@/data/companyArchive";
 import { projects, projectCategories } from "@/data/projectArchive";
+import { victories } from "@/data/victoryArchive";
 import { discoveries } from "@/data/discoveryArchive";
+import { createResumeAgentProfileFromInput } from "@shared/resume-agent";
+
+const { buildResumeAgentMock } = vi.hoisted(() => ({
+  buildResumeAgentMock: vi.fn(),
+}));
 
 vi.mock("../components/Navigation", () => ({
   default: () => <div data-testid="navigation" />,
@@ -29,57 +38,31 @@ vi.mock("@/components/ChatBot", () => ({
   default: () => <div data-testid="chatbot" />,
 }));
 
+vi.mock("@/components/games/DeepBlueChess", () => ({
+  default: () => <div data-testid="deep-blue-chess-demo" />,
+}));
+
+vi.mock("@/components/games/AlphaGoDemo", () => ({
+  default: () => <div data-testid="alphago-go-demo" />,
+}));
+
+vi.mock("@/components/games/LibratusPoker", () => ({
+  default: () => <div data-testid="libratus-poker-demo" />,
+}));
+
+vi.mock("@/components/resume-agent/RecruiterAgentChat", () => ({
+  default: ({ profile }: { profile: { candidateName: string } }) => (
+    <div data-testid="recruiter-agent-chat">{profile.candidateName}</div>
+  ),
+}));
+
+vi.mock("@/api/resume-agent", () => ({
+  buildResumeAgent: buildResumeAgentMock,
+}));
+
 vi.mock("framer-motion", async () => {
-  const React = await import("react");
-
-  const stripMotionProps = (props: Record<string, unknown>) => {
-    const {
-      animate,
-      exit,
-      initial,
-      layout,
-      layoutId,
-      transition,
-      viewport,
-      whileHover,
-      whileInView,
-      whileTap,
-      ...rest
-    } = props;
-
-    void animate;
-    void exit;
-    void initial;
-    void layout;
-    void layoutId;
-    void transition;
-    void viewport;
-    void whileHover;
-    void whileInView;
-    void whileTap;
-
-    return rest;
-  };
-
-  const createMock =
-    (tag: keyof React.JSX.IntrinsicElements) =>
-    React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
-      ({ children, ...props }, ref) =>
-        React.createElement(tag, { ref, ...stripMotionProps(props) }, children),
-    );
-
-  const motion = new Proxy(
-    {},
-    {
-      get: (_, tag: string) =>
-        createMock((tag as keyof React.JSX.IntrinsicElements) || "div"),
-    },
-  );
-
-  return {
-    AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-    motion,
-  };
+  const { createFramerMotionMock } = await import("@/test/testUtils");
+  return createFramerMotionMock();
 });
 
 const tradeRecommendations = [
@@ -213,19 +196,7 @@ function jsonResponse(body: unknown, init?: { status?: number; statusText?: stri
 }
 
 beforeAll(() => {
-  Object.defineProperty(window, "matchMedia", {
-    writable: true,
-    value: vi.fn().mockImplementation((query: string) => ({
-      matches: false,
-      media: query,
-      onchange: null,
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
-      dispatchEvent: vi.fn(),
-    })),
-  });
+  installMatchMediaMock();
 
   vi.stubGlobal(
     "fetch",
@@ -284,12 +255,52 @@ afterEach(() => {
   cleanup();
   vi.useRealTimers();
   vi.clearAllMocks();
+  buildResumeAgentMock.mockReset();
 });
 
 const renderPage = (ui: React.ReactElement) =>
   render(<MemoryRouter>{ui}</MemoryRouter>);
 
 describe("AI page interactions", () => {
+  it("filters AI champions and opens the playable demo for a selected match", () => {
+    const targetVictory = victories.find(
+      (victory) =>
+        victory.id === "deep-blue-chess" &&
+        victory.recordType === "Champion match" &&
+        victory.playableDemo,
+    )!;
+    const hiddenVictory = victories.find(
+      (victory) => victory.recordType === "Benchmark leap",
+    )!;
+    const view = renderPage(<AIChampions />);
+
+    fireEvent.click(view.getAllByRole("button", { name: /Champion match/i })[0]);
+
+    expect(view.getByText(targetVictory.aiName)).not.toBeNull();
+    expect(view.queryByText(hiddenVictory.aiName)).toBeNull();
+
+    fireEvent.click(
+      view.getByRole(
+        "button",
+        {
+          name: new RegExp(
+            `${targetVictory.aiName}.*${targetVictory.opponent}`,
+            "i",
+          ),
+        },
+      ),
+    );
+
+    expect(
+      view.getAllByRole("heading", { name: targetVictory.aiName }).length,
+    ).toBeGreaterThan(0);
+    expect(view.getAllByText(targetVictory.scoreLabel).length).toBeGreaterThan(0);
+
+    fireEvent.click(view.getByRole("button", { name: /play demo/i }));
+
+    expect(view.getByTestId("deep-blue-chess-demo")).not.toBeNull();
+  });
+
   it("filters AI tools and opens a profession detail view", () => {
     const mediumProfession = [...professions]
       .filter((profession) => profession.impactLevel === "Medium")
@@ -532,5 +543,73 @@ describe("AI page interactions", () => {
     fireEvent.click(view.getByRole("button", { name: /^All$/i }));
 
     expect(view.getByText(earlyDiscovery.title)).not.toBeNull();
+  });
+
+  it("builds a recruiter link from resume evidence and keeps LinkedIn import hidden", async () => {
+    const profile = createResumeAgentProfileFromInput({
+      candidateName: "Aakriti Gupta",
+      resumeText:
+        "Aakriti Gupta\nSenior AI engineer building grounded product workflows with React, TypeScript, and Python.",
+      projectNotes:
+        "Built a recruiter-safe resume agent that publishes a grounded share link and preserves factual constraints.",
+    });
+    buildResumeAgentMock.mockResolvedValue({
+      profile,
+      shareToken: "ra1.test-share-token",
+      shareId: "share-123",
+      usedModel: true,
+    });
+
+    const view = render(
+      <MemoryRouter initialEntries={["/resume-builder"]}>
+        <ResumeBuilder />
+      </MemoryRouter>,
+    );
+
+    expect(view.queryByText(/LinkedIn import/i)).toBeNull();
+
+    fireEvent.change(
+      view.getByPlaceholderText(/optional/i),
+      { target: { value: "Aakriti Gupta" } },
+    );
+    fireEvent.change(
+      view.getByPlaceholderText(/upload a resume file or paste resume text here/i),
+      {
+        target: {
+          value:
+            "Aakriti Gupta\nSenior AI engineer building grounded product workflows with React, TypeScript, and Python.",
+        },
+      },
+    );
+    fireEvent.change(
+      view.getByPlaceholderText(/write in simple english/i),
+      {
+        target: {
+          value:
+            "Built a recruiter-safe resume agent that publishes a grounded share link and preserves factual constraints.",
+        },
+      },
+    );
+
+    fireEvent.click(view.getByRole("button", { name: /build recruiter agent/i }));
+
+    await waitFor(() => {
+      expect(buildResumeAgentMock).toHaveBeenCalledWith({
+        candidateName: "Aakriti Gupta",
+        resumeText:
+          "Aakriti Gupta\nSenior AI engineer building grounded product workflows with React, TypeScript, and Python.",
+        projectNotes:
+          "Built a recruiter-safe resume agent that publishes a grounded share link and preserves factual constraints.",
+      });
+      expect(
+        view.getByText(/Recruiter link is live and tied to the approved candidate facts/i),
+      ).not.toBeNull();
+    });
+
+    expect(view.getByText(/resume-builder\/recruiter\/share-123/i)).not.toBeNull();
+    expect(view.getByText(/Persistent recruiter route created/i)).not.toBeNull();
+    expect(view.getByTestId("recruiter-agent-chat").textContent).toBe(
+      "Aakriti Gupta",
+    );
   });
 });

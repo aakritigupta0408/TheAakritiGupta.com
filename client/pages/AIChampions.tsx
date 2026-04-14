@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import DeepBlueChess from "@/components/games/DeepBlueChess";
 import AlphaGoDemo from "@/components/games/AlphaGoDemo";
 import LibratusPoker from "@/components/games/LibratusPoker";
+import LevelOneLoadMoreButton from "@/components/LevelOneLoadMoreButton";
 import SubpageLayout from "@/components/SubpageLayout";
 import { getPageRefreshContent } from "@/data/siteRefreshContent";
 import { victories, type VictoryRecord } from "@/data/victoryArchive";
@@ -148,10 +149,18 @@ export default function AIChampions() {
               onClick={() => setSelectedVictory(victory)}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, delay: Math.min(index * 0.05, 0.25) }}
-              className={`group overflow-hidden rounded-3xl border bg-white text-left shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-amber-500/10 ${
+              transition={{
+                type: "spring",
+                stiffness: 260,
+                damping: 24,
+                delay: Math.min(index * 0.05, 0.22),
+              }}
+              whileHover={{ y: -6, rotateX: 2, rotateY: -2 }}
+              whileTap={{ scale: 0.98 }}
+              style={{ transformStyle: "preserve-3d", perspective: 900 }}
+              className={`group overflow-hidden rounded-[22px] border bg-white text-left shadow-[0_22px_52px_rgba(8,12,24,0.2)] transition-colors duration-300 hover:shadow-[0_30px_70px_rgba(8,12,24,0.25)] ${
                 selectedVictory?.id === victory.id
-                  ? `${victory.accent} shadow-amber-500/20`
+                  ? `${victory.accent} ring-2 ring-amber-300/60`
                   : "border-gray-200"
               }`}
             >
@@ -217,14 +226,11 @@ export default function AIChampions() {
 
         {hasMoreVictories && (
           <div className="mb-12 flex justify-center">
-            <motion.button
+            <LevelOneLoadMoreButton
+              label="Load 3 more"
+              glowClassName="from-amber-400/0 via-amber-400/20 to-amber-400/0"
               onClick={() => setVisibleCount((current) => current + 3)}
-              className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-bold text-white shadow-xl backdrop-blur-md transition-all duration-300 hover:bg-white/15"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              Show 3 more records
-            </motion.button>
+            />
           </div>
         )}
 

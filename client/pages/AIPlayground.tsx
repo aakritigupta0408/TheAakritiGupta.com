@@ -449,7 +449,6 @@ export default function AIPlayground() {
         </div>
       </section>
 
-      {/* Demo Grid */}
       <section className="relative z-20 px-4 pb-8 pt-2 sm:px-6 sm:pb-10">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -486,27 +485,36 @@ export default function AIPlayground() {
                   setInputText("");
                   setOutputText("");
                 }}
-                className={`tom-ford-card rounded-[1.5rem] p-4 text-left transition-all duration-500 ${
+                className={`group relative overflow-hidden rounded-[20px] border p-4 text-left shadow-[0_18px_40px_rgba(8,12,24,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl transition-colors duration-300 ${
                   selectedDemo === demo.id
-                    ? "border-4 border-yellow-500 transform scale-[1.01]"
-                    : "hover:border-yellow-400/50"
+                    ? "border-fuchsia-300/50 bg-gradient-to-br from-fuchsia-500/20 via-rose-500/10 to-amber-300/10"
+                    : "border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.03] hover:border-white/25"
                 }`}
               >
-                <div className="text-3xl mb-3">{demo.icon}</div>
-                <h3 className="tom-ford-subheading luxury-text-primary text-sm mb-1 tracking-widest">
+                <span
+                  aria-hidden
+                  className={`pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-fuchsia-300/70 to-transparent transition-opacity duration-300 ${
+                    selectedDemo === demo.id
+                      ? "opacity-100"
+                      : "opacity-0 group-hover:opacity-100"
+                  }`}
+                />
+                <div className="mb-3 text-3xl transition-transform duration-300 group-hover:scale-110">
+                  {demo.icon}
+                </div>
+                <h3 className="mb-1 text-xs font-bold uppercase tracking-[0.22em] text-white">
                   {demo.title}
                 </h3>
-                <p className="luxury-text-muted text-xs mb-2">
+                <p className="mb-2 text-[11px] font-semibold text-cyan-200/80">
                   {demo.subtitle}
                 </p>
-                <p className="luxury-text-muted text-xs font-light leading-relaxed">
+                <p className="text-xs leading-relaxed text-slate-300/90">
                   {demo.description}
                 </p>
               </motion.button>
             ))}
           </div>
 
-          {/* Demo Interface */}
           <AnimatePresence mode="wait">
             {selectedDemo && selectedDemoData && (
               <motion.div
@@ -515,56 +523,71 @@ export default function AIPlayground() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -60 }}
                 transition={{ duration: 0.8 }}
-                className="tom-ford-glass overflow-hidden rounded-[1.8rem]"
+                className="overflow-hidden rounded-[22px] border border-white/15 bg-gradient-to-br from-white/95 via-white/92 to-slate-50 shadow-[0_30px_80px_rgba(8,12,24,0.35)]"
               >
-                <div className="border-b-2 border-black p-5 sm:p-6">
+                <div className="border-b border-slate-200/80 bg-white/80 p-5 backdrop-blur-xl sm:p-6">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-4">
                       <div
-                        className={`flex h-14 w-14 items-center justify-center rounded-xl border-2 border-black bg-gradient-to-r text-2xl ${selectedDemoData.color}`}
+                        className={`flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br text-2xl shadow-[0_10px_28px_rgba(0,0,0,0.15)] ring-1 ring-white/40 ${selectedDemoData.color}`}
                       >
                         {selectedDemoData.icon}
                       </div>
                       <div>
-                        <h3 className="tom-ford-heading text-xl luxury-text-primary sm:text-2xl">
+                        <h3 className="text-xl font-semibold text-slate-950 sm:text-2xl">
                           {selectedDemoData.title}
                         </h3>
-                        <p className="tom-ford-subheading luxury-text-muted text-sm">
+                        <p className="mt-1 text-sm text-slate-500">
                           {selectedDemoData.description}
                         </p>
                       </div>
                     </div>
-                    <button
+                    <motion.button
                       onClick={() => setSelectedDemo(null)}
-                      className="luxury-text-muted hover:luxury-text-primary transition-colors text-xl"
+                      whileHover={{ rotate: 90, scale: 1.08 }}
+                      whileTap={{ scale: 0.92 }}
+                      aria-label="Close demo"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-sm transition-colors hover:border-slate-300 hover:text-slate-900"
                     >
-                      ✕
-                    </button>
+                      <svg
+                        className="h-4 w-4"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6 6l12 12M18 6L6 18"
+                        />
+                      </svg>
+                    </motion.button>
                   </div>
                 </div>
 
-                <div className="bg-white/50 p-5 sm:p-6">
+                <div className="bg-slate-50/60 p-5 sm:p-6">
                   <div className="grid gap-6 lg:grid-cols-2">
-                    {/* Input Section */}
                     <div>
-                      <label className="tom-ford-subheading luxury-text-primary text-sm tracking-wider mb-4 block">
-                        YOUR INPUT
+                      <label className="mb-3 block text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
+                        Your input
                       </label>
 
-                      {/* Example buttons */}
-                      <div className="mb-4">
-                        <p className="tom-ford-subheading luxury-text-muted text-xs mb-2">
-                          TRY THESE EXAMPLES:
+                      <div className="mb-3">
+                        <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                          Try an example
                         </p>
                         <div className="flex flex-wrap gap-2">
                           {selectedDemoData.examples.map((example, index) => (
-                            <button
+                            <motion.button
                               key={index}
                               onClick={() => handleExampleClick(example)}
-                              className="px-3 py-1 bg-yellow-100 border border-black rounded-lg text-xs luxury-text-primary hover:bg-yellow-200 transition-colors"
+                              whileHover={{ y: -1 }}
+                              whileTap={{ scale: 0.96 }}
+                              className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-[0_2px_8px_rgba(15,23,42,0.05)] transition-colors hover:border-fuchsia-300 hover:text-fuchsia-700"
                             >
                               {example}
-                            </button>
+                            </motion.button>
                           ))}
                         </div>
                       </div>
@@ -573,7 +596,7 @@ export default function AIPlayground() {
                         value={inputText}
                         onChange={(e) => setInputText(e.target.value)}
                         placeholder={selectedDemoData.placeholder}
-                        className="h-32 w-full resize-none rounded-xl border-2 border-black bg-white px-4 py-3 font-light luxury-text-primary placeholder-gray-500 transition-colors focus:border-yellow-500 focus:outline-none"
+                        className="h-32 w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-fuchsia-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-200"
                       />
 
                       <motion.button
@@ -581,10 +604,10 @@ export default function AIPlayground() {
                         disabled={!inputText.trim() || isGenerating}
                         whileHover={{ scale: inputText.trim() ? 1.02 : 1 }}
                         whileTap={{ scale: inputText.trim() ? 0.98 : 1 }}
-                        className={`w-full mt-4 rounded-xl py-3 text-sm font-semibold tracking-wide transition-all duration-300 ${
+                        className={`mt-4 w-full rounded-full py-3 text-sm font-semibold tracking-wide transition-all duration-300 ${
                           inputText.trim()
-                            ? "bg-slate-900 text-white hover:bg-slate-800"
-                            : "cursor-not-allowed border-2 border-gray-300 bg-gray-200 text-gray-400"
+                            ? "bg-gradient-to-r from-fuchsia-500 via-rose-500 to-amber-400 text-white shadow-[0_12px_30px_rgba(244,63,94,0.32)] hover:-translate-y-0.5"
+                            : "cursor-not-allowed border border-slate-200 bg-slate-100 text-slate-400"
                         }`}
                       >
                         {isGenerating ? (
@@ -598,19 +621,18 @@ export default function AIPlayground() {
                       </motion.button>
                     </div>
 
-                    {/* Output Section */}
                     <div>
                       <div className="mb-3 flex items-center justify-between gap-2">
-                        <label className="text-sm font-semibold tracking-wide text-slate-900">
+                        <label className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
                           Sample response
                         </label>
-                        <span className="rounded-full border border-amber-300 bg-amber-50 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-700">
+                        <span className="rounded-full border border-amber-300/80 bg-amber-50 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-700">
                           Illustrative · not live AI
                         </span>
                       </div>
-                      <div className="h-64 overflow-y-auto rounded-xl border-2 border-black bg-white p-4">
+                      <div className="h-64 overflow-y-auto rounded-xl border border-slate-200 bg-white p-4 shadow-[inset_0_1px_0_rgba(15,23,42,0.03)]">
                         {outputText ? (
-                          <pre className="whitespace-pre-wrap text-sm font-light leading-relaxed text-slate-900">
+                          <pre className="whitespace-pre-wrap text-sm leading-relaxed text-slate-800">
                             {outputText}
                           </pre>
                         ) : (
