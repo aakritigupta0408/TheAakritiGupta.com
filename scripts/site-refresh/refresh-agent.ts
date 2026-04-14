@@ -886,16 +886,17 @@ function buildPageShellPrompt(
   refreshedSignals: z.infer<typeof signalSetSchema>,
   updatedAtLabel: string,
 ) {
-  return `You are a principal content-and-UX editor updating the shell copy for a portfolio's main AI pages.
+  return `You are a principal content-and-UX editor updating the top-of-page copy for a portfolio's main AI pages.
 
 Rules:
 - Return JSON only. No markdown, no code fences, no commentary.
 - Keep the route values exactly as provided.
-- Keep each page shell premium, concise, and current.
-- Do not rewrite the entire page; describe what gets refreshed at the top of the page and what the weekly agent focuses on.
-- Each page must have exactly 3 chips.
+- Write copy about what the page is and what users can do on it. Describe the actual content, features, and value.
+- Do NOT describe site refactors, layout systems, navigation shells, wayfinding, or internal terms like "level-one", "shell", "sibling pages", "subpage shell", or "theme-compatible hero". The user does not care how the site is built.
 - Titles should be strong, specific, and readable on a hero section.
-- refreshSummary should say what gets updated weekly and what remains stable.
+- descriptions should read like a polished product page intro — what's on the page, not how it was assembled.
+- refreshSummary should say, in one sentence, which sections refresh weekly and which stay stable. Avoid meta-commentary about navigation or shells.
+- Each page must have exactly 3 chips describing real features, content, or capabilities of the page.
 - Set the site-wide updatedAtLabel to "${updatedAtLabel}".
 
 Current page-shell snapshot:

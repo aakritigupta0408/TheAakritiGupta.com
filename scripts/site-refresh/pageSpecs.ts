@@ -15,7 +15,7 @@ export const pageRefreshSpecs: PageRefreshSpec[] = [
     label: "AI Playground",
     sourceFile: "client/pages/AIPlayground.tsx",
     updateTargets: [
-      "subpage shell copy",
+      "top-of-page framing copy",
       "product radar framing",
       "the top-level explanation of what the demos teach right now",
     ],
@@ -35,7 +35,7 @@ export const pageRefreshSpecs: PageRefreshSpec[] = [
     label: "AI Discoveries",
     sourceFile: "client/pages/AIDiscoveries.tsx",
     updateTargets: [
-      "subpage shell copy",
+      "top-of-page framing copy",
       "frontier discoveries module",
       "context that bridges historical milestones to current research",
     ],
@@ -55,7 +55,7 @@ export const pageRefreshSpecs: PageRefreshSpec[] = [
     label: "AI Tools",
     sourceFile: "client/pages/AITools.tsx",
     updateTargets: [
-      "subpage shell copy",
+      "top-of-page framing copy",
       "latest product launches module",
       "current AI use-case framing",
     ],
@@ -75,7 +75,7 @@ export const pageRefreshSpecs: PageRefreshSpec[] = [
     label: "AI Companies",
     sourceFile: "client/pages/AICompanies.tsx",
     updateTargets: [
-      "subpage shell copy",
+      "top-of-page framing copy",
       "startup watchlist",
       "the context that explains who matters now and why",
     ],
@@ -95,7 +95,7 @@ export const pageRefreshSpecs: PageRefreshSpec[] = [
     label: "AI Projects",
     sourceFile: "client/pages/AIProjects.tsx",
     updateTargets: [
-      "subpage shell copy",
+      "top-of-page framing copy",
       "build-now tracks",
       "current framing for high-leverage projects",
     ],
@@ -115,7 +115,7 @@ export const pageRefreshSpecs: PageRefreshSpec[] = [
     label: "Prompt Engineering",
     sourceFile: "client/pages/PromptEngineering.tsx",
     updateTargets: [
-      "subpage shell copy",
+      "top-of-page framing copy",
       "prompt-pattern signals for each tab",
       "context around modern prompt design",
     ],
@@ -135,7 +135,7 @@ export const pageRefreshSpecs: PageRefreshSpec[] = [
     label: "AI Agent Training",
     sourceFile: "client/pages/AIAgentTraining.tsx",
     updateTargets: [
-      "subpage shell copy",
+      "top-of-page framing copy",
       "frontier signals module",
       "framing around production agent patterns",
     ],
@@ -155,7 +155,7 @@ export const pageRefreshSpecs: PageRefreshSpec[] = [
     label: "AI Champions",
     sourceFile: "client/pages/AIChampions.tsx",
     updateTargets: [
-      "subpage shell copy",
+      "top-of-page framing copy",
       "overview framing before the victory grid",
       "how the page connects to discovery and games pages",
     ],
@@ -175,7 +175,7 @@ export const pageRefreshSpecs: PageRefreshSpec[] = [
     label: "Resume Builder",
     sourceFile: "client/pages/ResumeBuilder.tsx",
     updateTargets: [
-      "subpage shell copy",
+      "top-of-page framing copy",
       "prompt-template positioning",
       "how the page explains the resource set",
     ],
@@ -195,7 +195,7 @@ export const pageRefreshSpecs: PageRefreshSpec[] = [
     label: "Games",
     sourceFile: "client/pages/Games.tsx",
     updateTargets: [
-      "subpage shell copy",
+      "top-of-page framing copy",
       "top-level framing before the game grid",
       "how the page explains its relationship to the rest of the portfolio",
     ],
