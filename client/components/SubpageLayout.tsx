@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
-  Compass,
   Home,
 } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -35,50 +34,37 @@ const levelOnePages = [
   { path: "/ai-tools", label: "AI Tools" },
   { path: "/ai-projects", label: "AI Projects" },
   { path: "/prompt-engineering", label: "Prompt Engineering" },
-  { path: "/ai-agent-training", label: "AI Agent Training" },
+  { path: "/ai-agent-training", label: "Agent Training" },
   { path: "/ai-companies", label: "AI Companies" },
-  { path: "/ai-discoveries", label: "AI Discoveries" },
-  { path: "/ai-champions", label: "AI Champions" },
+  { path: "/ai-discoveries", label: "Discoveries" },
+  { path: "/ai-champions", label: "Champions" },
   { path: "/games", label: "Games" },
   { path: "/resume-builder", label: "Resume Builder" },
 ];
 
 const accentStyles: Record<
   AccentTone,
-  {
-    badge: string;
-    value: string;
-    activeLink: string;
-    glow: string;
-  }
+  { badge: string; value: string; activeLink: string }
 > = {
   blue: {
-    badge:
-      "border-sky-200/80 bg-sky-50/90 text-sky-700 shadow-[0_10px_24px_rgba(14,165,233,0.12)]",
-    value: "from-slate-900 via-sky-700 to-blue-500",
+    badge: "border-sky-200/80 bg-sky-50/90 text-sky-700",
+    value: "text-sky-600",
     activeLink: "border-sky-200 bg-sky-50 text-sky-800",
-    glow: "from-sky-200/70 via-blue-100/60 to-white",
   },
   emerald: {
-    badge:
-      "border-emerald-200/80 bg-emerald-50/90 text-emerald-700 shadow-[0_10px_24px_rgba(16,185,129,0.12)]",
-    value: "from-slate-900 via-emerald-700 to-teal-500",
+    badge: "border-emerald-200/80 bg-emerald-50/90 text-emerald-700",
+    value: "text-emerald-600",
     activeLink: "border-emerald-200 bg-emerald-50 text-emerald-800",
-    glow: "from-emerald-200/70 via-teal-100/60 to-white",
   },
   rose: {
-    badge:
-      "border-rose-200/80 bg-rose-50/90 text-rose-700 shadow-[0_10px_24px_rgba(244,63,94,0.12)]",
-    value: "from-slate-900 via-fuchsia-700 to-rose-500",
+    badge: "border-rose-200/80 bg-rose-50/90 text-rose-700",
+    value: "text-rose-600",
     activeLink: "border-rose-200 bg-rose-50 text-rose-800",
-    glow: "from-rose-200/70 via-fuchsia-100/60 to-white",
   },
   amber: {
-    badge:
-      "border-amber-200/80 bg-amber-50/90 text-amber-700 shadow-[0_10px_24px_rgba(245,158,11,0.12)]",
-    value: "from-slate-900 via-amber-700 to-orange-500",
+    badge: "border-amber-200/80 bg-amber-50/90 text-amber-700",
+    value: "text-amber-600",
     activeLink: "border-amber-200 bg-amber-50 text-amber-800",
-    glow: "from-amber-200/70 via-orange-100/60 to-white",
   },
 };
 
@@ -88,7 +74,6 @@ export default function SubpageLayout({
   title,
   description,
   metrics,
-  chips = [],
   accent = "blue",
   children,
   frameClassName,
@@ -103,121 +88,74 @@ export default function SubpageLayout({
       : undefined;
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#f5f5f7] text-slate-900">
+    <div className="relative min-h-screen bg-[#f5f5f7] text-slate-900">
       <Navigation />
 
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute left-1/2 top-0 h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-white opacity-90 blur-3xl" />
-        <div
-          className={cn(
-            "absolute -left-16 top-28 h-72 w-72 rounded-full blur-3xl",
-            `bg-gradient-to-br ${accentStyle.glow}`,
-          )}
-        />
-        <div className="absolute -right-20 top-40 h-96 w-96 rounded-full bg-slate-200/70 blur-3xl" />
-        <div className="absolute bottom-0 left-1/3 h-80 w-80 rounded-full bg-white/80 blur-3xl" />
-        <div className="absolute inset-x-0 top-24 h-px bg-gradient-to-r from-transparent via-slate-300/50 to-transparent" />
-      </div>
-
-      <main className="relative z-10 px-4 pb-12 pt-24 sm:px-6 lg:px-8">
+      <main className="relative z-10 px-4 pb-12 pt-20 sm:px-6 lg:px-8">
         <section className="mx-auto max-w-7xl">
           <motion.div
-            initial={{ opacity: 0, y: 28 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-            className="rounded-[30px] border border-white/80 bg-white/72 p-5 shadow-[0_28px_90px_rgba(15,23,42,0.14)] backdrop-blur-2xl sm:p-6 lg:p-7"
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="rounded-2xl border border-white/80 bg-white/70 px-5 py-4 shadow-[0_12px_40px_rgba(15,23,42,0.1)] backdrop-blur-xl sm:px-6"
           >
-            <div className="flex flex-col gap-5">
-              <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                <div className="max-w-4xl">
-                  <div
+            <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+              <div className="min-w-0">
+                <div className="flex items-center gap-3">
+                  <span
                     className={cn(
-                      "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.24em]",
+                      "shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em]",
                       accentStyle.badge,
                     )}
                   >
-                    <Compass className="h-3.5 w-3.5" />
                     {eyebrow}
+                  </span>
+                  <div className="hidden items-center gap-3 text-xs text-slate-400 sm:flex">
+                    {metrics.slice(0, 4).map((m) => (
+                      <span key={m.label}>
+                        <span className={cn("font-bold", accentStyle.value)}>
+                          {m.value}
+                        </span>{" "}
+                        {m.label}
+                      </span>
+                    ))}
                   </div>
-
-                  <h1 className="mt-4 max-w-4xl text-3xl font-semibold tracking-[-0.05em] text-slate-950 sm:text-4xl lg:text-5xl">
-                    {title}
-                  </h1>
-
-                  <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600 sm:text-base">
-                    {description}
-                  </p>
                 </div>
-
-                <div className="flex flex-wrap gap-2 lg:max-w-sm lg:justify-end">
-                  {chips.map((chip) => (
-                    <span
-                      key={chip}
-                      className="rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-xs font-medium text-slate-600"
-                    >
-                      {chip}
-                    </span>
-                  ))}
-                </div>
+                <h1 className="mt-2 text-xl font-semibold tracking-tight text-slate-950 sm:text-2xl lg:text-3xl">
+                  {title}
+                </h1>
+                <p className="mt-1 max-w-3xl text-sm leading-relaxed text-slate-500 line-clamp-1 sm:line-clamp-none">
+                  {description}
+                </p>
               </div>
+            </div>
 
-              <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-                {metrics.map((metric, index) => (
-                  <motion.div
-                    key={`${metric.label}-${metric.value}`}
-                    initial={{ opacity: 0, y: 18 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.45, delay: 0.06 * index }}
-                    className="rounded-[22px] border border-slate-200/80 bg-white/88 p-4 shadow-[0_14px_40px_rgba(15,23,42,0.08)]"
-                  >
-                    <div
-                      className={cn(
-                        "bg-gradient-to-r bg-clip-text text-2xl font-semibold tracking-[-0.04em] text-transparent sm:text-3xl",
-                        accentStyle.value,
-                      )}
-                    >
-                      {metric.value}
-                    </div>
-                    <div className="mt-1 text-sm font-semibold text-slate-800">
-                      {metric.label}
-                    </div>
-                    {metric.detail && (
-                      <p className="mt-1 text-xs leading-5 text-slate-500 sm:text-sm">
-                        {metric.detail}
-                      </p>
+            <div className="mt-3 flex gap-1.5 overflow-x-auto">
+              {levelOnePages.map((page) => {
+                const isCurrent = page.path === route;
+                return (
+                  <Link
+                    key={page.path}
+                    to={page.path}
+                    className={cn(
+                      "shrink-0 rounded-full border px-3 py-1 text-[11px] font-medium transition-all duration-150",
+                      isCurrent
+                        ? accentStyle.activeLink
+                        : "border-transparent text-slate-400 hover:bg-slate-100 hover:text-slate-700",
                     )}
-                  </motion.div>
-                ))}
-              </div>
-
-              <div className="flex gap-2 overflow-x-auto rounded-[20px] border border-slate-200/60 bg-slate-50/60 p-2.5">
-                {levelOnePages.map((page) => {
-                  const isCurrent = page.path === route;
-
-                  return (
-                    <Link
-                      key={page.path}
-                      to={page.path}
-                      className={cn(
-                        "shrink-0 rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all duration-200",
-                        isCurrent
-                          ? accentStyle.activeLink
-                          : "border-transparent bg-white/60 text-slate-500 hover:border-slate-200 hover:bg-white hover:text-slate-900",
-                      )}
-                    >
-                      {page.label}
-                    </Link>
-                  );
-                })}
-              </div>
+                  >
+                    {page.label}
+                  </Link>
+                );
+              })}
             </div>
           </motion.div>
         </section>
 
-        <section className="mx-auto mt-6 max-w-7xl">
+        <section className="mx-auto mt-4 max-w-7xl">
           <div
             className={cn(
-              "overflow-hidden rounded-[34px] border border-slate-900/8 bg-[linear-gradient(180deg,rgba(15,23,42,0.97),rgba(17,24,39,0.985))] shadow-[0_30px_100px_rgba(15,23,42,0.18)]",
+              "overflow-hidden rounded-3xl border border-slate-900/8 bg-[linear-gradient(180deg,rgba(15,23,42,0.97),rgba(17,24,39,0.985))] shadow-[0_20px_60px_rgba(15,23,42,0.15)]",
               frameClassName,
             )}
           >
@@ -225,18 +163,18 @@ export default function SubpageLayout({
           </div>
         </section>
 
-        <section className="mx-auto mt-6 max-w-7xl">
+        <section className="mx-auto mt-4 max-w-7xl">
           <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
             {previousPage ? (
               <Link
                 to={previousPage.path}
-                className="group rounded-[24px] border border-white/80 bg-white/72 p-4 shadow-[0_20px_50px_rgba(15,23,42,0.1)] backdrop-blur-xl transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90"
+                className="group rounded-2xl border border-white/80 bg-white/70 p-3 shadow-sm backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:bg-white/90"
               >
-                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                  <ArrowLeft className="h-4 w-4" />
+                <div className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+                  <ArrowLeft className="h-3.5 w-3.5" />
                   Previous
                 </div>
-                <div className="mt-2 text-base font-semibold tracking-[-0.03em] text-slate-950">
+                <div className="mt-1 text-sm font-semibold text-slate-950">
                   {previousPage.label}
                 </div>
               </Link>
@@ -246,22 +184,22 @@ export default function SubpageLayout({
 
             <Link
               to="/"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-[0_14px_36px_rgba(15,23,42,0.08)] transition-all duration-200 hover:-translate-y-0.5 hover:text-slate-950"
+              className="inline-flex items-center justify-center gap-1.5 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-600 shadow-sm transition-all hover:-translate-y-0.5 hover:text-slate-950"
             >
-              <Home className="h-4 w-4" />
-              Back to home
+              <Home className="h-3.5 w-3.5" />
+              Home
             </Link>
 
             {nextPage ? (
               <Link
                 to={nextPage.path}
-                className="group rounded-[24px] border border-white/80 bg-white/72 p-4 text-right shadow-[0_20px_50px_rgba(15,23,42,0.1)] backdrop-blur-xl transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90"
+                className="group rounded-2xl border border-white/80 bg-white/70 p-3 text-right shadow-sm backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:bg-white/90"
               >
-                <div className="flex items-center justify-end gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+                <div className="flex items-center justify-end gap-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">
                   Next
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-3.5 w-3.5" />
                 </div>
-                <div className="mt-2 text-base font-semibold tracking-[-0.03em] text-slate-950">
+                <div className="mt-1 text-sm font-semibold text-slate-950">
                   {nextPage.label}
                 </div>
               </Link>
