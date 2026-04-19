@@ -936,9 +936,9 @@ Deliverable:
         },
       ]}
     >
-      <div className="container mx-auto px-6 py-10 relative z-10 sm:py-12">
+      <div className="container mx-auto px-4 py-4 relative z-10">
         <motion.div
-          className="flex justify-center gap-2 mb-12"
+          className="flex justify-center gap-2 mb-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1 }}
@@ -1044,7 +1044,7 @@ Deliverable:
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
               {promptExamples.map((example, index) => (
                 <motion.div
                   key={example.id}
@@ -1100,7 +1100,7 @@ Deliverable:
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
               {promptTechniques.map((technique, index) => (
                 <motion.div
                   key={technique.id}
@@ -1111,7 +1111,7 @@ Deliverable:
                   whileHover={{ scale: 1.02, y: -5 }}
                   onClick={() => setSelectedTechnique(technique)}
                 >
-                  <div className="flex items-start gap-6">
+                  <div className="flex items-start gap-3">
                     <div
                       className={`w-16 h-16 bg-gradient-to-r ${technique.color} rounded-2xl flex items-center justify-center text-2xl shadow-lg`}
                     >

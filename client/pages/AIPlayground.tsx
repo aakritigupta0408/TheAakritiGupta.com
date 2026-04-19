@@ -352,8 +352,8 @@ export default function AIPlayground() {
       ]}
     >
 
-      <section className="relative z-20 px-4 py-6 sm:px-6 sm:py-8">
-        <div className="mx-auto max-w-7xl space-y-5">
+      <section className="relative z-20 px-4 py-4">
+        <div className="mx-auto max-w-7xl space-y-3">
           <div className="rounded-[1.75rem] border border-white/10 bg-white/[0.08] p-5 backdrop-blur-xl sm:p-4">
             <div className="mb-4 flex items-baseline justify-between gap-3">
               <h2 className="text-lg font-semibold text-white">
@@ -447,13 +447,13 @@ export default function AIPlayground() {
         </div>
       </section>
 
-      <section className="relative z-20 px-4 pb-8 pt-2 sm:px-6 sm:pb-10">
+      <section className="relative z-20 px-4 pb-4 pt-2">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mb-8"
+            className="mb-3"
           >
             <motion.h2
               className="text-2xl font-black text-white sm:text-3xl"
@@ -469,7 +469,7 @@ export default function AIPlayground() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4 mb-8">
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-4 mb-3">
             {AI_DEMOS.map((demo, index) => (
               <motion.button
                 key={demo.id}

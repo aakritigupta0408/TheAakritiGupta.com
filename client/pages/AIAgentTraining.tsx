@@ -1209,7 +1209,7 @@ Week 7-8: Production rollout, tracing, and monitoring
         },
       ]}
     >
-      <div className="max-w-6xl mx-auto px-4 py-10 sm:px-6 sm:py-12">
+      <div className="max-w-6xl mx-auto px-4 py-4">
         <div className="flex justify-center">
           <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-1 sm:p-2 overflow-x-auto">
             {[
@@ -1243,12 +1243,12 @@ Week 7-8: Production rollout, tracing, and monitoring
       </div>
 
       {/* Content */}
-      <div className="max-w-6xl mx-auto px-6 pb-20">
+      <div className="max-w-6xl mx-auto px-4 pb-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mb-8 rounded-3xl border border-white/15 bg-white/10 p-4 sm:p-4 backdrop-blur-xl"
+          className="mb-3 rounded-3xl border border-white/15 bg-white/10 p-4 sm:p-4 backdrop-blur-xl"
         >
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-6">
             <div>
@@ -1312,7 +1312,7 @@ Week 7-8: Production rollout, tracing, and monitoring
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5 }}
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 {aiAgentExamples.map((example, index) => (
                   <motion.div
                     key={example.id}
@@ -1360,7 +1360,7 @@ Week 7-8: Production rollout, tracing, and monitoring
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5 }}
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {trainingTechniques.map((technique, index) => (
                   <motion.div
                     key={technique.id}
@@ -1402,7 +1402,7 @@ Week 7-8: Production rollout, tracing, and monitoring
               transition={{ duration: 0.5 }}
             >
               <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-8">
-                <div className="text-center mb-8">
+                <div className="text-center mb-3">
                   <FaRocket className="text-4xl text-cyan-400 mx-auto mb-4" />
                   <h2 className="text-3xl font-bold text-white mb-2">
                     AI Agent Builder

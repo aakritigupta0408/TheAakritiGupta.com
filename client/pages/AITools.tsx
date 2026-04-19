@@ -112,9 +112,9 @@ export default function AITools() {
         },
       ]}
     >
-      <div className="container mx-auto px-6 py-10 sm:py-12">
+      <div className="container mx-auto px-4 py-4">
         <motion.section
-          className="mb-8 rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-xl"
+          className="mb-3 rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -194,7 +194,7 @@ export default function AITools() {
           </div>
         </section>
 
-        <div className="mb-12 grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-3">
+        <div className="mb-4 grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-3">
           {visibleProfessions.map((profession, index) => (
             <motion.button
               key={profession.id}
@@ -280,7 +280,7 @@ export default function AITools() {
         </div>
 
         {hasMoreProfessions && (
-          <div className="mb-12 flex justify-center">
+          <div className="mb-4 flex justify-center">
             <LevelOneLoadMoreButton
               label="Load 4 more"
               glowClassName="from-violet-400/0 via-violet-400/20 to-violet-400/0"

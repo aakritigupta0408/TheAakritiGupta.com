@@ -122,7 +122,7 @@ export default function Games() {
     >
 
       {/* Game Selection Grid */}
-      <section className="relative z-20 py-16 pt-10">
+      <section className="relative z-20 py-6 pt-4">
         <div className="max-w-7xl mx-auto px-8">
           <div className="mx-auto mb-10 flex max-w-5xl flex-col gap-4 rounded-3xl border border-white/15 bg-white/10 p-5 text-center backdrop-blur-xl md:flex-row md:items-center md:justify-between md:text-left">
             <div>
@@ -142,7 +142,7 @@ export default function Games() {
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-4"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Choose Your
@@ -157,7 +157,7 @@ export default function Games() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {visibleGames.map((game, index) => (
               <motion.div
                 key={game.id}
@@ -245,7 +245,7 @@ export default function Games() {
       {/* Game Display Area */}
       <AnimatePresence mode="wait">
         {activeGame && (
-          <section className="relative z-20 py-16">
+          <section className="relative z-20 py-6">
             <div className="max-w-7xl mx-auto px-8">
               <motion.div
                 key={activeGame}
@@ -309,9 +309,9 @@ export default function Games() {
       </AnimatePresence>
 
       {/* Enhanced Footer */}
-      <section className="relative z-20 py-16 bg-gray-100 border-t border-gray-200">
+      <section className="relative z-20 py-6 bg-gray-100 border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
             {/* About Section */}
             <div>
               <h3 className="text-lg font-bold text-black mb-4">

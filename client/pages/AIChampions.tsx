@@ -78,9 +78,9 @@ export default function AIChampions() {
         },
       ]}
     >
-      <div className="container mx-auto px-6 py-10 sm:py-12">
+      <div className="container mx-auto px-4 py-4">
         <motion.section
-          className="mb-8 rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-xl"
+          className="mb-3 rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -141,7 +141,7 @@ export default function AIChampions() {
           </span>
         </section>
 
-        <div className="mb-12 grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
+        <div className="mb-4 grid grid-cols-1 gap-3 lg:grid-cols-2 xl:grid-cols-3">
           {visibleVictories.map((victory, index) => (
             <motion.button
               key={victory.id}
@@ -226,7 +226,7 @@ export default function AIChampions() {
         </div>
 
         {hasMoreVictories && (
-          <div className="mb-12 flex justify-center">
+          <div className="mb-4 flex justify-center">
             <LevelOneLoadMoreButton
               label="Load 3 more"
               glowClassName="from-amber-400/0 via-amber-400/20 to-amber-400/0"
@@ -423,7 +423,7 @@ export default function AIChampions() {
 
         <AnimatePresence mode="wait">
           {activeVictory && (
-            <section className="mb-12">
+            <section className="mb-4">
               <div className="rounded-[2rem] border border-white/15 bg-white shadow-2xl">
                 <motion.div
                   key={activeVictory.id}

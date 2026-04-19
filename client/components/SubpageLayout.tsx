@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import {
   ArrowLeft,
   ArrowRight,
-  Home,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
@@ -29,36 +28,36 @@ interface SubpageLayoutProps {
 }
 
 const levelOnePages = [
-  { path: "/ai-playground", label: "AI Playground" },
-  { path: "/ai-tools", label: "AI Tools" },
-  { path: "/ai-projects", label: "AI Projects" },
-  { path: "/prompt-engineering", label: "Prompt Engineering" },
-  { path: "/ai-agent-training", label: "Agent Training" },
-  { path: "/ai-companies", label: "AI Companies" },
+  { path: "/ai-playground", label: "Playground" },
+  { path: "/ai-tools", label: "Tools" },
+  { path: "/ai-projects", label: "Projects" },
+  { path: "/prompt-engineering", label: "Prompting" },
+  { path: "/ai-agent-training", label: "Agents" },
+  { path: "/ai-companies", label: "Companies" },
   { path: "/ai-discoveries", label: "Discoveries" },
   { path: "/ai-champions", label: "Champions" },
   { path: "/games", label: "Games" },
-  { path: "/resume-builder", label: "Resume Builder" },
+  { path: "/resume-builder", label: "Resume" },
 ];
 
 const accentColors: Record<AccentTone, { badge: string; stat: string; active: string }> = {
   blue: {
-    badge: "bg-sky-100 text-sky-800 border-sky-200",
+    badge: "bg-sky-100 text-sky-800",
     stat: "text-sky-600",
     active: "bg-sky-100 text-sky-900 border-sky-300",
   },
   emerald: {
-    badge: "bg-emerald-100 text-emerald-800 border-emerald-200",
+    badge: "bg-emerald-100 text-emerald-800",
     stat: "text-emerald-600",
     active: "bg-emerald-100 text-emerald-900 border-emerald-300",
   },
   rose: {
-    badge: "bg-rose-100 text-rose-800 border-rose-200",
+    badge: "bg-rose-100 text-rose-800",
     stat: "text-rose-600",
     active: "bg-rose-100 text-rose-900 border-rose-300",
   },
   amber: {
-    badge: "bg-amber-100 text-amber-800 border-amber-200",
+    badge: "bg-amber-100 text-amber-800",
     stat: "text-amber-600",
     active: "bg-amber-100 text-amber-900 border-amber-300",
   },
@@ -84,37 +83,46 @@ export default function SubpageLayout({
       : undefined;
 
   return (
-    <div className="relative min-h-screen bg-[#f5f5f7] text-slate-900">
+    <div className="flex h-screen flex-col overflow-hidden bg-[#f5f5f7] text-slate-900">
       <Navigation />
 
-      <div className="h-20 lg:h-28" aria-hidden="true" />
+      {/* Spacer for fixed nav */}
+      <div className="shrink-0 h-16 lg:h-[7rem]" aria-hidden="true" />
 
-      <header className="border-b border-slate-200 bg-white px-4 pb-4 pt-2 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+      {/* Header bar */}
+      <header className="shrink-0 border-b border-slate-200 bg-white px-4 py-2 sm:px-6">
+        <div className="mx-auto flex max-w-7xl flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex min-w-0 items-center gap-3">
             <span
               className={cn(
-                "rounded-full border px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest",
+                "shrink-0 rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest",
                 colors.badge,
               )}
             >
               {eyebrow}
             </span>
-            {metrics.slice(0, 4).map((m) => (
-              <span key={m.label} className="text-[11px] text-slate-400">
-                <span className={cn("font-bold", colors.stat)}>{m.value}</span>{" "}
-                {m.label}
-              </span>
-            ))}
+            <h1 className="truncate text-sm font-semibold text-slate-900 sm:text-base">
+              {title}
+            </h1>
+            <div className="hidden items-center gap-2 text-[10px] text-slate-400 lg:flex">
+              {metrics.slice(0, 3).map((m) => (
+                <span key={m.label}>
+                  <span className={cn("font-bold", colors.stat)}>{m.value}</span>{" "}
+                  {m.label}
+                </span>
+              ))}
+            </div>
           </div>
 
-          <h1 className="mt-2 text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">
-            {title}
-          </h1>
-
-          <p className="mt-1 text-sm text-slate-500">{description}</p>
-
-          <nav className="mt-3 flex gap-1 overflow-x-auto pb-0.5" aria-label="Page navigation">
+          <div className="flex items-center gap-1 overflow-x-auto">
+            {previousPage && (
+              <Link
+                to={previousPage.path}
+                className="shrink-0 rounded-full border border-slate-200 px-2 py-0.5 text-[10px] text-slate-500 hover:bg-slate-50"
+              >
+                <ArrowLeft className="inline h-3 w-3" /> {previousPage.label}
+              </Link>
+            )}
             {levelOnePages.map((page) => {
               const isCurrent = page.path === route;
               return (
@@ -123,68 +131,39 @@ export default function SubpageLayout({
                   to={page.path}
                   aria-current={isCurrent ? "page" : undefined}
                   className={cn(
-                    "shrink-0 rounded-full border px-3 py-1 text-[11px] font-medium transition-colors",
+                    "shrink-0 rounded-full px-2 py-0.5 text-[10px] font-medium transition-colors",
                     isCurrent
-                      ? colors.active
-                      : "border-transparent text-slate-400 hover:bg-slate-100 hover:text-slate-700",
+                      ? cn("border", colors.active)
+                      : "text-slate-400 hover:text-slate-700",
                   )}
                 >
                   {page.label}
                 </Link>
               );
             })}
-          </nav>
+            {nextPage && (
+              <Link
+                to={nextPage.path}
+                className="shrink-0 rounded-full border border-slate-200 px-2 py-0.5 text-[10px] text-slate-500 hover:bg-slate-50"
+              >
+                {nextPage.label} <ArrowRight className="inline h-3 w-3" />
+              </Link>
+            )}
+          </div>
         </div>
       </header>
 
-      <main className="px-4 pb-10 pt-4 sm:px-6 lg:px-8">
-        <section className="mx-auto max-w-7xl">
-          <div
-            className={cn(
-              "rounded-2xl bg-slate-800",
-              frameClassName,
-            )}
-          >
-            {children}
-          </div>
-        </section>
-
-        <section className="mx-auto mt-4 max-w-7xl">
-          <div className="flex items-center justify-between">
-            {previousPage ? (
-              <Link
-                to={previousPage.path}
-                className="flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50"
-              >
-                <ArrowLeft className="h-3.5 w-3.5" />
-                {previousPage.label}
-              </Link>
-            ) : (
-              <div />
-            )}
-
-            <Link
-              to="/"
-              className="flex items-center gap-1.5 text-xs font-medium text-slate-400 transition-colors hover:text-slate-700"
-            >
-              <Home className="h-3.5 w-3.5" />
-              Home
-            </Link>
-
-            {nextPage ? (
-              <Link
-                to={nextPage.path}
-                className="flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50"
-              >
-                {nextPage.label}
-                <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
-            ) : (
-              <div />
-            )}
-          </div>
-        </section>
-      </main>
+      {/* Content area — fills remaining height, scrolls internally */}
+      <div className="min-h-0 flex-1 overflow-y-auto px-4 py-3 sm:px-6">
+        <div
+          className={cn(
+            "mx-auto max-w-7xl rounded-xl bg-slate-800",
+            frameClassName,
+          )}
+        >
+          {children}
+        </div>
+      </div>
     </div>
   );
 }

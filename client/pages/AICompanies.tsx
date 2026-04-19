@@ -74,9 +74,9 @@ export default function AICompanies() {
         },
       ]}
     >
-      <div className="container mx-auto px-6 py-10 sm:py-12">
+      <div className="container mx-auto px-4 py-4">
         <motion.section
-          className="mb-8 rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-xl"
+          className="mb-3 rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -160,7 +160,7 @@ export default function AICompanies() {
         </section>
 
         {filteredCompanies.length === 0 ? (
-          <div className="mb-12 rounded-[2rem] border border-white/15 bg-white/10 p-6 text-center shadow-2xl backdrop-blur-xl">
+          <div className="mb-4 rounded-[2rem] border border-white/15 bg-white/10 p-6 text-center shadow-2xl backdrop-blur-xl">
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-emerald-100">
               No Matches Right Now
             </p>
@@ -173,7 +173,7 @@ export default function AICompanies() {
             </p>
           </div>
         ) : (
-          <div className="mb-12 grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-4">
+          <div className="mb-4 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
             {visibleCompanies.map((company, index) => (
               <motion.button
                 key={company.id}
@@ -257,7 +257,7 @@ export default function AICompanies() {
         )}
 
         {hasMoreCompanies && (
-          <div className="mb-12 flex justify-center">
+          <div className="mb-4 flex justify-center">
             <LevelOneLoadMoreButton
               label="Load 8 more"
               glowClassName="from-emerald-400/0 via-emerald-400/20 to-emerald-400/0"

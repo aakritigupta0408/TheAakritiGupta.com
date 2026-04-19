@@ -265,7 +265,7 @@ export default function ResumeBuilder() {
         },
       ]}
     >
-      <div className="container mx-auto px-4 py-8 sm:px-6 sm:py-10">
+      <div className="container mx-auto px-4 py-4">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}

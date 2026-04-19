@@ -57,9 +57,9 @@ export default function AIProjects() {
         },
       ]}
     >
-      <div className="container mx-auto px-6 py-10 sm:py-12">
+      <div className="container mx-auto px-4 py-4">
         <motion.section
-          className="mb-8 rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-xl"
+          className="mb-3 rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -144,14 +144,14 @@ export default function AIProjects() {
         </section>
 
         {filteredProjects.length === 0 ? (
-          <div className="mb-12 rounded-[2rem] border border-white/20 bg-white/10 p-6 text-center backdrop-blur-xl">
+          <div className="mb-4 rounded-[2rem] border border-white/20 bg-white/10 p-6 text-center backdrop-blur-xl">
             <h3 className="text-3xl font-black text-white">No projects found</h3>
             <p className="mt-3 text-lg text-gray-200">
               Reset the filters to compare the full build library again.
             </p>
           </div>
         ) : (
-          <div className="mb-12 grid grid-cols-1 gap-8 lg:grid-cols-2">
+          <div className="mb-4 grid grid-cols-1 gap-3 lg:grid-cols-2">
             {visibleProjects.map((project, index) => (
               <motion.button
                 key={project.id}
@@ -238,7 +238,7 @@ export default function AIProjects() {
         )}
 
         {hasMoreProjects && (
-          <div className="mb-12 flex justify-center">
+          <div className="mb-4 flex justify-center">
             <LevelOneLoadMoreButton
               label="Load 6 more"
               glowClassName="from-pink-400/0 via-pink-400/20 to-pink-400/0"

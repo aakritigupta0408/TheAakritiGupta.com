@@ -77,9 +77,9 @@ export default function AIDiscoveries() {
         },
       ]}
     >
-      <div className="container mx-auto px-6 py-10 sm:py-12">
+      <div className="container mx-auto px-4 py-4">
         <motion.section
-          className="mb-8 rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-xl"
+          className="mb-3 rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -167,14 +167,14 @@ export default function AIDiscoveries() {
         </section>
 
         {filteredDiscoveries.length === 0 ? (
-          <div className="mb-12 rounded-[2rem] border border-white/20 bg-white/10 p-6 text-center backdrop-blur-xl">
+          <div className="mb-4 rounded-[2rem] border border-white/20 bg-white/10 p-6 text-center backdrop-blur-xl">
             <h3 className="text-3xl font-black text-white">No discoveries found</h3>
             <p className="mt-3 text-lg text-gray-200">
               Try a different decade or reset back to the full archive.
             </p>
           </div>
         ) : (
-          <div className="mb-12 grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-4">
+          <div className="mb-4 grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-4">
             {visibleDiscoveries.map((discovery, index) => (
               <motion.button
                 key={discovery.id}
@@ -226,7 +226,7 @@ export default function AIDiscoveries() {
         )}
 
         {hasMoreDiscoveries && (
-          <div className="mb-12 flex justify-center">
+          <div className="mb-4 flex justify-center">
             <LevelOneLoadMoreButton
               label="Load 8 more"
               onClick={() => setVisibleCount((current) => current + 8)}
