@@ -65,8 +65,6 @@ export default function AIDiscoveries() {
       description={pageRefresh.description}
       accent="blue"
       chips={pageRefresh.chips}
-      refreshSummary={pageRefresh.refreshSummary}
-      updatedAtLabel={pageRefresh.updatedAtLabel}
       metrics={[
         {
           value: discoveries.length.toString(),

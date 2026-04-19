@@ -78,15 +78,15 @@ const Navigation = () => {
   const navLinks = [
     { path: "/", label: "HOME", emoji: "🏠" },
     { path: "/ai-playground", label: "INTERACTIVE DEMOS", emoji: "🎮" },
-    { path: "/ai-champions", label: "AI VS HUMANS", emoji: "🏆" },
-    { path: "/ai-discoveries", label: "AI DISCOVERIES", emoji: "🔬" },
     { path: "/ai-tools", label: "AI TOOLS", emoji: "🛠️" },
-    { path: "/ai-companies", label: "AI COMPANIES", emoji: "🏢" },
     { path: "/ai-projects", label: "AI PROJECTS", emoji: "🚀" },
     { path: "/prompt-engineering", label: "PROMPT MASTERY", emoji: "✨" },
     { path: "/ai-agent-training", label: "AGENT TRAINING", emoji: "🤖" },
-    { path: "/resume-builder", label: "RESUME BUILDER", emoji: "📄" },
+    { path: "/ai-companies", label: "AI COMPANIES", emoji: "🏢" },
+    { path: "/ai-discoveries", label: "AI DISCOVERIES", emoji: "🔬" },
+    { path: "/ai-champions", label: "AI VS HUMANS", emoji: "🏆" },
     { path: "/games", label: "GAMES", emoji: "🎯" },
+    { path: "/resume-builder", label: "RESUME BUILDER", emoji: "📄" },
   ];
 
   const resourceLinks = [

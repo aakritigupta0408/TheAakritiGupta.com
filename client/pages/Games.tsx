@@ -109,8 +109,6 @@ export default function Games() {
       description={pageRefresh.description}
       accent="amber"
       chips={pageRefresh.chips}
-      refreshSummary={pageRefresh.refreshSummary}
-      updatedAtLabel={pageRefresh.updatedAtLabel}
       metrics={[
         {
           value: gameCards.length.toString(),

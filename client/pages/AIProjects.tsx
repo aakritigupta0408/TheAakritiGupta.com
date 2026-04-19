@@ -45,8 +45,6 @@ export default function AIProjects() {
       description={pageRefresh.description}
       accent="rose"
       chips={pageRefresh.chips}
-      refreshSummary={pageRefresh.refreshSummary}
-      updatedAtLabel={pageRefresh.updatedAtLabel}
       metrics={[
         { value: projects.length.toString(), label: "Project blueprints" },
         {

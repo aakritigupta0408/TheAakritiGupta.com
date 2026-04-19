@@ -921,8 +921,6 @@ Deliverable:
       description={pageRefresh.description}
       accent="rose"
       chips={pageRefresh.chips}
-      refreshSummary={pageRefresh.refreshSummary}
-      updatedAtLabel={pageRefresh.updatedAtLabel}
       metrics={[
         {
           value: promptExamples.length.toString(),

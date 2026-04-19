@@ -1194,8 +1194,6 @@ Week 7-8: Production rollout, tracing, and monitoring
       description={pageRefresh.description}
       accent="blue"
       chips={pageRefresh.chips}
-      refreshSummary={pageRefresh.refreshSummary}
-      updatedAtLabel={pageRefresh.updatedAtLabel}
       metrics={[
         {
           value: aiAgentExamples.length.toString(),

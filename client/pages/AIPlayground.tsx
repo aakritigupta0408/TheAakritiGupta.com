@@ -340,8 +340,6 @@ export default function AIPlayground() {
       description={pageRefresh.description}
       accent="rose"
       chips={pageRefresh.chips}
-      refreshSummary={pageRefresh.refreshSummary}
-      updatedAtLabel={pageRefresh.updatedAtLabel}
       metrics={[
         {
           value: AI_DEMOS.length.toString(),

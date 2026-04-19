@@ -63,8 +63,6 @@ export default function AIChampions() {
       description={pageRefresh.description}
       accent="amber"
       chips={pageRefresh.chips}
-      refreshSummary={pageRefresh.refreshSummary}
-      updatedAtLabel={pageRefresh.updatedAtLabel}
       metrics={[
         {
           value: victories.length.toString(),

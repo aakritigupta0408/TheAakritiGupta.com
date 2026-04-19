@@ -61,8 +61,6 @@ export default function AICompanies() {
       description={pageRefresh.description}
       accent="emerald"
       chips={pageRefresh.chips}
-      refreshSummary={pageRefresh.refreshSummary}
-      updatedAtLabel={pageRefresh.updatedAtLabel}
       metrics={[
         { value: companies.length.toString(), label: "Company cards" },
         { value: recentAdditionsCount.toString(), label: "Recently added" },
