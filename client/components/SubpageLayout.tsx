@@ -88,10 +88,10 @@ export default function SubpageLayout({
       : undefined;
 
   return (
-    <div className="relative min-h-screen bg-[#f5f5f7] text-slate-900">
+    <div className="relative min-h-screen bg-slate-100 text-slate-900">
       <Navigation />
 
-      <main className="relative z-10 px-4 pb-12 pt-20 sm:px-6 lg:px-8">
+      <main className="relative z-10 px-4 pb-12 pt-20 sm:px-6 lg:px-8 lg:pt-32">
         <section className="mx-auto max-w-7xl">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -152,10 +152,10 @@ export default function SubpageLayout({
           </motion.div>
         </section>
 
-        <section className="mx-auto mt-4 max-w-7xl">
+        <section className="mx-auto mt-3 max-w-7xl">
           <div
             className={cn(
-              "overflow-hidden rounded-3xl border border-slate-900/8 bg-[linear-gradient(180deg,rgba(15,23,42,0.97),rgba(17,24,39,0.985))] shadow-[0_20px_60px_rgba(15,23,42,0.15)]",
+              "overflow-hidden rounded-2xl border border-slate-700/40 bg-slate-800 shadow-[0_8px_30px_rgba(15,23,42,0.12)]",
               frameClassName,
             )}
           >
