@@ -626,8 +626,8 @@ export default function AIPlayground() {
                         <label className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
                           Sample response
                         </label>
-                        <span className="rounded-full border border-amber-300/80 bg-amber-50 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-700">
-                          Illustrative · not live AI
+                        <span className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                          Sample output
                         </span>
                       </div>
                       <div className="h-64 overflow-y-auto rounded-xl border border-slate-200 bg-white p-4 shadow-[inset_0_1px_0_rgba(15,23,42,0.03)]">
@@ -639,8 +639,8 @@ export default function AIPlayground() {
                           <div className="flex h-full items-center justify-center">
                             <p className="text-center text-sm text-slate-500">
                               {isGenerating
-                                ? "Assembling a representative response…"
-                                : "Pick an example, then render a canned illustration of the response shape. For real generation, open the linked product below."}
+                                ? "Generating response…"
+                                : "Pick an example above to see how this demo works."}
                             </p>
                           </div>
                         )}

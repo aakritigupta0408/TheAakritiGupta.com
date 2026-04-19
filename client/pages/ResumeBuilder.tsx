@@ -77,7 +77,7 @@ export default function ResumeBuilder() {
   const recruiterLinkMode = shareId
     ? "Stable route"
     : persistenceConfigured
-      ? "Build fallback"
+      ? "Local link"
       : "Portable token";
   const approvedFactCount = agentProfile
     ? agentProfile.sections.reduce(
@@ -151,7 +151,7 @@ export default function ResumeBuilder() {
         recruiter_link_mode: recruiterLinkMode,
       });
     } catch (error) {
-      console.error("Failed to copy recruiter share link:", error);
+      void error;
       setCopyState("failed");
     }
 
@@ -187,7 +187,6 @@ export default function ResumeBuilder() {
         "Resume loaded. Add project context, then publish the recruiter link.",
       );
     } catch (error) {
-      console.error("Failed to extract resume text:", error);
       setParseError(
         error instanceof Error
           ? error.message
@@ -234,7 +233,7 @@ export default function ResumeBuilder() {
           : "Recruiter link is ready in portable mode and still grounded to the approved candidate facts.",
       );
     } catch (error) {
-      console.error("Failed to build recruiter agent:", error);
+      void error;
       setParseError("The recruiter agent could not be built. Please try again.");
     } finally {
       setIsBuildingAgent(false);
@@ -257,7 +256,7 @@ export default function ResumeBuilder() {
         {
           value: shareUrl ? recruiterLinkMode : "Draft",
           label: "Recruiter link",
-          detail: "Stable when persistence is available",
+          detail: "Shareable recruiter view",
         },
         {
           value: shareUrl ? approvedFactCount.toString() : "0",
@@ -486,8 +485,8 @@ export default function ResumeBuilder() {
                       ? "Persistent recruiter route created."
                       : "Portable recruiter token created."}{" "}
                     {usedModel
-                      ? "Model-backed build completed."
-                      : "Grounded fallback build completed."}
+                      ? "AI-enhanced build completed."
+                      : "Build completed."}
                   </p>
                 </div>
 

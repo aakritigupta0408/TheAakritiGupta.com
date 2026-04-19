@@ -136,8 +136,7 @@ export default function Games() {
               </p>
             </div>
             <p className="text-sm text-slate-300 md:max-w-md">
-              The page now behaves more like a curated arcade shelf than a dense
-              gallery. Pick one game, play it, then jump back for the next.
+              Pick a game, play it in the browser, then jump back for the next.
             </p>
           </div>
 

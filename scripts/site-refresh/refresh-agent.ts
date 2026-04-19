@@ -829,7 +829,9 @@ function buildSignalsPrompt(researchDossier: ResearchDossier) {
 Rules:
 - Return JSON only. No markdown, no code fences, no commentary.
 - Keep the exact top-level keys requested.
-- Use absolute dates like "April 9, 2026" when possible. If a source only supports a broader time range, use a precise range string such as "2025-2026 rollout".
+- Use specific dates like "April 9, 2026" or at minimum "March 2025". Never use vague ranges like "2025-2026", "Late 2025", "2026 launch cycle", or "2026 platform push".
+- Only reference products and events that verifiably exist. Do not speculate about unreleased or unannounced products. If a product has no confirmed public release, do not include it.
+- URLs must point to specific articles or product pages, not generic topic/category pages.
 - Prefer official or primary sources for URLs when the dossier includes them.
 - Keep the tone concise, factual, and useful for a premium portfolio site.
 - Update only current-information datasets. Do not turn evergreen sections into news feeds.

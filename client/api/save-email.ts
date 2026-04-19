@@ -10,15 +10,12 @@ export const saveEmailToLocalStorage = (email: string): boolean => {
     const updatedEmails = existingEmails + newEmailEntry;
 
     localStorage.setItem("submittedEmails", updatedEmails);
-    console.log("Email saved to localStorage as backup:", email);
     return true;
-  } catch (error) {
-    console.error("Error saving email to localStorage:", error);
+  } catch {
     return false;
   }
 };
 
-// Export emails from localStorage to downloadable file
 export const downloadEmailsFromLocalStorage = (): void => {
   try {
     if (typeof window === "undefined") {
@@ -37,8 +34,7 @@ export const downloadEmailsFromLocalStorage = (): void => {
     document.body.removeChild(link);
 
     URL.revokeObjectURL(url);
-    console.log("Emails downloaded from localStorage");
-  } catch (error) {
-    console.error("Error downloading emails:", error);
+  } catch {
+    // Silent fallback — email download is best-effort
   }
 };

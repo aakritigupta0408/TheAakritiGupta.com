@@ -18,8 +18,7 @@ export async function callOpenAI(userMessage: string): Promise<string> {
 
     const data = (await response.json()) as ChatResponse;
     return data.response;
-  } catch (error) {
-    console.error("Error calling chat API:", error);
+  } catch {
     return getLocalChatResponse(userMessage);
   }
 }

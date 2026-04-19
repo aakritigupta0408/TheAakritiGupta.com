@@ -102,6 +102,7 @@ export default function AIChampions() {
                 key={victory.id}
                 type="button"
                 onClick={() => setSelectedVictory(victory)}
+                aria-label={`View ${victory.aiName} vs human champion in ${victory.game}`}
                 className="rounded-2xl border border-white/10 bg-white/5 p-4 text-left transition hover:bg-white/10"
               >
                 <div className="mb-2 flex items-center justify-between gap-2 text-[11px] uppercase tracking-[0.18em] text-gray-400">
@@ -126,6 +127,7 @@ export default function AIChampions() {
               <button
                 key={filter}
                 onClick={() => setFilterType(filter)}
+                aria-label={`Filter by ${filter}`}
                 className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                   filterType === filter
                     ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white"
@@ -147,6 +149,7 @@ export default function AIChampions() {
               key={victory.id}
               type="button"
               onClick={() => setSelectedVictory(victory)}
+              aria-label={`${victory.aiName} vs ${victory.opponent} in ${victory.game}, ${victory.year}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{

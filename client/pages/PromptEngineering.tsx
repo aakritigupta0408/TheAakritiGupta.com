@@ -840,7 +840,7 @@ const promptExamples: PromptExample[] = [
       templates: [
         {
           name: "Debugging Prompt Templates",
-          url: "https://github.com/debugging-prompts/collection",
+          url: "https://github.com/f/awesome-chatgpt-prompts#act-as-a-software-quality-assurance-tester",
           description: "Systematic debugging prompt library",
           category: "Programming",
         },

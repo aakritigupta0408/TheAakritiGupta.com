@@ -35,7 +35,7 @@ async function attachPersistentShareId(
       shareId,
     };
   } catch (error) {
-    console.error("Resume agent persistence failed:", error);
+    void error;
     return result;
   }
 }
@@ -60,7 +60,7 @@ export async function buildResumeAgent(
       (await response.json()) as ResumeAgentBuildResponse,
     );
   } catch (error) {
-    console.error("Resume agent build API failed, using local fallback:", error);
+    void error;
     const profile = createResumeAgentProfileFromInput(request);
 
     return await attachPersistentShareId({
@@ -81,7 +81,7 @@ export async function fetchResumeAgent(
       return (await response.json()) as ResumeAgentFetchResponse;
     }
   } catch (error) {
-    console.error("Resume agent fetch API failed:", error);
+    void error;
   }
 
   try {
@@ -97,7 +97,7 @@ export async function fetchResumeAgent(
       usedModel: false,
     };
   } catch (error) {
-    console.error("Resume agent database fetch failed:", error);
+    void error;
     return null;
   }
 }
@@ -120,7 +120,7 @@ export async function chatWithResumeAgent(
 
     return (await response.json()) as ResumeAgentChatResponse;
   } catch (error) {
-    console.error("Resume agent chat API failed, using local fallback:", error);
+    void error;
     const profile = sanitizeResumeAgentProfile(request.profile);
 
     return {

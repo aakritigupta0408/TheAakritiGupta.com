@@ -283,7 +283,7 @@ export default function Index() {
 
       savedRemotely = true;
     } catch (serverError) {
-      console.log("Server save failed, using localStorage:", serverError);
+      void serverError;
     } finally {
       setIsSavingEmail(false);
     }
