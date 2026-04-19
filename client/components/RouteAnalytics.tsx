@@ -10,6 +10,7 @@ export default function RouteAnalytics() {
   }, []);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     trackPageView(`${location.pathname}${location.search}`);
   }, [location.pathname, location.search]);
 
