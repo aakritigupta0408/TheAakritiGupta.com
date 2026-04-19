@@ -354,7 +354,7 @@ export default function AIPlayground() {
 
       <section className="relative z-20 px-4 py-6 sm:px-6 sm:py-8">
         <div className="mx-auto max-w-7xl space-y-5">
-          <div className="rounded-[1.75rem] border border-white/10 bg-slate-950/30 p-5 backdrop-blur-xl sm:p-6">
+          <div className="rounded-[1.75rem] border border-white/10 bg-white/[0.08] p-5 backdrop-blur-xl sm:p-4">
             <div className="mb-4 flex items-baseline justify-between gap-3">
               <h2 className="text-lg font-semibold text-white">
                 Current AI launches
@@ -396,7 +396,7 @@ export default function AIPlayground() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.45, delay: index * 0.08 }}
-                className={`overflow-hidden rounded-[1.9rem] border bg-gradient-to-br p-5 backdrop-blur-xl sm:p-6 ${showcase.accent}`}
+                className={`overflow-hidden rounded-[1.9rem] border bg-gradient-to-br p-5 backdrop-blur-xl sm:p-4 ${showcase.accent}`}
               >
                 <div className="flex flex-col gap-5">
                   <div>
@@ -523,7 +523,7 @@ export default function AIPlayground() {
                 transition={{ duration: 0.8 }}
                 className="overflow-hidden rounded-[22px] border border-white/15 bg-gradient-to-br from-white/95 via-white/92 to-slate-50 shadow-[0_30px_80px_rgba(8,12,24,0.35)]"
               >
-                <div className="border-b border-slate-200/80 bg-white/80 p-5 backdrop-blur-xl sm:p-6">
+                <div className="border-b border-slate-200/80 bg-white/80 p-5 backdrop-blur-xl sm:p-4">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-4">
                       <div
@@ -564,7 +564,7 @@ export default function AIPlayground() {
                   </div>
                 </div>
 
-                <div className="bg-slate-50/60 p-5 sm:p-6">
+                <div className="bg-slate-50/60 p-5 sm:p-4">
                   <div className="grid gap-6 lg:grid-cols-2">
                     <div>
                       <label className="mb-3 block text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">

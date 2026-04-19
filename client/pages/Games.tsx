@@ -179,7 +179,7 @@ export default function Games() {
               >
                 {/* Game Header */}
                 <div
-                  className={`p-6 bg-gradient-to-r ${game.gradient} text-white relative overflow-hidden`}
+                  className={`p-4 bg-gradient-to-r ${game.gradient} text-white relative overflow-hidden`}
                 >
                   <motion.div
                     className="absolute inset-0 bg-white/10"
@@ -206,7 +206,7 @@ export default function Games() {
                 </div>
 
                 {/* Game Content */}
-                <div className="p-6">
+                <div className="p-4">
                   <p className="text-gray-600 text-sm leading-relaxed mb-4">
                     {game.description}
                   </p>
@@ -257,7 +257,7 @@ export default function Games() {
               >
                 {/* Game Header */}
                 <motion.div
-                  className={`p-6 bg-gradient-to-r ${gameCards.find((g) => g.id === activeGame)?.gradient} text-white relative`}
+                  className={`p-4 bg-gradient-to-r ${gameCards.find((g) => g.id === activeGame)?.gradient} text-white relative`}
                   initial={{ x: -100, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                   transition={{ delay: 0.2 }}

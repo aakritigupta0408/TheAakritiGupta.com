@@ -978,7 +978,7 @@ Deliverable:
         </motion.div>
 
         <motion.div
-          className="mb-10 rounded-[2rem] border border-white/15 bg-white/10 p-6 md:p-8 backdrop-blur-xl"
+          className="mb-10 rounded-[2rem] border border-white/15 bg-white/10 p-4 md:p-4 backdrop-blur-xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.7 }}
@@ -1010,7 +1010,7 @@ Deliverable:
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.45, delay: index * 0.08 }}
-                className="rounded-2xl border border-white/15 bg-slate-950/25 p-5 transition-all duration-300 hover:bg-slate-950/35"
+                className="rounded-2xl border border-white/15 bg-white/[0.06] p-5 transition-all duration-300 hover:bg-white/[0.12]"
               >
                 <div className="flex items-center justify-between gap-3 mb-3">
                   <span className="rounded-full border border-purple-300/30 bg-purple-400/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-purple-100">
@@ -1048,7 +1048,7 @@ Deliverable:
               {promptExamples.map((example, index) => (
                 <motion.div
                   key={example.id}
-                  className="bg-white/10 backdrop-blur-xl rounded-3xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 cursor-pointer group"
+                  className="bg-white/10 backdrop-blur-xl rounded-3xl p-4 border border-white/20 hover:bg-white/15 transition-all duration-300 cursor-pointer group"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
@@ -1190,7 +1190,7 @@ Deliverable:
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="bg-black/30 rounded-xl p-6 border border-green-400/30"
+                      className="bg-white/[0.08] rounded-xl p-4 border border-green-400/30"
                     >
                       <h3 className="text-xl font-bold text-green-300 mb-4">
                         ✨ Improved Version
@@ -1250,7 +1250,7 @@ Deliverable:
                       <h3 className="text-xl font-bold text-red-300 mb-4">
                         ❌ Weak Prompt
                       </h3>
-                      <div className="bg-black/30 rounded-lg p-4 font-mono text-sm text-gray-300">
+                      <div className="bg-white/[0.08] rounded-lg p-4 font-mono text-sm text-gray-300">
                         {selectedExample.badPrompt}
                       </div>
                     </div>
@@ -1259,7 +1259,7 @@ Deliverable:
                       <h3 className="text-xl font-bold text-green-300 mb-4">
                         ✅ Strong Prompt
                       </h3>
-                      <div className="bg-black/30 rounded-lg p-4 font-mono text-sm text-gray-300 whitespace-pre-wrap">
+                      <div className="bg-white/[0.08] rounded-lg p-4 font-mono text-sm text-gray-300 whitespace-pre-wrap">
                         {selectedExample.goodPrompt}
                       </div>
                     </div>
@@ -1324,7 +1324,7 @@ Deliverable:
                                 href={tutorial.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="block rounded-lg border border-green-500/20 bg-black/30 p-3 transition-all duration-300 hover:border-green-500/40 hover:bg-black/50"
+                                className="block rounded-lg border border-green-500/20 bg-white/[0.08] p-3 transition-all duration-300 hover:border-green-500/40 hover:bg-white/[0.15]"
                               >
                                 <div className="flex items-center justify-between">
                                   <div>
@@ -1359,7 +1359,7 @@ Deliverable:
                               href={video.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="block rounded-lg border border-red-500/20 bg-black/30 p-3 transition-all duration-300 hover:border-red-500/40 hover:bg-black/50"
+                              className="block rounded-lg border border-red-500/20 bg-white/[0.08] p-3 transition-all duration-300 hover:border-red-500/40 hover:bg-white/[0.15]"
                             >
                               <div className="flex items-center justify-between">
                                 <div>
@@ -1393,7 +1393,7 @@ Deliverable:
                               href={tool.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="block rounded-lg border border-purple-500/20 bg-black/30 p-3 transition-all duration-300 hover:border-purple-500/40 hover:bg-black/50"
+                              className="block rounded-lg border border-purple-500/20 bg-white/[0.08] p-3 transition-all duration-300 hover:border-purple-500/40 hover:bg-white/[0.15]"
                             >
                               <div className="flex items-center justify-between">
                                 <div>
@@ -1431,7 +1431,7 @@ Deliverable:
                                 href={template.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="block rounded-lg border border-yellow-500/20 bg-black/30 p-3 transition-all duration-300 hover:border-yellow-500/40 hover:bg-black/50"
+                                className="block rounded-lg border border-yellow-500/20 bg-white/[0.08] p-3 transition-all duration-300 hover:border-yellow-500/40 hover:bg-white/[0.15]"
                               >
                                 <div className="flex items-center justify-between">
                                   <div>
@@ -1508,7 +1508,7 @@ Deliverable:
                     <h3 className="text-xl font-bold text-cyan-300 mb-4">
                       📝 Example Usage
                     </h3>
-                    <div className="bg-black/30 rounded-lg p-4 font-mono text-sm text-gray-300">
+                    <div className="bg-white/[0.08] rounded-lg p-4 font-mono text-sm text-gray-300">
                       {selectedTechnique.example}
                     </div>
                   </div>
@@ -1544,7 +1544,7 @@ Deliverable:
                                 href={guide.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-blue-500/20 hover:border-blue-500/40"
+                                className="block p-3 bg-white/[0.08] rounded-lg hover:bg-white/[0.15] transition-all duration-300 border border-blue-500/20 hover:border-blue-500/40"
                               >
                                 <div className="flex items-center justify-between">
                                   <div>
@@ -1579,7 +1579,7 @@ Deliverable:
                                 href={paper.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-green-500/20 hover:border-green-500/40"
+                                className="block p-3 bg-white/[0.08] rounded-lg hover:bg-white/[0.15] transition-all duration-300 border border-green-500/20 hover:border-green-500/40"
                               >
                                 <div className="flex items-center justify-between">
                                   <div>
@@ -1616,7 +1616,7 @@ Deliverable:
                                 href={course.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-purple-500/20 hover:border-purple-500/40"
+                                className="block p-3 bg-white/[0.08] rounded-lg hover:bg-white/[0.15] transition-all duration-300 border border-purple-500/20 hover:border-purple-500/40"
                               >
                                 <div className="flex items-center justify-between">
                                   <div>
@@ -1651,7 +1651,7 @@ Deliverable:
                                 href={community.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-yellow-500/20 hover:border-yellow-500/40"
+                                className="block p-3 bg-white/[0.08] rounded-lg hover:bg-white/[0.15] transition-all duration-300 border border-yellow-500/20 hover:border-yellow-500/40"
                               >
                                 <div className="flex items-center justify-between">
                                   <div>

@@ -76,7 +76,7 @@ export default function AICompanies() {
     >
       <div className="container mx-auto px-6 py-10 sm:py-12">
         <motion.section
-          className="mb-8 rounded-[1.75rem] border border-white/10 bg-slate-950/25 p-6 backdrop-blur-xl"
+          className="mb-8 rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -160,7 +160,7 @@ export default function AICompanies() {
         </section>
 
         {filteredCompanies.length === 0 ? (
-          <div className="mb-12 rounded-[2rem] border border-white/15 bg-white/10 p-10 text-center shadow-2xl backdrop-blur-xl">
+          <div className="mb-12 rounded-[2rem] border border-white/15 bg-white/10 p-6 text-center shadow-2xl backdrop-blur-xl">
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-emerald-100">
               No Matches Right Now
             </p>
@@ -218,7 +218,7 @@ export default function AICompanies() {
                 </p>
 
                 <div className="relative grid grid-cols-2 gap-2">
-                  <div className="rounded-xl border border-white/10 bg-black/25 p-2.5">
+                  <div className="rounded-xl border border-white/10 bg-white/[0.06] p-2.5">
                     <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
                       Founded
                     </p>
@@ -226,7 +226,7 @@ export default function AICompanies() {
                       {company.founded}
                     </p>
                   </div>
-                  <div className="rounded-xl border border-white/10 bg-black/25 p-2.5">
+                  <div className="rounded-xl border border-white/10 bg-white/[0.06] p-2.5">
                     <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
                       Scale
                     </p>
@@ -286,8 +286,8 @@ export default function AICompanies() {
                 <span className="pointer-events-none absolute -right-20 top-10 h-56 w-56 rounded-full bg-emerald-400/15 blur-3xl" />
                 <span className="pointer-events-none absolute -left-16 bottom-8 h-44 w-44 rounded-full bg-cyan-400/12 blur-3xl" />
 
-                <div className="relative p-5 sm:p-7">
-                  <div className="mb-6 overflow-hidden rounded-[28px] border border-white/70 bg-gradient-to-br from-emerald-400/14 via-white/92 to-cyan-400/12 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.12)] sm:p-7">
+                <div className="relative p-5 sm:p-4">
+                  <div className="mb-6 overflow-hidden rounded-[28px] border border-white/70 bg-gradient-to-br from-emerald-400/14 via-white/92 to-cyan-400/12 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.12)] sm:p-4">
                     <div className="mb-6 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
                       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-5">
                         <div className="flex h-20 w-20 items-center justify-center rounded-[24px] border border-white/70 bg-white/80 text-5xl shadow-[0_20px_50px_rgba(16,185,129,0.18)]">
@@ -367,7 +367,7 @@ export default function AICompanies() {
                   </div>
 
                   <div className="mb-8 grid gap-6 lg:grid-cols-[1.05fr,1.4fr]">
-                    <div className="rounded-[1.75rem] border border-white/70 bg-white/80 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+                    <div className="rounded-[1.75rem] border border-white/70 bg-white/80 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
                       <h3 className="text-lg font-semibold text-slate-950">
                         Company facts
                       </h3>
@@ -402,7 +402,7 @@ export default function AICompanies() {
                       </div>
                     </div>
 
-                    <div className="rounded-[1.75rem] border border-white/70 bg-white/80 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+                    <div className="rounded-[1.75rem] border border-white/70 bg-white/80 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
                       <h3 className="text-lg font-semibold text-slate-950">What Matters Now</h3>
                       <p className="mt-4 text-base leading-relaxed text-slate-700">
                         {selectedCompany.description}
@@ -427,7 +427,7 @@ export default function AICompanies() {
                   </div>
 
                   <div className="mb-8 grid gap-6 lg:grid-cols-2">
-                    <div className="rounded-[1.75rem] border border-white/70 bg-white/80 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+                    <div className="rounded-[1.75rem] border border-white/70 bg-white/80 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
                       <h3 className="text-lg font-semibold text-slate-950">
                         Landmark Contributions
                       </h3>
@@ -443,7 +443,7 @@ export default function AICompanies() {
                       </div>
                     </div>
 
-                    <div className="rounded-[1.75rem] border border-white/70 bg-white/80 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+                    <div className="rounded-[1.75rem] border border-white/70 bg-white/80 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
                       <h3 className="text-lg font-semibold text-slate-950">Key Products</h3>
                       <div className="mt-4 flex flex-wrap gap-3">
                         {selectedCompany.keyProducts.map((item) => (
@@ -472,7 +472,7 @@ export default function AICompanies() {
                     </div>
                   </div>
 
-                  <div className="rounded-[1.75rem] border border-white/70 bg-white/80 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+                  <div className="rounded-[1.75rem] border border-white/70 bg-white/80 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                       <div>
                         <h3 className="text-lg font-semibold text-slate-950">Primary Sources</h3>

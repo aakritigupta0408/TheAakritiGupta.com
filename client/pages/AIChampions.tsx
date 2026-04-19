@@ -80,7 +80,7 @@ export default function AIChampions() {
     >
       <div className="container mx-auto px-6 py-10 sm:py-12">
         <motion.section
-          className="mb-8 rounded-[1.75rem] border border-white/10 bg-slate-950/25 p-6 backdrop-blur-xl"
+          className="mb-8 rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -166,7 +166,7 @@ export default function AIChampions() {
               }`}
             >
               <div
-                className={`bg-gradient-to-r ${victory.gradient} p-6 text-white`}
+                className={`bg-gradient-to-r ${victory.gradient} p-4 text-white`}
               >
                 <div className="mb-4 flex items-start justify-between gap-4">
                   <div>
@@ -249,7 +249,7 @@ export default function AIChampions() {
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.94, opacity: 0, y: 24 }}
                 transition={{ duration: 0.25 }}
-                className="max-h-[90vh] w-full max-w-5xl overflow-y-auto rounded-[2rem] border border-white/15 bg-slate-950 shadow-2xl"
+                className="max-h-[90vh] w-full max-w-5xl overflow-y-auto rounded-[2rem] border border-white/15 bg-slate-800 shadow-2xl"
                 onClick={(event) => event.stopPropagation()}
               >
                 <div
@@ -317,7 +317,7 @@ export default function AIChampions() {
                   </div>
 
                   <div className="mb-8 grid gap-6 lg:grid-cols-[1fr,1fr]">
-                    <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+                    <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
                       <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-300">
                         Why it mattered
                       </p>
@@ -325,7 +325,7 @@ export default function AIChampions() {
                         {selectedVictory.whyItMattered}
                       </p>
                     </div>
-                    <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+                    <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
                       <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-300">
                         Today context
                       </p>
@@ -335,7 +335,7 @@ export default function AIChampions() {
                     </div>
                   </div>
 
-                  <div className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-6">
+                  <div className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-4">
                     <p className="text-xs font-bold uppercase tracking-[0.18em] text-cyan-100">
                       Match format
                     </p>
@@ -344,7 +344,7 @@ export default function AIChampions() {
                     </p>
                   </div>
 
-                  <div className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-6">
+                  <div className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-4">
                     <p className="text-xs font-bold uppercase tracking-[0.18em] text-violet-100">
                       Core methods
                     </p>
@@ -352,7 +352,7 @@ export default function AIChampions() {
                       {selectedVictory.methods.map((method) => (
                         <span
                           key={method}
-                          className="rounded-full border border-white/10 bg-black/20 px-3 py-2 text-sm font-semibold text-white"
+                          className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-2 text-sm font-semibold text-white"
                         >
                           {method}
                         </span>
@@ -360,7 +360,7 @@ export default function AIChampions() {
                     </div>
                   </div>
 
-                  <div className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-6">
+                  <div className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-4">
                     <p className="text-xs font-bold uppercase tracking-[0.18em] text-emerald-100">
                       Primary sources
                     </p>
@@ -371,7 +371,7 @@ export default function AIChampions() {
                           href={source.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="rounded-2xl border border-white/10 bg-black/20 p-4 transition-colors hover:bg-black/30"
+                          className="rounded-2xl border border-white/10 bg-white/[0.05] p-4 transition-colors hover:bg-white/[0.08]"
                         >
                           <p className="text-sm font-black text-white">
                             {source.label}
@@ -433,7 +433,7 @@ export default function AIChampions() {
                   transition={{ duration: 0.45 }}
                 >
                   <div
-                    className={`flex flex-col gap-4 rounded-t-[2rem] bg-gradient-to-r ${activeVictory.gradient} p-6 text-white md:flex-row md:items-center md:justify-between`}
+                    className={`flex flex-col gap-4 rounded-t-[2rem] bg-gradient-to-r ${activeVictory.gradient} p-4 text-white md:flex-row md:items-center md:justify-between`}
                   >
                     <div className="flex items-center gap-4">
                       <span className="text-4xl">{activeVictory.icon}</span>

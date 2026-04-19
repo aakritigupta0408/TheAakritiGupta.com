@@ -91,46 +91,35 @@ export default function SubpageLayout({
     <div className="relative min-h-screen bg-slate-100 text-slate-900">
       <Navigation />
 
-      <main className="relative z-10 px-4 pb-12 pt-20 sm:px-6 lg:px-8 lg:pt-32">
+      <main className="relative z-10 px-4 pb-10 pt-24 sm:px-6 lg:px-8 lg:pt-36">
         <section className="mx-auto max-w-7xl">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            className="rounded-2xl border border-white/80 bg-white/70 px-5 py-4 shadow-[0_12px_40px_rgba(15,23,42,0.1)] backdrop-blur-xl sm:px-6"
-          >
-            <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-              <div className="min-w-0">
-                <div className="flex items-center gap-3">
-                  <span
-                    className={cn(
-                      "shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em]",
-                      accentStyle.badge,
-                    )}
-                  >
-                    {eyebrow}
-                  </span>
-                  <div className="hidden items-center gap-3 text-xs text-slate-400 sm:flex">
-                    {metrics.slice(0, 4).map((m) => (
-                      <span key={m.label}>
-                        <span className={cn("font-bold", accentStyle.value)}>
-                          {m.value}
-                        </span>{" "}
-                        {m.label}
-                      </span>
-                    ))}
-                  </div>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <span
+                  className={cn(
+                    "shrink-0 rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em]",
+                    accentStyle.badge,
+                  )}
+                >
+                  {eyebrow}
+                </span>
+                <div className="flex items-center gap-2.5 text-[11px] text-slate-400">
+                  {metrics.slice(0, 4).map((m) => (
+                    <span key={m.label}>
+                      <span className={cn("font-bold", accentStyle.value)}>
+                        {m.value}
+                      </span>{" "}
+                      {m.label}
+                    </span>
+                  ))}
                 </div>
-                <h1 className="mt-2 text-xl font-semibold tracking-tight text-slate-950 sm:text-2xl lg:text-3xl">
-                  {title}
-                </h1>
-                <p className="mt-1 max-w-3xl text-sm leading-relaxed text-slate-500 line-clamp-1 sm:line-clamp-none">
-                  {description}
-                </p>
               </div>
+              <h1 className="mt-1.5 text-lg font-semibold tracking-tight text-slate-950 sm:text-xl lg:text-2xl">
+                {title}
+              </h1>
             </div>
-
-            <div className="mt-3 flex gap-1.5 overflow-x-auto">
+            <div className="flex gap-1.5 overflow-x-auto sm:shrink-0">
               {levelOnePages.map((page) => {
                 const isCurrent = page.path === route;
                 return (
@@ -138,10 +127,10 @@ export default function SubpageLayout({
                     key={page.path}
                     to={page.path}
                     className={cn(
-                      "shrink-0 rounded-full border px-3 py-1 text-[11px] font-medium transition-all duration-150",
+                      "shrink-0 rounded-full px-2.5 py-1 text-[10px] font-medium transition-all",
                       isCurrent
-                        ? accentStyle.activeLink
-                        : "border-transparent text-slate-400 hover:bg-slate-100 hover:text-slate-700",
+                        ? cn("border", accentStyle.activeLink)
+                        : "text-slate-400 hover:bg-white hover:text-slate-700",
                     )}
                   >
                     {page.label}
@@ -149,13 +138,13 @@ export default function SubpageLayout({
                 );
               })}
             </div>
-          </motion.div>
+          </div>
         </section>
 
         <section className="mx-auto mt-3 max-w-7xl">
           <div
             className={cn(
-              "overflow-hidden rounded-2xl border border-slate-700/40 bg-slate-800 shadow-[0_8px_30px_rgba(15,23,42,0.12)]",
+              "overflow-hidden rounded-2xl border border-slate-600/30 bg-slate-700 shadow-[0_6px_20px_rgba(15,23,42,0.1)]",
               frameClassName,
             )}
           >
@@ -163,28 +152,23 @@ export default function SubpageLayout({
           </div>
         </section>
 
-        <section className="mx-auto mt-4 max-w-7xl">
-          <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+        <section className="mx-auto mt-3 max-w-7xl">
+          <div className="flex items-center justify-between gap-3">
             {previousPage ? (
               <Link
                 to={previousPage.path}
-                className="group rounded-2xl border border-white/80 bg-white/70 p-3 shadow-sm backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:bg-white/90"
+                className="group flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-medium text-slate-600 shadow-sm transition-all hover:-translate-y-0.5 hover:text-slate-900"
               >
-                <div className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">
-                  <ArrowLeft className="h-3.5 w-3.5" />
-                  Previous
-                </div>
-                <div className="mt-1 text-sm font-semibold text-slate-950">
-                  {previousPage.label}
-                </div>
+                <ArrowLeft className="h-3.5 w-3.5" />
+                {previousPage.label}
               </Link>
             ) : (
-              <div className="hidden md:block" />
+              <div />
             )}
 
             <Link
               to="/"
-              className="inline-flex items-center justify-center gap-1.5 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-600 shadow-sm transition-all hover:-translate-y-0.5 hover:text-slate-950"
+              className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-500 shadow-sm transition-all hover:-translate-y-0.5 hover:text-slate-900"
             >
               <Home className="h-3.5 w-3.5" />
               Home
@@ -193,18 +177,13 @@ export default function SubpageLayout({
             {nextPage ? (
               <Link
                 to={nextPage.path}
-                className="group rounded-2xl border border-white/80 bg-white/70 p-3 text-right shadow-sm backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:bg-white/90"
+                className="group flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-medium text-slate-600 shadow-sm transition-all hover:-translate-y-0.5 hover:text-slate-900"
               >
-                <div className="flex items-center justify-end gap-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">
-                  Next
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </div>
-                <div className="mt-1 text-sm font-semibold text-slate-950">
-                  {nextPage.label}
-                </div>
+                {nextPage.label}
+                <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             ) : (
-              <div className="hidden md:block" />
+              <div />
             )}
           </div>
         </section>

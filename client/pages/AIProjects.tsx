@@ -59,7 +59,7 @@ export default function AIProjects() {
     >
       <div className="container mx-auto px-6 py-10 sm:py-12">
         <motion.section
-          className="mb-8 rounded-[1.75rem] border border-white/10 bg-slate-950/25 p-6 backdrop-blur-xl"
+          className="mb-8 rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -144,7 +144,7 @@ export default function AIProjects() {
         </section>
 
         {filteredProjects.length === 0 ? (
-          <div className="mb-12 rounded-[2rem] border border-white/20 bg-white/10 p-12 text-center backdrop-blur-xl">
+          <div className="mb-12 rounded-[2rem] border border-white/20 bg-white/10 p-6 text-center backdrop-blur-xl">
             <h3 className="text-3xl font-black text-white">No projects found</h3>
             <p className="mt-3 text-lg text-gray-200">
               Reset the filters to compare the full build library again.
@@ -168,7 +168,7 @@ export default function AIProjects() {
                 whileHover={{ y: -6, rotateX: 2, rotateY: -2 }}
                 whileTap={{ scale: 0.98 }}
                 style={{ transformStyle: "preserve-3d", perspective: 900 }}
-                className="group relative overflow-hidden rounded-[24px] border border-white/10 bg-gradient-to-br from-white/[0.09] to-white/[0.03] p-6 text-left shadow-[0_24px_56px_rgba(8,12,24,0.45),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl transition-colors duration-300 hover:border-white/25"
+                className="group relative overflow-hidden rounded-[24px] border border-white/10 bg-gradient-to-br from-white/[0.09] to-white/[0.03] p-4 text-left shadow-[0_24px_56px_rgba(8,12,24,0.45),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl transition-colors duration-300 hover:border-white/25"
               >
                 <span className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-pink-300/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 <span className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-gradient-to-br from-pink-400/15 via-transparent to-transparent opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100" />
@@ -209,7 +209,7 @@ export default function AIProjects() {
                   {project.summary}
                 </p>
 
-                <div className="relative rounded-2xl border border-white/10 bg-black/25 p-3">
+                <div className="relative rounded-2xl border border-white/10 bg-white/[0.06] p-3">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-cyan-200">
                     Current build angle
                   </p>
@@ -267,8 +267,8 @@ export default function AIProjects() {
                 <span className="pointer-events-none absolute -right-20 top-10 h-56 w-56 rounded-full bg-pink-400/14 blur-3xl" />
                 <span className="pointer-events-none absolute -left-16 bottom-8 h-44 w-44 rounded-full bg-sky-400/12 blur-3xl" />
 
-                <div className="relative p-5 sm:p-7">
-                  <div className="mb-6 overflow-hidden rounded-[28px] border border-white/70 bg-gradient-to-br from-pink-400/14 via-white/92 to-sky-400/12 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.12)] sm:p-7">
+                <div className="relative p-5 sm:p-4">
+                  <div className="mb-6 overflow-hidden rounded-[28px] border border-white/70 bg-gradient-to-br from-pink-400/14 via-white/92 to-sky-400/12 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.12)] sm:p-4">
                     <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                       <div className="flex items-center gap-5">
                         <div className="flex h-20 w-20 items-center justify-center rounded-[24px] border border-white/70 bg-white/80 text-5xl shadow-[0_20px_50px_rgba(236,72,153,0.16)]">
@@ -348,7 +348,7 @@ export default function AIProjects() {
 
                   <div className="grid gap-6 lg:grid-cols-[1.05fr,1.25fr]">
                     <div className="space-y-6">
-                      <div className="rounded-[1.75rem] border border-white/70 bg-white/82 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+                      <div className="rounded-[1.75rem] border border-white/70 bg-white/82 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
                         <h3 className="text-lg font-semibold text-slate-950">
                           Project Overview
                         </h3>
@@ -365,7 +365,7 @@ export default function AIProjects() {
                         </div>
                       </div>
 
-                      <div className="rounded-[1.75rem] border border-white/70 bg-white/82 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+                      <div className="rounded-[1.75rem] border border-white/70 bg-white/82 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
                         <h3 className="text-lg font-semibold text-slate-950">Use Cases</h3>
                         <div className="mt-4 space-y-3">
                           {selectedProject.useCases.map((item) => (
@@ -379,7 +379,7 @@ export default function AIProjects() {
                         </div>
                       </div>
 
-                      <div className="rounded-[1.75rem] border border-white/70 bg-white/82 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+                      <div className="rounded-[1.75rem] border border-white/70 bg-white/82 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
                         <h3 className="text-lg font-semibold text-slate-950">
                           Recommended Stack
                         </h3>
@@ -397,7 +397,7 @@ export default function AIProjects() {
                     </div>
 
                     <div className="space-y-6">
-                      <div className="rounded-[1.75rem] border border-white/70 bg-white/82 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+                      <div className="rounded-[1.75rem] border border-white/70 bg-white/82 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
                         <h3 className="text-lg font-semibold text-slate-950">
                           Build Steps
                         </h3>
@@ -418,7 +418,7 @@ export default function AIProjects() {
                         </div>
                       </div>
 
-                      <div className="rounded-[1.75rem] border border-white/70 bg-white/82 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+                      <div className="rounded-[1.75rem] border border-white/70 bg-white/82 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
                         <h3 className="text-lg font-semibold text-slate-950">
                           Current Resources
                         </h3>
@@ -450,7 +450,7 @@ export default function AIProjects() {
                   </div>
 
                   <div className="mt-6 grid gap-6 lg:grid-cols-[0.85fr,1.15fr]">
-                    <div className="rounded-[1.75rem] border border-white/70 bg-white/82 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+                    <div className="rounded-[1.75rem] border border-white/70 bg-white/82 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
                       <h3 className="text-lg font-semibold text-slate-950">
                         Key Papers
                       </h3>
@@ -469,7 +469,7 @@ export default function AIProjects() {
                       </div>
                     </div>
 
-                    <div className="rounded-[1.75rem] border border-slate-800 bg-slate-950 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.18)]">
+                    <div className="rounded-[1.75rem] border border-slate-800 bg-slate-800 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.18)]">
                       <div className="flex items-center justify-between gap-3">
                         <h3 className="text-lg font-semibold text-white">Starter Code</h3>
                         <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-300">

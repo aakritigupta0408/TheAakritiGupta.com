@@ -78,7 +78,7 @@ export default function AIDiscoveries() {
     >
       <div className="container mx-auto px-6 py-10 sm:py-12">
         <motion.section
-          className="mb-8 rounded-[1.75rem] border border-white/10 bg-slate-950/25 p-6 backdrop-blur-xl"
+          className="mb-8 rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -166,7 +166,7 @@ export default function AIDiscoveries() {
         </section>
 
         {filteredDiscoveries.length === 0 ? (
-          <div className="mb-12 rounded-[2rem] border border-white/20 bg-white/10 p-12 text-center backdrop-blur-xl">
+          <div className="mb-12 rounded-[2rem] border border-white/20 bg-white/10 p-6 text-center backdrop-blur-xl">
             <h3 className="text-3xl font-black text-white">No discoveries found</h3>
             <p className="mt-3 text-lg text-gray-200">
               Try a different decade or reset back to the full archive.
@@ -255,7 +255,7 @@ export default function AIDiscoveries() {
                 className="max-h-[90vh] w-full max-w-5xl overflow-y-auto rounded-[2rem] border border-white/20 bg-[#f8fafc] shadow-2xl"
                 onClick={(event) => event.stopPropagation()}
               >
-                <div className="p-6 sm:p-8">
+                <div className="p-4 sm:p-4">
                   <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                     <div>
                       <h2 className="text-3xl font-black text-slate-950 sm:text-4xl">
@@ -275,7 +275,7 @@ export default function AIDiscoveries() {
 
                   <div className="grid gap-6 lg:grid-cols-[1.15fr,0.85fr]">
                     <div className="space-y-6">
-                      <div className="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm">
+                      <div className="rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-sm">
                         <h3 className="text-lg font-black text-slate-950">
                           What Changed
                         </h3>
@@ -284,7 +284,7 @@ export default function AIDiscoveries() {
                         </p>
                       </div>
 
-                      <div className="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm">
+                      <div className="rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-sm">
                         <h3 className="text-lg font-black text-slate-950">
                           Why It Still Matters
                         </h3>
@@ -303,7 +303,7 @@ export default function AIDiscoveries() {
                     </div>
 
                     <div className="space-y-6">
-                      <div className="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm">
+                      <div className="rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-sm">
                         <h3 className="text-lg font-black text-slate-950">
                           About the Discoverer
                         </h3>
@@ -312,7 +312,7 @@ export default function AIDiscoveries() {
                         </p>
                       </div>
 
-                      <div className="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm">
+                      <div className="rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-sm">
                         <h3 className="text-lg font-black text-slate-950">
                           Primary Paper
                         </h3>
@@ -329,7 +329,7 @@ export default function AIDiscoveries() {
                         </a>
                       </div>
 
-                      <div className="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm">
+                      <div className="rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-sm">
                         <h3 className="text-lg font-black text-slate-950">
                           Sources
                         </h3>

@@ -114,7 +114,7 @@ export default function AITools() {
     >
       <div className="container mx-auto px-6 py-10 sm:py-12">
         <motion.section
-          className="mb-8 rounded-[1.75rem] border border-white/10 bg-slate-950/25 p-6 backdrop-blur-xl"
+          className="mb-8 rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -218,7 +218,7 @@ export default function AITools() {
 
               <div className="relative mb-4 flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-black/30 text-2xl shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-transform duration-300 group-hover:scale-110">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.08] text-2xl shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-transform duration-300 group-hover:scale-110">
                     {profession.icon}
                   </span>
                   <div>
@@ -240,7 +240,7 @@ export default function AITools() {
               </p>
 
               <div className="relative mb-4 grid gap-2 sm:grid-cols-2">
-                <div className="rounded-xl border border-white/10 bg-black/25 p-3">
+                <div className="rounded-xl border border-white/10 bg-white/[0.06] p-3">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan-200">
                     Workflow now
                   </p>
@@ -248,7 +248,7 @@ export default function AITools() {
                     {profession.workflowNow}
                   </p>
                 </div>
-                <div className="rounded-xl border border-white/10 bg-black/25 p-3">
+                <div className="rounded-xl border border-white/10 bg-white/[0.06] p-3">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-emerald-200">
                     Time saved
                   </p>
@@ -303,7 +303,7 @@ export default function AITools() {
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.94, opacity: 0, y: 24 }}
                 transition={{ duration: 0.25 }}
-                className="max-h-[90vh] w-full max-w-5xl overflow-y-auto rounded-[2rem] border border-white/15 bg-slate-950 shadow-2xl"
+                className="max-h-[90vh] w-full max-w-5xl overflow-y-auto rounded-[2rem] border border-white/15 bg-slate-800 shadow-2xl"
                 onClick={(event) => event.stopPropagation()}
               >
                 <div className="border-b border-white/10 bg-gradient-to-br from-violet-600/30 via-slate-950 to-cyan-600/20 p-8">
@@ -366,7 +366,7 @@ export default function AITools() {
                     </div>
                   </div>
 
-                  <div className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-6">
+                  <div className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-4">
                     <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-300">
                       Workflow now
                     </p>
@@ -380,7 +380,7 @@ export default function AITools() {
                       href={selectedProfession.primaryTool.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="rounded-3xl border border-violet-300/20 bg-violet-500/10 p-6 transition-colors hover:bg-violet-500/15"
+                      className="rounded-3xl border border-violet-300/20 bg-violet-500/10 p-4 transition-colors hover:bg-violet-500/15"
                     >
                       <div className="mb-3 flex items-center justify-between gap-3">
                         <span className="rounded-full border border-violet-300/30 bg-violet-400/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-violet-100">
@@ -413,7 +413,7 @@ export default function AITools() {
                       </div>
                     </motion.a>
 
-                    <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+                    <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
                       <p className="text-xs font-bold uppercase tracking-[0.18em] text-cyan-100">
                         Alternative stack
                       </p>
@@ -424,7 +424,7 @@ export default function AITools() {
                             href={tool.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block rounded-2xl border border-white/10 bg-black/20 p-4 transition-colors hover:bg-black/30"
+                            className="block rounded-2xl border border-white/10 bg-white/[0.05] p-4 transition-colors hover:bg-white/[0.08]"
                           >
                             <div className="flex items-center justify-between gap-3">
                               <h4 className="text-lg font-black text-white">
@@ -446,7 +446,7 @@ export default function AITools() {
                     </div>
                   </div>
 
-                  <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+                  <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
                     <p className="text-xs font-bold uppercase tracking-[0.18em] text-emerald-100">
                       Official sources in this brief
                     </p>
@@ -460,7 +460,7 @@ export default function AITools() {
                           href={tool.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="rounded-2xl border border-white/10 bg-black/20 p-4 transition-colors hover:bg-black/30"
+                          className="rounded-2xl border border-white/10 bg-white/[0.05] p-4 transition-colors hover:bg-white/[0.08]"
                         >
                           <p className="text-sm font-black text-white">
                             {tool.name}

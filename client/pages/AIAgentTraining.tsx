@@ -1248,7 +1248,7 @@ Week 7-8: Production rollout, tracing, and monitoring
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mb-8 rounded-3xl border border-white/15 bg-white/10 p-6 sm:p-8 backdrop-blur-xl"
+          className="mb-8 rounded-3xl border border-white/15 bg-white/10 p-4 sm:p-4 backdrop-blur-xl"
         >
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-6">
             <div>
@@ -1278,7 +1278,7 @@ Week 7-8: Production rollout, tracing, and monitoring
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.45, delay: index * 0.08 }}
-                className="rounded-2xl border border-white/15 bg-slate-950/30 p-5 hover:bg-slate-950/40 transition-all duration-300"
+                className="rounded-2xl border border-white/15 bg-white/[0.08] p-5 hover:bg-white/[0.12] transition-all duration-300"
               >
                 <div className="flex items-center justify-between gap-3 mb-3">
                   <span className="rounded-full border border-purple-300/30 bg-purple-400/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-purple-100">
@@ -1514,7 +1514,7 @@ Week 7-8: Production rollout, tracing, and monitoring
                   <h3 className="text-lg font-bold text-red-400 mb-4">
                     ❌ {selectedExample.before.title}
                   </h3>
-                  <div className="bg-black/20 rounded-lg p-4 mb-4">
+                  <div className="bg-white/[0.05] rounded-lg p-4 mb-4">
                     <pre className="text-slate-300 text-sm whitespace-pre-wrap">
                       {selectedExample.before.content}
                     </pre>
@@ -1537,7 +1537,7 @@ Week 7-8: Production rollout, tracing, and monitoring
                   <h3 className="text-lg font-bold text-green-400 mb-4">
                     ✅ {selectedExample.after.title}
                   </h3>
-                  <div className="bg-black/20 rounded-lg p-4 mb-4">
+                  <div className="bg-white/[0.05] rounded-lg p-4 mb-4">
                     <pre className="text-slate-300 text-sm whitespace-pre-wrap">
                       {selectedExample.after.content}
                     </pre>
@@ -1608,7 +1608,7 @@ Week 7-8: Production rollout, tracing, and monitoring
                             href={code.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-green-500/20 hover:border-green-500/40"
+                            className="block p-3 bg-white/[0.08] rounded-lg hover:bg-white/[0.15] transition-all duration-300 border border-green-500/20 hover:border-green-500/40"
                           >
                             <div className="flex items-center justify-between">
                               <div>
@@ -1642,7 +1642,7 @@ Week 7-8: Production rollout, tracing, and monitoring
                             href={tutorial.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-blue-500/20 hover:border-blue-500/40"
+                            className="block p-3 bg-white/[0.08] rounded-lg hover:bg-white/[0.15] transition-all duration-300 border border-blue-500/20 hover:border-blue-500/40"
                           >
                             <div className="flex items-center justify-between">
                               <div>
@@ -1685,7 +1685,7 @@ Week 7-8: Production rollout, tracing, and monitoring
                           href={video.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-red-500/20 hover:border-red-500/40"
+                          className="block p-3 bg-white/[0.08] rounded-lg hover:bg-white/[0.15] transition-all duration-300 border border-red-500/20 hover:border-red-500/40"
                         >
                           <div className="flex items-center justify-between">
                             <div>
@@ -1718,7 +1718,7 @@ Week 7-8: Production rollout, tracing, and monitoring
                             href={doc.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-purple-500/20 hover:border-purple-500/40"
+                            className="block p-3 bg-white/[0.08] rounded-lg hover:bg-white/[0.15] transition-all duration-300 border border-purple-500/20 hover:border-purple-500/40"
                           >
                             <div className="flex items-center justify-between">
                               <div>
@@ -1829,7 +1829,7 @@ Week 7-8: Production rollout, tracing, and monitoring
                 </div>
               </div>
 
-              <div className="backdrop-blur-xl bg-purple-500/10 border border-purple-500/30 rounded-xl p-6 mb-8">
+              <div className="backdrop-blur-xl bg-purple-500/10 border border-purple-500/30 rounded-xl p-4 mb-8">
                 <h3 className="text-lg font-bold text-purple-400 mb-4">
                   Example Implementation
                 </h3>
@@ -1858,7 +1858,7 @@ Week 7-8: Production rollout, tracing, and monitoring
                             href={tutorial.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-blue-500/20 hover:border-blue-500/40"
+                            className="block p-3 bg-white/[0.08] rounded-lg hover:bg-white/[0.15] transition-all duration-300 border border-blue-500/20 hover:border-blue-500/40"
                           >
                             <div className="flex items-center justify-between">
                               <div>
@@ -1892,7 +1892,7 @@ Week 7-8: Production rollout, tracing, and monitoring
                             href={video.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-red-500/20 hover:border-red-500/40"
+                            className="block p-3 bg-white/[0.08] rounded-lg hover:bg-white/[0.15] transition-all duration-300 border border-red-500/20 hover:border-red-500/40"
                           >
                             <div className="flex items-center justify-between">
                               <div>
@@ -1926,7 +1926,7 @@ Week 7-8: Production rollout, tracing, and monitoring
                             href={paper.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-all duration-300 border border-green-500/20 hover:border-green-500/40"
+                            className="block p-3 bg-white/[0.08] rounded-lg hover:bg-white/[0.15] transition-all duration-300 border border-green-500/20 hover:border-green-500/40"
                           >
                             <div className="flex items-center justify-between">
                               <div>
