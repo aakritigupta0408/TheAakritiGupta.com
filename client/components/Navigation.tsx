@@ -182,10 +182,7 @@ const Navigation = () => {
       </motion.div>
 
       {/* Adaptive Navigation Header */}
-      <motion.header
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1, ease: "easeOut" }}
+      <header
         className="luxury-nav fixed top-0 left-0 right-0 z-50"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -615,7 +612,7 @@ const Navigation = () => {
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.header>
+      </header>
 
       {/* Click outside to close */}
       <AnimatePresence>
