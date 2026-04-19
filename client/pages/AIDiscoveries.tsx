@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import LevelOneLoadMoreButton from "@/components/LevelOneLoadMoreButton";
 import SubpageLayout from "@/components/SubpageLayout";
 import { discoveries, type Discovery } from "@/data/discoveryArchive";
 import { getPageRefreshContent } from "@/data/siteRefreshContent";
@@ -226,16 +227,10 @@ export default function AIDiscoveries() {
 
         {hasMoreDiscoveries && (
           <div className="mb-12 flex justify-center">
-            <motion.button
+            <LevelOneLoadMoreButton
+              label="Load 8 more"
               onClick={() => setVisibleCount((current) => current + 8)}
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.96 }}
-              transition={{ type: "spring", stiffness: 420, damping: 24 }}
-              className="group relative overflow-hidden rounded-full border border-white/15 bg-white/[0.06] px-6 py-2.5 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(8,12,24,0.35)] backdrop-blur-xl transition-colors hover:border-white/30 hover:bg-white/10"
-            >
-              <span className="absolute inset-0 bg-gradient-to-r from-cyan-400/0 via-cyan-400/20 to-cyan-400/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-              <span className="relative">Load 8 more</span>
-            </motion.button>
+            />
           </div>
         )}
 

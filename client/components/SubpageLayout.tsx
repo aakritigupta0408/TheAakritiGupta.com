@@ -142,7 +142,7 @@ export default function SubpageLayout({
         <section className="mx-auto max-w-7xl">
           <div
             className={cn(
-              "overflow-hidden rounded-2xl bg-slate-800",
+              "rounded-2xl bg-slate-800",
               frameClassName,
             )}
           >

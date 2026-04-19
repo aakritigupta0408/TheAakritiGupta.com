@@ -22,7 +22,7 @@ export default function Games() {
   const navigate = useNavigate();
   const [activeGame, setActiveGame] = useState<GameTab | null>(null);
   const [hoveredGame, setHoveredGame] = useState<GameTab | null>(null);
-  const [visibleCount, setVisibleCount] = useState(6);
+  const [visibleCount, setVisibleCount] = useState(3);
 
   const gameCards = [
     {
