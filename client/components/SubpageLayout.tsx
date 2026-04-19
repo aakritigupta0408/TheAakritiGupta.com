@@ -84,13 +84,12 @@ export default function SubpageLayout({
       : undefined;
 
   return (
-    <div className="relative min-h-screen bg-white text-slate-900">
+    <div className="relative min-h-screen bg-[#f5f5f7] text-slate-900">
       <Navigation />
 
-      {/* Spacer to clear the fixed nav — 7rem mobile, 9rem desktop */}
-      <div className="h-28 lg:h-36" aria-hidden="true" />
+      <div className="h-20 lg:h-28" aria-hidden="true" />
 
-      <header className="border-b border-slate-200 bg-white px-4 pb-4 sm:px-6 lg:px-8">
+      <header className="border-b border-slate-200 bg-white px-4 pb-4 pt-2 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
             <span

@@ -612,4 +612,28 @@ describe("AI page interactions", () => {
       "Aakriti Gupta",
     );
   });
+
+  it("load-more buttons reveal additional items on every page that has them", () => {
+    // AITools: 22 professions, initial 8
+    const toolsView = renderPage(<AITools />);
+    const toolsBefore = toolsView.getAllByText(/Open →/i).length;
+    expect(toolsBefore).toBe(8);
+    fireEvent.click(toolsView.getByText("Load 4 more"));
+    expect(toolsView.getAllByText(/Open →/i).length).toBe(12);
+    cleanup();
+
+    // AICompanies: 29 companies, initial 8
+    const companiesView = renderPage(<AICompanies />);
+    const companiesBefore = companiesView.container.querySelectorAll("h3").length;
+    fireEvent.click(companiesView.getByText("Load 8 more"));
+    const companiesAfter = companiesView.container.querySelectorAll("h3").length;
+    expect(companiesAfter).toBeGreaterThan(companiesBefore);
+    cleanup();
+
+    // AIChampions: 8 victories, initial 6
+    const championsView = renderPage(<AIChampions />);
+    fireEvent.click(championsView.getByText("Load 3 more"));
+    // After loading, should show all 8
+    expect(championsView.queryByText("Load 3 more")).toBeNull();
+  });
 });
