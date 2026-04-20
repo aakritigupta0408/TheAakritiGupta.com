@@ -29,7 +29,7 @@ export interface SiteRefreshMeta {
 export const siteRefreshMeta: SiteRefreshMeta = {
   "headline": "Weekly AI site refresh",
   "description": "A scheduled agent pulls the week's most relevant AI research, product launches, and startup moves into the main AI pages, then deploys the result through the normal GitHub-to-hosting pipeline.",
-  "updatedAtLabel": "April 14, 2026"
+  "updatedAtLabel": "April 20, 2026"
 };
 
 export const pageRefreshContentByRoute: Record<
@@ -40,40 +40,40 @@ export const pageRefreshContentByRoute: Record<
     "route": "/ai-playground",
     "eyebrow": "Interactive AI demos",
     "title": "Hands‑on AI experiences that showcase current product power",
-    "description": "Playable generators and demos for image synthesis, language reasoning, and agent behavior, alongside a weekly radar of product capabilities worth trying right now.",
+    "description": "Explore live generators and demos for image synthesis, language reasoning, and agent behavior, and discover the newest product capabilities highlighted in our weekly radar.",
     "chips": [
       "Current product radar",
       "Live demo framing",
       "Deep‑dive showcase"
     ],
     "refreshSummary": "The product radar and demo commentary refresh weekly; the interactive generators and featured deep dives stay stable.",
-    "updatedAtLabel": "April 14, 2026"
+    "updatedAtLabel": "April 20, 2026"
   },
   "/ai-discoveries": {
     "route": "/ai-discoveries",
     "eyebrow": "AI history and frontier research",
     "title": "Foundations of modern AI and the breakthroughs shaping tomorrow",
-    "description": "A timeline of AI milestones from early perceptrons to today's frontier models, with filters, embedded demos, and a research module tracking what's changing now.",
+    "description": "A curated timeline of AI milestones from early perceptrons to today’s frontier models, with filters, embedded demos, and a research module that tracks the most impactful changes now.",
     "chips": [
       "Historical milestones",
       "Frontier research updates",
       "Filter by decade"
     ],
     "refreshSummary": "The frontier‑research module refreshes weekly; the historical archive and interactive demos stay stable.",
-    "updatedAtLabel": "April 14, 2026"
+    "updatedAtLabel": "April 20, 2026"
   },
   "/ai-tools": {
     "route": "/ai-tools",
     "eyebrow": "AI workflow index",
     "title": "AI tools mapped to real professional workflows",
-    "description": "AI tools organized by profession, with current launches and use cases highlighted so it's easy to find the right tool for real work.",
+    "description": "AI tools organized by profession, with current launches and use cases highlighted so you can quickly find the right tool for real work.",
     "chips": [
       "Profession‑based recommendations",
       "Latest launches and use cases",
       "Filter by impact"
     ],
     "refreshSummary": "The launch snapshot and use‑case framing refresh weekly; the profession catalog and filters stay stable.",
-    "updatedAtLabel": "April 14, 2026"
+    "updatedAtLabel": "April 20, 2026"
   },
   "/ai-companies": {
     "route": "/ai-companies",
@@ -86,7 +86,7 @@ export const pageRefreshContentByRoute: Record<
       "Live watchlist for recent additions"
     ],
     "refreshSummary": "The startup watchlist and market context refresh weekly; the larger company directory stays stable.",
-    "updatedAtLabel": "April 14, 2026"
+    "updatedAtLabel": "April 20, 2026"
   },
   "/ai-projects": {
     "route": "/ai-projects",
@@ -99,7 +99,7 @@ export const pageRefreshContentByRoute: Record<
       "Code examples and implementation notes"
     ],
     "refreshSummary": "The build‑now tracks refresh weekly; the evergreen project library and code examples stay stable.",
-    "updatedAtLabel": "April 14, 2026"
+    "updatedAtLabel": "April 20, 2026"
   },
   "/prompt-engineering": {
     "route": "/prompt-engineering",
@@ -112,7 +112,7 @@ export const pageRefreshContentByRoute: Record<
       "Practice‑ready analyzer flow"
     ],
     "refreshSummary": "The prompt‑pattern signals refresh weekly; the examples, techniques, and analyzer flow stay stable.",
-    "updatedAtLabel": "April 14, 2026"
+    "updatedAtLabel": "April 20, 2026"
   },
   "/ai-agent-training": {
     "route": "/ai-agent-training",
@@ -125,7 +125,7 @@ export const pageRefreshContentByRoute: Record<
       "Interactive builder playground"
     ],
     "refreshSummary": "The frontier‑signals module refreshes weekly; the examples, techniques, and builder stay stable.",
-    "updatedAtLabel": "April 14, 2026"
+    "updatedAtLabel": "April 20, 2026"
   },
   "/ai-champions": {
     "route": "/ai-champions",
@@ -138,7 +138,7 @@ export const pageRefreshContentByRoute: Record<
       "Cross‑links into discoveries and games"
     ],
     "refreshSummary": "The overview narrative and cross‑links refresh weekly; the matchup library and embedded demos stay stable.",
-    "updatedAtLabel": "April 14, 2026"
+    "updatedAtLabel": "April 20, 2026"
   },
   "/resume-builder": {
     "route": "/resume-builder",
@@ -151,7 +151,7 @@ export const pageRefreshContentByRoute: Record<
       "Copy‑ready AI prompt templates"
     ],
     "refreshSummary": "The framing and prompt‑template positioning refresh weekly; the direct resume and profile links stay stable.",
-    "updatedAtLabel": "April 14, 2026"
+    "updatedAtLabel": "April 20, 2026"
   },
   "/games": {
     "route": "/games",
@@ -164,7 +164,7 @@ export const pageRefreshContentByRoute: Record<
       "Cross‑links into AI competition history"
     ],
     "refreshSummary": "Section priorities and framing refresh weekly; the playable components and cross‑links stay stable.",
-    "updatedAtLabel": "April 14, 2026"
+    "updatedAtLabel": "April 20, 2026"
   }
 };
 
