@@ -238,13 +238,10 @@ export default function AIProjects() {
         )}
 
         {hasMoreProjects && (
-          <div className="mb-4 flex justify-center">
-            <LevelOneLoadMoreButton
-              label="Load 6 more"
-              glowClassName="from-pink-400/0 via-pink-400/20 to-pink-400/0"
-              onClick={() => setVisibleCount((current) => current + 6)}
-            />
-          </div>
+          <LevelOneLoadMoreButton
+            label="Load 6 more"
+            onClick={() => setVisibleCount((current) => current + 6)}
+          />
         )}
 
         <AnimatePresence>

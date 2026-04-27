@@ -226,12 +226,10 @@ export default function AIDiscoveries() {
         )}
 
         {hasMoreDiscoveries && (
-          <div className="mb-4 flex justify-center">
-            <LevelOneLoadMoreButton
-              label="Load 8 more"
-              onClick={() => setVisibleCount((current) => current + 8)}
-            />
-          </div>
+          <LevelOneLoadMoreButton
+            label="Load 8 more"
+            onClick={() => setVisibleCount((current) => current + 8)}
+          />
         )}
 
         <AnimatePresence>

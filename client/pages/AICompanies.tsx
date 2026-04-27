@@ -257,13 +257,10 @@ export default function AICompanies() {
         )}
 
         {hasMoreCompanies && (
-          <div className="mb-4 flex justify-center">
-            <LevelOneLoadMoreButton
-              label="Load 8 more"
-              glowClassName="from-emerald-400/0 via-emerald-400/20 to-emerald-400/0"
-              onClick={() => setVisibleCount((current) => current + 8)}
-            />
-          </div>
+          <LevelOneLoadMoreButton
+            label="Load 8 more"
+            onClick={() => setVisibleCount((current) => current + 8)}
+          />
         )}
 
         <AnimatePresence>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import LevelOneLoadMoreButton from "@/components/LevelOneLoadMoreButton";
 import Chess from "@/components/Chess";
 import BaghChal from "@/components/BaghChal";
 import Pacman from "@/components/Pacman";
@@ -99,6 +100,7 @@ export default function Games() {
 
   const categoryCount = new Set(gameCards.map((game) => game.category)).size;
   const visibleGames = gameCards.slice(0, visibleCount);
+  const hasMoreGames = visibleCount < gameCards.length;
   const pageRefresh = getPageRefreshContent("/games");
 
   return (
@@ -227,17 +229,11 @@ export default function Games() {
             ))}
           </div>
 
-          {visibleCount < gameCards.length && (
-            <div className="mt-10 flex justify-center">
-              <motion.button
-                onClick={() => setVisibleCount((current) => current + 3)}
-                className="rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-bold text-white shadow-xl backdrop-blur-md transition-all duration-300 hover:bg-white/15"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                Show 3 more games
-              </motion.button>
-            </div>
+          {hasMoreGames && (
+            <LevelOneLoadMoreButton
+              label="Show 3 more games"
+              onClick={() => setVisibleCount((current) => current + 3)}
+            />
           )}
         </div>
       </section>

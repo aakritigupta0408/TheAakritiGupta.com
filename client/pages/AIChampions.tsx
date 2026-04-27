@@ -226,13 +226,10 @@ export default function AIChampions() {
         </div>
 
         {hasMoreVictories && (
-          <div className="mb-4 flex justify-center">
-            <LevelOneLoadMoreButton
-              label="Load 3 more"
-              glowClassName="from-amber-400/0 via-amber-400/20 to-amber-400/0"
-              onClick={() => setVisibleCount((current) => current + 3)}
-            />
-          </div>
+          <LevelOneLoadMoreButton
+            label="Load 3 more"
+            onClick={() => setVisibleCount((current) => current + 3)}
+          />
         )}
 
         <AnimatePresence>

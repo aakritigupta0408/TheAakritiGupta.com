@@ -280,13 +280,10 @@ export default function AITools() {
         </div>
 
         {hasMoreProfessions && (
-          <div className="mb-4 flex justify-center">
-            <LevelOneLoadMoreButton
-              label="Load 4 more"
-              glowClassName="from-violet-400/0 via-violet-400/20 to-violet-400/0"
-              onClick={() => setVisibleCount((current) => current + 4)}
-            />
-          </div>
+          <LevelOneLoadMoreButton
+            label="Load 4 more"
+            onClick={() => setVisibleCount((current) => current + 4)}
+          />
         )}
 
         <AnimatePresence>
