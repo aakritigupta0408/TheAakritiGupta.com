@@ -456,7 +456,7 @@ const Navigation = () => {
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder="Search pages, companies, tools, profiles, and topics on this website..."
-                      className="w-full rounded-3xl border border-slate-200 bg-white px-12 py-4 pr-4 text-slate-900 placeholder-slate-400 shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-sky-500"
+                      className="w-full rounded-3xl border border-slate-200 bg-white py-4 pl-12 pr-36 text-slate-900 placeholder-slate-400 shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-sky-500"
                     />
                     <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
                       <div className="hidden rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 sm:block">

@@ -301,7 +301,7 @@ export const buildNowProjectTracks: BuildTrack[] = [
       "Tests and evals",
       "PR workflow"
     ],
-    "url": "https://openai.com/index/introducing-gpt-5-3-codex/"
+    "url": "https://openai.com/index/introducing-codex/"
   },
   {
     "id": "voice-agent",
@@ -361,7 +361,7 @@ export const buildNowProjectTracks: BuildTrack[] = [
       "Asset consistency",
       "Post-production"
     ],
-    "url": "https://runwayml.com/news/introducing-runway-fund"
+    "url": "https://runwayml.com/products"
   }
 ];
 
@@ -378,7 +378,7 @@ export const agentTabSignals: Record<
       "category": "Examples",
       "summary": "The frontier examples are no longer short completions. They are repo-aware agents that investigate, patch, test, and prepare mergeable work.",
       "impact": "Good training examples should show delegation, verification, artifact handling, and handoff instead of only single-turn prompting.",
-      "url": "https://openai.com/index/introducing-gpt-5-3-codex/"
+      "url": "https://openai.com/index/introducing-codex/"
     },
     {
       "id": "examples-research",

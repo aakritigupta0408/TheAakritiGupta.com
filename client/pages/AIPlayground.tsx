@@ -133,12 +133,12 @@ const AI_DEMOS: AIDemo[] = [
       "Python script to analyze CSV data",
     ],
     stateOfArt: {
-      name: "Codex with GPT-5.3-Codex",
-      url: "https://openai.com/index/introducing-gpt-5-3-codex/",
+      name: "Codex",
+      url: "https://openai.com/index/introducing-codex/",
       description:
-        "A more interactive Codex experience built around real-time steering, parallel work, and longer-running engineering tasks.",
+        "OpenAI's agentic coding system that reads your repository, runs code in a cloud sandbox, and produces verified pull requests ready for review.",
       company: "OpenAI",
-      released: "2026",
+      released: "May 2025",
       whyItMatters:
         "Code generation has expanded into full agent supervision, repo-wide changes, and longer-running engineering workflows.",
     },

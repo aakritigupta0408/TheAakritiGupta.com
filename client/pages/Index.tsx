@@ -112,7 +112,7 @@ export default function Index() {
 
           {/* Talents row */}
           <div className="flex flex-wrap gap-2 text-xs text-slate-400">
-            {["🎯 Marksman", "🏇 Equestrian", "✈️ Pilot", "🏍️ Motorcyclist", "🎹 Pianist", "💎 Swarnawastra"].map(
+            {["🎯 Marksman", "🏇 Equestrian", "✈️ Aviator", "🏍️ Motorcyclist", "🎹 Pianist", "💎 Swarnawastra"].map(
               (talent) => (
                 <span
                   key={talent}

@@ -69,6 +69,7 @@ export default function SubpageLayout({
   title,
   description,
   metrics,
+  chips,
   accent = "blue",
   children,
   frameClassName,
@@ -101,9 +102,29 @@ export default function SubpageLayout({
             >
               {eyebrow}
             </span>
-            <h1 className="truncate text-sm font-semibold text-slate-900 sm:text-base">
-              {title}
-            </h1>
+            <div className="min-w-0">
+              <h1
+                title={description}
+                className="truncate text-sm font-semibold text-slate-900 sm:text-base"
+              >
+                {title}
+              </h1>
+              {chips && chips.length > 0 && (
+                <div className="mt-0.5 hidden items-center gap-1 lg:flex">
+                  {chips.map((chip) => (
+                    <span
+                      key={chip}
+                      className={cn(
+                        "rounded-full px-2 py-0.5 text-[9px] font-medium",
+                        colors.badge,
+                      )}
+                    >
+                      {chip}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
             <div className="hidden items-center gap-2 text-[10px] text-slate-400 lg:flex">
               {metrics.slice(0, 3).map((m) => (
                 <span key={m.label}>
