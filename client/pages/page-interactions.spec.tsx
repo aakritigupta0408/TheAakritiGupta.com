@@ -276,8 +276,12 @@ describe("AI page interactions", () => {
 
     fireEvent.click(view.getAllByRole("button", { name: /Champion match/i })[0]);
 
-    expect(view.getByText(targetVictory.aiName)).not.toBeNull();
     expect(view.queryByText(hiddenVictory.aiName)).toBeNull();
+
+    // Champion matches (7 total) exceed the initial visibleCount of 6; load more to expose Deep Blue (1997)
+    fireEvent.click(view.getByText("Load 3 more"));
+
+    expect(view.getByText(targetVictory.aiName)).not.toBeNull();
 
     fireEvent.click(
       view.getByRole(
@@ -634,10 +638,11 @@ describe("AI page interactions", () => {
     expect(companiesAfter).toBeGreaterThan(companiesBefore);
     cleanup();
 
-    // AIChampions: 8 victories, initial 6
+    // AIChampions: 12 victories, initial 6; keep clicking until all are revealed
     const championsView = renderPage(<AIChampions />);
-    fireEvent.click(championsView.getByText("Load 3 more"));
-    // After loading, should show all 8
+    fireEvent.click(championsView.getByText("Load 3 more")); // 6 → 9
+    fireEvent.click(championsView.getByText("Load 3 more")); // 9 → 12
+    // All 12 victories are now visible; load-more button should be gone
     expect(championsView.queryByText("Load 3 more")).toBeNull();
   });
 });

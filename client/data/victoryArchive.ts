@@ -321,4 +321,204 @@ export const victories: VictoryRecord[] = [
       },
     ],
   },
+  {
+    id: "cicero-diplomacy",
+    game: "Diplomacy",
+    aiName: "Cicero",
+    opponent: "Human Online Players",
+    year: 2022,
+    location: "webDiplomacy.net (online)",
+    icon: "🤝",
+    scoreLabel: "2× avg human score · Top 10%",
+    recordType: "Champion match",
+    significance:
+      "First AI to achieve human-level strategic play in Diplomacy — a game demanding natural language negotiation, alliance-building, and long-horizon planning simultaneously.",
+    summary:
+      "Meta AI's Cicero played 40 anonymous games on webDiplomacy.net, scoring 25.8% average against the human average of 12.4% and finishing in the top 10% of all participants (second among players with 5+ games). Diplomacy requires building and breaking alliances through natural language across many rounds — capabilities language-only or strategy-only models had never reliably combined at a competitive level.",
+    methods: [
+      "Strategic language model dialogue",
+      "Reinforcement learning planning",
+      "Intent-conditioning",
+      "Imitation learning from human games",
+      "Controllable text generation",
+    ],
+    whyItMattered:
+      "Cicero proved that AI could negotiate through natural language at a competitive level — managing alliances, breaking deals, and tracking trust across a full multi-player competition rather than just reasoning in isolation.",
+    todayContext:
+      "Cicero's architecture — a language model steered by a strategic planner — anticipates how modern agents combine reasoning models with language output. The Science paper remains a key reference for AI in multi-agent negotiation settings.",
+    format: "40 anonymous online games on webDiplomacy.net (August 19 – October 13, 2022).",
+    playableDemo: false,
+    gradient: "from-pink-500 to-rose-700",
+    accent: "border-pink-400/60",
+    sources: [
+      {
+        label: "Science: Human-level play in Diplomacy",
+        url: "https://www.science.org/doi/10.1126/science.ade9097",
+        kind: "Research paper",
+      },
+      {
+        label: "Meta AI: Cicero blog post",
+        url: "https://ai.meta.com/blog/cicero-ai-negotiates-persuades-and-cooperates-with-people/",
+        kind: "Lab blog",
+      },
+    ],
+  },
+  {
+    id: "alphacode2-programming",
+    game: "Competitive Programming",
+    aiName: "AlphaCode 2",
+    opponent: "Competitive Programmers",
+    year: 2023,
+    location: "Codeforces (online)",
+    icon: "💻",
+    scoreLabel: "85th percentile on Codeforces",
+    recordType: "Benchmark leap",
+    significance:
+      "First AI to reach the top 15% of competitive programmers on a major live coding platform.",
+    summary:
+      "Google DeepMind's AlphaCode 2 achieved an estimated Codeforces rating placing it at the 85th percentile of competitive programmers — solving 43% of competition problems across 12 recent contests. It combined Gemini model fine-tuning with large-scale solution sampling and scoring, far exceeding its predecessor's 50th-percentile baseline from 2022.",
+    methods: [
+      "Gemini model fine-tuning",
+      "Large-scale solution sampling",
+      "Code scoring and filtering",
+      "Execution-based verification",
+      "Ensemble selection",
+    ],
+    whyItMattered:
+      "Competitive programming is a strong proxy for rigorous engineering and reasoning. Reaching the 85th percentile meant surpassing most professional developers and many specialist engineers in systematic problem-solving under time constraints.",
+    todayContext:
+      "AlphaCode 2 validated that large-scale language models, specialized fine-tuning, and compute-intensive sampling could crack previously human-dominant intellectual benchmarks — a pattern that now defines how frontier AI capability is evaluated and extended.",
+    format: "Evaluation across 12 recent Codeforces contests totaling 77 problems (December 2023).",
+    playableDemo: false,
+    gradient: "from-blue-500 to-indigo-700",
+    accent: "border-blue-400/60",
+    sources: [
+      {
+        label: "AlphaCode 2 technical report",
+        url: "https://storage.googleapis.com/deepmind-media/AlphaCode2/AlphaCode2_Tech_Report.pdf",
+        kind: "Research paper",
+      },
+      {
+        label: "DeepMind: Competitive programming with AlphaCode",
+        url: "https://deepmind.google/discover/blog/competitive-programming-with-alphacode/",
+        kind: "Lab blog",
+      },
+    ],
+  },
+  {
+    id: "alphaproof-imo-2024",
+    game: "International Math Olympiad",
+    aiName: "AlphaProof + AlphaGeometry 2",
+    opponent: "World's Best Math Students",
+    year: 2024,
+    location: "Bath, United Kingdom",
+    icon: "📐",
+    scoreLabel: "28 pts · Silver medal",
+    recordType: "Benchmark leap",
+    significance:
+      "First AI system to solve IMO competition problems at silver-medal level, with solutions formally verified by official IMO judges.",
+    summary:
+      "DeepMind's AlphaProof and AlphaGeometry 2 solved four of six problems from IMO 2024, earning 28 of 42 points and meeting the silver-medal threshold. Solutions were formally verified and graded by IMO officials Timothy Gowers and Joseph Myers — the same standards applied to human contestants.",
+    methods: [
+      "Formal theorem proving in Lean 4",
+      "Reinforcement learning on proof trees",
+      "Geometric reasoning (AlphaGeometry 2)",
+      "Self-training from generated problems",
+      "Symbolic search over proof steps",
+    ],
+    whyItMattered:
+      "IMO problems require non-routine mathematical discovery that cannot be retrieved or pattern-matched. A silver-medal score meant genuinely constructing proofs that professional mathematicians had to verify — not just passing standardized tests.",
+    todayContext:
+      "AlphaProof demonstrated that AI could conduct formal mathematical reasoning at world-class competition level. One year later, Gemini Deep Think improved to gold — confirming that AI mathematical reasoning is advancing rapidly enough to reframe collaboration between researchers and AI.",
+    format: "Six problems from the 2024 International Mathematical Olympiad; solutions formally verified by IMO officials.",
+    playableDemo: false,
+    gradient: "from-teal-500 to-cyan-700",
+    accent: "border-teal-400/60",
+    sources: [
+      {
+        label: "DeepMind: AI solves IMO problems at silver medal level",
+        url: "https://deepmind.google/discover/blog/ai-solves-imo-problems-at-silver-medal-level/",
+        kind: "Lab blog",
+      },
+    ],
+  },
+  {
+    id: "o3-arc-agi",
+    game: "ARC-AGI Abstract Reasoning",
+    aiName: "OpenAI o3",
+    opponent: "Human Baseline",
+    year: 2024,
+    location: "ARC Prize (online)",
+    icon: "🧩",
+    scoreLabel: "87.5% (human baseline ~85%)",
+    recordType: "Benchmark leap",
+    significance:
+      "First AI to surpass the human performance threshold on ARC-AGI, the leading benchmark for abstract and novel pattern reasoning.",
+    summary:
+      "OpenAI's o3 scored 87.5% on the ARC-AGI semi-private evaluation in December 2024, exceeding the established human baseline of approximately 85%. ARC-AGI was specifically designed to resist pattern-matching by requiring novel analogical reasoning on tasks structurally unlike anything in training data.",
+    methods: [
+      "Extended chain-of-thought reasoning",
+      "Test-time compute scaling",
+      "Reinforcement learning from feedback",
+      "Deliberative inference",
+      "Iterative self-correction",
+    ],
+    whyItMattered:
+      "ARC-AGI was engineered to be hard for LLMs — novel visual pattern induction rather than knowledge retrieval. Clearing the human baseline was a milestone for AI generalization beyond memorization and the most contested proof point in the AGI debate.",
+    todayContext:
+      "o3's result shifted the conversation from 'can AI generalize?' to 'what does generalization cost in compute?' It prompted the ARC Prize to release ARC-AGI-2 targeting harder reasoning, acknowledging that the original benchmark no longer reliably separates human and AI capability.",
+    format: "800-task semi-private evaluation set from the 2024 ARC Prize competition (December 2024).",
+    playableDemo: false,
+    gradient: "from-orange-500 to-amber-700",
+    accent: "border-orange-400/60",
+    sources: [
+      {
+        label: "ARC Prize: o3 breakthrough",
+        url: "https://arcprize.org/blog/oai-o3-pub-breakthrough",
+        kind: "Lab blog",
+      },
+      {
+        label: "OpenAI: Introducing o3 and o4-mini",
+        url: "https://openai.com/index/introducing-o3-and-o4-mini/",
+        kind: "Lab blog",
+      },
+    ],
+  },
+  {
+    id: "gemini-imo-2025",
+    game: "International Math Olympiad",
+    aiName: "Gemini Deep Think",
+    opponent: "World's Best Math Students",
+    year: 2025,
+    location: "Gold Coast, Australia",
+    icon: "🥇",
+    scoreLabel: "35 pts · Gold medal",
+    recordType: "Benchmark leap",
+    significance:
+      "First AI to achieve gold-medal performance at the International Mathematical Olympiad, solving 5 of 6 problems end-to-end in natural language within competition time limits.",
+    summary:
+      "Google DeepMind's Gemini with Deep Think solved 5 of 6 problems at IMO 2025, scoring 35 of 42 points — gold-medal standard. Critically, it operated entirely in natural language within the 4.5-hour competition window, with no formal proof language required. This built directly on AlphaProof's 2024 silver-medal result.",
+    methods: [
+      "Extended chain-of-thought reasoning",
+      "Deep Think inference mode",
+      "Natural language proof generation",
+      "Test-time compute scaling",
+      "Competition mathematics fine-tuning",
+    ],
+    whyItMattered:
+      "Unlike AlphaProof's 2024 silver, Gemini Deep Think competed end-to-end in natural language under real competition time constraints — the same conditions as human contestants. Gold-medal performance requires discovering original mathematical arguments, not just verifying them.",
+    todayContext:
+      "The step from silver (2024) to gold (2025) in a single year illustrates the pace at which frontier AI is advancing on hard reasoning. This result has already shifted how research mathematicians think about AI as a genuine collaborator on open problems, not just a verification assistant.",
+    format: "Six problems from the 2025 International Mathematical Olympiad; graded under official competition conditions.",
+    playableDemo: false,
+    gradient: "from-yellow-500 to-orange-600",
+    accent: "border-yellow-400/60",
+    sources: [
+      {
+        label: "DeepMind: Gemini achieves gold at IMO 2025",
+        url: "https://deepmind.google/blog/advanced-version-of-gemini-with-deep-think-officially-achieves-gold-medal-standard-at-the-international-mathematical-olympiad/",
+        kind: "Lab blog",
+      },
+    ],
+  },
 ];
