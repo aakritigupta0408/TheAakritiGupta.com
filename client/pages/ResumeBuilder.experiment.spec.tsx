@@ -1,9 +1,10 @@
 // @vitest-environment happy-dom
 
 import React from "react";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
+import { installLocalStorageMock } from "@/test/testUtils";
 import ResumeBuilder from "./ResumeBuilder";
 
 vi.mock("../components/Navigation", () => ({
@@ -17,6 +18,10 @@ vi.mock("@/components/Navigation", () => ({
 vi.mock("framer-motion", async () => {
   const { createFramerMotionMock } = await import("@/test/testUtils");
   return createFramerMotionMock();
+});
+
+beforeAll(() => {
+  installLocalStorageMock();
 });
 
 afterEach(() => {

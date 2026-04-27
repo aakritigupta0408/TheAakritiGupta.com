@@ -39,7 +39,11 @@ function persistLocalEvent(event: AnalyticsEventPayload) {
   const events = readLocalEvents();
   events.push(event);
 
-  window.localStorage.setItem(LOCAL_EVENT_KEY, JSON.stringify(events.slice(-250)));
+  try {
+    window.localStorage.setItem(LOCAL_EVENT_KEY, JSON.stringify(events.slice(-250)));
+  } catch {
+    // storage unavailable (private browsing, quota exceeded, test env)
+  }
 }
 
 function injectGaScript() {

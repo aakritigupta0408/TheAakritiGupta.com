@@ -52,7 +52,11 @@ function writeStorageRecord(key: string, value: Record<string, string>) {
     return;
   }
 
-  window.localStorage.setItem(key, JSON.stringify(value));
+  try {
+    window.localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // storage unavailable (private browsing, quota exceeded, test env)
+  }
 }
 
 function getVisitorId() {
@@ -60,14 +64,18 @@ function getVisitorId() {
     return "static-render";
   }
 
-  const existing = window.localStorage.getItem(VISITOR_KEY);
-  if (existing) {
-    return existing;
-  }
+  try {
+    const existing = window.localStorage.getItem(VISITOR_KEY);
+    if (existing) {
+      return existing;
+    }
 
-  const next = window.crypto?.randomUUID?.() || `visitor-${Date.now()}`;
-  window.localStorage.setItem(VISITOR_KEY, next);
-  return next;
+    const next = window.crypto?.randomUUID?.() || `visitor-${Date.now()}`;
+    window.localStorage.setItem(VISITOR_KEY, next);
+    return next;
+  } catch {
+    return `visitor-${Date.now()}`;
+  }
 }
 
 function hashToRatio(input: string) {
