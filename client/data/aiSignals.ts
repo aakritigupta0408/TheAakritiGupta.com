@@ -41,24 +41,14 @@ export interface BuildTrack {
 
 export const latestAIResearchBreakthroughs: AISignal[] = [
   {
-    "id": "alphafold-3",
-    "title": "AlphaFold 3 expands AI from protein folding to molecular interactions",
-    "org": "Google DeepMind + Isomorphic Labs",
-    "date": "May 8, 2024",
-    "category": "Science AI",
-    "summary": "AlphaFold 3 predicts interactions across proteins, DNA, RNA, ligands, and other molecules instead of only protein structure.",
-    "impact": "This is one of the clearest signals that frontier AI is becoming practical scientific infrastructure for biology, drug discovery, and materials research.",
-    "url": "https://blog.google/technology/ai/google-deepmind-isomorphic-alphafold-3-ai-model/"
-  },
-  {
-    "id": "gemini-robotics",
-    "title": "Gemini Robotics 1.5 brings agent planning into the physical world",
-    "org": "Google DeepMind",
-    "date": "March 12, 2025",
+    "id": "mit-warehouse-robot",
+    "title": "AI system learns to keep warehouse robot traffic running smoothly",
+    "org": "MIT",
+    "date": "April 9, 2026",
     "category": "Robotics",
-    "summary": "Gemini Robotics 1.5 combines multimodal reasoning, tool use, and embodied control so robots can plan and execute multi-step real-world tasks.",
-    "impact": "AI is moving beyond chat windows into embodied workflows such as manipulation, navigation, assisted operations, and human-robot collaboration.",
-    "url": "https://deepmind.google/en/blog/gemini-robotics-15-brings-ai-agents-into-the-physical-world/"
+    "summary": "MIT AI system adapts to decide which robots should get the right of way at every moment, avoiding congestion and increasing throughput.",
+    "impact": "Demonstrates real-time multimodal reasoning applied to physical logistics, a key frontier for AI-enabled automation.",
+    "url": "https://news.mit.edu/2026/ai-system-learns-keep-warehouse-robot-traffic-running-smoothly-0409"
   },
   {
     "id": "gemini-25-pro",
@@ -71,6 +61,16 @@ export const latestAIResearchBreakthroughs: AISignal[] = [
     "url": "https://blog.google/products-and-platforms/products/gemini/gemini-2-5-pro-latest-preview/"
   },
   {
+    "id": "gemini-robotics",
+    "title": "Gemini Robotics 1.5 brings agent planning into the physical world",
+    "org": "Google DeepMind",
+    "date": "March 12, 2025",
+    "category": "Robotics",
+    "summary": "Gemini Robotics 1.5 combines multimodal reasoning, tool use, and embodied control so robots can plan and execute multi-step real-world tasks.",
+    "impact": "AI is moving beyond chat windows into embodied workflows such as manipulation, navigation, assisted operations, and human-robot collaboration.",
+    "url": "https://deepmind.google/en/blog/gemini-robotics-15-brings-ai-agents-into-the-physical-world/"
+  },
+  {
     "id": "anthropic-economic-index",
     "title": "The Anthropic Economic Index tracks how AI is actually being used at work",
     "org": "Anthropic",
@@ -81,27 +81,37 @@ export const latestAIResearchBreakthroughs: AISignal[] = [
     "url": "https://www.anthropic.com/news/the-anthropic-economic-index/"
   },
   {
-    "id": "mit-warehouse-robot",
-    "title": "AI system learns to keep warehouse robot traffic running smoothly",
-    "org": "MIT",
-    "date": "April 9, 2026",
-    "category": "Robotics",
-    "summary": "MIT AI system adapts to decide which robots should get the right of way at every moment, avoiding congestion and increasing throughput.",
-    "impact": "Demonstrates real-time multimodal reasoning applied to physical logistics, a key frontier for AI-enabled automation.",
-    "url": "https://news.mit.edu/2026/ai-system-learns-keep-warehouse-robot-traffic-running-smoothly-0409"
+    "id": "alphafold-3",
+    "title": "AlphaFold 3 expands AI from protein folding to molecular interactions",
+    "org": "Google DeepMind + Isomorphic Labs",
+    "date": "May 8, 2024",
+    "category": "Science AI",
+    "summary": "AlphaFold 3 predicts interactions across proteins, DNA, RNA, ligands, and other molecules instead of only protein structure.",
+    "impact": "This is one of the clearest signals that frontier AI is becoming practical scientific infrastructure for biology, drug discovery, and materials research.",
+    "url": "https://blog.google/technology/ai/google-deepmind-isomorphic-alphafold-3-ai-model/"
   }
 ];
 
 export const latestAIProductLaunches: AISignal[] = [
   {
-    "id": "openai-codex",
-    "title": "OpenAI Codex brings cloud-native agentic coding to ChatGPT",
-    "org": "OpenAI",
-    "date": "May 16, 2025",
-    "category": "Coding Agents",
-    "summary": "OpenAI launched Codex as a cloud sandbox that reads your repository, runs code, and produces verified pull requests you can review and merge.",
-    "impact": "The center of gravity in developer tooling is shifting from autocomplete toward coordinated, agentic execution over larger scopes of work.",
-    "url": "https://openai.com/index/introducing-codex/"
+    "id": "cursor-3",
+    "title": "Cursor 3 turns the IDE into a workspace for multiple agents",
+    "org": "Cursor",
+    "date": "April 2, 2026",
+    "category": "Coding Workspace",
+    "summary": "Cursor 3 expands from pair-programming into multi-agent, multi-repo, browser-assisted software workflows with stronger orchestration.",
+    "impact": "The developer stack is evolving toward persistent software coworkers that can investigate, patch, test, and hand work back for review.",
+    "url": "https://cursor.com/blog/cursor-3"
+  },
+  {
+    "id": "runway-fund",
+    "title": "Runway expands from model company to broader AI media platform",
+    "org": "Runway",
+    "date": "March 31, 2026",
+    "category": "Creative AI",
+    "summary": "Runway introduced Runway Fund while continuing to frame itself as infrastructure for AI-native media, world simulation, and new creative tooling.",
+    "impact": "Creative startups are maturing into platform companies that span models, applications, and ecosystem investment.",
+    "url": "https://runwayml.com/news/introducing-runway-fund"
   },
   {
     "id": "openai-deep-research",
@@ -114,16 +124,6 @@ export const latestAIProductLaunches: AISignal[] = [
     "url": "https://openai.com/index/introducing-deep-research/"
   },
   {
-    "id": "cursor-3",
-    "title": "Cursor 3 turns the IDE into a workspace for multiple agents",
-    "org": "Cursor",
-    "date": "April 2, 2026",
-    "category": "Coding Workspace",
-    "summary": "Cursor 3 expands from pair-programming into multi-agent, multi-repo, browser-assisted software workflows with stronger orchestration.",
-    "impact": "The developer stack is evolving toward persistent software coworkers that can investigate, patch, test, and hand work back for review.",
-    "url": "https://cursor.com/blog/cursor-3"
-  },
-  {
     "id": "claude-opus-45",
     "title": "Claude Opus 4.5 raises the bar for coding, agents, and computer use",
     "org": "Anthropic",
@@ -134,6 +134,16 @@ export const latestAIProductLaunches: AISignal[] = [
     "url": "https://www.anthropic.com/news/claude-opus-4-5"
   },
   {
+    "id": "openai-codex",
+    "title": "OpenAI Codex brings cloud-native agentic coding to ChatGPT",
+    "org": "OpenAI",
+    "date": "May 16, 2025",
+    "category": "Coding Agents",
+    "summary": "OpenAI launched Codex as a cloud sandbox that reads your repository, runs code, and produces verified pull requests you can review and merge.",
+    "impact": "The center of gravity in developer tooling is shifting from autocomplete toward coordinated, agentic execution over larger scopes of work.",
+    "url": "https://openai.com/index/introducing-codex/"
+  },
+  {
     "id": "glean-agents",
     "title": "Glean pushes enterprise AI toward grounded autonomous agents",
     "org": "Glean",
@@ -142,16 +152,6 @@ export const latestAIProductLaunches: AISignal[] = [
     "summary": "Glean's current product direction centers on enterprise search, agent orchestration, security, permissions, and enterprise-ready actions.",
     "impact": "Enterprise AI differentiation is moving toward grounded execution, access control, and reliable action across internal systems.",
     "url": "https://www.glean.com/product/ai-agents"
-  },
-  {
-    "id": "runway-fund",
-    "title": "Runway expands from model company to broader AI media platform",
-    "org": "Runway",
-    "date": "March 31, 2026",
-    "category": "Creative AI",
-    "summary": "Runway introduced Runway Fund while continuing to frame itself as infrastructure for AI-native media, world simulation, and new creative tooling.",
-    "impact": "Creative startups are maturing into platform companies that span models, applications, and ecosystem investment.",
-    "url": "https://runwayml.com/news/introducing-runway-fund"
   }
 ];
 
