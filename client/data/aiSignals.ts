@@ -235,15 +235,6 @@ export const startupWatchlist: StartupWatchItem[] = [
     "url": "https://cursor.com/blog/cursor-3"
   },
   {
-    "id": "perplexity",
-    "name": "Perplexity",
-    "focus": "Research and answer engines",
-    "latestMove": "Perplexity Deep Research keeps expanding the category of citation-first AI analysis for market, finance, and product work.",
-    "date": "2025",
-    "whyItMatters": "Research assistants are becoming a durable product category, and Perplexity remains one of the clearest non-incumbent winners there.",
-    "url": "https://www.perplexity.ai/hub/blog/introducing-perplexity-deep-research"
-  },
-  {
     "id": "harvey",
     "name": "Harvey",
     "focus": "Professional and legal AI",
@@ -269,6 +260,15 @@ export const startupWatchlist: StartupWatchItem[] = [
     "date": "December 3, 2025",
     "whyItMatters": "Customer-facing AI leaders are differentiating on orchestration, reliability, guardrails, and brand control rather than raw model access.",
     "url": "https://sierra.ai/blog/constellation-of-models"
+  },
+  {
+    "id": "perplexity",
+    "name": "Perplexity",
+    "focus": "Research and answer engines",
+    "latestMove": "Perplexity Deep Research keeps expanding the category of citation-first AI analysis for market, finance, and product work.",
+    "date": "2025",
+    "whyItMatters": "Research assistants are becoming a durable product category, and Perplexity remains one of the clearest non-incumbent winners there.",
+    "url": "https://www.perplexity.ai/hub/blog/introducing-perplexity-deep-research"
   }
 ];
 

@@ -6,13 +6,13 @@ import { discoveries, type Discovery } from "@/data/discoveryArchive";
 import { getPageRefreshContent } from "@/data/siteRefreshContent";
 import { latestAIResearchBreakthroughs } from "../data/aiSignals";
 
-type SortMode = "chronological" | "alphabetical";
+type SortMode = "newest-first" | "oldest-first" | "alphabetical";
 
 export default function AIDiscoveries() {
   const [selectedDiscovery, setSelectedDiscovery] = useState<Discovery | null>(
     null,
   );
-  const [sortBy, setSortBy] = useState<SortMode>("chronological");
+  const [sortBy, setSortBy] = useState<SortMode>("newest-first");
   const [filterDecade, setFilterDecade] = useState("All");
   const [visibleCount, setVisibleCount] = useState(8);
 
@@ -45,7 +45,12 @@ export default function AIDiscoveries() {
         return left.title.localeCompare(right.title);
       }
 
-      return parseInt(left.year, 10) - parseInt(right.year, 10);
+      if (sortBy === "oldest-first") {
+        return parseInt(left.year, 10) - parseInt(right.year, 10);
+      }
+
+      // "newest-first" (default)
+      return parseInt(right.year, 10) - parseInt(left.year, 10);
     });
 
     return filtered;
@@ -153,8 +158,11 @@ export default function AIDiscoveries() {
               onChange={(event) => setSortBy(event.target.value as SortMode)}
               className="rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs font-semibold text-gray-100 transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400/40"
             >
-              <option value="chronological" className="bg-slate-900">
-                Chronological
+              <option value="newest-first" className="bg-slate-900">
+                Newest first
+              </option>
+              <option value="oldest-first" className="bg-slate-900">
+                Oldest first
               </option>
               <option value="alphabetical" className="bg-slate-900">
                 Alphabetical

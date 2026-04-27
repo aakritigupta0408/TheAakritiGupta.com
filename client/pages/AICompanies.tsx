@@ -15,7 +15,7 @@ type SortMode = "scale" | "founded" | "operating";
 export default function AICompanies() {
   const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
   const [filterCategory, setFilterCategory] = useState("All");
-  const [sortBy, setSortBy] = useState<SortMode>("scale");
+  const [sortBy, setSortBy] = useState<SortMode>("founded");
   const [visibleCount, setVisibleCount] = useState(8);
 
   const pageRefresh = getPageRefreshContent("/ai-companies");

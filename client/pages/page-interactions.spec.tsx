@@ -541,6 +541,10 @@ describe("AI page interactions", () => {
     expect(view.queryByText(earlyDiscovery.title)).toBeNull();
 
     fireEvent.click(view.getByRole("button", { name: /^All$/i }));
+    // Switch to oldest-first so the pre-2000 entry appears within the initial 8 results
+    fireEvent.change(view.getByRole("combobox"), {
+      target: { value: "oldest-first" },
+    });
 
     expect(view.getByText(earlyDiscovery.title)).not.toBeNull();
   });

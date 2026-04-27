@@ -35,13 +35,14 @@ export default function AIChampions() {
     [],
   );
 
-  const filteredVictories = useMemo(
-    () =>
+  const filteredVictories = useMemo(() => {
+    const filtered =
       filterType === "All"
-        ? victories
-        : victories.filter((victory) => victory.recordType === filterType),
-    [filterType],
-  );
+        ? [...victories]
+        : victories.filter((victory) => victory.recordType === filterType);
+
+    return filtered.sort((a, b) => b.year - a.year);
+  }, [filterType]);
 
   useEffect(() => {
     setVisibleCount(6);
