@@ -38,7 +38,7 @@ const ACHIEVEMENT_COLLECTIBLES: Array<{
   {
     type: "diamond",
     story:
-      "💎 Yann LeCun Recognition: Acknowledged by Turing Award winner at ICLR 2019 for innovative research",
+      "💎 Yann LeCun Recognition: Acknowledged by Turing Award winner for an engineering-efficient ML solution balancing cost, performance, and accuracy at Meta",
     value: 150,
   },
   {

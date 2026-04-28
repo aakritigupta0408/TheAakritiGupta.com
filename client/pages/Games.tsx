@@ -23,25 +23,26 @@ export default function Games() {
   const navigate = useNavigate();
   const [activeGame, setActiveGame] = useState<GameTab | null>(null);
   const [hoveredGame, setHoveredGame] = useState<GameTab | null>(null);
-  const [visibleCount, setVisibleCount] = useState(3);
+  const [visibleCount, setVisibleCount] = useState(6);
 
   const gameCards = [
     {
       id: "chess" as GameTab,
       title: "CHESS",
       description:
-        "Strategic mastery revealing professional narratives through the royal game",
+        "Play against Aakriti's AI — capture pieces to unlock her professional story. White is her portfolio, black is yours.",
       icon: "♔",
       accent: "border-yellow-400",
       gradient: "from-yellow-400 to-amber-600",
       difficulty: "Expert",
-      players: "2 Players",
+      players: "1 vs AI",
       category: "Strategy",
     },
     {
       id: "bagh-chal" as GameTab,
       title: "BAGH-CHAL",
-      description: "Traditional Nepali strategy with modern AI sophistication",
+      description:
+        "Classical Nepali board game pitting 4 tigers against 20 goats. Tigers hunt; goats surround. Asymmetric strategy at its sharpest.",
       icon: "🐅",
       accent: "border-orange-400",
       gradient: "from-orange-400 to-red-600",
@@ -51,10 +52,10 @@ export default function Games() {
     },
     {
       id: "pacman" as GameTab,
-      title: "PACMAN",
+      title: "PAC-MAN",
       description:
-        "Arcade adventure unveiling professional strengths and achievements",
-      icon: "👾",
+        "Classic maze chase with a twist — collect 💎 diamonds hidden in the maze to reveal Aakriti's professional achievements.",
+      icon: "🟡",
       accent: "border-blue-400",
       gradient: "from-blue-400 to-purple-600",
       difficulty: "Medium",
@@ -64,7 +65,8 @@ export default function Games() {
     {
       id: "snake" as GameTab,
       title: "SNAKE",
-      description: "Journey through professional milestones and career growth",
+      description:
+        "Guide the snake through milestones — each fruit you collect unlocks a chapter from Aakriti's career journey.",
       icon: "🐍",
       accent: "border-green-400",
       gradient: "from-green-400 to-emerald-600",
@@ -76,19 +78,19 @@ export default function Games() {
       id: "mario-gradient" as GameTab,
       title: "GRADIENT DESCENT",
       description:
-        "Machine learning education through interactive Mario-style gameplay",
+        "Watch Mario optimize a loss function in real time. Adjust the learning rate and see how gradient descent finds the global minimum.",
       icon: "🎮",
       accent: "border-purple-400",
       gradient: "from-purple-400 to-pink-600",
-      difficulty: "Expert",
+      difficulty: "Educational",
       players: "1 Player",
-      category: "Educational",
+      category: "ML Demo",
     },
     {
       id: "helicopter" as GameTab,
       title: "HELICOPTER",
       description:
-        "Navigate challenges to discover achievements and unlock career milestones",
+        "Fly through obstacles and collect achievements. Each gold item you reach reveals a career milestone.",
       icon: "🚁",
       accent: "border-cyan-400",
       gradient: "from-cyan-400 to-blue-600",
@@ -139,25 +141,6 @@ export default function Games() {
               Pick a game, play it in the browser, then jump back for the next.
             </p>
           </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-4"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Choose Your
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                {" "}
-                Adventure
-              </span>
-            </h2>
-            <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-              Select from our collection of interactive games that showcase
-              different aspects of strategic thinking and problem-solving
-            </p>
-          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {visibleGames.map((game, index) => (
@@ -304,99 +287,55 @@ export default function Games() {
         )}
       </AnimatePresence>
 
-      {/* Enhanced Footer */}
-      <section className="relative z-20 py-6 bg-gray-100 border-t border-gray-200">
+      {/* Footer */}
+      <section className="relative z-20 py-6 border-t border-white/10">
         <div className="max-w-7xl mx-auto px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
-            {/* About Section */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             <div>
-              <h3 className="text-lg font-bold text-black mb-4">
-                Interactive Gaming Portfolio
+              <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-gray-400 mb-3">
+                About this collection
               </h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Experience strategic thinking and problem-solving through
-                carefully crafted games that showcase professional expertise.
+              <p className="text-sm text-slate-300 leading-relaxed">
+                Six playable games — from classic arcade to ML demos — each surfacing a different layer of Aakriti's engineering and career story.
               </p>
             </div>
 
-            {/* Game Categories */}
             <div>
-              <h3 className="text-lg font-bold text-black mb-4">
-                Game Categories
+              <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-gray-400 mb-3">
+                Game categories
               </h3>
-              <div className="grid grid-cols-2 gap-2 text-sm">
-                <span className="text-gray-600">Strategy</span>
-                <span className="text-gray-600">Arcade</span>
-                <span className="text-gray-600">Educational</span>
-                <span className="text-gray-600">Traditional</span>
-                <span className="text-gray-600">Action</span>
-                <span className="text-gray-600">Classic</span>
+              <div className="flex flex-wrap gap-2">
+                {Array.from(new Set(gameCards.map((g) => g.category))).map((cat) => (
+                  <span
+                    key={cat}
+                    className="rounded-full border border-white/15 bg-white/5 px-2.5 py-1 text-xs font-medium text-slate-300"
+                  >
+                    {cat}
+                  </span>
+                ))}
               </div>
             </div>
 
-            {/* Related Pages */}
             <div>
-              <h3 className="text-lg font-bold text-black mb-4">
-                Explore More
+              <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-gray-400 mb-3">
+                Explore more
               </h3>
-              <div className="space-y-2">
-                <motion.button
-                  onClick={() => navigate("/ai-champions")}
-                  whileHover={{ scale: 1.02, x: 5 }}
-                  className="block w-full text-left p-3 bg-gradient-to-r from-red-50 to-orange-50 border border-red-200 rounded-lg hover:from-red-100 hover:to-orange-100 transition-all duration-300 group"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">🏆</span>
-                    <div>
-                      <div className="font-bold text-gray-800 group-hover:text-red-700">
-                        AI vs Human Champions
-                      </div>
-                      <div className="text-xs text-gray-600">
-                        Historic AI victories in chess, Go, poker & more
-                      </div>
-                    </div>
-                    <span className="text-red-500 group-hover:translate-x-1 transition-transform">
-                      →
-                    </span>
+              <motion.button
+                onClick={() => navigate("/ai-champions")}
+                whileHover={{ x: 4 }}
+                className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-3 text-left hover:bg-white/10 transition-colors w-full"
+              >
+                <span className="text-2xl">🏆</span>
+                <div>
+                  <div className="text-sm font-semibold text-white">
+                    AI vs Human Champions
                   </div>
-                </motion.button>
-
-                <div className="pt-2">
-                  <h4 className="text-sm font-semibold text-gray-800 mb-2">
-                    Skills Demonstrated
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {[
-                      "Strategic Thinking",
-                      "Problem Solving",
-                      "AI/ML",
-                      "Game Theory",
-                      "Pattern Recognition",
-                    ].map((skill, idx) => (
-                      <span
-                        key={idx}
-                        className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium"
-                      >
-                        {skill}
-                      </span>
-                    ))}
+                  <div className="text-xs text-gray-400">
+                    Chess, Go, poker, math olympiads & more
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Copyright */}
-          <div className="text-center pt-8 border-t border-gray-200">
-            <p className="text-gray-500 text-sm">
-              © 2026 Aakriti Gupta • Senior ML Engineer • Game Developer
-            </p>
-            <div className="mt-4 flex justify-center gap-8 text-xs text-gray-400">
-              <span>Marksman</span>
-              <span>Equestrian</span>
-              <span>Aviator</span>
-              <span>Motorcyclist</span>
-              <span>Pianist</span>
+                <span className="ml-auto text-gray-400">→</span>
+              </motion.button>
             </div>
           </div>
         </div>

@@ -498,18 +498,41 @@ const Pacman = () => {
             )}
           </div>
 
+          {/* Mobile touch controls */}
+          {gameStarted && !gameOver && (
+            <div className="mt-4 flex flex-col items-center gap-1 md:hidden">
+              <button
+                type="button"
+                onPointerDown={() => movePacman("up")}
+                className="w-12 h-12 rounded-xl bg-blue-800 border border-blue-600 text-xl font-bold text-white active:bg-blue-700"
+              >↑</button>
+              <div className="flex gap-1">
+                <button
+                  type="button"
+                  onPointerDown={() => movePacman("left")}
+                  className="w-12 h-12 rounded-xl bg-blue-800 border border-blue-600 text-xl font-bold text-white active:bg-blue-700"
+                >←</button>
+                <div className="w-12 h-12" />
+                <button
+                  type="button"
+                  onPointerDown={() => movePacman("right")}
+                  className="w-12 h-12 rounded-xl bg-blue-800 border border-blue-600 text-xl font-bold text-white active:bg-blue-700"
+                >→</button>
+              </div>
+              <button
+                type="button"
+                onPointerDown={() => movePacman("down")}
+                className="w-12 h-12 rounded-xl bg-blue-800 border border-blue-600 text-xl font-bold text-white active:bg-blue-700"
+              >↓</button>
+            </div>
+          )}
+
           {/* Game Instructions */}
-          <div className="mt-4 text-center text-white text-sm">
+          <div className="mt-3 text-center text-white text-sm">
             {!gameStarted ? (
-              <p>
-                🎮 Use arrow keys to move • Collect 💎 to reveal Aakriti's
-                strengths!
-              </p>
+              <p>🎮 Arrow keys to move · Collect 💎 to reveal strengths</p>
             ) : (
-              <p>
-                ���� Collect dots for points • 💎 Professional achievements • ⚡
-                Power pellets
-              </p>
+              <p className="hidden md:block">🟡 Dots = 10pts · 💎 Achievements = 100pts · ⚡ Power pellets = 50pts</p>
             )}
           </div>
         </motion.div>

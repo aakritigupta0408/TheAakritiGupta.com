@@ -249,12 +249,11 @@ export default function Snake() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center mb-8"
       >
-        <h2 className="text-4xl font-bold ghibli-text-gradient mb-4 ghibli-float">
-          🐍 Magical Snake Adventure 🐍
+        <h2 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent mb-4">
+          🐍 Snake: Career Milestones 🐍
         </h2>
         <p className="text-purple-700 dark:text-purple-300 text-lg max-w-3xl mx-auto">
-          ✨ Guide the magical snake to collect enchanted fruits and discover
-          Aakriti's professional journey! ✨
+          Guide the snake to collect fruits and unlock Aakriti's professional journey
         </p>
       </motion.div>
 
@@ -264,7 +263,7 @@ export default function Snake() {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="ghibli-glass rounded-3xl p-6 shadow-2xl border-2 border-white/30"
+            className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 shadow-2xl border-2 border-purple-200/60"
           >
             <div className="flex justify-between items-center mb-6">
               <div className="text-xl font-bold text-purple-800 dark:text-purple-200">
@@ -276,7 +275,7 @@ export default function Snake() {
                     onClick={startGame}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="ghibli-button px-6 py-3 rounded-2xl text-white font-bold"
+                    className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-colors px-6 py-3 rounded-2xl text-white font-bold"
                   >
                     🌟 Start Adventure
                   </motion.button>
@@ -286,15 +285,15 @@ export default function Snake() {
                       onClick={() => setIsPaused(!isPaused)}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="ghibli-button px-4 py-2 rounded-xl text-white font-semibold"
+                      className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-colors px-4 py-2 rounded-xl text-white font-semibold"
                     >
-                      {isPaused ? "▶️ Resume" : "���️ Pause"}
+                      {isPaused ? "▶️ Resume" : "⏸️ Pause"}
                     </motion.button>
                     <motion.button
                       onClick={resetGame}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="ghibli-button px-4 py-2 rounded-xl text-white font-semibold"
+                      className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-colors px-4 py-2 rounded-xl text-white font-semibold"
                     >
                       🔄 Restart
                     </motion.button>
@@ -385,7 +384,7 @@ export default function Snake() {
                           onClick={resetGame}
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
-                          className="ghibli-button px-6 py-3 rounded-2xl text-white font-bold"
+                          className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-colors px-6 py-3 rounded-2xl text-white font-bold"
                         >
                           🌟 New Adventure
                         </motion.button>
@@ -416,10 +415,43 @@ export default function Snake() {
               </div>
             </div>
 
+            {/* Mobile touch controls */}
+            {gameStarted && !gameOver && (
+              <div className="mt-4 flex flex-col items-center gap-1 md:hidden">
+                <button
+                  type="button"
+                  onPointerDown={() => setDirection((p) => (p !== "DOWN" ? "UP" : p))}
+                  className="w-12 h-12 rounded-xl bg-purple-100 border border-purple-300 text-xl font-bold text-purple-700 active:bg-purple-200"
+                >↑</button>
+                <div className="flex gap-1">
+                  <button
+                    type="button"
+                    onPointerDown={() => setDirection((p) => (p !== "RIGHT" ? "LEFT" : p))}
+                    className="w-12 h-12 rounded-xl bg-purple-100 border border-purple-300 text-xl font-bold text-purple-700 active:bg-purple-200"
+                  >←</button>
+                  <button
+                    type="button"
+                    onPointerDown={() => setIsPaused((p) => !p)}
+                    className="w-12 h-12 rounded-xl bg-purple-50 border border-purple-200 text-sm font-bold text-purple-500 active:bg-purple-100"
+                  >⏸</button>
+                  <button
+                    type="button"
+                    onPointerDown={() => setDirection((p) => (p !== "LEFT" ? "RIGHT" : p))}
+                    className="w-12 h-12 rounded-xl bg-purple-100 border border-purple-300 text-xl font-bold text-purple-700 active:bg-purple-200"
+                  >→</button>
+                </div>
+                <button
+                  type="button"
+                  onPointerDown={() => setDirection((p) => (p !== "UP" ? "DOWN" : p))}
+                  className="w-12 h-12 rounded-xl bg-purple-100 border border-purple-300 text-xl font-bold text-purple-700 active:bg-purple-200"
+                >↓</button>
+              </div>
+            )}
+
             {/* Controls Info */}
-            <div className="mt-6 text-center text-purple-700 dark:text-purple-300">
-              <div className="text-sm">
-                🎮 Use arrow keys to move • SPACE to pause 🎮
+            <div className="mt-4 text-center text-purple-700 dark:text-purple-300">
+              <div className="text-sm hidden md:block">
+                🎮 Arrow keys to move · Space to pause
               </div>
             </div>
           </motion.div>
@@ -430,9 +462,9 @@ export default function Snake() {
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="ghibli-glass rounded-3xl p-6 shadow-2xl border-2 border-white/30 h-fit"
+            className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 shadow-2xl border-2 border-purple-200/60 h-fit"
           >
-            <h3 className="text-2xl font-bold ghibli-text-gradient mb-6 text-center">
+            <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent mb-6 text-center">
               🌟 Discovered Stories 🌟
             </h3>
 
