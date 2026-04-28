@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface Position {
@@ -17,6 +17,7 @@ type Direction = "UP" | "DOWN" | "LEFT" | "RIGHT";
 
 const GRID_SIZE = 20;
 const CANVAS_SIZE = 400;
+const CELL_SIZE = CANVAS_SIZE / GRID_SIZE; // 20
 
 // Aakriti's professional milestones revealed through special foods
 const STORY_FOODS: Array<{ type: Food["type"]; story: string; emoji: string }> =
@@ -85,6 +86,8 @@ export default function Snake() {
   const [discoveredStories, setDiscoveredStories] = useState<string[]>([]);
   const [currentStory, setCurrentStory] = useState<string>("");
   const [isPaused, setIsPaused] = useState(false);
+
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const generateFood = useCallback((): Food => {
     const storyFood =
@@ -242,6 +245,155 @@ export default function Snake() {
     }
   };
 
+  // Canvas drawing effect
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Background gradient
+    const bg = ctx.createLinearGradient(0, 0, 0, CANVAS_SIZE);
+    bg.addColorStop(0, "#0f0c29");
+    bg.addColorStop(1, "#16213e");
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+
+    // Subtle grid lines
+    ctx.strokeStyle = "rgba(255,255,255,0.04)";
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i <= GRID_SIZE; i++) {
+      ctx.beginPath();
+      ctx.moveTo(i * CELL_SIZE, 0);
+      ctx.lineTo(i * CELL_SIZE, CANVAS_SIZE);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(0, i * CELL_SIZE);
+      ctx.lineTo(CANVAS_SIZE, i * CELL_SIZE);
+      ctx.stroke();
+    }
+
+    // Helper: rounded rect (polyfill-safe)
+    const drawRoundRect = (
+      x: number,
+      y: number,
+      w: number,
+      h: number,
+      r: number,
+    ) => {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    };
+
+    // Draw food
+    const foodEmoji = getFoodEmoji(food.type);
+    const foodX = food.x * CELL_SIZE + CELL_SIZE / 2;
+    const foodY = food.y * CELL_SIZE + CELL_SIZE / 2;
+
+    // Glow color per food type
+    const foodGlowColor =
+      food.type === "apple"
+        ? "#ef4444"
+        : food.type === "star"
+          ? "#f59e0b"
+          : "#ec4899";
+    ctx.save();
+    ctx.shadowBlur = 14;
+    ctx.shadowColor = foodGlowColor;
+    ctx.font = `${CELL_SIZE - 2}px serif`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(foodEmoji, foodX, foodY);
+    ctx.restore();
+
+    // Draw snake body (tail → head, so head is drawn last on top)
+    for (let i = snake.length - 1; i >= 0; i--) {
+      const seg = snake[i];
+      const pad = 1;
+      const sx = seg.x * CELL_SIZE + pad;
+      const sy = seg.y * CELL_SIZE + pad;
+      const sw = CELL_SIZE - pad * 2;
+      const sh = CELL_SIZE - pad * 2;
+
+      ctx.save();
+      if (i === 0) {
+        // Head
+        const headGrad = ctx.createLinearGradient(sx, sy, sx + sw, sy + sh);
+        headGrad.addColorStop(0, "#c084fc");
+        headGrad.addColorStop(1, "#9333ea");
+        ctx.fillStyle = headGrad;
+        ctx.shadowBlur = 14;
+        ctx.shadowColor = "#a855f7";
+      } else {
+        // Body: fade opacity toward tail
+        const opacity = Math.max(0.25, 1 - i / snake.length);
+        ctx.fillStyle = `rgba(147,51,234,${opacity})`;
+        ctx.shadowBlur = 0;
+      }
+
+      drawRoundRect(sx, sy, sw, sh, 4);
+      ctx.fill();
+      ctx.restore();
+
+      // Eyes on head
+      if (i === 0) {
+        const cx = seg.x * CELL_SIZE + CELL_SIZE / 2;
+        const cy = seg.y * CELL_SIZE + CELL_SIZE / 2;
+
+        // Eye offsets based on direction
+        let eye1 = { x: cx - 4, y: cy - 3 };
+        let eye2 = { x: cx + 4, y: cy - 3 };
+        if (direction === "DOWN") {
+          eye1 = { x: cx - 4, y: cy + 3 };
+          eye2 = { x: cx + 4, y: cy + 3 };
+        } else if (direction === "LEFT") {
+          eye1 = { x: cx - 3, y: cy - 4 };
+          eye2 = { x: cx - 3, y: cy + 4 };
+        } else if (direction === "RIGHT") {
+          eye1 = { x: cx + 3, y: cy - 4 };
+          eye2 = { x: cx + 3, y: cy + 4 };
+        }
+
+        for (const eye of [eye1, eye2]) {
+          ctx.save();
+          ctx.fillStyle = "white";
+          ctx.beginPath();
+          ctx.arc(eye.x, eye.y, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = "#1a1a2e";
+          ctx.beginPath();
+          ctx.arc(eye.x, eye.y, 1.2, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+    }
+
+    // "Press Start Adventure" overlay when not started
+    if (!gameStarted) {
+      ctx.save();
+      ctx.fillStyle = "rgba(88,28,235,0.55)";
+      ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+      ctx.fillStyle = "white";
+      ctx.font = "bold 16px sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.shadowBlur = 8;
+      ctx.shadowColor = "#a855f7";
+      ctx.fillText("Press Start Adventure", CANVAS_SIZE / 2, CANVAS_SIZE / 2);
+      ctx.restore();
+    }
+  }, [snake, food, gameOver, isPaused, gameStarted, direction]);
+
   return (
     <div className="max-w-6xl mx-auto">
       <motion.div
@@ -307,112 +459,62 @@ export default function Snake() {
               className="relative mx-auto"
               style={{ width: CANVAS_SIZE, height: CANVAS_SIZE }}
             >
-              <div
-                className="relative border-4 border-purple-300 dark:border-purple-600 rounded-2xl bg-gradient-to-br from-green-100 to-green-200 dark:from-green-900/30 dark:to-green-800/30 overflow-hidden"
-                style={{ width: CANVAS_SIZE, height: CANVAS_SIZE }}
-              >
-                {/* Snake segments */}
-                {snake.map((segment, index) => (
+              <canvas
+                ref={canvasRef}
+                width={CANVAS_SIZE}
+                height={CANVAS_SIZE}
+                className="rounded-2xl"
+              />
+
+              {/* Game Over overlay */}
+              <AnimatePresence>
+                {gameOver && (
                   <motion.div
-                    key={index}
-                    className={`absolute ${
-                      index === 0
-                        ? "bg-gradient-to-r from-purple-500 to-pink-500 border-2 border-purple-300"
-                        : "bg-gradient-to-r from-purple-400 to-pink-400 border border-purple-200"
-                    } rounded-lg shadow-lg`}
-                    style={{
-                      left: segment.x * (CANVAS_SIZE / GRID_SIZE),
-                      top: segment.y * (CANVAS_SIZE / GRID_SIZE),
-                      width: CANVAS_SIZE / GRID_SIZE - 2,
-                      height: CANVAS_SIZE / GRID_SIZE - 2,
-                    }}
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: 0.1 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center rounded-2xl"
                   >
-                    {index === 0 && (
-                      <div className="flex items-center justify-center h-full text-xs">
-                        {direction === "UP" && "⬆️"}
-                        {direction === "DOWN" && "⬇️"}
-                        {direction === "LEFT" && "⬅️"}
-                        {direction === "RIGHT" && "➡️"}
+                    <div className="text-center text-white">
+                      <div className="text-4xl mb-4">💫</div>
+                      <div className="text-2xl font-bold mb-2">
+                        Adventure Complete!
                       </div>
-                    )}
+                      <div className="text-lg mb-4">
+                        Final Score: {score} 🌟
+                      </div>
+                      <motion.button
+                        onClick={resetGame}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-colors px-6 py-3 rounded-2xl text-white font-bold"
+                      >
+                        🌟 New Adventure
+                      </motion.button>
+                    </div>
                   </motion.div>
-                ))}
+                )}
+              </AnimatePresence>
 
-                {/* Food */}
-                <motion.div
-                  className="absolute flex items-center justify-center text-lg"
-                  style={{
-                    left: food.x * (CANVAS_SIZE / GRID_SIZE),
-                    top: food.y * (CANVAS_SIZE / GRID_SIZE),
-                    width: CANVAS_SIZE / GRID_SIZE,
-                    height: CANVAS_SIZE / GRID_SIZE,
-                  }}
-                  animate={{
-                    scale: [1, 1.2, 1],
-                    rotate: [0, 10, -10, 0],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  {getFoodEmoji(food.type)}
-                </motion.div>
-
-                {/* Game Over Overlay */}
-                <AnimatePresence>
-                  {gameOver && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      className="absolute inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center rounded-2xl"
-                    >
-                      <div className="text-center text-white">
-                        <div className="text-4xl mb-4">💫</div>
-                        <div className="text-2xl font-bold mb-2">
-                          Adventure Complete!
-                        </div>
-                        <div className="text-lg mb-4">
-                          Final Score: {score} 🌟
-                        </div>
-                        <motion.button
-                          onClick={resetGame}
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-colors px-6 py-3 rounded-2xl text-white font-bold"
-                        >
-                          🌟 New Adventure
-                        </motion.button>
+              {/* Pause overlay */}
+              <AnimatePresence>
+                {isPaused && !gameOver && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 bg-white/30 backdrop-blur-sm flex items-center justify-center rounded-2xl"
+                  >
+                    <div className="text-center text-purple-800">
+                      <div className="text-4xl mb-4">⏸️</div>
+                      <div className="text-2xl font-bold">Paused</div>
+                      <div className="text-sm mt-2">
+                        Press SPACE to continue
                       </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                {/* Pause Overlay */}
-                <AnimatePresence>
-                  {isPaused && !gameOver && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      className="absolute inset-0 bg-white/30 backdrop-blur-sm flex items-center justify-center rounded-2xl"
-                    >
-                      <div className="text-center text-purple-800">
-                        <div className="text-4xl mb-4">⏸️</div>
-                        <div className="text-2xl font-bold">Paused</div>
-                        <div className="text-sm mt-2">
-                          Press SPACE to continue
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             {/* Mobile touch controls */}

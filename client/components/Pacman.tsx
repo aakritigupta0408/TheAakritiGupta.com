@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface Position {
@@ -104,6 +104,19 @@ const maze = [
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
 
+const COLS = 19;
+const ROWS = 21;
+const CELL = 24;
+const CANVAS_W = COLS * CELL; // 456
+const CANVAS_H = ROWS * CELL; // 504
+
+const GHOST_COLORS: Record<string, string> = {
+  ghost1: "#ef4444",
+  ghost2: "#f472b6",
+  ghost3: "#22d3ee",
+  ghost4: "#fb923c",
+};
+
 const Pacman = () => {
   const [pacmanPos, setPacmanPos] = useState<Position>({ x: 9, y: 15 });
   const [pacmanDirection, setPacmanDirection] = useState<Direction>("right");
@@ -116,6 +129,26 @@ const Pacman = () => {
   const [powerMode, setPowerMode] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [strengthsCollected, setStrengthsCollected] = useState(0);
+
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [frame, setFrame] = useState(0);
+  const rafRef = useRef<number>(0);
+
+  // RAF animation loop for frame counter
+  useEffect(() => {
+    if (!gameStarted || gameOver) return;
+    let active = true;
+    const step = () => {
+      if (!active) return;
+      setFrame((f) => f + 1);
+      rafRef.current = requestAnimationFrame(step);
+    };
+    rafRef.current = requestAnimationFrame(step);
+    return () => {
+      active = false;
+      cancelAnimationFrame(rafRef.current);
+    };
+  }, [gameStarted, gameOver]);
 
   // Initialize dots based on maze
   const initializeDots = useCallback(() => {
@@ -382,6 +415,191 @@ const Pacman = () => {
     initializeGhosts();
   };
 
+  // Canvas draw effect
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Clear with black background
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+
+    // Draw maze: walls
+    for (let y = 0; y < ROWS; y++) {
+      for (let x = 0; x < COLS; x++) {
+        if (maze[y][x] === 1) {
+          ctx.save();
+          ctx.fillStyle = "#1a4fcf";
+          ctx.shadowBlur = 6;
+          ctx.shadowColor = "rgba(59,130,246,0.6)";
+          const px = x * CELL + 1;
+          const py = y * CELL + 1;
+          const pw = CELL - 2;
+          const ph = CELL - 2;
+          const r = 3;
+          ctx.beginPath();
+          ctx.moveTo(px + r, py);
+          ctx.lineTo(px + pw - r, py);
+          ctx.quadraticCurveTo(px + pw, py, px + pw, py + r);
+          ctx.lineTo(px + pw, py + ph - r);
+          ctx.quadraticCurveTo(px + pw, py + ph, px + pw - r, py + ph);
+          ctx.lineTo(px + r, py + ph);
+          ctx.quadraticCurveTo(px, py + ph, px, py + ph - r);
+          ctx.lineTo(px, py + r);
+          ctx.quadraticCurveTo(px, py, px + r, py);
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+    }
+
+    // Draw dots
+    const pelletScale = 0.8 + 0.2 * Math.abs(Math.sin(frame * 0.08));
+    for (const dot of dots) {
+      const cx = dot.position.x * CELL + CELL / 2;
+      const cy = dot.position.y * CELL + CELL / 2;
+
+      ctx.save();
+      if (dot.type === "normal") {
+        ctx.fillStyle = "#FDE047";
+        ctx.beginPath();
+        ctx.arc(cx, cy, 2, 0, Math.PI * 2);
+        ctx.fill();
+      } else if (dot.type === "power") {
+        const r = 5 * pelletScale;
+        ctx.fillStyle = "#FDE047";
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = "rgba(253,224,71,0.8)";
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.fill();
+      } else if (dot.type === "strength") {
+        ctx.font = `${CELL - 4}px serif`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("✨", cx, cy);
+      }
+      ctx.restore();
+    }
+
+    // Draw ghosts
+    for (const ghost of ghosts) {
+      const cx = ghost.position.x * CELL + CELL / 2;
+      const cy = ghost.position.y * CELL + CELL / 2;
+      const r = CELL / 2 - 2;
+      const ghostColor = powerMode ? "#1d4ed8" : GHOST_COLORS[ghost.id] ?? "#ef4444";
+
+      ctx.save();
+      ctx.fillStyle = ghostColor;
+
+      // Ghost body: top semicircle
+      ctx.beginPath();
+      ctx.arc(cx, cy - r / 4, r, Math.PI, 0, false);
+      // Bottom with 3 bumps
+      const bumpBottom = cy - r / 4 + r;
+      const bumpW = (r * 2) / 3;
+      ctx.lineTo(cx + r, bumpBottom);
+      // 3 bumps from right to left
+      ctx.quadraticCurveTo(cx + r - bumpW / 2, bumpBottom - 4, cx + r - bumpW, bumpBottom);
+      ctx.quadraticCurveTo(cx + r - bumpW * 1.5, bumpBottom - 4, cx + r - bumpW * 2, bumpBottom);
+      ctx.quadraticCurveTo(cx + r - bumpW * 2.5, bumpBottom - 4, cx - r, bumpBottom);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+
+      if (!powerMode) {
+        // Eyes
+        const eyeOffX = r * 0.35;
+        const eyeOffY = -r * 0.1;
+        // Direction-aware pupil offset
+        const dirPupil: Record<Direction, { dx: number; dy: number }> = {
+          left: { dx: -1.5, dy: 0 },
+          right: { dx: 1.5, dy: 0 },
+          up: { dx: 0, dy: -1.5 },
+          down: { dx: 0, dy: 1.5 },
+        };
+        const pupilOff = dirPupil[ghost.direction] ?? { dx: 0, dy: 0 };
+
+        for (const side of [-1, 1]) {
+          const ex = cx + side * eyeOffX;
+          const ey = cy + eyeOffY - r * 0.15;
+          ctx.save();
+          ctx.fillStyle = "white";
+          ctx.beginPath();
+          ctx.arc(ex, ey, 2.8, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = "#1e3a8a";
+          ctx.beginPath();
+          ctx.arc(ex + pupilOff.dx, ey + pupilOff.dy, 1.4, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+      } else {
+        // Scared eyes: two small white dots
+        for (const side of [-1, 1]) {
+          const ex = cx + side * (r * 0.35);
+          const ey = cy - r * 0.25;
+          ctx.save();
+          ctx.fillStyle = "rgba(255,255,255,0.7)";
+          ctx.beginPath();
+          ctx.arc(ex, ey, 1.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+    }
+
+    // Draw Pac-Man
+    const mouthAngle = Math.abs(Math.sin(frame * 0.15)) * 0.25;
+    const dirAngle: Record<Direction, number> = {
+      right: 0,
+      down: Math.PI / 2,
+      left: Math.PI,
+      up: (3 * Math.PI) / 2,
+    };
+    const startAngle = dirAngle[pacmanDirection] + mouthAngle;
+    const endAngle = dirAngle[pacmanDirection] + Math.PI * 2 - mouthAngle;
+    const pcx = pacmanPos.x * CELL + CELL / 2;
+    const pcy = pacmanPos.y * CELL + CELL / 2;
+
+    ctx.save();
+    ctx.fillStyle = "#FDE047";
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = "rgba(253,224,71,0.6)";
+    ctx.beginPath();
+    ctx.moveTo(pcx, pcy);
+    ctx.arc(pcx, pcy, CELL / 2 - 2, startAngle, endAngle, false);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+
+    // "Press Start Game" overlay when not started
+    if (!gameStarted) {
+      ctx.save();
+      ctx.fillStyle = "rgba(0,0,0,0.65)";
+      ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+      ctx.fillStyle = "#FDE047";
+      ctx.font = "bold 18px sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = "rgba(253,224,71,0.7)";
+      ctx.fillText("Press Start Game", CANVAS_W / 2, CANVAS_H / 2);
+      ctx.restore();
+    }
+
+    // Game over: dark overlay on canvas
+    if (gameOver) {
+      ctx.save();
+      ctx.fillStyle = "rgba(0,0,0,0.6)";
+      ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+      ctx.restore();
+    }
+  }, [pacmanPos, pacmanDirection, dots, ghosts, powerMode, gameOver, gameStarted, frame]);
+
   return (
     <div className="w-full">
       {/* Game Header */}
@@ -425,77 +643,41 @@ const Pacman = () => {
           animate={{ opacity: 1, scale: 1 }}
           className="bg-black p-4 rounded-2xl shadow-2xl border-4 border-blue-600"
         >
-          <div
-            className="grid grid-cols-19 gap-0"
-            style={{ gridTemplateColumns: "repeat(19, 1fr)" }}
-          >
-            {maze.map((row, y) =>
-              row.map((cell, x) => {
-                const isDot = dots.some(
-                  (dot) => dot.position.x === x && dot.position.y === y,
-                );
-                const dot = dots.find(
-                  (dot) => dot.position.x === x && dot.position.y === y,
-                );
-                const isPacman = pacmanPos.x === x && pacmanPos.y === y;
-                const ghost = ghosts.find(
-                  (g) => g.position.x === x && g.position.y === y,
-                );
+          <div className="relative" style={{ width: CANVAS_W, height: CANVAS_H }}>
+            <canvas
+              ref={canvasRef}
+              width={CANVAS_W}
+              height={CANVAS_H}
+              className="rounded-lg"
+            />
 
-                return (
-                  <div
-                    key={`${x}-${y}`}
-                    className={`w-6 h-6 flex items-center justify-center text-sm ${
-                      cell === 1 ? "bg-blue-600" : "bg-black"
-                    }`}
-                  >
-                    {isPacman && (
-                      <motion.div
-                        animate={{ rotate: [0, 45, 0] }}
-                        transition={{ duration: 0.3, repeat: Infinity }}
-                        className="text-yellow-400 text-lg"
-                      >
-                        🟡
-                      </motion.div>
-                    )}
-                    {ghost && !isPacman && (
-                      <motion.div
-                        animate={{ scale: [1, 1.1, 1] }}
-                        transition={{ duration: 0.5, repeat: Infinity }}
-                        className={`text-lg ${
-                          powerMode
-                            ? "text-blue-400"
-                            : ghost.color === "red"
-                              ? "text-red-500"
-                              : ghost.color === "pink"
-                                ? "text-pink-500"
-                                : ghost.color === "cyan"
-                                  ? "text-cyan-500"
-                                  : "text-orange-500"
-                        }`}
-                      >
-                        👻
-                      </motion.div>
-                    )}
-                    {isDot && !isPacman && !ghost && (
-                      <div
-                        className={`${
-                          dot?.type === "normal"
-                            ? "w-1 h-1 bg-yellow-300 rounded-full"
-                            : dot?.type === "power"
-                              ? "w-3 h-3 bg-yellow-400 rounded-full animate-pulse"
-                              : dot?.type === "strength"
-                                ? "text-xs"
-                                : ""
-                        }`}
-                      >
-                        {dot?.type === "strength" && "💎"}
-                      </div>
-                    )}
+            {/* HTML Game Over overlay for buttons */}
+            <AnimatePresence>
+              {gameOver && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute inset-0 flex items-center justify-center rounded-lg"
+                >
+                  <div className="text-center text-white">
+                    <div className="text-5xl mb-3">
+                      {strengthsCollected === 8 ? "🏆" : "👻"}
+                    </div>
+                    <div className="text-2xl font-bold mb-2">
+                      {strengthsCollected === 8 ? "You Win!" : "Game Over!"}
+                    </div>
+                    <div className="text-lg mb-4">Score: {score}</div>
+                    <button
+                      onClick={startGame}
+                      className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-lg font-bold shadow-lg hover:scale-105 transition-transform"
+                    >
+                      🔄 Play Again
+                    </button>
                   </div>
-                );
-              }),
-            )}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           {/* Mobile touch controls */}
@@ -530,9 +712,9 @@ const Pacman = () => {
           {/* Game Instructions */}
           <div className="mt-3 text-center text-white text-sm">
             {!gameStarted ? (
-              <p>🎮 Arrow keys to move · Collect 💎 to reveal strengths</p>
+              <p>🎮 Arrow keys to move · Collect ✨ to reveal strengths</p>
             ) : (
-              <p className="hidden md:block">🟡 Dots = 10pts · 💎 Achievements = 100pts · ⚡ Power pellets = 50pts</p>
+              <p className="hidden md:block">🟡 Dots = 10pts · ✨ Achievements = 100pts · ⚡ Power pellets = 50pts</p>
             )}
           </div>
         </motion.div>
@@ -596,14 +778,14 @@ const Pacman = () => {
                 >
                   <div className="text-6xl mb-4">🟡</div>
                   <p className="text-lg font-medium">
-                    Collect 💎 diamonds to reveal
+                    Collect ✨ diamonds to reveal
                   </p>
                   <p className="text-sm">Aakriti's professional achievements</p>
                   {gameStarted && (
                     <div className="mt-6 text-xs text-slate-400 space-y-1">
                       <p>• 🟡 Regular dots = 10 points</p>
                       <p>• ⚡ Power pellets = 50 points</p>
-                      <p>• 💎 Strength diamonds = 100 points + story</p>
+                      <p>• ✨ Strength diamonds = 100 points + story</p>
                     </div>
                   )}
                 </motion.div>
