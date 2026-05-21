@@ -1,0 +1,122 @@
+{
+  "summary": {
+    "PASS": 13,
+    "WARN": 6
+  },
+  "checks": [
+    {
+      "id": "A1",
+      "name": "val time >= train time (per user)",
+      "status": "PASS",
+      "detail": "0 strict violations; 26,088/162,541 users have a timestamp tie (bulk-rated multiple items at the same second). Split still correct via stable-sort ordering."
+    },
+    {
+      "id": "A2",
+      "name": "test time >= val time (per user)",
+      "status": "PASS",
+      "detail": "0 strict violations; 25,671/162,541 users have a timestamp tie between val and test."
+    },
+    {
+      "id": "A3",
+      "name": "(user, item) appears in at most one split",
+      "status": "PASS",
+      "detail": "no (user, item) pair appears in multiple splits"
+    },
+    {
+      "id": "A4",
+      "name": "val and test rated within same session",
+      "status": "WARN",
+      "detail": "144,893/162,541 users (89.1%) rated val and test within 3600s. High % means XGB val-training and test eval are highly correlated; ranker numbers look better than for temporally separated targets."
+    },
+    {
+      "id": "B1",
+      "name": "ALS factor shapes match dense indices",
+      "status": "PASS",
+      "detail": "user_factors=(162541, 64), item_factors=(32720, 64), expected (162541, k) / (32720, k)"
+    },
+    {
+      "id": "B2",
+      "name": "popularity counts derived only from train",
+      "status": "PASS",
+      "detail": "100 random items match train counts exactly"
+    },
+    {
+      "id": "B3",
+      "name": "cooc derived only from train",
+      "status": "PASS",
+      "detail": "100 random nonzero pairs both have train positives"
+    },
+    {
+      "id": "C1",
+      "name": "XGB training positives are val items (post-fix)",
+      "status": "PASS",
+      "detail": "94,476 users have a val positive available as ranker training target. Reference: src/ranker_xgb.py uses `val_target_per_user` for training positives."
+    },
+    {
+      "id": "D1",
+      "name": "test target NOT in user's train history",
+      "status": "PASS",
+      "detail": "checked 162,541 test items; none in any user's train history"
+    },
+    {
+      "id": "D2",
+      "name": "test target \u2260 val target per user",
+      "status": "PASS",
+      "detail": "checked 162,541 users with both val & test; all distinct items"
+    },
+    {
+      "id": "E1",
+      "name": "random baseline HR@1 \u2248 1/100",
+      "status": "PASS",
+      "detail": "random HR@1 = 0.0096 (expected in [0.005, 0.02])"
+    },
+    {
+      "id": "E2",
+      "name": "popularity beats random on HR@10",
+      "status": "PASS",
+      "detail": "popularity=0.652, random=0.097, lift=6.7x"
+    },
+    {
+      "id": "E3",
+      "name": "full pipeline > best individual retrieval (Recall@10)",
+      "status": "PASS",
+      "detail": "full=0.125, best individual=0.100, relative lift = +24.5%"
+    },
+    {
+      "id": "E4",
+      "name": "personalized retrieval reaches more catalog than popularity",
+      "status": "PASS",
+      "detail": "ALS coverage=0.180, popularity coverage=0.007 (27.1x)"
+    },
+    {
+      "id": "F1",
+      "name": "XGB-train users overlap with eval-test users (same user, different items)",
+      "status": "WARN",
+      "detail": "66,548 users are in BOTH the XGB val-positive pool and the eval test pool. Same user, different held-out items \u2014 no item-level leakage. A stricter cohort-split would partition users disjointly."
+    },
+    {
+      "id": "F2",
+      "name": "sampled-99-negatives is known biased (Krichene & Rendle 2020)",
+      "status": "WARN",
+      "detail": "Uniformly sampled negatives are dominantly long-tail garbage; metric is biased upward for all methods. Trust the full-catalog protocol for production-realism; use sampled only for literature comparison."
+    },
+    {
+      "id": "F3",
+      "name": "single seed, no multi-run stability",
+      "status": "WARN",
+      "detail": "All randomness seeded to 42. No confidence intervals across seeds."
+    },
+    {
+      "id": "F4",
+      "name": "users with fewer than min_user_ratings excluded",
+      "status": "WARN",
+      "detail": "min_user_ratings=5; 162,541 users retained. Cold-start users are not represented \u2014 results don't generalize to that cohort."
+    },
+    {
+      "id": "F5",
+      "name": "positive-rating threshold is heuristic",
+      "status": "WARN",
+      "detail": "rating >= 4.0 treated as positive. Optimal threshold may depend on data; not tuned."
+    }
+  ]
+}
