@@ -12,6 +12,7 @@ import Games from "./pages/Games";
 import AIPlayground from "./pages/AIPlayground";
 import TradeRecommendationSystemDemo from "./pages/TradeRecommendationSystemDemo";
 import VedicAstroDemo from "./pages/VedicAstroDemo";
+import MovielensRecommenderDemo from "./pages/MovielensRecommenderDemo";
 import AIDiscoveries from "./pages/AIDiscoveries";
 import AITools from "./pages/AITools";
 import AICompanies from "./pages/AICompanies";
@@ -50,6 +51,10 @@ const App = () => (
           <Route
             path="/ai-playground/vedic-astro-ai"
             element={<VedicAstroDemo />}
+          />
+          <Route
+            path="/ai-playground/movielens-recommender"
+            element={<MovielensRecommenderDemo />}
           />
           <Route path="/ai-discoveries" element={<AIDiscoveries />} />
           <Route path="/ai-tools" element={<AITools />} />

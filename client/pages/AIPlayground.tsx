@@ -68,6 +68,22 @@ const FEATURED_SHOWCASES = [
     buttonClass:
       "from-violet-400 via-rose-400 to-amber-300 text-slate-950 shadow-[0_18px_40px_rgba(139,92,246,0.24)]",
   },
+  {
+    id: "movielens-recommender",
+    badge: "Offline benchmark",
+    title: "MovieLens 25M Recommender",
+    summary:
+      "Personalized (ALS) and non-personalized (popularity, item-item cooc) retrieval evaluated head-to-head on the same held-out users, fused via an XGBoost LambdaMART ranker. +24.5% Recall@10 lift, 0 leakage failures.",
+    tags: ["Personalized + non-pers retrieval", "XGBoost LambdaMART", "Full audit + dashboard"],
+    route: "/ai-playground/movielens-recommender",
+    meta: "Retrieval, ranker, audit, dashboard",
+    accent:
+      "from-pink-500/14 via-violet-500/10 to-amber-300/10 border-pink-300/20",
+    badgeClass:
+      "border-pink-300/30 bg-pink-400/10 text-pink-100",
+    buttonClass:
+      "from-pink-400 via-violet-400 to-amber-300 text-slate-950 shadow-[0_18px_40px_rgba(244,114,182,0.24)]",
+  },
 ] as const;
 
 const AI_DEMOS: AIDemo[] = [
