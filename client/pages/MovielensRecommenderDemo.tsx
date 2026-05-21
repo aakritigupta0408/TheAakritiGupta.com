@@ -296,7 +296,7 @@ export default function MovielensRecommenderDemo() {
                     <Download className="h-4 w-4" /> Offline results (PDF)
                   </a>
                   <a
-                    href="https://github.com/aakritigupta0408"
+                    href="https://github.com/aakritigupta0408/TheAakritiGupta.com"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-300 hover:bg-white/10"
@@ -863,28 +863,18 @@ export default function MovielensRecommenderDemo() {
             <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-slate-500">
               <Brain className="h-4 w-4" /> Architecture
             </h2>
-            <pre className="overflow-x-auto whitespace-pre rounded-2xl border border-white/10 bg-black/40 p-5 text-[11px] leading-5 text-slate-300">
-{`     ┌────────────────────────────┐         ┌─────────────────────────────────────┐
-     │  OFFLINE  (build once)     │         │  SERVING  (~1.6 ms per user)         │
-     ├────────────────────────────┤         ├─────────────────────────────────────┤
-     │  ratings.csv → preprocess  │         │  user_idx                           │
-     │            ↓               │         │       │                             │
-     │  leave-one-out splits      │         │  ┌────┴──────────────────────┐      │
-     │            ↓               │         │  ▼                ▼          ▼      │
-     │  ┌────────┐ ┌────┐ ┌────┐  │         │ POP top-200  COOC top-200   ALS    │
-     │  │ pop    │ │cooc│ │ALS │  │   ────► │  (Wilson)   (last-20 seeds) (MF)  │
-     │  │Wilson  │ │cos │ │MF  │  │         │  └──────┬───────┬───────────┘      │
-     │  └────────┘ └────┘ └────┘  │         │         ▼       ▼                  │
-     │       ↓       ↓       ↓     │         │      UNION ≈ 500 candidates        │
-     │       └───────┴───────┘     │         │             │                       │
-     │   XGB LambdaMART (55 feats) │         │             ▼                       │
-     │   trained on VAL positives  │ ──────► │   XGBoost LambdaMART predict       │
-     └────────────────────────────┘         │             │                       │
-                                            │             ▼                       │
-                                            │      top-N to user                  │
-                                            └─────────────────────────────────────┘
-`}
-            </pre>
+            <div className="rounded-2xl border border-white/10 bg-black/30 p-3 sm:p-5">
+              <ArchitectureDiagram />
+            </div>
+            <p className="mt-3 text-xs text-slate-500">
+              <span className="text-violet-300">OFFLINE</span> trains three retrieval
+              models + an XGBoost LambdaMART ranker on the user's val positives
+              (held out of retrieval training).{" "}
+              <span className="text-pink-300">SERVING</span> runs all three
+              retrievals in parallel for the user, unions ~500 candidates, and
+              scores them with the trained ranker. End-to-end{" "}
+              <span className="text-amber-300">~1.6 ms per user</span> single-thread.
+            </p>
           </motion.section>
 
           {/* ── Documentation links ── */}
@@ -940,5 +930,311 @@ export default function MovielensRecommenderDemo() {
         </div>
       </main>
     </div>
+  );
+}
+
+// ── Architecture SVG diagram ───────────────────────────────────────────────
+// Inline SVG so it scales crisply, integrates with the page palette, and
+// adds no extra fetch / dependency. ViewBox is wide enough to remain legible
+// on mobile when scaled down via `width: 100%`.
+
+function ArchitectureDiagram() {
+  return (
+    <svg
+      viewBox="0 0 1200 640"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-label="MovieLens recommender architecture: offline training pipeline feeding live serving pipeline"
+      style={{ width: "100%", height: "auto", display: "block" }}
+    >
+      <defs>
+        {/* Arrowhead markers */}
+        <marker id="arrow-solid" viewBox="0 0 10 10" refX="9" refY="5"
+                markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
+        </marker>
+        <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5"
+                markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#fbbf24" />
+        </marker>
+        <marker id="arrow-violet" viewBox="0 0 10 10" refX="9" refY="5"
+                markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#a78bfa" />
+        </marker>
+        <marker id="arrow-pink" viewBox="0 0 10 10" refX="9" refY="5"
+                markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#f472b6" />
+        </marker>
+
+        {/* Column background gradients */}
+        <linearGradient id="bg-offline" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="rgba(167,139,250,0.10)" />
+          <stop offset="100%" stopColor="rgba(167,139,250,0.02)" />
+        </linearGradient>
+        <linearGradient id="bg-serving" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="rgba(244,114,182,0.10)" />
+          <stop offset="100%" stopColor="rgba(244,114,182,0.02)" />
+        </linearGradient>
+
+        {/* Glow for the winner node */}
+        <filter id="glow-amber" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="6" result="b" />
+          <feMerge>
+            <feMergeNode in="b" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      {/* ── Column backgrounds ────────────────────────────────────────── */}
+      <rect x="20" y="20" width="540" height="600" rx="20"
+            fill="url(#bg-offline)" stroke="rgba(167,139,250,0.25)" />
+      <rect x="640" y="20" width="540" height="600" rx="20"
+            fill="url(#bg-serving)" stroke="rgba(244,114,182,0.25)" />
+
+      {/* Column headers */}
+      <text x="40" y="48" fill="#a78bfa" fontSize="13"
+            fontWeight="700" letterSpacing="2.4">OFFLINE · BUILD ONCE</text>
+      <text x="660" y="48" fill="#f472b6" fontSize="13"
+            fontWeight="700" letterSpacing="2.4">SERVING · ~1.6 ms / user</text>
+
+      {/* ── OFFLINE COLUMN ────────────────────────────────────────────── */}
+      {/* ratings.csv */}
+      <g>
+        <rect x="220" y="72" width="140" height="46" rx="10"
+              fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.18)" />
+        <text x="290" y="96" textAnchor="middle" fill="#e5e7eb"
+              fontSize="13" fontWeight="600">ratings.csv</text>
+        <text x="290" y="110" textAnchor="middle" fill="#94a3b8"
+              fontSize="10">24.9M rows</text>
+      </g>
+      <line x1="290" y1="118" x2="290" y2="142" stroke="#94a3b8"
+            strokeWidth="1.5" markerEnd="url(#arrow-solid)" />
+
+      {/* preprocess + splits */}
+      <g>
+        <rect x="180" y="148" width="220" height="46" rx="10"
+              fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.18)" />
+        <text x="290" y="170" textAnchor="middle" fill="#e5e7eb"
+              fontSize="13" fontWeight="600">preprocess + LOO splits</text>
+        <text x="290" y="185" textAnchor="middle" fill="#94a3b8"
+              fontSize="10">162k users · 32k items</text>
+      </g>
+      <line x1="290" y1="194" x2="290" y2="222" stroke="#94a3b8"
+            strokeWidth="1.5" />
+
+      {/* Three retrieval branches */}
+      <line x1="110" y1="222" x2="470" y2="222"
+            stroke="#94a3b8" strokeWidth="1.5" />
+      <line x1="110" y1="222" x2="110" y2="246" stroke="#94a3b8"
+            strokeWidth="1.5" markerEnd="url(#arrow-solid)" />
+      <line x1="290" y1="222" x2="290" y2="246" stroke="#94a3b8"
+            strokeWidth="1.5" markerEnd="url(#arrow-solid)" />
+      <line x1="470" y1="222" x2="470" y2="246" stroke="#94a3b8"
+            strokeWidth="1.5" markerEnd="url(#arrow-solid)" />
+
+      {/* Popularity */}
+      <g>
+        <rect x="40" y="252" width="140" height="64" rx="10"
+              fill="rgba(148,163,184,0.10)" stroke="#94a3b8" strokeWidth="1.5" />
+        <text x="110" y="274" textAnchor="middle" fill="#e2e8f0"
+              fontSize="12" fontWeight="700">POPULARITY</text>
+        <text x="110" y="290" textAnchor="middle" fill="#94a3b8"
+              fontSize="10">Wilson lower bound</text>
+        <text x="110" y="304" textAnchor="middle" fill="#64748b"
+              fontSize="9.5" fontStyle="italic">non-personalized</text>
+      </g>
+
+      {/* Cooccurrence */}
+      <g>
+        <rect x="220" y="252" width="140" height="64" rx="10"
+              fill="rgba(167,139,250,0.10)" stroke="#a78bfa" strokeWidth="1.5" />
+        <text x="290" y="274" textAnchor="middle" fill="#ede9fe"
+              fontSize="12" fontWeight="700">ITEM-ITEM COOC</text>
+        <text x="290" y="290" textAnchor="middle" fill="#c4b5fd"
+              fontSize="10">binary cosine</text>
+        <text x="290" y="304" textAnchor="middle" fill="#a78bfa"
+              fontSize="9.5" fontStyle="italic">non-personalized</text>
+      </g>
+
+      {/* ALS */}
+      <g>
+        <rect x="400" y="252" width="140" height="64" rx="10"
+              fill="rgba(244,114,182,0.10)" stroke="#f472b6" strokeWidth="1.5" />
+        <text x="470" y="274" textAnchor="middle" fill="#fce7f3"
+              fontSize="12" fontWeight="700">IMPLICIT ALS</text>
+        <text x="470" y="290" textAnchor="middle" fill="#fbcfe8"
+              fontSize="10">matrix factorization</text>
+        <text x="470" y="304" textAnchor="middle" fill="#f472b6"
+              fontSize="9.5" fontStyle="italic">personalized</text>
+      </g>
+
+      {/* Converge down to XGB */}
+      <line x1="110" y1="316" x2="110" y2="356" stroke="#94a3b8" strokeWidth="1.5" />
+      <line x1="470" y1="316" x2="470" y2="356" stroke="#94a3b8" strokeWidth="1.5" />
+      <line x1="290" y1="316" x2="290" y2="392" stroke="#94a3b8" strokeWidth="1.5" />
+      <line x1="110" y1="356" x2="470" y2="356" stroke="#94a3b8" strokeWidth="1.5" />
+      <line x1="110" y1="356" x2="110" y2="392" stroke="#94a3b8" strokeWidth="1.5" />
+      <line x1="470" y1="356" x2="470" y2="392" stroke="#94a3b8" strokeWidth="1.5" />
+
+      {/* XGB box (the trained ranker) */}
+      <g filter="url(#glow-amber)">
+        <rect x="100" y="394" width="380" height="72" rx="12"
+              fill="rgba(251,191,36,0.14)" stroke="#fbbf24" strokeWidth="2" />
+        <text x="290" y="418" textAnchor="middle" fill="#fef3c7"
+              fontSize="13" fontWeight="700">XGBoost LambdaMART</text>
+        <text x="290" y="434" textAnchor="middle" fill="#fde68a"
+              fontSize="11">55 features · 200 rounds · rank:ndcg</text>
+        <text x="290" y="452" textAnchor="middle" fill="#fbbf24"
+              fontSize="10" fontStyle="italic">trained on VAL positives (held out of retrieval)</text>
+      </g>
+
+      {/* Artifact summary box */}
+      <g>
+        <rect x="60" y="494" width="460" height="100" rx="10"
+              fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.08)" />
+        <text x="290" y="516" textAnchor="middle" fill="#94a3b8"
+              fontSize="10" letterSpacing="1.6"
+              fontWeight="600">PERSISTED ARTIFACTS</text>
+        <text x="80" y="540" fill="#cbd5e1" fontSize="11"
+              fontFamily="monospace">popularity.npz</text>
+        <text x="80" y="558" fill="#cbd5e1" fontSize="11"
+              fontFamily="monospace">cooc.npz</text>
+        <text x="80" y="576" fill="#cbd5e1" fontSize="11"
+              fontFamily="monospace">als_model.npz</text>
+        <text x="280" y="540" fill="#cbd5e1" fontSize="11"
+              fontFamily="monospace">xgb_ranker.json</text>
+        <text x="280" y="558" fill="#cbd5e1" fontSize="11"
+              fontFamily="monospace">feature_meta.json</text>
+        <text x="280" y="576" fill="#cbd5e1" fontSize="11"
+              fontFamily="monospace">metrics.json</text>
+      </g>
+
+      {/* ── SERVING COLUMN ──────────────────────────────────────────── */}
+      {/* user_idx pill */}
+      <g>
+        <rect x="820" y="72" width="180" height="46" rx="23"
+              fill="rgba(244,114,182,0.10)" stroke="#f472b6" strokeWidth="1.5" />
+        <text x="910" y="96" textAnchor="middle" fill="#fce7f3"
+              fontSize="13" fontWeight="700">user_idx</text>
+        <text x="910" y="110" textAnchor="middle" fill="#fbcfe8"
+              fontSize="10">+ user history (last 20)</text>
+      </g>
+      <line x1="910" y1="118" x2="910" y2="142" stroke="#94a3b8"
+            strokeWidth="1.5" />
+      <line x1="730" y1="142" x2="1090" y2="142" stroke="#94a3b8"
+            strokeWidth="1.5" />
+      <line x1="730" y1="142" x2="730" y2="172" stroke="#94a3b8"
+            strokeWidth="1.5" markerEnd="url(#arrow-solid)" />
+      <line x1="910" y1="142" x2="910" y2="172" stroke="#94a3b8"
+            strokeWidth="1.5" markerEnd="url(#arrow-solid)" />
+      <line x1="1090" y1="142" x2="1090" y2="172" stroke="#94a3b8"
+            strokeWidth="1.5" markerEnd="url(#arrow-solid)" />
+
+      {/* Three serving retrieval boxes */}
+      <g>
+        <rect x="660" y="178" width="140" height="64" rx="10"
+              fill="rgba(148,163,184,0.10)" stroke="#94a3b8" strokeWidth="1.5" />
+        <text x="730" y="200" textAnchor="middle" fill="#e2e8f0"
+              fontSize="12" fontWeight="700">POP top-200</text>
+        <text x="730" y="216" textAnchor="middle" fill="#94a3b8"
+              fontSize="10">cached lookup</text>
+        <text x="730" y="230" textAnchor="middle" fill="#64748b"
+              fontSize="9.5">&lt; 0.1 ms</text>
+      </g>
+      <g>
+        <rect x="840" y="178" width="140" height="64" rx="10"
+              fill="rgba(167,139,250,0.10)" stroke="#a78bfa" strokeWidth="1.5" />
+        <text x="910" y="200" textAnchor="middle" fill="#ede9fe"
+              fontSize="12" fontWeight="700">COOC top-200</text>
+        <text x="910" y="216" textAnchor="middle" fill="#c4b5fd"
+              fontSize="10">last-20 seeds</text>
+        <text x="910" y="230" textAnchor="middle" fill="#a78bfa"
+              fontSize="9.5">~ 0.5 ms</text>
+      </g>
+      <g>
+        <rect x="1020" y="178" width="140" height="64" rx="10"
+              fill="rgba(244,114,182,0.10)" stroke="#f472b6" strokeWidth="1.5" />
+        <text x="1090" y="200" textAnchor="middle" fill="#fce7f3"
+              fontSize="12" fontWeight="700">ALS top-200</text>
+        <text x="1090" y="216" textAnchor="middle" fill="#fbcfe8"
+              fontSize="10">u·item_factors ᵀ</text>
+        <text x="1090" y="230" textAnchor="middle" fill="#f472b6"
+              fontSize="9.5">~ 0.5 ms</text>
+      </g>
+
+      {/* Converge to UNION */}
+      <line x1="730" y1="242" x2="730" y2="280" stroke="#94a3b8" strokeWidth="1.5" />
+      <line x1="1090" y1="242" x2="1090" y2="280" stroke="#94a3b8" strokeWidth="1.5" />
+      <line x1="910" y1="242" x2="910" y2="304" stroke="#94a3b8" strokeWidth="1.5" />
+      <line x1="730" y1="280" x2="1090" y2="280" stroke="#94a3b8" strokeWidth="1.5" />
+      <line x1="730" y1="280" x2="730" y2="304" stroke="#94a3b8" strokeWidth="1.5" />
+      <line x1="1090" y1="280" x2="1090" y2="304" stroke="#94a3b8" strokeWidth="1.5" />
+
+      {/* UNION box */}
+      <g>
+        <rect x="720" y="306" width="380" height="50" rx="10"
+              fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.20)" />
+        <text x="910" y="328" textAnchor="middle" fill="#e5e7eb"
+              fontSize="13" fontWeight="700">UNION ≈ 500 candidates</text>
+        <text x="910" y="344" textAnchor="middle" fill="#94a3b8"
+              fontSize="10">deduped, excluding user's train history</text>
+      </g>
+      <line x1="910" y1="356" x2="910" y2="382" stroke="#94a3b8"
+            strokeWidth="1.5" markerEnd="url(#arrow-amber)" />
+
+      {/* XGB predict box (winner) */}
+      <g filter="url(#glow-amber)">
+        <rect x="720" y="386" width="380" height="72" rx="12"
+              fill="rgba(251,191,36,0.14)" stroke="#fbbf24" strokeWidth="2" />
+        <text x="910" y="410" textAnchor="middle" fill="#fef3c7"
+              fontSize="13" fontWeight="700">XGBoost LambdaMART · predict</text>
+        <text x="910" y="426" textAnchor="middle" fill="#fde68a"
+              fontSize="11">55 features per candidate</text>
+        <text x="910" y="444" textAnchor="middle" fill="#fbbf24"
+              fontSize="10" fontStyle="italic">~ 0.1 ms for 500 candidates</text>
+      </g>
+      <line x1="910" y1="458" x2="910" y2="488" stroke="#fbbf24"
+            strokeWidth="2" markerEnd="url(#arrow-amber)" />
+
+      {/* Top-N output */}
+      <g>
+        <rect x="780" y="492" width="260" height="58" rx="12"
+              fill="rgba(52,211,153,0.10)" stroke="#34d399" strokeWidth="2" />
+        <text x="910" y="516" textAnchor="middle" fill="#d1fae5"
+              fontSize="13" fontWeight="700">Top-N to user</text>
+        <text x="910" y="534" textAnchor="middle" fill="#a7f3d0"
+              fontSize="10">+24.5% Recall@10 vs best individual</text>
+      </g>
+      <text x="910" y="574" textAnchor="middle" fill="#94a3b8"
+            fontSize="11" letterSpacing="1.4">
+        END-TO-END <tspan fill="#fbbf24" fontWeight="700">~ 1.6 ms / user</tspan>
+        <tspan fill="#94a3b8"> · single CPU thread</tspan>
+      </text>
+
+      {/* ── CROSS-COLUMN DEPLOY ARROWS (dashed) ──────────────────── */}
+      {/* POP (offline) → POP top-200 (serving) */}
+      <path d="M 180 284 C 400 284, 540 210, 660 210"
+            stroke="#94a3b8" strokeWidth="1" strokeDasharray="4 4" fill="none"
+            opacity="0.55" markerEnd="url(#arrow-solid)" />
+      {/* COOC (offline) → COOC top-200 (serving) */}
+      <path d="M 360 284 C 500 254, 720 200, 840 210"
+            stroke="#a78bfa" strokeWidth="1" strokeDasharray="4 4" fill="none"
+            opacity="0.55" markerEnd="url(#arrow-violet)" />
+      {/* ALS (offline) → ALS top-200 (serving) */}
+      <path d="M 540 284 C 700 280, 900 220, 1020 210"
+            stroke="#f472b6" strokeWidth="1" strokeDasharray="4 4" fill="none"
+            opacity="0.55" markerEnd="url(#arrow-pink)" />
+      {/* XGB (offline) → XGB predict (serving) */}
+      <path d="M 480 430 C 580 430, 700 422, 720 422"
+            stroke="#fbbf24" strokeWidth="1.5" strokeDasharray="4 4" fill="none"
+            opacity="0.85" markerEnd="url(#arrow-amber)" />
+
+      {/* "serves" label */}
+      <text x="600" y="290" textAnchor="middle" fill="#64748b"
+            fontSize="10" fontStyle="italic" letterSpacing="1.2">
+        serves
+      </text>
+    </svg>
   );
 }
