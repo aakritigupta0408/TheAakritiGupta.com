@@ -27,6 +27,7 @@ import {
   CheckCircle2,
   ChevronRight,
   Database,
+  Download,
   Github,
   Layers,
   ShieldCheck,
@@ -278,7 +279,7 @@ export default function MovielensRecommenderDemo() {
                     </div>
                   ))}
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <button
                     type="button"
                     onClick={() => navigate("/ai-playground")}
@@ -286,6 +287,14 @@ export default function MovielensRecommenderDemo() {
                   >
                     <ArrowLeft className="h-4 w-4" /> Back
                   </button>
+                  <a
+                    href={`${DATA_BASE}/OFFLINE_RESULTS.pdf`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 rounded-full border border-violet-300/30 bg-violet-400/10 px-4 py-2 text-sm font-semibold text-violet-100 hover:bg-violet-400/20"
+                  >
+                    <Download className="h-4 w-4" /> Offline results (PDF)
+                  </a>
                   <a
                     href="https://github.com/aakritigupta0408"
                     target="_blank"
