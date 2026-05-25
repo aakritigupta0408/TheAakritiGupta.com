@@ -323,8 +323,8 @@ export const buildNowProjectTracks: BuildTrack[] = [
     "title": "Document Intelligence Pipeline",
     "category": "Machine Learning",
     "difficulty": "Intermediate",
-    "summary": "Process scanned PDFs, contracts, reports, and forms into structured data that downstream agents can search and act on.",
-    "outcome": "Ideal for legal, operations, finance, procurement, and compliance workflows.",
+    "summary": "Process scanned PDFs, contracts, reports and forms into structured data that downstream agents can search and act on.",
+    "outcome": "Ideal for legal, operations, finance, procurement and compliance workflows.",
     "stack": [
       "OCR",
       "Document parsing",
