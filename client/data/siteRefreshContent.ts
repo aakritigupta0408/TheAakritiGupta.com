@@ -29,7 +29,7 @@ export interface SiteRefreshMeta {
 export const siteRefreshMeta: SiteRefreshMeta = {
   "headline": "Weekly AI site refresh",
   "description": "A scheduled agent pulls the week's most relevant AI research, product launches, and startup moves into the main AI pages, then deploys the result through the normal GitHub-to-hosting pipeline.",
-  "updatedAtLabel": "May 25, 2026"
+  "updatedAtLabel": "June 1, 2026"
 };
 
 export const pageRefreshContentByRoute: Record<
@@ -39,132 +39,132 @@ export const pageRefreshContentByRoute: Record<
   "/ai-playground": {
     "route": "/ai-playground",
     "eyebrow": "Interactive AI demos",
-    "title": "Hands‑on AI experiences that showcase current product power",
-    "description": "Explore live generators and demos for image synthesis, language reasoning, and agent behavior, and discover the newest product capabilities highlighted in our weekly radar.",
+    "title": "Live AI Experiments that Show What’s Possible Today",
+    "description": "Dive into real‑time generators for image synthesis, language reasoning, and agent behavior, and see the newest product capabilities highlighted in our weekly radar.",
     "chips": [
       "Current product radar",
-      "Live demo framing",
-      "Deep‑dive showcase"
+      "Live demo cards",
+      "Deep‑dive showcases"
     ],
     "refreshSummary": "The product radar and demo commentary refresh weekly; the interactive generators and featured deep dives stay stable.",
-    "updatedAtLabel": "May 25, 2026"
+    "updatedAtLabel": "June 1, 2026"
   },
   "/ai-discoveries": {
     "route": "/ai-discoveries",
     "eyebrow": "AI history and frontier research",
-    "title": "Foundations of modern AI and the breakthroughs shaping tomorrow",
-    "description": "A curated timeline of AI milestones from early perceptrons to today’s frontier models, with filters, embedded demos, and a research module that tracks the most impactful changes now.",
+    "title": "From Perceptrons to Frontier Models: The AI Timeline You Can Explore",
+    "description": "A curated timeline of AI milestones, paired with a frontier research module that explains why today’s breakthroughs matter, complete with embedded demos and filters.",
     "chips": [
       "Historical milestones",
       "Frontier research updates",
       "Filter by decade"
     ],
     "refreshSummary": "The frontier‑research module refreshes weekly; the historical archive and interactive demos stay stable.",
-    "updatedAtLabel": "May 25, 2026"
+    "updatedAtLabel": "June 1, 2026"
   },
   "/ai-tools": {
     "route": "/ai-tools",
     "eyebrow": "AI workflow index",
-    "title": "AI tools mapped to real professional workflows",
-    "description": "AI tools organized by profession, with current launches and use cases highlighted so you can quickly find the right tool for real work.",
+    "title": "AI Tools Aligned to Real‑World Workflows",
+    "description": "Browse tools organized by profession, see the latest launches and use‑case framing, and filter by impact to find the right solution fast.",
     "chips": [
       "Profession‑based recommendations",
       "Latest launches and use cases",
       "Filter by impact"
     ],
     "refreshSummary": "The launch snapshot and use‑case framing refresh weekly; the profession catalog and filters stay stable.",
-    "updatedAtLabel": "May 25, 2026"
+    "updatedAtLabel": "June 1, 2026"
   },
   "/ai-companies": {
     "route": "/ai-companies",
     "eyebrow": "AI market map",
-    "title": "The AI company landscape, from frontier labs to workflow startups",
-    "description": "Frontier labs, applied‑AI leaders, and new entrants — filterable by sector, valuation, and headcount, with a live watchlist of recent additions.",
+    "title": "The AI Company Landscape, From Labs to Startups",
+    "description": "Explore frontier labs, applied‑AI leaders, and new entrants with filters by sector, valuation, and headcount, plus a live watchlist of recent additions.",
     "chips": [
       "Established labs and newer entrants",
       "Filter by sector, valuation, and headcount",
       "Live watchlist for recent additions"
     ],
     "refreshSummary": "The startup watchlist and market context refresh weekly; the larger company directory stays stable.",
-    "updatedAtLabel": "May 25, 2026"
+    "updatedAtLabel": "June 1, 2026"
   },
   "/ai-projects": {
     "route": "/ai-projects",
     "eyebrow": "AI build guide",
-    "title": "Common AI project patterns, with enough depth to choose and build the right one",
-    "description": "Build‑now tracks, filters by difficulty and category, and ready‑to‑study code examples so you can pick the right project and ship it end to end.",
+    "title": "Build‑Now Projects: Pick, Learn, Ship",
+    "description": "Choose from build‑now tracks, filter by difficulty and category, and study ready‑to‑use code examples to launch a project end to end.",
     "chips": [
       "Build‑now project tracks",
       "Difficulty and category filters",
       "Code examples and implementation notes"
     ],
     "refreshSummary": "The build‑now tracks refresh weekly; the evergreen project library and code examples stay stable.",
-    "updatedAtLabel": "May 25, 2026"
+    "updatedAtLabel": "June 1, 2026"
   },
   "/prompt-engineering": {
     "route": "/prompt-engineering",
     "eyebrow": "Prompt design lab",
-    "title": "Prompting patterns, examples, and practice workflows for modern AI systems",
-    "description": "Prompt patterns, worked examples, and a practice playground covering modern agent‑style prompting across research, coding, and operations.",
+    "title": "Prompting Patterns for Modern Agent Workflows",
+    "description": "Explore prompt patterns, worked examples, and a practice playground that covers agent‑style prompting across research, coding, and operations.",
     "chips": [
       "Examples, techniques, and playground",
       "Modern agent‑style prompting signals",
       "Practice‑ready analyzer flow"
     ],
     "refreshSummary": "The prompt‑pattern signals refresh weekly; the examples, techniques, and analyzer flow stay stable.",
-    "updatedAtLabel": "May 25, 2026"
+    "updatedAtLabel": "June 1, 2026"
   },
   "/ai-agent-training": {
     "route": "/ai-agent-training",
     "eyebrow": "Agent systems workshop",
-    "title": "How to frame, train, and evaluate AI agents that operate in real workflows",
-    "description": "Production agent examples, advanced training and evaluation techniques, and an interactive builder playground for sketching real agent systems.",
+    "title": "Train and Evaluate AI Agents for Real Workflows",
+    "description": "See production agent examples, advanced training and evaluation techniques, and an interactive builder playground to sketch real agent systems.",
     "chips": [
       "Production‑agent examples",
       "Training and evaluation techniques",
       "Interactive builder playground"
     ],
     "refreshSummary": "The frontier‑signals module refreshes weekly; the examples, techniques, and builder stay stable.",
-    "updatedAtLabel": "May 25, 2026"
+    "updatedAtLabel": "June 1, 2026"
   },
   "/ai-champions": {
     "route": "/ai-champions",
     "eyebrow": "AI competition history",
-    "title": "Historic moments when AI systems beat world‑class human champions",
-    "description": "Case studies of AI systems — Deep Blue, AlphaGo, AlphaZero, Libratus, and more — defeating the best human players across chess, Go, poker, and real‑time strategy.",
+    "title": "Historic AI Victories Over Human Champions",
+    "description": "Read case studies of AI systems that beat world‑class players, play demos where available, and explore links to discoveries and games.",
     "chips": [
       "Historic matchups and context",
       "Playable demos where available",
       "Cross‑links into discoveries and games"
     ],
     "refreshSummary": "The overview narrative and cross‑links refresh weekly; the matchup library and embedded demos stay stable.",
-    "updatedAtLabel": "May 25, 2026"
+    "updatedAtLabel": "June 1, 2026"
   },
   "/resume-builder": {
     "route": "/resume-builder",
     "eyebrow": "Career toolkit",
-    "title": "Resume assets, profile links, and reusable prompt templates in one place",
-    "description": "Public resume, profile links, and copy‑ready prompt templates for recruiter‑safe candidate summaries — a single toolkit for career conversations.",
+    "title": "Resume Assets and Prompt Templates in One Place",
+    "description": "Access a public resume, profile links, and copy‑ready prompt templates for recruiter‑safe candidate summaries—your polished career toolkit.",
     "chips": [
       "Current public resume",
       "LinkedIn and GitHub references",
       "Copy‑ready AI prompt templates"
     ],
     "refreshSummary": "The framing and prompt‑template positioning refresh weekly; the direct resume and profile links stay stable.",
-    "updatedAtLabel": "May 25, 2026"
+    "updatedAtLabel": "June 1, 2026"
   },
   "/games": {
     "route": "/games",
     "eyebrow": "Interactive portfolio games",
-    "title": "Playable experiences that showcase strategy, AI thinking, and experimentation",
-    "description": "Strategy, arcade, and educational games built as interactive portfolio pieces, cross‑linked with the AI‑competition history.",
+    "title": "Playful AI Experiments That Showcase Strategy and Thinking",
+    "description": "Explore strategy, arcade, and educational games built as portfolio pieces, with cross‑links to AI competition history and research milestones.",
     "chips": [
       "Strategy, arcade, and educational games",
       "Playable components embedded in‑page",
       "Cross‑links into AI competition history"
     ],
     "refreshSummary": "Section priorities and framing refresh weekly; the playable components and cross‑links stay stable.",
-    "updatedAtLabel": "May 25, 2026"
+    "updatedAtLabel": "June 1, 2026"
   }
 };
 
