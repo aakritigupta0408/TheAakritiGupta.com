@@ -29,7 +29,7 @@ export interface SiteRefreshMeta {
 export const siteRefreshMeta: SiteRefreshMeta = {
   "headline": "Weekly AI site refresh",
   "description": "A scheduled agent pulls the week's most relevant AI research, product launches, and startup moves into the main AI pages, then deploys the result through the normal GitHub-to-hosting pipeline.",
-  "updatedAtLabel": "July 6, 2026"
+  "updatedAtLabel": "July 13, 2026"
 };
 
 export const pageRefreshContentByRoute: Record<
@@ -39,93 +39,93 @@ export const pageRefreshContentByRoute: Record<
   "/ai-playground": {
     "route": "/ai-playground",
     "eyebrow": "Interactive AI demos",
-    "title": "Live AI Experiments that Show What’s Possible Today",
-    "description": "Explore real‑time generators for image synthesis, language reasoning, and agent behavior, and see the newest product capabilities highlighted in our weekly radar.",
+    "title": "Live AI Experiments Show What’s Possible Today",
+    "description": "Explore real‑time generators for image synthesis, language reasoning, and agent behavior, and see the newest product launches—Cursor 3, Runway Fund, OpenAI Deep Research—highlighted in our weekly radar.",
     "chips": [
       "Current product radar",
       "Live demo cards",
       "Deep‑dive showcases"
     ],
     "refreshSummary": "The product radar and demo commentary refresh weekly; the interactive generators and featured deep dives stay stable.",
-    "updatedAtLabel": "July 6, 2026"
+    "updatedAtLabel": "July 13, 2026"
   },
   "/ai-discoveries": {
     "route": "/ai-discoveries",
     "eyebrow": "AI history and frontier research",
     "title": "From Perceptrons to Frontier Models: The AI Timeline You Can Explore",
-    "description": "A curated timeline of AI milestones, paired with a frontier research module that explains why today’s breakthroughs matter, complete with embedded demos and filters.",
+    "description": "A curated timeline of AI milestones paired with a frontier research module that explains why today’s breakthroughs—MIT warehouse robot, Gemini 2.5 Pro, Gemini Robotics 1.5, Anthropic Economic Index, AlphaFold 3—matter, complete with embedded demos and filters.",
     "chips": [
       "Historical milestones",
       "Frontier research updates",
       "Filter by decade"
     ],
     "refreshSummary": "The frontier‑research module refreshes weekly; the historical archive and interactive demos stay stable.",
-    "updatedAtLabel": "July 6, 2026"
+    "updatedAtLabel": "July 13, 2026"
   },
   "/ai-tools": {
     "route": "/ai-tools",
     "eyebrow": "AI workflow index",
     "title": "AI Tools Aligned to Real‑World Workflows",
-    "description": "Browse tools organized by profession, see the latest launches and use‑case framing, and filter by impact to find the right solution fast.",
+    "description": "Browse tools organized by profession, see the latest launches—Cursor 3, Runway Fund, OpenAI Deep Research, Claude Opus 4.5—and use‑case framing, and filter by impact to find the right solution fast.",
     "chips": [
       "Profession‑based recommendations",
       "Latest launches and use cases",
       "Filter by impact"
     ],
     "refreshSummary": "The launch snapshot and use‑case framing refresh weekly; the profession catalog and filters stay stable.",
-    "updatedAtLabel": "July 6, 2026"
+    "updatedAtLabel": "July 13, 2026"
   },
   "/ai-companies": {
     "route": "/ai-companies",
     "eyebrow": "AI market map",
     "title": "The AI Company Landscape, From Labs to Startups",
-    "description": "Explore frontier labs, applied‑AI leaders, and new entrants with filters by sector, valuation, and headcount, plus a live watchlist of recent additions.",
+    "description": "Explore frontier labs, applied‑AI leaders, and new entrants with filters by sector, valuation, and headcount, plus a live watchlist of recent additions like Cursor, Harvey, ElevenLabs, Sierra, and Perplexity.",
     "chips": [
       "Established labs and newer entrants",
       "Filter by sector, valuation, and headcount",
       "Live watchlist for recent additions"
     ],
     "refreshSummary": "The startup watchlist and market context refresh weekly; the larger company directory stays stable.",
-    "updatedAtLabel": "July 6, 2026"
+    "updatedAtLabel": "July 13, 2026"
   },
   "/ai-projects": {
     "route": "/ai-projects",
     "eyebrow": "AI build guide",
     "title": "Build‑Now Projects: Pick, Learn, Ship",
-    "description": "Choose from build‑now tracks, filter by difficulty and category, and study ready‑to‑use code examples to launch a project end to end.",
+    "description": "Choose from build‑now tracks—Deep Research Analyst, Repo‑Specific Coding Agent, Real‑Time Voice Support Agent, Document Intelligence Pipeline, Grounded Enterprise Search Copilot—filter by difficulty and category, and study ready‑to‑use code examples to launch a project end to end.",
     "chips": [
       "Build‑now project tracks",
       "Difficulty and category filters",
       "Code examples and implementation notes"
     ],
     "refreshSummary": "The build‑now tracks refresh weekly; the evergreen project library and code examples stay stable.",
-    "updatedAtLabel": "July 6, 2026"
+    "updatedAtLabel": "July 13, 2026"
   },
   "/prompt-engineering": {
     "route": "/prompt-engineering",
     "eyebrow": "Prompt design lab",
     "title": "Prompting Patterns for Modern Agent Workflows",
-    "description": "Explore prompt patterns, worked examples, and a practice playground that covers agent‑style prompting across research, coding, and operations.",
+    "description": "Explore prompt patterns, worked examples, and a practice playground that covers agent‑style prompting across research, coding, and operations, with updated signals from Gemini 2.5 Pro, Claude Opus 4.5, and OpenAI Deep Research.",
     "chips": [
       "Examples, techniques, and playground",
       "Modern agent‑style prompting signals",
       "Practice‑ready analyzer flow"
     ],
     "refreshSummary": "The prompt‑pattern signals refresh weekly; the examples, techniques, and analyzer flow stay stable.",
-    "updatedAtLabel": "July 6, 2026"
+    "updatedAtLabel": "July 13, 2026"
   },
   "/ai-agent-training": {
     "route": "/ai-agent-training",
     "eyebrow": "Agent systems workshop",
     "title": "Train and Evaluate AI Agents for Real Workflows",
-    "description": "See production agent examples, advanced training and evaluation techniques, and an interactive builder playground to sketch real agent systems.",
+    "description": "See production agent examples, advanced training and evaluation techniques, and an interactive builder playground to sketch real agent systems, informed by frontier signals like Gemini Robotics 1.5, OpenAI Deep Research, and Claude Opus 4.5.",
     "chips": [
       "Production‑agent examples",
       "Training and evaluation techniques",
       "Interactive builder playground"
     ],
     "refreshSummary": "The frontier‑signals module refreshes weekly; the examples, techniques, and builder stay stable.",
-    "updatedAtLabel": "July 6, 2026"
+    "updatedAtLabel": "July 13, 2026"
   },
   "/ai-champions": {
     "route": "/ai-champions",
@@ -138,7 +138,7 @@ export const pageRefreshContentByRoute: Record<
       "Cross‑links into discoveries and games"
     ],
     "refreshSummary": "The overview narrative and cross‑links refresh weekly; the matchup library and embedded demos stay stable.",
-    "updatedAtLabel": "July 6, 2026"
+    "updatedAtLabel": "July 13, 2026"
   },
   "/resume-builder": {
     "route": "/resume-builder",
@@ -151,7 +151,7 @@ export const pageRefreshContentByRoute: Record<
       "Copy‑ready AI prompt templates"
     ],
     "refreshSummary": "The framing and prompt‑template positioning refresh weekly; the direct resume and profile links stay stable.",
-    "updatedAtLabel": "July 6, 2026"
+    "updatedAtLabel": "July 13, 2026"
   },
   "/games": {
     "route": "/games",
@@ -164,7 +164,7 @@ export const pageRefreshContentByRoute: Record<
       "Cross‑links into AI competition history"
     ],
     "refreshSummary": "Section priorities and framing refresh weekly; the playable components and cross‑links stay stable.",
-    "updatedAtLabel": "July 6, 2026"
+    "updatedAtLabel": "July 13, 2026"
   }
 };
 
