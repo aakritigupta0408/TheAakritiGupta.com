@@ -183,8 +183,42 @@ def main() -> None:
         ]].fillna("").to_dict("records"),
     }
     OUT.write_text("window.PAPERLEAK_DATA = " + json.dumps(data) + ";\n")
+
+    # Server-rendered timeline: static, crawler-visible summary of each year's
+    # major incidents, injected between TIMELINE markers in index.html.
+    def esc(t):
+        return str(t).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+    items = []
+    for y in years:
+        g = df[df.year == y]
+        if not len(g):
+            continue
+        conf = int((g["Leak Confirmation Status"].str.strip() == "confirmed").sum())
+        top = g.sort_values("Students", ascending=False).head(4)
+        parts = []
+        for _, r in top.iterrows():
+            n = r["Students"]
+            label = esc(str(r["Exam Name"]).strip())
+            if pd.notna(n):
+                parts.append(f"{label} ({int(n):,} candidates)")
+            else:
+                parts.append(label)
+        items.append(
+            f"<li><b style=\"color:var(--ink)\">{y}</b> &mdash; {len(g)} incident{'s' if len(g) > 1 else ''}"
+            f" ({conf} confirmed). Major: {'; '.join(parts)}.</li>"
+        )
+    timeline = ("<ul style=\"font-size:14px;color:var(--ink-2);display:grid;gap:8px;padding-left:20px\">"
+                + "".join(items) + "</ul>")
+    html_path = ROOT / "public/paperleaks/index.html"
+    html = html_path.read_text()
+    start = html.index("<!-- TIMELINE:START -->") + len("<!-- TIMELINE:START -->")
+    end = html.index("<!-- TIMELINE:END -->")
+    html_path.write_text(html[:start] + "\n      " + timeline + "\n      " + html[end:])
+
     print(f"wrote {OUT} ({OUT.stat().st_size} bytes)")
     print("levels:", data["perLevel"])
+    print(f"timeline: {len(items)} year entries injected")
 
 
 if __name__ == "__main__":

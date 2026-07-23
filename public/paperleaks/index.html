@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Paper Leaks in India: Tracker of 120 Exam Paper Leak Incidents, Protests & Students Affected (2014–2026) | Paper Trail India</title>
+<title>Paper Leaks in India: 120 Exam Leak Incidents, 9 Crore Students Affected (2014–2026)</title>
 <meta name="description" content="Data tracker of every major question paper leak in India, 2014–2026: NEET, UP Police, BPSC, board exams. 120 incidents, 9 crore+ students affected, the protests they sparked, re-exams and outcomes — every incident source-cited. Free CSV download." />
 <!-- Canonical points at the live URL; switch to https://indiapaperleaks.ai/ once that domain's DNS + Netlify alias are active. -->
 <link rel="canonical" href="https://www.theaakritigupta.com/paperleaks/" />
@@ -11,6 +11,9 @@
 <meta property="og:description" content="India's exam paper leak crisis in data: NEET, BPSC, UP Police and board exam leaks, the protests they sparked, and what happened afterwards. Every incident source-cited." />
 <meta property="og:url" content="https://www.theaakritigupta.com/paperleaks/" />
 <meta property="og:type" content="website" />
+<meta property="og:locale" content="en_IN" />
+<meta name="geo.region" content="IN" />
+<meta name="keywords" content="paper leak, paper leak India, NEET paper leak, NEET UG 2024 paper leak, NEET 2026 paper leak, UGC NET paper leak, CSIR NET paper leak, JEE Main paper leak, SSC CGL paper leak, BPSC paper leak, UPSC paper leak, UP Police constable paper leak, UPPSC RO ARO paper leak, REET paper leak, TET paper leak, board exam paper leak, question paper leak, pariksha paper leak, exam cancelled paper leak, paper leak protest" />
 <meta property="og:image" content="https://www.theaakritigupta.com/paperleaks/og-image.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -27,7 +30,7 @@
       "name": "India Question Paper Leak Incidents 2014-2026",
       "description": "120 question-paper leak incidents across Indian board, entrance, university and recruitment exams from June 2014 to July 2026, with date, exam, state, education level, confirmation status, outcome, students affected and source citation for each incident.",
       "url": "https://www.theaakritigupta.com/paperleaks/",
-      "keywords": ["paper leak", "question paper leak India", "exam paper leak", "NEET paper leak", "BPSC paper leak", "UP Police paper leak", "board exam leak", "paper leak protest India"],
+      "keywords": ["paper leak", "question paper leak India", "exam paper leak", "NEET paper leak", "NEET UG 2024 paper leak", "UGC NET paper leak", "CSIR NET paper leak", "JEE Main paper leak", "SSC CGL paper leak", "BPSC paper leak", "UPSC paper leak", "UP Police paper leak", "UPPSC RO ARO paper leak", "REET paper leak", "TET paper leak", "board exam leak", "CBSE paper leak", "pariksha paper leak", "paper leak protest India"],
       "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
       "temporalCoverage": "2014-06-23/2026-07-22",
       "spatialCoverage": "India",
@@ -123,6 +126,33 @@
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
   @media (max-width: 860px) { .grid2 { grid-template-columns: 1fr; } }
 
+  .carousel { position: relative; }
+  .c-track {
+    display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .c-track::-webkit-scrollbar { display: none; }
+  .c-slide { flex: 0 0 100%; scroll-snap-align: start; min-width: 0; padding: 2px; }
+  .c-slide .card { margin-bottom: 0; }
+  .c-slide .chartbox svg { display: block; margin: 0 auto; }
+  .c-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%); z-index: 5;
+    width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--ring);
+    background: rgba(38,38,36,.92); color: var(--ink); font-size: 19px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; transition: background .15s;
+  }
+  .c-arrow:hover { background: #33332f; }
+  .c-arrow.left { left: -8px; }
+  .c-arrow.right { right: -8px; }
+  .c-arrow[disabled] { opacity: .3; cursor: default; }
+  .c-dots { display: flex; justify-content: center; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .c-dot {
+    width: 9px; height: 9px; border-radius: 50%; border: 0; padding: 0; cursor: pointer;
+    background: var(--axis); transition: background .15s, transform .15s;
+  }
+  .c-dot.active { background: var(--s1); transform: scale(1.25); }
+  .c-caption { text-align: center; color: var(--muted); font-size: 12.5px; margin-top: 8px; }
+
   #tooltip {
     position: fixed; pointer-events: none; z-index: 50; display: none;
     background: #262624; border: 1px solid var(--ring); border-radius: 8px;
@@ -155,7 +185,7 @@
 <header class="masthead">
   <div class="wrap">
     <div class="kicker">Paper Trail India</div>
-    <h1>India's exam paper leak crisis, in data</h1>
+    <h1>Paper Leaks in India: The Exam Crisis in Data</h1>
     <p class="sub"><span data-d="total"></span> question-paper leak incidents across Indian board, entrance, university and recruitment
       exams from June 2014 to July 2026 — compiled from a public Kaggle dataset and verified news reporting,
       with every added incident carrying a source citation.</p>
@@ -170,79 +200,92 @@
   </div>
 </section>
 
-<section>
+<section id="charts">
   <div class="wrap">
-    <h2>Leaks per year</h2>
-    <p class="lede">Incidents have climbed almost every year since 2014. <span data-d="worstYearLede"></span></p>
-    <div class="card">
-      <h3>Paper leak incidents by year, 2014–2026</h3>
-      <div class="legend" id="lg-year"></div>
-      <div class="chartbox" id="ch-year"></div>
-      <p class="note">Confirmed = leak officially established (cancellation for leak, arrests with recovered papers, court/board confirmation). Accused = alleged, unproven, or officially denied. 2026 covers January–July.</p>
-    </div>
-  </div>
-</section>
+    <h2>The data, chart by chart</h2>
+    <p class="lede">Nine views of the same 120 incidents — swipe or use the arrows to move between charts.</p>
+    <div class="carousel" id="chart-carousel">
+      <button class="c-arrow left" id="c-prev" aria-label="Previous chart">&#8592;</button>
+      <button class="c-arrow right" id="c-next" aria-label="Next chart">&#8594;</button>
+      <div class="c-track" id="c-track">
 
-<section>
-  <div class="wrap">
-    <h2>Where the leaks happen</h2>
-    <div class="card">
-      <h3>Incidents by state / territory</h3>
-      <div class="chartbox" id="ch-state"></div>
-      <p class="note">"All India" = national exams (NEET, UGC-NET, JEE, UPSC, CBSE). Counting by where the exam was affected, per source reporting.</p>
-    </div>
-  </div>
-</section>
+        <div class="c-slide" data-title="Leaks per year">
+          <div class="card">
+            <h3>Paper leak incidents by year, 2014&ndash;2026</h3>
+            <div class="legend" id="lg-year"></div>
+            <div class="chartbox" id="ch-year"></div>
+            <p class="note">Confirmed = leak officially established (cancellation for leak, arrests with recovered papers, court/board confirmation). Accused = alleged, unproven, or officially denied. 2026 covers January&ndash;July. <span data-d="worstYearLede"></span></p>
+          </div>
+        </div>
 
-<section>
-  <div class="wrap">
-    <h2>What kind of exams leak</h2>
-    <div class="grid2">
-      <div class="card">
-        <h3>Incidents by exam category</h3>
-        <div class="chartbox" id="ch-cat"></div>
-        <p class="note">Category derived from the exam name and conducting body of each incident.</p>
-      </div>
-      <div class="card">
-        <h3>Category × year heat map</h3>
-        <div class="chartbox" id="ch-heat"></div>
-        <p class="note">Darker cell = fewer incidents, brighter = more. School-board leaks surged in the 2025 exam season.</p>
-      </div>
-    </div>
-  </div>
-</section>
+        <div class="c-slide" data-title="By state">
+          <div class="card">
+            <h3>Incidents by state / territory</h3>
+            <div class="chartbox" id="ch-state"></div>
+            <p class="note">"All India" = national exams (NEET, UGC-NET, JEE, UPSC, CBSE). Counting by where the exam was affected, per source reporting.</p>
+          </div>
+        </div>
 
-<section>
-  <div class="wrap">
-    <h2>Which level of education is hit</h2>
-    <p class="lede">Every incident classified by the stage of education the exam serves — from Class 10 boards to
-      postgraduate eligibility tests and government job recruitment. <span data-d="levelLede"></span></p>
-    <div class="grid2">
-      <div class="card">
-        <h3>Incidents by education level</h3>
-        <div class="chartbox" id="ch-level"></div>
-        <p class="note">Level derived from each exam's name and purpose; ambiguous exams verified individually (e.g. Odisha's "Mother India Language" paper is the Class 10 MIL subject).</p>
-      </div>
-      <div class="card">
-        <h3>Education level × year heat map</h3>
-        <div class="chartbox" id="ch-level-heat"></div>
-        <p class="note">"Other/combined" = Class 9/11 exams and incidents spanning both board grades (e.g. CBSE Class 10 &amp; 12 seasons).</p>
-      </div>
-    </div>
-  </div>
-</section>
+        <div class="c-slide" data-title="By category">
+          <div class="card">
+            <h3>Incidents by exam category</h3>
+            <div class="chartbox" id="ch-cat"></div>
+            <p class="note">Category derived from the exam name and conducting body of each incident.</p>
+          </div>
+        </div>
 
-<section>
-  <div class="wrap">
-    <h2>What happens afterwards</h2>
-    <p class="lede">Cancellation is the most common response — but <span data-d="noJudgement"></span> of all cases end with no judgement at all:
-      the claim is dismissed, denied, or simply produces no recorded action. Only <span data-d="reexams"></span> of <span data-d="total2"></span> incidents led to a
-      re-exam being held or ordered.</p>
-    <div class="card">
-      <h3>Outcome of each incident, by year</h3>
-      <div class="legend" id="lg-outcome"></div>
-      <div class="chartbox" id="ch-outcome"></div>
-      <p class="note">Outcome classified from the recorded action for each incident. Re-exams became the norm only after 2023.</p>
+        <div class="c-slide" data-title="Category &times; year">
+          <div class="card">
+            <h3>Category &times; year heat map</h3>
+            <div class="chartbox" id="ch-heat"></div>
+            <p class="note">Darker cell = fewer incidents, brighter = more. School-board leaks surged in the 2025 exam season.</p>
+          </div>
+        </div>
+
+        <div class="c-slide" data-title="By education level">
+          <div class="card">
+            <h3>Incidents by education level</h3>
+            <div class="chartbox" id="ch-level"></div>
+            <p class="note">Level derived from each exam's name and purpose; ambiguous exams verified individually. <span data-d="levelLede"></span></p>
+          </div>
+        </div>
+
+        <div class="c-slide" data-title="Level &times; year">
+          <div class="card">
+            <h3>Education level &times; year heat map</h3>
+            <div class="chartbox" id="ch-level-heat"></div>
+            <p class="note">"Other/combined" = Class 9/11 exams and incidents spanning both board grades (e.g. CBSE Class 10 &amp; 12 seasons).</p>
+          </div>
+        </div>
+
+        <div class="c-slide" data-title="Outcomes">
+          <div class="card">
+            <h3>Outcome of each incident, by year</h3>
+            <div class="legend" id="lg-outcome"></div>
+            <div class="chartbox" id="ch-outcome"></div>
+            <p class="note">Only <span data-d="reexams"></span> of <span data-d="total2"></span> incidents led to a re-exam; <span data-d="noJudgement"></span> closed with no judgement — dismissed, denied, or no recorded action. Re-exams became the norm only after 2023.</p>
+          </div>
+        </div>
+
+        <div class="c-slide" data-title="Students by year">
+          <div class="card">
+            <h3>Students appearing in leak-hit exams, by year</h3>
+            <div class="chartbox" id="ch-students-year"></div>
+            <p class="note">Registered/appeared candidates in exams with a leak incident that year, where a credible figure exists.</p>
+          </div>
+        </div>
+
+        <div class="c-slide" data-title="Students by category">
+          <div class="card">
+            <h3>Students affected, by exam category</h3>
+            <div class="chartbox" id="ch-students-cat"></div>
+            <p class="note">School boards and medical entrances dominate because single exams (CBSE, NEET-UG) enrol tens of lakhs.</p>
+          </div>
+        </div>
+
+      </div>
+      <div class="c-dots" id="c-dots" role="tablist"></div>
+      <p class="c-caption" id="c-caption"></p>
     </div>
   </div>
 </section>
@@ -278,24 +321,24 @@
     <h2>Students affected</h2>
     <p class="lede">Candidate counts are researched for <span data-d="studentsRows"></span> of the <span data-d="total3"></span> incidents — registered or appeared figures for the affected exam
       (whole-exam totals where the single leaked paper's count is unpublished), so these totals are a floor, not a ceiling.</p>
-    <div class="grid2">
-      <div class="card">
-        <h3>Students appearing in leak-hit exams, by year</h3>
-        <div class="chartbox" id="ch-students-year"></div>
-        <p class="note">Registered/appeared candidates in exams with a leak incident that year, where a credible figure exists.</p>
-      </div>
-      <div class="card">
-        <h3>By exam category</h3>
-        <div class="chartbox" id="ch-students-cat"></div>
-        <p class="note">School boards and medical entrances dominate because single exams (CBSE, NEET-UG) enrol tens of lakhs.</p>
-      </div>
-    </div>
     <div class="card">
       <h3>Students affected — category × year</h3>
       <div class="tablebox" style="max-height:none">
         <table id="tbl-students"></table>
       </div>
       <p class="note">Blank = no incident with a reported candidate count in that cell.</p>
+    </div>
+  </div>
+</section>
+
+<section id="timeline">
+  <div class="wrap">
+    <h2>Timeline: major paper leaks in India, year by year</h2>
+    <div class="card">
+      <!-- TIMELINE:START -->
+      <ul style="font-size:14px;color:var(--ink-2);display:grid;gap:8px;padding-left:20px"><li><b style="color:var(--ink)">2014</b> &mdash; 1 incident (1 confirmed). Major: UP CPMT 2014 (100,358 candidates).</li><li><b style="color:var(--ink)">2015</b> &mdash; 3 incidents (3 confirmed). Major: AIPMT 2015 (632,625 candidates); Provincial civil services preliminary examination (450,000 candidates); UP CPMT 2015 (121,900 candidates).</li><li><b style="color:var(--ink)">2016</b> &mdash; 2 incidents (2 confirmed). Major: NEET Phase 1 2016 (600,000 candidates); Review Officer/Assistant Review Officer - 2016 (204,000 candidates).</li><li><b style="color:var(--ink)">2017</b> &mdash; 3 incidents (3 confirmed). Major: Class 12th Marathi (1,505,000 candidates); Class 12th CS and Physics (101,945 candidates); HCS (Judicial) Paper -2017 (14,301 candidates).</li><li><b style="color:var(--ink)">2018</b> &mdash; 5 incidents (4 confirmed). Major: History and political science (1,751,000 candidates); 10th Math and 12th Economics (1,638,428 candidates); Gujarat Police Constable Recruitment (876,000 candidates); CGL 2nd Tier, 2017 (190,000 candidates).</li><li><b style="color:var(--ink)">2019</b> &mdash; 3 incidents (3 confirmed). Major: High School Mathematics Exam (1,660,609 candidates); Mother India Language Exam (587,720 candidates); JE Exam (202,616 candidates).</li><li><b style="color:var(--ink)">2020</b> &mdash; 2 incidents (1 confirmed). Major: Mathematics Prepatory Exam; 2019 PSC Police Constable Exam.</li><li><b style="color:var(--ink)">2021</b> &mdash; 8 incidents (6 confirmed). Major: Uttar Pradesh Teacher Eligbility Test (2,000,000 candidates); Rajasthan Eligibility Examination for Teachers (1,600,000 candidates); JEE MAINS (767,700 candidates); MHADA Exam (250,000 candidates).</li><li><b style="color:var(--ink)">2022</b> &mdash; 11 incidents (8 confirmed). Major: Class 12th English (2,410,000 candidates); High School Mathematics Exam (1,648,000 candidates); Forest Guard Recruitment (1,636,000 candidates); BPSC 67th Exam (602,000 candidates).</li><li><b style="color:var(--ink)">2023</b> &mdash; 15 incidents (10 confirmed). Major: Constable Exam (1,800,000 candidates); Mathematics Exam (1,457,293 candidates); High School Hindi &amp; Telgu (947,699 candidates); Class 12th Exam (729,426 candidates).</li><li><b style="color:var(--ink)">2024</b> &mdash; 29 incidents (14 confirmed). Major: Constable Exam (4,817,441 candidates); CBSE Class 10 and 12 Board Exams 2024 (fake leak claims) (3,900,000 candidates); UP Board Class 12 (Intermediate) Maths &amp; Biology papers (2,577,997 candidates); NEET-UG 2024 (medical entrance) (2,333,297 candidates).</li><li><b style="color:var(--ink)">2025</b> &mdash; 23 incidents (16 confirmed). Major: CBSE Class 10 and 12 Board Exams 2025 (fake leak claims) (4,200,237 candidates); UP Board Class 10 Mathematics paper (Etah) (2,732,000 candidates); NEET UG 2025 (fake leak claims) (2,276,069 candidates); MP Board Pre-Board Exams (Class 10 and 12) (1,660,252 candidates).</li><li><b style="color:var(--ink)">2026</b> &mdash; 15 incidents (4 confirmed). Major: UP Board Class 10 and 12 Exams 2026 (viral leak claims) (5,230,297 candidates); CBSE Class 10 and 12 Board Exams 2026 (fake leak claims) (4,600,000 candidates); NEET-UG 2026 (2,270,000 candidates); NEET-UG 2026 Re-examination (fake leak claims) (2,000,000 candidates).</li></ul>
+      <!-- TIMELINE:END -->
+      <p class="note">Candidate figures are registered or appeared counts for the affected exam, as researched per incident; whole-exam totals where the single paper's count is unpublished.</p>
     </div>
   </div>
 </section>
@@ -510,10 +553,10 @@
   hbars('ch-state', states, S[0], v => v,
     (n, v) => '<b>' + esc(n) + '</b>: ' + v + ' incident' + (v > 1 ? 's' : ''));
   hbars('ch-cat', Object.entries(D.perCategory), S[0], v => v,
-    (n, v) => '<b>' + esc(n) + '</b>: ' + v + ' incident' + (v > 1 ? 's' : ''), 520);
+    (n, v) => '<b>' + esc(n) + '</b>: ' + v + ' incident' + (v > 1 ? 's' : ''));
   const shortLevel = s => s.replace('School — ', 'School: ').replace(' entrance & courses', '').replace(' & recruitment exams', ' & recruitment');
   hbars('ch-level', levels.map(([n, v]) => [shortLevel(n), v]), S[0], v => v,
-    (n, v) => '<b>' + esc(n) + '</b>: ' + v + ' incident' + (v > 1 ? 's' : ''), 520);
+    (n, v) => '<b>' + esc(n) + '</b>: ' + v + ' incident' + (v > 1 ? 's' : ''));
 
   // Heat map: rows × years
   function heatmap(mount, matrix) {
@@ -521,6 +564,7 @@
     const cell = 30, mL = 168, mT = 26, W = mL + D.years.length * cell + 10, H = mT + rows.length * cell + 8;
     const max = Math.max(...rows.flatMap(r => matrix[r]), 1);
     const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, width: '100%', role: 'img' });
+    svg.style.maxWidth = '720px';
     D.years.forEach((yr, i) => txt(svg, mL + (i + 0.5) * cell, 16, String(yr).slice(2), MUTED, 10.5, 'middle'));
     rows.forEach((c, ci) => {
       txt(svg, mL - 10, mT + ci * cell + cell / 2 + 4, c.replace('School — ', '').replace(' entrance & courses', '').replace(' & recruitment exams', ' & recruitment'), INK2, 12, 'end');
@@ -556,9 +600,48 @@
 
   // Students by year / by category
   hbars('ch-students-year', Object.entries(D.studentsByYear), S[0], lakh,
-    (y, v) => '<b>' + y + '</b>: ' + fmtIN(v) + ' students<br><span class="t">in leak-hit exams with reported counts</span>', 520);
+    (y, v) => '<b>' + y + '</b>: ' + fmtIN(v) + ' students<br><span class="t">in leak-hit exams with reported counts</span>');
   hbars('ch-students-cat', Object.entries(D.studentsByCategory), S[0], lakh,
-    (n, v) => '<b>' + esc(n) + '</b>: ' + fmtIN(v) + ' students', 520);
+    (n, v) => '<b>' + esc(n) + '</b>: ' + fmtIN(v) + ' students');
+
+  // Carousel
+  (function () {
+    const track = document.getElementById('c-track');
+    const slides = [...track.children];
+    const dots = document.getElementById('c-dots');
+    const caption = document.getElementById('c-caption');
+    const prev = document.getElementById('c-prev'), next = document.getElementById('c-next');
+    let current = 0;
+    slides.forEach((sl, i) => {
+      const d = document.createElement('button');
+      d.className = 'c-dot'; d.setAttribute('role', 'tab');
+      d.setAttribute('aria-label', 'Go to chart ' + (i + 1) + ': ' + sl.dataset.title);
+      d.addEventListener('click', () => goTo(i));
+      dots.appendChild(d);
+    });
+    function goTo(i) {
+      i = Math.max(0, Math.min(slides.length - 1, i));
+      track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' });
+    }
+    function update() {
+      current = Math.round(track.scrollLeft / track.clientWidth);
+      [...dots.children].forEach((d, i) => d.classList.toggle('active', i === current));
+      caption.textContent = (current + 1) + ' / ' + slides.length + ' — ' + slides[current].dataset.title.replace(/&times;/g, '×');
+      prev.disabled = current === 0;
+      next.disabled = current === slides.length - 1;
+    }
+    prev.addEventListener('click', () => goTo(current - 1));
+    next.addEventListener('click', () => goTo(current + 1));
+    let t;
+    track.addEventListener('scroll', () => { clearTimeout(t); t = setTimeout(update, 80); });
+    document.getElementById('chart-carousel').addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') { goTo(current - 1); e.preventDefault(); }
+      if (e.key === 'ArrowRight') { goTo(current + 1); e.preventDefault(); }
+    });
+    document.getElementById('chart-carousel').tabIndex = 0;
+    addEventListener('resize', () => goTo(current));
+    update();
+  })();
 
   // Students category × year table
   (function () {
