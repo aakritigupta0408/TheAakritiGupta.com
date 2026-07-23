@@ -227,6 +227,14 @@
       </p>
       <p style="margin-top:12px"><a class="btn" href="india_paper_leaks_2014_2026.csv" download>Download full dataset (CSV)</a></p>
     </div>
+
+    <h2 id="citations">Citations</h2>
+    <p class="lede">Every incident in the dataset with its source, in chronological order. Incidents from the base
+      Kaggle dataset cite the headline and outlet recorded there; incidents added for 2024–2026 link to the article
+      used to verify them.</p>
+    <div class="card">
+      <ol id="cite-list" style="font-size:13.5px; color:var(--ink-2); padding-left:22px; display:grid; gap:9px;"></ol>
+    </div>
   </div>
 </section>
 
@@ -413,6 +421,23 @@
     const gt = Object.values(D.studentsByYear).reduce((a, b) => a + b, 0);
     html += '<tr><td><b>All categories</b></td>' + yearsWith.map(y => '<td class="n"><b>' + (D.studentsByYear[y] ? fmtIN(D.studentsByYear[y]) : '') + '</b></td>').join('') + '<td class="n"><b>' + fmtIN(gt) + '</b></td></tr></tbody>';
     document.getElementById('tbl-students').innerHTML = html;
+  })();
+
+  // Citations list
+  (function () {
+    function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    function linkify(s) {
+      return esc(s).replace(/(https?:\/\/[^\s,;)]+)/g, function (u) {
+        var host = u.replace(/^https?:\/\/(www\.)?/, '').split('/')[0];
+        return '<a href="' + u + '" target="_blank" rel="noopener">' + host + '</a>';
+      });
+    }
+    document.getElementById('cite-list').innerHTML = D.incidents.map(function (r) {
+      var ref = (r['References'] || '').trim() || 'No source recorded';
+      var tag = r['Record Source'] === 'kaggle' ? 'Kaggle base dataset' : 'Added 2024–2026';
+      return '<li><b style="color:var(--ink)">' + esc(r['Exam Name']) + '</b> <span style="color:var(--muted)">(' +
+        r['Date of Exam/Incident'] + ' · ' + tag + ')</span><br>' + linkify(ref) + '</li>';
+    }).join('');
   })();
 
   // Incidents table
