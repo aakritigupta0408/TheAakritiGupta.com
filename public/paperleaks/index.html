@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#0d0d0d" />
+<link rel="preload" href="data.js" as="script" />
 <title>Paper Leaks in India: 120 Exam Leak Incidents, 9 Crore Students Affected (2014–2026)</title>
 <meta name="description" content="Data tracker of every major question paper leak in India, 2014–2026: NEET, UP Police, BPSC, board exams. 120 incidents, 9 crore+ students affected, the protests they sparked, re-exams and outcomes — every incident source-cited. Free CSV download." />
 <!-- Canonical points at the live URL; switch to https://indiapaperleaks.ai/ once that domain's DNS + Netlify alias are active. -->
@@ -152,6 +154,19 @@
   }
   .c-dot.active { background: var(--s1); transform: scale(1.25); }
   .c-caption { text-align: center; color: var(--muted); font-size: 12.5px; margin-top: 8px; }
+  /* charts stay readable on narrow screens: fixed min width + horizontal pan */
+  .chartbox svg { min-width: 720px; }
+  .chartbox svg[data-compact] { min-width: 520px; }
+  @media (max-width: 700px) {
+    .c-arrow { display: none; }               /* swipe-first on phones */
+    .c-dot { width: 13px; height: 13px; }     /* thumb-sized touch targets */
+    .c-dots { gap: 11px; }
+    .wrap { padding: 0 14px; }
+    section { padding: 26px 0 4px; }
+    .card { padding: 14px; }
+    .headline { padding: 14px; }
+    th, td { padding: 6px 8px; font-size: 12.5px; }
+  }
 
   #tooltip {
     position: fixed; pointer-events: none; z-index: 50; display: none;
@@ -200,14 +215,14 @@
   </div>
 </section>
 
-<section id="charts">
+<section id="trend">
   <div class="wrap">
-    <h2>The data, chart by chart</h2>
-    <p class="lede">Nine views of the same 120 incidents — swipe or use the arrows to move between charts.</p>
-    <div class="carousel" id="chart-carousel">
-      <button class="c-arrow left" id="c-prev" aria-label="Previous chart">&#8592;</button>
-      <button class="c-arrow right" id="c-next" aria-label="Next chart">&#8594;</button>
-      <div class="c-track" id="c-track">
+    <h2>How fast the crisis is growing</h2>
+    <p class="lede">Incident counts and what happened afterwards, year by year &mdash; swipe between the two views.</p>
+    <div class="carousel">
+      <button class="c-arrow left" aria-label="Previous chart">&#8592;</button>
+      <button class="c-arrow right" aria-label="Next chart">&#8594;</button>
+      <div class="c-track">
 
         <div class="c-slide" data-title="Leaks per year">
           <div class="card">
@@ -217,6 +232,30 @@
             <p class="note">Confirmed = leak officially established (cancellation for leak, arrests with recovered papers, court/board confirmation). Accused = alleged, unproven, or officially denied. 2026 covers January&ndash;July. <span data-d="worstYearLede"></span></p>
           </div>
         </div>
+        <div class="c-slide" data-title="Outcomes by year">
+          <div class="card">
+            <h3>Outcome of each incident, by year</h3>
+            <div class="legend" id="lg-outcome"></div>
+            <div class="chartbox" id="ch-outcome"></div>
+            <p class="note">Only <span data-d="reexams"></span> of <span data-d="total2"></span> incidents led to a re-exam; <span data-d="noJudgement"></span> closed with no judgement &mdash; dismissed, denied, or no recorded action. Re-exams became the norm only after 2023.</p>
+          </div>
+        </div>
+
+      </div>
+      <div class="c-dots" role="tablist"></div>
+      <p class="c-caption"></p>
+    </div>
+  </div>
+</section>
+
+<section id="geography">
+  <div class="wrap">
+    <h2>Where India's papers leak</h2>
+    <p class="lede">The states and the kinds of exams behind the 120 incidents.</p>
+    <div class="carousel">
+      <button class="c-arrow left" aria-label="Previous chart">&#8592;</button>
+      <button class="c-arrow right" aria-label="Next chart">&#8594;</button>
+      <div class="c-track">
 
         <div class="c-slide" data-title="By state">
           <div class="card">
@@ -225,7 +264,6 @@
             <p class="note">"All India" = national exams (NEET, UGC-NET, JEE, UPSC, CBSE). Counting by where the exam was affected, per source reporting.</p>
           </div>
         </div>
-
         <div class="c-slide" data-title="By category">
           <div class="card">
             <h3>Incidents by exam category</h3>
@@ -233,7 +271,6 @@
             <p class="note">Category derived from the exam name and conducting body of each incident.</p>
           </div>
         </div>
-
         <div class="c-slide" data-title="Category &times; year">
           <div class="card">
             <h3>Category &times; year heat map</h3>
@@ -242,6 +279,22 @@
           </div>
         </div>
 
+      </div>
+      <div class="c-dots" role="tablist"></div>
+      <p class="c-caption"></p>
+    </div>
+  </div>
+</section>
+
+<section id="levels">
+  <div class="wrap">
+    <h2>From Class 10 boards to job exams</h2>
+    <p class="lede">Every incident classified by the stage of education the exam serves.</p>
+    <div class="carousel">
+      <button class="c-arrow left" aria-label="Previous chart">&#8592;</button>
+      <button class="c-arrow right" aria-label="Next chart">&#8594;</button>
+      <div class="c-track">
+
         <div class="c-slide" data-title="By education level">
           <div class="card">
             <h3>Incidents by education level</h3>
@@ -249,7 +302,6 @@
             <p class="note">Level derived from each exam's name and purpose; ambiguous exams verified individually. <span data-d="levelLede"></span></p>
           </div>
         </div>
-
         <div class="c-slide" data-title="Level &times; year">
           <div class="card">
             <h3>Education level &times; year heat map</h3>
@@ -258,14 +310,21 @@
           </div>
         </div>
 
-        <div class="c-slide" data-title="Outcomes">
-          <div class="card">
-            <h3>Outcome of each incident, by year</h3>
-            <div class="legend" id="lg-outcome"></div>
-            <div class="chartbox" id="ch-outcome"></div>
-            <p class="note">Only <span data-d="reexams"></span> of <span data-d="total2"></span> incidents led to a re-exam; <span data-d="noJudgement"></span> closed with no judgement — dismissed, denied, or no recorded action. Re-exams became the norm only after 2023.</p>
-          </div>
-        </div>
+      </div>
+      <div class="c-dots" role="tablist"></div>
+      <p class="c-caption"></p>
+    </div>
+  </div>
+</section>
+
+<section id="students">
+  <div class="wrap">
+    <h2>The human cost</h2>
+    <p class="lede">Registered or appeared candidates in leak-hit exams, researched per incident from official releases and press reporting.</p>
+    <div class="carousel">
+      <button class="c-arrow left" aria-label="Previous chart">&#8592;</button>
+      <button class="c-arrow right" aria-label="Next chart">&#8594;</button>
+      <div class="c-track">
 
         <div class="c-slide" data-title="Students by year">
           <div class="card">
@@ -274,7 +333,6 @@
             <p class="note">Registered/appeared candidates in exams with a leak incident that year, where a credible figure exists.</p>
           </div>
         </div>
-
         <div class="c-slide" data-title="Students by category">
           <div class="card">
             <h3>Students affected, by exam category</h3>
@@ -284,8 +342,8 @@
         </div>
 
       </div>
-      <div class="c-dots" id="c-dots" role="tablist"></div>
-      <p class="c-caption" id="c-caption"></p>
+      <div class="c-dots" role="tablist"></div>
+      <p class="c-caption"></p>
     </div>
   </div>
 </section>
@@ -347,7 +405,7 @@
   <div class="wrap">
     <h2>Every incident</h2>
     <div class="card">
-      <h3>All <span data-d="total4"></span> incidents, 2014–2026</h3>
+      <h3>All <span data-d="total4"></span> incidents, 2014–2026 — newest first</h3>
       <div class="tablebox">
         <table id="tbl-incidents"></table>
       </div>
@@ -564,7 +622,7 @@
     const cell = 30, mL = 168, mT = 26, W = mL + D.years.length * cell + 10, H = mT + rows.length * cell + 8;
     const max = Math.max(...rows.flatMap(r => matrix[r]), 1);
     const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, width: '100%', role: 'img' });
-    svg.style.maxWidth = '720px';
+    svg.style.maxWidth = '720px'; svg.setAttribute('data-compact', '1');
     D.years.forEach((yr, i) => txt(svg, mL + (i + 0.5) * cell, 16, String(yr).slice(2), MUTED, 10.5, 'middle'));
     rows.forEach((c, ci) => {
       txt(svg, mL - 10, mT + ci * cell + cell / 2 + 4, c.replace('School — ', '').replace(' entrance & courses', '').replace(' & recruitment exams', ' & recruitment'), INK2, 12, 'end');
@@ -604,13 +662,13 @@
   hbars('ch-students-cat', Object.entries(D.studentsByCategory), S[0], lakh,
     (n, v) => '<b>' + esc(n) + '</b>: ' + fmtIN(v) + ' students');
 
-  // Carousel
-  (function () {
-    const track = document.getElementById('c-track');
+  // Carousels (one per themed section)
+  document.querySelectorAll('.carousel').forEach(root => {
+    const track = root.querySelector('.c-track');
     const slides = [...track.children];
-    const dots = document.getElementById('c-dots');
-    const caption = document.getElementById('c-caption');
-    const prev = document.getElementById('c-prev'), next = document.getElementById('c-next');
+    const dots = root.querySelector('.c-dots');
+    const caption = root.querySelector('.c-caption');
+    const prev = root.querySelector('.c-arrow.left'), next = root.querySelector('.c-arrow.right');
     let current = 0;
     slides.forEach((sl, i) => {
       const d = document.createElement('button');
@@ -634,14 +692,14 @@
     next.addEventListener('click', () => goTo(current + 1));
     let t;
     track.addEventListener('scroll', () => { clearTimeout(t); t = setTimeout(update, 80); });
-    document.getElementById('chart-carousel').addEventListener('keydown', e => {
+    root.addEventListener('keydown', e => {
       if (e.key === 'ArrowLeft') { goTo(current - 1); e.preventDefault(); }
       if (e.key === 'ArrowRight') { goTo(current + 1); e.preventDefault(); }
     });
-    document.getElementById('chart-carousel').tabIndex = 0;
+    root.tabIndex = 0;
     addEventListener('resize', () => goTo(current));
     update();
-  })();
+  });
 
   // Students category × year table
   (function () {
@@ -674,7 +732,7 @@
 
   // Incidents table
   (function () {
-    const rows = D.incidents.map(r => {
+    const rows = [...D.incidents].reverse().map(r => {
       const status = r['Leak Confirmation Status'].trim() === 'confirmed' ? 'confirmed' : 'accused';
       return '<tr><td style="white-space:nowrap">' + esc(r['Date of Exam/Incident']) + '</td>' +
         '<td>' + esc(r['Exam Name']) + '</td>' +

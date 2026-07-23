@@ -36,7 +36,7 @@ def category(row) -> str:
         return "Civil Services & Govt Jobs"
     if re.search(r"class 9|class 10|class 11|class 12|matric|hslc|hsslc|sslc|madhyamik|intermediate|board exam|hsc|puc|high school|higher secondary|10th|12th|pre-board|cbse|icse|hs |board", t) and "recruitment" not in t:
         return "School Board"
-    if re.search(r"civil services|upsc|bpsc|psc |public service|cgl|combined competitive|review officer|aro|clerk|patwari|amin|vdo|aedo|revenue", t):
+    if re.search(r"civil services|upsc|bpsc|\bpsc\b|public service|\bcgl\b|combined competitive|review officer|\baro\b|clerk|patwari|\bamin\b|\bvdo\b|aedo|\brevenue\b", t):
         return "Civil Services & Govt Jobs"
     if re.search(r"university|mba|bcom|b\.com|b\.tech|btech|semester|\bsem\b|degree|llb|bba|bcs", t):
         return "University"
