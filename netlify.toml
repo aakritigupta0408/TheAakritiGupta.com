@@ -14,13 +14,20 @@
   status = 200
   to = "/.netlify/functions/api/:splat"
 
-# Standalone Paper Trail India site on its own subdomain (same Netlify server).
-# Requires adding paperleaks.theaakritigupta.com as a domain alias in Netlify DNS.
+# Standalone Paper Trail India site on its own domain (same Netlify server).
+# Requires adding indiapaperleaks.ai (and www) as domain aliases in Netlify
+# and pointing the domain's DNS at Netlify.
 [[redirects]]
   force = true
-  from = "https://paperleaks.theaakritigupta.com/*"
+  from = "https://indiapaperleaks.ai/*"
   status = 200
   to = "/paperleaks/:splat"
+
+[[redirects]]
+  force = true
+  from = "https://www.indiapaperleaks.ai/*"
+  status = 301
+  to = "https://indiapaperleaks.ai/:splat"
 
 [[redirects]]
   from = "/*"
