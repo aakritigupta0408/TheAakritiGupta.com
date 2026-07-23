@@ -130,6 +130,12 @@ def level(row) -> str:
 def main() -> None:
     df = pd.read_csv(CSV)
     df["year"] = pd.to_datetime(df["Date of Exam/Incident"], format="%d-%m-%Y").dt.year
+    # Researched candidate counts (added Jul 2026) take precedence over the
+    # sparse original Appeared Students column.
+    if "Students Affected (Researched)" in df.columns:
+        df["Students"] = df["Students Affected (Researched)"].fillna(df["Appeared Students"])
+    else:
+        df["Students"] = df["Appeared Students"]
     df["Category"] = df.apply(category, axis=1)
     df["Outcome"] = df.apply(outcome, axis=1)
     df["Education Level"] = df.apply(level, axis=1)
@@ -141,7 +147,7 @@ def main() -> None:
     df.to_csv(CSV, index=False)
 
     years = list(range(2014, 2027))
-    st = df.dropna(subset=["Appeared Students"])
+    st = df.dropna(subset=["Students"])
     cats = df["Category"].value_counts().index.tolist()
     levels_present = [l for l in LEVELS if (df["Education Level"] == l).any()]
     confirmed = df["Leak Confirmation Status"].str.strip() == "confirmed"
@@ -153,7 +159,7 @@ def main() -> None:
         "meta": {
             "total": len(df),
             "confirmed": int(confirmed.sum()),
-            "studentsTotal": int(st["Appeared Students"].sum()),
+            "studentsTotal": int(st["Students"].sum()),
             "studentsRows": len(st),
             "updated": UPDATED,
         },
@@ -167,12 +173,12 @@ def main() -> None:
         "levelYearMatrix": {l: by_year(df["Education Level"] == l) for l in levels_present},
         "outcomes": df["Outcome"].value_counts().to_dict(),
         "outcomePerYear": {o: by_year(df.Outcome == o) for o in df["Outcome"].unique()},
-        "studentsByYear": {int(y): int(v) for y, v in st.groupby("year")["Appeared Students"].sum().items()},
-        "studentsByCategory": {c: int(v) for c, v in st.groupby("Category")["Appeared Students"].sum().sort_values(ascending=False).items()},
-        "studentsByCategoryYear": {c: {int(y): int(v) for y, v in g.groupby("year")["Appeared Students"].sum().items()} for c, g in st.groupby("Category")},
+        "studentsByYear": {int(y): int(v) for y, v in st.groupby("year")["Students"].sum().items()},
+        "studentsByCategory": {c: int(v) for c, v in st.groupby("Category")["Students"].sum().sort_values(ascending=False).items()},
+        "studentsByCategoryYear": {c: {int(y): int(v) for y, v in g.groupby("year")["Students"].sum().items()} for c, g in st.groupby("Category")},
         "incidents": df[[
             "Date of Exam/Incident", "Exam Name", "Area(s) of Incident", "Category",
-            "Education Level", "Leak Confirmation Status", "Outcome", "Appeared Students",
+            "Education Level", "Leak Confirmation Status", "Outcome", "Students",
             "References", "Record Source",
         ]].fillna("").to_dict("records"),
     }

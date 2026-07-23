@@ -68,7 +68,7 @@ export default function Index() {
                 Paper Leak Analysis — India's Exam Crisis in Data
               </div>
               <div className="text-xs text-red-100 sm:text-sm">
-                120 leak incidents · 1.5 crore+ students affected · 2014–2026 ·
+                120 leak incidents · 9 crore+ students affected · 2014–2026 ·
                 every incident source-cited
               </div>
             </div>

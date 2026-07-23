@@ -4,10 +4,10 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Paper Leaks in India: Tracker of 120 Exam Paper Leak Incidents, Protests & Students Affected (2014–2026) | Paper Trail India</title>
-<meta name="description" content="Data tracker of every major question paper leak in India, 2014–2026: NEET, UP Police, BPSC, board exams. 120 incidents, 1.5 crore+ students affected, the protests they sparked, re-exams and outcomes — every incident source-cited. Free CSV download." />
+<meta name="description" content="Data tracker of every major question paper leak in India, 2014–2026: NEET, UP Police, BPSC, board exams. 120 incidents, 9 crore+ students affected, the protests they sparked, re-exams and outcomes — every incident source-cited. Free CSV download." />
 <!-- Canonical points at the live URL; switch to https://indiapaperleaks.ai/ once that domain's DNS + Netlify alias are active. -->
 <link rel="canonical" href="https://www.theaakritigupta.com/paperleaks/" />
-<meta property="og:title" content="Paper Leaks in India — 120 incidents, 1.5 crore+ students affected (2014–2026)" />
+<meta property="og:title" content="Paper Leaks in India — 120 incidents, 9 crore+ students affected (2014–2026)" />
 <meta property="og:description" content="India's exam paper leak crisis in data: NEET, BPSC, UP Police and board exam leaks, the protests they sparked, and what happened afterwards. Every incident source-cited." />
 <meta property="og:url" content="https://www.theaakritigupta.com/paperleaks/" />
 <meta property="og:type" content="website" />
@@ -15,7 +15,7 @@
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Paper Leaks in India — 120 incidents, 1.5 crore+ students affected" />
+<meta name="twitter:title" content="Paper Leaks in India — 120 incidents, 9 crore+ students affected" />
 <meta name="twitter:description" content="Every major Indian exam paper leak 2014–2026, the protests they sparked, and what happened afterwards. Source-cited data tracker." />
 <meta name="twitter:image" content="https://www.theaakritigupta.com/paperleaks/og-image.png" />
 <script type="application/ld+json">
@@ -49,7 +49,7 @@
         {
           "@type": "Question",
           "name": "How many students have been affected by paper leaks in India?",
-          "acceptedAnswer": { "@type": "Answer", "text": "More than 1.57 crore (15.7 million) students sat exams hit by paper leak incidents — counting only the incidents with reported candidate numbers, so the true figure is higher. NEET-UG alone was leaked in both 2024 (23.3 lakh candidates) and 2026 (22.7 lakh)." }
+          "acceptedAnswer": { "@type": "Answer", "text": "More than 9 crore (90 million) students sat exams hit by paper leak incidents, based on researched registered/appeared counts for 100 of the 120 incidents — the true figure is higher. NEET-UG alone was leaked in both 2024 (23.3 lakh candidates) and 2026 (22.7 lakh)." }
         },
         {
           "@type": "Question",
@@ -276,13 +276,13 @@
 <section>
   <div class="wrap">
     <h2>Students affected</h2>
-    <p class="lede">Candidate counts are reported for <span data-d="studentsRows"></span> of the <span data-d="total3"></span> incidents (all 2023 onward) — so these totals are
-      a floor, not a ceiling. Even that floor exceeds 1.5 crore students.</p>
+    <p class="lede">Candidate counts are researched for <span data-d="studentsRows"></span> of the <span data-d="total3"></span> incidents — registered or appeared figures for the affected exam
+      (whole-exam totals where the single leaked paper's count is unpublished), so these totals are a floor, not a ceiling.</p>
     <div class="grid2">
       <div class="card">
         <h3>Students appearing in leak-hit exams, by year</h3>
         <div class="chartbox" id="ch-students-year"></div>
-        <p class="note">Registered/appeared candidates in exams with a leak incident that year, where reported.</p>
+        <p class="note">Registered/appeared candidates in exams with a leak incident that year, where a credible figure exists.</p>
       </div>
       <div class="card">
         <h3>By exam category</h3>
@@ -323,8 +323,7 @@
         54 further incidents (Jan 2024 – Jul 2026) were researched from credible outlets — The Indian Express, The Hindu,
         ThePrint/PTI, Deccan Herald, LiveLaw, Careers360, India TV, regional dailies and official board advisories —
         each row carrying its citation. "Accused" incidents include officially denied fake-leak scams, kept deliberately:
-        they are part of the leak economy. Multi-day episodes of a single leak are counted once. Candidate counts are
-        as reported (registered or appeared) and exist for <span data-d="studentsRows2"></span> incidents; totals are therefore minimums.
+        they are part of the leak economy. Multi-day episodes of a single leak are counted once. Candidate counts (registered or appeared) were researched per incident from official releases and press reporting and exist for <span data-d="studentsRows2"></span> incidents; whole-exam totals are used where the single leaked paper's count is unpublished, and totals are minimums.
         Category, education level and outcome are derived by a committed, re-runnable script
         (<code>scripts/paperleaks/generate_data.py</code>) so the CSV and this page can never silently diverge.
       </p>
@@ -406,8 +405,8 @@
   const topStates = states.filter(([n]) => n !== 'All India').slice(0, 3);
   const confirmedPct = Math.round(M.confirmed / M.total * 100);
   function studentsOf(match) {
-    const r = D.incidents.find(i => i['Exam Name'].indexOf(match) === 0 && i['Appeared Students']);
-    return r ? +r['Appeared Students'] : 0;
+    const r = D.incidents.find(i => i['Exam Name'].indexOf(match) === 0 && i['Students']);
+    return r ? +r['Students'] : 0;
   }
   const neet24 = studentsOf('NEET-UG 2024'), neet26 = studentsOf('NEET-UG 2026');
   const levels = Object.entries(D.perLevel);
@@ -601,7 +600,7 @@
         '<td>' + esc(r['Education Level']) + '</td>' +
         '<td><span class="pill ' + status + '">' + status + '</span></td>' +
         '<td>' + esc(r['Outcome']) + '</td>' +
-        '<td class="n">' + (r['Appeared Students'] ? fmtIN(Math.round(+r['Appeared Students'])) : '—') + '</td></tr>';
+        '<td class="n">' + (r['Students'] ? fmtIN(Math.round(+r['Students'])) : '—') + '</td></tr>';
     }).join('');
     document.getElementById('tbl-incidents').innerHTML =
       '<thead><tr><th>Date</th><th>Exam</th><th>State</th><th>Category</th><th>Level</th><th>Status</th><th>Outcome</th><th class="n">Candidates</th></tr></thead><tbody>' + rows + '</tbody>';
