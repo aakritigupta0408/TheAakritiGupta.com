@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Paper Trail India — Exam Paper Leak Tracker (2014–2026)</title>
-<meta name="description" content="Analytics on 120 question-paper leak incidents across Indian exams, 2014–2026: leaks by year, state, exam category, re-exams, outcomes, and students affected. Sources cited." />
+<meta name="description" content="Analytics on 120 question-paper leak incidents across Indian exams, 2014–2026: leaks by year, state, exam category, education level, re-exams, outcomes, and students affected. Sources cited." />
 <link rel="canonical" href="https://indiapaperleaks.ai/" />
 <meta property="og:title" content="Paper Trail India — Exam Paper Leak Tracker" />
 <meta property="og:description" content="India's exam paper leak crisis, in data: 120 incidents, 2014–2026, with sources." />
@@ -100,10 +100,10 @@
   <div class="wrap">
     <div class="kicker">Paper Trail India</div>
     <h1>India's exam paper leak crisis, in data</h1>
-    <p class="sub">120 question-paper leak incidents across Indian board, entrance, university and recruitment
+    <p class="sub"><span data-d="total"></span> question-paper leak incidents across Indian board, entrance, university and recruitment
       exams from June 2014 to July 2026 — compiled from a public Kaggle dataset and verified news reporting,
       with every added incident carrying a source citation.</p>
-    <p class="stamp">Updated 22 July 2026 · <a href="#method">Methodology &amp; sources</a> · <a href="india_paper_leaks_2014_2026.csv" download>Download the dataset (CSV)</a></p>
+    <p class="stamp">Updated <span data-d="updated"></span> · <a href="#method">Methodology &amp; sources</a> · <a href="india_paper_leaks_2014_2026.csv" download>Download the dataset (CSV)</a></p>
   </div>
 </header>
 
@@ -117,8 +117,7 @@
 <section>
   <div class="wrap">
     <h2>Leaks per year</h2>
-    <p class="lede">Incidents have climbed almost every year since 2014. 2024 is the worst year on record with 29
-      incidents; 2026 already has 15 by July.</p>
+    <p class="lede">Incidents have climbed almost every year since 2014. <span data-d="worstYearLede"></span></p>
     <div class="card">
       <h3>Paper leak incidents by year, 2014–2026</h3>
       <div class="legend" id="lg-year"></div>
@@ -159,15 +158,35 @@
 
 <section>
   <div class="wrap">
+    <h2>Which level of education is hit</h2>
+    <p class="lede">Every incident classified by the stage of education the exam serves — from Class 10 boards to
+      postgraduate eligibility tests and government job recruitment. <span data-d="levelLede"></span></p>
+    <div class="grid2">
+      <div class="card">
+        <h3>Incidents by education level</h3>
+        <div class="chartbox" id="ch-level"></div>
+        <p class="note">Level derived from each exam's name and purpose; ambiguous exams verified individually (e.g. Odisha's "Mother India Language" paper is the Class 10 MIL subject).</p>
+      </div>
+      <div class="card">
+        <h3>Education level × year heat map</h3>
+        <div class="chartbox" id="ch-level-heat"></div>
+        <p class="note">"Other/combined" = Class 9/11 exams and incidents spanning both board grades (e.g. CBSE Class 10 &amp; 12 seasons).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
     <h2>What happens afterwards</h2>
-    <p class="lede">Cancellation is the most common response — but a third of all cases end with no judgement at all:
-      the claim is dismissed, denied, or simply produces no recorded action. Only 15 of 120 incidents led to a
+    <p class="lede">Cancellation is the most common response — but <span data-d="noJudgement"></span> of all cases end with no judgement at all:
+      the claim is dismissed, denied, or simply produces no recorded action. Only <span data-d="reexams"></span> of <span data-d="total2"></span> incidents led to a
       re-exam being held or ordered.</p>
     <div class="card">
       <h3>Outcome of each incident, by year</h3>
       <div class="legend" id="lg-outcome"></div>
       <div class="chartbox" id="ch-outcome"></div>
-      <p class="note">Outcome classified from the recorded action for each incident. Re-exams became the norm only after 2023 — 14 of the 15 recorded re-exams happened in 2024–2026.</p>
+      <p class="note">Outcome classified from the recorded action for each incident. Re-exams became the norm only after 2023.</p>
     </div>
   </div>
 </section>
@@ -175,7 +194,7 @@
 <section>
   <div class="wrap">
     <h2>Students affected</h2>
-    <p class="lede">Candidate counts are reported for 17 of the 120 incidents (all 2023 onward) — so these totals are
+    <p class="lede">Candidate counts are reported for <span data-d="studentsRows"></span> of the <span data-d="total3"></span> incidents (all 2023 onward) — so these totals are
       a floor, not a ceiling. Even that floor exceeds 1.5 crore students.</p>
     <div class="grid2">
       <div class="card">
@@ -203,7 +222,7 @@
   <div class="wrap">
     <h2>Every incident</h2>
     <div class="card">
-      <h3>All 120 incidents, 2014–2026</h3>
+      <h3>All <span data-d="total4"></span> incidents, 2014–2026</h3>
       <div class="tablebox">
         <table id="tbl-incidents"></table>
       </div>
@@ -223,7 +242,9 @@
         ThePrint/PTI, Deccan Herald, LiveLaw, Careers360, India TV, regional dailies and official board advisories —
         each row carrying its citation. "Accused" incidents include officially denied fake-leak scams, kept deliberately:
         they are part of the leak economy. Multi-day episodes of a single leak are counted once. Candidate counts are
-        as reported (registered or appeared) and exist for 17 incidents; totals are therefore minimums.
+        as reported (registered or appeared) and exist for <span data-d="studentsRows2"></span> incidents; totals are therefore minimums.
+        Category, education level and outcome are derived by a committed, re-runnable script
+        (<code>scripts/paperleaks/generate_data.py</code>) so the CSV and this page can never silently diverge.
       </p>
       <p style="margin-top:12px"><a class="btn" href="india_paper_leaks_2014_2026.csv" download>Download full dataset (CSV)</a></p>
     </div>
@@ -241,7 +262,7 @@
 <footer>
   <div class="wrap">
     <p>Paper Trail India — a data project by <a href="https://theaakritigupta.com">Aakriti Gupta</a>.</p>
-    <p>Not affiliated with any examination body. Incident statuses reflect reporting as of 22 July 2026 and may change as investigations conclude.</p>
+    <p>Not affiliated with any examination body. Incident statuses reflect reporting as of <span data-d="updated2"></span> and may change as investigations conclude.</p>
   </div>
 </footer>
 
@@ -251,8 +272,12 @@
   const D = window.PAPERLEAK_DATA;
   const S = ['#3987e5', '#008300', '#d55181', '#c98500'];
   const INK = '#ffffff', INK2 = '#c3c2b7', MUTED = '#898781', GRID = '#2c2c2a', AXIS = '#383835';
+  const RAMP = ['#104281', '#1c5cab', '#256abf', '#3987e5', '#6da7ec', '#9ec5f4', '#cde2fb'];
   const tip = document.getElementById('tooltip');
 
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
   function fmtIN(n) { return n.toLocaleString('en-IN'); }
   function lakh(n) {
     if (n >= 1e7) return (n / 1e7).toFixed(n % 1e7 ? 2 : 0).replace(/\.00$/, '') + ' crore';
@@ -280,39 +305,72 @@
     t.textContent = s; return t;
   }
 
+  /* ---------- derived stats (single source of truth: data.js) ---------- */
+  const M = D.meta;
+  const perYearTotals = D.years.map((_, i) => D.confirmedPerYear[i] + D.accusedPerYear[i]);
+  const worstIdx = perYearTotals.indexOf(Math.max(...perYearTotals));
+  const worstYear = D.years[worstIdx], worstCount = perYearTotals[worstIdx];
+  const y2025 = perYearTotals[D.years.indexOf(2025)], y2026 = perYearTotals[D.years.indexOf(2026)];
+  const reexams = D.outcomes['Re-exam held or ordered'] || 0;
+  const noJudge = D.outcomes['No judgement — dismissed or no action'] || 0;
+  const states = Object.entries(D.perState);
+  const topStates = states.filter(([n]) => n !== 'All India').slice(0, 3);
+  const confirmedPct = Math.round(M.confirmed / M.total * 100);
+  function studentsOf(match) {
+    const r = D.incidents.find(i => i['Exam Name'].indexOf(match) === 0 && i['Appeared Students']);
+    return r ? +r['Appeared Students'] : 0;
+  }
+  const neet24 = studentsOf('NEET-UG 2024'), neet26 = studentsOf('NEET-UG 2026');
+  const levels = Object.entries(D.perLevel);
+  const class10 = D.perLevel['School — Class 10'] || 0, class12 = D.perLevel['School — Class 12'] || 0;
+  const jobs = D.perLevel['Job & recruitment exams'] || 0;
+
+  // fill prose slots
+  const FILL = {
+    total: M.total, total2: M.total, total3: M.total, total4: M.total,
+    updated: M.updated, updated2: M.updated,
+    studentsRows: M.studentsRows, studentsRows2: M.studentsRows,
+    reexams: reexams, noJudgement: noJudge,
+    worstYearLede: worstYear + ' is the worst year on record with ' + worstCount + ' incidents; 2025 had ' + y2025 + ' and 2026 already has ' + y2026 + ' by July.',
+    levelLede: 'Government job aspirants bear the most incidents (' + jobs + '), but school boards combined (' + (class10 + class12 + (D.perLevel['School — other/combined'] || 0)) + ') are close behind.',
+  };
+  document.querySelectorAll('[data-d]').forEach(n => { n.textContent = FILL[n.getAttribute('data-d')]; });
+
   /* ---------- headlines ---------- */
-  const neet24 = 2333297, neet26 = 2270000;
   const HEADLINES = [
-    { num: lakh(D.meta.studentsTotal) + '+', txt: 'students sat exams hit by paper leaks — and that counts only the 17 incidents with reported numbers.', src: 'Sum of reported candidate counts, 2023–2026' },
-    { num: lakh(D.studentsByCategory['Medical']), txt: 'medical aspirants affected. NEET-UG leaked twice in three years: ' + lakh(neet24) + ' candidates in 2024, ' + lakh(neet26) + ' in 2026.', src: 'NTA · CBI probes in both years' },
-    { num: lakh(D.studentsByCategory['School Board']), txt: 'school-board students affected — CBSE 2026 alone had 46 lakh registered when fake-leak scams flooded social media.', src: 'Board advisories & state reporting' },
-    { num: '29', txt: 'leak incidents in 2024 — the worst year on record. 2025 followed with 23, and 2026 already has 15 by July.', src: 'Incident count by exam date' },
-    { num: '15 / 120', txt: 'incidents ended in a re-exam being held or ordered. Cancellation without a recorded re-exam is far more common.', src: 'Outcome classification' },
-    { num: '43', txt: 'cases closed with no judgement — the claim dismissed, denied, or no action recorded at all.', src: 'Outcome classification' },
-    { num: '15', txt: 'incidents in Uttar Pradesh, the most of any state. Maharashtra (9) and Bihar (8) follow.', src: 'Incidents by state' },
-    { num: '62%', txt: 'of all incidents are confirmed leaks (75 of 120) — the rest remain accusations, including a growing wave of fake-leak scams.', src: 'Confirmation status' },
+    { num: lakh(M.studentsTotal) + '+', txt: 'students sat exams hit by paper leaks — and that counts only the ' + M.studentsRows + ' incidents with reported numbers.', src: 'Sum of reported candidate counts, 2023–2026' },
+    { num: lakh(D.studentsByCategory['Medical'] || 0), txt: 'medical aspirants affected. NEET-UG leaked twice in three years: ' + lakh(neet24) + ' candidates in 2024, ' + lakh(neet26) + ' in 2026.', src: 'NTA · CBI probes in both years' },
+    { num: lakh(D.studentsByCategory['School Board'] || 0), txt: 'school-board students affected — CBSE 2026 alone had 46 lakh registered when fake-leak scams flooded social media.', src: 'Board advisories & state reporting' },
+    { num: String(worstCount), txt: 'leak incidents in ' + worstYear + ' — the worst year on record. 2025 followed with ' + y2025 + ', and 2026 already has ' + y2026 + ' by July.', src: 'Incident count by exam date' },
+    { num: class10 + ' / ' + class12, txt: 'incidents hit Class 10 vs Class 12 board exams — the secondary school stage leaks most often.', src: 'Education-level classification' },
+    { num: reexams + ' / ' + M.total, txt: 'incidents ended in a re-exam being held or ordered. Cancellation without a recorded re-exam is far more common.', src: 'Outcome classification' },
+    { num: String(noJudge), txt: 'cases closed with no judgement — the claim dismissed, denied, or no action recorded at all.', src: 'Outcome classification' },
+    { num: String(topStates[0][1]), txt: 'incidents in ' + topStates[0][0] + ', the most of any state. ' + topStates[1][0] + ' (' + topStates[1][1] + ') and ' + topStates[2][0] + ' (' + topStates[2][1] + ') follow.', src: 'Incidents by state' },
+    { num: confirmedPct + '%', txt: 'of all incidents are confirmed leaks (' + M.confirmed + ' of ' + M.total + ') — the rest remain accusations, including a growing wave of fake-leak scams.', src: 'Confirmation status' },
   ];
   document.getElementById('headlines').innerHTML = HEADLINES.map(h =>
-    '<div class="headline"><div class="num">' + h.num + '</div><div class="txt">' + h.txt + '</div><div class="src">' + h.src + '</div></div>'
+    '<div class="headline"><div class="num">' + esc(h.num) + '</div><div class="txt">' + esc(h.txt) + '</div><div class="src">' + esc(h.src) + '</div></div>'
   ).join('');
 
   /* ---------- generic charts ---------- */
   function legend(id, items) {
     document.getElementById(id).innerHTML = items.map((it, i) =>
-      '<span class="chip"><span class="sw" style="background:' + S[i] + '"></span>' + it + '</span>').join('');
+      '<span class="chip"><span class="sw" style="background:' + S[i] + '"></span>' + esc(it) + '</span>').join('');
   }
 
   // Vertical stacked bars over years
-  function stackedYears(mount, seriesNames, seriesData, tipLabel) {
+  function stackedYears(mount, legendId, seriesNames, seriesData, tipLabel) {
+    legend(legendId, seriesNames);
     const W = 1000, H = 300, mL = 36, mR = 8, mT = 14, mB = 26;
     const iw = W - mL - mR, ih = H - mT - mB;
     const n = D.years.length;
     const totals = D.years.map((_, i) => seriesData.reduce((a, s) => a + s[i], 0));
-    const max = Math.max(...totals);
-    const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, width: '100%', role: 'img' });
+    const max = Math.max(...totals, 1);
     const step = Math.max(1, Math.ceil(max / 4));
-    for (let v = 0; v <= max; v += step) {
-      const y = mT + ih - (v / max) * ih;
+    const top = step * 4 >= max ? step * 4 : step * 5; // scale top always >= max
+    const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, width: '100%', role: 'img' });
+    for (let v = 0; v <= top; v += step) {
+      const y = mT + ih - (v / top) * ih;
       el('line', { x1: mL, x2: W - mR, y1: y, y2: y, stroke: GRID, 'stroke-width': 1 }, svg);
       txt(svg, mL - 6, y + 4, v, MUTED, 11, 'end');
     }
@@ -323,32 +381,31 @@
       let acc = 0;
       seriesData.forEach((s, si) => {
         const v = s[i]; if (!v) return;
-        const hpx = (v / max) * ih;
-        const y = mT + ih - (acc / max) * ih - hpx;
+        const hpx = (v / top) * ih;
+        const y = mT + ih - (acc / top) * ih - hpx;
         const r = el('rect', {
           x: cx - bw / 2, y: y + (acc ? 1 : 0), width: bw, height: Math.max(1, hpx - (acc ? 2 : 0)),
           fill: S[si], rx: acc + v === totals[i] ? 3 : 0
         }, svg);
         r.addEventListener('mousemove', ev => showTip(
-          '<b>' + yr + '</b> · ' + seriesNames[si] + ': <b>' + v + '</b><span class="t"> of ' + totals[i] + ' ' + tipLabel + '</span>', ev));
+          '<b>' + yr + '</b> · ' + esc(seriesNames[si]) + ': <b>' + v + '</b><span class="t"> of ' + totals[i] + ' ' + tipLabel + '</span>', ev));
         r.addEventListener('mouseleave', hideTip);
         acc += v;
       });
-      if (totals[i]) txt(svg, cx, mT + ih - (totals[i] / max) * ih - 6, totals[i], INK2, 11, 'middle', 600);
+      if (totals[i]) txt(svg, cx, mT + ih - (totals[i] / top) * ih - 6, totals[i], INK2, 11, 'middle', 600);
       txt(svg, cx, H - 8, String(yr).slice(2), MUTED, 11, 'middle');
     });
     document.getElementById(mount).appendChild(svg);
   }
 
-  stackedYears('ch-year', ['Confirmed', 'Accused / unproven'], [D.confirmedPerYear, D.accusedPerYear], 'incidents');
-  legend('lg-year', ['Confirmed', 'Accused / unproven']);
+  stackedYears('ch-year', 'lg-year', ['Confirmed', 'Accused / unproven'], [D.confirmedPerYear, D.accusedPerYear], 'incidents');
 
   // Horizontal bars
   function hbars(mount, entries, color, valueFmt, tipFn, width) {
-    const rowH = 26, mL = 168, mR = 74, W = width || 1000;
+    const rowH = 26, mL = 168, mR = 88, W = width || 1000;
     const H = entries.length * rowH + 10;
     const iw = W - mL - mR;
-    const max = Math.max(...entries.map(e => e[1]));
+    const max = Math.max(...entries.map(e => e[1]), 1);
     const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, width: '100%', role: 'img' });
     entries.forEach(([name, v], i) => {
       const y = 5 + i * rowH;
@@ -362,24 +419,26 @@
     document.getElementById(mount).appendChild(svg);
   }
 
-  hbars('ch-state', Object.entries(D.perState), S[0], v => v,
-    (n, v) => '<b>' + n + '</b>: ' + v + ' incident' + (v > 1 ? 's' : ''));
+  hbars('ch-state', states, S[0], v => v,
+    (n, v) => '<b>' + esc(n) + '</b>: ' + v + ' incident' + (v > 1 ? 's' : ''));
   hbars('ch-cat', Object.entries(D.perCategory), S[0], v => v,
-    (n, v) => '<b>' + n + '</b>: ' + v + ' incident' + (v > 1 ? 's' : ''), 520);
+    (n, v) => '<b>' + esc(n) + '</b>: ' + v + ' incident' + (v > 1 ? 's' : ''), 520);
+  const shortLevel = s => s.replace('School — ', 'School: ').replace(' entrance & courses', '').replace(' & recruitment exams', ' & recruitment');
+  hbars('ch-level', levels.map(([n, v]) => [shortLevel(n), v]), S[0], v => v,
+    (n, v) => '<b>' + esc(n) + '</b>: ' + v + ' incident' + (v > 1 ? 's' : ''), 520);
 
-  // Heat map: category × year
-  (function () {
-    const cats = Object.keys(D.perCategory);
-    const ramp = ['#104281', '#1c5cab', '#256abf', '#3987e5', '#6da7ec', '#9ec5f4', '#cde2fb'];
-    const cell = 30, mL = 168, mT = 26, W = mL + D.years.length * cell + 10, H = mT + cats.length * cell + 8;
-    const max = Math.max(...cats.flatMap(c => D.categoryYearMatrix[c]));
+  // Heat map: rows × years
+  function heatmap(mount, matrix) {
+    const rows = Object.keys(matrix);
+    const cell = 30, mL = 168, mT = 26, W = mL + D.years.length * cell + 10, H = mT + rows.length * cell + 8;
+    const max = Math.max(...rows.flatMap(r => matrix[r]), 1);
     const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, width: '100%', role: 'img' });
     D.years.forEach((yr, i) => txt(svg, mL + (i + 0.5) * cell, 16, String(yr).slice(2), MUTED, 10.5, 'middle'));
-    cats.forEach((c, ci) => {
-      txt(svg, mL - 10, mT + ci * cell + cell / 2 + 4, c, INK2, 12, 'end');
+    rows.forEach((c, ci) => {
+      txt(svg, mL - 10, mT + ci * cell + cell / 2 + 4, c.replace('School — ', '').replace(' entrance & courses', '').replace(' & recruitment exams', ' & recruitment'), INK2, 12, 'end');
       D.years.forEach((yr, yi) => {
-        const v = D.categoryYearMatrix[c][yi];
-        const fill = v === 0 ? 'transparent' : ramp[Math.min(ramp.length - 1, Math.floor((v / max) * (ramp.length - 1)))];
+        const v = matrix[c][yi];
+        const fill = v === 0 ? 'transparent' : RAMP[Math.min(RAMP.length - 1, Math.floor((v / max) * (RAMP.length - 1)))];
         const r = el('rect', {
           x: mL + yi * cell + 1, y: mT + ci * cell + 1, width: cell - 2, height: cell - 2,
           fill: fill, stroke: v === 0 ? GRID : 'none', 'stroke-width': v === 0 ? 0.5 : 0, rx: 3
@@ -388,27 +447,30 @@
           txt(svg, mL + yi * cell + cell / 2, mT + ci * cell + cell / 2 + 3.5, v,
             v / max > 0.45 ? '#0d0d0d' : INK, 10.5, 'middle', 600).setAttribute('pointer-events', 'none');
         }
-        r.addEventListener('mousemove', ev => showTip('<b>' + c + '</b>, ' + yr + ': <b>' + v + '</b> incident' + (v !== 1 ? 's' : ''), ev));
+        r.addEventListener('mousemove', ev => showTip('<b>' + esc(c) + '</b>, ' + yr + ': <b>' + v + '</b> incident' + (v !== 1 ? 's' : ''), ev));
         r.addEventListener('mouseleave', hideTip);
       });
     });
-    document.getElementById('ch-heat').appendChild(svg);
-  })();
+    document.getElementById(mount).appendChild(svg);
+  }
+  heatmap('ch-heat', D.categoryYearMatrix);
+  heatmap('ch-level-heat', D.levelYearMatrix);
 
-  // Outcomes stacked by year
-  const OUT_ORDER = ['Cancelled/Postponed, no re-exam recorded', 'No judgement — dismissed or no action', 'Re-exam held or ordered', 'Legal/administrative action only'];
-  const OUT_SHORT = ['Cancelled / postponed', 'No judgement', 'Re-exam held/ordered', 'Legal action only'];
-  stackedYears('ch-outcome', OUT_SHORT, OUT_ORDER.map(o => D.outcomePerYear[o] || D.years.map(() => 0)), 'incidents');
-  legend('lg-outcome', OUT_SHORT);
+  // Outcomes stacked by year — series derived from the data, never hardcoded
+  const SHORT_LABELS = {
+    'Cancelled/Postponed, no re-exam recorded': 'Cancelled / postponed',
+    'No judgement — dismissed or no action': 'No judgement',
+    'Re-exam held or ordered': 'Re-exam held/ordered',
+    'Legal/administrative action only': 'Legal action only',
+  };
+  const outNames = Object.keys(D.outcomes);
+  stackedYears('ch-outcome', 'lg-outcome', outNames.map(o => SHORT_LABELS[o] || o), outNames.map(o => D.outcomePerYear[o]), 'incidents');
 
-  // Students by year
-  (function () {
-    const entries = Object.entries(D.studentsByYear).map(([y, v]) => [y, v]);
-    hbars('ch-students-year', entries, S[0], lakh,
-      (y, v) => '<b>' + y + '</b>: ' + fmtIN(v) + ' students<br><span class="t">in leak-hit exams with reported counts</span>', 520);
-  })();
+  // Students by year / by category
+  hbars('ch-students-year', Object.entries(D.studentsByYear), S[0], lakh,
+    (y, v) => '<b>' + y + '</b>: ' + fmtIN(v) + ' students<br><span class="t">in leak-hit exams with reported counts</span>', 520);
   hbars('ch-students-cat', Object.entries(D.studentsByCategory), S[0], lakh,
-    (n, v) => '<b>' + n + '</b>: ' + fmtIN(v) + ' students', 520);
+    (n, v) => '<b>' + esc(n) + '</b>: ' + fmtIN(v) + ' students', 520);
 
   // Students category × year table
   (function () {
@@ -416,7 +478,7 @@
     let html = '<thead><tr><th>Category</th>' + yearsWith.map(y => '<th class="n">' + y + '</th>').join('') + '<th class="n">Total</th></tr></thead><tbody>';
     for (const [c, byY] of Object.entries(D.studentsByCategoryYear)) {
       const tot = Object.values(byY).reduce((a, b) => a + b, 0);
-      html += '<tr><td>' + c + '</td>' + yearsWith.map(y => '<td class="n">' + (byY[y] ? fmtIN(byY[y]) : '') + '</td>').join('') + '<td class="n"><b>' + fmtIN(tot) + '</b></td></tr>';
+      html += '<tr><td>' + esc(c) + '</td>' + yearsWith.map(y => '<td class="n">' + (byY[y] ? fmtIN(byY[y]) : '') + '</td>').join('') + '<td class="n"><b>' + fmtIN(tot) + '</b></td></tr>';
     }
     const gt = Object.values(D.studentsByYear).reduce((a, b) => a + b, 0);
     html += '<tr><td><b>All categories</b></td>' + yearsWith.map(y => '<td class="n"><b>' + (D.studentsByYear[y] ? fmtIN(D.studentsByYear[y]) : '') + '</b></td>').join('') + '<td class="n"><b>' + fmtIN(gt) + '</b></td></tr></tbody>';
@@ -425,34 +487,35 @@
 
   // Citations list
   (function () {
-    function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
     function linkify(s) {
-      return esc(s).replace(/(https?:\/\/[^\s,;)]+)/g, function (u) {
+      return esc(s).replace(/(https?:\/\/[^\s,;)"']+)/g, function (u) {
         var host = u.replace(/^https?:\/\/(www\.)?/, '').split('/')[0];
         return '<a href="' + u + '" target="_blank" rel="noopener">' + host + '</a>';
       });
     }
     document.getElementById('cite-list').innerHTML = D.incidents.map(function (r) {
       var ref = (r['References'] || '').trim() || 'No source recorded';
-      var tag = r['Record Source'] === 'kaggle' ? 'Kaggle base dataset' : 'Added 2024–2026';
+      var tag = r['Record Source'] === 'Kaggle original dataset' ? 'Kaggle base dataset' : 'Added 2024–2026';
       return '<li><b style="color:var(--ink)">' + esc(r['Exam Name']) + '</b> <span style="color:var(--muted)">(' +
-        r['Date of Exam/Incident'] + ' · ' + tag + ')</span><br>' + linkify(ref) + '</li>';
+        esc(r['Date of Exam/Incident']) + ' · ' + tag + ')</span><br>' + linkify(ref) + '</li>';
     }).join('');
   })();
 
   // Incidents table
   (function () {
-    const rows = D.incidents.map(r =>
-      '<tr><td style="white-space:nowrap">' + r['Date of Exam/Incident'] + '</td>' +
-      '<td>' + r['Exam Name'] + '</td>' +
-      '<td>' + r['Area(s) of Incident'] + '</td>' +
-      '<td>' + r['Category'] + '</td>' +
-      '<td><span class="pill ' + r['Leak Confirmation Status'].trim() + '">' + r['Leak Confirmation Status'].trim() + '</span></td>' +
-      '<td>' + r['Outcome'] + '</td>' +
-      '<td class="n">' + (r['Appeared Students'] ? fmtIN(Math.round(+r['Appeared Students'])) : '—') + '</td></tr>'
-    ).join('');
+    const rows = D.incidents.map(r => {
+      const status = r['Leak Confirmation Status'].trim() === 'confirmed' ? 'confirmed' : 'accused';
+      return '<tr><td style="white-space:nowrap">' + esc(r['Date of Exam/Incident']) + '</td>' +
+        '<td>' + esc(r['Exam Name']) + '</td>' +
+        '<td>' + esc(r['Area(s) of Incident']) + '</td>' +
+        '<td>' + esc(r['Category']) + '</td>' +
+        '<td>' + esc(r['Education Level']) + '</td>' +
+        '<td><span class="pill ' + status + '">' + status + '</span></td>' +
+        '<td>' + esc(r['Outcome']) + '</td>' +
+        '<td class="n">' + (r['Appeared Students'] ? fmtIN(Math.round(+r['Appeared Students'])) : '—') + '</td></tr>';
+    }).join('');
     document.getElementById('tbl-incidents').innerHTML =
-      '<thead><tr><th>Date</th><th>Exam</th><th>State</th><th>Category</th><th>Status</th><th>Outcome</th><th class="n">Candidates</th></tr></thead><tbody>' + rows + '</tbody>';
+      '<thead><tr><th>Date</th><th>Exam</th><th>State</th><th>Category</th><th>Level</th><th>Status</th><th>Outcome</th><th class="n">Candidates</th></tr></thead><tbody>' + rows + '</tbody>';
   })();
 })();
 </script>

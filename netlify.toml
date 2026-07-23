@@ -8,26 +8,36 @@
   external_node_modules = ["express"]
   node_bundler = "esbuild"
   
-[[redirects]]
-  force = true
-  from = "/api/*"
-  status = 200
-  to = "/.netlify/functions/api/:splat"
-
 # Standalone Paper Trail India site on its own domain (same Netlify server).
 # Requires adding indiapaperleaks.ai (and www) as domain aliases in Netlify
 # and pointing the domain's DNS at Netlify.
+# These host-scoped rules MUST precede the host-unscoped /api/* rule below,
+# otherwise indiapaperleaks.ai/api/* would invoke the portfolio's functions.
+[[redirects]]
+  force = true
+  from = "https://www.indiapaperleaks.ai/*"
+  status = 301
+  to = "https://indiapaperleaks.ai/:splat"
+
 [[redirects]]
   force = true
   from = "https://indiapaperleaks.ai/*"
   status = 200
   to = "/paperleaks/:splat"
 
+# Normalize the slashless path on the main domain so relative asset URLs
+# (data.js, the CSV) resolve against /paperleaks/ as intended.
 [[redirects]]
   force = true
-  from = "https://www.indiapaperleaks.ai/*"
+  from = "/paperleaks"
   status = 301
-  to = "https://indiapaperleaks.ai/:splat"
+  to = "/paperleaks/"
+
+[[redirects]]
+  force = true
+  from = "/api/*"
+  status = 200
+  to = "/.netlify/functions/api/:splat"
 
 [[redirects]]
   from = "/*"
