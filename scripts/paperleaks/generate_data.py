@@ -130,6 +130,12 @@ def level(row) -> str:
 def main() -> None:
     df = pd.read_csv(CSV)
     df["year"] = pd.to_datetime(df["Date of Exam/Incident"], format="%d-%m-%Y").dt.year
+    # Researched candidate counts (added Jul 2026) take precedence over the
+    # sparse original Appeared Students column.
+    if "Students Affected (Researched)" in df.columns:
+        df["Students"] = df["Students Affected (Researched)"].fillna(df["Appeared Students"])
+    else:
+        df["Students"] = df["Appeared Students"]
     df["Category"] = df.apply(category, axis=1)
     df["Outcome"] = df.apply(outcome, axis=1)
     df["Education Level"] = df.apply(level, axis=1)
@@ -141,7 +147,7 @@ def main() -> None:
     df.to_csv(CSV, index=False)
 
     years = list(range(2014, 2027))
-    st = df.dropna(subset=["Appeared Students"])
+    st = df.dropna(subset=["Students"])
     cats = df["Category"].value_counts().index.tolist()
     levels_present = [l for l in LEVELS if (df["Education Level"] == l).any()]
     confirmed = df["Leak Confirmation Status"].str.strip() == "confirmed"
@@ -153,7 +159,7 @@ def main() -> None:
         "meta": {
             "total": len(df),
             "confirmed": int(confirmed.sum()),
-            "studentsTotal": int(st["Appeared Students"].sum()),
+            "studentsTotal": int(st["Students"].sum()),
             "studentsRows": len(st),
             "updated": UPDATED,
         },
@@ -167,18 +173,52 @@ def main() -> None:
         "levelYearMatrix": {l: by_year(df["Education Level"] == l) for l in levels_present},
         "outcomes": df["Outcome"].value_counts().to_dict(),
         "outcomePerYear": {o: by_year(df.Outcome == o) for o in df["Outcome"].unique()},
-        "studentsByYear": {int(y): int(v) for y, v in st.groupby("year")["Appeared Students"].sum().items()},
-        "studentsByCategory": {c: int(v) for c, v in st.groupby("Category")["Appeared Students"].sum().sort_values(ascending=False).items()},
-        "studentsByCategoryYear": {c: {int(y): int(v) for y, v in g.groupby("year")["Appeared Students"].sum().items()} for c, g in st.groupby("Category")},
+        "studentsByYear": {int(y): int(v) for y, v in st.groupby("year")["Students"].sum().items()},
+        "studentsByCategory": {c: int(v) for c, v in st.groupby("Category")["Students"].sum().sort_values(ascending=False).items()},
+        "studentsByCategoryYear": {c: {int(y): int(v) for y, v in g.groupby("year")["Students"].sum().items()} for c, g in st.groupby("Category")},
         "incidents": df[[
             "Date of Exam/Incident", "Exam Name", "Area(s) of Incident", "Category",
-            "Education Level", "Leak Confirmation Status", "Outcome", "Appeared Students",
+            "Education Level", "Leak Confirmation Status", "Outcome", "Students",
             "References", "Record Source",
         ]].fillna("").to_dict("records"),
     }
     OUT.write_text("window.PAPERLEAK_DATA = " + json.dumps(data) + ";\n")
+
+    # Server-rendered timeline: static, crawler-visible summary of each year's
+    # major incidents, injected between TIMELINE markers in index.html.
+    def esc(t):
+        return str(t).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+    items = []
+    for y in years:
+        g = df[df.year == y]
+        if not len(g):
+            continue
+        conf = int((g["Leak Confirmation Status"].str.strip() == "confirmed").sum())
+        top = g.sort_values("Students", ascending=False).head(4)
+        parts = []
+        for _, r in top.iterrows():
+            n = r["Students"]
+            label = esc(str(r["Exam Name"]).strip())
+            if pd.notna(n):
+                parts.append(f"{label} ({int(n):,} candidates)")
+            else:
+                parts.append(label)
+        items.append(
+            f"<li><b style=\"color:var(--ink)\">{y}</b> &mdash; {len(g)} incident{'s' if len(g) > 1 else ''}"
+            f" ({conf} confirmed). Major: {'; '.join(parts)}.</li>"
+        )
+    timeline = ("<ul style=\"font-size:14px;color:var(--ink-2);display:grid;gap:8px;padding-left:20px\">"
+                + "".join(items) + "</ul>")
+    html_path = ROOT / "public/paperleaks/index.html"
+    html = html_path.read_text()
+    start = html.index("<!-- TIMELINE:START -->") + len("<!-- TIMELINE:START -->")
+    end = html.index("<!-- TIMELINE:END -->")
+    html_path.write_text(html[:start] + "\n      " + timeline + "\n      " + html[end:])
+
     print(f"wrote {OUT} ({OUT.stat().st_size} bytes)")
     print("levels:", data["perLevel"])
+    print(f"timeline: {len(items)} year entries injected")
 
 
 if __name__ == "__main__":
