@@ -144,14 +144,14 @@ export const latestAIProductLaunches: AISignal[] = [
     "url": "https://openai.com/index/introducing-codex/"
   },
   {
-    "id": "glean-agents",
-    "title": "Glean pushes enterprise AI toward grounded autonomous agents",
-    "org": "Glean",
-    "date": "2025",
-    "category": "Enterprise Actions",
-    "summary": "Glean's current product direction centers on enterprise search, agent orchestration, security, permissions, and enterprise-ready actions.",
-    "impact": "Enterprise AI differentiation is moving toward grounded execution, access control, and reliable action across internal systems.",
-    "url": "https://www.glean.com/product/ai-agents"
+    "id": "chatgpt-launch",
+    "title": "ChatGPT launched as a conversational AI platform",
+    "org": "OpenAI",
+    "date": "July 27, 2026",
+    "category": "Conversational AI",
+    "summary": "ChatGPT provides a web and app interface for conversational AI, code generation, and creative content creation.",
+    "impact": "It has become a mainstream entry point for AI adoption across individuals and businesses.",
+    "url": "https://chatgpt.com/"
   }
 ];
 
