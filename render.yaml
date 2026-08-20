@@ -26,27 +26,25 @@ services:
         source: /*
         destination: /index.html
 
-  # ── Vedic Astrology AI — Python / Gradio ─────────────────────────────────
+  # ── Vedic Astrology AI — jyotisha mini engine (Python, Docker) ──────────
+  # Builds from the private jyotisha repo (branch: deploy). Grant the Render
+  # GitHub app access to aakritigupta0408/jyotisha for this to build.
   - type: web
     name: vedic-astro-ai
     runtime: docker
-    dockerfilePath: ./python-service/Dockerfile
+    repo: https://github.com/aakritigupta0408/jyotisha
+    branch: deploy
+    dockerfilePath: ./Dockerfile
     # "starter" plan ($7/mo) never sleeps. Use "free" for testing (sleeps after 15 min).
     plan: starter
     healthCheckPath: /
     envVars:
-      # Set these in the Render dashboard → Environment, or via render CLI secrets.
-      # Do NOT hardcode values here.
+      # Set the key in the Render dashboard → Environment. Do NOT hardcode it.
       - key: ANTHROPIC_API_KEY
-        sync: false          # pull from Render secret store
-      - key: MONGODB_URI
         sync: false
-      - key: REDIS_URL
-        sync: false
-      - key: OPENCAGE_API_KEY
-        sync: false
-      # LLM backend — "anthropic" for production, "hf_inference" for free tier
-      - key: LLM_BACKEND
-        value: anthropic
+      # production turns the policy gate (REFUSE/ABSTAIN) on for the public
+      # deployment; set JYOTISHA_UNGATED=1 to see raw model behavior instead.
       - key: ENVIRONMENT
         value: production
+      - key: JYOTISHA_MODEL
+        value: claude-sonnet-4-6
