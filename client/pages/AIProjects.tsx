@@ -59,6 +59,49 @@ export default function AIProjects() {
     >
       <div className="container mx-auto px-4 py-4">
         <motion.section
+          className="mb-3 rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-5 backdrop-blur-xl"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="mb-2 text-[11px] uppercase tracking-[0.2em] text-gray-400">
+            <span className="bg-gradient-to-r from-pink-300 to-cyan-300 bg-clip-text text-transparent">
+              Featured · Interactive course
+            </span>
+          </div>
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="max-w-2xl">
+              <h2 className="text-2xl font-semibold text-white">
+                How Machines Decide
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-gray-300">
+                A 15-lesson course on how ranking, retrieval, language models,
+                agents and reinforcement learning actually work — every lesson a
+                beginner story plus a practitioner sequel, 100+ hand-drawn
+                figures, one drawn summary per cited paper, and written
+                questions graded against a rubric. Built and reviewed
+                end-to-end, runs entirely in your browser.
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2 text-[11px] uppercase tracking-[0.18em] text-gray-400">
+                <span>15 lessons</span>
+                <span>·</span>
+                <span>6 parts</span>
+                <span>·</span>
+                <span>100+ figures</span>
+                <span>·</span>
+                <span>2 specified capstones</span>
+              </div>
+            </div>
+            <a
+              href="/ai-course/"
+              className="rounded-2xl border border-white/20 bg-gradient-to-r from-pink-500/20 to-cyan-500/20 px-6 py-3 text-sm font-semibold text-white transition hover:from-pink-500/30 hover:to-cyan-500/30"
+            >
+              Open the course →
+            </a>
+          </div>
+        </motion.section>
+
+        <motion.section
           className="mb-3 rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Figure atlas — How Machines Decide</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  main{padding:30px 40px; max-width:1020px}
+  .pfig{opacity:1; transform:none}
+  .figbox{opacity:1; transform:none}
+  h2{font-size:24px; margin:34px 0 6px}
+</style>
+</head>
+<body>
+<main>
+<h1>Figure atlas</h1>
+<p>Every paper figure on one page, grouped by lesson. A proofing surface: if a figure
+cannot be read here on its own, it fails the course's own standard.</p>
+<div id="all"></div>
+</main>
+<script src="content.js"></script>
+<script src="extras.js"></script>
+<script src="depth.js"></script>
+<script src="diagrams.js"></script>
+<script src="paperfigs.js"></script>
+<script>
+const root = document.getElementById('all');
+const params = new URLSearchParams(location.search);
+const only = params.get('lesson');
+const set = params.get('set') || 'papers';   // papers | figs
+
+if (set === 'figs') {
+  for (const [lid, L] of Object.entries(COURSE.lessons)) {
+    if (only && lid !== only) continue;
+    const d = document.createElement('div'); d.className = 'pfig';
+    d.innerHTML = `<div class="pfh">${lid} — ${L.title}</div><div class="figbox">${FIG[L.fig]()}</div><p class="pfclaim">${L.figCap}</p>`;
+    root.appendChild(d);
+  }
+  for (const c of Object.values(CAPSTONES)) {
+    if (only && c.id !== only) continue;
+    const d = document.createElement('div'); d.className = 'pfig';
+    d.innerHTML = `<div class="pfh">capstone — ${c.title}</div><div class="figbox">${FIG[c.fig]()}</div><p class="pfclaim">${c.figCap}</p>`;
+    root.appendChild(d);
+  }
+} else {
+  for (const [lid, arr] of Object.entries(PAPERFIGS)) {
+    if (only && lid !== only) continue;
+    const h = document.createElement('h2'); h.textContent = lid; root.appendChild(h);
+    for (const p of arr) {
+      const d = document.createElement('div'); d.className = 'pfig';
+      d.innerHTML = `<div class="pfh">${p.paper}</div><div class="figbox">${p.svg()}</div><p class="pfclaim">${p.claim}</p>`;
+      root.appendChild(d);
+    }
+  }
+}
+</script>
+</body>
+</html>
