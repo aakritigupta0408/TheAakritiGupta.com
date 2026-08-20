@@ -7,7 +7,7 @@ import Navigation from "@/components/Navigation";
 // RENDER_URL is injected at build time via Vite env.
 // Defaults to the Render service (see render.yaml: vedic-astro-ai).
 const DEMO_URL =
-  import.meta.env.VITE_VEDIC_ASTRO_URL ?? "https://vedic-astro-ai.onrender.com";
+  import.meta.env.VITE_VEDIC_ASTRO_URL ?? "https://vedic-astro-ai-4t2k.onrender.com";
 
 const FEATURES = [
   { icon: Star, label: "Deterministic ganita", desc: "Swiss Ephemeris chart, 16 divisional charts, Vimshottari dasha — no model ever computes a position" },
