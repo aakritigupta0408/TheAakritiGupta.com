@@ -5,15 +5,15 @@ import { useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 
 // RENDER_URL is injected at build time via Vite env.
-// Falls back to the HF Space while the Render service is being set up.
+// Defaults to the Render service (see render.yaml: vedic-astro-ai).
 const DEMO_URL =
-  import.meta.env.VITE_VEDIC_ASTRO_URL ?? "https://radha006-vedic-astro-ai.hf.space";
+  import.meta.env.VITE_VEDIC_ASTRO_URL ?? "https://vedic-astro-ai.onrender.com";
 
 const FEATURES = [
-  { icon: Star, label: "Multi-agent pipeline", desc: "Natal · Dasha · Transit · Divisional agents run in parallel" },
-  { icon: Moon, label: "BPHS rules engine", desc: "Classical Sanskrit texts encoded as structured rule dictionaries" },
-  { icon: Sun, label: "Self-correcting output", desc: "Critic + Reviser agents catch and fix low-quality readings" },
-  { icon: Sparkles, label: "Personalised calibration", desc: "Convergence loop aligns model weights to your life history" },
+  { icon: Star, label: "Deterministic ganita", desc: "Swiss Ephemeris chart, 16 divisional charts, Vimshottari dasha — no model ever computes a position" },
+  { icon: Moon, label: "LLM-ranked retrieval", desc: "Claude ranks classical verses against your computed chart and your question" },
+  { icon: Sun, label: "Cited and verified", desc: "Every sentence must cite a verse or a chart fact; uncited claims are deleted, and the trace shows it" },
+  { icon: Sparkles, label: "Prashna", desc: "A direct question is judged from the chart of the moment it is asked" },
 ];
 
 export default function VedicAstroDemo() {
@@ -48,11 +48,13 @@ export default function VedicAstroDemo() {
           </h1>
 
           <p className="text-slate-300 text-lg leading-8 max-w-3xl mb-10">
-            A production-grade multi-agent system grounded in classical Vedic
-            texts (BPHS, Brihat Jataka). Enter a birth chart and receive a
-            structured reading — natal strengths, active Dasha timing, current
-            transits, and divisional chart overlays — synthesised and
-            self-corrected by a critic–reviser loop.
+            Classical Vedic astrology, computed deterministically and read by
+            an LLM. Cast a chart, browse all sixteen divisional charts, and get
+            timing predictions at four levels — the mahadasha life arc, the
+            varshaphala year, the month, and the day — with every sentence
+            cited to a classical verse or a computed chart fact. Ask a direct
+            question and it is judged by the prashna procedure; the
+            Explanation tab shows exactly how each reading was made.
           </p>
 
           {/* Feature chips */}
