@@ -1,31 +1,10 @@
-## Render deployment — manages both the static website and the Python AI backend.
+## Render deployment — the Python AI backend only.
+## The website itself (React SPA) deploys via GitHub Pages (.github/workflows/
+## deploy-pages.yml → gh-pages → www.theaakritigupta.com); Render hosts just
+## the vedic-astro-ai engine that the AI-playground page embeds in an iframe.
 ## Docs: https://render.com/docs/render-yaml-spec
 
 services:
-  # ── Static React SPA ──────────────────────────────────────────────────────
-  - type: static
-    name: theaakritigupta-web
-    buildCommand: npm ci && npm run build:client
-    staticPublishPath: dist/spa
-    pullRequestPreviewsEnabled: false
-    envVars:
-      - key: VITE_SUPABASE_URL
-        sync: false
-      - key: VITE_SUPABASE_PUBLISHABLE_KEY
-        sync: false
-    headers:
-      - path: /*
-        name: Cache-Control
-        value: public, max-age=0, must-revalidate
-      - path: /assets/*
-        name: Cache-Control
-        value: public, max-age=31536000, immutable
-    routes:
-      # SPA fallback — all paths return index.html
-      - type: rewrite
-        source: /*
-        destination: /index.html
-
   # ── Vedic Astrology AI — jyotisha mini engine (Python, Docker) ──────────
   # Builds from the private jyotisha repo (branch: deploy). Grant the Render
   # GitHub app access to aakritigupta0408/jyotisha for this to build.
@@ -35,8 +14,9 @@ services:
     repo: https://github.com/aakritigupta0408/jyotisha
     branch: deploy
     dockerfilePath: ./Dockerfile
-    # "starter" plan ($7/mo) never sleeps. Use "free" for testing (sleeps after 15 min).
-    plan: starter
+    # free tier: sleeps after 15 min idle (~50s cold start on next visit) but
+    # can never be billing-suspended. Move to "starter" ($7/mo) for always-on.
+    plan: free
     healthCheckPath: /
     envVars:
       # Set the key in the Render dashboard → Environment. Do NOT hardcode it.
