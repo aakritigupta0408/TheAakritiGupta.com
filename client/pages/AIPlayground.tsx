@@ -37,6 +37,21 @@ interface AIDemo {
 
 const FEATURED_SHOWCASES = [
   {
+    id: "btc-oracle",
+    badge: "Live experiment",
+    title: "BTC 7PM Oracle",
+    summary:
+      "An always-on RL ladder — tabular Q to LSTM, plus Kalshi market context and RLHF — predicts Bitcoin at +1 to +30 minutes, bets one paper contract per 15-min window, and grades itself with MASE, Diebold\u2013Mariano and Brier-vs-market.",
+    tags: ["31 live arms", "Hourly gated retrains", "Beats-the-market scoring"],
+    route: "/ai-playground/btc-oracle",
+    meta: "Predict, calibrate, bet, audit",
+    accent:
+      "from-amber-500/14 via-emerald-500/10 to-sky-300/10 border-amber-300/20",
+    badgeClass: "border-amber-300/30 bg-amber-400/10 text-amber-100",
+    buttonClass:
+      "from-amber-400 via-emerald-400 to-sky-300 text-slate-950 shadow-[0_18px_40px_rgba(251,191,36,0.24)]",
+  },
+  {
     id: "trade-recommendation-system",
     badge: "Featured demo",
     title: "AI Trade Recommendation System",
