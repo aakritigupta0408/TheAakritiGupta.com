@@ -10,7 +10,6 @@ import RouteAnalytics from "@/components/RouteAnalytics";
 import Index from "./pages/Index";
 import Games from "./pages/Games";
 import AIPlayground from "./pages/AIPlayground";
-import TradeRecommendationSystemDemo from "./pages/TradeRecommendationSystemDemo";
 import BtcOracleDemo from "./pages/BtcOracleDemo";
 import VedicAstroDemo from "./pages/VedicAstroDemo";
 import MovielensRecommenderDemo from "./pages/MovielensRecommenderDemo";
@@ -47,7 +46,7 @@ const App = () => (
           <Route path="/ai-playground" element={<AIPlayground />} />
           <Route
             path="/ai-playground/trade-recommendation-system"
-            element={<TradeRecommendationSystemDemo />}
+            element={<BtcOracleDemo />}
           />
           <Route
             path="/ai-playground/btc-oracle"

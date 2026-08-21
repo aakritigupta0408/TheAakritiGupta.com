@@ -468,15 +468,6 @@ export default function TradeRecommendationSystemDemo() {
       </div>
 
       <Navigation />
-      <div className="mx-auto mt-4 max-w-7xl px-4">
-        <a
-          href="#/ai-playground/btc-oracle"
-          className="block rounded-xl border border-amber-300/30 bg-amber-400/10 px-4 py-3 text-sm text-amber-100 hover:bg-amber-400/15"
-        >
-          New: the <b>BTC 7PM Oracle</b> — a live minute-scale RL prediction
-          experiment with Kalshi paper bets — now has its own dashboard &rarr;
-        </a>
-      </div>
 
       <main className="relative z-10 px-4 pb-24 pt-28 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
