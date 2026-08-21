@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="cache-control" content="no-store">
 <title>BTC 7PM Oracle — Always Training</title>
+<link rel="stylesheet" href="theme.css">
 <style>
+/* page-specific styles below; theme.css provides tokens + topnav */
 /* Ticker-desk design system — Robinhood canvas, Kalshi market cards.
    Flat surfaces, no filters/gradients; system stack; tabular numerals. */
 * { box-sizing: border-box; margin: 0; }
@@ -195,6 +197,10 @@ details[open] > summary { margin-bottom: 6px; }
 </style>
 </head>
 <body>
+
+<nav class="topnav"><a class="brand" href="ab_dashboard.html">BTC 7PM Oracle</a><a class="nav" href="ab_dashboard.html">Results</a><a class="nav here" href="live_online.html">Live desk</a><a class="nav" href="experiment_review.html">Experiment lab</a><a class="nav" href="index.html">Backtest</a><a class="nav" href="live_training.html">Training</a><a class="nav" href="bet_policy_sim.html">Bet sim</a><span class="spacer"></span><span class="tag">live experiment</span></nav>
+
+
 <main>
 <header class="ticker">
   <div class="t-left">
@@ -208,11 +214,6 @@ details[open] > summary { margin-bottom: 6px; }
     call Bitcoin's price at +1/+5/+15/+30 minutes, every five minutes, with 80%
     bands — and a YES/NO call on the live Kalshi 15-minute contract every minute.
     Times US Pacific.</p>
-    <nav class="btns">
-      <a class="btn" href="experiment_review.html">Experiment review</a>
-      <a class="btn" href="live_training.html">Training curves</a>
-      <a class="btn" href="index.html">Batch backtest</a>
-    </nav>
   </div>
   <div class="t-right">
     <div>
@@ -293,6 +294,8 @@ details[open] > summary { margin-bottom: 6px; }
     <div class="stat"><div class="k">Market Brier</div><div class="bignum" id="kb-mkt">–</div></div>
     <div class="stat"><div class="k">This window's bet</div><div class="bignum" id="kb-bet">–</div></div>
     <div class="stat"><div class="k">One-bet record · P&amp;L</div><div class="bignum" id="kb-bet-pnl">–</div></div>
+    <div class="stat"><div class="k">Today's bet win rate (PT)</div><div class="bignum" id="kb-today">–</div></div>
+    <div class="stat"><div class="k">Today · Brier us vs market</div><div class="bignum" id="kb-today-brier">–</div></div>
   </div>
   <details style="margin-top:12px"><summary>Call history &amp; contract detail</summary>
     <div class="statusbar" style="margin-top:12px">
@@ -490,6 +493,12 @@ document.getElementById("horizon-sections").innerHTML = `
   </div>
   <div id="chart-h${h}"></div>
   <div class="scorechips" id="mini-h${h}"></div>
+  <h3 style="margin-top:18px;font:500 16px var(--display)">Winner's circle — best arm per window</h3>
+  <p class="sub muted small">At every slot the trailing-MAE leader is re-selected;
+  this line is <b>that winner's own prediction</b> vs the actual, colored by which
+  arm held the lead (ticks mark leadership changes).</p>
+  <div id="chart-win-h${h}"></div>
+  <p class="mini" id="win-note-h${h}"></p>
 </div>`).join("");
 
 // the ledger gets its own horizon tabs, independent of the chart tabs
@@ -712,6 +721,74 @@ function stats(preds) {
     `${r.arm} $${Math.round(r.mae)} · ${r.cov}</span>`).join("");
 }
 
+function winnerChart(prices, preds, h) {
+  // the cal meta-arm re-picks the trailing-MAE winner every slot and
+  // records who led (src); its pred minus cal_adj is the winner's own call
+  const rows = preds.filter(p => p.variant === `cal-h${h}` && p.src)
+    .map(p => ({ ts: p.target_ts, pred: p.pred - (p.cal_adj || 0),
+                 actual: p.actual, src: armOf({ variant: p.src }),
+                 lo: p.lo, hi: p.hi }))
+    .sort((a, b) => a.ts - b.ts);
+  const box = document.getElementById(`chart-win-h${h}`);
+  const note = document.getElementById(`win-note-h${h}`);
+  if (rows.length < 3) {
+    box.innerHTML = '<p class="mini">collecting winner history…</p>';
+    note.textContent = "";
+    return;
+  }
+  const f = frame(prices, preds.filter(p => p.variant === `cal-h${h}`), h);
+  let g = f.g;
+  // the winner's 80% band as a shaded ribbon behind the line
+  const banded = rows.filter(r => r.lo != null);
+  if (banded.length >= 2) {
+    const up = banded.map((r, i) =>
+      `${i ? "L" : "M"}${f.X(r.ts).toFixed(1)},${f.Y(r.hi).toFixed(1)}`).join("");
+    const dn = [...banded].reverse().map(r =>
+      `L${f.X(r.ts).toFixed(1)},${f.Y(r.lo).toFixed(1)}`).join("");
+    g += `<path d="${up}${dn}Z" fill="rgba(255,255,255,.08)" stroke="none"/>`;
+  }
+  // faint continuous connector so churn-heavy stretches never vanish
+  if (rows.length > 1)
+    g += `<path class="predline" style="stroke:rgba(255,255,255,.22);stroke-width:1.5" ` +
+      `d="${rows.map((r, i) =>
+        `${i ? "L" : "M"}${f.X(r.ts).toFixed(1)},${f.Y(r.pred).toFixed(1)}`).join("")}"/>`;
+  // colored overlay per leadership stretch + a visible dot on every point
+  let seg = [rows[0]];
+  const flush = () => {
+    if (seg.length < 1) return;
+    const c = ARM_COLOR[seg[0].src] || "var(--ink-2)";
+    if (seg.length > 1)
+      g += `<path class="predline" style="stroke:${c}" d="${seg.map((r, i) =>
+        `${i ? "L" : "M"}${f.X(r.ts).toFixed(1)},${f.Y(r.pred).toFixed(1)}`).join("")}"/>`;
+    for (const r of seg)
+      g += `<circle cx="${f.X(r.ts).toFixed(1)}" cy="${f.Y(r.pred).toFixed(1)}" r="2.5" ` +
+        `style="fill:${c}"${r.actual == null ? ' fill-opacity=".45"' : ""}></circle>` +
+        `<circle class="hover-pt" cx="${f.X(r.ts).toFixed(1)}" cy="${f.Y(r.pred).toFixed(1)}" r="6" ` +
+        `data-tip="[winner: ${seg[0].src}] pred $${r.pred.toLocaleString()}` +
+        `${r.actual != null ? `, actual $${Math.round(r.actual).toLocaleString()}` : " (pending)"}"></circle>`;
+  };
+  for (let i = 1; i < rows.length; i++) {
+    if (rows[i].src === seg[0].src) { seg.push(rows[i]); continue; }
+    flush();
+    // leadership change tick
+    const x = f.X(rows[i].ts).toFixed(1);
+    g += `<line x1="${x}" y1="12" x2="${x}" y2="${f.H - 30}" ` +
+      `stroke="rgba(255,255,255,.25)" stroke-dasharray="2 4"><title>lead: ` +
+      `${seg[0].src} → ${rows[i].src}</title></line>`;
+    seg = [rows[i]];
+  }
+  flush();
+  box.innerHTML = `<svg viewBox="0 0 ${f.W} ${f.H}" role="img" ` +
+    `aria-label="+${h} min winner arm predictions vs actual">${g}</svg>`;
+  const cur = rows[rows.length - 1];
+  const since = rows.filter(r => r.src === cur.src &&
+    rows.slice(rows.indexOf(r)).every(x => x.src === cur.src))[0];
+  const changes = rows.reduce((a, r, i) => a + (i && r.src !== rows[i - 1].src ? 1 : 0), 0);
+  note.innerHTML = `current winner: <b style="color:${ARM_COLOR[cur.src] || "inherit"}">` +
+    `${cur.src}</b> (since ${fmtTime(since.ts)} PT) · ${changes} leadership ` +
+    `change${changes === 1 ? "" : "s"} in view`;
+}
+
 function draw() {
   const { prices, preds } = latest;
   const t0 = prices.length ? prices[0].ts : 0;
@@ -720,6 +797,7 @@ function draw() {
       const hp = preds.filter(p => p.horizon === h && p.target_ts >= t0);
       document.getElementById(`chart-h${h}`).innerHTML =
         chartHorizon(prices, hp.filter(p => armOf(p) !== "agg"), h);
+      try { winnerChart(prices, hp, h); } catch {}
       document.getElementById(`mini-h${h}`).innerHTML = stats(hp);
       document.getElementById(`ledger-h${h}`).innerHTML = ledgerRows(hp);
     } catch (e) {  // one bad section must not blank the others
@@ -1033,6 +1111,26 @@ async function poll() {
           ? `${bS.wins}–${bS.settled - bS.wins} · ` +
             `${bS.pnl_c >= 0 ? "+" : "−"}${Math.abs(bS.pnl_c).toFixed(0)}¢`
           : "collecting…";
+        // rolling "today in PT" scoreboard from the full call log
+        const ptNow = new Date(new Date().toLocaleString("en-US",
+          { timeZone: "America/Los_Angeles" }));
+        const sod = (Date.now() - (ptNow.getHours() * 3600 + ptNow.getMinutes() * 60
+          + ptNow.getSeconds()) * 1000) / 1000;
+        // hit rate = % of the day's one-per-window BETS won, not call accuracy
+        const tbets = betRows.filter(b => b.made_ts >= sod && b.actual != null);
+        if (tbets.length >= 3) {
+          const tw = tbets.filter(b => b.win).length;
+          document.getElementById("kb-today").textContent =
+            `${(100 * tw / tbets.length).toFixed(0)}% (${tw}–${tbets.length - tw})`;
+        }
+        const today = kbRows.filter(r => r.made_ts >= sod && r.actual != null);
+        if (today.length >= 10) {
+          const tq = today.filter(r => r.mkt_brier != null);
+          document.getElementById("kb-today-brier").textContent = tq.length
+            ? `${(tq.reduce((a, r) => a + r.brier, 0) / tq.length).toFixed(3)} vs ` +
+              `${(tq.reduce((a, r) => a + r.mkt_brier, 0) / tq.length).toFixed(3)}`
+            : "no quotes";
+        }
         if (kbRows.length) {
           document.querySelector("#kb-tbl tbody").innerHTML =
             kbRows.slice(-16).reverse().map(r => {
