@@ -23,6 +23,39 @@
   vertical-align: 3px; margin-left: 8px; }
 .badge.pass { color: var(--good-text); background: rgba(43,217,126,.12); }
 .badge.pending { color: var(--series-2); background: rgba(57,135,229,.12); }
+.paper-tag { font-size: 10px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--series-4);
+  border: 1px solid rgba(201,133,0,.4); border-radius: 6px;
+  padding: 3px 9px; }
+.price-head { display: flex; align-items: baseline; gap: 16px;
+  flex-wrap: wrap; margin-bottom: 4px; }
+.price-big { font: 650 42px/1 var(--display); letter-spacing: .01em;
+  font-variant-numeric: tabular-nums; }
+.price-chg { font-weight: 650; font-variant-numeric: tabular-nums; }
+.price-chg.up { color: var(--up); } .price-chg.down { color: var(--down); }
+#px-chart path.line { stroke-dasharray: 3200; stroke-dashoffset: 3200;
+  animation: drawline 1.8s ease-out forwards; }
+@keyframes drawline { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  #px-chart path.line { animation: none; stroke-dashoffset: 0; } }
+.disc { border: 1px solid rgba(201,133,0,.35);
+  background: rgba(201,133,0,.07); border-radius: 10px;
+  padding: 10px 14px; font-size: 12.5px; color: var(--ink-2);
+  margin: 14px 0 4px; }
+.chat { display: flex; flex-direction: column; gap: 12px;
+  margin-top: 12px; max-width: 780px; }
+.msg { display: flex; gap: 12px; }
+.avatar { flex: 0 0 34px; width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 11px; letter-spacing: .04em; }
+.avatar.model { background: rgba(43,217,126,.14); color: var(--good-text); }
+.avatar.mle { background: rgba(57,135,229,.14); color: var(--series-2); }
+.avatar.quant { background: rgba(213,81,129,.14); color: var(--series-3); }
+.msg .who { font-size: 10.5px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+.msg .bubble { background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 4px 14px 14px 14px; padding: 10px 14px;
+  font-size: 13.5px; line-height: 1.6; color: var(--ink-2); }
 </style>
 </head>
 <body>
@@ -43,39 +76,41 @@
   <div class="eyebrow"><span class="live-dot" id="dot"></span>
     Course project · live since 2026-08-20 · <span id="asof">loading…</span></div>
   <h1>Can a learning system call Bitcoin's next 15 minutes?</h1>
-  <p class="sub hero-thesis">An always-on experiment: eleven reinforcement-learning
-  arms forecast BTC-USD at +1/+5/+15/+30 minutes while two binary models price the
-  live Kalshi 15-minute contract <b>every minute</b> — scored against the market's
-  own probabilities, with fees in, on public append-only ledgers. The honest
-  headline: at these horizons the market is nearly efficient; the edge this system
-  demonstrates is <b>calibrated probability at disclosed operating points</b> —
-  and it beats the class baseline of 80% precision <i>and</i> 80% recall per class.</p>
+  <p class="sub hero-thesis">Eleven learning arms · every minute · public
+  append-only ledgers · above the 80/80 class baseline at disclosed gates.</p>
 </header>
+
+<section>
+  <h2>The tape &amp; the desk — how this research would be used
+    <span class="paper-tag">educational · paper only · not financial advice</span></h2>
+  <div id="px-head"></div>
+  <div id="px-chart"><p class="mini">loading the tape…</p></div>
+  <p class="mini" id="px-note"></p>
+  <div class="disc"><b>This is a university research project.</b> Every "entry"
+  below is a simulated paper decision the model logs for its own evaluation —
+  the personas are visualizations of the project's engineering log and its
+  internal critique. Nothing on this page is financial advice, a
+  recommendation, or a solicitation to buy or sell anything, ever.</div>
+  <div class="chat" id="desk-chat"><p class="mini">reading the live window…</p></div>
+</section>
 
 <section>
   <h2>Headline results <span class="badge pending" id="verdict">computing…</span></h2>
   <div class="cards">
     <div class="card">
       <h3>The deliverable — kb2</h3>
-      <p class="small muted">Market-anchored blend, a probability every minute,
-      confidence-gated. All four class metrics vs the 80/80 baseline:</p>
       <div class="nums" id="kb2-nums"><span class="mini">loading…</span></div>
       <p class="mini" id="kb2-sub"></p>
       <a href="ab_dashboard.html" class="small">Full scoreboard, phase audit &amp; decision ledger →</a>
     </div>
     <div class="card">
       <h3>The learner — kb3</h3>
-      <p class="small muted">Online logistic, 24 features, one SGD step per settled
-      call — the learning-curve arm:</p>
       <div class="nums" id="kb3-nums"><span class="mini">loading…</span></div>
       <p class="mini" id="kb3-sub"></p>
       <a href="ab_dashboard.html" class="small">Learning curve vs the market →</a>
     </div>
     <div class="card">
       <h3>The bet-policy A/B</h3>
-      <p class="small muted">A mandatory one-bet-per-window bidder vs a selector
-      that judges the same bet at placement — three policy generations, each
-      scored on kept-vs-skipped:</p>
       <div class="nums" id="ab-nums"><span class="mini">loading…</span></div>
       <p class="mini" id="ab-sub"></p>
       <a href="ab_dashboard.html" class="small">Generations table &amp; bet ledger →</a>
@@ -84,64 +119,30 @@
 </section>
 
 <section>
-  <h2>What we disproved — and published anyway</h2>
-  <p class="sub small muted">Negative results are results. Every claim below is
-  measured in the repo and stated on the dashboards.</p>
-  <div style="margin-top:8px">
-    <div class="finding"><span class="mark">✗</span><span class="small">
-      <b>A fixed-time caller is trivial.</b> Our first deliverable (kbf, one call
-      at T-3 minutes, 90.4% accurate) was retired when we measured the market
-      alone at the same instant: 90.9%. Its replacement locks a call the first
-      minute confidence clears a gate — average lock 11+ minutes out.</span></div>
-    <div class="finding"><span class="mark">✗</span><span class="small">
-      <b>Minute-scale direction from price alone is a coin flip.</b> The sign of
-      MAE-optimal level forecasts runs 48–54% across all arms — the martingale
-      floor, shown live on the direction chart. Skill exists only against fixed
-      strikes with market anchoring.</span></div>
-    <div class="finding"><span class="mark">✗</span><span class="small">
-      <b>Selector v2 subtracted value.</b> Trained on mid-quote counterfactuals but
-      deployed against ask fills, it kept 76–79¢ favorites that were −EV: 43% on
-      kept bets vs 51% on its skips. Diagnosed (mid-vs-ask bias), retired on the
-      public generations table; v3 trains on ask-adjusted prices.</span></div>
-    <div class="finding"><span class="mark">✗</span><span class="small">
-      <b>The mandatory bet mandate is −EV.</b> Forced entries plus fees put the
-      always-bet policy under water — measured on 180+ real-priced paper bets;
-      it is the motivation for selection, kept as the honest control.</span></div>
-    <div class="finding"><span class="mark">✓</span><span class="small">
-      <b>What survives:</b> calibrated per-minute probabilities above 80/80 at
-      disclosed coverage, decision times that vary with conviction, and an
-      evaluation protocol (point-in-time, chronological, market-as-null,
-      costs-in) that every number on these pages is held to.</span></div>
+  <h2>Disproved &amp; kept honest</h2>
+  <div class="cards" style="margin-top:10px">
+    <div class="card" style="text-align:center"><div class="bignum" style="font-size:30px">90.4% <span class="muted">vs</span> 90.9%</div>
+      <p class="mini">✗ fixed-time kbf vs market alone — retired</p></div>
+    <div class="card" style="text-align:center"><div class="bignum" style="font-size:30px">48–54%</div>
+      <p class="mini">✗ direction from price alone — coin flip</p></div>
+    <div class="card" style="text-align:center"><div class="bignum" style="font-size:30px">43% <span class="muted">&lt;</span> 51%</div>
+      <p class="mini">✗ selector v2 kept vs skipped — retired</p></div>
+    <div class="card" style="text-align:center"><div class="bignum" style="font-size:30px">−EV</div>
+      <p class="mini">✗ the always-bet mandate after fees</p></div>
   </div>
+  <p class="mini" style="margin-top:8px">every claim measured in the repo · details on <a href="ab_dashboard.html">Results</a></p>
 </section>
 
 <section>
-  <h2>Guided tour</h2>
-  <div class="scroll"><table class="tour">
-    <thead><tr><th>Page</th><th>What you'll find</th></tr></thead>
-    <tbody>
-      <tr><td><a href="ab_dashboard.html">Results</a></td>
-        <td>The 80/80 scoreboard with per-class Wilson bounds, the entry-time
-        phase audit, kb2/kb3 decision ledger, selector generations, bet ledger
-        with ask-priced entries, evaluation protocol.</td></tr>
-      <tr><td><a href="live_online.html">Live desk</a></td>
-        <td>Real-time predictions vs actual per horizon with calibrated 80%
-        bands, the direction-calls chart (noise floor vs strike-anchored skill),
-        winner's circle, one-bet tape.</td></tr>
-      <tr><td><a href="experiment_review.html">Experiment lab</a></td>
-        <td>Arm-by-arm scorecards (MASE, Diebold–Mariano, pinball, BSS),
-        reliability diagram, retrain-gate timeline, architecture notes.</td></tr>
-      <tr><td><a href="index.html">Backtest</a></td>
-        <td>The 120-day offline report that seeded the arms — and the noise-floor
-        finding that shaped the whole design.</td></tr>
-      <tr><td><a href="live_training.html">Training</a></td>
-        <td>Batch training curves and the hourly gated-retrain strip (a 3h
-        hold-out must not regress or the retrain reverts).</td></tr>
-    </tbody>
-  </table></div>
-  <p class="mini" style="margin-top:10px">Everything recomputes client-side from
-  append-only, git-SHA-stamped ledgers published beside these pages — the repo's
-  <code>results/</code> directory is the single source of truth.</p>
+  <h2>Explore</h2>
+  <div class="legend" style="margin-top:10px">
+    <a class="chip" href="ab_dashboard.html">▦ Results — 80/80 scoreboard</a>
+    <a class="chip" href="live_online.html">▲ Live desk — predictions &amp; bands</a>
+    <a class="chip" href="experiment_review.html">⚗ Experiment lab — arm scorecards</a>
+    <a class="chip" href="index.html">▤ Backtest — 120-day report</a>
+    <a class="chip" href="live_training.html">↺ Training — curves &amp; gates</a>
+  </div>
+  <p class="mini" style="margin-top:8px">all numbers recompute client-side from git-stamped ledgers · refreshed every 15 s</p>
 </section>
 
 <footer>BTC 7PM Oracle · NYU Deep Learning course project · data: Coinbase,
@@ -151,7 +152,7 @@ advice</footer>
 
 <script>
 const bust = u => u + (u.includes("?") ? "&" : "?") + "t=" +
-  (Math.floor(Date.now() / 30000) * 30);
+  (Math.floor(Date.now() / 15000) * 15);
 async function jsonl(path) {
   try {
     const r = await fetch(bust(path), { cache: "no-store" });
@@ -194,14 +195,235 @@ const numEl = (label, v) =>
   `<span class="stat"><span class="k">${label}</span><br>` +
   `<span class="bignum" style="color:${v != null && v >= .8 ? "var(--good-text)" : "var(--down)"}">${v == null ? "–" : (100 * v).toFixed(1) + "%"}</span></span>`;
 
+const HOT_HOURS = [18, 19, 20, 1];   // session opens (PT): misses cluster
+function gateTau(minsLeft, hour) {
+  let tau = minsLeft > 10 ? 0.90 : minsLeft >= 5 ? 0.75 : 0.65;
+  if (HOT_HOURS.includes(hour)) tau += 0.10;
+  return Math.min(tau, 0.97);
+}
+function drawSignal(kb, bets, st) {
+  const el = document.getElementById("desk-chat");
+  const k2 = kb.filter(r => r.variant === "kb2");
+  const r = k2[k2.length - 1];
+  const now = Date.now() / 1000;
+  if (!r || now - r.made_ts > 240) {
+    el.innerHTML = '<p class="mini">no live call in the last 4 minutes — ' +
+      'the market may be between windows or the feed is catching up.</p>';
+    return;
+  }
+  const hour = parseInt(new Date(r.made_ts * 1000).toLocaleString("en-US",
+    { timeZone: "America/Los_Angeles", hour: "2-digit", hour12: false }));
+  const conf = Math.max(r.p_up, 1 - r.p_up);
+  const tau = gateTau(r.mins_left, hour);
+  const side = r.call ? "YES" : "NO";
+  const graded = conf >= tau;
+  const pm = st.pm || {};
+  const ask = r.call ? pm.yes_ask : (pm.yes_bid != null ? 100 - pm.yes_bid : null);
+  const fee = ask != null ? Math.ceil(7 * (ask / 100) * (1 - ask / 100)) : null;
+  const breakeven = ask != null ? (ask + fee) : null;
+
+  // historical precision of calls LIKE this one: same phase bucket,
+  // same-or-higher confidence, settled — computed from the public ledger
+  const phase = r.mins_left > 10 ? "early" : r.mins_left >= 5 ? "mid" : "late";
+  const pf = m => m > 10 ? "early" : m >= 5 ? "mid" : "late";
+  const alike = k2.filter(q => q.actual != null && pf(q.mins_left) === phase
+    && Math.max(q.p_up, 1 - q.p_up) >= tau && q.call === r.call);
+  // live recomputations for the personas (never hardcode analysis):
+  const g62 = k2.filter(q => q.actual != null
+    && Math.max(q.p_up, 1 - q.p_up) >= 0.62);
+  const gMiss = g62.filter(q => !q.hit && q.mkt_p_up != null);
+  const gShared = gMiss.filter(q =>
+    (q.mkt_p_up >= .5) === (q.call === 1)).length;
+  const early62 = g62.filter(q => q.mins_left > 10);
+  const earlyPrec = early62.length
+    ? early62.filter(q => q.hit).length / early62.length : null;
+  const alikeP = alike.length >= 15
+    ? alike.filter(q => q.hit).length / alike.length : null;
+
+  // evidence for / against
+  const k3 = kb.filter(q => q.variant === "kb3" && q.ticker === r.ticker
+    && q.made_ts === r.made_ts)[0];
+  const k4 = kb.filter(q => q.variant === "kb4" && q.ticker === r.ticker
+    && q.made_ts === r.made_ts)[0];
+  const ev = [];
+  const push = (ok, text) => ev.push({ ok, text });
+  push(graded, `kb2 confidence ${(100 * conf).toFixed(0)}% vs the ` +
+    `${(100 * tau).toFixed(0)}% bet-grade bar for a ${phase}-window call`);
+  if (alikeP != null)
+    push(alikeP >= 0.85, `calls like this one (${phase}, ≥${(100 * tau).toFixed(0)}% ` +
+      `confident, same side) were right ${(100 * alikeP).toFixed(1)}% of the ` +
+      `time historically (n=${alike.length})`);
+  if (k3) push((k3.p_up >= 0.5) === (r.call === 1),
+    `kb3 (independent 24-feature learner) says ${(100 * k3.p_up).toFixed(0)}% ` +
+    `— ${(k3.p_up >= 0.5) === (r.call === 1) ? "agrees" : "disagrees"}`);
+  if (k4) push((k4.p_up >= 0.5) === (r.call === 1),
+    `kb4 (stack) says ${(100 * k4.p_up).toFixed(0)}% — ` +
+    `${(k4.p_up >= 0.5) === (r.call === 1) ? "agrees" : "disagrees"}`);
+  if (r.mkt_p_up != null)
+    push((r.mkt_p_up >= 0.5) === (r.call === 1),
+      `the market prices ${(100 * r.mkt_p_up).toFixed(0)}% — ` +
+      `${(r.mkt_p_up >= 0.5) === (r.call === 1) ? "agrees" : "the crowd is on the other side"}`);
+  let occSide = null;
+  if (r.pf && r.pf.length >= 1) {
+    const occ = r.pf[0] + 0.5;  // fraction of window spent above strike
+    occSide = r.call ? occ : 1 - occ;
+    push(occSide >= 0.5, `price has spent ${(100 * occSide).toFixed(0)}% of ` +
+      `this window on the called side of the strike`);
+  }
+  push(!HOT_HOURS.includes(hour), HOT_HOURS.includes(hour)
+    ? "session-open hour — confident calls historically 15pts less precise here (gate raised)"
+    : "outside the session-open hot hours where misses cluster");
+  push(phase !== "early", phase === "early"
+    ? "early in the window — outcomes this far out are near coin-flips"
+    : `${phase} window — ${(r.mins_left).toFixed(1)} min to close, information is real`);
+  if (breakeven != null && graded)
+    push(100 * conf > breakeven, `model probability ${(100 * conf).toFixed(0)}% vs ` +
+      `break-even ${breakeven}¢ (ask ${ask}¢ + ${fee}¢ fee) — ` +
+      `${100 * conf > breakeven ? "positive" : "negative"} expected value`);
+
+  const fmtC = ts => new Date(ts * 1000).toLocaleTimeString("en-US",
+    { timeZone: "America/Los_Angeles", hour: "2-digit", minute: "2-digit",
+      hour12: false });
+  const msg = (cls, who, text) =>
+    `<div class="msg"><div class="avatar ${cls}">` +
+    `${cls === "model" ? "◎" : cls === "mle" ? "ML" : "QX"}</div>` +
+    `<div><div class="who">${who} · ${fmtC(r.made_ts)} PT</div>` +
+    `<div class="bubble">${text}</div></div></div>`;
+  const msgs = [];
+  msgs.push(msg("model", "oracle — the model's paper log", graded
+    ? `On the ${fmtC(r.close_ts)} PT window I would log a paper ${side} entry` +
+      (ask != null ? ` at the ${ask}¢ ask (fee ${fee}¢, break-even ${breakeven}%)` : "") +
+      ` — my confidence is ${(100 * conf).toFixed(0)}% against the ` +
+      `${(100 * tau).toFixed(0)}% bar I hold ${phase}-window calls to. ` +
+      `Simulated size: 2% of the paper bankroll. This is a log entry, not advice.`
+    : `I'm standing aside on the ${fmtC(r.close_ts)} PT window — ` +
+      `${(100 * conf).toFixed(0)}% doesn't clear the ${(100 * tau).toFixed(0)}% ` +
+      `bar for a ${phase}-window call. Historically, most of my losses came ` +
+      `from acting on moments exactly like this one.`));
+  const mleBits = [];
+  if (alikeP != null)
+    mleBits.push(`this cohort (${phase}-window, ≥${(100 * tau).toFixed(0)}% ` +
+      `confident, same side) settled correct ${(100 * alikeP).toFixed(1)}% ` +
+      `of the time (n=${alike.length})`);
+  if (k3) mleBits.push(`kb3's independent 24-feature read is ` +
+    `${(100 * k3.p_up).toFixed(0)}% — it ` +
+    `${(k3.p_up >= .5) === (r.call === 1) ? "agrees" : "disagrees"}`);
+  if (k4) mleBits.push(`the kb4 stack sits at ${(100 * k4.p_up).toFixed(0)}%`);
+  msgs.push(msg("mle", "the MLE — engineering log",
+    `Cohort check: ${mleBits.join("; ")}. The phase-dependent bar exists ` +
+    (earlyPrec != null
+      ? `because flat-threshold early calls run ${(100 * earlyPrec).toFixed(0)}% precise on the live ledger — `
+      : `because early confidence is unreliable — `) +
+    `the precision-coverage frontier says accuracy is bought by ` +
+    `abstaining where confidence is cheap.`));
+  const qBits = [];
+  if (r.mkt_p_up != null && (r.mkt_p_up >= .5) === (r.call === 1))
+    qBits.push(`The market already prices ${(100 * r.mkt_p_up).toFixed(0)}% — ` +
+      `this call buys calibration, not informational edge; of the model's ` +
+      `${gMiss.length} confident misses on the ledger, ${gShared} were ` +
+      `shared with the crowd, so when the market is wrong here, so is ` +
+      `the model`);
+  if (r.mkt_p_up != null && (r.mkt_p_up >= .5) !== (r.call === 1))
+    qBits.push(`It's fading the crowd (market says ` +
+      `${(100 * r.mkt_p_up).toFixed(0)}%) — it almost never does that, ` +
+      `treat this call as an outlier`);
+  if (HOT_HOURS.includes(hour))
+    qBits.push(`session-open hour: confident calls historically run ~15 ` +
+      `points less precise, the raised bar is earned`);
+  if (occSide != null && occSide < 0.5)
+    qBits.push(`price has spent ${(100 * (1 - occSide)).toFixed(0)}% of this ` +
+      `window on the OTHER side of the strike — the barrier evidence leans ` +
+      `against the call`);
+  if (phase === "early")
+    qBits.push(`twelve-plus minutes out this contract is close to a coin ` +
+      `flip no matter who's calling it`);
+  qBits.push(`and the ledger's standing lesson: the always-bet variant ` +
+    `loses to fees — selection discipline is the entire game here`);
+  msgs.push(msg("quant", "the quant — critique",
+    qBits.join(". ") + "."));
+  el.innerHTML = msgs.join("");
+}
+
+function drawTape(prices, st, r, bets) {
+  const head = document.getElementById("px-head"),
+        box = document.getElementById("px-chart");
+  if (!prices || prices.length < 10) return;
+  const t1 = prices[prices.length - 1].ts;
+  const pts = prices.filter(p => p.ts >= t1 - 3 * 3600);
+  const last = pts[pts.length - 1].c, ago = pts[0].c;
+  const chg = last - ago, pct = chg / ago * 100, up = chg >= 0;
+  head.innerHTML = `<div class="price-head">` +
+    `<span class="price-big">$${last.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>` +
+    `<span class="price-chg ${up ? "up" : "down"}">${up ? "▲" : "▼"} ` +
+    `$${Math.abs(chg).toFixed(0)} (${pct.toFixed(2)}%) past 3h</span>` +
+    `<span class="mini">BTC-USD · minute closes + live composite</span></div>`;
+  const W = 900, H = 260, L = 8, R = 8, T = 12, B = 22;
+  const xmin = pts[0].ts, xmax = t1;
+  let ymin = Infinity, ymax = -Infinity;
+  for (const p of pts) { ymin = Math.min(ymin, p.c); ymax = Math.max(ymax, p.c); }
+  if (r && r.strike) { ymin = Math.min(ymin, r.strike); ymax = Math.max(ymax, r.strike); }
+  const pad = (ymax - ymin) * .08 || 10; ymin -= pad; ymax += pad;
+  const X = x => L + (x - xmin) / Math.max(1, xmax - xmin) * (W - L - R);
+  const Y = y => T + (1 - (y - ymin) / (ymax - ymin)) * (H - T - B);
+  const d = pts.map((p, i) =>
+    `${i ? "L" : "M"}${X(p.ts).toFixed(1)},${Y(p.c).toFixed(1)}`).join("");
+  const col = up ? "var(--up)" : "var(--down)";
+  let g = `<defs><linearGradient id="pxg" x1="0" y1="0" x2="0" y2="1">` +
+    `<stop offset="0" stop-color="${up ? "rgba(43,217,126,.22)" : "rgba(255,93,93,.22)"}"/>` +
+    `<stop offset="1" stop-color="rgba(0,0,0,0)"/></linearGradient></defs>`;
+  g += `<path d="${d}L${X(xmax).toFixed(1)},${H - B}L${X(xmin).toFixed(1)},${H - B}Z" fill="url(#pxg)"/>`;
+  g += `<path class="line" d="${d}" fill="none" stroke="${col}" stroke-width="2.2" stroke-linejoin="round"/>`;
+  for (let ts = Math.ceil(xmin / 1800) * 1800; ts <= xmax; ts += 1800)
+    g += `<text x="${X(ts)}" y="${H - 4}" text-anchor="middle" style="font-size:10.5px">` +
+      new Date(ts * 1000).toLocaleTimeString("en-US",
+        { timeZone: "America/Los_Angeles", hour: "2-digit",
+          minute: "2-digit", hour12: false }) + `</text>`;
+  if (r && r.strike && r.close_ts >= xmin) {
+    g += `<line x1="${X(Math.max(xmin, r.close_ts - 900))}" x2="${W - R}" ` +
+      `y1="${Y(r.strike)}" y2="${Y(r.strike)}" stroke="var(--series-4)" ` +
+      `stroke-dasharray="5 5" stroke-width="1.4"/>` +
+      `<text x="${W - R}" y="${Y(r.strike) - 6}" text-anchor="end" ` +
+      `style="fill:var(--series-4)">window strike $${Math.round(r.strike).toLocaleString()}</text>`;
+  }
+  const priceAt = ts => {
+    let best = pts[0];
+    for (const p of pts)
+      if (Math.abs(p.ts - ts) < Math.abs(best.ts - ts)) best = p;
+    return best.c;
+  };
+  for (const b of bets.filter(b => b.made_ts >= xmin && b.win != null))
+    g += `<circle cx="${X(b.made_ts)}" cy="${Y(priceAt(b.made_ts))}" r="4.5" ` +
+      `fill="${b.win ? "var(--up)" : "var(--down)"}" stroke="var(--page)" ` +
+      `stroke-width="1.5"><title>paper ${b.side.toUpperCase()} @ ` +
+      `${b.price_c}¢ · ${b.win ? "won" : "lost"} ` +
+      `${(b.pnl_c >= 0 ? "+" : "") + b.pnl_c}¢</title></circle>`;
+  g += `<circle cx="${X(xmax)}" cy="${Y(last)}" r="4" fill="${col}">` +
+    `<animate attributeName="r" values="3;6;3" dur="1.6s" repeatCount="indefinite"/></circle>`;
+  box.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" ` +
+    `aria-label="BTC price last 3 hours with the model's settled paper entries">${g}</svg>`;
+  document.getElementById("px-note").textContent =
+    "dots = the mandatory bidder's settled paper entries (green won, red " +
+    "lost) · hover a dot for the fill · dashed = the open window's strike";
+}
+
 async function boot() {
-  const [kb, bets, sel, st] = await Promise.all([
+  const [kb, bets, sel, prices, st] = await Promise.all([
     jsonl("../results/kalshi_binary_log.jsonl"),
     jsonl("../results/kb_bets.jsonl"),
     jsonl("../results/kb_bets_sel.jsonl"),
+    fetch(bust("../results/recent_prices.json"), { cache: "no-store" })
+      .then(r => r.ok ? r.json() : []).catch(() => []),
     fetch(bust("../results/online_status.json"), { cache: "no-store" })
       .then(r => r.ok ? r.json() : {}).catch(() => ({})),
   ]);
+  try { drawSignal(kb, bets, st); } catch (e) {
+    document.getElementById("desk-chat").innerHTML =
+      '<p class="mini">desk commentary unavailable</p>';
+  }
+  try {
+    const k2r = kb.filter(x => x.variant === "kb2").slice(-1)[0];
+    drawTape(prices, st, k2r, bets);
+  } catch (e) {}
   const stale = (Date.now() / 1000 - (st.alive_at || 0)) > 300;
   document.getElementById("dot").className = "live-dot" + (stale ? " stale" : "");
   document.getElementById("asof").textContent = st.alive_at
@@ -243,7 +465,7 @@ async function boot() {
   vd.textContent = pass2 ? "kb2 above 80/80" : "collecting";
 }
 boot();
-setInterval(boot, 60000);
+setInterval(boot, 15000);
 </script>
 </body>
 </html>
