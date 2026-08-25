@@ -58,7 +58,7 @@ export default function BtcOracleDemo() {
       </div>
       <iframe
         key={view}
-        src={`/btc-oracle/site/${view}.html`}
+        src={`/btc-oracle/site/${view}.html?v=${Math.floor(Date.now() / 300000)}`}
         title="BTC 7PM Oracle dashboard"
         className="mt-4 h-[calc(100vh-120px)] w-full border-0"
       />
