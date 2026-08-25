@@ -53,28 +53,29 @@ export default function Index() {
 
       <div className="h-20 lg:h-28" aria-hidden="true" />
 
-      {/* Vedic Astrology AI banner */}
+      {/* When AI Always Agrees banner */}
       <button
-        onClick={() => navigate("/ai-playground/vedic-astro-ai")}
-        className="group block w-full bg-gradient-to-r from-violet-800 via-purple-700 to-amber-600 px-6 py-4 text-left text-white shadow-lg transition-all hover:brightness-110 sm:py-5"
+        onClick={() => navigate("/ai-safety")}
+        className="group block w-full bg-gradient-to-r from-teal-800 via-teal-700 to-amber-600 px-6 py-4 text-left text-white shadow-lg transition-all hover:brightness-110 sm:py-5"
       >
         <div className="mx-auto flex max-w-7xl flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
           <div className="flex items-center gap-3">
             <span className="text-2xl sm:text-3xl" aria-hidden="true">
-              🔮
+              ⚖️
             </span>
             <div>
               <div className="text-lg font-extrabold tracking-tight sm:text-2xl">
-                Vedic Astrology AI — Classical Jyotisha, Computed &amp; Cited
+                When AI Always Agrees — Chatbots as Unlicensed Doctors,
+                Lawyers &amp; Therapists
               </div>
-              <div className="text-xs text-violet-100 sm:text-sm">
-                Swiss Ephemeris charts · 16 divisional charts · dasha timing ·
-                every sentence cited to a classical verse
+              <div className="text-xs text-teal-100 sm:text-sm">
+                Court filings · company disclosures · peer-reviewed research ·
+                2022–2026 · every claim cited
               </div>
             </div>
           </div>
-          <span className="shrink-0 rounded-full bg-white/15 px-4 py-2 text-sm font-bold backdrop-blur transition-all group-hover:bg-white group-hover:text-violet-800">
-            Cast your chart →
+          <span className="shrink-0 rounded-full bg-white/15 px-4 py-2 text-sm font-bold backdrop-blur transition-all group-hover:bg-white group-hover:text-teal-800">
+            Read the evidence →
           </span>
         </div>
       </button>
