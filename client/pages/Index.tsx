@@ -61,12 +61,12 @@ export default function Index() {
         <div className="mx-auto flex max-w-7xl flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
           <div className="flex items-center gap-3">
             <span className="text-2xl sm:text-3xl" aria-hidden="true">
-              ⚖️
+              🧠
             </span>
             <div>
               <div className="text-lg font-extrabold tracking-tight sm:text-2xl">
-                When AI Always Agrees — Chatbots as Unlicensed Doctors,
-                Lawyers &amp; Therapists
+                Why Your Favorite Chatbot Can Cause the Next Pandemic — the
+                Mental Health Pandemic
               </div>
               <div className="text-xs text-teal-100 sm:text-sm">
                 Court filings · company disclosures · peer-reviewed research ·
