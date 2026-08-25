@@ -29,6 +29,7 @@ import Equestrian from "./pages/talents/Equestrian";
 import Aviator from "./pages/talents/Aviator";
 import Motorcyclist from "./pages/talents/Motorcyclist";
 import Pianist from "./pages/talents/Pianist";
+import AISafetyReport from "./pages/AISafetyReport";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -86,6 +87,7 @@ const App = () => (
           <Route path="/talent/aviator" element={<Aviator />} />
           <Route path="/talent/motorcyclist" element={<Motorcyclist />} />
           <Route path="/talent/pianist" element={<Pianist />} />
+          <Route path="/ai-safety" element={<AISafetyReport />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
