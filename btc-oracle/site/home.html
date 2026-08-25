@@ -82,6 +82,8 @@
 .tavatar.t1 { background: rgba(57,135,229,.16); }
 .tavatar.t2 { background: rgba(201,133,0,.16); }
 .tavatar.t3 { background: rgba(43,217,126,.16); }
+.tavatar.t4 { background: rgba(184,67,67,.16); }
+.tavatar.t5 { background: rgba(95,80,199,.16); }
 .tcard .tname { font: 700 11px var(--display); letter-spacing: .12em;
   text-transform: uppercase; color: var(--muted); }
 .tcard .tbank { font: 650 26px/1.2 var(--display);
@@ -99,6 +101,11 @@
 #desk-curve path.eq { stroke-dasharray: 2400; stroke-dashoffset: 2400;
   animation: drawline 1.6s ease-out forwards; }
 .eq-dot { animation: pulse-open 2s ease-in-out infinite; }
+.flowline { stroke-dasharray: 6 6; animation: flowdash 1s linear infinite; }
+@keyframes flowdash { to { stroke-dashoffset: -12; } }
+#tm-flow .fnode { animation: rise .6s ease both; }
+@media (prefers-reduced-motion: reduce) {
+  .flowline, #tm-flow .fnode { animation: none; } }
 @media (prefers-reduced-motion: reduce) {
   .tkt, .badge.pending, .eq-dot { animation: none; }
   #desk-curve path.eq { animation: none; stroke-dashoffset: 0; }
@@ -125,8 +132,7 @@
   <div class="eyebrow"><span class="live-dot" id="dot"></span>
     Course project · live since 2026-08-20 · <span id="asof">loading…</span></div>
   <h1>Can a learning system call Bitcoin's next 15 minutes?</h1>
-  <p class="sub hero-thesis">Eleven learning arms · every minute · public
-  append-only ledgers · above the 80/80 class baseline at disclosed gates.</p>
+  <p class="sub hero-thesis">A ladder of live learning arms · every minute · public append-only ledgers · measured against the 80/80 class baseline at disclosed gates.</p>
 </header>
 
 <section>
@@ -147,22 +153,37 @@
 <section>
   <h2>The $2,000,000 question — a measured answer
     <span class="paper-tag">stress test · not advice</span></h2>
-  <p class="sub small muted">If someone used kb2's confident calls to trade,
+  <p class="sub small muted">If someone traded the confident calls of any of the eight arms,
   how long to turn a starting bankroll into $2M — and what's the minimum
   capital? Computed live from the ledger, with the honest three-regime answer.</p>
   <div class="cards" style="margin-top:10px" id="tm-cards"><p class="mini">computing…</p></div>
-  <div class="scroll" id="tm-table" style="margin-top:12px"></div>
-  <div class="scroll" id="tm-ladder" style="margin-top:12px"></div>
-  <div class="scroll" id="tm-winner" style="margin-top:12px"></div>
+  <p class="small" id="tm-answer" style="margin-top:14px"></p>
+  <div id="tm-flow"></div>
+  <details style="margin-top:12px"><summary>Simulation 1 — trade LOUD vs
+    trade QUIETLY (what detection does to an edge)</summary>
+    <div class="scroll" id="tm-table"></div></details>
+  <details style="margin-top:8px"><summary>Simulation 2 — the ladder plan
+    (bank $1k at $11k, play $10k, ×10)</summary>
+    <div class="scroll" id="tm-ladder"></div></details>
+  <details open style="margin-top:8px"><summary>Simulation 3 — the
+    disciplined policy (the live candidate)</summary>
+    <div class="scroll" id="tm-winner"></div></details>
   <p class="mini" id="tm-verdict"></p>
 </section>
 
 <section>
-  <h2>The $1K Desk — one trader, follow the leader
+  <h2>The Desk — five traders, five disciplines
     <span class="paper-tag">TA spec · simulated · not advice</span></h2>
-  <p class="sub small muted">A paper trader starts with $1,000, never risks
-  more than 10% of funds on a bid, and always places the <b>current best
-  bidder's</b> call — the arm leading over its last 10 settled decisions.
+  <p class="sub small muted">Each starts with $1,000 and pays real asks and
+  fees. 🦊 <b>Dartmon, the Follower</b> places the <b>current best bidder's</b> call
+  (the arm leading its last 10 settled decisions), risking at most 10% of
+  funds. 🐢 <b>Rungmon, the Ladder</b> mirrors every trade uncapped and banks $1k at
+  $11k, then ×10. 🦉 <b>Sagemon, the Disciplined</b> takes any desk entry only at
+  ≥77% confidence. 🐉 <b>Blazemon, the Gambler</b> stakes 33% of his capital on
+  every entry (about 1.6× Kelly at these asks), capped by the LIVE
+  near-touch depth of the book — the aggressive end of the sizing
+  curriculum. 🐿️ <b>Stashmon, the Saver</b> starts with $10k, stakes 25%,
+  and banks 25% of every win as savings that never return to play.
   Reviewed at end of day. Nothing is ever purchased.</p>
   <div class="trader-roster" id="desk-roster"></div>
   <div id="desk-head" style="margin-top:10px"></div>
@@ -196,7 +217,7 @@
       <h3>The bet-policy A/B</h3>
       <div class="nums" id="ab-nums"><span class="mini">loading…</span></div>
       <p class="mini" id="ab-sub"></p>
-      <a href="ab_dashboard.html" class="small">Generations table &amp; bet ledger →</a>
+      <a href="ab_dashboard.html" class="small">Full scoreboard →</a>
     </div>
     <div class="card">
       <h3>The stack — kb4</h3>
@@ -211,6 +232,12 @@
       <a href="ab_dashboard.html" class="small">Zero-shot Chronos, frozen →</a>
     </div>
     <div class="card">
+      <h3>The second family — kb9</h3>
+      <div class="nums" id="kb9-nums"><span class="mini">loading…</span></div>
+      <p class="mini" id="kb9-sub"></p>
+      <a href="ab_dashboard.html" class="small">TimesFM 2.5, frozen — launched for disagreement, not as an upgrade →</a>
+    </div>
+    <div class="card">
       <h3>The fusion — kb8</h3>
       <div class="nums" id="kb8-nums"><span class="mini">loading…</span></div>
       <p class="mini" id="kb8-sub"></p>
@@ -223,21 +250,21 @@
   <h2>Disproved &amp; kept honest</h2>
   <div class="cards" style="margin-top:10px">
     <div class="card" style="text-align:center"><div class="bignum" style="font-size:30px">90.4% <span class="muted">vs</span> 90.9%</div>
-      <p class="mini">✗ fixed-time kbf vs market alone — retired</p></div>
+      <p class="mini">✗ fixed-time kbf vs market alone — retired <span class="muted">· closed 08-22</span></p></div>
     <div class="card" style="text-align:center"><div class="bignum" style="font-size:30px">48–54%</div>
-      <p class="mini">✗ direction from price alone — coin flip</p></div>
+      <p class="mini">✗ direction from price alone — coin flip <span class="muted">· closed 08-21</span></p></div>
     <div class="card" style="text-align:center"><div class="bignum" style="font-size:30px">43% <span class="muted">&lt;</span> 51%</div>
-      <p class="mini">✗ selector v2 kept vs skipped — retired</p></div>
+      <p class="mini">✗ selector v2 kept vs skipped — retired <span class="muted">· closed 08-23</span></p></div>
     <div class="card" style="text-align:center"><div class="bignum" style="font-size:30px">−EV</div>
-      <p class="mini">✗ the always-bet mandate after fees</p></div>
+      <p class="mini">✗ the always-bet mandate after fees <span class="muted">· closed 08-22</span></p></div>
     <div class="card" style="text-align:center"><div class="bignum" style="font-size:30px">−11¢</div>
-      <p class="mini">✗ passive maker fills at 1-min speed — adversely selected</p></div>
+      <p class="mini">✗ passive maker fills at 1-min speed — adversely selected <span class="muted">· closed 08-24</span></p></div>
     <div class="card" style="text-align:center"><div class="bignum" style="font-size:30px">69.8% <span class="muted">&lt;</span> 73.0%</div>
-      <p class="mini">✗ bigger foundation model (Bolt-base, Chronos-2 + covariates) vs frozen kb7 — tie or worse, kb9 not launched</p></div>
-    <div class="card" style="text-align:center"><div class="bignum" style="font-size:30px">$1,000 → $103</div>
-      <p class="mini">✗ follow-the-leader desk, 4 replayed days — adverse selection at the ask</p></div>
+      <p class="mini">✗ five foundation-model upgrades vs frozen kb7 — Bolt-base, Chronos-2, +covariates, TimesFM 2.5, and fine-tuning on 60d of our own BTC minutes: all tie or worse (|t|≤1.24), kb9 not launched <span class="muted">· closed 08-25, round 2 same day</span></p></div>
+    <div class="card" style="text-align:center"><div class="bignum" style="font-size:30px" id="disp-desk-num">$1,000 → $103</div>
+      <p class="mini" id="disp-desk-sub">? follow-the-leader: the replay said ruin — the live desk is now the controlling test</p></div>
   </div>
-  <p class="mini" style="margin-top:8px">every claim measured in the repo · details on <a href="ab_dashboard.html">Results</a></p>
+  <p class="mini" style="margin-top:8px">closed experiments — numbers frozen at retirement (dated), reproducible from the repo; everything else on this page recomputes every 15 s · details on <a href="ab_dashboard.html">Results</a></p>
 </section>
 
 <section>
@@ -258,11 +285,18 @@ advice</footer>
 </main>
 
 <script>
+// two cache cadences: the multi-MB ledgers re-fetch once a minute (the
+// publisher pushes once a minute anyway); light status files every 15s.
+// "no-store" was forcing ~4.5MB re-downloads every 15s — the page's
+// entire slowness. Default caching + a bucketed buster lets the browser
+// serve the big files from memory between buckets.
+const HEAVY = /kalshi_binary_log|prediction_log|metrics_history/;
 const bust = u => u + (u.includes("?") ? "&" : "?") + "t=" +
-  (Math.floor(Date.now() / 15000) * 15);
+  (HEAVY.test(u) ? Math.floor(Date.now() / 60000) * 60
+                 : Math.floor(Date.now() / 15000) * 15);
 async function jsonl(path) {
   try {
-    const r = await fetch(bust(path), { cache: "no-store" });
+    const r = await fetch(bust(path));
     if (!r.ok) return [];
     return (await r.text()).trim().split("\n").map(l => {
       try { return JSON.parse(l); } catch { return null; } }).filter(Boolean);
@@ -645,38 +679,48 @@ function drawTape(prices, st, r, bets) {
 
 function drawTwoMillion(kb) {
   const el = document.getElementById("tm-cards");
-  const rows = kb.filter(r => r.variant === "kb2" && r.actual != null
-    && r.mkt_p_up != null && r.mins_left <= 10
-    && Math.max(r.p_up, 1 - r.p_up) >= 0.64);
-  const ent = [];
-  for (const r of rows) {
-    const side = r.call ? "yes" : "no";
-    const ask = 100 * (side === "yes" ? r.mkt_p_up : 1 - r.mkt_p_up) + 2.5;
-    if (ask < 5 || ask >= 80) continue;
-    const fee = Math.ceil(7 * (ask / 100) * (1 - ask / 100));
-    ent.push([r.hit, ask + fee]);
-  }
-  const n = ent.length;
-  if (n < 60) { el.innerHTML = '<p class="mini">collecting…</p>'; return; }
-  const w = ent.reduce((a, e) => a + e[0], 0), p = w / n;
-  const cost = ent.reduce((a, e) => a + e[1], 0) / n;
-  const z = 1.96, den = 1 + z * z / n;
-  const half = z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n));
-  const plo = (p + z * z / (2 * n) - half) / den,
-        phi = (p + z * z / (2 * n) + half) / den;
-  const ev = (p * 100 - cost) / cost, evhi = (phi * 100 - cost) / cost;
-  const be = cost / 100;
+  // every arm judged the same way; the tiles showcase today's BEST
+  const armStats = (v) => {
+    const rows = kb.filter(r => r.variant === v && r.actual != null
+      && r.mkt_p_up != null && r.mins_left <= 10
+      && Math.max(r.p_up, 1 - r.p_up) >= 0.64);
+    const ent = [], wset = new Set();
+    for (const r of rows) {
+      const ask = 100 * (r.call ? r.mkt_p_up : 1 - r.mkt_p_up) + 2.5;
+      if (ask < 5 || ask >= 80) continue;
+      const fee = Math.ceil(7 * (ask / 100) * (1 - ask / 100));
+      ent.push([r.hit, ask + fee]); wset.add(r.ticker);
+    }
+    const n2 = ent.length;
+    if (!n2) return null;
+    const w2 = ent.reduce((a2, e) => a2 + e[0], 0), p2 = w2 / n2;
+    const c2 = ent.reduce((a2, e) => a2 + e[1], 0) / n2;
+    const z = 1.96, den = 1 + z * z / n2;
+    const half = z * Math.sqrt(p2 * (1 - p2) / n2 + z * z / (4 * n2 * n2));
+    const phi2 = (p2 + z * z / (2 * n2) + half) / den;
+    return { v, n: n2, wn: wset.size, p: p2, cost: c2,
+      plo: (p2 + z * z / (2 * n2) - half) / den, phi: phi2,
+      ev: (p2 * 100 - c2) / c2, evhi: (phi2 * 100 - c2) / c2,
+      be: c2 / 100 };
+  };
+  const ALL = ["kb2", "kb3", "kb4", "kb6", "kb7", "kb8"]
+    .map(armStats).filter(s2 => s2 && s2.wn >= 10);
+  if (!ALL.length) { el.innerHTML = '<p class="mini">collecting…</p>'; return; }
+  const bestA = ALL.reduce((a2, b2) => (b2.ev > a2.ev ? b2 : a2));
+  const k2s = ALL.find(s2 => s2.v === "kb2") || bestA;
+  const { p, cost, plo, phi, be, n } = bestA;
+  const ev = k2s.ev, evhi = k2s.evhi;   // kb2 keeps its scenario rows
   const card = (big, label, sub) =>
     `<div class="card" style="text-align:center"><div class="bignum" ` +
     `style="font-size:28px">${big}</div><p class="mini">${label}</p>` +
     `<p class="mini" style="color:var(--faint)">${sub}</p></div>`;
   el.innerHTML =
-    card(`${(100 * p).toFixed(1)}%`, "measured win rate, biddable confident calls",
-      `95% CI [${(100 * plo).toFixed(1)}, ${(100 * phi).toFixed(1)}] · n=${n}`) +
+    card(`${(100 * p).toFixed(1)}%`, `win rate on biddable confident calls — best arm today: <b>${bestA.v}</b>`,
+      `95% CI [${(100 * plo).toFixed(1)}, ${(100 * phi).toFixed(1)}] · ${bestA.wn} windows (${n} entries)`) +
     card(`${(100 * be).toFixed(1)}%`, "break-even win rate at the ask+fee",
       `avg cost ${cost.toFixed(1)}¢ per 100¢ contract`) +
-    card(`${(100 * ev).toFixed(1)}%`, "expected value per $1 staked",
-      `even the CI's best case: ${(100 * evhi).toFixed(1)}%`) +
+    card(`${(100 * bestA.ev).toFixed(1)}%`, `expected value per $1 staked — ${bestA.v}`,
+      `even the CI's best case: ${(100 * bestA.evhi).toFixed(1)}%`) +
     card(phi < be ? "never" : "—", "expected time to $2M, any capital",
       phi < be ? "the CI never reaches break-even" : "edge within noise");
   // the TA's requested form: time to $2M by scenario x starting capital
@@ -880,15 +924,21 @@ function drawTwoMillion(kb) {
       : "never";
     document.getElementById("tm-winner").innerHTML =
       `<p class="small" style="margin:6px 0 4px"><b>The disciplined ` +
-      `trader — the winning policy</b> <span class="muted">— bids only ` +
-      `kb7's top-confidence windows (~${WD.toFixed(0)}/day), sized so ` +
-      `total take = the stealth optimum (${(100 * XSTAR).toFixed(0)}% ` +
-      `of depth), one bid per window, ladder banking</span></p>` +
+      `trader — the winning policy</b> <span class="muted">— takes any ` +
+      `desk entry (kb7 or the leader) only at ≥77% confidence — policy ` +
+      `v2, ~${WD.toFixed(0)} qualifying windows/day — sized so total ` +
+      `take = the stealth optimum (${(100 * XSTAR).toFixed(0)}% of ` +
+      `depth), one bid per window, ladder banking</span></p>` +
       `<p class="mini">selective tier measured live: ${wsum}/${top.length}` +
       ` entries won across ${wn} windows · EV ` +
       `${eSel == null ? "–" : (100 * eSel).toFixed(1) + "%"}/$1 at avg ` +
-      `cost ${cost.toFixed(0)}¢ — thin sample, pre-registration pending` +
-      `</p>` +
+      `cost ${cost.toFixed(0)}¢ — thin sample</p>` +
+      `<p class="mini"><b>replay corroboration (08-25, pre-registered):` +
+      `</b> the same frozen rule over 663 mined windows at REAL asks ` +
+      `won 74.4% vs a 71.8¢ break-even → <b>+3.6%/$1</b>, clustered ` +
+      `t 0.85 — the live tier's big EV is thin-sample optimism until ` +
+      `the live stream proves otherwise; both numbers shown, never ` +
+      `merged</p>` +
       `<table style="min-width:0;max-width:640px"><thead><tr>` +
       `<th>depth world</th><th class="num">stake/window</th>` +
       `<th class="num">$/day</th><th class="num">$2M</th></tr></thead>` +
@@ -896,13 +946,88 @@ function drawTwoMillion(kb) {
       row(`conservative floor ($${CAP}/window)`, CAP) +
       row(`measured near-touch (~$9k, units audit pending)`, 9000) +
       `<tr><td>paper · class world (no adversary, compounding)</td>` +
-      `<td class="num">10% of bankroll</td><td class="num">—</td>` +
+      `<td class="num">10% of bankroll</td>` +
+      `<td class="num">+${(100 * (Math.pow(1 + 0.10 * eSel, WD) - 1))
+        .toFixed(0)}%/day, compounding</td>` +
       `<td class="num">${paperD}</td></tr>` +
       `</tbody></table>` +
       `<p class="mini">the one number this stands on is the selective ` +
-      `tier's win rate — it updates live above and gets a pre-registered ` +
-      `Conviction Book stream before anything more is claimed · ` +
-      `simulated research, not advice</p>`;
+      `tier's win rate — its pre-registered protocol ran 08-25: the ` +
+      `663-window real-ask replay above is the corroboration, and the ` +
+      `live stream continues under the frozen rule · simulated ` +
+      `research, not advice</p>`;
+    // ---- the answer in one line + the math as an animated pipeline ----
+    const ansEl = document.getElementById("tm-answer");
+    const flowEl = document.getElementById("tm-flow");
+    if (eSel != null && eSel > 0 && ansEl && flowEl) {
+      const dailyF = WD * FSEL * CAP * eSel * 0.5;
+      const daily9 = WD * FSEL * 9000 * eSel * 0.5;
+      ansEl.innerHTML =
+        `<b>The answer, in one line:</b> betting <i>everything</i> loses — ` +
+        `every arm's all-entries edge is negative at real asks (tiles ` +
+        `above) — so $2M by brute force is <b>never</b>. The one live ` +
+        `route is <b>selectivity</b>: the disciplined tier is running ` +
+        `<b>${wsum}/${top.length}</b> across ${wn} windows ` +
+        `(+${(100 * eSel).toFixed(1)}%/$1). <b>If</b> that survives more ` +
+        `windows, the pipeline below is the whole calculation:`;
+      const node = (x, big, l1, l2, col) =>
+        `<g class="fnode"><rect x="${x}" y="34" width="142" height="66" ` +
+        `rx="12" fill="var(--surface-2)" stroke="var(--border)"/>` +
+        `<text x="${x + 71}" y="62" text-anchor="middle" font-size="17" ` +
+        `font-weight="700" fill="${col || "var(--ink)"}">${big}</text>` +
+        `<text x="${x + 71}" y="78" text-anchor="middle" font-size="8.5" ` +
+        `fill="currentColor" opacity=".6">${l1}</text>` +
+        `<text x="${x + 71}" y="90" text-anchor="middle" font-size="8.5" ` +
+        `fill="currentColor" opacity=".6">${l2}</text></g>`;
+      const op = (x, sym) =>
+        `<line class="flowline" x1="${x}" x2="${x + 22}" y1="67" y2="67" ` +
+        `stroke="currentColor" stroke-opacity=".45" stroke-width="1.5"/>` +
+        `<text x="${x + 11}" y="58" text-anchor="middle" font-size="13" ` +
+        `font-weight="700" fill="currentColor" opacity=".6">${sym}</text>`;
+      flowEl.innerHTML =
+        `<svg viewBox="0 0 985 162" style="width:100%;margin-top:6px" ` +
+        `role="img" aria-label="the $2M math pipeline">` +
+        `<title>edge × stake × windows × detection = dollars per day → ` +
+        `time to $2M</title>` +
+        node(0, `+${(100 * eSel).toFixed(1)}%`,
+          "edge per $1 staked", "selective tier · live") +
+        op(146, "×") +
+        node(172, `$${Math.round(FSEL * CAP)}`,
+          "stake per window", `${(100 * XSTAR).toFixed(0)}% of $${CAP} depth`) +
+        op(318, "×") +
+        node(344, `${WD.toFixed(0)}/day`,
+          "windows that qualify", "confidence ≥ 77%") +
+        op(490, "×") +
+        node(516, "½", "detection tax", "trade quietly, keep half") +
+        op(662, "=") +
+        node(688, `$${Math.round(dailyF)}/day`,
+          "sustainable extraction", "at proven depth", "var(--good-text)") +
+        op(834, "→") +
+        node(843, `${fdys(2e6 / dailyF)}`,
+          "to $2,000,000", "$2M ÷ $/day", "var(--good-text)") +
+        `<text x="0" y="126" font-size="10.5" fill="currentColor" ` +
+        `opacity=".65">${(window.__st && window.__st.k_depth_yes != null)
+          ? `depth on the book RIGHT NOW: ~$${Math.round(
+              Math.min(window.__st.k_depth_yes, window.__st.k_depth_no)
+            ).toLocaleString()} near-touch (thinner side, live)`
+          : ""}</text>` +
+        `<text x="0" y="140" font-size="10.5" fill="currentColor" ` +
+        `opacity=".65">same pipeline, other worlds:  measured ~$9k depth ` +
+        `→ <tspan font-weight="700">$${Math.round(daily9).toLocaleString()}` +
+        `/day → ${fdys(2e6 / daily9)}</tspan> · paper / class world ` +
+        `(no cap, no adversary) → <tspan font-weight="700">` +
+        `${paperD}</tspan></text>` +
+        `<text x="0" y="154" font-size="10.5" fill="currentColor" ` +
+        `opacity=".5">every number is live — the tier's win rate moves ` +
+        `this whole chain · simulated research, not advice</text></svg>`;
+    } else if (ansEl) {
+      ansEl.innerHTML = `<b>The answer, in one line:</b> every measured ` +
+        `edge — including the selective tier right now — is at or below ` +
+        `break-even at real asks, so the honest time-to-$2M is ` +
+        `<b>never</b> until a win rate clears ~75% on biddable entries. ` +
+        `The simulations below show what changes if one does.`;
+      if (flowEl) flowEl.innerHTML = "";
+    }
   } catch (e) {}
   document.getElementById("tm-verdict").innerHTML =
     `Three regimes: <b>never</b> (measured edge, negative) · <b>~weeks</b> ` +
@@ -914,7 +1039,7 @@ function drawTwoMillion(kb) {
     `and sells the disputed ones). Simulated research, not advice.`;
 }
 
-function drawDesk(pt, kb, pt2, pt3d) {
+function drawDesk(pt, kb, pt2, pt3d, pt4d, pt5d) {
   // The $1K Desk — portfolio view for the follow-the-leader paper trader
   const START = 100000;                       // $1,000 in cents
   const COLD = { kb2: "#0b7d8a", kb3: "#b43a6e", kb4: "#5f50c7",
@@ -932,196 +1057,196 @@ function drawDesk(pt, kb, pt2, pt3d) {
   const today = dayKey(Date.now() / 1000);
   const dpnl = settled.filter(t => dayKey(t.close_ts) === today)
     .reduce((a, t) => a + t.pnl_c, 0);
-  const last = pt[pt.length - 1];
-  // current leader computed LIVE from the ledger (same rule the daemon
-  // uses: last 10 settled gate-clearing decisions, min 5, tau 0.62)
-  let lead = null, leadKey = null;
-  for (const v of ["kb2", "kb3", "kb4", "kb6", "kb7", "kb8"]) {
-    const byw = {};
-    for (const r of (kb || [])) {
-      if (r.variant !== v || r.actual == null) continue;
-      (byw[r.ticker] = byw[r.ticker] || []).push(r);
-    }
-    const decs = [];
-    for (const tk in byw) {
-      const rs = byw[tk].sort((a, b) => b.mins_left - a.mins_left);
-      const d0 = rs.find(r => Math.max(r.p_up, 1 - r.p_up) >= 0.62);
-      if (d0) decs.push([d0.close_ts, d0.hit,
-                         Math.pow(d0.p_up - d0.actual, 2)]);
-    }
-    decs.sort((a, b) => a[0] - b[0]);
-    const ten = decs.slice(-10);
-    if (ten.length < 5) continue;
-    const wr2 = ten.reduce((a, x) => a + x[1], 0);
-    const br2 = ten.reduce((a, x) => a + x[2], 0) / ten.length;
-    const key = [wr2 / ten.length, -br2];
-    if (!leadKey || key[0] > leadKey[0]
-        || (key[0] === leadKey[0] && key[1] > leadKey[1])) {
-      leadKey = key; lead = [v, wr2, ten.length];
-    }
+  // identity, balances, leader, ladder state all live on the roster
+  // cards — nothing is stated twice (the ledger's "ladder size" column
+  // carries the twin's per-trade sizing)
+  for (const id of ["desk-head", "desk-ladder", "desk2-feed"]) {
+    const z = document.getElementById(id);
+    if (z) z.innerHTML = "";
   }
-  const leadTxt = lead
-    ? `leader <span style="color:${COLD[lead[0]] || "inherit"}">●</span> ` +
-      `<b>${lead[0]}</b> <span class="muted">${lead[1]}/${lead[2]} ` +
-      `last-10</span>`
-    : (last
-      ? `leader <span style="color:${COLD[last.leader] || "inherit"}">●` +
-        `</span> <b>${last.leader}</b> <span class="muted">` +
-        `${last.rec10} last-10</span>`
-      : `leader forms once an arm has 5 settled decisions`);
-  document.getElementById("desk-head").innerHTML =
-    `<div class="bignum" style="font-size:34px">${money(equity)}</div>` +
-    `<p class="mini"><span style="color:${dpnl >= 0
-      ? "var(--good-text)" : "var(--down)"}">${dpnl >= 0 ? "▲" : "▼"} ` +
-    `${money(dpnl)} today</span> · buying power ` +
-    `${money(Math.floor(cash * 0.10))} <span class="muted">(10% rule)</span>` +
-    ` · ` + leadTxt + `</p>`;
-  // the ladder twin — same entries, banks $1k at $11k then x10
-  try {
-    const s2 = (pt2 || []).filter(t => t.actual != null)
-      .sort((a, b) => a.close_ts - b.close_ts);
-    const o2 = (pt2 || []).filter(t => t.actual == null);
-    let cash2 = START, banked2 = 0, level2 = START;
-    for (const t of s2) {
-      cash2 += t.pnl_c;
-      while (cash2 >= 11 * level2) {
-        banked2 += level2; cash2 -= level2; level2 *= 10;
-      }
-    }
-    const worth2 = cash2 + banked2;
-    cash2 -= o2.reduce((a, t) => a + t.stake_c, 0);
-    document.getElementById("desk-ladder").innerHTML =
-      `<b>The ladder twin</b> — total worth ` +
-      `<b>${money(worth2)}</b> (banked ${money(banked2)} · playing ` +
-      `${money(worth2 - banked2)}) · level ${money(level2)}, bid limit ` +
-      `${money(Math.floor((worth2 - banked2) * 0.10))} · same entries, ` +
-      `sized to his own 10%, UNCAPPED (paper fills at the ask) — banks ` +
-      `$1k at $11k, then $10k at $110k, ×10`;
-    // his own ticket feed — the compounding is the show: watch the
-    // contract counts grow as the bankroll climbs the ladder
-    const feed = document.getElementById("desk2-feed");
-    if (feed && pt2 && pt2.length) {
-      const fT3 = ts => new Date(ts * 1000).toLocaleTimeString("en-US",
-        { timeZone: "America/Los_Angeles", hour: "2-digit",
-          minute: "2-digit", hour12: false }) + " PT";
-      feed.innerHTML = `<div style="margin-top:6px">` +
-        pt2.slice(-4).reverse().map(t => {
-          const buy = t.side === "yes";
-          const status = t.actual == null
-            ? `<span class="badge pending">OPEN · settles ` +
-              `${fT3(t.close_ts)}</span>`
-            : t.win
-              ? `<span class="badge pass">WON +${money(t.pnl_c)}</span>`
-              : `<span class="badge" style="background:` +
-                `rgba(230,80,80,.15);color:var(--down)">LOST ` +
-                `${money(t.pnl_c)}</span>`;
-          return `<div class="card" style="max-width:430px;` +
-            `padding:8px 14px;margin-top:6px">` +
-            `<div style="display:flex;justify-content:space-between;` +
-            `align-items:center;gap:10px">` +
-            `<b style="font-size:13px;color:${buy
-              ? "var(--good-text)" : "var(--down)"}">BUY ` +
-            `${t.side.toUpperCase()}</b>${status}</div>` +
-            `<div class="mini">BTC ≥ $${Math.round(t.strike)
-              .toLocaleString()} · <b>${t.contracts} contracts @ ` +
-            `${t.ask_c}¢</b> = ${money(t.stake_c)} · leader ` +
-            `${t.leader} · banked ${money(t.banked_c || 0)}</div></div>`;
-        }).join("") + `</div>`;
-    }
-  } catch (e) {}
   // equity race — all three traders on one labeled, hoverable chart
   const cv = document.getElementById("desk-curve");
-  const mkSeries = (trades, ladder) => {
+  // series points: [ts, pct-of-own-start, worth-in-cents] — the race
+  // compares POLICIES, so different starting stakes race on % growth
+  const mkSeries = (trades, ladder, start0) => {
+    const st0 = start0 || START;
     const s = trades.filter(t => t.actual != null)
       .sort((x, y) => x.close_ts - y.close_ts);
-    const out = s.length ? [[s[0].close_ts - 900, START]] : [];
-    let k = START, bk = 0, lv = START;
+    const out = s.length ? [[s[0].close_ts - 900, 100, st0]] : [];
+    let k = st0, bk = 0, lv = START;
     for (const t of s) {
+      let w;
       if (ladder) {
         k += t.pnl_c;
         while (k >= 11 * lv) { bk += lv; k -= lv; lv *= 10; }
-        out.push([t.close_ts, k + bk]);
-      } else out.push([t.close_ts, t.bankroll_c]);
+        w = k + bk;
+      } else w = t.bankroll_c + (t.savings_c || 0);
+      out.push([t.close_ts, 100 * w / st0, w]);
     }
     return out;
   };
+  // [name, color, series, dash] — ladder is DASHED: he mirrors the
+  // follower's trades, so when their lines overlap both stay readable
   const SER = [
-    ["Follower", "#2461b8", mkSeries(pt, false)],
-    ["Ladder", "#8f6000", mkSeries(pt2 || [], true)],
-    ["Disciplined", "#0d7a4e", mkSeries(pt3d || [], false)],
-  ].filter(s => s[2].length >= 2);
-  if (!SER.length) {
+    ["Follower", "#2461b8", mkSeries(pt, false), ""],
+    ["Ladder", "#8f6000", mkSeries(pt2 || [], true), "6 5"],
+    ["Disciplined", "#0d7a4e", mkSeries(pt3d || [], false), ""],
+    ["Gambler", "#b84343", mkSeries(pt4d || [], false), ""],
+    ["Saver", "#5f50c7", mkSeries(pt5d || [], false, 1000000), "2 4"],
+  ];
+  const withData = SER.filter(s => s[2].length >= 2);
+  if (!withData.length) {
     cv.innerHTML = '<p class="mini">the equity race begins with the ' +
       'first settled trade</p>';
   } else {
-    const W = 680, H = 180, PL = 46, PR = 84, PT2 = 20, PB = 18;
-    const allx = SER.flatMap(s => s[2].map(p => p[0]));
-    const ally = SER.flatMap(s => s[2].map(p => p[1])).concat([START]);
+    const allx = withData.flatMap(s => s[2].map(p => p[0]));
     const x0 = Math.min(...allx), x1 = Math.max(...allx);
-    const y0 = Math.min(...ally) * 0.995, y1 = Math.max(...ally) * 1.005;
+    // every trader is on the chart from the start — a newborn with no
+    // settles yet is honestly FLAT at $1,000 until his first result
+    for (const s of SER) {
+      const st0 = (s[0] === "Saver") ? 1000000 : START;
+      if (!s[2].length) s[2] = [[x0, 100, st0], [x1, 100, st0]];
+      else if (s[2][0][0] > x0) s[2].unshift([x0, 100, st0]);
+    }
+    const W = 960, H = 220, PL = 58, PR = 16, TT = 14, PB = 26;
+    const ally = SER.flatMap(s => s[2].map(p => p[1])).concat([100]);
+    // round-percent gridlines: pick a nice step, pad domain to it
+    const rawLo = Math.min(...ally), rawHi = Math.max(...ally);
+    const span = Math.max(10, rawHi - rawLo);          // >= 10 pts
+    const step = [5, 10, 25, 50, 100, 250]
+      .find(s => span / s <= 5) || 500;
+    const y0 = Math.floor(rawLo / step) * step;
+    const y1 = Math.ceil(rawHi / step) * step;
     const X = t => PL + (W - PL - PR) * (t - x0) / Math.max(1, x1 - x0);
-    const Y = v => H - PB - (H - PT2 - PB) * (v - y0) / Math.max(1, y1 - y0);
+    const Y = v => H - PB - (H - TT - PB) * (v - y0) / Math.max(1, y1 - y0);
     const fPT = ts => new Date(ts * 1000).toLocaleTimeString("en-US",
       { timeZone: "America/Los_Angeles", hour: "2-digit",
         minute: "2-digit", hour12: false });
     let grid = "";
-    for (let gi = 0; gi < 4; gi++) {
-      const v = y0 + (y1 - y0) * gi / 3;
+    for (let v = y0; v <= y1; v += step) {
       grid += `<line x1="${PL}" x2="${W - PR}" y1="${Y(v)}" y2="${Y(v)}" ` +
         `stroke="currentColor" stroke-opacity=".08"/>` +
-        `<text x="${PL - 5}" y="${Y(v) + 3}" text-anchor="end" ` +
-        `font-size="9.5" fill="currentColor" opacity=".5">` +
-        `$${Math.round(v / 100).toLocaleString()}</text>`;
+        `<text x="${PL - 7}" y="${Y(v) + 3.5}" text-anchor="end" ` +
+        `font-size="10" fill="currentColor" opacity=".55">` +
+        `${v}%</text>`;
+    }
+    let xt = "";
+    for (let xi = 0; xi <= 4; xi++) {
+      const t = x0 + (x1 - x0) * xi / 4;
+      xt += `<text x="${X(t)}" y="${H - 8}" text-anchor="${xi === 0
+        ? "start" : xi === 4 ? "end" : "middle"}" font-size="10" ` +
+        `fill="currentColor" opacity=".55">${fPT(t)}</text>`;
     }
     const first = !window.__eqDrawn; window.__eqDrawn = true;
-    let paths = "", labels = "", dots = "";
-    const ends = SER.map(s => ({ nm: s[0], col: s[1],
-      x: X(s[2][s[2].length - 1][0]), y: Y(s[2][s[2].length - 1][1]),
-      v: s[2][s[2].length - 1][1] })).sort((a, b) => a.y - b.y);
-    for (let i = 1; i < ends.length; i++)
-      if (ends[i].y - ends[i - 1].y < 13) ends[i].y = ends[i - 1].y + 13;
+    // forecast cones: 5th-95th Monte-Carlo band behind each live line,
+    // at the desk's measured win rate — the falsifiability layer: a
+    // live path escaping its cone is the model being wrong in public
+    const settledAll = pt.filter(t => t.actual != null);
+    const pHat = settledAll.length >= 5
+      ? settledAll.reduce((a2, t) => a2 + t.win, 0) / settledAll.length
+      : 0.79;
+    const FRACS = { Follower: 0.10, Ladder: 0.10, Disciplined: 0.10,
+                    Gambler: 0.33, Saver: 0.25 };
+    const STARTS = { Saver: 1000000 };
+    window.__cones = window.__cones || {};
+    const coneFor = (nm, ser) => {
+      const nb = ser.length - 1;
+      if (nb < 1) return null;
+      const key = `${nm}:${nb}:${pHat.toFixed(2)}`;
+      if (window.__cones[key]) return window.__cones[key];
+      const P = 300, paths2 = [];
+      for (let i = 0; i < P; i++) {
+        let k = STARTS[nm] || START; const tr = [k];
+        for (let j = 0; j < nb; j++) {
+          const ncon = Math.floor(
+            Math.min(FRACS[nm] * k, 450000) / 75);
+          if (ncon >= 1) {
+            k -= ncon * 75;
+            if (Math.random() < pHat) k += ncon * 100;
+          }
+          tr.push(k);
+        }
+        paths2.push(tr);
+      }
+      const st0 = STARTS[nm] || START;
+      const lo = [], hi = [];
+      for (let j = 0; j <= nb; j++) {
+        const colv = paths2.map(t => t[j]).sort((x, y) => x - y);
+        lo.push(100 * colv[15] / st0); hi.push(100 * colv[284] / st0);
+      }
+      return (window.__cones[key] = { lo, hi });
+    };
+    let cones = "";
     for (const [nm, col, ser] of SER) {
+      const c = coneFor(nm, ser);
+      if (!c) continue;
+      const up = c.hi.map((v, j) =>
+        (j ? "L" : "M") + X(ser[j][0]).toFixed(1) + "," +
+        Y(Math.min(v, y1)).toFixed(1)).join(" ");
+      const dn = c.lo.map((v, j) =>
+        "L" + X(ser[c.lo.length - 1 - j][0]).toFixed(1) + "," +
+        Y(Math.max(c.lo[c.lo.length - 1 - j], y0)).toFixed(1)).join(" ");
+      cones += `<path d="${up} ${dn} Z" fill="${col}" ` +
+        `fill-opacity=".07" stroke="none"/>`;
+    }
+    let paths = "", dots = "";
+    for (const [nm, col, ser, dash] of SER) {
       const d = ser.map((p, i) => (i ? "L" : "M") + X(p[0]).toFixed(1)
         + "," + Y(p[1]).toFixed(1)).join(" ");
-      paths += `<path class="${first ? "eq" : ""}" d="${d}" fill="none" ` +
-        `stroke="${col}" stroke-width="2"/>`;
-      const e = ends.find(z => z.nm === nm);
-      dots += `<circle class="eq-dot" cx="${e.x}" cy="${Y(e.v)}" ` +
-        `r="3.2" fill="${col}"/>`;
-      labels += `<text x="${e.x + 7}" y="${e.y + 3}" font-size="10" ` +
-        `font-weight="700" fill="${col}">${nm} ` +
-        `$${Math.round(e.v / 100).toLocaleString()}</text>`;
+      // draw-in anim animates stroke-dasharray, so dashed series skip it
+      paths += `<path class="${first && !dash ? "eq" : ""}" d="${d}" ` +
+        `fill="none" stroke="${col}" stroke-width="2.2"` +
+        (dash ? ` stroke-dasharray="${dash}"` : "") + `/>`;
+      const e = ser[ser.length - 1];
+      dots += `<circle class="eq-dot" cx="${X(e[0])}" cy="${Y(e[1])}" ` +
+        `r="3.4" fill="${col}"/>`;
     }
+    // legend carries the live values — no clipped in-plot labels
+    const legend = SER.map(([nm, col, ser, dash]) => {
+      const last = ser[ser.length - 1];
+      const pct = last[1] - 100;
+      return `<span style="display:inline-flex;align-items:center;gap:6px">` +
+        `<svg width="22" height="6"><line x1="0" x2="22" y1="3" y2="3" ` +
+        `stroke="${col}" stroke-width="2.5"` +
+        (dash ? ` stroke-dasharray="${dash}"` : "") + `/></svg>` +
+        `<b>${nm}</b> <span class="muted" style="font-variant-numeric:` +
+        `tabular-nums">$${(Math.round(last[2]) / 100).toLocaleString("en-US",
+          { minimumFractionDigits: 2 })} (${pct >= 0 ? "+" : ""}` +
+        `${pct.toFixed(0)}%)</span></span>`;
+    }).join(`<span style="opacity:.3">·</span>`);
     cv.innerHTML =
-      `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:760px" ` +
-      `role="img" aria-label="equity race — three traders">` +
+      `<div class="legend" style="justify-content:space-between;` +
+      `margin:14px 0 2px"><span style="font:700 11px var(--display);` +
+      `letter-spacing:.1em;color:var(--muted)">EQUITY RACE — LIVE PAPER ` +
+      `BANKROLLS</span><span style="display:inline-flex;gap:14px;` +
+      `align-items:center;flex-wrap:wrap">${legend}</span></div>` +
+      `<p class="mini" style="margin:0 0 2px">shaded = each trader's ` +
+      `5–95% forecast cone at the desk's measured win rate ` +
+      `(${(100 * pHat).toFixed(0)}%) — a live line escaping its cone ` +
+      `falsifies the model in public</p>` +
+      `<svg viewBox="0 0 ${W} ${H}" style="width:100%" role="img" ` +
+      `aria-label="equity race — three paper traders, bankroll over time">` +
       `<title>equity race — bankroll (incl. banked) after each settled ` +
-      `trade, PT times</title>` +
-      `<text x="${PL}" y="12" font-size="10.5" font-weight="700" ` +
-      `fill="currentColor" opacity=".65">EQUITY RACE — live paper ` +
-      `bankrolls ($)</text>` + grid +
-      `<line x1="${PL}" x2="${W - PR}" y1="${Y(START)}" y2="${Y(START)}" ` +
+      `trade, PT times</title>` + grid + cones +
+      `<line x1="${PL}" x2="${W - PR}" y1="${Y(100)}" y2="${Y(100)}" ` +
       `stroke="currentColor" stroke-opacity=".3" stroke-dasharray="3 4"/>` +
-      `<text x="${W - PR}" y="${Y(START) - 4}" text-anchor="end" ` +
-      `font-size="9.5" fill="currentColor" opacity=".5">$1,000 start</text>` +
-      paths + dots + labels +
-      `<text x="${PL}" y="${H - 4}" font-size="9.5" fill="currentColor" ` +
-      `opacity=".5">${fPT(x0)} PT</text>` +
-      `<text x="${W - PR}" y="${H - 4}" text-anchor="end" font-size="9.5" ` +
-      `fill="currentColor" opacity=".5">${fPT(x1)} PT</text></svg>`;
+      `<text x="${W - PR}" y="${Y(100) - 5}" text-anchor="end" ` +
+      `font-size="10" fill="currentColor" opacity=".5">start = 100%</text>` +
+      paths + dots + xt + `</svg>`;
   }
   const fT = ts => new Date(ts * 1000).toLocaleTimeString("en-US",
     { timeZone: "America/Los_Angeles", hour: "2-digit", minute: "2-digit",
       hour12: false }) + " PT";
-  const p2byT = {};
+  const p2byT = {}, p4byT = {};
   for (const t of (pt2 || [])) p2byT[t.ticker] = t;
+  for (const t of (pt4d || [])) p4byT[t.ticker] = t;
   const rowsH = pt.slice(-8).reverse().map(t => {
     const res = t.actual == null
       ? `<span class="badge pending">open</span>`
       : t.win
         ? `<span style="color:var(--good-text)">+${money(t.pnl_c)}</span>`
         : `<span style="color:var(--down)">${money(t.pnl_c)}</span>`;
-    const l2 = p2byT[t.ticker];
+    const l2 = p2byT[t.ticker], l4 = p4byT[t.ticker];
     return `<tr><td>${fT(t.made_ts)}</td>` +
       `<td><span style="color:${COLD[t.leader] || "inherit"}">●</span> ` +
       `${t.leader} <span class="muted">${t.rec10}</span></td>` +
@@ -1129,6 +1254,7 @@ function drawDesk(pt, kb, pt2, pt3d) {
       `${Math.round(t.strike).toLocaleString()}</td>` +
       `<td class="num">${t.contracts} @ ${t.ask_c}¢</td>` +
       `<td class="num">${l2 ? l2.contracts : "–"}</td>` +
+      `<td class="num">${l4 ? l4.contracts : "–"}</td>` +
       `<td class="num">${money(t.stake_c)}</td>` +
       `<td class="num">${res}</td></tr>`;
   }).join("");
@@ -1137,9 +1263,11 @@ function drawDesk(pt, kb, pt2, pt3d) {
     `<table style="min-width:0"><thead><tr><th>entry</th>` +
     `<th>leader (last-10)</th><th>call</th><th class="num">size</th>` +
     `<th class="num">ladder size</th>` +
-    `<th class="num">stake</th><th class="num">result</th></tr>` +
+    `<th class="num">gambler size</th>` +
+    `<th class="num">follower stake</th>` +
+    `<th class="num">follower result</th></tr>` +
     `</thead><tbody>${rowsH ||
-      `<tr><td colspan="7" class="mini">no bids yet — the desk enters ` +
+      `<tr><td colspan="8" class="mini">no bids yet — the desk enters ` +
       `only when the leader clears its gate on a biddable window ` +
       `(ask 5–80¢, ≤12 min left)</td></tr>`}</tbody></table>`;
   const byd = {};
@@ -1151,14 +1279,14 @@ function drawDesk(pt, kb, pt2, pt3d) {
   }
   const days = Object.entries(byd).slice(-3);
   document.getElementById("desk-eod").innerHTML = days.length
-    ? "EOD review: " + days.map(([dk, [n2, w2, p2]]) =>
+    ? "EOD review (follower): " + days.map(([dk, [n2, w2, p2]]) =>
         `${dk} — ${n2} trades, ${w2} wins, <b style="color:${p2 >= 0
           ? "var(--good-text)" : "var(--down)"}">${money(p2)}</b>`)
         .join(" · ")
     : "";
 }
 
-function drawRoster(pt, pt2, pt3, kb) {
+function drawRoster(pt, pt2, pt3, kb, pt4, pt5) {
   const el = document.getElementById("desk-roster");
   if (!el) return;
   const START = 100000;
@@ -1191,7 +1319,8 @@ function drawRoster(pt, pt2, pt3, kb) {
       .reduce((a, t) => a + t.pnl_c, 0);
     return { s, wins, dp, series: [START].concat(s.map(t => t.bankroll_c)) };
   };
-  const a = stats(pt), b = stats(pt2), c = stats(pt3);
+  const a = stats(pt), b = stats(pt2), c = stats(pt3),
+        g4 = stats(pt4 || []), s5 = stats(pt5 || []);
   const bank1 = START + a.s.reduce((x, t) => x + t.pnl_c, 0);
   let cash2 = START, banked2 = 0, level2 = START;
   for (const t of b.s.slice().sort((x, y) => x.close_ts - y.close_ts)) {
@@ -1200,6 +1329,15 @@ function drawRoster(pt, pt2, pt3, kb) {
       banked2 += level2; cash2 -= level2; level2 *= 10; }
   }
   const bank3 = START + c.s.reduce((x, t) => x + t.pnl_c, 0);
+  const bank4 = START + g4.s.reduce((x, t) => x + t.pnl_c, 0);
+  const SAV_START = 1000000;
+  const sav5 = s5.s.reduce((x, t) => x + (t.skim_c || 0), 0);
+  const bank5 = SAV_START
+    + s5.s.reduce((x, t) => x + t.pnl_c - (t.skim_c || 0), 0);
+  s5.series = [SAV_START].concat((() => {
+    let w = SAV_START; const out = [];
+    for (const t of s5.s) { w += t.pnl_c; out.push(w); }
+    return out; })());
   b.series = [START];
   { let k = START, bk = 0, lv = START;
     for (const t of b.s) { k += t.pnl_c;
@@ -1214,26 +1352,57 @@ function drawRoster(pt, pt2, pt3, kb) {
     `<div class="tname">${name}</div>` +
     `<div class="tbank">${money(bal)}</div>${delta(dp)}` +
     `<div class="tmeta">${meta}</div>${spark(series, col)}</div>`;
+  // the disproved wall's desk tile is a LIVE contest: replay prediction
+  // vs the actual follower — updated here so it can never go stale
+  try {
+    const dn = document.getElementById("disp-desk-num");
+    const ds = document.getElementById("disp-desk-sub");
+    if (dn && a.s.length) {
+      dn.textContent = `$103 vs ${money(bank1)}`;
+      const beat = bank1 > 10300;
+      ds.innerHTML = `${beat ? "?" : "✗"} follow-the-leader — replay ` +
+        `(approx asks, 4 days) predicted ruin at $103; the LIVE desk ` +
+        `is the controlling test: <b>${money(bank1)}</b> after ` +
+        `${a.s.length} trades${beat
+          ? " — replay currently contradicted, verdict pending"
+          : " — tracking the replay"}`;
+    }
+  } catch (e) {}
   el.innerHTML =
-    card("t1", "🎯", "The Follower", bank1, a.dp,
+    card("t1", "🦊", "Dartmon · the Follower", bank1, a.dp,
       `rides the hot hand — always the arm leading its last 10 ` +
       `decisions${lastLead ? ` · now <b>${lastLead.leader}</b> ` +
       `${lastLead.rec10}` : ""} · record ${a.wins}/${a.s.length}`,
       a.series, "#2461b8") +
-    card("t2", "🪜", "The Ladder", cash2 + banked2, b.dp,
-      `same calls, uncapped 10% sizing · banks $1k at $11k then ×10 · ` +
-      `banked <b>${money(banked2)}</b> · level ${money(level2)}`,
+    card("t2", "🐢", "Rungmon · the Ladder", cash2 + banked2, b.dp,
+      `same calls, uncapped 10% sizing · ` + (banked2 > 0
+        ? `banked <b>${money(banked2)}</b> so far · level ${money(level2)}`
+        : `first rung: bank $1k on reaching $11k, then ×10`),
       b.series, "#8f6000") +
-    card("t3", "🧘", "The Disciplined", bank3, c.dp,
-      `waits for kb7 ≥ 77% (pre-registered) · record ${c.wins}/` +
+    card("t3", "🦉", "Sagemon · the Disciplined", bank3, c.dp,
+      `takes any desk entry at ≥77% confidence (v2) · record ${c.wins}/` +
       `${c.s.length} · most windows he simply watches`,
-      c.series, "#0d7a4e");
+      c.series, "#0d7a4e") +
+    card("t4", "🐉", "Blazemon · the Gambler", bank4, g4.dp,
+      (bank4 < 500
+        ? `<b style="color:var(--down)">BUSTED</b> · record ` +
+          `${g4.wins}/${g4.s.length}`
+        : `33% of capital on every leader entry (~1.6× Kelly), capped ` +
+          `by live book depth · record ${g4.wins}/${g4.s.length} · three ` +
+          `losses in a row = −70%`),
+      g4.series, "#b84343") +
+    card("t5", "🐿️", "Stashmon · the Saver", bank5 + sav5, s5.dp,
+      `starts $10k · stakes 25% · banks 25% of every win — savings ` +
+      `<b>${money(sav5)}</b> never return to play · record ` +
+      `${s5.wins}/${s5.s.length}`,
+      s5.series, "#5f50c7");
   // count-up animation on the three balances
   try {
     const prev = window.__rosterPrev || {};
-    const now = { t1: bank1, t2: cash2 + banked2, t3: bank3 };
+    const now = { t1: bank1, t2: cash2 + banked2, t3: bank3,
+                  t4: bank4, t5: bank5 + sav5 };
     const els = el.querySelectorAll(".tbank");
-    const keys = ["t1", "t2", "t3"];
+    const keys = ["t1", "t2", "t3", "t4", "t5"];
     const rm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     keys.forEach((k, i) => {
       const from = prev[k], to = now[k];
@@ -1287,7 +1456,8 @@ function drawDesk3(pt3, kb) {
       `$${Math.round(t.strike).toLocaleString()} · ` +
       `<b>${t.contracts} contracts @ ${t.ask_c}¢</b></div>` +
       `<div class="mini">est. cost ${money(t.stake_c)} incl. ` +
-      `${money(t.fee_c * t.contracts)} fees · kb7 confidence ` +
+      `${money(t.fee_c * t.contracts)} fees · ` +
+      `${t.src === "leader" ? (t.leader || "leader") : "kb7"} confidence ` +
       `${(100 * t.p_arm).toFixed(0)}% · placed ${fT2(t.made_ts)}</div>` +
       `</div>`;
   };
@@ -1310,51 +1480,100 @@ function drawDesk3(pt3, kb) {
       const c = Math.max(r.p_up, 1 - r.p_up);
       if (!best || c > best.c) best = { c, r };
     }
-    let reason;
-    if (best.c < 0.77) {
-      reason = `kb7 peaked at ${(100 * best.c).toFixed(0)}% — below the ` +
-        `77% bar`;
-    } else {
+    let type, ask = null;
+    if (best.c < 0.77) type = "bar";
+    else {
       const r = best.r;
-      const ask = r.mkt_p_up == null ? null
-        : 100 * (r.p_up >= .5 ? r.mkt_p_up : 1 - r.mkt_p_up) + 2.5;
-      reason = ask == null
-        ? `qualified at ${(100 * best.c).toFixed(0)}% but no market quote`
-        : ask >= 80
-          ? `qualified at ${(100 * best.c).toFixed(0)}% but priced out ` +
-            `(~${ask.toFixed(0)}¢)`
-          : ask < 5
-            ? `qualified but ask ~${ask.toFixed(0)}¢ under the 5¢ floor`
-            : `qualified at ${(100 * best.c).toFixed(0)}% — window passed ` +
-              `unfilled`;
+      ask = r.mkt_p_up == null ? null
+        : Math.min(99, 100 * (r.p_up >= .5 ? r.mkt_p_up : 1 - r.mkt_p_up)
+                       + 2.5);
+      type = ask == null ? "noquote" : ask >= 80 ? "priced"
+        : ask < 5 ? "floor" : "unfilled";
     }
-    skips.push({ ts: rs[0].close_ts, reason });
+    skips.push({ ts: rs[0].close_ts, type, conf: best.c, ask });
   }
-  const events = pt3.map(t => ({ ts: t.made_ts, html: ticket(t, false) }))
-    .concat(skips.map(s => ({ ts: s.ts, html:
-      `<div class="mini" style="padding:5px 4px;border-bottom:1px solid ` +
-      `rgba(128,128,128,.15)">⏸ ${fT2(s.ts)} · SKIPPED — ${s.reason}` +
-      `</div>` })));
+  // compress consecutive same-reason skips into one run — the pattern
+  // ("priced out again and again") IS the finding, not the repetition
+  skips.sort((a, b) => b.ts - a.ts);
+  const runs = [];
+  for (const s of skips) {
+    const r = runs[runs.length - 1];
+    if (r && r.type === s.type) {
+      r.n++; r.t1 = s.ts;
+      r.clo = Math.min(r.clo, s.conf); r.chi = Math.max(r.chi, s.conf);
+      if (s.ask != null) r.ask = Math.min(r.ask ?? 99, s.ask);
+    } else runs.push({ type: s.type, n: 1, t0: s.ts, t1: s.ts,
+                       clo: s.conf, chi: s.conf, ask: s.ask });
+  }
+  const runTxt = r => {
+    const when = r.n === 1 ? fT2(r.t0) : `${fT2(r.t1)}–${fT2(r.t0)}`;
+    const win = r.n === 1 ? "" : ` · ${r.n} windows`;
+    const conf = r.clo === r.chi
+      ? `${(100 * r.clo).toFixed(0)}%`
+      : `${(100 * r.clo).toFixed(0)}–${(100 * r.chi).toFixed(0)}%`;
+    const why = r.type === "bar"
+      ? `kb7 peaked at ${conf} — below the 77% bar`
+      : r.type === "priced"
+        ? `qualified at ${conf} but priced out (asks ≥${r.ask.toFixed(0)}¢` +
+          ` — the market agrees and charges for it)`
+        : r.type === "noquote" ? `qualified at ${conf} but no market quote`
+        : r.type === "floor" ? `ask under the 5¢ floor`
+        : `qualified at ${conf} — window passed unfilled`;
+    return `<div class="mini" style="padding:5px 4px;border-bottom:1px ` +
+      `solid rgba(128,128,128,.15)">⏸ ${when} · SKIPPED${win} — ${why}` +
+      `</div>`;
+  };
+  // the latest order is the big ticket above — never repeated in the feed
+  const events = pt3.slice(0, -1)
+    .map(t => ({ ts: t.made_ts, html: ticket(t, false) }))
+    .concat(runs.map(r => ({ ts: r.t0, html: runTxt(r) })));
   events.sort((a, b) => b.ts - a.ts);
   const latest = pt3[pt3.length - 1];
   const skN = skips.length;
   el.innerHTML =
     `<p class="small"><b>The disciplined trader — live</b> ` +
-    `<span class="paper-tag">pre-registered · kb7 ≥ 77% only · ` +
-    `simulated · not advice</span><br><span class="mini">bids only the ` +
-    `top-confidence tier the ledger says carries the edge · 10% of ` +
-    `funds · bankroll <b>${money(bank)}</b> · record ${wins}/` +
+    `<span class="paper-tag">policy v2 · kb7 or leader at ≥ 77% · ` +
+    `simulated · not advice</span><br><span class="mini">same trade pool ` +
+    `as the twins, stricter admission — any entry needs 77% confidence ` +
+    `(the follower takes 62%) · 10% of funds · bankroll <b>${money(bank)}</b> · record ${wins}/` +
     `${settled.length}${open.length ? " · 1 open" : ""} · ` +
     `<b>${skN}</b> windows skipped</span></p>` +
     (latest ? ticket(latest, true)
       : `<p class="mini">no order yet — patience is the strategy; ` +
         `the skips below are it working.</p>`) +
     `<div style="margin-top:8px">` +
-    events.slice(0, 8).map(e => e.html).join("") + `</div>`;
+    events.slice(0, 8).map(e => e.html).join("") + `</div>` +
+    // his full ledger, same table form as the follower's
+    `<div class="scroll" style="margin-top:10px">` +
+    `<table style="min-width:0"><thead><tr><th>entry</th>` +
+    `<th>source · confidence</th><th>call</th><th class="num">size</th>` +
+    `<th class="num">stake</th><th class="num">result</th></tr></thead>` +
+    `<tbody>` + (pt3.length
+      ? pt3.slice().reverse().map(t => {
+          const res = t.actual == null
+            ? `<span class="badge pending">open</span>`
+            : t.win
+              ? `<span style="color:var(--good-text)">+${money(t.pnl_c)}` +
+                `</span>`
+              : `<span style="color:var(--down)">${money(t.pnl_c)}</span>`;
+          const src = t.src === "leader" ? (t.leader || "leader") : "kb7";
+          return `<tr><td>${fT2(t.made_ts)}</td>` +
+            `<td><span style="color:${COLD[src] || "inherit"}">●</span> ` +
+            `${src} <span class="muted">` +
+            `${(100 * t.p_arm).toFixed(0)}%</span></td>` +
+            `<td>${t.side.toUpperCase()} ≥ $` +
+            `${Math.round(t.strike).toLocaleString()}</td>` +
+            `<td class="num">${t.contracts} @ ${t.ask_c}¢</td>` +
+            `<td class="num">${money(t.stake_c)}</td>` +
+            `<td class="num">${res}</td></tr>`;
+        }).join("")
+      : `<tr><td colspan="6" class="mini">no orders yet — entries ` +
+        `require 77% confidence on a biddable window</td></tr>`) +
+    `</tbody></table></div>`;
 }
 
 async function boot() {
-  const [kb, bets, sel, prices, st, ptr, pt2r, pt3r] = await Promise.all([
+  const [kb, bets, sel, prices, st, ptr, pt2r, pt3r, pt4r, pt5r] = await Promise.all([
     jsonl("../results/kalshi_binary_log.jsonl"),
     jsonl("../results/kb_bets.jsonl"),
     jsonl("../results/kb_bets_sel.jsonl"),
@@ -1365,10 +1584,13 @@ async function boot() {
     jsonl("../results/pt_trades.jsonl"),
     jsonl("../results/pt2_trades.jsonl"),
     jsonl("../results/pt3_trades.jsonl"),
+    jsonl("../results/pt4_trades.jsonl"),
+    jsonl("../results/pt5_trades.jsonl"),
   ]);
-  try { drawRoster(ptr, pt2r, pt3r, kb); } catch (e) {}
-  try { drawDesk(ptr, kb, pt2r, pt3r); } catch (e) {}
+  try { drawRoster(ptr, pt2r, pt3r, kb, pt4r, pt5r); } catch (e) {}
+  try { drawDesk(ptr, kb, pt2r, pt3r, pt4r, pt5r); } catch (e) {}
   try { drawDesk3(pt3r, kb); } catch (e) {}
+  window.__st = st;
   try { drawSignal(kb, bets, st); } catch (e) {
     document.getElementById("desk-chat").innerHTML =
       '<p class="mini">desk commentary unavailable</p>';
@@ -1391,7 +1613,8 @@ async function boot() {
                                     ["kb3", "kb3-nums", "kb3-sub"],
                                     ["kb4", "kb4-nums", "kb4-sub"],
                                     ["kb7", "kb7-nums", "kb7-sub"],
-                                    ["kb8", "kb8-nums", "kb8-sub"]]) {
+                                    ["kb8", "kb8-nums", "kb8-sub"],
+                                    ["kb9", "kb9-nums", "kb9-sub"]]) {
     const rows = kb.filter(r => r.variant === v && r.actual != null
       && r.call != null);
     if (rows.length < 60) {
