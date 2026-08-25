@@ -56,6 +56,59 @@
 .msg .bubble { background: var(--surface-2); border: 1px solid var(--border);
   border-radius: 4px 14px 14px 14px; padding: 10px 14px;
   font-size: 13.5px; line-height: 1.6; color: var(--ink-2); }
+.tape-row { display: flex; gap: 20px; align-items: flex-start;
+  flex-wrap: wrap; justify-content: space-between; }
+.bid-card { background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 12px 16px; display: flex; gap: 14px;
+  align-items: center; min-width: 300px; }
+.bid-card .ring { flex: 0 0 54px; }
+.bid-meta { font-size: 12.5px; color: var(--ink-2); line-height: 1.55; }
+.bid-meta .side { font-weight: 750; font-size: 15px; }
+.bid-meta .side.yes { color: var(--good-text); }
+.bid-meta .side.no { color: var(--down); }
+.sparkline { margin-top: 6px; }
+/* ---- the traders' desk ---- */
+.trader-roster { display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px; margin-top: 12px; }
+.tcard { background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 14px; padding: 14px 16px; position: relative;
+  transition: transform .18s ease, box-shadow .18s ease; }
+.tcard:hover { transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.18); }
+.tcard .tavatar { width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; margin-bottom: 8px; }
+.tavatar.t1 { background: rgba(57,135,229,.16); }
+.tavatar.t2 { background: rgba(201,133,0,.16); }
+.tavatar.t3 { background: rgba(43,217,126,.16); }
+.tavatar.t4 { background: rgba(184,67,67,.16); }
+.tcard .tname { font: 700 11px var(--display); letter-spacing: .12em;
+  text-transform: uppercase; color: var(--muted); }
+.tcard .tbank { font: 650 26px/1.2 var(--display);
+  font-variant-numeric: tabular-nums; margin: 4px 0 2px; }
+.tcard .tdelta { font-size: 12px; font-weight: 700;
+  font-variant-numeric: tabular-nums; }
+.tcard .tmeta { font-size: 11.5px; color: var(--ink-2); line-height: 1.6;
+  margin-top: 6px; }
+.tcard .tspark { margin-top: 8px; }
+.tkt { animation: rise .5s ease both; }
+@keyframes rise { from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; } }
+.badge.pending { animation: pulse-open 2s ease-in-out infinite; }
+@keyframes pulse-open { 0%,100% { opacity: 1; } 50% { opacity: .55; } }
+#desk-curve path.eq { stroke-dasharray: 2400; stroke-dashoffset: 2400;
+  animation: drawline 1.6s ease-out forwards; }
+.eq-dot { animation: pulse-open 2s ease-in-out infinite; }
+.flowline { stroke-dasharray: 6 6; animation: flowdash 1s linear infinite; }
+@keyframes flowdash { to { stroke-dashoffset: -12; } }
+#tm-flow .fnode { animation: rise .6s ease both; }
+@media (prefers-reduced-motion: reduce) {
+  .flowline, #tm-flow .fnode { animation: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .tkt, .badge.pending, .eq-dot { animation: none; }
+  #desk-curve path.eq { animation: none; stroke-dashoffset: 0; }
+  .tcard, .tcard:hover { transition: none; transform: none; } }
 </style>
 </head>
 <body>
@@ -70,6 +123,8 @@
   <span class="spacer"></span>
   <span class="tag">Live experiment</span>
 </nav>
+<div class="research-banner">🎓 <b>University research study</b> — NYU Deep Learning course project. All trading shown is <b>simulated paper trading</b> for model evaluation and education only. Nothing on this site is financial advice, a solicitation, or a recommendation to buy or sell anything.</div>
+
 <main>
 
 <header>
@@ -83,15 +138,63 @@
 <section>
   <h2>The tape &amp; the desk — how this research would be used
     <span class="paper-tag">educational · paper only · not financial advice</span></h2>
-  <div id="px-head"></div>
+  <div class="tape-row">
+    <div id="px-head"></div>
+    <div class="bid-card" id="bid-card"><p class="mini">no open paper bet</p></div>
+  </div>
   <div id="px-chart"><p class="mini">loading the tape…</p></div>
   <p class="mini" id="px-note"></p>
-  <div class="disc"><b>This is a university research project.</b> Every "entry"
-  below is a simulated paper decision the model logs for its own evaluation —
-  the personas are visualizations of the project's engineering log and its
-  internal critique. Nothing on this page is financial advice, a
-  recommendation, or a solicitation to buy or sell anything, ever.</div>
+  <div class="disc"><b>University research project</b> — simulated paper
+  decisions for model evaluation only; not financial advice, never a
+  recommendation to buy or sell anything.</div>
   <div class="chat" id="desk-chat"><p class="mini">reading the live window…</p></div>
+</section>
+
+<section>
+  <h2>The $2,000,000 question — a measured answer
+    <span class="paper-tag">stress test · not advice</span></h2>
+  <p class="sub small muted">If someone traded the confident calls of any of the eight arms,
+  how long to turn a starting bankroll into $2M — and what's the minimum
+  capital? Computed live from the ledger, with the honest three-regime answer.</p>
+  <div class="cards" style="margin-top:10px" id="tm-cards"><p class="mini">computing…</p></div>
+  <p class="small" id="tm-answer" style="margin-top:14px"></p>
+  <div id="tm-flow"></div>
+  <details style="margin-top:12px"><summary>Simulation 1 — trade LOUD vs
+    trade QUIETLY (what detection does to an edge)</summary>
+    <div class="scroll" id="tm-table"></div></details>
+  <details style="margin-top:8px"><summary>Simulation 2 — the ladder plan
+    (bank $1k at $11k, play $10k, ×10)</summary>
+    <div class="scroll" id="tm-ladder"></div></details>
+  <details open style="margin-top:8px"><summary>Simulation 3 — the
+    disciplined policy (the live candidate)</summary>
+    <div class="scroll" id="tm-winner"></div></details>
+  <p class="mini" id="tm-verdict"></p>
+</section>
+
+<section>
+  <h2>The $1K Desk — four traders, four disciplines
+    <span class="paper-tag">TA spec · simulated · not advice</span></h2>
+  <p class="sub small muted">Each starts with $1,000 and pays real asks and
+  fees. 🦊 <b>Dartmon, the Follower</b> places the <b>current best bidder's</b> call
+  (the arm leading its last 10 settled decisions), risking at most 10% of
+  funds. 🐢 <b>Rungmon, the Ladder</b> mirrors every trade uncapped and banks $1k at
+  $11k, then ×10. 🦉 <b>Sagemon, the Disciplined</b> takes any desk entry only at
+  ≥77% confidence. 🐉 <b>Blazemon, the Gambler</b> stakes 33% of his capital on
+  every entry (about 1.6× Kelly at these asks), capped by the LIVE
+  near-touch depth of the book — the aggressive end of the sizing
+  curriculum. Reviewed at end
+  of day. Nothing is ever purchased.</p>
+  <div class="trader-roster" id="desk-roster"></div>
+  <div id="desk-head" style="margin-top:10px"></div>
+  <p class="mini" id="desk-ladder"></p>
+  <div id="desk2-feed"></div>
+  <div id="desk-curve"></div>
+  <div class="scroll" id="desk-trades" style="margin-top:10px"></div>
+  <p class="mini" id="desk-eod"></p>
+  <div id="desk3" style="margin-top:16px"></div>
+  <div class="disc"><b>Simulated research desk</b> — paper trades at logged
+  market asks for model evaluation only; not financial advice, never a
+  recommendation to buy or sell anything.</div>
 </section>
 
 <section>
@@ -115,6 +218,30 @@
       <p class="mini" id="ab-sub"></p>
       <a href="ab_dashboard.html" class="small">Generations table &amp; bet ledger →</a>
     </div>
+    <div class="card">
+      <h3>The stack — kb4</h3>
+      <div class="nums" id="kb4-nums"><span class="mini">loading…</span></div>
+      <p class="mini" id="kb4-sub"></p>
+      <a href="ab_dashboard.html" class="small">League table &amp; decision ledger →</a>
+    </div>
+    <div class="card">
+      <h3>The foundation model — kb7</h3>
+      <div class="nums" id="kb7-nums"><span class="mini">loading…</span></div>
+      <p class="mini" id="kb7-sub"></p>
+      <a href="ab_dashboard.html" class="small">Zero-shot Chronos, frozen →</a>
+    </div>
+    <div class="card">
+      <h3>The second family — kb9</h3>
+      <div class="nums" id="kb9-nums"><span class="mini">loading…</span></div>
+      <p class="mini" id="kb9-sub"></p>
+      <a href="ab_dashboard.html" class="small">TimesFM 2.5, frozen — launched for disagreement, not as an upgrade →</a>
+    </div>
+    <div class="card">
+      <h3>The fusion — kb8</h3>
+      <div class="nums" id="kb8-nums"><span class="mini">loading…</span></div>
+      <p class="mini" id="kb8-sub"></p>
+      <a href="ab_dashboard.html" class="small">kb7 × market, learned live →</a>
+    </div>
   </div>
 </section>
 
@@ -122,15 +249,21 @@
   <h2>Disproved &amp; kept honest</h2>
   <div class="cards" style="margin-top:10px">
     <div class="card" style="text-align:center"><div class="bignum" style="font-size:30px">90.4% <span class="muted">vs</span> 90.9%</div>
-      <p class="mini">✗ fixed-time kbf vs market alone — retired</p></div>
+      <p class="mini">✗ fixed-time kbf vs market alone — retired <span class="muted">· closed 08-22</span></p></div>
     <div class="card" style="text-align:center"><div class="bignum" style="font-size:30px">48–54%</div>
-      <p class="mini">✗ direction from price alone — coin flip</p></div>
+      <p class="mini">✗ direction from price alone — coin flip <span class="muted">· closed 08-21</span></p></div>
     <div class="card" style="text-align:center"><div class="bignum" style="font-size:30px">43% <span class="muted">&lt;</span> 51%</div>
-      <p class="mini">✗ selector v2 kept vs skipped — retired</p></div>
+      <p class="mini">✗ selector v2 kept vs skipped — retired <span class="muted">· closed 08-23</span></p></div>
     <div class="card" style="text-align:center"><div class="bignum" style="font-size:30px">−EV</div>
-      <p class="mini">✗ the always-bet mandate after fees</p></div>
+      <p class="mini">✗ the always-bet mandate after fees <span class="muted">· closed 08-22</span></p></div>
+    <div class="card" style="text-align:center"><div class="bignum" style="font-size:30px">−11¢</div>
+      <p class="mini">✗ passive maker fills at 1-min speed — adversely selected <span class="muted">· closed 08-24</span></p></div>
+    <div class="card" style="text-align:center"><div class="bignum" style="font-size:30px">69.8% <span class="muted">&lt;</span> 73.0%</div>
+      <p class="mini">✗ five foundation-model upgrades vs frozen kb7 — Bolt-base, Chronos-2, +covariates, TimesFM 2.5, and fine-tuning on 60d of our own BTC minutes: all tie or worse (|t|≤1.24), kb9 not launched <span class="muted">· closed 08-25, round 2 same day</span></p></div>
+    <div class="card" style="text-align:center"><div class="bignum" style="font-size:30px" id="disp-desk-num">$1,000 → $103</div>
+      <p class="mini" id="disp-desk-sub">? follow-the-leader: the replay said ruin — the live desk is now the controlling test</p></div>
   </div>
-  <p class="mini" style="margin-top:8px">every claim measured in the repo · details on <a href="ab_dashboard.html">Results</a></p>
+  <p class="mini" style="margin-top:8px">closed experiments — numbers frozen at retirement (dated), reproducible from the repo; everything else on this page recomputes every 15 s · details on <a href="ab_dashboard.html">Results</a></p>
 </section>
 
 <section>
@@ -145,17 +278,24 @@
   <p class="mini" style="margin-top:8px">all numbers recompute client-side from git-stamped ledgers · refreshed every 15 s</p>
 </section>
 
-<footer>BTC 7PM Oracle · NYU Deep Learning course project · data: Coinbase,
+<footer> Research study for education — not financial advice · BTC 7PM Oracle · NYU Deep Learning course project · data: Coinbase,
 Kalshi, OKX, Deribit (public, no-auth) · paper trading only — not financial
 advice</footer>
 </main>
 
 <script>
+// two cache cadences: the multi-MB ledgers re-fetch once a minute (the
+// publisher pushes once a minute anyway); light status files every 15s.
+// "no-store" was forcing ~4.5MB re-downloads every 15s — the page's
+// entire slowness. Default caching + a bucketed buster lets the browser
+// serve the big files from memory between buckets.
+const HEAVY = /kalshi_binary_log|prediction_log|metrics_history/;
 const bust = u => u + (u.includes("?") ? "&" : "?") + "t=" +
-  (Math.floor(Date.now() / 15000) * 15);
+  (HEAVY.test(u) ? Math.floor(Date.now() / 60000) * 60
+                 : Math.floor(Date.now() / 15000) * 15);
 async function jsonl(path) {
   try {
-    const r = await fetch(bust(path), { cache: "no-store" });
+    const r = await fetch(bust(path));
     if (!r.ok) return [];
     return (await r.text()).trim().split("\n").map(l => {
       try { return JSON.parse(l); } catch { return null; } }).filter(Boolean);
@@ -190,6 +330,30 @@ function gated(rows) {
   if (tau == null && best) tau = best.t;
   const sel = rows.filter(r => Math.max(r.p_up, 1 - r.p_up) >= tau);
   return { tau, sel, ...prf(sel), cov: sel.length / rows.length };
+}
+function spark(vals, good) {
+  if (!vals || vals.length < 2) return "";
+  const W = 130, H = 26, n = vals.length;
+  let mn = Math.min(...vals), mx = Math.max(...vals);
+  const pad = (mx - mn) * .15 || .02; mn -= pad; mx += pad;
+  const X = i => 2 + i / (n - 1) * (W - 4);
+  const Y = v => 2 + (1 - (v - mn) / (mx - mn)) * (H - 4);
+  const d = vals.map((v, i) => `${i ? "L" : "M"}${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join("");
+  const y80 = (0.8 >= mn && 0.8 <= mx) ? `<line x1="2" x2="${W-2}" y1="${Y(.8)}" y2="${Y(.8)}" stroke="var(--faint)" stroke-dasharray="3 3" stroke-width="1"/>` : "";
+  return `<svg class="sparkline" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${y80}` +
+    `<path d="${d}" fill="none" stroke="${good ? "var(--good-text)" : "var(--down)"}" stroke-width="1.8"/>` +
+    `<circle cx="${X(n-1)}" cy="${Y(vals[n-1])}" r="2.5" fill="${good ? "var(--good-text)" : "var(--down)"}"/></svg>`;
+}
+function dailyGatedAcc(rows, tau) {
+  const byDay = {};
+  for (const q of rows) {
+    if (q.actual == null || Math.max(q.p_up, 1 - q.p_up) < tau) continue;
+    const d = new Date(q.made_ts * 1000).toLocaleDateString("en-US",
+      { timeZone: "America/Los_Angeles" });
+    (byDay[d] = byDay[d] || []).push(q.hit);
+  }
+  return Object.keys(byDay).sort(k => k).map(k =>
+    byDay[k].reduce((a, b) => a + b, 0) / byDay[k].length);
 }
 const numEl = (label, v) =>
   `<span class="stat"><span class="k">${label}</span><br>` +
@@ -291,15 +455,12 @@ function drawSignal(kb, bets, st) {
     `<div class="bubble">${text}</div></div></div>`;
   const msgs = [];
   msgs.push(msg("model", "oracle — the model's paper log", graded
-    ? `On the ${fmtC(r.close_ts)} PT window I would log a paper ${side} entry` +
-      (ask != null ? ` at the ${ask}¢ ask (fee ${fee}¢, break-even ${breakeven}%)` : "") +
-      ` — my confidence is ${(100 * conf).toFixed(0)}% against the ` +
-      `${(100 * tau).toFixed(0)}% bar I hold ${phase}-window calls to. ` +
-      `Simulated size: 2% of the paper bankroll. This is a log entry, not advice.`
-    : `I'm standing aside on the ${fmtC(r.close_ts)} PT window — ` +
-      `${(100 * conf).toFixed(0)}% doesn't clear the ${(100 * tau).toFixed(0)}% ` +
-      `bar for a ${phase}-window call. Historically, most of my losses came ` +
-      `from acting on moments exactly like this one.`));
+    ? `Paper ${side} on the ${fmtC(r.close_ts)} PT window` +
+      (ask != null ? ` at ${ask}¢` : "") +
+      ` — ${(100 * conf).toFixed(0)}% vs my ${(100 * tau).toFixed(0)}% bar. ` +
+      `Not advice.`
+    : `Standing aside — ${(100 * conf).toFixed(0)}% vs the ` +
+      `${(100 * tau).toFixed(0)}% ${phase}-window bar.`));
   const mleBits = [];
   if (alikeP != null)
     mleBits.push(`this cohort (${phase}-window, ≥${(100 * tau).toFixed(0)}% ` +
@@ -310,12 +471,10 @@ function drawSignal(kb, bets, st) {
     `${(k3.p_up >= .5) === (r.call === 1) ? "agrees" : "disagrees"}`);
   if (k4) mleBits.push(`the kb4 stack sits at ${(100 * k4.p_up).toFixed(0)}%`);
   msgs.push(msg("mle", "the MLE — engineering log",
-    `Cohort check: ${mleBits.join("; ")}. The phase-dependent bar exists ` +
+    `${mleBits.slice(0, 2).join("; ")}.` +
     (earlyPrec != null
-      ? `because flat-threshold early calls run ${(100 * earlyPrec).toFixed(0)}% precise on the live ledger — `
-      : `because early confidence is unreliable — `) +
-    `the precision-coverage frontier says accuracy is bought by ` +
-    `abstaining where confidence is cheap.`));
+      ? ` Early calls run ${(100 * earlyPrec).toFixed(0)}% at a flat bar — hence the phase gate.`
+      : "")));
   const qBits = [];
   if (r.mkt_p_up != null && (r.mkt_p_up >= .5) === (r.call === 1))
     qBits.push(`The market already prices ${(100 * r.mkt_p_up).toFixed(0)}% — ` +
@@ -340,74 +499,1052 @@ function drawSignal(kb, bets, st) {
   qBits.push(`and the ledger's standing lesson: the always-bet variant ` +
     `loses to fees — selection discipline is the entire game here`);
   msgs.push(msg("quant", "the quant — critique",
-    qBits.join(". ") + "."));
+    qBits.slice(0, 2).join(". ") + "."));
   el.innerHTML = msgs.join("");
 }
 
+let bidTimer = null;
+function drawBid(bets, st) {
+  const el = document.getElementById("bid-card");
+  const open = bets.filter(b => b.actual == null).slice(-1)[0];
+  if (bidTimer) { clearInterval(bidTimer); bidTimer = null; }
+  if (!open || open.close_ts * 1000 < Date.now()) {
+    el.innerHTML = '<p class="mini">no open paper bet — the bidder strikes ' +
+      'on edge, door, or forced entry each window</p>';
+    return;
+  }
+  const sel = open.sel_keep == null ? ""
+    : open.sel_keep
+      ? ` · selector <span style="color:var(--good-text)">kept</span> ${(100 * open.sel_p_win).toFixed(0)}%`
+      : ` · selector <span style="color:var(--down)">skipped</span> ${(100 * open.sel_p_win).toFixed(0)}%`;
+  const render = () => {
+    const left = Math.max(0, open.close_ts - Date.now() / 1000);
+    const frac = Math.min(1, Math.max(0, left / 900));
+    const C = 2 * Math.PI * 22;
+    el.innerHTML =
+      `<svg class="ring" viewBox="0 0 54 54">` +
+      `<circle cx="27" cy="27" r="22" fill="none" stroke="var(--grid)" stroke-width="5"/>` +
+      `<circle cx="27" cy="27" r="22" fill="none" stroke="var(--series-4)" stroke-width="5" ` +
+      `stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - frac)}" ` +
+      `transform="rotate(-90 27 27)"/>` +
+      `<text x="27" y="31" text-anchor="middle" style="font-size:12px;fill:var(--ink)">${Math.floor(left / 60)}:${String(Math.floor(left % 60)).padStart(2, "0")}</text></svg>` +
+      `<div class="bid-meta"><span class="k" style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">open paper bet</span><br>` +
+      `<span class="side ${open.side}">${open.side.toUpperCase()}</span> @ ${open.price_c}¢ ask` +
+      ` · edge ${open.edge_c > 0 ? "+" : ""}${open.edge_c}¢${sel}<br>` +
+      `<span class="mini">window closes ${new Date(open.close_ts * 1000).toLocaleTimeString("en-US", { timeZone: "America/Los_Angeles", hour: "2-digit", minute: "2-digit", hour12: false })} PT · simulated only</span></div>`;
+  };
+  render();
+  bidTimer = setInterval(render, 1000);
+}
+
+let tapeDrawn = false;
 function drawTape(prices, st, r, bets) {
   const head = document.getElementById("px-head"),
         box = document.getElementById("px-chart");
   if (!prices || prices.length < 10) return;
-  const t1 = prices[prices.length - 1].ts;
-  const pts = prices.filter(p => p.ts >= t1 - 3 * 3600);
+  let series = prices.slice();
+  if (st && st.brti && st.brti.price && st.alive_at
+      && st.alive_at > series[series.length - 1].ts)
+    series = series.concat([{ ts: st.alive_at, c: st.brti.price }]);
+  const span = window.__tapeSpan || 3 * 3600;
+  const t1 = series[series.length - 1].ts;
+  const pts = series.filter(p => p.ts >= t1 - span);
   const last = pts[pts.length - 1].c, ago = pts[0].c;
   const chg = last - ago, pct = chg / ago * 100, up = chg >= 0;
+  const chip = s => `<button class="chip${(window.__tapeSpan || 10800) === s ? " on" : ""}" ` +
+    `onclick="window.__tapeSpan=${s};window.__tapeRedraw&&window.__tapeRedraw()">` +
+    `${s / 3600}h</button>`;
   head.innerHTML = `<div class="price-head">` +
     `<span class="price-big">$${last.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>` +
     `<span class="price-chg ${up ? "up" : "down"}">${up ? "▲" : "▼"} ` +
-    `$${Math.abs(chg).toFixed(0)} (${pct.toFixed(2)}%) past 3h</span>` +
-    `<span class="mini">BTC-USD · minute closes + live composite</span></div>`;
-  const W = 900, H = 260, L = 8, R = 8, T = 12, B = 22;
+    `$${Math.abs(chg).toFixed(0)} (${pct.toFixed(2)}%)</span>` +
+    `<span class="legend" style="margin:0">${chip(3600)}${chip(10800)}${chip(21600)}</span></div>`;
+  const W = 900, H = 300, L = 10, R = 58, T = 14, B = 24;
   const xmin = pts[0].ts, xmax = t1;
   let ymin = Infinity, ymax = -Infinity;
-  for (const p of pts) { ymin = Math.min(ymin, p.c); ymax = Math.max(ymax, p.c); }
-  if (r && r.strike) { ymin = Math.min(ymin, r.strike); ymax = Math.max(ymax, r.strike); }
-  const pad = (ymax - ymin) * .08 || 10; ymin -= pad; ymax += pad;
+  for (const q of pts) { ymin = Math.min(ymin, q.c); ymax = Math.max(ymax, q.c); }
+  if (r && r.strike && r.close_ts >= xmin)
+    { ymin = Math.min(ymin, r.strike); ymax = Math.max(ymax, r.strike); }
+  const pad = (ymax - ymin) * .1 || 10; ymin -= pad; ymax += pad;
   const X = x => L + (x - xmin) / Math.max(1, xmax - xmin) * (W - L - R);
   const Y = y => T + (1 - (y - ymin) / (ymax - ymin)) * (H - T - B);
-  const d = pts.map((p, i) =>
-    `${i ? "L" : "M"}${X(p.ts).toFixed(1)},${Y(p.c).toFixed(1)}`).join("");
+  // Catmull-Rom -> cubic bezier: the smooth line is the whole feel
+  const P = pts.map(q => [X(q.ts), Y(q.c)]);
+  let d = `M${P[0][0].toFixed(1)},${P[0][1].toFixed(1)}`;
+  for (let i = 0; i < P.length - 1; i++) {
+    const p0 = P[Math.max(0, i - 1)], p1 = P[i],
+          p2 = P[i + 1], p3 = P[Math.min(P.length - 1, i + 2)];
+    const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+    const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+    d += `C${c1[0].toFixed(1)},${c1[1].toFixed(1)} ${c2[0].toFixed(1)},` +
+      `${c2[1].toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}`;
+  }
   const col = up ? "var(--up)" : "var(--down)";
   let g = `<defs><linearGradient id="pxg" x1="0" y1="0" x2="0" y2="1">` +
-    `<stop offset="0" stop-color="${up ? "rgba(43,217,126,.22)" : "rgba(255,93,93,.22)"}"/>` +
-    `<stop offset="1" stop-color="rgba(0,0,0,0)"/></linearGradient></defs>`;
-  g += `<path d="${d}L${X(xmax).toFixed(1)},${H - B}L${X(xmin).toFixed(1)},${H - B}Z" fill="url(#pxg)"/>`;
-  g += `<path class="line" d="${d}" fill="none" stroke="${col}" stroke-width="2.2" stroke-linejoin="round"/>`;
-  for (let ts = Math.ceil(xmin / 1800) * 1800; ts <= xmax; ts += 1800)
-    g += `<text x="${X(ts)}" y="${H - 4}" text-anchor="middle" style="font-size:10.5px">` +
+    `<stop offset="0" stop-color="${up ? "rgba(43,217,126,.20)" : "rgba(255,93,93,.20)"}"/>` +
+    `<stop offset="1" stop-color="rgba(0,0,0,0)"/></linearGradient>` +
+    `<filter id="pxglow" x="-20%" y="-20%" width="140%" height="140%">` +
+    `<feGaussianBlur stdDeviation="3" result="b"/>` +
+    `<feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>` +
+    `</filter></defs>`;
+  for (let i = 1; i <= 3; i++) {
+    const v = ymin + (ymax - ymin) * i / 4, y = Y(v);
+    g += `<line x1="${L}" x2="${W - R}" y1="${y}" y2="${y}" ` +
+      `stroke="var(--grid)" stroke-width="1"/>` +
+      `<text x="${W - R + 8}" y="${y + 4}" style="font-size:10.5px;` +
+      `fill:var(--faint)">$${Math.round(v).toLocaleString()}</text>`;
+  }
+  g += `<path d="${d}L${X(xmax).toFixed(1)},${H - B}L${X(xmin).toFixed(1)},${H - B}Z" fill="url(#pxg)" stroke="none"/>`;
+  g += `<path class="${tapeDrawn ? "" : "line"}" d="${d}" fill="none" ` +
+    `stroke="${col}" stroke-width="2.4" stroke-linejoin="round" ` +
+    `stroke-linecap="round" filter="url(#pxglow)"/>`;
+  const step = span <= 3600 ? 900 : span <= 10800 ? 1800 : 3600;
+  for (let ts = Math.ceil(xmin / step) * step; ts <= xmax; ts += step)
+    g += `<text x="${X(ts)}" y="${H - 6}" text-anchor="middle" ` +
+      `style="font-size:10.5px;fill:var(--faint)">` +
       new Date(ts * 1000).toLocaleTimeString("en-US",
         { timeZone: "America/Los_Angeles", hour: "2-digit",
           minute: "2-digit", hour12: false }) + `</text>`;
   if (r && r.strike && r.close_ts >= xmin) {
+    const ys = Y(r.strike);
     g += `<line x1="${X(Math.max(xmin, r.close_ts - 900))}" x2="${W - R}" ` +
-      `y1="${Y(r.strike)}" y2="${Y(r.strike)}" stroke="var(--series-4)" ` +
+      `y1="${ys}" y2="${ys}" stroke="var(--series-4)" ` +
       `stroke-dasharray="5 5" stroke-width="1.4"/>` +
-      `<text x="${W - R}" y="${Y(r.strike) - 6}" text-anchor="end" ` +
-      `style="fill:var(--series-4)">window strike $${Math.round(r.strike).toLocaleString()}</text>`;
+      `<rect x="${W - R + 4}" y="${ys - 9}" rx="4" width="52" height="16" ` +
+      `fill="rgba(201,133,0,.15)"/>` +
+      `<text x="${W - R + 8}" y="${ys + 3}" style="font-size:10px;` +
+      `fill:var(--series-4)">strike</text>`;
   }
   const priceAt = ts => {
     let best = pts[0];
-    for (const p of pts)
-      if (Math.abs(p.ts - ts) < Math.abs(best.ts - ts)) best = p;
-    return best.c;
+    for (const q of pts)
+      if (Math.abs(q.ts - ts) < Math.abs(best.ts - ts)) best = q;
+    return best;
   };
   for (const b of bets.filter(b => b.made_ts >= xmin && b.win != null))
-    g += `<circle cx="${X(b.made_ts)}" cy="${Y(priceAt(b.made_ts))}" r="4.5" ` +
+    g += `<circle cx="${X(b.made_ts)}" cy="${Y(priceAt(b.made_ts).c)}" r="4.5" ` +
       `fill="${b.win ? "var(--up)" : "var(--down)"}" stroke="var(--page)" ` +
       `stroke-width="1.5"><title>paper ${b.side.toUpperCase()} @ ` +
       `${b.price_c}¢ · ${b.win ? "won" : "lost"} ` +
       `${(b.pnl_c >= 0 ? "+" : "") + b.pnl_c}¢</title></circle>`;
-  g += `<circle cx="${X(xmax)}" cy="${Y(last)}" r="4" fill="${col}">` +
-    `<animate attributeName="r" values="3;6;3" dur="1.6s" repeatCount="indefinite"/></circle>`;
-  box.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" ` +
-    `aria-label="BTC price last 3 hours with the model's settled paper entries">${g}</svg>`;
+  const open = bets.filter(b => b.actual == null && b.made_ts >= xmin)
+    .slice(-1)[0];
+  if (open)
+    g += `<circle cx="${X(open.made_ts)}" cy="${Y(priceAt(open.made_ts).c)}" ` +
+      `r="6" fill="none" stroke="var(--series-4)" stroke-width="2">` +
+      `<animate attributeName="r" values="5;8;5" dur="1.6s" ` +
+      `repeatCount="indefinite"/></circle>`;
+  g += `<circle cx="${X(xmax)}" cy="${Y(last)}" r="4" fill="${col}" ` +
+    `filter="url(#pxglow)"><animate attributeName="r" values="3;6;3" ` +
+    `dur="1.6s" repeatCount="indefinite"/></circle>`;
+  // crosshair layer (hairline + snapped dot + pinned readout)
+  g += `<g id="px-x" style="display:none">` +
+    `<line id="px-xl" y1="${T}" y2="${H - B}" stroke="rgba(22,32,44,.30)" stroke-width="1"/>` +
+    `<circle id="px-xd" r="4.5" fill="var(--ink)" stroke="var(--page)" stroke-width="1.5"/>` +
+    `<rect id="px-xr" y="${T}" rx="5" width="118" height="20" fill="var(--ink)"/>` +
+    `<text id="px-xt" y="${T + 14}" style="font-size:11px;fill:var(--page);font-weight:600"></text></g>`;
+  box.innerHTML = `<svg id="px-svg" viewBox="0 0 ${W} ${H}" role="img" ` +
+    `aria-label="BTC price with the model's settled paper entries">${g}</svg>`;
+  tapeDrawn = true;
+  const svg = document.getElementById("px-svg");
+  const xg = document.getElementById("px-x"),
+        xl = document.getElementById("px-xl"),
+        xd = document.getElementById("px-xd"),
+        xr = document.getElementById("px-xr"),
+        xt = document.getElementById("px-xt");
+  svg.onmousemove = e => {
+    const rect = svg.getBoundingClientRect();
+    const fx = (e.clientX - rect.left) / rect.width * W;
+    if (fx < L || fx > W - R) { xg.style.display = "none"; return; }
+    const ts = xmin + (fx - L) / (W - L - R) * (xmax - xmin);
+    const q = priceAt(ts);
+    const px2 = X(q.ts), py = Y(q.c);
+    xg.style.display = "";
+    xl.setAttribute("x1", px2); xl.setAttribute("x2", px2);
+    xd.setAttribute("cx", px2); xd.setAttribute("cy", py);
+    const lbl = `$${q.c.toLocaleString(undefined, { maximumFractionDigits: 0 })}  ` +
+      new Date(q.ts * 1000).toLocaleTimeString("en-US",
+        { timeZone: "America/Los_Angeles", hour: "2-digit",
+          minute: "2-digit", hour12: false });
+    const rx = Math.min(W - R - 122, Math.max(L, px2 - 59));
+    xr.setAttribute("x", rx); xt.setAttribute("x", rx + 8);
+    xt.textContent = lbl;
+  };
+  svg.onmouseleave = () => { xg.style.display = "none"; };
   document.getElementById("px-note").textContent =
-    "dots = the mandatory bidder's settled paper entries (green won, red " +
-    "lost) · hover a dot for the fill · dashed = the open window's strike";
+    "hover for the crosshair · dots = settled paper entries (green won, " +
+    "red lost) · amber ring = open bet · dashed = the window strike";
+}
+
+function drawTwoMillion(kb) {
+  const el = document.getElementById("tm-cards");
+  // every arm judged the same way; the tiles showcase today's BEST
+  const armStats = (v) => {
+    const rows = kb.filter(r => r.variant === v && r.actual != null
+      && r.mkt_p_up != null && r.mins_left <= 10
+      && Math.max(r.p_up, 1 - r.p_up) >= 0.64);
+    const ent = [], wset = new Set();
+    for (const r of rows) {
+      const ask = 100 * (r.call ? r.mkt_p_up : 1 - r.mkt_p_up) + 2.5;
+      if (ask < 5 || ask >= 80) continue;
+      const fee = Math.ceil(7 * (ask / 100) * (1 - ask / 100));
+      ent.push([r.hit, ask + fee]); wset.add(r.ticker);
+    }
+    const n2 = ent.length;
+    if (!n2) return null;
+    const w2 = ent.reduce((a2, e) => a2 + e[0], 0), p2 = w2 / n2;
+    const c2 = ent.reduce((a2, e) => a2 + e[1], 0) / n2;
+    const z = 1.96, den = 1 + z * z / n2;
+    const half = z * Math.sqrt(p2 * (1 - p2) / n2 + z * z / (4 * n2 * n2));
+    const phi2 = (p2 + z * z / (2 * n2) + half) / den;
+    return { v, n: n2, wn: wset.size, p: p2, cost: c2,
+      plo: (p2 + z * z / (2 * n2) - half) / den, phi: phi2,
+      ev: (p2 * 100 - c2) / c2, evhi: (phi2 * 100 - c2) / c2,
+      be: c2 / 100 };
+  };
+  const ALL = ["kb2", "kb3", "kb4", "kb6", "kb7", "kb8"]
+    .map(armStats).filter(s2 => s2 && s2.wn >= 10);
+  if (!ALL.length) { el.innerHTML = '<p class="mini">collecting…</p>'; return; }
+  const bestA = ALL.reduce((a2, b2) => (b2.ev > a2.ev ? b2 : a2));
+  const k2s = ALL.find(s2 => s2.v === "kb2") || bestA;
+  const { p, cost, plo, phi, be, n } = bestA;
+  const ev = k2s.ev, evhi = k2s.evhi;   // kb2 keeps its scenario rows
+  const card = (big, label, sub) =>
+    `<div class="card" style="text-align:center"><div class="bignum" ` +
+    `style="font-size:28px">${big}</div><p class="mini">${label}</p>` +
+    `<p class="mini" style="color:var(--faint)">${sub}</p></div>`;
+  el.innerHTML =
+    card(`${(100 * p).toFixed(1)}%`, `win rate on biddable confident calls — best arm today: <b>${bestA.v}</b>`,
+      `95% CI [${(100 * plo).toFixed(1)}, ${(100 * phi).toFixed(1)}] · ${bestA.wn} windows (${n} entries)`) +
+    card(`${(100 * be).toFixed(1)}%`, "break-even win rate at the ask+fee",
+      `avg cost ${cost.toFixed(1)}¢ per 100¢ contract`) +
+    card(`${(100 * bestA.ev).toFixed(1)}%`, `expected value per $1 staked — ${bestA.v}`,
+      `even the CI's best case: ${(100 * bestA.evhi).toFixed(1)}%`) +
+    card(phi < be ? "never" : "—", "expected time to $2M, any capital",
+      phi < be ? "the CI never reaches break-even" : "edge within noise");
+  // the TA's requested form: time to $2M by scenario x starting capital
+  const BETS_D = 30, STAKE = 0.25, CAP = 500;  // stated assumptions
+  const t2m = (e, K0) => {
+    if (e <= 0) return "never";
+    const gDay = BETS_D * Math.log(1 + STAKE * e);
+    const Kcap = CAP / STAKE;
+    const t1 = K0 >= Kcap ? 0 : Math.log(Kcap / K0) / gDay;
+    const daily = BETS_D * CAP * e;
+    const t2 = Math.max(0, (2e6 - Math.max(K0, Kcap)) / daily);
+    const days = t1 + t2;
+    return days < 2 ? `${(days * 24).toFixed(0)}h`
+      : days < 365 ? `${days.toFixed(0)}d`
+      : `${(days / 365).toFixed(1)}y`;
+  };
+  const scen = [
+    ["kb2 measured", ev],
+    ["kb2 CI-best", evhi],
+    ["kb5 warm-start (unverified)", 0.189],
+  ];
+  // the other top arms, same entry rules, live-computed from the ledger
+  const armEV = (v) => {
+    const e2 = [];
+    for (const r of kb) {
+      if (r.variant !== v || r.actual == null || r.mkt_p_up == null
+          || r.mins_left > 10
+          || Math.max(r.p_up, 1 - r.p_up) < 0.64) continue;
+      const a2 = 100 * (r.call ? r.mkt_p_up : 1 - r.mkt_p_up) + 2.5;
+      if (a2 < 5 || a2 >= 80) continue;
+      const f2 = Math.ceil(7 * (a2 / 100) * (1 - a2 / 100));
+      e2.push([r.hit, a2 + f2, r.ticker]);
+    }
+    const n2 = e2.length;
+    if (!n2) return { n: 0, w: 0, ev: null };
+    const w2 = e2.reduce((a, x) => a + x[0], 0);
+    const c2 = e2.reduce((a, x) => a + x[1], 0) / n2;
+    // effective n is WINDOWS — same-window entries share one outcome
+    const wins2 = new Set(e2.map(x => x[2])).size;
+    return { n: n2, w: wins2, ev: ((w2 / n2) * 100 - c2) / c2 };
+  };
+  for (const v of ["kb4", "kb7", "kb8"]) {
+    const a3 = armEV(v);
+    scen.push([a3.w >= 10 ? `${v} measured · ${a3.w} windows`
+      : `${v} measured · collecting (${a3.w} windows)`,
+      a3.w >= 10 ? a3.ev : null]);
+  }
+  // THE ACTUAL SIMULATION (tests/sneaky_trader.py): detection-aware.
+  // Market makers track the trader's 'heat' (his recent take of the
+  // ~$500 near-touch depth, decaying when he abstains) and quote his
+  // edge away linearly in heat. Closed-form optimum: take
+  // x* = 1/(2*beta) of depth — harvest half of what detection
+  // tolerates. Loud (naive full-size) trading trips detection fast.
+  const LAM = 0.97, ALPHA = 0.06, HMAX = 1.0;
+  const BETA = ALPHA / ((1 - LAM) * HMAX);
+  const XSTAR = Math.min(1, 1 / (2 * BETA));
+  const fdys = d => d == null ? "–" : d < 2 ? `${(d * 24).toFixed(0)}h`
+    : d < 365 ? `${d.toFixed(0)}d` : `${(d / 365).toFixed(1)}y`;
+  const t2mPaper = (e) => {          // class world: paper has no cap
+    if (e == null) return "–";
+    if (e <= 0) return "never";
+    return fdys(Math.log(2e6 / 1e3)
+      / (BETS_D * Math.log(1 + STAKE * e)));
+  };
+  const stealth = (e) => {           // sustainable extraction at x*
+    if (e == null || e <= 0) return [null, null, null];
+    const daily = BETS_D * XSTAR * CAP * e * (1 - BETA * XSTAR);
+    // loud: heat h_n = (ALPHA/(1-LAM))(1-LAM^n); quoted out (e_eff
+    // ~5% of e) after n windows; total extracted until then
+    let h = 0, tot = 0, n = 0;
+    while (1 - h / HMAX > 0.05 && n < 10000) {
+      tot += CAP * e * Math.max(0, 1 - h / HMAX);
+      h = LAM * h + ALPHA;
+      n++;
+    }
+    return [daily, Math.ceil(n / BETS_D), tot];
+  };
+  document.getElementById("tm-table").innerHTML =
+    `<table style="min-width:0;max-width:680px"><thead><tr>` +
+    `<th>EV scenario</th><th class="num">per $1</th>` +
+    `<th class="num">loud: quoted out in</th>` +
+    `<th class="num">loud: total won</th>` +
+    `<th class="num">stealth $/day</th>` +
+    `<th class="num">$2M stealth</th>` +
+    `<th class="num">$2M paper · no cap</th></tr></thead><tbody>` +
+    scen.map(([nm, e]) => {
+      const [daily, caughtD, loudTot] = stealth(e);
+      const neg = e != null && e <= 0;
+      return `<tr><td>${nm}</td>` +
+        `<td class="num">${e == null ? "–" : (100 * e).toFixed(1) + "%"}</td>` +
+        `<td class="num">${e == null ? "–" : neg ? "never (no edge)"
+          : fdys(caughtD)}</td>` +
+        `<td class="num">${daily == null ? "–"
+          : "$" + Math.round(loudTot).toLocaleString()}</td>` +
+        `<td class="num">${daily == null ? (neg ? "never" : "–")
+          : "$" + daily.toFixed(0)}</td>` +
+        `<td class="num">${daily == null ? (neg ? "never" : "–")
+          : fdys(2e6 / daily)}</td>` +
+        `<td class="num">${t2mPaper(e)}</td></tr>`;
+    }).join("") + `</tbody></table>` +
+    `<p class="mini">the detection-aware simulation (tests/` +
+    `sneaky_trader.py): market makers quote a detected winner's edge ` +
+    `away — heat decay λ=${LAM}, sensitivity α=${ALPHA} ⇒ optimal ` +
+    `take x* = ${(100 * XSTAR).toFixed(0)}% of the ~$${CAP} near-touch ` +
+    `depth ("harvest half of what detection tolerates", Kyle 1985) · ` +
+    `~${BETS_D} windows/day · paper column = class world, no ` +
+    `counterparty adapts · simulated research, not advice</p>`;
+  // the LADDER trader simulated on the same scenarios: banks $1k on
+  // reaching $11k, plays on with $10k, level scales x10 — day-stepped
+  // the trader's true sizing is 10% of PLAYING bankroll (desk rule),
+  // so his bid steps $100 -> $1k -> $10k -> $100k as the ladder climbs
+  const LSTAKE = 0.10;
+  const fdays = d => d == null ? "—" : d < 2 ? `${(d * 24).toFixed(0)}h`
+    : d < 365 ? `${d.toFixed(0)}d` : `${(d / 365).toFixed(1)}y`;
+  const ladder = (e, capped) => {
+    let K = 1e3, banked = 0, level = 1e3, days = 0, firstBank = null;
+    while (banked + K < 2e6 && days < 365 * 200) {
+      K = (!capped || LSTAKE * K < CAP)
+        ? K * Math.pow(1 + LSTAKE * e, BETS_D)
+        : K + BETS_D * CAP * e;
+      while (K >= 11 * level) {
+        banked += level; K -= level; level *= 10;
+        if (firstBank == null) firstBank = days + 1;
+      }
+      days++;
+    }
+    return [firstBank, days >= 365 * 200 ? null : days, banked];
+  };
+  document.getElementById("tm-ladder").innerHTML =
+    `<p class="small" style="margin:6px 0 4px"><b>The ladder trader, ` +
+    `simulated</b> <span class="muted">— starts $1k; at $11k banks $1k, ` +
+    `plays $10k; at $110k banks $10k, plays $100k … bid = 10% of playing ` +
+    `bankroll, so it steps $100 → $1k → $10k → $100k</span></p>` +
+    `<table style="min-width:0;max-width:640px"><thead><tr>` +
+    `<th>EV scenario</th><th class="num">per $1</th>` +
+    `<th class="num">first $1k banked</th>` +
+    `<th class="num">$2M at ~$500/window depth</th>` +
+    `<th class="num">$2M if depth unlimited</th></tr></thead><tbody>` +
+    scen.map(([nm, e]) => {
+      if (e == null) return `<tr><td>${nm}</td>` +
+        `<td class="num">–</td><td class="num">–</td>` +
+        `<td class="num">–</td><td class="num">–</td></tr>`;
+      if (e <= 0) return `<tr><td>${nm}</td>` +
+        `<td class="num">${(100 * e).toFixed(1)}%</td>` +
+        `<td class="num">never</td><td class="num">never</td>` +
+        `<td class="num">never</td></tr>`;
+      const [fb, tc] = ladder(e, true);
+      const [, tu] = ladder(e, false);
+      return `<tr><td>${nm}</td>` +
+        `<td class="num">${(100 * e).toFixed(1)}%</td>` +
+        `<td class="num">${fdays(fb)}</td>` +
+        `<td class="num">${tc == null ? ">200y" : fdays(tc)}</td>` +
+        `<td class="num">${tu == null ? ">200y" : fdays(tu)}</td></tr>`;
+    }).join("") + `</tbody></table>` +
+    `<p class="mini">the ladder mechanics scale the bid ×10 per rung ` +
+    `exactly as designed — with unlimited depth each rung takes ` +
+    `roughly constant time, so $2M arrives in rungs · at the measured ` +
+    `~$${CAP}/window depth a $10k bid still fills only ~$${CAP}, which ` +
+    `is the whole gap between the two right-hand columns · banking ` +
+    `locks profits out of drawdown reach either way · simulated ` +
+    `research, not advice</p>`;
+  // THE DISCIPLINED TRADER — every measured lesson combined:
+  // (1) selectivity: bid ONLY kb7's top-confidence windows (~44% of
+  //     qualifying — the tier where the ledger's edge concentrates)
+  // (2) stealth sizing: total take = x* (25%) of depth, so per traded
+  //     window stake = x*/0.44 ~ 57% of near-touch depth, keep half
+  //     the edge (Kyle optimum)
+  // (3) one bid per window, ladder banking for drawdown protection
+  try {
+    const ke = [];
+    for (const r of kb) {
+      if (r.variant !== "kb7" || r.actual == null || r.mkt_p_up == null
+          || r.mins_left > 10
+          || Math.max(r.p_up, 1 - r.p_up) < 0.64) continue;
+      const a4 = 100 * (r.call ? r.mkt_p_up : 1 - r.mkt_p_up) + 2.5;
+      if (a4 < 5 || a4 >= 80) continue;
+      const f4 = Math.ceil(7 * (a4 / 100) * (1 - a4 / 100));
+      ke.push([Math.max(r.p_up, 1 - r.p_up), r.hit, a4 + f4, r.ticker]);
+    }
+    ke.sort((a, b) => b[0] - a[0]);
+    const top = ke.slice(0, Math.ceil(ke.length * 0.44));
+    const wn = new Set(top.map(x => x[3])).size;
+    const wsum = top.reduce((a, x) => a + x[1], 0);
+    const cost = top.reduce((a, x) => a + x[2], 0) / Math.max(1, top.length);
+    const eSel = top.length
+      ? ((wsum / top.length) * 100 - cost) / cost : null;
+    const QSEL = 0.44, WD = BETS_D * QSEL;          // ~13 windows/day
+    const FSEL = XSTAR / QSEL;                       // ~57% of depth
+    const row = (name, D2) => {
+      if (eSel == null || eSel <= 0)
+        return `<tr><td>${name}</td><td class="num">–</td>` +
+          `<td class="num">never</td><td class="num">never</td></tr>`;
+      const daily = WD * FSEL * D2 * eSel * 0.5;
+      return `<tr><td>${name}</td>` +
+        `<td class="num">$${Math.round(FSEL * D2).toLocaleString()}</td>` +
+        `<td class="num">$${Math.round(daily).toLocaleString()}</td>` +
+        `<td class="num">${fdys(2e6 / daily)}</td></tr>`;
+    };
+    const paperD = eSel != null && eSel > 0
+      ? fdys(Math.log(2e6 / 1e3) / (WD * Math.log(1 + 0.10 * eSel)))
+      : "never";
+    document.getElementById("tm-winner").innerHTML =
+      `<p class="small" style="margin:6px 0 4px"><b>The disciplined ` +
+      `trader — the winning policy</b> <span class="muted">— bids only ` +
+      `kb7's top-confidence windows (~${WD.toFixed(0)}/day), sized so ` +
+      `total take = the stealth optimum (${(100 * XSTAR).toFixed(0)}% ` +
+      `of depth), one bid per window, ladder banking</span></p>` +
+      `<p class="mini">selective tier measured live: ${wsum}/${top.length}` +
+      ` entries won across ${wn} windows · EV ` +
+      `${eSel == null ? "–" : (100 * eSel).toFixed(1) + "%"}/$1 at avg ` +
+      `cost ${cost.toFixed(0)}¢ — thin sample</p>` +
+      `<p class="mini"><b>replay corroboration (08-25, pre-registered):` +
+      `</b> the same frozen rule over 663 mined windows at REAL asks ` +
+      `won 74.4% vs a 71.8¢ break-even → <b>+3.6%/$1</b>, clustered ` +
+      `t 0.85 — the live tier's big EV is thin-sample optimism until ` +
+      `the live stream proves otherwise; both numbers shown, never ` +
+      `merged</p>` +
+      `<table style="min-width:0;max-width:640px"><thead><tr>` +
+      `<th>depth world</th><th class="num">stake/window</th>` +
+      `<th class="num">$/day</th><th class="num">$2M</th></tr></thead>` +
+      `<tbody>` +
+      row(`conservative floor ($${CAP}/window)`, CAP) +
+      row(`measured near-touch (~$9k, units audit pending)`, 9000) +
+      `<tr><td>paper · class world (no adversary, compounding)</td>` +
+      `<td class="num">10% of bankroll</td>` +
+      `<td class="num">+${(100 * (Math.pow(1 + 0.10 * eSel, WD) - 1))
+        .toFixed(0)}%/day, compounding</td>` +
+      `<td class="num">${paperD}</td></tr>` +
+      `</tbody></table>` +
+      `<p class="mini">the one number this stands on is the selective ` +
+      `tier's win rate — it updates live above and gets a pre-registered ` +
+      `Conviction Book stream before anything more is claimed · ` +
+      `simulated research, not advice</p>`;
+    // ---- the answer in one line + the math as an animated pipeline ----
+    const ansEl = document.getElementById("tm-answer");
+    const flowEl = document.getElementById("tm-flow");
+    if (eSel != null && eSel > 0 && ansEl && flowEl) {
+      const dailyF = WD * FSEL * CAP * eSel * 0.5;
+      const daily9 = WD * FSEL * 9000 * eSel * 0.5;
+      ansEl.innerHTML =
+        `<b>The answer, in one line:</b> betting <i>everything</i> loses — ` +
+        `every arm's all-entries edge is negative at real asks (tiles ` +
+        `above) — so $2M by brute force is <b>never</b>. The one live ` +
+        `route is <b>selectivity</b>: the disciplined tier is running ` +
+        `<b>${wsum}/${top.length}</b> across ${wn} windows ` +
+        `(+${(100 * eSel).toFixed(1)}%/$1). <b>If</b> that survives more ` +
+        `windows, the pipeline below is the whole calculation:`;
+      const node = (x, big, l1, l2, col) =>
+        `<g class="fnode"><rect x="${x}" y="34" width="142" height="66" ` +
+        `rx="12" fill="var(--surface-2)" stroke="var(--border)"/>` +
+        `<text x="${x + 71}" y="62" text-anchor="middle" font-size="17" ` +
+        `font-weight="700" fill="${col || "var(--ink)"}">${big}</text>` +
+        `<text x="${x + 71}" y="78" text-anchor="middle" font-size="8.5" ` +
+        `fill="currentColor" opacity=".6">${l1}</text>` +
+        `<text x="${x + 71}" y="90" text-anchor="middle" font-size="8.5" ` +
+        `fill="currentColor" opacity=".6">${l2}</text></g>`;
+      const op = (x, sym) =>
+        `<line class="flowline" x1="${x}" x2="${x + 22}" y1="67" y2="67" ` +
+        `stroke="currentColor" stroke-opacity=".45" stroke-width="1.5"/>` +
+        `<text x="${x + 11}" y="58" text-anchor="middle" font-size="13" ` +
+        `font-weight="700" fill="currentColor" opacity=".6">${sym}</text>`;
+      flowEl.innerHTML =
+        `<svg viewBox="0 0 985 152" style="width:100%;margin-top:6px" ` +
+        `role="img" aria-label="the $2M math pipeline">` +
+        `<title>edge × stake × windows × detection = dollars per day → ` +
+        `time to $2M</title>` +
+        node(0, `+${(100 * eSel).toFixed(1)}%`,
+          "edge per $1 staked", "selective tier · live") +
+        op(146, "×") +
+        node(172, `$${Math.round(FSEL * CAP)}`,
+          "stake per window", `${(100 * XSTAR).toFixed(0)}% of $${CAP} depth`) +
+        op(318, "×") +
+        node(344, `${WD.toFixed(0)}/day`,
+          "windows that qualify", "confidence ≥ 77%") +
+        op(490, "×") +
+        node(516, "½", "detection tax", "trade quietly, keep half") +
+        op(662, "=") +
+        node(688, `$${Math.round(dailyF)}/day`,
+          "sustainable extraction", "at proven depth", "var(--good-text)") +
+        op(834, "→") +
+        node(843, `${fdys(2e6 / dailyF)}`,
+          "to $2,000,000", "$2M ÷ $/day", "var(--good-text)") +
+        `<text x="0" y="128" font-size="10.5" fill="currentColor" ` +
+        `opacity=".65">${(window.__st && window.__st.k_depth_yes != null)
+          ? `depth on the book RIGHT NOW: ~$${Math.round(
+              Math.min(window.__st.k_depth_yes, window.__st.k_depth_no)
+            ).toLocaleString()} near-touch (thinner side, live) · `
+          : ""}same pipeline, other worlds:  measured ~$9k depth ` +
+        `→ <tspan font-weight="700">$${Math.round(daily9).toLocaleString()}` +
+        `/day → ${fdys(2e6 / daily9)}</tspan>   ·   paper / class world ` +
+        `(no depth cap, no adversary) → <tspan font-weight="700">` +
+        `${paperD}</tspan></text>` +
+        `<text x="0" y="146" font-size="10.5" fill="currentColor" ` +
+        `opacity=".5">every number is live — the tier's win rate moves ` +
+        `this whole chain · simulated research, not advice</text></svg>`;
+    } else if (ansEl) {
+      ansEl.innerHTML = `<b>The answer, in one line:</b> every measured ` +
+        `edge — including the selective tier right now — is at or below ` +
+        `break-even at real asks, so the honest time-to-$2M is ` +
+        `<b>never</b> until a win rate clears ~75% on biddable entries. ` +
+        `The simulations below show what changes if one does.`;
+      if (flowEl) flowEl.innerHTML = "";
+    }
+  } catch (e) {}
+  document.getElementById("tm-verdict").innerHTML =
+    `Three regimes: <b>never</b> (measured edge, negative) · <b>~weeks</b> ` +
+    `(any real positive edge, compounding uncapped) · <b>~years</b> ` +
+    `(positive edge under ~$500/window market capacity). The research ` +
+    `finding: the number that must change is a win rate above ` +
+    `${(100 * be).toFixed(1)}% on biddable entries — adverse selection ` +
+    `currently caps us below it (the market prices out the good calls ` +
+    `and sells the disputed ones). Simulated research, not advice.`;
+}
+
+function drawDesk(pt, kb, pt2, pt3d, pt4d) {
+  // The $1K Desk — portfolio view for the follow-the-leader paper trader
+  const START = 100000;                       // $1,000 in cents
+  const COLD = { kb2: "#0b7d8a", kb3: "#b43a6e", kb4: "#5f50c7",
+                 kb6: "#8f6000", kb7: "#0d7a4e", kb8: "#667283" };
+  const settled = pt.filter(t => t.actual != null);
+  const open = pt.filter(t => t.actual == null);
+  const cash = START + settled.reduce((a, t) => a + t.pnl_c, 0)
+                     - open.reduce((a, t) => a + t.stake_c, 0);
+  const equity = cash + open.reduce((a, t) => a + t.stake_c, 0);
+  const money = c => (c < 0 ? "−$" : "$") + Math.abs(c / 100)
+    .toLocaleString("en-US", { minimumFractionDigits: 2,
+                               maximumFractionDigits: 2 });
+  const dayKey = ts => new Date(ts * 1000)
+    .toLocaleDateString("en-US", { timeZone: "America/Los_Angeles" });
+  const today = dayKey(Date.now() / 1000);
+  const dpnl = settled.filter(t => dayKey(t.close_ts) === today)
+    .reduce((a, t) => a + t.pnl_c, 0);
+  // identity, balances, leader, ladder state all live on the roster
+  // cards — nothing is stated twice (the ledger's "ladder size" column
+  // carries the twin's per-trade sizing)
+  for (const id of ["desk-head", "desk-ladder", "desk2-feed"]) {
+    const z = document.getElementById(id);
+    if (z) z.innerHTML = "";
+  }
+  // equity race — all three traders on one labeled, hoverable chart
+  const cv = document.getElementById("desk-curve");
+  const mkSeries = (trades, ladder) => {
+    const s = trades.filter(t => t.actual != null)
+      .sort((x, y) => x.close_ts - y.close_ts);
+    const out = s.length ? [[s[0].close_ts - 900, START]] : [];
+    let k = START, bk = 0, lv = START;
+    for (const t of s) {
+      if (ladder) {
+        k += t.pnl_c;
+        while (k >= 11 * lv) { bk += lv; k -= lv; lv *= 10; }
+        out.push([t.close_ts, k + bk]);
+      } else out.push([t.close_ts, t.bankroll_c]);
+    }
+    return out;
+  };
+  // [name, color, series, dash] — ladder is DASHED: he mirrors the
+  // follower's trades, so when their lines overlap both stay readable
+  const SER = [
+    ["Follower", "#2461b8", mkSeries(pt, false), ""],
+    ["Ladder", "#8f6000", mkSeries(pt2 || [], true), "6 5"],
+    ["Disciplined", "#0d7a4e", mkSeries(pt3d || [], false), ""],
+    ["Gambler", "#b84343", mkSeries(pt4d || [], false), ""],
+  ];
+  const withData = SER.filter(s => s[2].length >= 2);
+  if (!withData.length) {
+    cv.innerHTML = '<p class="mini">the equity race begins with the ' +
+      'first settled trade</p>';
+  } else {
+    const allx = withData.flatMap(s => s[2].map(p => p[0]));
+    const x0 = Math.min(...allx), x1 = Math.max(...allx);
+    // every trader is on the chart from the start — a newborn with no
+    // settles yet is honestly FLAT at $1,000 until his first result
+    for (const s of SER) {
+      if (!s[2].length) s[2] = [[x0, START], [x1, START]];
+      else if (s[2][0][0] > x0) s[2].unshift([x0, START]);
+    }
+    const W = 960, H = 220, PL = 58, PR = 16, TT = 14, PB = 26;
+    const ally = SER.flatMap(s => s[2].map(p => p[1])).concat([START]);
+    // round-dollar gridlines: pick a nice step, pad domain to it
+    const rawLo = Math.min(...ally), rawHi = Math.max(...ally);
+    const span = Math.max(2000, rawHi - rawLo);        // >= $20 span
+    const step = [2500, 5000, 10000, 25000, 50000, 100000, 250000]
+      .find(s => span / s <= 5) || 500000;
+    const y0 = Math.floor(rawLo / step) * step;
+    const y1 = Math.ceil(rawHi / step) * step;
+    const X = t => PL + (W - PL - PR) * (t - x0) / Math.max(1, x1 - x0);
+    const Y = v => H - PB - (H - TT - PB) * (v - y0) / Math.max(1, y1 - y0);
+    const fPT = ts => new Date(ts * 1000).toLocaleTimeString("en-US",
+      { timeZone: "America/Los_Angeles", hour: "2-digit",
+        minute: "2-digit", hour12: false });
+    let grid = "";
+    for (let v = y0; v <= y1; v += step) {
+      grid += `<line x1="${PL}" x2="${W - PR}" y1="${Y(v)}" y2="${Y(v)}" ` +
+        `stroke="currentColor" stroke-opacity=".08"/>` +
+        `<text x="${PL - 7}" y="${Y(v) + 3.5}" text-anchor="end" ` +
+        `font-size="10" fill="currentColor" opacity=".55">` +
+        `$${(v / 100).toLocaleString()}</text>`;
+    }
+    let xt = "";
+    for (let xi = 0; xi <= 4; xi++) {
+      const t = x0 + (x1 - x0) * xi / 4;
+      xt += `<text x="${X(t)}" y="${H - 8}" text-anchor="${xi === 0
+        ? "start" : xi === 4 ? "end" : "middle"}" font-size="10" ` +
+        `fill="currentColor" opacity=".55">${fPT(t)}</text>`;
+    }
+    const first = !window.__eqDrawn; window.__eqDrawn = true;
+    // forecast cones: 5th-95th Monte-Carlo band behind each live line,
+    // at the desk's measured win rate — the falsifiability layer: a
+    // live path escaping its cone is the model being wrong in public
+    const settledAll = pt.filter(t => t.actual != null);
+    const pHat = settledAll.length >= 5
+      ? settledAll.reduce((a2, t) => a2 + t.win, 0) / settledAll.length
+      : 0.79;
+    const FRACS = { Follower: 0.10, Ladder: 0.10, Disciplined: 0.10,
+                    Gambler: 0.33 };
+    window.__cones = window.__cones || {};
+    const coneFor = (nm, ser) => {
+      const nb = ser.length - 1;
+      if (nb < 1) return null;
+      const key = `${nm}:${nb}:${pHat.toFixed(2)}`;
+      if (window.__cones[key]) return window.__cones[key];
+      const P = 300, paths2 = [];
+      for (let i = 0; i < P; i++) {
+        let k = START; const tr = [k];
+        for (let j = 0; j < nb; j++) {
+          const ncon = Math.floor(
+            Math.min(FRACS[nm] * k, 450000) / 75);
+          if (ncon >= 1) {
+            k -= ncon * 75;
+            if (Math.random() < pHat) k += ncon * 100;
+          }
+          tr.push(k);
+        }
+        paths2.push(tr);
+      }
+      const lo = [], hi = [];
+      for (let j = 0; j <= nb; j++) {
+        const colv = paths2.map(t => t[j]).sort((x, y) => x - y);
+        lo.push(colv[15]); hi.push(colv[284]);
+      }
+      return (window.__cones[key] = { lo, hi });
+    };
+    let cones = "";
+    for (const [nm, col, ser] of SER) {
+      const c = coneFor(nm, ser);
+      if (!c) continue;
+      const up = c.hi.map((v, j) =>
+        (j ? "L" : "M") + X(ser[j][0]).toFixed(1) + "," +
+        Y(Math.min(v, y1)).toFixed(1)).join(" ");
+      const dn = c.lo.map((v, j) =>
+        "L" + X(ser[c.lo.length - 1 - j][0]).toFixed(1) + "," +
+        Y(Math.max(c.lo[c.lo.length - 1 - j], y0)).toFixed(1)).join(" ");
+      cones += `<path d="${up} ${dn} Z" fill="${col}" ` +
+        `fill-opacity=".07" stroke="none"/>`;
+    }
+    let paths = "", dots = "";
+    for (const [nm, col, ser, dash] of SER) {
+      const d = ser.map((p, i) => (i ? "L" : "M") + X(p[0]).toFixed(1)
+        + "," + Y(p[1]).toFixed(1)).join(" ");
+      // draw-in anim animates stroke-dasharray, so dashed series skip it
+      paths += `<path class="${first && !dash ? "eq" : ""}" d="${d}" ` +
+        `fill="none" stroke="${col}" stroke-width="2.2"` +
+        (dash ? ` stroke-dasharray="${dash}"` : "") + `/>`;
+      const e = ser[ser.length - 1];
+      dots += `<circle class="eq-dot" cx="${X(e[0])}" cy="${Y(e[1])}" ` +
+        `r="3.4" fill="${col}"/>`;
+    }
+    // legend carries the live values — no clipped in-plot labels
+    const legend = SER.map(([nm, col, ser, dash]) => {
+      const v = ser[ser.length - 1][1];
+      return `<span style="display:inline-flex;align-items:center;gap:6px">` +
+        `<svg width="22" height="6"><line x1="0" x2="22" y1="3" y2="3" ` +
+        `stroke="${col}" stroke-width="2.5"` +
+        (dash ? ` stroke-dasharray="${dash}"` : "") + `/></svg>` +
+        `<b>${nm}</b> <span class="muted" style="font-variant-numeric:` +
+        `tabular-nums">$${(Math.round(v) / 100).toLocaleString("en-US",
+          { minimumFractionDigits: 2 })}</span></span>`;
+    }).join(`<span style="opacity:.3">·</span>`);
+    cv.innerHTML =
+      `<div class="legend" style="justify-content:space-between;` +
+      `margin:14px 0 2px"><span style="font:700 11px var(--display);` +
+      `letter-spacing:.1em;color:var(--muted)">EQUITY RACE — LIVE PAPER ` +
+      `BANKROLLS</span><span style="display:inline-flex;gap:14px;` +
+      `align-items:center;flex-wrap:wrap">${legend}</span></div>` +
+      `<p class="mini" style="margin:0 0 2px">shaded = each trader's ` +
+      `5–95% forecast cone at the desk's measured win rate ` +
+      `(${(100 * pHat).toFixed(0)}%) — a live line escaping its cone ` +
+      `falsifies the model in public</p>` +
+      `<svg viewBox="0 0 ${W} ${H}" style="width:100%" role="img" ` +
+      `aria-label="equity race — three paper traders, bankroll over time">` +
+      `<title>equity race — bankroll (incl. banked) after each settled ` +
+      `trade, PT times</title>` + grid + cones +
+      `<line x1="${PL}" x2="${W - PR}" y1="${Y(START)}" y2="${Y(START)}" ` +
+      `stroke="currentColor" stroke-opacity=".3" stroke-dasharray="3 4"/>` +
+      `<text x="${W - PR}" y="${Y(START) - 5}" text-anchor="end" ` +
+      `font-size="10" fill="currentColor" opacity=".5">$1,000 start</text>` +
+      paths + dots + xt + `</svg>`;
+  }
+  const fT = ts => new Date(ts * 1000).toLocaleTimeString("en-US",
+    { timeZone: "America/Los_Angeles", hour: "2-digit", minute: "2-digit",
+      hour12: false }) + " PT";
+  const p2byT = {}, p4byT = {};
+  for (const t of (pt2 || [])) p2byT[t.ticker] = t;
+  for (const t of (pt4d || [])) p4byT[t.ticker] = t;
+  const rowsH = pt.slice(-8).reverse().map(t => {
+    const res = t.actual == null
+      ? `<span class="badge pending">open</span>`
+      : t.win
+        ? `<span style="color:var(--good-text)">+${money(t.pnl_c)}</span>`
+        : `<span style="color:var(--down)">${money(t.pnl_c)}</span>`;
+    const l2 = p2byT[t.ticker], l4 = p4byT[t.ticker];
+    return `<tr><td>${fT(t.made_ts)}</td>` +
+      `<td><span style="color:${COLD[t.leader] || "inherit"}">●</span> ` +
+      `${t.leader} <span class="muted">${t.rec10}</span></td>` +
+      `<td>${t.side.toUpperCase()} ≥ $` +
+      `${Math.round(t.strike).toLocaleString()}</td>` +
+      `<td class="num">${t.contracts} @ ${t.ask_c}¢</td>` +
+      `<td class="num">${l2 ? l2.contracts : "–"}</td>` +
+      `<td class="num">${l4 ? l4.contracts : "–"}</td>` +
+      `<td class="num">${money(t.stake_c)}</td>` +
+      `<td class="num">${res}</td></tr>`;
+  }).join("");
+  // the bid ledger is ALWAYS shown — an empty book is information too
+  document.getElementById("desk-trades").innerHTML =
+    `<table style="min-width:0"><thead><tr><th>entry</th>` +
+    `<th>leader (last-10)</th><th>call</th><th class="num">size</th>` +
+    `<th class="num">ladder size</th>` +
+    `<th class="num">gambler size</th>` +
+    `<th class="num">follower stake</th>` +
+    `<th class="num">follower result</th></tr>` +
+    `</thead><tbody>${rowsH ||
+      `<tr><td colspan="8" class="mini">no bids yet — the desk enters ` +
+      `only when the leader clears its gate on a biddable window ` +
+      `(ask 5–80¢, ≤12 min left)</td></tr>`}</tbody></table>`;
+  const byd = {};
+  for (const t of settled) {
+    const dk = dayKey(t.close_ts);
+    (byd[dk] = byd[dk] || [0, 0, 0])[0]++;
+    byd[dk][1] += t.win;
+    byd[dk][2] += t.pnl_c;
+  }
+  const days = Object.entries(byd).slice(-3);
+  document.getElementById("desk-eod").innerHTML = days.length
+    ? "EOD review (follower): " + days.map(([dk, [n2, w2, p2]]) =>
+        `${dk} — ${n2} trades, ${w2} wins, <b style="color:${p2 >= 0
+          ? "var(--good-text)" : "var(--down)"}">${money(p2)}</b>`)
+        .join(" · ")
+    : "";
+}
+
+function drawRoster(pt, pt2, pt3, kb, pt4) {
+  const el = document.getElementById("desk-roster");
+  if (!el) return;
+  const START = 100000;
+  const money = c => (c < 0 ? "−$" : "$") + Math.abs(c / 100)
+    .toLocaleString("en-US", { minimumFractionDigits: 2,
+                               maximumFractionDigits: 2 });
+  const dayKey = ts => new Date(ts * 1000)
+    .toLocaleDateString("en-US", { timeZone: "America/Los_Angeles" });
+  const today = dayKey(Date.now() / 1000);
+  const spark = (series, col) => {
+    if (series.length < 2) return "";
+    const w = 190, h = 34, p = 3;
+    const ys = series, y0 = Math.min(...ys, START), y1 = Math.max(...ys, START);
+    const X = i => p + (w - 2 * p) * i / (series.length - 1);
+    const Y = v => h - p - (h - 2 * p) * (v - y0) / Math.max(1, y1 - y0);
+    const d = series.map((v, i) =>
+      (i ? "L" : "M") + X(i).toFixed(1) + "," + Y(v).toFixed(1)).join(" ");
+    return `<svg class="tspark" viewBox="0 0 ${w} ${h}" width="${w}" ` +
+      `height="${h}" role="img" aria-label="equity sparkline">` +
+      `<line x1="${p}" x2="${w - p}" y1="${Y(START)}" y2="${Y(START)}" ` +
+      `stroke="currentColor" stroke-opacity=".2" stroke-dasharray="2 3"/>` +
+      `<path d="${d}" fill="none" stroke="${col}" stroke-width="1.8"/>` +
+      `<circle class="eq-dot" cx="${X(series.length - 1)}" ` +
+      `cy="${Y(series[series.length - 1])}" r="2.6" fill="${col}"/></svg>`;
+  };
+  const stats = (trades) => {
+    const s = trades.filter(t => t.actual != null);
+    const wins = s.reduce((a, t) => a + t.win, 0);
+    const dp = s.filter(t => dayKey(t.close_ts) === today)
+      .reduce((a, t) => a + t.pnl_c, 0);
+    return { s, wins, dp, series: [START].concat(s.map(t => t.bankroll_c)) };
+  };
+  const a = stats(pt), b = stats(pt2), c = stats(pt3),
+        g4 = stats(pt4 || []);
+  const bank1 = START + a.s.reduce((x, t) => x + t.pnl_c, 0);
+  let cash2 = START, banked2 = 0, level2 = START;
+  for (const t of b.s.slice().sort((x, y) => x.close_ts - y.close_ts)) {
+    cash2 += t.pnl_c;
+    while (cash2 >= 11 * level2) {
+      banked2 += level2; cash2 -= level2; level2 *= 10; }
+  }
+  const bank3 = START + c.s.reduce((x, t) => x + t.pnl_c, 0);
+  const bank4 = START + g4.s.reduce((x, t) => x + t.pnl_c, 0);
+  b.series = [START];
+  { let k = START, bk = 0, lv = START;
+    for (const t of b.s) { k += t.pnl_c;
+      while (k >= 11 * lv) { bk += lv; k -= lv; lv *= 10; }
+      b.series.push(k + bk); } }
+  const delta = v => `<span class="tdelta" style="color:${v >= 0
+    ? "var(--good-text)" : "var(--down)"}">${v >= 0 ? "▲" : "▼"} ` +
+    `${money(v)} today</span>`;
+  const lastLead = pt[pt.length - 1];
+  const card = (cls, emoji, name, bal, dp, meta, series, col) =>
+    `<div class="tcard"><div class="tavatar ${cls}">${emoji}</div>` +
+    `<div class="tname">${name}</div>` +
+    `<div class="tbank">${money(bal)}</div>${delta(dp)}` +
+    `<div class="tmeta">${meta}</div>${spark(series, col)}</div>`;
+  // the disproved wall's desk tile is a LIVE contest: replay prediction
+  // vs the actual follower — updated here so it can never go stale
+  try {
+    const dn = document.getElementById("disp-desk-num");
+    const ds = document.getElementById("disp-desk-sub");
+    if (dn && a.s.length) {
+      dn.textContent = `$103 vs ${money(bank1)}`;
+      const beat = bank1 > 10300;
+      ds.innerHTML = `${beat ? "?" : "✗"} follow-the-leader — replay ` +
+        `(approx asks, 4 days) predicted ruin at $103; the LIVE desk ` +
+        `is the controlling test: <b>${money(bank1)}</b> after ` +
+        `${a.s.length} trades${beat
+          ? " — replay currently contradicted, verdict pending"
+          : " — tracking the replay"}`;
+    }
+  } catch (e) {}
+  el.innerHTML =
+    card("t1", "🦊", "Dartmon · the Follower", bank1, a.dp,
+      `rides the hot hand — always the arm leading its last 10 ` +
+      `decisions${lastLead ? ` · now <b>${lastLead.leader}</b> ` +
+      `${lastLead.rec10}` : ""} · record ${a.wins}/${a.s.length}`,
+      a.series, "#2461b8") +
+    card("t2", "🐢", "Rungmon · the Ladder", cash2 + banked2, b.dp,
+      `same calls, uncapped 10% sizing · ` + (banked2 > 0
+        ? `banked <b>${money(banked2)}</b> so far · level ${money(level2)}`
+        : `first rung: bank $1k on reaching $11k, then ×10`),
+      b.series, "#8f6000") +
+    card("t3", "🦉", "Sagemon · the Disciplined", bank3, c.dp,
+      `takes any desk entry at ≥77% confidence (v2) · record ${c.wins}/` +
+      `${c.s.length} · most windows he simply watches`,
+      c.series, "#0d7a4e") +
+    card("t4", "🐉", "Blazemon · the Gambler", bank4, g4.dp,
+      (bank4 < 500
+        ? `<b style="color:var(--down)">BUSTED</b> · record ` +
+          `${g4.wins}/${g4.s.length}`
+        : `33% of capital on every leader entry (~1.6× Kelly), capped ` +
+          `by live book depth · record ${g4.wins}/${g4.s.length} · three ` +
+          `losses in a row = −70%`),
+      g4.series, "#b84343");
+  // count-up animation on the three balances
+  try {
+    const prev = window.__rosterPrev || {};
+    const now = { t1: bank1, t2: cash2 + banked2, t3: bank3,
+                  t4: bank4 };
+    const els = el.querySelectorAll(".tbank");
+    const keys = ["t1", "t2", "t3", "t4"];
+    const rm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    keys.forEach((k, i) => {
+      const from = prev[k], to = now[k];
+      if (!rm && from != null && from !== to && els[i]) {
+        const t0 = performance.now();
+        const step = (t) => {
+          const f = Math.min(1, (t - t0) / 700);
+          const v = from + (to - from) * (1 - Math.pow(1 - f, 3));
+          els[i].textContent = money(v);
+          if (f < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      }
+    });
+    window.__rosterPrev = now;
+  } catch (e) {}
+}
+
+function drawDesk3(pt3, kb) {
+  // the DISCIPLINED trader — his orders rendered like a real broker
+  // ticket (research theater: nothing is purchased, ever)
+  const el = document.getElementById("desk3");
+  if (!el) return;
+  const START = 100000;
+  const money = c => (c < 0 ? "−$" : "$") + Math.abs(c / 100)
+    .toLocaleString("en-US", { minimumFractionDigits: 2,
+                               maximumFractionDigits: 2 });
+  const settled = pt3.filter(t => t.actual != null);
+  const open = pt3.filter(t => t.actual == null);
+  const bank = START + settled.reduce((a, t) => a + t.pnl_c, 0);
+  const wins = settled.reduce((a, t) => a + t.win, 0);
+  const fT2 = ts => new Date(ts * 1000).toLocaleTimeString("en-US",
+    { timeZone: "America/Los_Angeles", hour: "2-digit", minute: "2-digit",
+      hour12: false }) + " PT";
+  const ticket = (t, big) => {
+    const buy = t.side === "yes";
+    const status = t.actual == null
+      ? `<span class="badge pending">OPEN · settles ${fT2(t.close_ts)}</span>`
+      : t.win
+        ? `<span class="badge pass">WON +${money(t.pnl_c)}</span>`
+        : `<span class="badge" style="background:rgba(230,80,80,.15);` +
+          `color:var(--down)">LOST ${money(t.pnl_c)}</span>`;
+    return `<div class="card" style="max-width:${big ? 430 : 400}px;` +
+      `padding:${big ? 14 : 10}px 16px;margin-top:8px">` +
+      `<div style="display:flex;justify-content:space-between;` +
+      `align-items:center;gap:10px">` +
+      `<b style="font-size:${big ? 17 : 14}px;color:${buy
+        ? "var(--good-text)" : "var(--down)"}">BUY ${t.side.toUpperCase()}` +
+      `</b>${status}</div>` +
+      `<div class="small" style="margin-top:6px">BTC ≥ ` +
+      `$${Math.round(t.strike).toLocaleString()} · ` +
+      `<b>${t.contracts} contracts @ ${t.ask_c}¢</b></div>` +
+      `<div class="mini">est. cost ${money(t.stake_c)} incl. ` +
+      `${money(t.fee_c * t.contracts)} fees · ` +
+      `${t.src === "leader" ? (t.leader || "leader") : "kb7"} confidence ` +
+      `${(100 * t.p_arm).toFixed(0)}% · placed ${fT2(t.made_ts)}</div>` +
+      `</div>`;
+  };
+  // skipped windows, derived live from the ledger: every closed window
+  // kb7 saw but the trader passed on, with the reason — restraint made
+  // visible (this is most of his life by design)
+  const byW = {};
+  for (const r of (kb || []))
+    if (r.variant === "kb7" && r.mins_left <= 12)
+      (byW[r.ticker] = byW[r.ticker] || []).push(r);
+  const traded = new Set(pt3.map(t => t.ticker));
+  const nowS = Date.now() / 1000;
+  const skips = [];
+  for (const tk in byW) {
+    if (traded.has(tk)) continue;
+    const rs = byW[tk];
+    if (rs[0].close_ts > nowS) continue;          // window still open
+    let best = null;
+    for (const r of rs) {
+      const c = Math.max(r.p_up, 1 - r.p_up);
+      if (!best || c > best.c) best = { c, r };
+    }
+    let type, ask = null;
+    if (best.c < 0.77) type = "bar";
+    else {
+      const r = best.r;
+      ask = r.mkt_p_up == null ? null
+        : Math.min(99, 100 * (r.p_up >= .5 ? r.mkt_p_up : 1 - r.mkt_p_up)
+                       + 2.5);
+      type = ask == null ? "noquote" : ask >= 80 ? "priced"
+        : ask < 5 ? "floor" : "unfilled";
+    }
+    skips.push({ ts: rs[0].close_ts, type, conf: best.c, ask });
+  }
+  // compress consecutive same-reason skips into one run — the pattern
+  // ("priced out again and again") IS the finding, not the repetition
+  skips.sort((a, b) => b.ts - a.ts);
+  const runs = [];
+  for (const s of skips) {
+    const r = runs[runs.length - 1];
+    if (r && r.type === s.type) {
+      r.n++; r.t1 = s.ts;
+      r.clo = Math.min(r.clo, s.conf); r.chi = Math.max(r.chi, s.conf);
+      if (s.ask != null) r.ask = Math.min(r.ask ?? 99, s.ask);
+    } else runs.push({ type: s.type, n: 1, t0: s.ts, t1: s.ts,
+                       clo: s.conf, chi: s.conf, ask: s.ask });
+  }
+  const runTxt = r => {
+    const when = r.n === 1 ? fT2(r.t0) : `${fT2(r.t1)}–${fT2(r.t0)}`;
+    const win = r.n === 1 ? "" : ` · ${r.n} windows`;
+    const conf = r.clo === r.chi
+      ? `${(100 * r.clo).toFixed(0)}%`
+      : `${(100 * r.clo).toFixed(0)}–${(100 * r.chi).toFixed(0)}%`;
+    const why = r.type === "bar"
+      ? `kb7 peaked at ${conf} — below the 77% bar`
+      : r.type === "priced"
+        ? `qualified at ${conf} but priced out (asks ≥${r.ask.toFixed(0)}¢` +
+          ` — the market agrees and charges for it)`
+        : r.type === "noquote" ? `qualified at ${conf} but no market quote`
+        : r.type === "floor" ? `ask under the 5¢ floor`
+        : `qualified at ${conf} — window passed unfilled`;
+    return `<div class="mini" style="padding:5px 4px;border-bottom:1px ` +
+      `solid rgba(128,128,128,.15)">⏸ ${when} · SKIPPED${win} — ${why}` +
+      `</div>`;
+  };
+  // the latest order is the big ticket above — never repeated in the feed
+  const events = pt3.slice(0, -1)
+    .map(t => ({ ts: t.made_ts, html: ticket(t, false) }))
+    .concat(runs.map(r => ({ ts: r.t0, html: runTxt(r) })));
+  events.sort((a, b) => b.ts - a.ts);
+  const latest = pt3[pt3.length - 1];
+  const skN = skips.length;
+  el.innerHTML =
+    `<p class="small"><b>The disciplined trader — live</b> ` +
+    `<span class="paper-tag">policy v2 · kb7 or leader at ≥ 77% · ` +
+    `simulated · not advice</span><br><span class="mini">same trade pool ` +
+    `as the twins, stricter admission — any entry needs 77% confidence ` +
+    `(the follower takes 62%) · 10% of funds · bankroll <b>${money(bank)}</b> · record ${wins}/` +
+    `${settled.length}${open.length ? " · 1 open" : ""} · ` +
+    `<b>${skN}</b> windows skipped</span></p>` +
+    (latest ? ticket(latest, true)
+      : `<p class="mini">no order yet — patience is the strategy; ` +
+        `the skips below are it working.</p>`) +
+    `<div style="margin-top:8px">` +
+    events.slice(0, 8).map(e => e.html).join("") + `</div>` +
+    // his full ledger, same table form as the follower's
+    `<div class="scroll" style="margin-top:10px">` +
+    `<table style="min-width:0"><thead><tr><th>entry</th>` +
+    `<th>source · confidence</th><th>call</th><th class="num">size</th>` +
+    `<th class="num">stake</th><th class="num">result</th></tr></thead>` +
+    `<tbody>` + (pt3.length
+      ? pt3.slice().reverse().map(t => {
+          const res = t.actual == null
+            ? `<span class="badge pending">open</span>`
+            : t.win
+              ? `<span style="color:var(--good-text)">+${money(t.pnl_c)}` +
+                `</span>`
+              : `<span style="color:var(--down)">${money(t.pnl_c)}</span>`;
+          const src = t.src === "leader" ? (t.leader || "leader") : "kb7";
+          return `<tr><td>${fT2(t.made_ts)}</td>` +
+            `<td><span style="color:${COLD[src] || "inherit"}">●</span> ` +
+            `${src} <span class="muted">` +
+            `${(100 * t.p_arm).toFixed(0)}%</span></td>` +
+            `<td>${t.side.toUpperCase()} ≥ $` +
+            `${Math.round(t.strike).toLocaleString()}</td>` +
+            `<td class="num">${t.contracts} @ ${t.ask_c}¢</td>` +
+            `<td class="num">${money(t.stake_c)}</td>` +
+            `<td class="num">${res}</td></tr>`;
+        }).join("")
+      : `<tr><td colspan="6" class="mini">no orders yet — entries ` +
+        `require 77% confidence on a biddable window</td></tr>`) +
+    `</tbody></table></div>`;
 }
 
 async function boot() {
-  const [kb, bets, sel, prices, st] = await Promise.all([
+  const [kb, bets, sel, prices, st, ptr, pt2r, pt3r, pt4r] = await Promise.all([
     jsonl("../results/kalshi_binary_log.jsonl"),
     jsonl("../results/kb_bets.jsonl"),
     jsonl("../results/kb_bets_sel.jsonl"),
@@ -415,15 +1552,26 @@ async function boot() {
       .then(r => r.ok ? r.json() : []).catch(() => []),
     fetch(bust("../results/online_status.json"), { cache: "no-store" })
       .then(r => r.ok ? r.json() : {}).catch(() => ({})),
+    jsonl("../results/pt_trades.jsonl"),
+    jsonl("../results/pt2_trades.jsonl"),
+    jsonl("../results/pt3_trades.jsonl"),
+    jsonl("../results/pt4_trades.jsonl"),
   ]);
+  try { drawRoster(ptr, pt2r, pt3r, kb, pt4r); } catch (e) {}
+  try { drawDesk(ptr, kb, pt2r, pt3r, pt4r); } catch (e) {}
+  try { drawDesk3(pt3r, kb); } catch (e) {}
+  window.__st = st;
   try { drawSignal(kb, bets, st); } catch (e) {
     document.getElementById("desk-chat").innerHTML =
       '<p class="mini">desk commentary unavailable</p>';
   }
   try {
     const k2r = kb.filter(x => x.variant === "kb2").slice(-1)[0];
+    window.__tapeRedraw = () => drawTape(prices, st, k2r, bets);
     drawTape(prices, st, k2r, bets);
   } catch (e) {}
+  try { drawBid(bets, st); } catch (e) {}
+  try { drawTwoMillion(kb); } catch (e) {}
   const stale = (Date.now() / 1000 - (st.alive_at || 0)) > 300;
   document.getElementById("dot").className = "live-dot" + (stale ? " stale" : "");
   document.getElementById("asof").textContent = st.alive_at
@@ -432,10 +1580,19 @@ async function boot() {
           hour12: false }) + " PT" : "status unavailable";
   let pass2 = false;
   for (const [v, numsId, subId] of [["kb2", "kb2-nums", "kb2-sub"],
-                                    ["kb3", "kb3-nums", "kb3-sub"]]) {
+                                    ["kb3", "kb3-nums", "kb3-sub"],
+                                    ["kb4", "kb4-nums", "kb4-sub"],
+                                    ["kb7", "kb7-nums", "kb7-sub"],
+                                    ["kb8", "kb8-nums", "kb8-sub"],
+                                    ["kb9", "kb9-nums", "kb9-sub"]]) {
     const rows = kb.filter(r => r.variant === v && r.actual != null
       && r.call != null);
-    if (rows.length < 60) continue;
+    if (rows.length < 60) {
+      const el2 = document.getElementById(numsId);
+      if (el2) el2.innerHTML = `<span class="mini">collecting — ` +
+        `${rows.length} settled calls (cards appear at 60)</span>`;
+      continue;
+    }
     const g = gated(rows);
     const vals = [["UP prec", g.up.p], ["UP rec", g.up.r],
                   ["DOWN prec", g.down.p], ["DOWN rec", g.down.r]];
@@ -443,9 +1600,11 @@ async function boot() {
       vals.map(([l, x]) => numEl(l, x)).join("");
     const ok = vals.every(([, x]) => x != null && x >= .8);
     if (v === "kb2") pass2 = ok;
-    document.getElementById(subId).textContent =
+    const days = dailyGatedAcc(rows, g.tau);
+    document.getElementById(subId).innerHTML =
       `${ok ? "above" : "below"} 80/80 · gate τ ${g.tau.toFixed(2)} · ` +
-      `coverage ${(100 * g.cov).toFixed(0)}% of ${rows.length} settled calls`;
+      `coverage ${(100 * g.cov).toFixed(0)}% of ${rows.length} settled calls` +
+      `<br>${spark(days, ok)} <span class="mini">gated accuracy by day · dashed = 80%</span>`;
   }
   const v3 = sel.filter(b => b.sel_v >= 3 && b.win != null);
   const judged = bets.filter(b => b.sel_keep != null && b.sel_v >= 3
@@ -458,8 +1617,32 @@ async function boot() {
     `<span class="stat"><span class="k">kept win</span><br><span class="bignum">${wr(v3)}</span></span>` +
     `<span class="stat"><span class="k">skipped win</span><br><span class="bignum">${wr(skips)}</span></span>` +
     `<span class="stat"><span class="k">bidder bets</span><br><span class="bignum">${bets.filter(b => b.win != null).length}</span></span>`;
-  document.getElementById("ab-sub").textContent =
-    "a selector adds value only if kept beats skipped — v1/v2 verdicts on the Results page";
+  // kb5 conviction line — the live EV test at real asks
+  try {
+    const Mth = Math;
+    const k5c = kb.filter(r => r.variant === "kb5" && r.actual != null
+      && r.conf_entry);
+    if (k5c.length >= 5) {
+      let net = 0, stake = 0;
+      for (const r of k5c) {
+        const fee = Mth.ceil(7 * (r.ask_c / 100) * (1 - r.ask_c / 100));
+        stake += r.ask_c + fee;
+        net += r.hit ? (100 - r.ask_c - fee) : -(r.ask_c + fee);
+      }
+      const w = k5c.reduce((a, r) => a + r.hit, 0);
+      document.getElementById("ab-sub").innerHTML =
+        `<b>kb5 live EV test (real asks):</b> ${k5c.length} confident ` +
+        `entries · ${w} wins · avg ${(stake / k5c.length).toFixed(0)}¢ · ` +
+        `net ${net >= 0 ? "+" : ""}${net.toFixed(0)}¢ = ` +
+        `<span style="color:${net >= 0 ? "var(--good-text)" : "var(--down)"}">` +
+        `${(100 * net / stake).toFixed(0)}% per $1</span> · ` +
+        `n too small for significance yet · the Conviction Book bets ` +
+        `only these — v1/v2 verdicts on Results`;
+    } else {
+      document.getElementById("ab-sub").textContent =
+        "a selector adds value only if kept beats skipped — v1/v2 verdicts on the Results page";
+    }
+  } catch (e) {}
   const vd = document.getElementById("verdict");
   vd.className = "badge " + (pass2 ? "pass" : "pending");
   vd.textContent = pass2 ? "kb2 above 80/80" : "collecting";
