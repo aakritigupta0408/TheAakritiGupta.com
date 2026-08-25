@@ -231,6 +231,12 @@
       <a href="ab_dashboard.html" class="small">Zero-shot Chronos, frozen →</a>
     </div>
     <div class="card">
+      <h3>The second family — kb9</h3>
+      <div class="nums" id="kb9-nums"><span class="mini">loading…</span></div>
+      <p class="mini" id="kb9-sub"></p>
+      <a href="ab_dashboard.html" class="small">TimesFM 2.5, frozen — launched for disagreement, not as an upgrade →</a>
+    </div>
+    <div class="card">
       <h3>The fusion — kb8</h3>
       <div class="nums" id="kb8-nums"><span class="mini">loading…</span></div>
       <p class="mini" id="kb8-sub"></p>
@@ -253,7 +259,7 @@
     <div class="card" style="text-align:center"><div class="bignum" style="font-size:30px">−11¢</div>
       <p class="mini">✗ passive maker fills at 1-min speed — adversely selected <span class="muted">· closed 08-24</span></p></div>
     <div class="card" style="text-align:center"><div class="bignum" style="font-size:30px">69.8% <span class="muted">&lt;</span> 73.0%</div>
-      <p class="mini">✗ bigger foundation model (Bolt-base, Chronos-2 + covariates) vs frozen kb7 — tie or worse, kb9 not launched <span class="muted">· closed 08-25</span></p></div>
+      <p class="mini">✗ five foundation-model upgrades vs frozen kb7 — Bolt-base, Chronos-2, +covariates, TimesFM 2.5, and fine-tuning on 60d of our own BTC minutes: all tie or worse (|t|≤1.24), kb9 not launched <span class="muted">· closed 08-25, round 2 same day</span></p></div>
     <div class="card" style="text-align:center"><div class="bignum" style="font-size:30px" id="disp-desk-num">$1,000 → $103</div>
       <p class="mini" id="disp-desk-sub">? follow-the-leader: the replay said ruin — the live desk is now the controlling test</p></div>
   </div>
@@ -924,8 +930,13 @@ function drawTwoMillion(kb) {
       `<p class="mini">selective tier measured live: ${wsum}/${top.length}` +
       ` entries won across ${wn} windows · EV ` +
       `${eSel == null ? "–" : (100 * eSel).toFixed(1) + "%"}/$1 at avg ` +
-      `cost ${cost.toFixed(0)}¢ — thin sample, pre-registration pending` +
-      `</p>` +
+      `cost ${cost.toFixed(0)}¢ — thin sample</p>` +
+      `<p class="mini"><b>replay corroboration (08-25, pre-registered):` +
+      `</b> the same frozen rule over 663 mined windows at REAL asks ` +
+      `won 74.4% vs a 71.8¢ break-even → <b>+3.6%/$1</b>, clustered ` +
+      `t 0.85 — the live tier's big EV is thin-sample optimism until ` +
+      `the live stream proves otherwise; both numbers shown, never ` +
+      `merged</p>` +
       `<table style="min-width:0;max-width:640px"><thead><tr>` +
       `<th>depth world</th><th class="num">stake/window</th>` +
       `<th class="num">$/day</th><th class="num">$2M</th></tr></thead>` +
@@ -1572,7 +1583,8 @@ async function boot() {
                                     ["kb3", "kb3-nums", "kb3-sub"],
                                     ["kb4", "kb4-nums", "kb4-sub"],
                                     ["kb7", "kb7-nums", "kb7-sub"],
-                                    ["kb8", "kb8-nums", "kb8-sub"]]) {
+                                    ["kb8", "kb8-nums", "kb8-sub"],
+                                    ["kb9", "kb9-nums", "kb9-sub"]]) {
     const rows = kb.filter(r => r.variant === v && r.actual != null
       && r.call != null);
     if (rows.length < 60) {
