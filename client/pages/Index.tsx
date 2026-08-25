@@ -167,6 +167,46 @@ export default function Index() {
             />
           </AnimatePresence>
         </div>
+
+        {/* Far right — sponsor rail */}
+        <aside
+          aria-label="Sponsored"
+          className="hidden w-44 shrink-0 flex-col gap-3 self-start xl:flex"
+        >
+          <div className="text-center text-[10px] font-semibold uppercase tracking-widest text-slate-400">
+            Sponsored
+          </div>
+          <div className="rounded-xl border border-violet-200 bg-violet-50/80 p-3 text-center shadow-sm">
+            <div className="text-2xl" aria-hidden="true">
+              🔮
+            </div>
+            <div className="mt-1 text-xs font-bold text-violet-900">
+              Astrologers
+            </div>
+            <p className="mt-1 text-[11px] leading-snug text-violet-700">
+              Advertise your practice to readers of the Vedic Astrology AI.
+            </p>
+          </div>
+          <div className="rounded-xl border border-amber-200 bg-amber-50/80 p-3 text-center shadow-sm">
+            <div className="text-2xl" aria-hidden="true">
+              💎
+            </div>
+            <div className="mt-1 text-xs font-bold text-amber-900">
+              Jewelers
+            </div>
+            <p className="mt-1 text-[11px] leading-snug text-amber-700">
+              Showcase your jewelry and gemstones here.
+            </p>
+          </div>
+          <a
+            href="https://www.linkedin.com/in/aakritigupta4894/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full border border-slate-300 bg-white px-3 py-1.5 text-center text-[11px] font-semibold text-slate-600 shadow-sm transition-all hover:bg-slate-50"
+          >
+            Advertise here →
+          </a>
+        </aside>
       </main>
 
       <ChatBot />
