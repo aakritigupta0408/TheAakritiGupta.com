@@ -53,31 +53,31 @@ export default function Index() {
 
       <div className="h-20 lg:h-28" aria-hidden="true" />
 
-      {/* Paper Leak Analysis banner */}
-      <a
-        href="/paperleaks/"
-        className="group block w-full bg-gradient-to-r from-red-700 via-rose-700 to-amber-600 px-6 py-4 text-white shadow-lg transition-all hover:brightness-110 sm:py-5"
+      {/* Vedic Astrology AI banner */}
+      <button
+        onClick={() => navigate("/ai-playground/vedic-astro-ai")}
+        className="group block w-full bg-gradient-to-r from-violet-800 via-purple-700 to-amber-600 px-6 py-4 text-left text-white shadow-lg transition-all hover:brightness-110 sm:py-5"
       >
         <div className="mx-auto flex max-w-7xl flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
           <div className="flex items-center gap-3">
             <span className="text-2xl sm:text-3xl" aria-hidden="true">
-              🚨
+              🔮
             </span>
             <div>
               <div className="text-lg font-extrabold tracking-tight sm:text-2xl">
-                Paper Leak Analysis — India's Exam Crisis in Data
+                Vedic Astrology AI — Classical Jyotisha, Computed &amp; Cited
               </div>
-              <div className="text-xs text-red-100 sm:text-sm">
-                120 leak incidents · 9 crore+ students affected · 2014–2026 ·
-                every incident source-cited
+              <div className="text-xs text-violet-100 sm:text-sm">
+                Swiss Ephemeris charts · 16 divisional charts · dasha timing ·
+                every sentence cited to a classical verse
               </div>
             </div>
           </div>
-          <span className="shrink-0 rounded-full bg-white/15 px-4 py-2 text-sm font-bold backdrop-blur transition-all group-hover:bg-white group-hover:text-red-700">
-            Explore the data →
+          <span className="shrink-0 rounded-full bg-white/15 px-4 py-2 text-sm font-bold backdrop-blur transition-all group-hover:bg-white group-hover:text-violet-800">
+            Cast your chart →
           </span>
         </div>
-      </a>
+      </button>
 
       <main className="mx-auto flex h-[calc(100vh-10rem)] max-w-7xl items-start gap-8 px-6 lg:h-[calc(100vh-12rem)] lg:items-center">
         {/* Left — identity + navigation */}
