@@ -960,6 +960,65 @@ function drawBets(bets) {
     }).join("");
 }
 
+// the live board: every kb arm's call on the current open window. Fixed
+// color order (never cycled); kb6/kbf excluded — retired from trading.
+const ARM_LIVE = [
+  ["kb", "control", "--series-1"],
+  ["kb2", "market-anchored", "--series-2"],
+  ["kb3", "online logit", "--series-7"],
+  ["kb4", "stacked", "--series-4"],
+  ["kb5", "EV-trained", "--series-6"],
+  ["kb7", "Chronos-Bolt", "--series-3"],
+  ["kb8", "kb7 × market", "--series-9"],
+  ["kb9", "TimesFM 2.5", "--series-5"],
+];
+
+// Given one arm's read on the open window, decide how to present it.
+// Direction ALWAYS comes from `call` (kb5 can bet against its own P(up));
+// this returns the confidence figure + any badge shown next to the arrow.
+function armCallView(pUp, call, open) {
+  const up = call === 1;
+  const arrow = up ? "▲" : "▼";
+  const label = up ? "UP" : "DOWN";
+  const dir = up ? "up" : "down";
+  const agrees = (pUp >= 0.5) === up;      // does the bet match the P(up) side?
+  let conf = Math.max(pUp, 1 - pUp);        // safe default: confidence in direction
+  let flag = "";
+  if (!agrees) {
+    // TODO(human): the arm is betting AGAINST its own P(up) read — kb5's
+    // EV logic (the quote misprices the odds). Decide how to show this
+    // honestly: set `conf` to the confidence in the *bet it actually made*
+    // (not the raw direction), and set `flag` to a short badge like
+    // "vs its read". 2–5 lines.
+  }
+  return { arrow, label, dir, conf, flag, agrees };
+}
+
+function drawArmLive(armRows) {
+  const el = document.getElementById("arm-live");
+  if (!el) return;
+  const latest = {};                        // freshest row per arm
+  for (const r of armRows) {
+    const v = r.variant || "kb";
+    if (!latest[v] || (r.made_ts || 0) > (latest[v].made_ts || 0)) latest[v] = r;
+  }
+  const cards = ARM_LIVE.filter(([v]) => latest[v]).map(([v, desc, col]) => {
+    const r = latest[v];
+    const open = r.actual == null;
+    const view = armCallView(r.p_up, r.call, open);
+    const cf = view.conf != null ? (100 * view.conf).toFixed(0) + "%" : "–";
+    return `<div class="ac${open ? "" : " settled"}" style="--ac:var(${col})">` +
+      `<div class="an">${v}</div><div class="ad">${desc}</div>` +
+      `<div class="acall"><span class="${view.dir}">${view.arrow} ${view.label}` +
+      `</span> <span class="cf">${cf}</span></div>` +
+      `<div class="bar" title="P(up) ${(100 * r.p_up).toFixed(0)}%">` +
+      `<i style="width:${(100 * r.p_up).toFixed(0)}%"></i></div>` +
+      `<div class="meta">P(up) ${(100 * r.p_up).toFixed(0)}%` +
+      `${view.flag ? " · " + view.flag : ""} · ${open ? "live" : "settled"}</div></div>`;
+  }).join("");
+  el.innerHTML = cards || '<p class="mini">collecting…</p>';
+}
+
 function drawDirection(preds, kbRows) {
   const CONS = { 1: "consensus-h1", 5: "consensus",
                  15: "consensus-h15", 30: "consensus-h30" };
