@@ -1,0 +1,1 @@
+import{j as t}from"./index-CwxaAgyA.js";import{T as r}from"./TalentProfilePage-DNQ1ONxN.js";import"./arrow-left-DRt1_kBP.js";import"./sparkles-BJbz0Dlz.js";import"./arrow-right-Cbn82Rbn.js";function p(){return t.jsx(r,{route:"/talent/aviator"})}export{p as default};
