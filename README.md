@@ -27,6 +27,27 @@ Production portfolio site and AI showcase built as a React SPA with an integrate
 
 This site is deployed as a static GitHub Pages SPA. Internal app links therefore use hash routing, for example `/#/ai-playground`, to avoid deep-link failures on static hosting.
 
+## Deployment
+
+- **Production**: GitHub Pages. Every push to `main` runs
+  [.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml),
+  which builds `dist/spa` and publishes it to the `gh-pages` branch. The
+  canonical host is **https://www.theaakritigupta.com** (see `CNAME`).
+  `public/404.html` redirects unknown paths to `/#/<path>` for the
+  HashRouter — the workflow must not overwrite it.
+- **Bare apex (`theaakritigupta.com`)**: currently broken — its DNS points at
+  an old AWS load balancer that returns 405. Fix at the domain registrar:
+  set the apex **A records to GitHub Pages** (185.199.108.153,
+  185.199.109.153, 185.199.110.153, 185.199.111.153), keep `www` as a CNAME
+  to `aakritigupta0408.github.io`, then enable "Enforce HTTPS" in the repo's
+  Pages settings. No repo change can fix this; it is registrar-side.
+- **Netlify**: `netlify.toml` is vestigial for production (kept for local
+  reference and the express-function wiring); the live site is Pages.
+- **Render**: `render.yaml` deploys only the Python vedic-astro-ai engine
+  that the playground page embeds; the SPA itself never deploys to Render.
+- **Data pushes**: `public/btc-oracle/` receives hourly data commits from a
+  local cron. Note each such push also triggers a full Pages rebuild.
+
 ### 2. Resume builder and recruiter agent
 
 - Builder UI: [ResumeBuilder.tsx](/Users/aakritigupta/TheAakritiGupta.com/client/pages/ResumeBuilder.tsx)
