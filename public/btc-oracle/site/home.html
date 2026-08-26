@@ -102,11 +102,27 @@
 #desk-curve path.eq { stroke-dasharray: 2400; stroke-dashoffset: 2400;
   animation: drawline 1.6s ease-out forwards; }
 .eq-dot { animation: pulse-open 2s ease-in-out infinite; }
-.flowline { stroke-dasharray: 6 6; animation: flowdash 1s linear infinite; }
-@keyframes flowdash { to { stroke-dashoffset: -12; } }
-#tm-flow .fnode { animation: rise .6s ease both; }
-@media (prefers-reduced-motion: reduce) {
-  .flowline, #tm-flow .fnode { animation: none; } }
+/* the $2M question, set as a worked problem: given → steps → answer */
+#tm-math { margin-top: 12px; }
+#tm-math .mgiven, #tm-math .mstep { border-left: 3px solid var(--border);
+  padding: 8px 0 8px 18px; margin: 0 0 14px; }
+#tm-math .mname { font: 700 11px var(--display, inherit);
+  letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 6px; }
+#tm-math .meq { font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 14px; line-height: 1.9; white-space: pre-wrap; }
+#tm-math .meq i { font-style: italic;
+  font-family: Georgia, "Times New Roman", serif; font-size: 15px; }
+#tm-math .meq .mc { color: var(--muted); font-size: 12px;
+  font-family: inherit; }
+#tm-math .mres { font-weight: 700; }
+#tm-math .mres .pos { color: var(--good-text); }
+#tm-math .mres .neg { color: var(--down); }
+#tm-math .mnote { font-size: 12px; color: var(--muted); margin-top: 3px; }
+#tm-math .mans { border-left: 3px solid var(--good-text);
+  background: var(--surface-2); border-radius: 0 12px 12px 0;
+  padding: 12px 16px; font-size: 13.5px; }
+@media (prefers-reduced-motion: reduce) { .flowline { animation: none; } }
 @media (prefers-reduced-motion: reduce) {
   .tkt, .badge.pending, .eq-dot { animation: none; }
   #desk-curve path.eq { animation: none; stroke-dashoffset: 0; }
