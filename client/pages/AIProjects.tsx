@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { type ReactNode, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import LevelOneLoadMoreButton from "@/components/LevelOneLoadMoreButton";
 import SubpageLayout from "@/components/SubpageLayout";
@@ -11,6 +11,45 @@ import { getPageRefreshContent } from "@/data/siteRefreshContent";
 import { buildNowProjectTracks } from "../data/aiSignals";
 
 const difficulties = ["All", "Beginner", "Intermediate", "Advanced"] as const;
+
+const difficultyPips: Record<Project["difficulty"], number> = {
+  Beginner: 1,
+  Intermediate: 2,
+  Advanced: 3,
+};
+
+function MonoLabel({ children }: { children: ReactNode }) {
+  return (
+    <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+      {children}
+    </p>
+  );
+}
+
+/** The page's signature element: difficulty as machinist's gauge pips.
+ *  One filled block per level — read at a glance, no color decoding. */
+function DifficultyPips({ level }: { level: Project["difficulty"] }) {
+  const filled = difficultyPips[level];
+  return (
+    <span
+      className="inline-flex items-center gap-1 font-mono text-[11px] font-semibold text-slate-700"
+      aria-label={`Difficulty: ${level}`}
+    >
+      {[0, 1, 2].map((i) => (
+        <span
+          key={i}
+          aria-hidden="true"
+          className={`h-2 w-3 rounded-[2px] border ${
+            i < filled
+              ? "border-slate-800 bg-slate-800"
+              : "border-slate-300 bg-white"
+          }`}
+        />
+      ))}
+      <span className="ml-1">{level}</span>
+    </span>
+  );
+}
 
 export default function AIProjects() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -43,7 +82,8 @@ export default function AIProjects() {
       eyebrow={pageRefresh.eyebrow}
       title={pageRefresh.title}
       description={pageRefresh.description}
-      accent="rose"
+      accent="amber"
+      frameClassName="bg-[#f5f5f7]"
       chips={pageRefresh.chips}
       metrics={[
         { value: projects.length.toString(), label: "Project blueprints" },
@@ -57,104 +97,82 @@ export default function AIProjects() {
         },
       ]}
     >
-      <div className="container mx-auto px-4 py-4">
-        <motion.section
-          className="mb-3 rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-5 backdrop-blur-xl"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="mb-2 text-[11px] uppercase tracking-[0.2em] text-gray-400">
-            <span className="bg-gradient-to-r from-pink-300 to-cyan-300 bg-clip-text text-transparent">
-              Featured · Interactive course
-            </span>
-          </div>
-          <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="container mx-auto px-4 py-6 text-slate-900">
+        {/* Featured course */}
+        <section className="mb-4 rounded-xl border-2 border-[#A15C22]/40 bg-white p-6">
+          <MonoLabel>featured · interactive course</MonoLabel>
+          <div className="mt-2 flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-2xl">
-              <h2 className="text-2xl font-semibold text-white">
+              <h2 className="font-serif text-2xl font-bold text-slate-900">
                 How Machines Decide
               </h2>
-              <p className="mt-2 text-sm leading-relaxed text-gray-300">
+              <p className="mt-2 text-sm leading-relaxed text-slate-600">
                 A 15-lesson course on how ranking, retrieval, language models,
                 agents and reinforcement learning actually work — every lesson a
                 beginner story plus a practitioner sequel, 100+ hand-drawn
                 figures, one drawn summary per cited paper, and written
-                questions graded against a rubric. Built and reviewed
-                end-to-end, runs entirely in your browser.
+                questions graded against a rubric. Runs entirely in your
+                browser.
               </p>
-              <div className="mt-3 flex flex-wrap gap-2 text-[11px] uppercase tracking-[0.18em] text-gray-400">
-                <span>15 lessons</span>
-                <span>·</span>
-                <span>6 parts</span>
-                <span>·</span>
-                <span>100+ figures</span>
-                <span>·</span>
-                <span>2 specified capstones</span>
-              </div>
+              <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.14em] text-slate-400">
+                15 lessons · 6 parts · 100+ figures · 2 capstones
+              </p>
             </div>
             <a
               href="/ai-course/"
-              className="rounded-2xl border border-white/20 bg-gradient-to-r from-pink-500/20 to-cyan-500/20 px-6 py-3 text-sm font-semibold text-white transition hover:from-pink-500/30 hover:to-cyan-500/30"
+              className="rounded-lg bg-[#A15C22] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#8a4d1c]"
             >
               Open the course →
             </a>
           </div>
-        </motion.section>
+        </section>
 
-        <motion.section
-          className="mb-3 rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-xl"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="mb-4 flex items-baseline justify-between gap-3">
-            <h2 className="text-lg font-semibold text-white">
+        {/* Build-now tracks — live entries from the weekly refresh agent */}
+        <section className="mb-8 rounded-xl border border-slate-200 bg-white p-5">
+          <div className="mb-3 flex items-baseline justify-between gap-3">
+            <h2 className="font-serif text-lg font-bold text-slate-900">
               Build-now tracks
             </h2>
-            <span className="text-[11px] uppercase tracking-[0.2em] text-gray-400">
-              Current stacks, realistic scope
-            </span>
+            <MonoLabel>current stacks · refreshed weekly</MonoLabel>
           </div>
-
-          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          <div className="divide-y divide-slate-100">
             {buildNowProjectTracks.map((track) => (
               <a
                 key={track.id}
                 href={track.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10"
+                className="group flex flex-col gap-1 py-2.5 first:pt-0 last:pb-0 sm:flex-row sm:items-baseline sm:gap-4"
               >
-                <div className="mb-2 flex items-center justify-between gap-2 text-[11px] uppercase tracking-[0.18em] text-gray-400">
-                  <span className="bg-gradient-to-r from-pink-300 to-cyan-300 bg-clip-text text-transparent">
-                    {track.category}
-                  </span>
-                  <span>{track.difficulty}</span>
-                </div>
-                <h3 className="text-sm font-semibold leading-snug text-white">
+                <span className="w-40 shrink-0 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#A15C22]">
+                  {track.category}
+                </span>
+                <span className="flex-1 text-sm font-medium text-slate-800 group-hover:underline">
                   {track.title}
-                </h3>
-                <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-gray-300">
-                  {track.outcome}
-                </p>
+                  <span className="ml-2 font-normal text-slate-500">
+                    — {track.outcome}
+                  </span>
+                </span>
+                <span className="shrink-0 font-mono text-[11px] text-slate-400">
+                  {track.difficulty}
+                </span>
               </a>
             ))}
           </div>
-        </motion.section>
+        </section>
 
-        <section className="mb-6 space-y-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur-md">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
-              Category
-            </span>
+        {/* Blueprint index controls */}
+        <section className="mb-5 space-y-2">
+          <div className="flex flex-wrap items-center gap-1.5">
+            <MonoLabel>category</MonoLabel>
             {projectCategories.map((category) => (
               <button
                 key={category}
                 onClick={() => setFilterCategory(category)}
-                className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+                className={`rounded-md border px-3 py-1.5 text-xs font-semibold transition ${
                   filterCategory === category
-                    ? "bg-gradient-to-r from-pink-500 to-fuchsia-500 text-white"
-                    : "border border-white/15 bg-white/5 text-gray-200 hover:bg-white/10"
+                    ? "border-slate-900 bg-slate-900 text-white"
+                    : "border-slate-300 bg-white text-slate-600 hover:border-slate-400"
                 }`}
               >
                 {category}
@@ -162,119 +180,93 @@ export default function AIProjects() {
             ))}
           </div>
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
-                Level
-              </span>
+            <div className="flex flex-wrap items-center gap-1.5">
+              <MonoLabel>level</MonoLabel>
               {difficulties.map((difficulty) => (
                 <button
                   key={difficulty}
                   onClick={() => setFilterDifficulty(difficulty)}
-                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+                  className={`rounded-md border px-3 py-1.5 text-xs font-semibold transition ${
                     filterDifficulty === difficulty
-                      ? "bg-gradient-to-r from-cyan-500 to-blue-500 text-white"
-                      : "border border-white/15 bg-white/5 text-gray-200 hover:bg-white/10"
+                      ? "border-slate-900 bg-slate-900 text-white"
+                      : "border-slate-300 bg-white text-slate-600 hover:border-slate-400"
                   }`}
                 >
                   {difficulty}
                 </button>
               ))}
             </div>
-            <span className="text-xs text-gray-400">
-              {visibleProjects.length} / {filteredProjects.length}
+            <span className="font-mono text-[11px] tabular-nums text-slate-400">
+              {visibleProjects.length}/{filteredProjects.length}
             </span>
           </div>
         </section>
 
         {filteredProjects.length === 0 ? (
-          <div className="mb-4 rounded-[2rem] border border-white/20 bg-white/10 p-6 text-center backdrop-blur-xl">
-            <h3 className="text-3xl font-black text-white">No projects found</h3>
-            <p className="mt-3 text-lg text-gray-200">
-              Reset the filters to compare the full build library again.
+          <div className="mb-6 rounded-xl border border-slate-200 bg-white p-8 text-center">
+            <h3 className="font-serif text-xl font-bold text-slate-900">
+              No blueprints match these filters
+            </h3>
+            <p className="mt-2 text-sm text-slate-500">
+              Clear a filter to see the full build library again.
             </p>
           </div>
         ) : (
-          <div className="mb-4 grid grid-cols-1 gap-3 lg:grid-cols-2">
+          <div className="mb-6 grid grid-cols-1 gap-3 lg:grid-cols-2">
             {visibleProjects.map((project, index) => (
               <motion.button
                 key={project.id}
                 type="button"
                 onClick={() => setSelectedProject(project)}
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  type: "spring",
-                  stiffness: 260,
-                  damping: 24,
-                  delay: Math.min(index * 0.06, 0.25),
+                  duration: 0.35,
+                  delay: Math.min(index * 0.04, 0.2),
                 }}
-                whileHover={{ y: -6, rotateX: 2, rotateY: -2 }}
-                whileTap={{ scale: 0.98 }}
-                style={{ transformStyle: "preserve-3d", perspective: 900 }}
-                className="group relative overflow-hidden rounded-[24px] border border-white/10 bg-gradient-to-br from-white/[0.09] to-white/[0.03] p-4 text-left shadow-[0_24px_56px_rgba(8,12,24,0.45),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl transition-colors duration-300 hover:border-white/25"
+                className="group flex flex-col rounded-xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md motion-reduce:hover:translate-y-0"
               >
-                <span className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-pink-300/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                <span className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-gradient-to-br from-pink-400/15 via-transparent to-transparent opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100" />
-
-                <div className="relative mb-5 flex items-start justify-between gap-4">
+                <div className="mb-3 flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <div className="text-4xl drop-shadow-[0_4px_12px_rgba(244,114,182,0.35)] transition-transform duration-300 group-hover:scale-110">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-[#f5f5f7] text-xl">
                       {project.icon}
-                    </div>
+                    </span>
                     <div>
-                      <h3 className="text-lg font-semibold leading-snug text-white transition-colors group-hover:text-pink-200">
+                      <h3 className="font-serif text-lg font-bold leading-snug text-slate-900">
                         {project.title}
                       </h3>
-                      <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+                      <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#A15C22]">
                         {project.category}
                       </p>
                     </div>
                   </div>
-                  <div className="flex flex-col items-end gap-1.5">
-                    <span
-                      className={`rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] ring-1 ring-inset ${
-                        project.difficulty === "Beginner"
-                          ? "bg-emerald-500/15 text-emerald-100 ring-emerald-300/30"
-                          : project.difficulty === "Intermediate"
-                            ? "bg-amber-500/15 text-amber-100 ring-amber-300/30"
-                            : "bg-rose-500/15 text-rose-100 ring-rose-300/30"
-                      }`}
-                    >
-                      {project.difficulty}
-                    </span>
-                    <span className="rounded-full bg-sky-500/15 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-sky-100 ring-1 ring-inset ring-sky-300/30">
+                  <div className="flex shrink-0 flex-col items-end gap-1">
+                    <DifficultyPips level={project.difficulty} />
+                    <span className="font-mono text-[11px] text-slate-400">
                       {project.timeToComplete}
                     </span>
                   </div>
                 </div>
 
-                <p className="relative mb-4 line-clamp-3 text-sm leading-relaxed text-slate-200">
+                <p className="mb-3 line-clamp-2 text-[13px] leading-relaxed text-slate-500">
                   {project.summary}
                 </p>
 
-                <div className="relative rounded-2xl border border-white/10 bg-white/[0.06] p-3">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-cyan-200">
-                    Current build angle
-                  </p>
-                  <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-slate-300">
+                <div className="mb-3 rounded-lg border border-slate-100 bg-[#f5f5f7] p-3">
+                  <MonoLabel>current build angle</MonoLabel>
+                  <p className="mt-1 line-clamp-2 text-[13px] leading-relaxed text-slate-600">
                     {project.buildNow}
                   </p>
                 </div>
 
-                <div className="relative mt-4 flex flex-wrap gap-1.5">
-                  {project.tags.slice(0, 4).map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[10px] font-medium text-slate-200"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                <div className="mt-auto flex items-center justify-between gap-3 border-t border-slate-100 pt-3">
+                  <span className="line-clamp-1 font-mono text-[11px] text-slate-400">
+                    {project.tags.slice(0, 4).join(" · ")}
+                  </span>
+                  <span className="shrink-0 text-xs font-semibold text-slate-500 transition-transform group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0">
+                    Open build sheet →
+                  </span>
                 </div>
-
-                <p className="relative mt-5 text-xs font-semibold text-pink-200 transition-transform duration-300 group-hover:translate-x-1">
-                  Open stack, papers, starter code →
-                </p>
               </motion.button>
             ))}
           </div>
@@ -282,206 +274,169 @@ export default function AIProjects() {
 
         {hasMoreProjects && (
           <LevelOneLoadMoreButton
-            label="Load 6 more"
+            variant="light"
+            label="Load more blueprints"
             onClick={() => setVisibleCount((current) => current + 6)}
           />
         )}
 
+        {/* Build sheet */}
         <AnimatePresence>
           {selectedProject && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/72 p-4 backdrop-blur-md"
+              className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-sm"
               onClick={() => setSelectedProject(null)}
             >
               <motion.div
-                initial={{ scale: 0.96, opacity: 0, y: 12 }}
+                initial={{ scale: 0.97, opacity: 0, y: 16 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}
-                exit={{ scale: 0.96, opacity: 0, y: 12 }}
-                className="relative max-h-[90vh] w-full max-w-6xl overflow-y-auto rounded-[2.25rem] border border-white/15 bg-gradient-to-br from-slate-50 via-white to-pink-50/70 shadow-[0_36px_120px_rgba(8,12,24,0.4)]"
+                exit={{ scale: 0.97, opacity: 0, y: 16 }}
+                transition={{ duration: 0.2 }}
+                className="max-h-[90vh] w-full max-w-5xl overflow-y-auto rounded-2xl border border-slate-200 bg-[#fdfdfc] shadow-2xl"
                 onClick={(event) => event.stopPropagation()}
               >
-                <span className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-pink-300/80 to-transparent" />
-                <span className="pointer-events-none absolute -right-20 top-10 h-56 w-56 rounded-full bg-pink-400/14 blur-3xl" />
-                <span className="pointer-events-none absolute -left-16 bottom-8 h-44 w-44 rounded-full bg-sky-400/12 blur-3xl" />
-
-                <div className="relative p-5 sm:p-4">
-                  <div className="mb-6 overflow-hidden rounded-[28px] border border-white/70 bg-gradient-to-br from-pink-400/14 via-white/92 to-sky-400/12 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.12)] sm:p-4">
-                    <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                      <div className="flex items-center gap-5">
-                        <div className="flex h-20 w-20 items-center justify-center rounded-[24px] border border-white/70 bg-white/80 text-5xl shadow-[0_20px_50px_rgba(236,72,153,0.16)]">
-                          {selectedProject.icon}
-                        </div>
-                        <div>
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-pink-700/75">
-                            Build-now project brief
-                          </p>
-                          <h2 className="mt-2 text-3xl font-semibold tracking-[-0.04em] text-slate-950 sm:text-4xl">
-                            {selectedProject.title}
-                          </h2>
-                          <div className="mt-3 flex flex-wrap gap-2.5">
-                            <span className="rounded-full bg-slate-950 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-white">
-                              {selectedProject.category}
-                            </span>
-                            <span className="rounded-full border border-cyan-200 bg-cyan-50 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-cyan-800">
-                              {selectedProject.difficulty}
-                            </span>
-                            <span className="rounded-full border border-pink-200 bg-pink-50 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-pink-800">
-                              {selectedProject.timeToComplete}
-                            </span>
-                          </div>
+                <div className="border-b border-slate-200 p-6 sm:p-8">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-center gap-4">
+                      <span className="flex h-14 w-14 items-center justify-center rounded-xl border border-slate-200 bg-white text-3xl">
+                        {selectedProject.icon}
+                      </span>
+                      <div>
+                        <MonoLabel>build sheet</MonoLabel>
+                        <h2 className="mt-1 font-serif text-2xl font-bold text-slate-900 sm:text-3xl">
+                          {selectedProject.title}
+                        </h2>
+                        <div className="mt-2 flex flex-wrap items-center gap-3">
+                          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#A15C22]">
+                            {selectedProject.category}
+                          </span>
+                          <DifficultyPips level={selectedProject.difficulty} />
+                          <span className="font-mono text-[11px] text-slate-400">
+                            {selectedProject.timeToComplete}
+                          </span>
                         </div>
                       </div>
-                      <motion.button
-                        whileHover={{ rotate: 90, scale: 1.06 }}
-                        whileTap={{ scale: 0.94 }}
-                        onClick={() => setSelectedProject(null)}
-                        aria-label="Close project details"
-                        className="rounded-full border border-slate-200/80 bg-white/80 p-3 text-slate-500 shadow-sm transition-colors hover:border-slate-300 hover:text-slate-900"
-                      >
-                        <svg
-                          className="h-4 w-4"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M6 6l12 12M18 6L6 18"
-                          />
-                        </svg>
-                      </motion.button>
                     </div>
-
-                    <div className="grid gap-3 sm:grid-cols-3">
-                      <div className="rounded-[22px] border border-white/70 bg-white/78 p-4 shadow-[0_18px_40px_rgba(15,23,42,0.08)]">
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
-                          Difficulty
-                        </p>
-                        <p className="mt-2 text-sm font-medium text-slate-800">
-                          {selectedProject.difficulty}
-                        </p>
-                      </div>
-                      <div className="rounded-[22px] border border-white/70 bg-white/78 p-4 shadow-[0_18px_40px_rgba(15,23,42,0.08)]">
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
-                          Time to complete
-                        </p>
-                        <p className="mt-2 text-sm font-medium text-slate-800">
-                          {selectedProject.timeToComplete}
-                        </p>
-                      </div>
-                      <div className="rounded-[22px] border border-white/70 bg-white/78 p-4 shadow-[0_18px_40px_rgba(15,23,42,0.08)]">
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
-                          Reference set
-                        </p>
-                        <p className="mt-2 text-sm font-medium text-slate-800">
-                          {selectedProject.resources.length} resources +{" "}
-                          {selectedProject.keyPapers.length} papers
-                        </p>
-                      </div>
-                    </div>
+                    <button
+                      onClick={() => setSelectedProject(null)}
+                      aria-label="Close build sheet"
+                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-lg text-slate-500 transition hover:border-slate-400 hover:text-slate-900"
+                    >
+                      ✕
+                    </button>
                   </div>
+                  <p className="mt-4 max-w-3xl text-sm leading-relaxed text-slate-600">
+                    {selectedProject.summary}
+                  </p>
+                  <div className="mt-4 rounded-lg border border-slate-200 bg-white p-4">
+                    <MonoLabel>current build angle</MonoLabel>
+                    <p className="mt-1 text-sm leading-relaxed text-slate-600">
+                      {selectedProject.buildNow}
+                    </p>
+                  </div>
+                </div>
 
-                  <div className="grid gap-6 lg:grid-cols-[1.05fr,1.25fr]">
+                <div className="p-6 sm:p-8">
+                  <div className="grid gap-6 lg:grid-cols-2">
                     <div className="space-y-6">
-                      <div className="rounded-[1.75rem] border border-white/70 bg-white/82 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
-                        <h3 className="text-lg font-semibold text-slate-950">
-                          Project Overview
+                      <div className="rounded-xl border border-slate-200 bg-white p-5">
+                        <h3 className="font-serif text-lg font-bold text-slate-900">
+                          Build steps
                         </h3>
-                        <p className="mt-4 leading-relaxed text-slate-700">
-                          {selectedProject.summary}
-                        </p>
-                        <div className="mt-5 rounded-[22px] border border-slate-200/70 bg-slate-50/85 p-4">
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                            Current build angle
-                          </p>
-                          <p className="mt-2 leading-relaxed text-slate-700">
-                            {selectedProject.buildNow}
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="rounded-[1.75rem] border border-white/70 bg-white/82 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
-                        <h3 className="text-lg font-semibold text-slate-950">Use Cases</h3>
-                        <div className="mt-4 space-y-3">
-                          {selectedProject.useCases.map((item) => (
-                            <div
-                              key={item}
-                              className="rounded-[22px] border border-slate-200/70 bg-slate-50/85 p-4 text-sm leading-relaxed text-slate-700"
-                            >
-                              {item}
-                            </div>
+                        <ol className="mt-4 space-y-3">
+                          {selectedProject.buildSteps.map((step, index) => (
+                            <li key={step} className="flex gap-3">
+                              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-slate-300 bg-[#f5f5f7] font-mono text-[11px] font-bold text-slate-700">
+                                {index + 1}
+                              </span>
+                              <p className="text-sm leading-relaxed text-slate-600">
+                                {step}
+                              </p>
+                            </li>
                           ))}
-                        </div>
+                        </ol>
                       </div>
 
-                      <div className="rounded-[1.75rem] border border-white/70 bg-white/82 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
-                        <h3 className="text-lg font-semibold text-slate-950">
-                          Recommended Stack
+                      <div className="rounded-xl border border-slate-200 bg-white p-5">
+                        <h3 className="font-serif text-lg font-bold text-slate-900">
+                          Recommended stack
                         </h3>
-                        <div className="mt-4 flex flex-wrap gap-3">
+                        <div className="mt-3 flex flex-wrap gap-2">
                           {selectedProject.recommendedStack.map((item) => (
                             <span
                               key={item}
-                              className="rounded-full border border-cyan-200 bg-cyan-50 px-4 py-2 text-sm font-medium text-cyan-900 shadow-[0_6px_18px_rgba(14,165,233,0.08)]"
+                              className="rounded-md border border-[#2C5A73]/30 bg-[#2C5A73]/5 px-2.5 py-1 font-mono text-[12px] font-medium text-[#2C5A73]"
                             >
                               {item}
                             </span>
                           ))}
                         </div>
                       </div>
+
+                      <div className="rounded-xl border border-slate-200 bg-white p-5">
+                        <h3 className="font-serif text-lg font-bold text-slate-900">
+                          Use cases
+                        </h3>
+                        <ul className="mt-3 space-y-2">
+                          {selectedProject.useCases.map((item) => (
+                            <li
+                              key={item}
+                              className="border-l-2 border-slate-200 pl-3 text-sm leading-relaxed text-slate-600"
+                            >
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
 
                     <div className="space-y-6">
-                      <div className="rounded-[1.75rem] border border-white/70 bg-white/82 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
-                        <h3 className="text-lg font-semibold text-slate-950">
-                          Build Steps
+                      <div className="rounded-xl border border-slate-200 bg-white p-5">
+                        <h3 className="font-serif text-lg font-bold text-slate-900">
+                          Resources
                         </h3>
-                        <div className="mt-4 space-y-3">
-                          {selectedProject.buildSteps.map((step, index) => (
-                            <div
-                              key={step}
-                              className="flex gap-4 rounded-[22px] border border-slate-200/70 bg-slate-50/85 p-4"
+                        <div className="mt-3 divide-y divide-slate-100">
+                          {selectedProject.resources.map((resource) => (
+                            <a
+                              key={resource.url}
+                              href={resource.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="group block py-3 first:pt-0 last:pb-0"
                             >
-                              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-slate-950 text-sm font-bold text-white shadow-[0_10px_24px_rgba(15,23,42,0.14)]">
-                                {index + 1}
-                              </span>
-                              <p className="text-sm leading-relaxed text-slate-700">
-                                {step}
+                              <div className="flex items-baseline justify-between gap-3">
+                                <p className="text-sm font-bold text-slate-900 group-hover:underline">
+                                  {resource.name} ↗
+                                </p>
+                                <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-slate-400">
+                                  {resource.type}
+                                </span>
+                              </div>
+                              <p className="mt-1 text-[13px] leading-relaxed text-slate-600">
+                                {resource.note}
                               </p>
-                            </div>
+                            </a>
                           ))}
                         </div>
                       </div>
 
-                      <div className="rounded-[1.75rem] border border-white/70 bg-white/82 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
-                        <h3 className="text-lg font-semibold text-slate-950">
-                          Current Resources
+                      <div className="rounded-xl border border-slate-200 bg-white p-5">
+                        <h3 className="font-serif text-lg font-bold text-slate-900">
+                          Key papers
                         </h3>
-                        <div className="mt-4 space-y-4">
-                          {selectedProject.resources.map((resource) => (
+                        <div className="mt-3 space-y-2">
+                          {selectedProject.keyPapers.map((paper) => (
                             <a
-                            key={resource.url}
-                            href={resource.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block rounded-[22px] border border-slate-200/70 bg-slate-50/85 p-4 transition hover:border-cyan-300 hover:bg-cyan-50/80"
-                          >
-                            <div className="flex flex-wrap items-center justify-between gap-3">
-                              <p className="text-sm font-semibold text-slate-900">
-                                {resource.name}
-                              </p>
-                                <span className="rounded-full bg-slate-950 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
-                                  {resource.type}
-                                </span>
-                              </div>
-                              <p className="mt-2 text-sm leading-relaxed text-slate-700">
-                                {resource.note}
-                              </p>
+                              key={paper.url}
+                              href={paper.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block border-l-2 border-[#A15C22]/40 pl-3 text-sm font-medium text-slate-700 transition hover:border-[#A15C22] hover:text-slate-900 hover:underline"
+                            >
+                              {paper.title} ↗
                             </a>
                           ))}
                         </div>
@@ -489,37 +444,18 @@ export default function AIProjects() {
                     </div>
                   </div>
 
-                  <div className="mt-6 grid gap-6 lg:grid-cols-[0.85fr,1.15fr]">
-                    <div className="rounded-[1.75rem] border border-white/70 bg-white/82 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
-                      <h3 className="text-lg font-semibold text-slate-950">
-                        Key Papers
+                  <div className="mt-6 overflow-hidden rounded-xl border border-slate-800 bg-slate-900">
+                    <div className="flex items-center justify-between gap-3 border-b border-slate-700 px-5 py-3">
+                      <h3 className="font-serif text-base font-bold text-white">
+                        Starter code
                       </h3>
-                      <div className="mt-4 space-y-3">
-                        {selectedProject.keyPapers.map((paper) => (
-                          <a
-                            key={paper.url}
-                            href={paper.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block rounded-[22px] border border-slate-200/70 bg-slate-50/85 p-4 text-sm font-semibold text-slate-800 transition hover:border-pink-300 hover:bg-pink-50/80"
-                          >
-                            {paper.title}
-                          </a>
-                        ))}
-                      </div>
+                      <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-slate-400">
+                        scaffold · adapt before shipping
+                      </span>
                     </div>
-
-                    <div className="rounded-[1.75rem] border border-slate-800 bg-slate-800 p-4 shadow-[0_24px_60px_rgba(15,23,42,0.18)]">
-                      <div className="flex items-center justify-between gap-3">
-                        <h3 className="text-lg font-semibold text-white">Starter Code</h3>
-                        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-300">
-                          Starter scaffold
-                        </span>
-                      </div>
-                      <pre className="mt-4 overflow-x-auto rounded-[22px] border border-white/10 bg-black/45 p-5 text-sm leading-relaxed text-slate-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
-                        <code>{selectedProject.codeExample}</code>
-                      </pre>
-                    </div>
+                    <pre className="overflow-x-auto p-5 font-mono text-[13px] leading-relaxed text-slate-100">
+                      <code>{selectedProject.codeExample}</code>
+                    </pre>
                   </div>
                 </div>
               </motion.div>
