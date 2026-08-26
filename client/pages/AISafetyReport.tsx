@@ -51,6 +51,7 @@ export default function AISafetyReport() {
       title="When AI Always Agrees"
       description="Chatbots trained to be agreeable have become unlicensed doctors, lawyers, and therapists to hundreds of millions of people — many of them children. A source-linked review of court filings, company disclosures, and peer-reviewed research."
       accent="amber"
+      frameClassName="bg-[#f5f5f7]"
       chips={["Youth mental health", "Unlicensed practice", "Sycophancy", "Echo chambers", "Isolation"]}
       metrics={[
         { value: "72%", label: "of U.S. teens have used AI companions", detail: "Common Sense Media, 2025" },
@@ -63,15 +64,13 @@ export default function AISafetyReport() {
           <a
             href="/ai-safety/report.html"
             target="_blank"
-            rel="noopener"
+            rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-700 px-5 py-3 font-semibold text-white transition hover:bg-emerald-800"
           >
             <ExternalLink className="h-4 w-4" /> Open the full interactive report
           </a>
           <a
             href="/ai-safety/presentation.html"
-            target="_blank"
-            rel="noopener"
             download
             className="inline-flex items-center justify-center gap-2 rounded-xl border border-amber-400 bg-amber-50 px-5 py-3 font-semibold text-amber-900 transition hover:bg-amber-100"
           >
@@ -84,7 +83,7 @@ export default function AISafetyReport() {
           <p>
             In crisis, or worried about someone? Call or text <b>988</b> (US Suicide &amp; Crisis
             Lifeline), text <b>HOME</b> to <b>741741</b>, or visit{" "}
-            <a className="underline" href="https://findahelpline.com" target="_blank" rel="noopener">
+            <a className="underline" href="https://findahelpline.com" target="_blank" rel="noopener noreferrer">
               findahelpline.com
             </a>
             . A chatbot is not a safety plan.
@@ -174,15 +173,13 @@ export default function AISafetyReport() {
             <a
               href="/ai-safety/report.html"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800"
             >
               <ExternalLink className="h-4 w-4" /> Read the full report
             </a>
             <a
               href="/ai-safety/presentation.html"
-              target="_blank"
-              rel="noopener"
               download
               className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-800 transition hover:bg-white"
             >

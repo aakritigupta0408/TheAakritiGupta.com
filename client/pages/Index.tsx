@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import ChatBot from "@/components/ChatBot";
 
@@ -48,14 +48,14 @@ export default function Index() {
   }, []);
 
   return (
-    <div className="relative h-screen overflow-hidden bg-[#f5f5f7] text-slate-900">
+    <div className="relative min-h-screen bg-[#f5f5f7] text-slate-900">
       <Navigation />
 
       <div className="h-20 lg:h-28" aria-hidden="true" />
 
       {/* When AI Always Agrees banner */}
-      <button
-        onClick={() => navigate("/ai-safety")}
+      <Link
+        to="/ai-safety"
         className="group block w-full bg-gradient-to-r from-teal-800 via-teal-700 to-amber-600 px-6 py-4 text-left text-white shadow-lg transition-all hover:brightness-110 sm:py-5"
       >
         <div className="mx-auto flex max-w-7xl flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
@@ -78,7 +78,7 @@ export default function Index() {
             Read the evidence →
           </span>
         </div>
-      </button>
+      </Link>
 
       <main className="mx-auto flex h-[calc(100vh-10rem)] max-w-7xl items-start gap-8 px-6 lg:h-[calc(100vh-12rem)] lg:items-center">
         {/* Left — identity + navigation */}
@@ -134,6 +134,12 @@ export default function Index() {
               className="rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-all hover:bg-slate-50"
             >
               GitHub
+            </a>
+            <a
+              href="/paperleaks/"
+              className="rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-all hover:bg-slate-50"
+            >
+              Paper Leak Data
             </a>
           </div>
 

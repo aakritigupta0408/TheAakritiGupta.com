@@ -36,6 +36,7 @@ const levelOnePages = [
   { path: "/ai-companies", label: "Companies" },
   { path: "/ai-discoveries", label: "Discoveries" },
   { path: "/ai-champions", label: "Champions" },
+  { path: "/ai-safety", label: "AI Safety" },
   { path: "/games", label: "Games" },
   { path: "/resume-builder", label: "Resume" },
 ];
