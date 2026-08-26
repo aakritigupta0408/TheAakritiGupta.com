@@ -1129,7 +1129,7 @@ function drawDesk(pt, kb, pt2, pt3d, pt4d, pt5d, pt6d) {
     ["Follower", "#2461b8", mkSeries(pt, false), ""],
     ["Ladder", "#8f6000", mkSeries(pt2 || [], true), "6 5"],
     ["Disciplined", "#0d7a4e", mkSeries(pt3d || [], false), ""],
-    ["Gambler", "#b84343", mkSeries(pt4d || [], false), ""],
+    ["Gambler", "#b84343", mkSeries(pt4d || [], false, 1000000), ""],
     ["Saver", "#5f50c7", mkSeries(pt5d || [], false, 1000000), "2 4"],
     ["MLE", "#16202c", mkSeries(pt6d || [], false), ""],
   ];
@@ -1823,7 +1823,10 @@ async function boot() {
     jsonl("../results/pt_trades.jsonl"),
     jsonl("../results/pt2_trades.jsonl"),
     jsonl("../results/pt3_trades.jsonl"),
-    jsonl("../results/pt4_trades.jsonl"),
+    // Gambler policy v2 (2026-08-26): gate + $10k reset — the page
+    // shows his v2 era; pre-cutover history stays in the raw log
+    jsonl("../results/pt4_trades.jsonl")
+      .then(rows => rows.filter(t => t.made_ts >= 1787788353)),
     jsonl("../results/pt5_trades.jsonl"),
     jsonl("../results/pt6_trades.jsonl"),
   ]);
