@@ -982,14 +982,14 @@ function armCallView(pUp, call, open) {
   const label = up ? "UP" : "DOWN";
   const dir = up ? "up" : "down";
   const agrees = (pUp >= 0.5) === up;      // does the bet match the P(up) side?
-  let conf = Math.max(pUp, 1 - pUp);        // safe default: confidence in direction
+  let conf = Math.max(pUp, 1 - pUp);        // confidence in the direction
   let flag = "";
   if (!agrees) {
-    // TODO(human): the arm is betting AGAINST its own P(up) read — kb5's
-    // EV logic (the quote misprices the odds). Decide how to show this
-    // honestly: set `conf` to the confidence in the *bet it actually made*
-    // (not the raw direction), and set `flag` to a short badge like
-    // "vs its read". 2–5 lines.
+    // the arm bet AGAINST its own P(up) — kb5's EV logic, when the quote
+    // misprices the odds. Report the probability mass actually on the bet
+    // side (candidly low), and flag it as a pure price play, not a read.
+    conf = up ? pUp : 1 - pUp;
+    flag = `price play · P(up) ${(100 * pUp).toFixed(0)}%`;
   }
   return { arrow, label, dir, conf, flag, agrees };
 }
