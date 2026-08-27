@@ -1837,7 +1837,10 @@ async function boot() {
     jsonl("../results/pt4_trades.jsonl")
       .then(rows => rows.filter(t => t.made_ts >= 1787788353)),
     jsonl("../results/pt5_trades.jsonl"),
-    jsonl("../results/pt6_trades.jsonl"),
+    // MLE shadow rows (skipped windows he still learns from) are
+    // training data, not trades — money views exclude them
+    jsonl("../results/pt6_trades.jsonl")
+      .then(rows => rows.filter(t => !t.skipped)),
   ]);
   try { drawRoster(ptr, pt2r, pt3r, kb, pt4r, pt5r, pt6r); } catch (e) {}
   try { drawDesk(ptr, kb, pt2r, pt3r, pt4r, pt5r, pt6r); } catch (e) {}
