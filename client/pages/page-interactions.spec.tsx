@@ -622,12 +622,12 @@ describe("AI page interactions", () => {
   });
 
   it("load-more buttons reveal additional items on every page that has them", () => {
-    // AITools: 22 professions, initial 8
+    // AITools: 20 professions, initial 9, +6 per load
     const toolsView = renderPage(<AITools />);
     const toolsBefore = toolsView.getAllByText(/Open →/i).length;
-    expect(toolsBefore).toBe(8);
-    fireEvent.click(toolsView.getByText("Load 4 more"));
-    expect(toolsView.getAllByText(/Open →/i).length).toBe(12);
+    expect(toolsBefore).toBe(9);
+    fireEvent.click(toolsView.getByText("Load more playbooks"));
+    expect(toolsView.getAllByText(/Open →/i).length).toBe(15);
     cleanup();
 
     // AICompanies: 29 companies, initial 8
