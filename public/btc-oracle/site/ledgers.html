@@ -301,7 +301,9 @@ function renderLr(book, rows) {
       stat(k, bySev[k])).join("") : "") + `</div>`;
   const head = `<th>when (PT)</th><th>trader</th><th>sev</th>` +
     `<th>grade</th><th>dominant</th><th class="num">pnl</th><th>response</th>`;
-  const body = rows.slice().reverse().map(r =>
+  /* the file is appended in per-trader batches — sort, don't reverse */
+  const body = rows.slice()
+    .sort((a, b) => (b.close_ts || 0) - (a.close_ts || 0)).map(r =>
     `<tr><td>${fmtWhen(r.close_ts)}</td>` +
     `<td>${esc(r.label || r.trader || "—")}</td>` +
     `<td>${sevChip(r.sev)}</td>` +
