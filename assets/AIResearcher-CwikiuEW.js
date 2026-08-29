@@ -1,0 +1,1 @@
+import{j as r}from"./index-EqiTuRkx.js";import{T as e}from"./TalentProfilePage-B18oudp2.js";import"./arrow-left-CRxkmnzl.js";import"./sparkles-D85UoYBV.js";import"./arrow-right-DPOTW5Qe.js";function s(){return r.jsx(e,{route:"/talent/ai-researcher"})}export{s as default};

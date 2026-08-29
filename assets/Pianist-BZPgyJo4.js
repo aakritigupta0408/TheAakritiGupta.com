@@ -1,1 +1,0 @@
-import{j as t}from"./index-BMcy1s5q.js";import{T as r}from"./TalentProfilePage-CArOAO-C.js";import"./arrow-left-u4C-QQxU.js";import"./sparkles-D-91Eokk.js";import"./arrow-right-BiYn7k4x.js";function n(){return t.jsx(r,{route:"/talent/pianist"})}export{n as default};
