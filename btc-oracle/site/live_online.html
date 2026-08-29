@@ -12,22 +12,21 @@
    Flat surfaces, no filters/gradients; system stack; tabular numerals. */
 * { box-sizing: border-box; margin: 0; }
 :root {
-  /* light palette — matched to the shared theme.css (the page's old
-     local dark palette made the site flip black on this tab) */
-  --page: #f3f5f8; --surface: #ffffff; --surface-2: #f7f8fb;
-  --ink: #16202c; --ink-2: #46536a; --muted: #77839a; --faint: #a6afc0;
+  --page: #0b0d10; --surface: #12151b; --surface-2: #191d25;
+  --ink: #f2efe6; --ink-2: #b3afa2; --muted: #837f74; --faint: #5d5a51;
   --display: Didot, "Didot LT STD", "Bodoni 72", "Bodoni MT",
              "Iowan Old Style", Georgia, serif;
-  --grid: rgba(22,32,44,.06); --axis: rgba(22,32,44,.28);
-  --border: rgba(22,32,44,.11);
-  /* categorical arm palette — re-stepped darker for the light surface */
-  --series-1: #667283; --series-2: #2461b8; --series-3: #b43a6e;
-  --series-4: #8f6000; --series-5: #0b7d8a; --series-6: #bc4514;
-  --series-7: #0d7a4e; --series-8: #226b22; --series-9: #5f50c7;
-  --series-10: #b84343;
+  --grid: rgba(22,32,44,.05); --axis: rgba(22,32,44,.18);
+  --border: rgba(22,32,44,.07);
+  /* categorical arm palette — validated (CVD + contrast) for dark surface;
+     baselines are neutral by design: ctl = series-1 gray, rp = faint */
+  --series-1: #aeb6c2; --series-2: #3987e5; --series-3: #d55181;
+  --series-4: #c98500; --series-5: #2fb59a; --series-6: #d95926;
+  --series-7: #199e70; --series-8: #008300; --series-9: #9085e9;
+  --series-10: #e66767;
   /* reserved status colors — price/YES/NO only, never a series */
-  --up: #0c8a4d; --down: #d13c3c;
-  --good: #0c8a4d; --good-text: #0c8a4d; --critical: #d13c3c;
+  --up: #2bd97e; --down: #ff5d5d;
+  --good: #2bd97e; --good-text: #5fe8a0; --critical: #ff5d5d;
 }
 body { min-height: 100vh; overflow-x: hidden; background: var(--page);
   color: var(--ink);
@@ -118,21 +117,6 @@ section { background: var(--surface); border: 1px solid var(--border);
 .sw.line { width: 18px; height: 0; border-top: 2.5px solid var(--ink-2);
   border-radius: 2px; vertical-align: 3px; background: none; }
 .sw.ring { background: transparent; border: 2px solid var(--faint); }
-.arm-live { display: grid; gap: 10px; margin-top: 12px;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-.arm-live .ac { border: 1px solid var(--border); border-radius: 12px;
-  padding: 12px 13px; border-top: 3px solid var(--ac); }
-.arm-live .ac.settled { opacity: .6; }
-.arm-live .ac .an { font-weight: 700; font-size: 14px; color: var(--ac); }
-.arm-live .ac .ad { font-size: 11px; color: var(--muted); margin: 1px 0 9px; }
-.arm-live .ac .acall { font-size: 21px; font-weight: 700; letter-spacing: -.02em; }
-.arm-live .ac .acall .up { color: var(--series-7); }
-.arm-live .ac .acall .down { color: var(--series-3); }
-.arm-live .ac .acall .cf { font-size: 13px; color: var(--muted); font-weight: 600; }
-.arm-live .ac .bar { height: 6px; border-radius: 3px; margin-top: 9px;
-  background: rgba(22,32,44,.08); overflow: hidden; }
-.arm-live .ac .bar > i { display: block; height: 100%; background: var(--ac); }
-.arm-live .ac .meta { font-size: 11px; color: var(--muted); margin-top: 6px; }
 .chip { font: 600 13px ui-sans-serif, system-ui; color: var(--ink-2);
   background: rgba(22,32,44,.04); border: 1px solid var(--border);
   border-radius: 999px; padding: 5px 14px; cursor: pointer; }
@@ -224,7 +208,7 @@ details[open] > summary { margin-bottom: 6px; }
 <body>
 
 <nav class="topnav"><a class="brand" href="home.html">BTC 7PM Oracle</a>
-  <a class="nav" href="home.html">Home</a><a class="nav" href="ab_dashboard.html">Results</a><a class="nav here" href="live_online.html">Live desk</a><a class="nav" href="experiment_review.html">Experiment lab</a><a class="nav" href="index.html">Backtest</a><a class="nav" href="live_training.html">Training</a><a class="nav" href="metrics_lab.html">Metrics Lab</a><a class="nav" href="sev0.html">SEV-0</a><a class="nav" href="board.html">Board</a><a class="nav" href="analyst.html">Analyst</a><span class="spacer"></span><span class="tag">live experiment</span></nav>
+  <a class="nav" href="home.html">Home</a><a class="nav" href="ab_dashboard.html">Results</a><a class="nav here" href="live_online.html">Live desk</a><a class="nav" href="experiment_review.html">Experiment lab</a><a class="nav" href="index.html">Backtest</a><a class="nav" href="live_training.html">Training</a><span class="spacer"></span><span class="tag">live experiment</span></nav>
 <div class="research-banner">🎓 <b>University research study</b> — NYU Deep Learning course project. All trading shown is <b>simulated paper trading</b> for model evaluation and education only. Nothing on this site is financial advice, a solicitation, or a recommendation to buy or sell anything.</div>
 
 
@@ -290,7 +274,7 @@ details[open] > summary { margin-bottom: 6px; }
 <section class="statusbar">
   <div class="stat"><div class="k">BRTI-style composite</div><div class="bignum" id="brti">–</div></div>
   <div class="stat"><div class="k">Predictions</div><div class="bignum" id="npred">–</div></div>
-  <div class="stat"><div class="k">Direction (near-martingale — floor ≈50%; the vs-strike call below is the well-posed one)</div><div class="bignum" id="t-dir">–</div></div>
+  <div class="stat"><div class="k">Direction (goal &gt;55%)</div><div class="bignum" id="t-dir">–</div></div>
   <div class="stat"><div class="k">80% band coverage (goal 80%)</div><div class="bignum" id="t-cov">–</div></div>
 </section>
 
@@ -320,7 +304,7 @@ details[open] > summary { margin-bottom: 6px; }
     <div class="stat"><div class="k">Hit rate</div><div class="bignum" id="kb-acc">–</div></div>
     <div class="stat"><div class="k">Our Brier</div><div class="bignum" id="kb-brier">–</div></div>
     <div class="stat"><div class="k">Market Brier</div><div class="bignum" id="kb-mkt">–</div></div>
-    <div class="stat"><div class="k">This window's bet <span style="text-transform:none;letter-spacing:0">(struck at entry — the live call above may have moved since)</span></div><div class="bignum" id="kb-bet">–</div></div>
+    <div class="stat"><div class="k">This window's bet</div><div class="bignum" id="kb-bet">–</div></div>
     <div class="stat"><div class="k">One-bet record · P&amp;L</div><div class="bignum" id="kb-bet-pnl">–</div></div>
     <div class="stat"><div class="k">Today's bet win rate (PT)</div><div class="bignum" id="kb-today">–</div></div>
     <div class="stat"><div class="k">Today · Brier us vs market</div><div class="bignum" id="kb-today-brier">–</div></div>
@@ -350,16 +334,6 @@ details[open] > summary { margin-bottom: 6px; }
   </details>
 </section>
 </div>
-
-<section>
-  <h2>Every arm's live call
-    <span class="sub muted small" style="margin-left:8px">the open window — eight models, side by side</span></h2>
-  <p class="sub muted small">Each arm scores the <b>same</b> open Kalshi window on its own. The big arrow is the
-  arm's committed side; the bar underneath is its <b>P(up)</b> — the probability the price ends above the strike.
-  For most arms the two agree, but the EV-trained arm (kb5) can bet against its own P(up) when the quote misprices
-  the odds, so direction and P(up) may disagree by design. Refreshes every 15&nbsp;s with the tape.</p>
-  <div id="arm-live" class="arm-live"><p class="mini">reading the open window…</p></div>
-</section>
 
 <section>
   <h2>One bet per window</h2>
@@ -398,9 +372,8 @@ details[open] > summary { margin-bottom: 6px; }
     <div style="flex:1;min-width:105px;border:1px solid var(--border);border-radius:12px;padding:10px"><b style="color:var(--series-8)">L5 · t10/t11</b><br><span class="muted">Kalshi market context (t10) · RLHF human feedback (t11) · cal + kb meta-arms</span></div>
   </div>
 
-  <p class="mini" style="margin-top:16px">Offline — historical MAE (frozen backtest —
-  squared-error version not recomputable from retained aggregates) from the runs
-  that shipped each arm (the <a href="index.html"
+  <p class="mini" style="margin-top:16px">Offline — held-out test MAE from the runs
+  that shipped each arm (historical reference; the <a href="index.html"
   style="color:var(--series-2)">backtest page</a> and its previous-runs table carry
   the latest batch numbers):</p>
   <div class="scroll"><table>
@@ -423,8 +396,8 @@ details[open] > summary { margin-bottom: 6px; }
   <p class="mini" style="margin-top:16px">Online — live ledger since deployment (refreshes with the page):</p>
   <div class="scroll"><table>
     <thead><tr><th>Arm</th>
-    <th class="num">+1m n·MSE $²·±$10</th><th class="num">+5m n·MSE $²·±$10</th>
-    <th class="num">+15m n·MSE $²·±$10</th><th class="num">+30m n·MSE $²·±$10</th></tr></thead>
+    <th class="num">+1m n·MAE·±$10</th><th class="num">+5m n·MAE·±$10</th>
+    <th class="num">+15m n·MAE·±$10</th><th class="num">+30m n·MAE·±$10</th></tr></thead>
     <tbody id="arm-online-body"></tbody>
   </table></div>
   <p class="sub muted" style="margin-top:8px">Full architecture/feature/reward detail per arm
@@ -512,9 +485,6 @@ const bust = u => REMOTE
 
 const H_COLOR = { 1: "var(--series-5)", 5: "var(--series-2)", 15: "var(--series-3)", 30: "var(--series-4)" };
 const T1_HORIZONS = [1, 5, 15, 30];
-// compact $² formatter: 62 400 → "62.4k", 480 → "480"
-const fmtSq = v => v == null ? "–"
-  : v >= 1000 ? (v / 1000).toFixed(1) + "k" : String(Math.round(v));
 const armOf = p => (p.variant || "").startsWith("consensus") ? "agg"
   : (p.variant || "").startsWith("cal") ? "cal"
   : (p.variant || "").startsWith("t11") ? "t11"
@@ -671,14 +641,14 @@ function chartHorizon(prices, preds, h) {
   const m = chartMeta[h];
   preds = preds.filter(p => p.target_ts >= m.t0 && p.target_ts <= m.t1);
   let g = f.g;
-  // shaded ribbon: the trailing-MSE leader arm's 80% band
+  // shaded ribbon: the trailing-MAE leader arm's 80% band
   const armsHere = ["ctl", "rp", "t2", "t6", "t7", "t8", "t9", "t10", "t11", "cal"];
-  let leader = null, bestMse = Infinity;
+  let leader = null, bestMae = Infinity;
   for (const a of armsHere) {
     const sc = preds.filter(p => armOf(p) === a && p.actual != null).slice(-30);
     if (sc.length >= 5) {
-      const mse2 = sc.reduce((s2, p) => s2 + p.abs_err * p.abs_err, 0) / sc.length;
-      if (mse2 < bestMse) { bestMse = mse2; leader = a; }
+      const mae2 = sc.reduce((s2, p) => s2 + p.abs_err, 0) / sc.length;
+      if (mae2 < bestMae) { bestMae = mae2; leader = a; }
     }
   }
   if (leader) {
@@ -761,23 +731,23 @@ function ledgerRows(preds) {
 }
 
 function stats(preds) {
-  // ranked scorecard chips: best trailing MSE first
+  // ranked scorecard chips: best trailing MAE first
   const rows = ["ctl", "rp", "t2", "t6", "t7", "t8", "t9", "t10", "t11", "cal"]
     .map(arm => {
       const sc = preds.filter(p => p.actual != null && armOf(p) === arm);
       if (sc.length < 5) return null;
-      const mse = sc.reduce((a, p) => a + p.abs_err * p.abs_err, 0) / sc.length;
+      const mae = sc.reduce((a, p) => a + p.abs_err, 0) / sc.length;
       const banded = sc.filter(p => p.in_band != null);
       const cov = banded.length
         ? Math.round(100 * banded.filter(p => p.in_band).length / banded.length) + "%"
         : "–";
-      return { arm, mse, cov, n: sc.length };
-    }).filter(Boolean).sort((a, b) => a.mse - b.mse);
+      return { arm, mae, cov, n: sc.length };
+    }).filter(Boolean).sort((a, b) => a.mae - b.mae);
   return rows.map((r, i) =>
     `<span class="scorechip${i === 0 ? " lead" : ""}" title="${r.arm}: ` +
-    `${r.n} scored · MSE ${fmtSq(r.mse)} $² · 80% band coverage ${r.cov}">` +
+    `${r.n} scored · MAE $${Math.round(r.mae)} · 80% band coverage ${r.cov}">` +
     `<i style="background:${ARM_COLOR[r.arm] || "var(--faint)"}"></i>` +
-    `${r.arm} ${fmtSq(r.mse)} · ${r.cov}</span>`).join("");
+    `${r.arm} $${Math.round(r.mae)} · ${r.cov}</span>`).join("");
 }
 
 function winnerChart(prices, preds, h) {
@@ -881,9 +851,9 @@ function renderArmCards(preds) {
     const sc = preds.filter(p => variants.includes(p.variant)
       && p.horizon === h && p.actual != null);
     if (!sc.length) return "–";
-    const mse = sc.reduce((a, p) => a + p.abs_err * p.abs_err, 0) / sc.length;
+    const mae = sc.reduce((a, p) => a + p.abs_err, 0) / sc.length;
     const w10 = sc.filter(p => p.abs_err <= 10).length / sc.length;
-    return `${sc.length} · ${fmtSq(mse)} $² · ${(100 * w10).toFixed(0)}%`;
+    return `${sc.length} · $${Math.round(mae)} · ${(100 * w10).toFixed(0)}%`;
   };
   document.getElementById("arm-online-body").innerHTML =
     LADDER_ARMS.map(([key, color, variants]) =>
@@ -962,65 +932,6 @@ function drawBets(bets) {
         `<td class="num">${Math.round(100 * b.p_model)}%</td>` +
         `<td class="num">${res}</td></tr>`;
     }).join("");
-}
-
-// the live board: every kb arm's call on the current open window. Fixed
-// color order (never cycled); kb6/kbf excluded — retired from trading.
-const ARM_LIVE = [
-  ["kb", "control", "--series-1"],
-  ["kb2", "market-anchored", "--series-2"],
-  ["kb3", "online logit", "--series-7"],
-  ["kb4", "stacked", "--series-4"],
-  ["kb5", "EV-trained", "--series-6"],
-  ["kb7", "Chronos-Bolt", "--series-3"],
-  ["kb8", "kb7 × market", "--series-9"],
-  ["kb9", "TimesFM 2.5", "--series-5"],
-];
-
-// Given one arm's read on the open window, decide how to present it.
-// Direction ALWAYS comes from `call` (kb5 can bet against its own P(up));
-// this returns the confidence figure + any badge shown next to the arrow.
-function armCallView(pUp, call, open) {
-  const up = call === 1;
-  const arrow = up ? "▲" : "▼";
-  const label = up ? "UP" : "DOWN";
-  const dir = up ? "up" : "down";
-  const agrees = (pUp >= 0.5) === up;      // does the bet match the P(up) side?
-  let conf = Math.max(pUp, 1 - pUp);        // confidence in the direction
-  let flag = "";
-  if (!agrees) {
-    // the arm bet AGAINST its own P(up) — kb5's EV logic, when the quote
-    // misprices the odds. Report the probability mass actually on the bet
-    // side (candidly low), and flag it as a pure price play, not a read.
-    conf = up ? pUp : 1 - pUp;
-    flag = "price play, not its read";
-  }
-  return { arrow, label, dir, conf, flag, agrees };
-}
-
-function drawArmLive(armRows) {
-  const el = document.getElementById("arm-live");
-  if (!el) return;
-  const latest = {};                        // freshest row per arm
-  for (const r of armRows) {
-    const v = r.variant || "kb";
-    if (!latest[v] || (r.made_ts || 0) > (latest[v].made_ts || 0)) latest[v] = r;
-  }
-  const cards = ARM_LIVE.filter(([v]) => latest[v]).map(([v, desc, col]) => {
-    const r = latest[v];
-    const open = r.actual == null;
-    const view = armCallView(r.p_up, r.call, open);
-    const cf = view.conf != null ? (100 * view.conf).toFixed(0) + "%" : "–";
-    return `<div class="ac${open ? "" : " settled"}" style="--ac:var(${col})">` +
-      `<div class="an">${v}</div><div class="ad">${desc}</div>` +
-      `<div class="acall"><span class="${view.dir}">${view.arrow} ${view.label}` +
-      `</span> <span class="cf">${cf}</span></div>` +
-      `<div class="bar" title="P(up) ${(100 * r.p_up).toFixed(0)}%">` +
-      `<i style="width:${(100 * r.p_up).toFixed(0)}%"></i></div>` +
-      `<div class="meta">P(up) ${(100 * r.p_up).toFixed(0)}%` +
-      `${view.flag ? " · " + view.flag : ""} · ${open ? "live" : "settled"}</div></div>`;
-  }).join("");
-  el.innerHTML = cards || '<p class="mini">collecting…</p>';
 }
 
 function drawDirection(preds, kbRows) {
@@ -1161,14 +1072,9 @@ async function poll() {
       fetch(bust("../results/kb_bets.jsonl"), { cache: "no-store" }),
     ]);
     const kbRows = [];
-    const armRows = [];
     if (kbRes.ok) for (const line of (await kbRes.text()).split("\n")) {
       if (!line.trim()) continue;
-      // this page is the kb-CONTROL binary view; keep only kb rows so the
-      // call table and today-Brier don't blend all nine arms into one
-      try { const r = JSON.parse(line);
-        armRows.push(r);                       // every arm, for the live board
-        if ((r.variant || "kb") === "kb") kbRows.push(r); } catch {}
+      try { kbRows.push(JSON.parse(line)); } catch {}
     }
     const betRows = [];
     if (betRes.ok) for (const line of (await betRes.text()).split("\n")) {
@@ -1192,7 +1098,6 @@ async function poll() {
     draw();
     try { drawLearning(preds, learnLog.slice(-400)); } catch {}
     try { drawDirection(preds, kbRows); } catch {}
-    try { drawArmLive(armRows); } catch {}
     renderArmCards(preds);
     document.getElementById("npred").textContent = preds.length.toLocaleString();
 
@@ -1259,7 +1164,7 @@ async function poll() {
         ? "$" + Math.round(status.brti.price).toLocaleString() : "–";
       const consScored = preds.filter(p => p.variant === "consensus" && p.actual != null);
       document.getElementById("cons-acc").textContent = consScored.length
-        ? "MSE " + fmtSq(consScored.reduce((a, p) => a + p.abs_err * p.abs_err, 0) / consScored.length) + " $²"
+        ? "MAE $" + Math.round(consScored.reduce((a, p) => a + p.abs_err, 0) / consScored.length)
           + " · ±$10: " + (100 * consScored.filter(p => p.abs_err <= 10).length / consScored.length).toFixed(0)
           + "% (" + consScored.length + ")"
         : "collecting…";
@@ -1300,9 +1205,6 @@ async function poll() {
         document.getElementById("kb-bet").textContent =
           lastBet && lastBet.actual == null && lastBet.ticker === status.pm?.ticker
             ? `${lastBet.side.toUpperCase()} @ ${Math.round(lastBet.price_c)}¢` +
-              (lastBet.model_p != null
-                ? ` · model ${Math.round(100 * lastBet.model_p)}% at strike`
-                : "") +
               (lastBet.forced ? " (forced)" : "")
             : "waiting to strike";
         document.getElementById("kb-bet-pnl").textContent = bS?.settled
@@ -1392,7 +1294,5 @@ function attachTips() {
 }
 poll();
 </script>
-<script src="glossary.js" defer></script>
-<script src="nav.js" defer></script>
 </body>
 </html>

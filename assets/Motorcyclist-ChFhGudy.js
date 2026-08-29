@@ -1,1 +1,0 @@
-import{j as t}from"./index-CwxaAgyA.js";import{T as o}from"./TalentProfilePage-DNQ1ONxN.js";import"./arrow-left-DRt1_kBP.js";import"./sparkles-BJbz0Dlz.js";import"./arrow-right-Cbn82Rbn.js";function a(){return t.jsx(o,{route:"/talent/motorcyclist"})}export{a as default};
