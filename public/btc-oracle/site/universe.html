@@ -65,11 +65,92 @@
 /* explore mode hides dense engineer annotations; both classes swap */
 body.mode-explore .engx { display: none; }
 body.mode-engineer .exx { display: none; }
-/* ---- detail panel ---- */
-#detail { display: none; }
-#detail.open { display: block; }
+/* ---- card head rows ---- */
+.cardhead { display: flex; align-items: flex-start; gap: 18px;
+  flex-wrap: wrap; margin-bottom: 10px; }
+.cardhead .grow { flex: 1; min-width: 220px; }
+.cardhead h2 { margin: 0; }
+/* ---- card 2: tabs ---- */
+.tabrow { display: flex; gap: 8px; flex-wrap: wrap; margin: 4px 0 14px; }
+.tabpane { display: none; }
+.tabpane.on { display: block; }
+/* runtime rows — pattern shared with the Clock page */
+.cadence { display: flex; flex-direction: column; }
+.crow { display: grid; grid-template-columns: 112px 1fr auto;
+  gap: 6px 18px; align-items: baseline; padding: 12px 2px;
+  border-bottom: 1px solid var(--grid); }
+.crow:last-child { border-bottom: none; }
+.crow.red { background: rgba(209,60,60,.06);
+  border-left: 3px solid var(--down); padding-left: 12px;
+  border-radius: 8px; }
+.cbadge { font: 700 11px/1.4 ui-monospace, SFMono-Regular, Menlo,
+  monospace; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-2); background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: 3px 8px; text-align: center; align-self: start; }
+.cwhat { font-size: 14px; color: var(--ink); font-weight: 600; }
+.cmeta { grid-column: 2; font-size: 12.5px; color: var(--muted);
+  display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; }
+.cright { text-align: right; font-variant-numeric: tabular-nums;
+  font-size: 12.5px; color: var(--ink-2); white-space: nowrap; }
+.hdot { display: inline-block; width: 8px; height: 8px;
+  border-radius: 50%; margin-right: 6px; }
+.hdot.green { background: var(--good); }
+.hdot.amber { background: var(--series-4); }
+.hdot.red { background: var(--down); }
+.owner-chip { font-size: 10.5px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink-2); background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: 999px;
+  padding: 2px 9px; }
+.age { font-weight: 650; color: var(--ink); }
+/* lifecycle flow */
+.flow { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; }
+.stage { border: 1px solid var(--border); border-radius: 12px;
+  background: var(--surface-2); padding: 10px 14px; min-width: 128px;
+  flex: 1 1 128px; }
+.stage b { display: block; font-size: 12px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink); }
+.stage .sdesc { font-size: 12px; color: var(--muted); margin-top: 3px;
+  line-height: 1.45; }
+.stage .scount { font-size: 12.5px; color: var(--series-2);
+  font-weight: 650; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.flowarr { align-self: center; color: var(--faint); font-size: 16px; }
+/* lineage chain */
+.chain { display: flex; flex-wrap: wrap; gap: 6px 8px;
+  align-items: center; }
+.chain .node { font: 650 12.5px ui-monospace, Menlo, monospace;
+  color: var(--ink); background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: 8px; padding: 5px 11px; }
+.chain .carr { color: var(--series-2); font-weight: 700; }
+.worked { border: 1px dashed var(--border); border-radius: 12px;
+  padding: 12px 15px; margin-top: 14px; font-size: 13px;
+  color: var(--ink-2); line-height: 1.7; }
+.worked b { color: var(--ink); }
+.worked .carr { color: var(--series-2); }
+/* ---- card 3: component explorer ---- */
+.selrow { display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+  margin: 4px 0 14px; }
+.selrow select { font: 600 13px ui-sans-serif, system-ui;
+  color: var(--ink-2); background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: 999px;
+  padding: 5px 12px; max-width: 100%; }
 #crumb { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
 #crumb a { cursor: pointer; }
+.modelmeta { display: grid; grid-template-columns: 130px 1fr;
+  gap: 7px 16px; font-size: 13px; margin-top: 12px; }
+.modelmeta .mk { font-size: 10.5px; text-transform: uppercase;
+  letter-spacing: .12em; color: var(--muted); font-weight: 600;
+  padding-top: 2px; }
+.modelmeta .mv { color: var(--ink-2); overflow-wrap: anywhere; }
+@media (max-width: 640px) {
+  .crow { grid-template-columns: 1fr; }
+  .cmeta { grid-column: 1; }
+  .cright { text-align: left; }
+  .cbadge { justify-self: start; }
+  .modelmeta { grid-template-columns: 1fr; gap: 2px 0; }
+  .modelmeta .mk { margin-top: 8px; }
+}
 .kidline { font: 400 17px/1.55 var(--display); color: var(--ink);
   max-width: 64ch; margin: 6px 0 10px; }
 .kidline.tail { font-size: 14.5px; color: var(--ink-2);
@@ -101,12 +182,21 @@ body.mode-engineer .exx { display: none; }
 <div class="research-banner">🎓 <b>University research study</b> — NYU Deep Learning course project. All trading shown is <b>simulated paper trading</b> for model evaluation and education only. Nothing on this site is financial advice, a solicitation, or a recommendation to buy or sell anything.</div>
 
 <main>
-<header class="maphead">
+<header>
+  <div class="eyebrow"><span class="live-dot" id="dot"></span> the world map</div>
+  <h1>The Quant Universe</h1>
+  <p class="sub">The whole system in three cards — the map, how it runs,
+  and a component explorer. Click any region to open it below.
+  <span id="asof" class="muted small"></span></p>
+</header>
+
+<!-- ═══ CARD 1 — THE SYSTEM MAP ═══ -->
+<section id="card-map" aria-label="the system map">
+<div class="cardhead">
   <div class="grow">
-    <div class="eyebrow"><span class="live-dot" id="dot"></span> the world map</div>
-    <h1>The Quant Universe</h1>
-    <p class="sub">The whole system as one world — zoom from continent to
-    machine. Click any region to open it. <span id="asof" class="muted small"></span></p>
+    <h2>The system map</h2>
+    <p class="mini" style="margin-top:4px">One geometry, two label sets —
+    flip the toggle and the same world reads at two depths.</p>
   </div>
   <div>
     <div class="modetog" role="group" aria-label="map mode">
@@ -116,9 +206,8 @@ body.mode-engineer .exx { display: none; }
     <div class="modehint exx">friendly names · for anyone twelve and up</div>
     <div class="modehint engx">same geometry · real component names + config</div>
   </div>
-</header>
-
-<section id="map" aria-label="system atlas">
+</div>
+<div id="map" aria-label="system atlas">
 <!--
   REGION → EMITTED-HEALTH MAPPING (world.json emits 6 region healths; the
   map draws 9 landmasses):
