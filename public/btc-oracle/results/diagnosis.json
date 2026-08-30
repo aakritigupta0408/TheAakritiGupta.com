@@ -1,39 +1,39 @@
 {
- "generated_ts": 1788113406,
+ "generated_ts": 1788117006,
  "question": "Where is the system failing?",
  "tiers": {
   "T1": {
    "name": "Price forecast",
    "job": "predict the future price distribution",
-   "headline": "80% band coverage 0.77\u20130.81",
+   "headline": "80% band coverage 0.76\u20130.81",
    "status": "WARN",
    "why": "bands still under-cover on the worst family \u2014 dispersion was the SEV-0 root cause"
   },
   "T2": {
    "name": "Binary probability",
    "job": "an honest P(up) that beats the market's own",
-   "headline": "best BSS +0.0014 (kb5)",
+   "headline": "best BSS +0.0034 (kb5)",
    "status": "OK",
    "why": "NOBODY BEATS THE BOOK \u2014 every arm's Brier skill vs the market is negative this sample"
   },
   "T3": {
    "name": "Decision policy",
    "job": "act, pick the arm, or stand down",
-   "headline": "leader churn 34% \u00b7 champion +2.0c/$1",
+   "headline": "leader churn 35% \u00b7 champion +1.9c/$1",
    "status": "WARN",
    "why": "win-rate leaderboard seats market-echo arms; M8-family gates are the racing repairs"
   },
   "T4": {
    "name": "Execution",
    "job": "turn the decision into a fill without paying away the edge",
-   "headline": "gap -5.8c/$1",
+   "headline": "gap -5.7c/$1",
    "status": "CRITICAL",
    "why": "largest measured leak in the chain"
   },
   "T5": {
    "name": "Realized P&L",
    "job": "survive aggregation, sizing and costs",
-   "headline": "realized -3.8c/$1 \u00b7 losses graded: {'SEV-1': 2, 'SEV-2': 137, 'SEV-3': 38, 'SEV-4': 173, 'SEV-5': 188}",
+   "headline": "realized -3.8c/$1 \u00b7 losses graded: {'SEV-1': 2, 'SEV-2': 138, 'SEV-3': 38, 'SEV-4': 173, 'SEV-5': 189}",
    "status": "FAIL",
    "why": "only pt6 (84% idle) is green among traders"
   }
@@ -52,15 +52,15 @@
    },
    "label": "M8 \u00b7 regime gate",
    "state": "KEEP_TESTING",
-   "mean": 0.02963,
+   "mean": 0.02933,
    "ci95_boot": [
-    -0.01102,
-    0.07584
+    -0.01111,
+    0.07166
    ],
-   "p_gt0": 0.914,
-   "coverage": 0.744,
-   "llr": 0.839,
-   "n": 293,
+   "p_gt0": 0.915,
+   "coverage": 0.747,
+   "llr": 0.834,
+   "n": 296,
    "retire_pressure": "LOW",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -79,15 +79,15 @@
    },
    "label": "M10 \u00b7 execution guard",
    "state": "KEEP_TESTING",
-   "mean": 0.03514,
+   "mean": 0.034,
    "ci95_boot": [
-    -0.00818,
-    0.08266
+    -0.00915,
+    0.0806
    ],
-   "p_gt0": 0.942,
+   "p_gt0": 0.933,
    "coverage": 0.659,
-   "llr": 0.383,
-   "n": 293,
+   "llr": 0.35,
+   "n": 296,
    "retire_pressure": "LOW",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -105,19 +105,19 @@
    "mechanism": "fill discipline + regime gate",
    "mechanism_check": {
     "status": "SUPPORTED",
-    "note": "\u0394 on regime<floor windows +15.0c (n=75) vs -0.6c on healthy windows \u2014 the gate earns exactly where it claims to"
+    "note": "\u0394 on regime<floor windows +15.0c (n=75) vs -0.7c on healthy windows \u2014 the gate earns exactly where it claims to"
    },
    "label": "M10+M8 \u00b7 execution guard + regime gate",
    "state": "KEEP_TESTING",
-   "mean": 0.04679,
+   "mean": 0.04553,
    "ci95_boot": [
-    -0.0055,
-    0.10348
+    -0.00594,
+    0.09923
    ],
-   "p_gt0": 0.963,
-   "coverage": 0.502,
-   "llr": 0.539,
-   "n": 293,
+   "p_gt0": 0.955,
+   "coverage": 0.503,
+   "llr": 0.515,
+   "n": 296,
    "retire_pressure": "LOW",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -136,15 +136,15 @@
    },
    "label": "M13 \u00b7 edge band (enough edge, not too much)",
    "state": "HOLD",
-   "mean": -0.00961,
+   "mean": -0.00787,
    "ci95_boot": [
-    -0.11825,
-    0.11001
+    -0.12122,
+    0.1112
    ],
-   "p_gt0": 0.445,
-   "coverage": 0.238,
-   "llr": -0.05,
-   "n": 105,
+   "p_gt0": 0.454,
+   "coverage": 0.231,
+   "llr": -0.044,
+   "n": 108,
    "retire_pressure": "HIGH",
    "retire_flags": [
     "negative paired mean at full sample",
@@ -164,15 +164,15 @@
   ],
   "investigate": [
    "T2: no arm beats market BSS \u2014 is there any incremental skill?",
-   "T3: leader churn 34% \u2014 selection instability",
-   "T4: execution leak -5.8c/$1 \u2014 the binding constraint",
+   "T3: leader churn 35% \u2014 selection instability",
+   "T4: execution leak -5.7c/$1 \u2014 the binding constraint",
    "edge-anti-signal (kb5/pt6 negative own-edge weights) \u2014 D-edge-band"
   ]
  },
  "error_funnel": [
   {
    "stage": "Oracle opportunity (same rules, clairvoyant)",
-   "ev_per_1": 1.7187,
+   "ev_per_1": 1.6908,
    "kind": "measured",
    "n": 160
   },
@@ -184,25 +184,25 @@
   },
   {
    "stage": "Desk decision EV (model quotes)",
-   "ev_per_1": 0.01983,
+   "ev_per_1": 0.01909,
    "kind": "measured",
-   "n": 293
+   "n": 296
   },
   {
    "stage": "Execution gap (quote\u2192fill)",
-   "ev_per_1": -0.05765,
+   "ev_per_1": -0.05737,
    "kind": "measured"
   },
   {
    "stage": "Realized EV (real fills)",
-   "ev_per_1": -0.03782,
+   "ev_per_1": -0.03828,
    "kind": "measured"
   }
  ],
  "contradictions": [
   {
    "name": "High AUC, negative EV (kbf)",
-   "detail": "Brier 0.0968 \u2014 EV -0.2253/$1: superb ranking, no tradable skill; skill lives after the payout window"
+   "detail": "Brier 0.0946 \u2014 EV -0.1823/$1: superb ranking, no tradable skill; skill lives after the payout window"
   },
   {
    "name": "High-skip policies look profitable",
@@ -220,19 +220,19 @@
   {
    "spot": "no arm beats market BSS",
    "tier": "T2",
-   "evidence": "best +0.0014",
+   "evidence": "best +0.0034",
    "action": "investigate"
   },
   {
    "spot": "execution leak",
    "tier": "T4",
-   "evidence": "-5.8c/$1",
+   "evidence": "-5.7c/$1",
    "action": "prioritize (M10 family racing)"
   },
   {
    "spot": "leader churn",
    "tier": "T3",
-   "evidence": "34%",
+   "evidence": "35%",
    "action": "investigate (M3/M12 racing)"
   },
   {
@@ -244,7 +244,7 @@
   {
    "spot": "oracle regret",
    "tier": "cross-tier",
-   "evidence": "1.666/$1/window",
+   "evidence": "1.6547/$1/window",
    "action": "decompose"
   }
  ],
