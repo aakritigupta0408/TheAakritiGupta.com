@@ -1,6 +1,12 @@
-import { type ReactNode, useEffect, useRef, useState } from "react";
+import {
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import Navigation from "@/components/Navigation";
@@ -11,1173 +17,1693 @@ const DEMO_URL =
   import.meta.env.VITE_VEDIC_ASTRO_URL ??
   "https://vedic-astro-ai-4t2k.onrender.com";
 
-type ViewMode = "story" | "dev";
+type Mode = "story" | "evidence" | "system";
 
-/* ---------------------------------------------------------------- data --- */
+/* ================================================================ data == */
 
-interface Guide {
-  key: string;
-  emoji: string;
-  name: string;
-  role: string;
-  line: string;
-  devLine: string;
+const GOLD = "#E8B44C";
+const BLUE = "#66B8FF";
+
+interface HouseInfo {
+  n: number;
+  themes: string;
+  planets: { g: string; name: string; note: string }[];
 }
 
-const guides: Guide[] = [
-  {
-    key: "surya",
-    emoji: "☀️",
-    name: "Surya",
-    role: "the King",
-    line: "I mark where your light stands. Every chart begins with me.",
-    devLine: "Solar longitude anchors the lagna math and the D1 frame.",
+const houseData: Record<number, HouseInfo> = {
+  1: {
+    n: 1,
+    themes: "Self · Body · Beginnings",
+    planets: [{ g: "Sū", name: "Surya", note: "identity anchored, visible" }],
   },
-  {
-    key: "chandra",
-    emoji: "🌙",
-    name: "Chandra",
-    role: "the Dreamer",
-    line: "Your mind is my territory. The dasha clock starts from my nakshatra.",
-    devLine: "Moon nakshatra seeds the Vimshottari dasha tree.",
+  2: {
+    n: 2,
+    themes: "Wealth · Speech · Family",
+    planets: [{ g: "Bu", name: "Budha", note: "quick, trade-minded speech" }],
   },
-  {
-    key: "mangala",
-    emoji: "🔥",
-    name: "Mangala",
-    role: "the Warrior",
-    line: "I bring the push. Where I sit, things get done — or fought over.",
-    devLine: "Mars placements weight drive/conflict rules in the engine.",
+  3: { n: 3, themes: "Courage · Siblings · Effort", planets: [] },
+  4: {
+    n: 4,
+    themes: "Home · Heart · Foundations",
+    planets: [{ g: "Ch", name: "Chandra", note: "the mind rests at home" }],
   },
-  {
-    key: "budha",
-    emoji: "📯",
-    name: "Budha",
-    role: "the Messenger",
-    line: "Words, trades, wit — I carry them between houses.",
-    devLine: "Mercury feeds communication and commerce significations.",
+  5: {
+    n: 5,
+    themes: "Creativity · Children · Play",
+    planets: [{ g: "Śu", name: "Shukra", note: "art comes easily" }],
   },
+  6: { n: 6, themes: "Work · Health · Rivals", planets: [] },
+  7: {
+    n: 7,
+    themes: "Partnership · Contracts",
+    planets: [{ g: "Ma", name: "Mangala", note: "heat in partnerships" }],
+  },
+  8: { n: 8, themes: "Depth · Change · Research", planets: [] },
+  9: {
+    n: 9,
+    themes: "Fortune · Teachers · Dharma",
+    planets: [{ g: "Ke", name: "Ketu", note: "detached from doctrine" }],
+  },
+  10: {
+    n: 10,
+    themes: "Career · Status · Public life",
+    planets: [
+      { g: "Gu", name: "Guru", note: "supportive transit · +21" },
+      { g: "Śa", name: "Shani", note: "structural restraint · −8" },
+    ],
+  },
+  11: { n: 11, themes: "Gains · Networks · Allies", planets: [] },
+  12: {
+    n: 12,
+    themes: "Loss · Rest · Release",
+    planets: [{ g: "Ra", name: "Rahu", note: "restless in retreat" }],
+  },
+};
+
+/* North Indian chart geometry — viewBox 0 0 400 400.
+   Outer square, both diagonals, inner diamond of edge midpoints. */
+const P = {
+  TL: [0, 0],
+  TR: [400, 0],
+  BR: [400, 400],
+  BL: [0, 400],
+  Tm: [200, 0],
+  Rm: [400, 200],
+  Bm: [200, 400],
+  Lm: [0, 200],
+  C: [200, 200],
+  a: [100, 100],
+  b: [300, 100],
+  c: [300, 300],
+  d: [100, 300],
+};
+
+const housePolys: Record<number, readonly (readonly number[])[]> = {
+  1: [P.Tm, P.b, P.C, P.a],
+  2: [P.TL, P.Tm, P.a],
+  3: [P.TL, P.a, P.Lm],
+  4: [P.Lm, P.a, P.C, P.d],
+  5: [P.Lm, P.d, P.BL],
+  6: [P.BL, P.d, P.Bm],
+  7: [P.Bm, P.d, P.C, P.c],
+  8: [P.Bm, P.c, P.BR],
+  9: [P.BR, P.c, P.Rm],
+  10: [P.Rm, P.c, P.C, P.b],
+  11: [P.Rm, P.b, P.TR],
+  12: [P.TR, P.b, P.Tm],
+};
+
+const houseLabelPos: Record<number, [number, number]> = {
+  1: [200, 92],
+  2: [100, 40],
+  3: [40, 100],
+  4: [92, 200],
+  5: [40, 300],
+  6: [100, 360],
+  7: [200, 308],
+  8: [300, 360],
+  9: [360, 300],
+  10: [308, 200],
+  11: [360, 100],
+  12: [300, 40],
+};
+
+const planetPos: Record<number, [number, number]> = {
+  1: [200, 130],
+  2: [140, 55],
+  4: [130, 215],
+  5: [55, 285],
+  7: [200, 262],
+  9: [345, 320],
+  10: [292, 168],
+  12: [318, 62],
+};
+
+/* signals over time, 2025 → 2030 */
+const YEARS = [2025, 2026, 2027, 2028, 2029, 2030];
+const signalTracks: Record<string, number[]> = {
+  Career: [74, 78, 88, 84, 80, 76],
+  Relationships: [61, 55, 42, 49, 58, 63],
+  Finance: [67, 70, 73, 71, 75, 78],
+};
+const dashaByYear = [
+  "Śani mahā · Budha antara",
+  "Śani mahā · Ketu antara",
+  "Budha mahā · Budha antara",
+  "Budha mahā · Ketu antara",
+  "Budha mahā · Śukra antara",
+  "Budha mahā · Śukra antara",
+];
+
+const evidenceRows = [
+  ["Jupiter transit", "+21"],
+  ["10th-lord strength", "+18"],
+  ["Current dasha", "+17"],
+  ["Saturn restriction", "−8"],
+  ["Mars pressure", "−5"],
+  ["Other signals", "+31"],
+];
+
+const placements = [
+  ["Surya", "12°04′ Siṃha", "H1"],
+  ["Chandra", "27°41′ Vṛścika", "H4"],
+  ["Budha", "03°18′ Kanyā", "H2"],
+  ["Guru", "14°23′ Vṛṣabha", "H10"],
+  ["Śani", "19°55′ Vṛṣabha", "H10"],
+  ["Śukra", "08°12′ Dhanu", "H5"],
+  ["Maṅgala", "22°37′ Kumbha", "H7"],
+  ["Rāhu", "05°49′ Karka", "H12"],
+  ["Ketu", "05°49′ Makara", "H9"],
+];
+
+interface Entity {
+  key: string;
+  glyph: string;
+  name: string;
+  orbit: string[];
+  house: string;
+  sign: string;
+  nak: string;
+  strength: number;
+  transit: string;
+}
+
+const entities: Entity[] = [
   {
     key: "guru",
-    emoji: "📖",
-    name: "Guru",
-    role: "the Teacher",
-    line: "I expand what I touch. Ask me why — I always cite my verse.",
-    devLine:
-      "Jupiter rules the growth rules; every firing carries a BPHS citation.",
-  },
-  {
-    key: "shukra",
-    emoji: "🎨",
-    name: "Shukra",
-    role: "the Artist",
-    line: "Beauty, bonds, and comforts pass through my hands.",
-    devLine: "Venus weights relationship and aesthetics significations.",
+    glyph: "♃",
+    name: "Guru — Jupiter",
+    orbit: ["Expansion", "Wisdom", "Fortune", "Teachers"],
+    house: "X",
+    sign: "Vṛṣabha",
+    nak: "Rohiṇī",
+    strength: 84,
+    transit: "High — direct over natal midheaven",
   },
   {
     key: "shani",
-    emoji: "⏳",
-    name: "Shani",
-    role: "the Timekeeper",
-    line: "I am slow, and I am fair. What I delay, I make durable.",
-    devLine: "Saturn drives delay/discipline rules and long transits.",
+    glyph: "♄",
+    name: "Śani — Saturn",
+    orbit: ["Discipline", "Delay", "Structure", "Responsibility"],
+    house: "X",
+    sign: "Vṛṣabha",
+    nak: "Kṛttikā",
+    strength: 72,
+    transit: "High — slow pass, restraining",
   },
   {
-    key: "rahu",
-    emoji: "🐍",
-    name: "Rahu",
-    role: "the Shadow",
-    line: "I am hunger without a body. I amplify whatever house holds me.",
-    devLine: "North node: amplification rules, no rulership, shadow points.",
+    key: "surya",
+    glyph: "☉",
+    name: "Sūrya — Sun",
+    orbit: ["Identity", "Vitality", "Authority", "Visibility"],
+    house: "I",
+    sign: "Siṃha",
+    nak: "Maghā",
+    strength: 78,
+    transit: "Moderate",
   },
   {
-    key: "ketu",
-    emoji: "☄️",
-    name: "Ketu",
-    role: "the Comet-sage",
-    line: "I am the tail that lets go. Where I sit, you detach — and see.",
-    devLine: "South node: detachment significations, moksha-karaka rules.",
+    key: "chandra",
+    glyph: "☾",
+    name: "Chandra — Moon",
+    orbit: ["Mind", "Mood", "Memory", "Home"],
+    house: "IV",
+    sign: "Vṛścika",
+    nak: "Jyeṣṭhā",
+    strength: 58,
+    transit: "Fast — colors the day",
+  },
+  {
+    key: "mangala",
+    glyph: "♂",
+    name: "Maṅgala — Mars",
+    orbit: ["Drive", "Conflict", "Courage", "Heat"],
+    house: "VII",
+    sign: "Kumbha",
+    nak: "Śatabhiṣā",
+    strength: 61,
+    transit: "Short-term tension",
   },
 ];
 
-interface Sheet {
-  name: string;
-  icon: string;
-  storyLine: string;
-  devLine: string;
-  runtime: string;
-  inputs: string;
-  outputs: string;
-  speed: string;
-  uptime: string;
-  cost: string;
-  quality: string;
-  weakness: string;
+/* aspect network */
+const netNodes: Record<string, [number, number, string]> = {
+  Jupiter: [210, 42, "♃"],
+  Sun: [78, 150, "☉"],
+  Moon: [340, 140, "☾"],
+  Saturn: [140, 268, "♄"],
+  Mars: [292, 270, "♂"],
+};
+const netEdges: {
+  a: string;
+  b: string;
+  kind: "conjunction" | "opposition" | "trine";
+  note: string;
+  strength: number;
+}[] = [
+  {
+    a: "Jupiter",
+    b: "Moon",
+    kind: "trine",
+    note: "supportive influence",
+    strength: 0.72,
+  },
+  {
+    a: "Jupiter",
+    b: "Saturn",
+    kind: "conjunction",
+    note: "growth under constraint",
+    strength: 0.81,
+  },
+  {
+    a: "Sun",
+    b: "Saturn",
+    kind: "opposition",
+    note: "authority vs. duty",
+    strength: 0.44,
+  },
+  {
+    a: "Moon",
+    b: "Mars",
+    kind: "opposition",
+    note: "mood under pressure",
+    strength: 0.39,
+  },
+  {
+    a: "Sun",
+    b: "Jupiter",
+    kind: "trine",
+    note: "confidence, blessed",
+    strength: 0.66,
+  },
+];
+
+/* life constellation */
+const constellation = [
+  {
+    name: "CAREER",
+    x: 300,
+    y: 60,
+    s: 0.92,
+    pulse: true,
+    drivers: ["♃ Guru", "♄ Śani", "daśā"],
+  },
+  {
+    name: "PURPOSE",
+    x: 505,
+    y: 130,
+    s: 0.72,
+    pulse: false,
+    drivers: ["☉ Sūrya", "♃ Guru"],
+  },
+  {
+    name: "LOVE",
+    x: 545,
+    y: 300,
+    s: 0.55,
+    pulse: false,
+    drivers: ["♀ Śukra", "♂ Maṅgala"],
+  },
+  {
+    name: "CREATIVITY",
+    x: 420,
+    y: 420,
+    s: 0.62,
+    pulse: false,
+    drivers: ["♀ Śukra", "☾ Chandra"],
+  },
+  {
+    name: "HOME",
+    x: 180,
+    y: 420,
+    s: 0.5,
+    pulse: false,
+    drivers: ["☾ Chandra"],
+  },
+  {
+    name: "MONEY",
+    x: 60,
+    y: 295,
+    s: 0.68,
+    pulse: false,
+    drivers: ["☿ Budha", "♃ Guru"],
+  },
+  {
+    name: "HEALTH",
+    x: 95,
+    y: 130,
+    s: 0.6,
+    pulse: true,
+    drivers: ["♂ Maṅgala", "♄ Śani"],
+  },
+];
+
+/* system galaxy */
+const galaxy = [
+  {
+    key: "eph",
+    name: "Ephemeris",
+    sub: "the observatory",
+    x: 60,
+    y: 210,
+    tel: "Swiss Ephemeris · arc-second truth",
+  },
+  {
+    key: "chart",
+    name: "Chart engine",
+    sub: "mechanics",
+    x: 185,
+    y: 90,
+    tel: "31ms · deterministic, never guessed",
+  },
+  {
+    key: "rules",
+    name: "Rules",
+    sub: "knowledge constellation",
+    x: 330,
+    y: 180,
+    tel: "classical yogas · every rule cites its verse",
+  },
+  {
+    key: "retr",
+    name: "Retrieval",
+    sub: "the library",
+    x: 470,
+    y: 82,
+    tel: "BPHS corpus · 24 candidates / reading",
+  },
+  {
+    key: "llm",
+    name: "Interpretation",
+    sub: "the engine",
+    x: 610,
+    y: 190,
+    tel: "≈1.9s · ≈$0.02 · every sentence cited",
+  },
+  {
+    key: "gate",
+    name: "Gates",
+    sub: "honesty checkpoints",
+    x: 740,
+    y: 96,
+    tel: "citation gate + REFUSE/ABSTAIN policy",
+  },
+  {
+    key: "ans",
+    name: "Answer",
+    sub: "with its trace",
+    x: 855,
+    y: 205,
+    tel: "full trace kept — the Explanation tab",
+  },
+];
+
+const askPrompts = [
+  "What is changing?",
+  "Why do I feel stuck?",
+  "What should I pay attention to?",
+  "Show the strongest influence",
+  "Challenge this interpretation",
+  "Explain like I'm 10",
+];
+
+/* ============================================================= helpers == */
+
+const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+
+function trackAt(track: number[], yearF: number) {
+  const i = Math.min(Math.floor(yearF), track.length - 2);
+  return Math.round(lerp(track[i], track[i + 1], yearF - i));
 }
 
-interface Zone {
-  key: string;
-  title: string;
-  storyTitle: string;
-  tagline: string;
-  emoji: string;
-  places: Sheet[];
-}
-
-const zones: Zone[] = [
-  {
-    key: "experience",
-    title: "Experience",
-    storyTitle: "Experience Isles",
-    tagline: "What a visitor touches",
-    emoji: "🏝️",
-    places: [
-      {
-        name: "Birth Chart City",
-        icon: "🏙️",
-        storyLine: "Where your chart is drawn — all sixteen of them.",
-        devLine:
-          "Onboarding, birth-time handling, and the D1–D60 chart renderer.",
-        runtime: "React + SVG renderer",
-        inputs: "Birth date, time, place",
-        outputs: "16 divisional charts",
-        speed: "120ms render",
-        uptime: "static — always up",
-        cost: "$0 / chart",
-        quality: "positions verified against Swiss Ephemeris",
-        weakness: "unknown birth time → falls back to chandra lagna",
-      },
-      {
-        name: "Prediction Harbor",
-        icon: "⚓",
-        storyLine: "Where predictions arrive, from life-arc to today.",
-        devLine:
-          "Serves dasha-arc, varshaphala, monthly and daily readings with citations.",
-        runtime: "FastAPI on Render",
-        inputs: "Computed chart + question scope",
-        outputs: "Cited reading, 4 time horizons",
-        speed: "1.9s (LLM-bound)",
-        uptime: "free tier — sleeps after 15 min idle",
-        cost: "≈$0.02 / reading",
-        quality: "every sentence must cite a verse or chart fact",
-        weakness: "uncited sentence → deleted, visible in trace",
-      },
-      {
-        name: "Conversation Village",
-        icon: "💬",
-        storyLine: "Ask a question; the sky at that instant answers.",
-        devLine:
-          "Prashna: a direct question judged from the chart of the moment it is asked.",
-        runtime: "Claude + prashna procedure",
-        inputs: "A question + the moment's chart",
-        outputs: "Judgement with reasoning trace",
-        speed: "2.4s",
-        uptime: "backed by Prediction Harbor",
-        cost: "≈$0.02 / question",
-        quality: "trace shows the full judgement path",
-        weakness: "ambiguous question → asks for clarification",
-      },
-    ],
-  },
-  {
-    key: "intelligence",
-    title: "Intelligence",
-    storyTitle: "Intelligence Peaks",
-    tagline: "Where readings are made",
-    emoji: "⛰️",
-    places: [
-      {
-        name: "Ganita Engine",
-        icon: "🧮",
-        storyLine:
-          "The mathematics mountain — planets computed, never guessed.",
-        devLine:
-          "Deterministic astronomy: Swiss Ephemeris positions, divisional charts, Vimshottari dasha. No model ever computes a position.",
-        runtime: "Python + Swiss Ephemeris",
-        inputs: "UTC instant + coordinates",
-        outputs: "Longitudes, houses, dasha tree",
-        speed: "31ms",
-        uptime: "99.99% (pure computation)",
-        cost: "≈$0.0001 / chart",
-        quality: "cross-checked against published ephemerides",
-        weakness: "pre-600 CE dates → rejected, outside ephemeris range",
-      },
-      {
-        name: "Rules Mountain",
-        icon: "📜",
-        storyLine: "The old rules, written down precisely.",
-        devLine:
-          "Classical yogas, aspects, house significations encoded as a deterministic rule engine.",
-        runtime: "Typed rule engine",
-        inputs: "Chart facts",
-        outputs: "Fired rules with verse citations",
-        speed: "8ms",
-        uptime: "99.99%",
-        cost: "≈$0 / evaluation",
-        quality: "each rule carries its classical source verse",
-        weakness: "conflicting rules → both surfaced, never merged silently",
-      },
-      {
-        name: "LLM City",
-        icon: "🏛️",
-        storyLine: "The interpreter — reads the computed sky aloud.",
-        devLine:
-          "Claude ranks retrieved classical verses against the computed chart, synthesizes the reading, and must cite every sentence.",
-        runtime: "Claude (Anthropic API)",
-        inputs: "Chart facts + retrieved verses + question",
-        outputs: "Cited synthesis",
-        speed: "1.8s",
-        uptime: "API-bound",
-        cost: "≈$0.02 / synthesis",
-        quality: "uncited claims deleted by the citation gate",
-        weakness: "gate strips too much → reading marked low-confidence",
-      },
-      {
-        name: "Citation Gate",
-        icon: "🚧",
-        storyLine: "The honesty checkpoint every sentence passes through.",
-        devLine:
-          "Any sentence that cannot point to a verse or a chart fact is removed, and the removal is logged in the visible trace.",
-        runtime: "Deterministic post-processor",
-        inputs: "Draft reading",
-        outputs: "Verified reading + deletion log",
-        speed: "40ms",
-        uptime: "99.99%",
-        cost: "≈$0 / pass",
-        quality: "0 uncited sentences shipped",
-        weakness: "over-strict match → sentence lost; logged for review",
-      },
-    ],
-  },
-  {
-    key: "data",
-    title: "Data",
-    storyTitle: "Data Depths",
-    tagline: "What the system knows",
-    emoji: "🌊",
-    places: [
-      {
-        name: "Ephemeris Observatory",
-        icon: "🔭",
-        storyLine: "Where planetary positions come from.",
-        devLine: "Swiss Ephemeris files — the astronomical source of truth.",
-        runtime: "Bundled ephemeris data",
-        inputs: "—",
-        outputs: "Planetary state, any instant",
-        speed: "in-memory",
-        uptime: "99.99%",
-        cost: "$0 (bundled)",
-        quality: "arc-second agreement with JPL",
-        weakness: "corrupt file → startup check fails loudly",
-      },
-      {
-        name: "Knowledge Library",
-        icon: "📚",
-        storyLine: "The shelf of old books the interpreter may quote.",
-        devLine:
-          "Classical verse corpus (BPHS and related texts) indexed for retrieval, each verse tagged with its source.",
-        runtime: "Embedded corpus + retrieval",
-        inputs: "Chart facts + question",
-        outputs: "Ranked candidate verses",
-        speed: "60ms",
-        uptime: "99.99%",
-        cost: "≈$0.001 / retrieval",
-        quality: "every verse traceable to text + chapter",
-        weakness: "no relevant verse → reading says so explicitly",
-      },
-      {
-        name: "Trace Store",
-        icon: "🧾",
-        storyLine: "The diary of how each reading was made.",
-        devLine:
-          "Every reading's full computation trace — what fired, what was retrieved, what was deleted — kept for the Explanation tab.",
-        runtime: "Structured logs",
-        inputs: "Pipeline events",
-        outputs: "Explanation tab content",
-        speed: "async",
-        uptime: "99.9%",
-        cost: "≈$0.0002 / reading",
-        quality: "trace replays reproduce the reading",
-        weakness: "trace gap → reading flagged unexplainable",
-      },
-    ],
-  },
-  {
-    key: "operations",
-    title: "Operations",
-    storyTitle: "Ops Citadel",
-    tagline: "How it stays honest",
-    emoji: "🏰",
-    places: [
-      {
-        name: "Evaluation Warehouse",
-        icon: "🏗️",
-        storyLine: "The exam the system must pass before changing.",
-        devLine:
-          "Golden charts with known classical judgements; every engine change re-runs the suite before deploy.",
-        runtime: "pytest suite + golden set",
-        inputs: "Candidate build",
-        outputs: "Pass / fail per golden chart",
-        speed: "4 min full suite",
-        uptime: "CI-bound",
-        cost: "≈$0.40 / full run",
-        quality: "positions exact; readings faithfulness-scored",
-        weakness: "regression → deploy blocked",
-      },
-      {
-        name: "Policy Gate",
-        icon: "🛡️",
-        storyLine: "The judgement about when not to answer.",
-        devLine:
-          "Production REFUSE/ABSTAIN gate: medical, legal, and death questions are refused; low-evidence readings abstain rather than guess.",
-        runtime: "ENVIRONMENT=production flag",
-        inputs: "Question + reading confidence",
-        outputs: "Answer, abstain, or refusal",
-        speed: "5ms",
-        uptime: "99.99%",
-        cost: "$0",
-        quality: "refusal classes unit-tested",
-        weakness: "over-refusal → logged for prompt review",
-      },
-      {
-        name: "Deployment Harbor",
-        icon: "🚢",
-        storyLine: "Where new versions come ashore.",
-        devLine:
-          "Render deploy from the jyotisha repo's deploy branch; free tier sleeps idle, wakes in ~50s.",
-        runtime: "Render (Docker)",
-        inputs: "deploy branch push",
-        outputs: "Live service",
-        speed: "cold start ≈50s",
-        uptime: "free tier",
-        cost: "$0/mo (free) — $7/mo always-on",
-        quality: "health-checked on /",
-        weakness: "failed health check → previous build stays live",
-      },
-    ],
-  },
-];
-
-interface Quest {
-  label: string;
-  detail: string;
-  ms: string;
-}
-
-const questSteps: Quest[] = [
-  { label: "Request arrives", detail: "birth data + question", ms: "0ms" },
-  { label: "Inputs validated", detail: "date range, coordinates", ms: "2ms" },
-  {
-    label: "Astronomy computed",
-    detail: "Swiss Ephemeris, 9 grahas",
-    ms: "31ms",
-  },
-  { label: "Divisional charts cast", detail: "D1–D60", ms: "44ms" },
-  { label: "Dasha tree built", detail: "Vimshottari, 3 levels", ms: "51ms" },
-  { label: "Rules fired", detail: "17 rules matched, each cited", ms: "59ms" },
-  {
-    label: "Verses retrieved",
-    detail: "24 candidates from corpus",
-    ms: "119ms",
-  },
-  {
-    label: "Claude ranks & writes",
-    detail: "verses vs. chart facts",
-    ms: "1.84s",
-  },
-  {
-    label: "Citation gate",
-    detail: "2 uncited sentences deleted",
-    ms: "1.88s",
-  },
-  { label: "Policy gate", detail: "scope check passed", ms: "1.88s" },
-  { label: "Trace recorded", detail: "for the Explanation tab", ms: "async" },
-  { label: "Reading returned", detail: "every sentence cited", ms: "1.9s" },
-];
-
-const party = [
-  {
-    icon: "🤖",
-    name: "Evaluation Agent",
-    status: "working",
-    detail: "re-running golden charts on engine change",
-  },
-  {
-    icon: "🛰️",
-    name: "Ephemeris Check",
-    status: "watching",
-    detail: "startup integrity check on ephemeris files",
-  },
-  {
-    icon: "🧾",
-    name: "Citation Auditor",
-    status: "watching",
-    detail: "sampling readings for uncited claims",
-  },
-  {
-    icon: "🛡️",
-    name: "Policy Agent",
-    status: "watching",
-    detail: "refusal classes on medical/legal/death scope",
-  },
-  {
-    icon: "💰",
-    name: "Cost Agent",
-    status: "idle",
-    detail: "token usage per reading within budget",
-  },
-  {
-    icon: "🚢",
-    name: "Deploy Agent",
-    status: "idle",
-    detail: "health-check gate on the deploy branch",
-  },
-];
-
-/* ------------------------------------------------------------ helpers --- */
-
-const PIXEL = { fontFamily: "'Silkscreen', monospace" } as const;
-
-function PixelTag({
-  children,
-  tone = "gold",
-}: {
-  children: ReactNode;
-  tone?: "gold" | "dim";
-}) {
+function Note({ children }: { children: ReactNode }) {
   return (
-    <span
-      style={PIXEL}
-      className={`inline-block text-[10px] uppercase tracking-wider ${
-        tone === "gold" ? "text-amber-300" : "text-slate-400"
-      }`}
-    >
+    <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-slate-500">
       {children}
-    </span>
+    </p>
   );
 }
 
-/** Segmented XP-style meter — 10 chunky cells, game HUD language. */
-function XpBar({ value }: { value: number }) {
-  const filled = Math.round(value / 10);
-  return (
-    <span
-      className="inline-flex gap-[3px]"
-      role="img"
-      aria-label={`${value} out of 100`}
-    >
-      {Array.from({ length: 10 }, (_, i) => (
-        <span
-          key={i}
-          className={`h-3 w-3.5 border ${
-            i < filled
-              ? "border-amber-300 bg-amber-400 shadow-[0_0_6px_#fbbf2488]"
-              : "border-slate-600 bg-slate-800"
-          }`}
-        />
-      ))}
-    </span>
-  );
-}
-
-function Frame({
+function ChapterLine({
+  k,
   children,
-  className = "",
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  return (
-    <div
-      className={`border-2 border-slate-600 bg-[#101830] shadow-[5px_5px_0_#000000aa] ${className}`}
-    >
-      {children}
-    </div>
-  );
-}
-
-function SectionHead({
-  index,
-  title,
   sub,
 }: {
-  index: string;
-  title: string;
-  sub: string;
+  k: string;
+  children: ReactNode;
+  sub?: string;
 }) {
   return (
-    <div className="mb-6">
-      <p
-        style={PIXEL}
-        className="text-[11px] uppercase tracking-widest text-amber-400"
-      >
-        {index}
-      </p>
-      <h2 className="mt-1 font-serif text-2xl font-bold text-white sm:text-3xl">
-        {title}
+    <motion.div
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.7 }}
+      className="mb-10"
+    >
+      <Note>{k}</Note>
+      <h2 className="mt-3 max-w-3xl font-serif text-3xl font-bold leading-tight tracking-wide text-white sm:text-5xl">
+        {children}
       </h2>
-      <p className="mt-1 max-w-2xl text-sm text-slate-400">{sub}</p>
-    </div>
+      {sub && <p className="mt-3 max-w-xl text-sm text-slate-400">{sub}</p>}
+    </motion.div>
   );
 }
 
-/* --------------------------------------------------------------- page --- */
+/* starfield canvas */
+function Starfield() {
+  const ref = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    let w = (canvas.width = canvas.offsetWidth * devicePixelRatio);
+    let h = (canvas.height = canvas.offsetHeight * devicePixelRatio);
+    const stars = Array.from({ length: 140 }, () => ({
+      r: Math.random() * Math.max(w, h) * 0.55 + 20,
+      a: Math.random() * Math.PI * 2,
+      sp: (Math.random() * 0.00012 + 0.00003) * (Math.random() > 0.5 ? 1 : -1),
+      size: Math.random() * 1.6 + 0.4,
+      tw: Math.random() * Math.PI * 2,
+    }));
+    let raf = 0;
+    const draw = (t: number) => {
+      ctx.clearRect(0, 0, w, h);
+      const cx = w / 2;
+      const cy = h * 0.46;
+      for (const s of stars) {
+        if (!reduced) s.a += s.sp * 16;
+        const x = cx + Math.cos(s.a) * s.r;
+        const y = cy + Math.sin(s.a) * s.r * 0.62;
+        if (x < -10 || x > w + 10 || y < -10 || y > h + 10) continue;
+        const alpha = 0.35 + 0.45 * Math.abs(Math.sin(t * 0.001 + s.tw));
+        ctx.fillStyle = `rgba(232,224,200,${alpha})`;
+        ctx.beginPath();
+        ctx.arc(x, y, s.size * devicePixelRatio * 0.7, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      if (!reduced) raf = requestAnimationFrame(draw);
+    };
+    draw(0);
+    const onResize = () => {
+      w = canvas.width = canvas.offsetWidth * devicePixelRatio;
+      h = canvas.height = canvas.offsetHeight * devicePixelRatio;
+      if (reduced) draw(0);
+    };
+    window.addEventListener("resize", onResize);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", onResize);
+    };
+  }, []);
+  return (
+    <canvas
+      ref={ref}
+      aria-hidden="true"
+      className="absolute inset-0 h-full w-full"
+    />
+  );
+}
+
+/* the big chart */
+function BirthChart({
+  selected,
+  onSelect,
+  lagnaShift,
+  transitYearF,
+}: {
+  selected: number;
+  onSelect: (n: number) => void;
+  lagnaShift: number;
+  transitYearF: number;
+}) {
+  const transitAngle = -20 + transitYearF * 24;
+  return (
+    <svg
+      viewBox="-14 -14 428 428"
+      className="w-full max-w-[620px]"
+      role="group"
+      aria-label="Interactive North Indian birth chart"
+    >
+      <defs>
+        <radialGradient id="houseGlow" cx="50%" cy="50%" r="70%">
+          <stop offset="0%" stopColor={GOLD} stopOpacity="0.16" />
+          <stop offset="100%" stopColor={GOLD} stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      {/* aspect lines */}
+      <g className="astro-dash" stroke={BLUE} strokeWidth="1" opacity="0.5">
+        <line x1={292} y1={168} x2={130} y2={215} strokeDasharray="5 6" />
+        <line x1={292} y1={168} x2={200} y2={130} strokeDasharray="5 6" />
+      </g>
+      {Object.entries(housePolys).map(([n, pts]) => {
+        const num = Number(n);
+        const active = selected === num;
+        return (
+          <g key={n}>
+            <polygon
+              points={pts.map((p) => p.join(",")).join(" ")}
+              fill={active ? "url(#houseGlow)" : "transparent"}
+              stroke={active ? GOLD : "#3A4368"}
+              strokeWidth={active ? 2.4 : 1.1}
+              className="cursor-pointer transition-all duration-300"
+              style={{
+                opacity: selected && !active ? 0.38 : 1,
+                filter: active ? `drop-shadow(0 0 8px ${GOLD}88)` : undefined,
+              }}
+              onClick={() => onSelect(num)}
+            />
+            <text
+              x={houseLabelPos[num][0]}
+              y={houseLabelPos[num][1]}
+              textAnchor="middle"
+              fontSize="11"
+              fill={active ? GOLD : "#5A6390"}
+              className="pointer-events-none select-none font-mono"
+            >
+              {num}
+            </text>
+            {houseData[num].planets.length > 0 && (
+              <text
+                x={planetPos[num]?.[0] ?? houseLabelPos[num][0]}
+                y={planetPos[num]?.[1] ?? houseLabelPos[num][1] + 18}
+                textAnchor="middle"
+                fontSize="15"
+                fill={GOLD}
+                className="pointer-events-none select-none"
+                style={{ opacity: selected && !active ? 0.35 : 1 }}
+              >
+                {houseData[num].planets.map((p) => p.g).join(" ")}
+              </text>
+            )}
+          </g>
+        );
+      })}
+      {/* lagna tick — rotates with the what-if birth-time slider */}
+      <g transform={`rotate(${lagnaShift} 200 200)`}>
+        <line x1="200" y1="8" x2="200" y2="26" stroke={GOLD} strokeWidth="3" />
+      </g>
+      {/* transit marker — moves with the time machine */}
+      <g transform={`rotate(${transitAngle} 200 200)`}>
+        <circle cx="388" cy="200" r="5" fill={BLUE}>
+          <title>transiting Guru</title>
+        </circle>
+      </g>
+      <text
+        x="200"
+        y="206"
+        textAnchor="middle"
+        fontSize="12"
+        fill="#8890B8"
+        className="pointer-events-none select-none font-mono"
+      >
+        YOU
+      </text>
+    </svg>
+  );
+}
+
+/* ================================================================ page == */
 
 export default function VedicAstroDemo() {
   const navigate = useNavigate();
-  const [mode, setMode] = useState<ViewMode>("story");
-  const [guide, setGuide] = useState<Guide>(guides[4]); // Guru greets first
-  const [whyLayer, setWhyLayer] = useState(0);
-  const [sheet, setSheet] = useState<Sheet | null>(null);
-  const [questCount, setQuestCount] = useState(0);
-  const questTimer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [mode, setMode] = useState<Mode>("story");
+  const [house, setHouse] = useState(10);
+  const [whyOpen, setWhyOpen] = useState(false);
+  const [whyNode, setWhyNode] = useState<string | null>(null);
+  const [yearF, setYearF] = useState(0); // 0..5 → 2025..2030
+  const [birthShift, setBirthShift] = useState(15); // minutes 0..30
+  const [entity, setEntity] = useState<Entity | null>(null);
+  const [edgeInfo, setEdgeInfo] = useState<(typeof netEdges)[number] | null>(
+    null,
+  );
+  const [starSel, setStarSel] = useState<string | null>(null);
+  const [orbOpen, setOrbOpen] = useState(false);
+  const [sysSel, setSysSel] = useState<(typeof galaxy)[number] | null>(null);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
-  const dev = mode === "dev";
-  const m = (story: string, devText: string) => (dev ? devText : story);
+  const onHeroMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    setTilt({
+      x: ((e.clientX - r.left) / r.width - 0.5) * 8,
+      y: ((e.clientY - r.top) / r.height - 0.5) * -8,
+    });
+  }, []);
 
-  const startQuest = () => {
-    if (questTimer.current) clearInterval(questTimer.current);
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setQuestCount(questSteps.length);
-      return;
-    }
-    setQuestCount(0);
-    questTimer.current = setInterval(() => {
-      setQuestCount((current) => {
-        if (current >= questSteps.length) {
-          if (questTimer.current) clearInterval(questTimer.current);
-          return current;
-        }
-        return current + 1;
-      });
-    }, 260);
-  };
-
-  useEffect(
-    () => () => {
-      if (questTimer.current) clearInterval(questTimer.current);
-    },
-    [],
+  const year = 2025 + yearF;
+  const signals = useMemo(
+    () =>
+      Object.entries(signalTracks).map(([name, track]) => ({
+        name,
+        base: track[0],
+        now: trackAt(track, yearF),
+      })),
+    [yearF],
   );
 
-  const questDone = questCount >= questSteps.length;
+  const rel = Math.round(
+    63 - Math.max(0, birthShift - 12) * 1.6 - Math.max(0, 6 - birthShift) * 0.8,
+  );
+  const relSensitive = rel < 50;
+
+  const scrollToId = (id: string) => {
+    const el = document.getElementById(id);
+    if (el)
+      window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 64);
+  };
+
+  const evid = mode !== "story";
 
   return (
-    <div className="min-h-screen bg-[#0B1020] text-slate-100">
+    <div className="min-h-screen overflow-x-hidden bg-[#05070F] text-slate-200">
+      <style>{`
+        .astro-dash line{stroke-dashoffset:0;animation:astrodash 3.2s linear infinite}
+        @keyframes astrodash{to{stroke-dashoffset:-44}}
+        .orb-pulse{animation:orbp 3.4s ease-in-out infinite}
+        @keyframes orbp{50%{box-shadow:0 0 64px 18px #E8B44C55, 0 0 120px 40px #66B8FF22}}
+        .star-pulse{animation:starp 2.6s ease-in-out infinite}
+        @keyframes starp{50%{opacity:.55}}
+        .flow-dash{stroke-dasharray:6 10;animation:flowd 2.4s linear infinite}
+        @keyframes flowd{to{stroke-dashoffset:-64}}
+        @media (prefers-reduced-motion: reduce){
+          .astro-dash line,.orb-pulse,.star-pulse,.flow-dash{animation:none}
+        }
+        input[type=range].cosmic{appearance:none;height:3px;border-radius:2px;
+          background:linear-gradient(90deg,#3A4368,#E8B44C);outline:none}
+        input[type=range].cosmic::-webkit-slider-thumb{appearance:none;width:18px;
+          height:18px;border-radius:50%;background:#E8B44C;border:2px solid #05070F;
+          box-shadow:0 0 12px #E8B44C99;cursor:grab}
+      `}</style>
+
       <Navigation />
 
-      {/* ------------------------------------------------------- HUD bar --- */}
-      <div className="sticky top-0 z-40 border-b-2 border-slate-700 bg-[#0B1020]/95 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-6 py-2">
-          <div className="flex items-center gap-3">
-            <span
-              style={PIXEL}
-              className="text-[11px] uppercase tracking-widest text-amber-300"
-            >
-              ✦ Vedic Astro AI
-            </span>
-            <span
-              style={PIXEL}
-              className="hidden text-[10px] text-emerald-400 sm:inline"
-            >
-              <span className="mr-1 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400 align-middle" />
-              online
-            </span>
-          </div>
-          <div className="flex items-center gap-1 border-2 border-slate-600 bg-[#101830] p-0.5">
-            {(["story", "dev"] as ViewMode[]).map((value) => (
-              <button
-                key={value}
-                onClick={() => setMode(value)}
-                style={PIXEL}
-                className={`px-3 py-1 text-[10px] uppercase tracking-wider transition ${
-                  mode === value
-                    ? "bg-amber-400 text-slate-900"
-                    : "text-slate-400 hover:text-white"
-                }`}
-              >
-                {value === "story" ? "✦ Story" : "⌘ Dev"}
-              </button>
-            ))}
-          </div>
-        </div>
+      {/* mode control */}
+      <div className="fixed right-4 top-24 z-40 flex gap-0.5 rounded-full border border-white/15 bg-[#0B1020]/80 p-1 backdrop-blur">
+        {(["story", "evidence", "system"] as Mode[]).map((value) => (
+          <button
+            key={value}
+            onClick={() => {
+              setMode(value);
+              if (value === "system") scrollToId("machine");
+            }}
+            className={`rounded-full px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-wider transition ${
+              mode === value
+                ? "bg-[#E8B44C] text-[#05070F]"
+                : "text-slate-400 hover:text-white"
+            }`}
+          >
+            {value}
+          </button>
+        ))}
       </div>
 
-      {/* ---------------------------------------------------- title crawl --- */}
-      <header className="relative overflow-hidden pb-10 pt-24">
+      {/* ------------------------------------------------------- HERO ---- */}
+      <section
+        onMouseMove={onHeroMove}
+        className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6"
+      >
+        <Starfield />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0"
+          className="pointer-events-none absolute inset-0 transition-transform duration-300 ease-out"
+          style={{
+            transform: `perspective(900px) rotateY(${tilt.x}deg) rotateX(${tilt.y}deg)`,
+          }}
         >
-          {[380, 600, 840].map((size) => (
+          {[300, 480, 680, 900].map((size, i) => (
             <span
               key={size}
-              className="absolute left-1/2 top-24 -translate-x-1/2 rounded-full border border-white/5"
-              style={{ width: size, height: size }}
+              className="absolute left-1/2 top-[46%] -translate-x-1/2 -translate-y-1/2 rounded-full border"
+              style={{
+                width: size,
+                height: size * 0.62,
+                borderColor: i % 2 ? "#E8B44C22" : "#66B8FF1D",
+              }}
             />
           ))}
-          <span className="absolute left-[15%] top-[20%] h-1 w-1 rounded-full bg-amber-200/80" />
-          <span className="absolute left-[78%] top-[16%] h-1.5 w-1.5 rounded-full bg-sky-200/70" />
-          <span className="absolute left-[65%] top-[60%] h-1 w-1 rounded-full bg-rose-200/70" />
+          <span className="absolute left-[22%] top-[30%] text-xl text-[#E8B44C]/70">
+            ♃
+          </span>
+          <span className="absolute right-[20%] top-[24%] text-lg text-[#66B8FF]/60">
+            ♄
+          </span>
+          <span className="absolute bottom-[26%] right-[30%] text-base text-[#E8B44C]/50">
+            ☾
+          </span>
         </div>
-        <div className="relative z-10 mx-auto max-w-6xl px-6 text-center">
-          <button
-            onClick={() => navigate("/ai-playground")}
-            className="mx-auto mb-8 flex items-center gap-2 text-sm text-slate-400 transition-colors hover:text-white"
-          >
-            <ArrowLeft size={16} />
-            Back to AI Playground
-          </button>
-          <p
-            style={PIXEL}
-            className="text-[12px] uppercase tracking-[0.3em] text-amber-400"
-          >
-            a computational universe
-          </p>
-          <h1 className="mx-auto mt-3 max-w-3xl font-serif text-4xl font-bold leading-tight text-white sm:text-6xl">
-            Understanding Time
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="relative z-10 text-center"
+        >
+          <h1 className="font-serif text-5xl font-bold tracking-[0.08em] text-white sm:text-7xl">
+            VEDIC ASTRO AI
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-300">
-            {m(
-              "Nine planetary guides, four regions, one honest machine. Explore it like a world; question it like a lab.",
-              "Deterministic ephemeris computation feeding a cited-retrieval LLM pipeline behind a citation gate and a REFUSE/ABSTAIN policy layer.",
-            )}
+          <p className="mx-auto mt-4 max-w-xl font-serif text-xl text-slate-300 sm:text-2xl">
+            Your life, interpreted as a moving system.
           </p>
-          <div className="mt-7 flex flex-wrap justify-center gap-4">
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-5">
             <a
               href={DEMO_URL}
               target="_blank"
               rel="noopener noreferrer"
-              style={PIXEL}
-              className="border-2 border-amber-300 bg-amber-400 px-6 py-3 text-[12px] uppercase tracking-wider text-slate-900 shadow-[4px_4px_0_#00000088] transition hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0_#00000088]"
+              className="rounded-full border border-[#E8B44C] bg-[#E8B44C]/10 px-8 py-3 font-serif text-lg text-[#E8B44C] shadow-[0_0_30px_#E8B44C33] transition hover:bg-[#E8B44C] hover:text-[#05070F]"
             >
-              ▶ Press Start
+              Enter your universe →
             </a>
             <button
-              onClick={() => {
-                const target = document.getElementById("worldmap");
-                if (target) {
-                  window.scrollTo(
-                    0,
-                    target.getBoundingClientRect().top + window.scrollY - 60,
-                  );
-                }
-              }}
-              style={PIXEL}
-              className="border-2 border-slate-500 bg-transparent px-6 py-3 text-[12px] uppercase tracking-wider text-slate-200 shadow-[4px_4px_0_#00000055] transition hover:border-slate-300 hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0_#00000055]"
+              onClick={() => scrollToId("ch1")}
+              className="text-sm text-slate-400 underline-offset-4 transition hover:text-white hover:underline"
             >
-              World Map ↓
+              Explore how it works
             </button>
           </div>
-        </div>
-      </header>
+        </motion.div>
+        <p className="absolute bottom-8 z-10 px-4 text-center font-mono text-[11px] tracking-[0.18em] text-slate-500">
+          9 planets · 12 houses · 27 nakshatras · live transits · AI
+          interpretation
+        </p>
+      </section>
 
-      <main className="mx-auto max-w-6xl px-6">
-        {/* ------------------------------------------ 01 · character select --- */}
-        <section className="py-12">
-          <SectionHead
-            index="01 · Choose your guide"
-            title="Meet your sky team"
-            sub={m(
-              "Nine heroes, one story — yours. Tap a hero to hear its job; every reading below is their teamwork.",
-              "The nine grahas. Each drives a family of rules in the deterministic engine; tap for its computational role.",
-            )}
-          />
-          <div className="flex gap-2 overflow-x-auto pb-2">
-            {guides.map((g) => (
-              <button
-                key={g.key}
-                onClick={() => setGuide(g)}
-                aria-pressed={guide.key === g.key}
-                className={`flex min-w-[86px] flex-col items-center gap-1 border-2 px-3 py-3 transition ${
-                  guide.key === g.key
-                    ? "border-amber-300 bg-[#1a2440] shadow-[0_0_14px_#fbbf2444]"
-                    : "border-slate-700 bg-[#101830] hover:border-slate-500"
-                }`}
+      <main className="relative mx-auto max-w-6xl px-6">
+        {/* -------------------------------------------------- CH 01 · YOU -- */}
+        <section id="ch1" className="py-24">
+          <ChapterLine k="chapter 01 · you">
+            YOU WERE BORN INTO A&nbsp;PARTICULAR&nbsp;SKY.
+          </ChapterLine>
+
+          <div className="flex flex-col items-start gap-10 lg:flex-row">
+            <div className="w-full lg:w-[58%]">
+              <BirthChart
+                selected={house}
+                onSelect={(n) => {
+                  setHouse(n);
+                  setWhyOpen(false);
+                }}
+                lagnaShift={(birthShift - 15) * 0.9}
+                transitYearF={yearF}
+              />
+              <p className="mt-3 font-mono text-[11px] text-slate-500">
+                a sample chart · click any house — the universe dims around it
+              </p>
+            </div>
+
+            {/* house panel — enter-only animation: exit-gated swaps freeze
+                in throttled tabs, so never block content on an exit. */}
+            <div className="w-full lg:w-[42%] lg:pt-10">
+              <motion.div
+                key={house}
+                initial={{ opacity: 0, x: 24 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3 }}
               >
-                <span className="text-2xl">{g.emoji}</span>
-                <span style={PIXEL} className="text-[10px] text-white">
-                  {g.name}
-                </span>
-                <span className="text-[10px] text-slate-400">{g.role}</span>
-              </button>
-            ))}
-          </div>
-          {/* dialogue box */}
-          <Frame className="mt-4 p-4">
-            <div className="flex items-start gap-3">
-              <span className="text-3xl">{guide.emoji}</span>
-              <div>
-                <p
-                  style={PIXEL}
-                  className="text-[11px] uppercase text-amber-300"
-                >
-                  {guide.name} · {guide.role}
-                </p>
-                <p className="mt-1 text-sm leading-relaxed text-slate-200">
-                  “{dev ? guide.devLine : guide.line}”
-                </p>
-              </div>
-            </div>
-          </Frame>
-        </section>
-
-        {/* --------------------------------------------- 02 · current signal --- */}
-        <section className="border-t-2 border-slate-800 py-12">
-          <SectionHead
-            index="02 · Current signal"
-            title="Career Momentum"
-            sub={m(
-              "A sample reading from a sample chart. The Why? button is the whole point — press it until you hit bedrock.",
-              "Sample output shape. Every production reading carries this drill-down in the demo's Explanation tab.",
-            )}
-          />
-          <Frame className="max-w-xl p-5">
-            <div className="flex items-center justify-between gap-4">
-              <div>
-                <PixelTag>power level</PixelTag>
-                <p className="mt-1 font-serif text-3xl font-bold text-amber-300">
-                  74<span className="text-lg text-slate-400">/100</span>
-                </p>
-              </div>
-              <XpBar value={74} />
-            </div>
-            <p className="mt-2 text-xs text-slate-400">
-              Saturn transit · Jupiter influence · dasha transition · 6 more
-              signals · confidence 81%
-            </p>
-            <div className="mt-3 flex gap-2">
-              <button
-                onClick={() => setWhyLayer(whyLayer === 0 ? 1 : 0)}
-                style={PIXEL}
-                className="border-2 border-amber-300 px-4 py-1.5 text-[11px] uppercase tracking-wider text-amber-300 transition hover:bg-amber-300/10"
-              >
-                Why?
-              </button>
-              {whyLayer >= 1 && whyLayer < 3 && (
-                <button
-                  onClick={() => setWhyLayer(whyLayer + 1)}
-                  style={PIXEL}
-                  className="border-2 border-slate-600 px-4 py-1.5 text-[11px] uppercase tracking-wider text-slate-300 transition hover:border-slate-400"
-                >
-                  Deeper →
-                </button>
-              )}
-            </div>
-            <AnimatePresence>
-              {whyLayer >= 1 && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="overflow-hidden"
-                >
-                  <div className="mt-4 border-t-2 border-dashed border-slate-700 pt-3">
-                    <PixelTag>lv.1 drivers</PixelTag>
-                    <ul className="mt-1.5 space-y-1 font-mono text-[13px] text-slate-200">
-                      <li className="flex justify-between">
-                        <span>Jupiter activation</span>
-                        <span className="text-emerald-300">+21</span>
-                      </li>
-                      <li className="flex justify-between">
-                        <span>Saturn position</span>
-                        <span className="text-rose-300">−8</span>
-                      </li>
-                      <li className="flex justify-between">
-                        <span>Dasha alignment</span>
-                        <span className="text-emerald-300">+17</span>
-                      </li>
-                    </ul>
-                  </div>
-                  {whyLayer >= 2 && (
-                    <div className="mt-3 border-t-2 border-dashed border-slate-700 pt-3">
-                      <PixelTag>lv.2 evidence</PixelTag>
-                      <p className="mt-1.5 text-[13px] leading-relaxed text-slate-300">
-                        Rule: 10th-lord activation (BPHS, career chapter) ·
-                        Input: Jupiter at 14°23′ Taurus (Swiss Ephemeris) ·
-                        Cited verse retrieved, ranked #1 of 24 · Confidence from
-                        rule strength × retrieval score.
-                      </p>
-                    </div>
-                  )}
-                  {whyLayer >= 3 && (
-                    <div className="mt-3 border-t-2 border-dashed border-slate-700 pt-3">
-                      <PixelTag>lv.3 pipeline</PixelTag>
-                      <pre className="mt-1.5 font-mono text-[11px] leading-relaxed text-slate-300">{`input → ephemeris calc → chart features
-→ rule engine → verse retrieval
-→ LLM ranking + synthesis
-→ citation gate → policy gate → answer`}</pre>
-                    </div>
-                  )}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </Frame>
-        </section>
-
-        {/* ------------------------------------------------- 03 · world map --- */}
-        <section id="worldmap" className="border-t-2 border-slate-800 py-12">
-          <SectionHead
-            index="03 · World map"
-            title={m(
-              "Four regions to explore",
-              "The architecture, as territory",
-            )}
-            sub={m(
-              "Enter any location to open its character sheet — stats, powers, and its one weakness.",
-              "13 components, each with a standardized sheet: runtime, I/O, latency, cost, quality, and failure mode.",
-            )}
-          />
-          <div className="grid gap-4 md:grid-cols-2">
-            {zones.map((zone) => (
-              <Frame key={zone.key} className="p-4">
-                <div className="mb-3 flex items-baseline justify-between">
-                  <h3 className="font-serif text-lg font-bold text-white">
-                    <span className="mr-2">{zone.emoji}</span>
-                    {m(zone.storyTitle, zone.title)}
+                  <Note>house {house}</Note>
+                  <h3 className="mt-2 font-serif text-3xl font-bold text-white">
+                    {houseData[house].themes.split("·")[0].trim()}
                   </h3>
-                  <PixelTag tone="dim">{zone.tagline}</PixelTag>
-                </div>
-                <div className="grid gap-1.5">
-                  {zone.places.map((place) => (
-                    <button
-                      key={place.name}
-                      onClick={() => setSheet(place)}
-                      className="group flex items-center justify-between gap-3 border-2 border-slate-700 bg-[#0d1428] px-3 py-2 text-left transition hover:border-amber-300"
-                    >
-                      <span className="flex items-center gap-2.5">
-                        <span className="text-lg">{place.icon}</span>
-                        <span>
-                          <span className="block text-sm font-bold text-white">
-                            {place.name}
-                          </span>
-                          <span className="block text-[12px] text-slate-400">
-                            {dev ? place.devLine : place.storyLine}
-                          </span>
-                        </span>
-                      </span>
-                      <span
-                        style={PIXEL}
-                        className="shrink-0 text-[10px] uppercase text-slate-500 transition group-hover:text-amber-300"
+                  <p className="mt-1 text-sm text-slate-400">
+                    {houseData[house].themes}
+                  </p>
+                  <div className="mt-5 space-y-2.5">
+                    {houseData[house].planets.length === 0 && (
+                      <p className="text-sm italic text-slate-500">
+                        No graha resides here — this house answers to its lord.
+                      </p>
+                    )}
+                    {houseData[house].planets.map((p) => (
+                      <div
+                        key={p.g}
+                        className="flex items-baseline gap-3 border-l-2 border-[#E8B44C]/50 pl-3"
                       >
-                        enter →
-                      </span>
+                        <span className="font-serif text-lg text-[#E8B44C]">
+                          {p.name}
+                        </span>
+                        <span className="text-[13px] text-slate-400">
+                          {p.note}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {house === 10 && (
+                    <div className="mt-7 border-t border-white/10 pt-5">
+                      <Note>current signal</Note>
+                      <div className="mt-2 flex items-baseline gap-4">
+                        <span className="font-serif text-2xl text-white">
+                          Career momentum
+                        </span>
+                        <span className="font-mono text-3xl font-bold text-[#E8B44C]">
+                          {signals[0].now}
+                          <span className="text-base text-slate-500">/100</span>
+                        </span>
+                      </div>
+                      <p className="mt-1 font-mono text-[11px] text-slate-500">
+                        confidence 81% · {dashaByYear[Math.round(yearF)]}
+                      </p>
+                      <button
+                        onClick={() => setWhyOpen(!whyOpen)}
+                        className="mt-4 rounded-full border border-[#66B8FF]/60 px-6 py-2 font-serif text-[#66B8FF] transition hover:bg-[#66B8FF]/10"
+                      >
+                        Why?
+                      </button>
+                    </div>
+                  )}
+              </motion.div>
+            </div>
+          </div>
+
+          {/* the explosion */}
+          <AnimatePresence>
+            {whyOpen && house === 10 && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="overflow-hidden"
+              >
+                <div className="mt-10 border-t border-white/10 pt-8">
+                  <Note>the signal, decomposed</Note>
+                  <svg viewBox="0 0 480 240" className="mt-4 w-full max-w-2xl">
+                    <motion.line
+                      x1="240"
+                      y1="46"
+                      x2="110"
+                      y2="120"
+                      stroke={BLUE}
+                      strokeWidth="1.4"
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ duration: 0.6 }}
+                    />
+                    <motion.line
+                      x1="240"
+                      y1="46"
+                      x2="240"
+                      y2="120"
+                      stroke={BLUE}
+                      strokeWidth="1.4"
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ duration: 0.6, delay: 0.1 }}
+                    />
+                    <motion.line
+                      x1="240"
+                      y1="46"
+                      x2="370"
+                      y2="120"
+                      stroke={BLUE}
+                      strokeWidth="1.4"
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ duration: 0.6, delay: 0.2 }}
+                    />
+                    <text
+                      x="240"
+                      y="30"
+                      textAnchor="middle"
+                      fill="#fff"
+                      fontSize="17"
+                      className="font-serif"
+                    >
+                      CAREER {signals[0].now}
+                    </text>
+                    {[
+                      ["Jupiter", "+21", 110, "transit"],
+                      ["Saturn", "−8", 240, "aspect"],
+                      ["Dasha", "+17", 370, "period"],
+                    ].map(([name, v, x, kind]) => (
+                      <g
+                        key={name as string}
+                        className="cursor-pointer"
+                        onClick={() =>
+                          setWhyNode(whyNode === name ? null : (name as string))
+                        }
+                      >
+                        <circle
+                          cx={x as number}
+                          cy={140}
+                          r="34"
+                          fill={whyNode === name ? "#E8B44C22" : "#0B1020"}
+                          stroke={whyNode === name ? GOLD : "#3A4368"}
+                        />
+                        <text
+                          x={x as number}
+                          y={136}
+                          textAnchor="middle"
+                          fill="#E8E4D8"
+                          fontSize="12"
+                        >
+                          {name}
+                        </text>
+                        <text
+                          x={x as number}
+                          y={154}
+                          textAnchor="middle"
+                          fill={
+                            (v as string).startsWith("+")
+                              ? "#7BE0A8"
+                              : "#F2846B"
+                          }
+                          fontSize="13"
+                          className="font-mono"
+                        >
+                          {v}
+                        </text>
+                        <text
+                          x={x as number}
+                          y={196}
+                          textAnchor="middle"
+                          fill="#5A6390"
+                          fontSize="10"
+                          className="font-mono"
+                        >
+                          {kind}
+                        </text>
+                      </g>
+                    ))}
+                  </svg>
+                  {whyNode && (
+                    <p className="max-w-xl border-l-2 border-[#E8B44C]/60 pl-4 text-sm text-slate-300">
+                      {whyNode === "Jupiter" &&
+                        "Transiting Guru at 14°23′ Vṛṣabha crosses the natal midheaven — the classical expansion signal for the tenth. Cited: BPHS, career chapter; retrieval rank #1 of 24."}
+                      {whyNode === "Saturn" &&
+                        "Natal Śani in the tenth restrains as it structures: −8, not a denial but a governor. Cited rule surfaces alongside, never silently merged."}
+                      {whyNode === "Dasha" &&
+                        "The running daśā lends its period lord to career matters: +17 while the antara holds. Computed from the Vimshottari tree, not estimated."}
+                    </p>
+                  )}
+                  {evid && (
+                    <div className="mt-6 max-w-md">
+                      <Note>evidence · full decomposition</Note>
+                      <table className="mt-2 w-full font-mono text-[13px]">
+                        <tbody>
+                          {evidenceRows.map(([k, v]) => (
+                            <tr key={k} className="border-b border-white/5">
+                              <td className="py-1.5 text-slate-400">{k}</td>
+                              <td
+                                className={`py-1.5 text-right ${v.startsWith("+") ? "text-emerald-300" : "text-rose-300"}`}
+                              >
+                                {v}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </section>
+
+        {/* ------------------------------------------- CH 02 · THE SKY NOW -- */}
+        <section className="border-t border-white/5 py-24">
+          <ChapterLine
+            k="chapter 02 · the sky now"
+            sub="Left: the sky you were born under, fixed forever. Right: the sky tonight — and where it touches yours."
+          >
+            BUT THE SKY KEPT MOVING.
+          </ChapterLine>
+          <div className="grid gap-8 md:grid-cols-2">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur">
+              <Note>your natal sky</Note>
+              <p className="mt-2 font-serif text-xl text-white">
+                Guru &amp; Śani seated in the tenth
+              </p>
+              <p className="mt-1 text-sm text-slate-400">
+                Fixed at birth. The reference frame every transit is judged
+                against.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-[#66B8FF]/25 bg-[#66B8FF]/[0.04] p-6 backdrop-blur">
+              <Note>today's sky</Note>
+              <p className="mt-2 font-serif text-xl text-white">
+                Transiting ♃ → your 10th house
+              </p>
+              <p className="mt-1 text-sm text-slate-400">
+                <span className="font-mono text-[#66B8FF]">
+                  EXPANSION SIGNAL
+                </span>{" "}
+                — today's Jupiter crossing the natal midheaven is the +21 in the
+                career decomposition above.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* ------------------------------------------- CH 03 · THE FORCES -- */}
+        <section className="border-t border-white/5 py-24">
+          <ChapterLine
+            k="chapter 03 · the forces"
+            sub="Planets converse. Hover a line to hear what it says."
+          >
+            NINE BODIES, ONE&nbsp;CONVERSATION.
+          </ChapterLine>
+
+          <div className="flex flex-col gap-10 lg:flex-row">
+            <svg viewBox="0 0 420 320" className="w-full max-w-lg">
+              {netEdges.map((e) => {
+                const [ax, ay] = netNodes[e.a];
+                const [bx, by] = netNodes[e.b];
+                const active = edgeInfo === e;
+                return (
+                  <line
+                    key={e.a + e.b}
+                    x1={ax}
+                    y1={ay}
+                    x2={bx}
+                    y2={by}
+                    stroke={
+                      e.kind === "opposition"
+                        ? "#F2846B"
+                        : e.kind === "trine"
+                          ? BLUE
+                          : GOLD
+                    }
+                    strokeWidth={active ? 3 : 1 + e.strength * 1.6}
+                    strokeDasharray={
+                      e.kind === "opposition" ? "6 6" : undefined
+                    }
+                    opacity={active ? 1 : 0.55}
+                    className="cursor-pointer transition-all"
+                    onMouseEnter={() => setEdgeInfo(e)}
+                    onClick={() => setEdgeInfo(e)}
+                  />
+                );
+              })}
+              {Object.entries(netNodes).map(([name, [x, y, glyph]]) => (
+                <g key={name}>
+                  <circle
+                    cx={x}
+                    cy={y}
+                    r="24"
+                    fill="#0B1020"
+                    stroke="#3A4368"
+                  />
+                  <text
+                    x={x}
+                    y={y + 1}
+                    textAnchor="middle"
+                    fill={GOLD}
+                    fontSize="16"
+                  >
+                    {glyph}
+                  </text>
+                  <text
+                    x={x}
+                    y={y + 40}
+                    textAnchor="middle"
+                    fill="#8890B8"
+                    fontSize="11"
+                  >
+                    {name}
+                  </text>
+                </g>
+              ))}
+            </svg>
+            <div className="lg:pt-8">
+              <AnimatePresence>
+                {edgeInfo ? (
+                  <motion.div
+                    key={edgeInfo.a + edgeInfo.b}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    <Note>{edgeInfo.kind}</Note>
+                    <p className="mt-2 font-serif text-2xl text-white">
+                      {edgeInfo.a} → {edgeInfo.b}
+                    </p>
+                    <p className="mt-1 text-slate-400">{edgeInfo.note}</p>
+                    <p className="mt-2 font-mono text-sm text-[#66B8FF]">
+                      strength {edgeInfo.strength.toFixed(2)}
+                    </p>
+                  </motion.div>
+                ) : (
+                  <motion.p
+                    key="hint"
+                    className="text-sm italic text-slate-500"
+                  >
+                    hover a line…
+                  </motion.p>
+                )}
+              </AnimatePresence>
+
+              {/* entities */}
+              <div className="mt-10">
+                <Note>or meet a body directly</Note>
+                <div className="mt-3 flex gap-3">
+                  {entities.map((en) => (
+                    <button
+                      key={en.key}
+                      onClick={() => setEntity(en)}
+                      className="flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-xl text-[#E8B44C] transition hover:border-[#E8B44C] hover:shadow-[0_0_18px_#E8B44C44]"
+                      aria-label={en.name}
+                    >
+                      {en.glyph}
                     </button>
                   ))}
                 </div>
-              </Frame>
-            ))}
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* ------------------------------------------------- 04 · quest log --- */}
-        <section className="border-t-2 border-slate-800 py-12">
-          <SectionHead
-            index="04 · Quest log"
-            title="One reading's journey"
-            sub={m(
-              "Press play and follow one request across the whole world, checkpoint by checkpoint.",
-              "The trace store records this for every reading — it powers the demo's Explanation tab.",
-            )}
-          />
-          <Frame className="p-5">
-            <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-              <button
-                onClick={startQuest}
-                style={PIXEL}
-                className="border-2 border-amber-300 bg-amber-400 px-5 py-2 text-[11px] uppercase tracking-wider text-slate-900 shadow-[3px_3px_0_#00000088] transition hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_#00000088]"
-              >
-                ▶ Begin quest
-              </button>
-              <p className="font-mono text-[11px] text-slate-400">
-                total ≈1.9s · LLM ≈$0.02 · compute ≈$0.0001 · 0 errors
-              </p>
+        {/* ------------------------------------------------ CH 04 · TIME -- */}
+        <section className="border-t border-white/5 py-24">
+          <ChapterLine
+            k="chapter 04 · time"
+            sub="Drag through the years. The chart's transit marker moves; the signals morph."
+          >
+            MOVE THROUGH TIME.
+          </ChapterLine>
+
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-5">
+              <span className="font-mono text-sm text-slate-400">2025</span>
+              <input
+                type="range"
+                min={0}
+                max={5}
+                step={0.02}
+                value={yearF}
+                onChange={(e) => setYearF(Number(e.target.value))}
+                className="cosmic w-full"
+                aria-label="Move through time"
+              />
+              <span className="font-mono text-sm text-slate-400">2030</span>
             </div>
-            <ol className="grid gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
-              {questSteps.map((step, index) => {
-                const shown = index < questCount;
+            <p className="mt-2 text-center font-serif text-2xl text-[#E8B44C]">
+              {year.toFixed(1)}
+            </p>
+            <p className="mt-1 text-center font-mono text-[11px] uppercase tracking-[0.2em] text-slate-500">
+              {dashaByYear[Math.round(yearF)]}
+            </p>
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              {signals.map((s) => {
+                const up = s.now >= s.base;
                 return (
-                  <li
-                    key={step.label}
-                    className={`flex items-center justify-between gap-2 border-2 px-3 py-2 transition-all duration-300 ${
-                      shown
-                        ? "border-emerald-500/60 bg-emerald-900/20 opacity-100"
-                        : "border-slate-800 bg-[#0d1428] opacity-40"
-                    }`}
-                  >
-                    <span>
-                      <span className="block text-[13px] font-semibold text-slate-100">
-                        {shown ? "✓" : "·"} {step.label}
+                  <div key={s.name} className="text-center">
+                    <Note>{s.name}</Note>
+                    <p className="mt-1 font-mono text-2xl text-white">
+                      <span className="text-slate-500">{s.base} → </span>
+                      <span
+                        className={up ? "text-emerald-300" : "text-rose-300"}
+                      >
+                        {s.now}
                       </span>
-                      <span className="block text-[11px] text-slate-500">
-                        {step.detail}
-                      </span>
-                    </span>
-                    <span className="shrink-0 font-mono text-[10px] text-slate-500">
-                      {step.ms}
-                    </span>
-                  </li>
+                    </p>
+                    {/* confidence as atmosphere */}
+                    <div
+                      className="mx-auto mt-2 h-2.5 rounded-full"
+                      title={`signal ${s.now}/100`}
+                      style={{
+                        width: `${34 + s.now * 0.5}%`,
+                        background: up ? "#7BE0A8" : "#F2846B",
+                        filter: `blur(${Math.max(0, (80 - s.now) / 18)}px)`,
+                        opacity: 0.85,
+                      }}
+                    />
+                  </div>
                 );
               })}
-            </ol>
-            {questDone && (
-              <p
-                style={PIXEL}
-                className="mt-4 text-center text-[12px] uppercase tracking-widest text-amber-300"
-              >
-                ★ Quest complete — every sentence cited ★
-              </p>
-            )}
-          </Frame>
-        </section>
-
-        {/* ----------------------------------------- 05 · scoreboard + party --- */}
-        <section className="border-t-2 border-slate-800 py-12">
-          <SectionHead
-            index="05 · Scoreboard"
-            title="How we know it works"
-            sub={m(
-              "Different questions get different exams — being right about the sky is not the same as being faithful to the books.",
-              "Layered correctness: astronomical exactness, rule determinism, citation coverage, and refusal policy are separate gates.",
-            )}
-          />
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              {
-                label: "Astronomy",
-                value: "exact",
-                story: "Planet positions match the observatories.",
-                devText: "arc-second agreement vs. published ephemerides",
-              },
-              {
-                label: "Rules",
-                value: "deterministic",
-                story: "The old rules fire the same way every time.",
-                devText: "deterministic engine, golden-chart suite in CI",
-              },
-              {
-                label: "Citations",
-                value: "100% cited",
-                story: "Every sentence points at its source.",
-                devText: "citation gate: uncited sentences deleted + logged",
-              },
-              {
-                label: "Judgement",
-                value: "gated",
-                story: "When evidence is thin, it says so.",
-                devText: "REFUSE/ABSTAIN policy on out-of-scope + low-evidence",
-              },
-            ].map((metric) => (
-              <Frame key={metric.label} className="p-4">
-                <PixelTag tone="dim">{metric.label}</PixelTag>
-                <p
-                  style={PIXEL}
-                  className="mt-1 text-[13px] uppercase text-emerald-300"
-                >
-                  {metric.value}
-                </p>
-                <p className="mt-1.5 text-[12px] leading-relaxed text-slate-400">
-                  {dev ? metric.devText : metric.story}
-                </p>
-              </Frame>
-            ))}
-          </div>
-
-          <div className="mt-8">
-            <SectionHead
-              index="06 · Party members"
-              title="Who watches the watchers"
-              sub={m(
-                "Small companions that keep the world honest while nobody plays.",
-                "Automated checks by trigger: per-request gates, CI suites, deploy-time health checks.",
-              )}
-            />
-            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-              {party.map((agent) => (
-                <Frame
-                  key={agent.name}
-                  className="flex items-start gap-3 p-3.5"
-                >
-                  <span className="text-xl">{agent.icon}</span>
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <p className="text-sm font-bold text-white">
-                        {agent.name}
-                      </p>
-                      <span
-                        style={PIXEL}
-                        className={`text-[9px] uppercase ${
-                          agent.status === "working"
-                            ? "text-emerald-400"
-                            : agent.status === "watching"
-                              ? "text-sky-400"
-                              : "text-slate-500"
-                        }`}
-                      >
-                        {agent.status}
-                      </span>
-                    </div>
-                    <p className="mt-0.5 text-[12px] text-slate-400">
-                      {agent.detail}
-                    </p>
-                  </div>
-                </Frame>
-              ))}
             </div>
           </div>
         </section>
 
-        {/* ------------------------------------------------ 07 · gold + end --- */}
-        <section className="border-t-2 border-slate-800 py-12">
-          <SectionHead
-            index="07 · Gold"
-            title="What a reading costs"
-            sub={m(
-              "Everything expensive has a price tag on it.",
-              "Unit economics per reading; deterministic stages are effectively free — LLM synthesis dominates.",
-            )}
-          />
-          <div className="grid gap-3 sm:grid-cols-3">
-            {[
-              {
-                label: "per reading",
-                value: "≈$0.02",
-                note: "LLM ≈$0.02 · retrieval ≈$0.001 · astronomy ≈$0.0001",
-              },
-              {
-                label: "hosting",
-                value: "$0/mo",
-                note: "Render free tier — sleeps idle, ≈50s wake; $7/mo always-on",
-              },
-              {
-                label: "at 10k readings/mo",
-                value: "≈$210",
-                note: "cost scales with synthesis, not with charts computed",
-              },
-            ].map((coin) => (
-              <Frame key={coin.label} className="p-4">
-                <PixelTag tone="dim">{coin.label}</PixelTag>
-                <p className="mt-1 font-mono text-2xl font-bold text-amber-300">
-                  🪙 {coin.value}
-                </p>
-                <p className="mt-1 text-[12px] text-slate-400">{coin.note}</p>
-              </Frame>
-            ))}
+        {/* --------------------------------------- CH 05 · POSSIBILITIES -- */}
+        <section className="border-t border-white/5 py-24">
+          <ChapterLine
+            k="chapter 05 · possibilities"
+            sub="Uncertainty is part of the system — so we show what it does."
+          >
+            WHAT IF THE INPUT&nbsp;CHANGED?
+          </ChapterLine>
+
+          <div className="max-w-3xl">
+            <Note>birth time</Note>
+            <div className="mt-2 flex items-center gap-5">
+              <span className="font-mono text-sm text-slate-400">2:01 PM</span>
+              <input
+                type="range"
+                min={0}
+                max={30}
+                step={1}
+                value={birthShift}
+                onChange={(e) => setBirthShift(Number(e.target.value))}
+                className="cosmic w-full"
+                aria-label="Shift birth time"
+              />
+              <span className="font-mono text-sm text-slate-400">2:31 PM</span>
+            </div>
+            <p className="mt-2 font-mono text-[12px] text-slate-500">
+              recorded 2:{String(1 + birthShift).padStart(2, "0")} PM — the
+              lagna tick on the chart above rotates with you
+            </p>
+
+            <table className="mt-6 w-full max-w-md font-mono text-[14px]">
+              <tbody>
+                {[
+                  [
+                    "Career",
+                    74,
+                    74 - Math.round(Math.abs(birthShift - 15) / 7),
+                  ],
+                  ["Relationships", 63, rel],
+                  [
+                    "Finance",
+                    81,
+                    81 - Math.round(Math.abs(birthShift - 15) / 15),
+                  ],
+                  [
+                    "Identity",
+                    76,
+                    76 - Math.round(Math.abs(birthShift - 15) / 10),
+                  ],
+                ].map(([name, a, b]) => (
+                  <tr key={name as string} className="border-b border-white/5">
+                    <td className="py-2 text-slate-300">{name}</td>
+                    <td className="py-2 text-right text-slate-500">{a}</td>
+                    <td className="w-10 text-center text-slate-600">→</td>
+                    <td
+                      className={`py-2 text-right ${
+                        (b as number) < (a as number) - 8
+                          ? "text-rose-300"
+                          : "text-slate-200"
+                      }`}
+                    >
+                      {b}
+                      {name === "Relationships" && relSensitive && " ⚠"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p className="mt-4 max-w-md border-l-2 border-[#F2846B]/70 pl-4 text-sm text-slate-300">
+              Relationship interpretation is highly sensitive to birth-time
+              uncertainty — the seventh's lord changes sign within this window.
+              The system says so instead of guessing.
+            </p>
+          </div>
+        </section>
+
+        {/* --------------------------------------- CH 06 · CONSTELLATION -- */}
+        <section className="border-t border-white/5 py-24">
+          <ChapterLine
+            k="chapter 06 · your constellation"
+            sub="Brightness is current strength; pulse is transit pressure. Click a star to see who feeds it."
+          >
+            AND THOSE MOVEMENTS CREATE DIFFERENT&nbsp;PRESSURES.
+          </ChapterLine>
+
+          <svg viewBox="0 0 620 480" className="mx-auto w-full max-w-2xl">
+            {starSel &&
+              constellation
+                .find((c) => c.name === starSel)!
+                .drivers.map((d, i) => (
+                  <motion.text
+                    key={d}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    x={310}
+                    y={250 + i * 22}
+                    textAnchor="middle"
+                    fontSize="13"
+                    fill={GOLD}
+                  >
+                    {d}
+                  </motion.text>
+                ))}
+            {constellation.map((c) => {
+              const sel = starSel === c.name;
+              return (
+                <g
+                  key={c.name}
+                  className={`cursor-pointer ${c.pulse ? "star-pulse" : ""}`}
+                  onClick={() => setStarSel(sel ? null : c.name)}
+                >
+                  {sel && (
+                    <line
+                      x1={310}
+                      y1={240}
+                      x2={c.x}
+                      y2={c.y}
+                      stroke={GOLD}
+                      strokeWidth="1"
+                      opacity="0.6"
+                    />
+                  )}
+                  <circle
+                    cx={c.x}
+                    cy={c.y}
+                    r={5 + c.s * 9}
+                    fill={sel ? GOLD : "#E8E4D8"}
+                    opacity={0.25 + c.s * 0.75}
+                    style={{
+                      filter: `drop-shadow(0 0 ${4 + c.s * 10}px #E8B44C)`,
+                    }}
+                  />
+                  <text
+                    x={c.x}
+                    y={c.y - 18}
+                    textAnchor="middle"
+                    fontSize="12"
+                    fill={sel ? GOLD : "#8890B8"}
+                    className="font-mono"
+                  >
+                    {c.name}
+                  </text>
+                </g>
+              );
+            })}
+            <circle
+              cx={310}
+              cy={240}
+              r="7"
+              fill="none"
+              stroke="#fff"
+              strokeWidth="1.5"
+            />
+            <text
+              x={310}
+              y={225}
+              textAnchor="middle"
+              fontSize="11"
+              fill="#fff"
+              className="font-mono"
+            >
+              YOU
+            </text>
+          </svg>
+        </section>
+
+        {/* ------------------------------------------------- CH 07 · ASK -- */}
+        <section className="border-t border-white/5 py-24 text-center">
+          <ChapterLine k="chapter 07 · ask">ASK YOUR CHART.</ChapterLine>
+          <div className="relative mx-auto flex h-72 max-w-lg items-center justify-center">
+            <button
+              onClick={() => setOrbOpen(!orbOpen)}
+              aria-expanded={orbOpen}
+              className="orb-pulse relative z-10 h-28 w-28 rounded-full border border-[#E8B44C]/60 transition hover:scale-105"
+              style={{
+                background:
+                  "radial-gradient(circle at 35% 30%, #F5D48A, #E8B44C 45%, #7A5A1E 100%)",
+                boxShadow: "0 0 44px #E8B44C55",
+              }}
+            >
+              <span className="sr-only">Ask your chart</span>
+            </button>
+            <AnimatePresence>
+              {orbOpen &&
+                askPrompts.map((q, i) => {
+                  const angle =
+                    (i / askPrompts.length) * Math.PI * 2 - Math.PI / 2;
+                  return (
+                    <motion.a
+                      key={q}
+                      href={DEMO_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      initial={{ opacity: 0, scale: 0.6 }}
+                      animate={{
+                        opacity: 1,
+                        scale: 1,
+                        x: Math.cos(angle) * 190,
+                        y: Math.sin(angle) * 110,
+                      }}
+                      exit={{ opacity: 0, scale: 0.6, x: 0, y: 0 }}
+                      transition={{ delay: i * 0.05 }}
+                      className="absolute hidden whitespace-nowrap rounded-full border border-white/20 bg-[#0B1020]/90 px-4 py-2 text-[13px] text-slate-200 backdrop-blur transition hover:border-[#E8B44C] hover:text-[#E8B44C] md:block"
+                    >
+                      {q}
+                    </motion.a>
+                  );
+                })}
+            </AnimatePresence>
+          </div>
+          {/* mobile fallback */}
+          {orbOpen && (
+            <div className="mx-auto flex max-w-md flex-wrap justify-center gap-2 md:hidden">
+              {askPrompts.map((q) => (
+                <a
+                  key={q}
+                  href={DEMO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full border border-white/20 px-4 py-2 text-[13px] text-slate-200"
+                >
+                  {q}
+                </a>
+              ))}
+            </div>
+          )}
+          <p className="mt-4 text-sm text-slate-500">
+            every question opens the live instrument — answers arrive with their
+            citations
+          </p>
+        </section>
+
+        {/* -------------------------------------------- CH 08 · MACHINE -- */}
+        <section id="machine" className="border-t border-white/5 py-24">
+          <ChapterLine
+            k="chapter 08 · the machine"
+            sub={
+              mode === "system"
+                ? "System mode — the universe as its architecture. Click a body."
+                : "Don't just trust the answer. Switch to SYSTEM (top right) and the universe shows its machinery."
+            }
+          >
+            DON'T JUST TRUST THE&nbsp;ANSWER.
+          </ChapterLine>
+
+          <div
+            className={`transition-opacity duration-500 ${
+              mode === "system" ? "opacity-100" : "opacity-60"
+            }`}
+          >
+            <svg viewBox="0 0 920 300" className="w-full">
+              <path
+                d="M60,210 C120,140 150,110 185,90 C250,110 290,170 330,180 C390,150 420,95 470,82 C540,110 570,175 610,190 C670,150 700,105 740,96 C800,130 830,185 855,205"
+                fill="none"
+                stroke={BLUE}
+                strokeWidth="1.6"
+                className="flow-dash"
+                opacity="0.7"
+              />
+              {galaxy.map((gx) => {
+                const sel = sysSel?.key === gx.key;
+                return (
+                  <g
+                    key={gx.key}
+                    className="cursor-pointer"
+                    onClick={() => setSysSel(sel ? null : gx)}
+                  >
+                    <circle
+                      cx={gx.x}
+                      cy={gx.y}
+                      r={sel ? 26 : 20}
+                      fill="#0B1020"
+                      stroke={sel ? GOLD : "#3A4368"}
+                      strokeWidth={sel ? 2.4 : 1.4}
+                      style={
+                        sel
+                          ? { filter: `drop-shadow(0 0 10px ${GOLD}88)` }
+                          : undefined
+                      }
+                    />
+                    <text
+                      x={gx.x}
+                      y={gx.y - 32}
+                      textAnchor="middle"
+                      fontSize="12.5"
+                      fill="#E8E4D8"
+                    >
+                      {gx.name}
+                    </text>
+                    <text
+                      x={gx.x}
+                      y={gx.y + 42}
+                      textAnchor="middle"
+                      fontSize="10"
+                      fill="#5A6390"
+                      className="font-mono"
+                    >
+                      {gx.sub}
+                    </text>
+                  </g>
+                );
+              })}
+            </svg>
+            <AnimatePresence>
+              {sysSel && (
+                <motion.p
+                  key={sysSel.key}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="mx-auto max-w-xl border-l-2 border-[#66B8FF]/60 pl-4 text-sm text-slate-300"
+                >
+                  <span className="font-serif text-lg text-white">
+                    {sysSel.name}
+                  </span>
+                  <span className="mx-2 text-slate-600">·</span>
+                  <span className="font-mono text-[13px] text-[#66B8FF]">
+                    {sysSel.tel}
+                  </span>
+                </motion.p>
+              )}
+            </AnimatePresence>
           </div>
 
-          <Frame className="mt-10 p-6 text-center">
-            <PixelTag>credits</PixelTag>
-            <p className="mx-auto mt-2 max-w-2xl font-serif text-xl font-bold leading-relaxed text-white">
-              Can a predictive AI system be a world a child can explore, a lab
-              an engineer can inspect, and a claim anyone can challenge?
+          {evid && (
+            <div className="mt-12">
+              <Note>evidence · exact placements (sample chart)</Note>
+              <div className="mt-3 grid max-w-2xl grid-cols-1 gap-x-10 font-mono text-[13px] sm:grid-cols-2">
+                {placements.map(([p, deg, h]) => (
+                  <div
+                    key={p}
+                    className="flex justify-between border-b border-white/5 py-1.5"
+                  >
+                    <span className="text-slate-300">{p}</span>
+                    <span className="text-slate-500">{deg}</span>
+                    <span className="text-[#E8B44C]">{h}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="mt-16 text-center">
+            <p className="mx-auto max-w-2xl font-serif text-2xl leading-relaxed text-white sm:text-3xl">
+              It begins as something magical — and ends by showing you the
+              machine underneath.
             </p>
-            <p className="mt-2 text-sm text-slate-400">
-              Built by Aakriti Gupta
-            </p>
-            <div className="mt-5 flex flex-wrap justify-center gap-3">
+            <div className="mt-7 flex flex-wrap justify-center gap-4">
               <a
                 href={DEMO_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={PIXEL}
-                className="border-2 border-amber-300 bg-amber-400 px-6 py-2.5 text-[11px] uppercase tracking-wider text-slate-900 shadow-[3px_3px_0_#00000088] transition hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_#00000088]"
+                className="rounded-full border border-[#E8B44C] bg-[#E8B44C]/10 px-8 py-3 font-serif text-lg text-[#E8B44C] transition hover:bg-[#E8B44C] hover:text-[#05070F]"
               >
-                New game + → live demo
+                Enter your universe →
               </a>
               <button
                 onClick={() => navigate("/ai-playground")}
-                style={PIXEL}
-                className="border-2 border-slate-600 px-6 py-2.5 text-[11px] uppercase tracking-wider text-slate-300 transition hover:border-slate-400"
+                className="rounded-full border border-white/20 px-8 py-3 text-sm text-slate-300 transition hover:border-white/50"
               >
                 More experiments
               </button>
             </div>
-          </Frame>
-          <p className="mt-6 pb-6 text-center text-[11px] leading-relaxed text-slate-500">
-            Latency, cost and status figures describe the system's design
-            envelope and are illustrative; the live demo's Explanation tab shows
-            the real trace for any reading you cast. Readings are for
-            reflection, not medical, legal, or financial advice.
-          </p>
+            <p className="mx-auto mt-10 max-w-2xl pb-4 text-[11px] leading-relaxed text-slate-600">
+              The chart, signals and figures on this page are a sample
+              demonstration of the system's design; the live instrument's
+              Explanation tab carries the real trace for any reading you cast.
+              Readings are for reflection, not medical, legal, or financial
+              advice.
+            </p>
+          </div>
         </section>
       </main>
 
-      {/* character sheet modal */}
+      {/* planet entity overlay */}
       <AnimatePresence>
-        {sheet && (
+        {entity && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
-            onClick={() => setSheet(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-[#05070F]/90 p-6 backdrop-blur-md"
+            onClick={() => setEntity(null)}
           >
             <motion.div
-              initial={{ scale: 0.95, opacity: 0, y: 12 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 12 }}
-              transition={{ duration: 0.18 }}
-              className="w-full max-w-lg border-2 border-amber-300/70 bg-[#101830] p-6 shadow-[8px_8px_0_#000000cc]"
-              onClick={(event) => event.stopPropagation()}
+              initial={{ scale: 0.92, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.92, opacity: 0 }}
+              className="relative w-full max-w-lg text-center"
+              onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <span className="flex h-12 w-12 items-center justify-center border-2 border-slate-600 bg-[#0d1428] text-2xl">
-                    {sheet.icon}
-                  </span>
-                  <div>
-                    <PixelTag>character sheet</PixelTag>
-                    <h3 className="font-serif text-xl font-bold text-white">
-                      {sheet.name}
-                    </h3>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setSheet(null)}
-                  aria-label="Close character sheet"
-                  style={PIXEL}
-                  className="border-2 border-slate-600 px-2.5 py-1 text-[11px] text-slate-300 transition hover:border-slate-300 hover:text-white"
+              <div className="relative mx-auto flex h-44 w-44 items-center justify-center">
+                <span
+                  className="flex h-28 w-28 items-center justify-center rounded-full text-6xl text-[#E8B44C]"
+                  style={{
+                    background:
+                      "radial-gradient(circle at 35% 30%, #1A2340, #0B1020)",
+                    boxShadow: "0 0 60px #E8B44C33, inset 0 0 30px #66B8FF22",
+                  }}
                 >
-                  ✕
-                </button>
-              </div>
-              <p className="mt-3 text-sm leading-relaxed text-slate-300">
-                {dev ? sheet.devLine : sheet.storyLine}
-              </p>
-              <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2.5 border-t-2 border-dashed border-slate-700 pt-4">
-                {[
-                  ["class", sheet.runtime],
-                  ["consumes", sheet.inputs],
-                  ["produces", sheet.outputs],
-                  ["speed", sheet.speed],
-                  ["uptime", sheet.uptime],
-                  ["upkeep", sheet.cost],
-                ].map(([label, value]) => (
-                  <div key={label}>
-                    <dt
-                      style={PIXEL}
-                      className="text-[9px] uppercase text-slate-500"
+                  {entity.glyph}
+                </span>
+                {entity.orbit.map((c, i) => {
+                  const angle =
+                    (i / entity.orbit.length) * Math.PI * 2 - Math.PI / 2;
+                  return (
+                    <span
+                      key={c}
+                      className="absolute font-mono text-[11px] uppercase tracking-wider text-slate-400"
+                      style={{
+                        transform: `translate(${Math.cos(angle) * 118}px, ${Math.sin(angle) * 88}px)`,
+                      }}
                     >
-                      {label}
-                    </dt>
-                    <dd className="text-[13px] font-medium text-slate-200">
-                      {value}
-                    </dd>
+                      {c}
+                    </span>
+                  );
+                })}
+              </div>
+              <h3 className="mt-4 font-serif text-3xl font-bold text-white">
+                {entity.name}
+              </h3>
+              <div className="mx-auto mt-4 grid max-w-sm grid-cols-2 gap-x-8 gap-y-2 text-left font-mono text-[13px]">
+                {[
+                  ["house", entity.house],
+                  ["sign", entity.sign],
+                  ["nakshatra", entity.nak],
+                  ["strength", `${entity.strength} / 100`],
+                ].map(([k, v]) => (
+                  <div
+                    key={k}
+                    className="flex justify-between border-b border-white/10 py-1"
+                  >
+                    <span className="text-slate-500">{k}</span>
+                    <span className="text-slate-200">{v}</span>
                   </div>
                 ))}
-              </dl>
-              <div className="mt-4 border-2 border-emerald-700/50 bg-emerald-900/20 p-3">
-                <PixelTag tone="dim">special power</PixelTag>
-                <p className="mt-0.5 text-[13px] text-slate-200">
-                  {sheet.quality}
-                </p>
               </div>
-              <div className="mt-2 border-2 border-rose-700/50 bg-rose-900/20 p-3">
-                <PixelTag tone="dim">weakness</PixelTag>
-                <p className="mt-0.5 text-[13px] text-slate-200">
-                  {sheet.weakness}
-                </p>
-              </div>
+              <p className="mt-3 font-mono text-[12px] text-[#66B8FF]">
+                transit influence: {entity.transit}
+              </p>
+              <button
+                onClick={() => {
+                  setEntity(null);
+                  setHouse(
+                    entity.house === "X"
+                      ? 10
+                      : entity.house === "I"
+                        ? 1
+                        : entity.house === "IV"
+                          ? 4
+                          : 7,
+                  );
+                  scrollToId("ch1");
+                }}
+                className="mt-6 rounded-full border border-[#E8B44C]/70 px-6 py-2.5 font-serif text-[#E8B44C] transition hover:bg-[#E8B44C]/10"
+              >
+                Show me where {entity.name.split(" ")[0]} matters →
+              </button>
+              <button
+                onClick={() => setEntity(null)}
+                aria-label="Close"
+                className="absolute -right-2 -top-2 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-slate-400 transition hover:border-white/60 hover:text-white"
+              >
+                ✕
+              </button>
             </motion.div>
           </motion.div>
         )}
