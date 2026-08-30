@@ -1,9 +1,11 @@
 {
- "generated_ts": 1788068407,
+ "generated_ts": 1788076208,
  "counts": {
-  "live": 13,
-  "retire_candidates": 6,
-  "priority": [],
+  "live": 4,
+  "retire_candidates": 0,
+  "priority": [
+   "M10+M8"
+  ],
   "decisions_waiting": 1
  },
  "governance_note": "analysis_recommendation never changes lifecycle \u2014 only the owner does (\u00a733)",
@@ -14,33 +16,27 @@
    "name": "Calibrated gate",
    "type": "EXPERIMENT",
    "tier_path": "T2\u2192T3",
-   "family": "calibration",
+   "family": null,
    "basis": "model",
    "problem": "probability calibration may be hurting decisions",
    "hypothesis": "Platt-corrected confidence gates better",
-   "mechanism": "probabilities honest",
-   "mechanism_check": {
-    "status": "NOT INSTRUMENTED",
-    "note": ""
-   },
+   "mechanism": null,
+   "mechanism_check": null,
    "parents": [],
    "children": [],
-   "effect": -0.02685,
-   "ci95_boot": [
-    -0.1239,
-    0.06895
-   ],
-   "p_gt0": 0.281,
-   "coverage": 0.252,
-   "llr": -0.345,
-   "n": 246,
+   "effect": null,
+   "ci95_boot": null,
+   "p_gt0": null,
+   "coverage": null,
+   "llr": null,
+   "n": null,
    "lifecycle": "RETIRED (lean) \u2014 the M1 gate at 13% coverage; the calibrator itself lives on as the shadow drift instrument (M1-v3), never a decision input",
-   "analysis_recommendation": "RETIRE",
+   "analysis_recommendation": "CONTINUE",
    "recommendation_why": [
-    "retire-pressure HIGH: negative paired mean at full sample; stale \u2014 little movement toward a verdict"
+    "collecting"
    ],
    "attention": [],
-   "retire_pressure": "HIGH",
+   "retire_pressure": null,
    "incremental_vs_parent": null
   },
   {
@@ -49,35 +45,29 @@
    "name": "Knife-edge veto",
    "type": "EXPERIMENT",
    "tier_path": "T3\u2192T5",
-   "family": "decision-selection",
+   "family": null,
    "basis": "model",
    "problem": "near-50/50 windows are ambiguous",
    "hypothesis": "skipping coin-flips improves EV",
-   "mechanism": "avoid coin-flip entries",
-   "mechanism_check": {
-    "status": "NOT INSTRUMENTED",
-    "note": ""
-   },
+   "mechanism": null,
+   "mechanism_check": null,
    "parents": [],
    "children": [
     "M2+M8"
    ],
-   "effect": -0.02827,
-   "ci95_boot": [
-    -0.09222,
-    0.03683
-   ],
-   "p_gt0": 0.202,
-   "coverage": 0.663,
-   "llr": -0.747,
-   "n": 246,
+   "effect": null,
+   "ci95_boot": null,
+   "p_gt0": null,
+   "coverage": null,
+   "llr": null,
+   "n": null,
    "lifecycle": "RETIRED (lean) \u2014 dominated by M8, stale at 190 windows (+0.4c, LLR \u22120.07)",
-   "analysis_recommendation": "RETIRE",
+   "analysis_recommendation": "CONTINUE",
    "recommendation_why": [
-    "retire-pressure HIGH: primary metric trending down; negative paired mean at full sample; stale \u2014 little movement toward a verdict; dominated by M8"
+    "collecting"
    ],
    "attention": [],
-   "retire_pressure": "HIGH",
+   "retire_pressure": null,
    "incremental_vs_parent": null
   },
   {
@@ -86,37 +76,29 @@
    "name": "Fixed-Share leader",
    "type": "EXPERIMENT",
    "tier_path": "T3\u2192T5",
-   "family": "decision-selection",
+   "family": null,
    "basis": "model",
    "problem": "leader churn ~38% \u2014 selection unstable",
    "hypothesis": "tracking the best SEQUENCE of arms beats the win-rate leaderboard",
-   "mechanism": "stabilize leader choice",
-   "mechanism_check": {
-    "status": "NOT INSTRUMENTED",
-    "note": ""
-   },
+   "mechanism": null,
+   "mechanism_check": null,
    "parents": [],
    "children": [
     "M3+M8"
    ],
-   "effect": -0.06051,
-   "ci95_boot": [
-    -0.14294,
-    0.01858
-   ],
-   "p_gt0": 0.072,
-   "coverage": 0.622,
-   "llr": -0.809,
-   "n": 246,
-   "lifecycle": "RETIRED (branch)",
-   "analysis_recommendation": "RETIRE",
+   "effect": null,
+   "ci95_boot": null,
+   "p_gt0": null,
+   "coverage": null,
+   "llr": null,
+   "n": null,
+   "lifecycle": "RETIRED (branch) \u2014 history frozen 08-29",
+   "analysis_recommendation": "CONTINUE",
    "recommendation_why": [
-    "retire-pressure HIGH: primary metric trending down; negative paired mean at full sample; stale \u2014 little movement toward a verdict; dominated by M2"
+    "collecting"
    ],
-   "attention": [
-    "P(\u0394>0) 7% \u2014 approaching reject"
-   ],
-   "retire_pressure": "HIGH",
+   "attention": [],
+   "retire_pressure": null,
    "incremental_vs_parent": null
   },
   {
@@ -141,16 +123,16 @@
     "M10+M8",
     "M11+M8"
    ],
-   "effect": 0.03529,
+   "effect": 0.03432,
    "ci95_boot": [
-    -0.01452,
-    0.08288
+    -0.01214,
+    0.08356
    ],
-   "p_gt0": 0.915,
-   "coverage": 0.695,
-   "llr": 0.902,
-   "n": 246,
-   "lifecycle": "LIVE",
+   "p_gt0": 0.917,
+   "coverage": 0.704,
+   "llr": 0.893,
+   "n": 253,
+   "lifecycle": "SHADOW (diagnostic) \u2014 standalone question folded into M10+M8; single-factor evidence stream kept",
    "analysis_recommendation": "CONTINUE",
    "recommendation_why": [
     "evidence developing normally"
@@ -165,35 +147,27 @@
    "name": "Underdog (cheap bids)",
    "type": "EXPERIMENT",
    "tier_path": "T3\u2192T5",
-   "family": "decision-selection",
+   "family": null,
    "basis": "model",
    "problem": "cheap asymmetric contracts may carry positive EV",
    "hypothesis": "only entering cheap prices wins",
-   "mechanism": "only cheap contracts",
-   "mechanism_check": {
-    "status": "NOT INSTRUMENTED",
-    "note": ""
-   },
+   "mechanism": null,
+   "mechanism_check": null,
    "parents": [],
    "children": [],
-   "effect": 0.01723,
-   "ci95_boot": [
-    -0.05805,
-    0.09239
-   ],
-   "p_gt0": 0.67,
-   "coverage": 0.146,
-   "llr": -0.066,
-   "n": 246,
-   "lifecycle": "RETIRED (lean) \u2014 15% coverage: a different product; cheap-price idea survives inside M13's band floor",
-   "analysis_recommendation": "HOLD",
+   "effect": null,
+   "ci95_boot": null,
+   "p_gt0": null,
+   "coverage": null,
+   "llr": null,
+   "n": null,
+   "lifecycle": "ARCHIVED \u2014 hypothesis retained inside M13's band floor; 15% coverage made it a different product",
+   "analysis_recommendation": "CONTINUE",
    "recommendation_why": [
-    "coverage 15% \u2014 not comparable at deployment scale"
+    "collecting"
    ],
-   "attention": [
-    "coverage 15%"
-   ],
-   "retire_pressure": "HIGH",
+   "attention": [],
+   "retire_pressure": null,
    "incremental_vs_parent": null
   },
   {
@@ -202,35 +176,27 @@
    "name": "EV-ranked leader",
    "type": "EXPERIMENT",
    "tier_path": "T3\u2192T5",
-   "family": "decision-selection",
+   "family": null,
    "basis": "model",
    "problem": "win-rate leaderboard optimizes the wrong objective (seats market echoes)",
    "hypothesis": "ranking leaders by EV fixes selection",
-   "mechanism": "rank leaders by EV not win rate",
-   "mechanism_check": {
-    "status": "NOT INSTRUMENTED",
-    "note": ""
-   },
+   "mechanism": null,
+   "mechanism_check": null,
    "parents": [],
    "children": [],
-   "effect": -0.0633,
-   "ci95_boot": [
-    -0.14481,
-    0.01587
-   ],
-   "p_gt0": 0.066,
-   "coverage": 0.654,
-   "llr": -1.105,
-   "n": 246,
-   "lifecycle": "REDESIGN \u2014 objective right, implementation losing",
-   "analysis_recommendation": "REDESIGN",
+   "effect": null,
+   "ci95_boot": null,
+   "p_gt0": null,
+   "coverage": null,
+   "llr": null,
+   "n": null,
+   "lifecycle": "RETIRED (implementation) \u2014 objective right, implementation losing; a redesign would be a NEW experiment",
+   "analysis_recommendation": "CONTINUE",
    "recommendation_why": [
-    "hypothesis (EV-objective selection) remains sound; this implementation underperforms"
+    "collecting"
    ],
-   "attention": [
-    "P(\u0394>0) 7% \u2014 approaching reject"
-   ],
-   "retire_pressure": "HIGH",
+   "attention": [],
+   "retire_pressure": null,
    "incremental_vs_parent": null
   },
   {
@@ -252,16 +218,16 @@
    "children": [
     "M10+M8"
    ],
-   "effect": 0.03481,
+   "effect": 0.03687,
    "ci95_boot": [
-    -0.01473,
-    0.08407
+    -0.01155,
+    0.08691
    ],
-   "p_gt0": 0.917,
-   "coverage": 0.659,
-   "llr": 0.229,
-   "n": 246,
-   "lifecycle": "LIVE",
+   "p_gt0": 0.929,
+   "coverage": 0.66,
+   "llr": 0.316,
+   "n": 253,
+   "lifecycle": "CONTROL \u2014 the legacy experiment incumbent",
    "analysis_recommendation": "CONTINUE",
    "recommendation_why": [
     "evidence developing normally"
@@ -276,38 +242,29 @@
    "name": "Maker limit",
    "type": "EXPERIMENT",
    "tier_path": "T4\u2192T5",
-   "family": "execution",
+   "family": null,
    "basis": "model",
    "problem": "crossing the spread pays the book",
    "hypothesis": "passive entry below the ask keeps the spread",
-   "mechanism": "passive entry below ask",
-   "mechanism_check": {
-    "status": "CONTRADICTED",
-    "note": "fill-curve: win-given-fill falls 66%\u219250% with bid depth \u2014 adverse selection eats the price improvement"
-   },
+   "mechanism": null,
+   "mechanism_check": null,
    "parents": [],
    "children": [
     "M11+M8"
    ],
-   "effect": -0.02358,
-   "ci95_boot": [
-    -0.07536,
-    0.02823
-   ],
-   "p_gt0": 0.193,
-   "coverage": 0.732,
-   "llr": -1.125,
-   "n": 246,
-   "lifecycle": "RETIRED (standalone) \u2014 evidence keeps accruing for the record; no promotion path",
-   "analysis_recommendation": "RETIRE",
+   "effect": null,
+   "ci95_boot": null,
+   "p_gt0": null,
+   "coverage": null,
+   "llr": null,
+   "n": null,
+   "lifecycle": "RETIRED (standalone) \u2014 history frozen 08-29; no promotion path",
+   "analysis_recommendation": "CONTINUE",
    "recommendation_why": [
-    "mechanism contradicted by the fill curve",
-    "primary metric negative"
+    "collecting"
    ],
-   "attention": [
-    "mechanism contradicted"
-   ],
-   "retire_pressure": "HIGH",
+   "attention": [],
+   "retire_pressure": null,
    "incremental_vs_parent": null
   },
   {
@@ -316,46 +273,39 @@
    "name": "Knife \u00d7 Regime",
    "type": "EXPERIMENT",
    "tier_path": "T3\u2192T5",
-   "family": "compound",
+   "family": null,
    "basis": "model",
    "problem": "are the two vetoes redundant?",
    "hypothesis": "does regime filtering make knife-edge filtering redundant?",
-   "mechanism": "both vetoes",
-   "mechanism_check": {
-    "status": "SUPPORTED",
-    "note": "\u0394 on regime<floor windows +11.6c (n=75) vs -7.1c on healthy windows \u2014 the gate earns exactly where it claims to"
-   },
+   "mechanism": null,
+   "mechanism_check": null,
    "parents": [
     "M2",
     "M8"
    ],
    "children": [],
-   "effect": -0.01301,
-   "ci95_boot": [
-    -0.08495,
-    0.06138
-   ],
-   "p_gt0": 0.343,
-   "coverage": 0.463,
-   "llr": -0.392,
-   "n": 246,
+   "effect": null,
+   "ci95_boot": null,
+   "p_gt0": null,
+   "coverage": null,
+   "llr": null,
+   "n": null,
    "lifecycle": "RETIRED (lean) \u2014 adds nothing over M8 (\u22123.7c paired increment, P13%); dominated by M10+M8",
-   "analysis_recommendation": "RETIRE",
+   "analysis_recommendation": "CONTINUE",
    "recommendation_why": [
-    "combo adds nothing over its parent",
-    "retire-pressure HIGH: negative paired mean at full sample; stale \u2014 little movement toward a verdict; dominated by M10+M8"
+    "collecting"
    ],
    "attention": [],
-   "retire_pressure": "HIGH",
+   "retire_pressure": null,
    "incremental_vs_parent": {
-    "n": 246,
-    "mean": -0.04831,
-    "se": 0.02722,
+    "n": 253,
+    "mean": -0.05047,
+    "se": 0.02705,
     "boot_ci95": [
-     -0.10073,
-     0.00779
+     -0.10045,
+     0.00294
     ],
-    "p_gt0_boot": 0.044
+    "p_gt0_boot": 0.031
    }
   },
   {
@@ -364,46 +314,37 @@
    "name": "Fixed-Share \u00d7 Regime",
    "type": "EXPERIMENT",
    "tier_path": "T3\u2192T5",
-   "family": "compound",
+   "family": null,
    "basis": "model",
    "problem": "does M8 remove the need for leader stabilization?",
    "hypothesis": "stable leader + regime gate stack",
-   "mechanism": "stable leader + regime gate",
-   "mechanism_check": {
-    "status": "SUPPORTED",
-    "note": "\u0394 on regime<floor windows +11.6c (n=75) vs -14.5c on healthy windows \u2014 the gate earns exactly where it claims to"
-   },
+   "mechanism": null,
+   "mechanism_check": null,
    "parents": [
     "M3",
     "M8"
    ],
    "children": [],
-   "effect": -0.05265,
-   "ci95_boot": [
-    -0.13998,
-    0.03221
-   ],
-   "p_gt0": 0.115,
-   "coverage": 0.447,
-   "llr": -0.579,
-   "n": 246,
-   "lifecycle": "RETIRED (branch)",
-   "analysis_recommendation": "RETIRE",
+   "effect": null,
+   "ci95_boot": null,
+   "p_gt0": null,
+   "coverage": null,
+   "llr": null,
+   "n": null,
+   "lifecycle": "RETIRED (branch) \u2014 history frozen 08-29",
+   "analysis_recommendation": "CONTINUE",
    "recommendation_why": [
-    "combo adds nothing over its parent",
-    "retire-pressure HIGH: primary metric trending down; negative paired mean at full sample; stale \u2014 little movement toward a verdict; dominated by M2+M8"
+    "collecting"
    ],
-   "attention": [
-    "P(\u0394>0) 12% \u2014 approaching reject"
-   ],
-   "retire_pressure": "HIGH",
+   "attention": [],
+   "retire_pressure": null,
    "incremental_vs_parent": {
-    "n": 246,
-    "mean": -0.08795,
-    "se": 0.03587,
+    "n": 253,
+    "mean": -0.08901,
+    "se": 0.03531,
     "boot_ci95": [
-     -0.15912,
-     -0.01746
+     -0.16214,
+     -0.01893
     ],
     "p_gt0_boot": 0.005
    }
@@ -421,38 +362,40 @@
    "mechanism": "fill discipline + regime gate",
    "mechanism_check": {
     "status": "SUPPORTED",
-    "note": "\u0394 on regime<floor windows +15.0c (n=75) vs -1.9c on healthy windows \u2014 the gate earns exactly where it claims to"
+    "note": "\u0394 on regime<floor windows +15.0c (n=75) vs -1.3c on healthy windows \u2014 the gate earns exactly where it claims to"
    },
    "parents": [
     "M10",
     "M8"
    ],
    "children": [],
-   "effect": 0.04869,
+   "effect": 0.05037,
    "ci95_boot": [
-    -0.01164,
-    0.10827
+    -0.00666,
+    0.11147
    ],
-   "p_gt0": 0.943,
-   "coverage": 0.472,
-   "llr": 0.44,
-   "n": 246,
-   "lifecycle": "LIVE",
-   "analysis_recommendation": "CONTINUE",
+   "p_gt0": 0.958,
+   "coverage": 0.478,
+   "llr": 0.498,
+   "n": 253,
+   "lifecycle": "TREATMENT \u2014 the one legacy challenger (does regime filtering add value beyond the exec guard?)",
+   "analysis_recommendation": "PRIORITY",
    "recommendation_why": [
-    "evidence developing normally"
+    "P(\u0394>0) 96% \u2014 spend windows here"
    ],
-   "attention": [],
+   "attention": [
+    "strongest positive evidence (P(\u0394>0) 96%)"
+   ],
    "retire_pressure": "LOW",
    "incremental_vs_parent": {
-    "n": 246,
-    "mean": 0.01387,
-    "se": 0.01812,
+    "n": 253,
+    "mean": 0.01349,
+    "se": 0.01762,
     "boot_ci95": [
-     -0.01951,
-     0.04863
+     -0.01886,
+     0.04845
     ],
-    "p_gt0_boot": 0.777
+    "p_gt0_boot": 0.776
    }
   },
   {
@@ -461,47 +404,39 @@
    "name": "Maker \u00d7 Regime",
    "type": "EXPERIMENT",
    "tier_path": "T4\u2192T5",
-   "family": "compound",
+   "family": null,
    "basis": "model",
    "problem": "is any maker benefit inherited entirely from M8?",
    "hypothesis": "passive entry works once bad regimes are filtered",
-   "mechanism": "passive entry + regime gate",
-   "mechanism_check": {
-    "status": "CONTRADICTED",
-    "note": "fill-curve: win-given-fill falls 66%\u219250% with bid depth \u2014 adverse selection eats the price improvement"
-   },
+   "mechanism": null,
+   "mechanism_check": null,
    "parents": [
     "M11",
     "M8"
    ],
    "children": [],
-   "effect": 0.02514,
-   "ci95_boot": [
-    -0.04569,
-    0.09589
-   ],
-   "p_gt0": 0.753,
-   "coverage": 0.504,
-   "llr": 0.279,
-   "n": 246,
-   "lifecycle": "LIVE",
+   "effect": null,
+   "ci95_boot": null,
+   "p_gt0": null,
+   "coverage": null,
+   "llr": null,
+   "n": null,
+   "lifecycle": "ARCHIVED (diagnostic) \u2014 causal-explanation purpose served (PM \u00a741); no promotion path",
    "analysis_recommendation": "DIAGNOSE",
    "recommendation_why": [
     "conditional effect: standalone M11 is negative but the M8-filtered variant is positive \u2014 investigate, don't extend"
    ],
-   "attention": [
-    "mechanism contradicted"
-   ],
-   "retire_pressure": "MEDIUM",
+   "attention": [],
+   "retire_pressure": null,
    "incremental_vs_parent": {
-    "n": 246,
-    "mean": -0.01015,
-    "se": 0.02472,
+    "n": 253,
+    "mean": -0.0148,
+    "se": 0.02464,
     "boot_ci95": [
-     -0.05762,
-     0.04138
+     -0.06322,
+     0.03447
     ],
-    "p_gt0_boot": 0.35
+    "p_gt0_boot": 0.278
    }
   },
   {
@@ -521,22 +456,22 @@
    },
    "parents": [],
    "children": [],
-   "effect": -0.01191,
+   "effect": -0.0394,
    "ci95_boot": [
-    -0.16848,
-    0.15403
+    -0.19163,
+    0.1182
    ],
-   "p_gt0": 0.433,
-   "coverage": 0.172,
-   "llr": -0.007,
-   "n": 58,
-   "lifecycle": "FROZEN (lean-machine 08-29) \u2014 LIVE \u2014 new challenger, collecting from zero",
+   "p_gt0": 0.296,
+   "coverage": 0.154,
+   "llr": -0.099,
+   "n": 65,
+   "lifecycle": "SHADOW / HOLD \u2014 anti-signal research, collecting",
    "analysis_recommendation": "HOLD",
    "recommendation_why": [
-    "coverage 17% \u2014 not comparable at deployment scale"
+    "coverage 15% \u2014 not comparable at deployment scale"
    ],
    "attention": [
-    "coverage 17%"
+    "coverage 15%"
    ],
    "retire_pressure": "HIGH",
    "incremental_vs_parent": null
@@ -547,54 +482,54 @@
    "combo": "M2+M8",
    "parent": "M2",
    "valid": true,
-   "n": 246,
-   "mean": 0.01526,
-   "se": 0.01776,
+   "n": 250,
+   "mean": 0.01502,
+   "se": 0.01747,
    "boot_ci95": [
-    -0.01725,
-    0.0493
+    -0.01799,
+    0.05005
    ],
-   "p_gt0_boot": 0.809,
+   "p_gt0_boot": 0.817,
    "read": "adds value"
   },
   {
    "combo": "M2+M8",
    "parent": "M8",
    "valid": true,
-   "n": 246,
-   "mean": -0.04831,
-   "se": 0.02722,
+   "n": 253,
+   "mean": -0.05047,
+   "se": 0.02705,
    "boot_ci95": [
-    -0.10073,
-    0.00779
+    -0.10045,
+    0.00294
    ],
-   "p_gt0_boot": 0.044,
+   "p_gt0_boot": 0.031,
    "read": "no evidence of useful addition"
   },
   {
    "combo": "M3+M8",
    "parent": "M3",
    "valid": true,
-   "n": 246,
-   "mean": 0.00786,
-   "se": 0.01609,
+   "n": 250,
+   "mean": 0.00773,
+   "se": 0.01583,
    "boot_ci95": [
-    -0.02085,
-    0.03983
+    -0.0207,
+    0.03879
    ],
-   "p_gt0_boot": 0.671,
+   "p_gt0_boot": 0.685,
    "read": "unclear"
   },
   {
    "combo": "M3+M8",
    "parent": "M8",
    "valid": true,
-   "n": 246,
-   "mean": -0.08795,
-   "se": 0.03587,
+   "n": 253,
+   "mean": -0.08901,
+   "se": 0.03531,
    "boot_ci95": [
-    -0.15912,
-    -0.01746
+    -0.16214,
+    -0.01893
    ],
    "p_gt0_boot": 0.005,
    "read": "no evidence of useful addition"
@@ -603,14 +538,14 @@
    "combo": "M10+M8",
    "parent": "M10",
    "valid": true,
-   "n": 246,
-   "mean": 0.01387,
-   "se": 0.01812,
+   "n": 253,
+   "mean": 0.01349,
+   "se": 0.01762,
    "boot_ci95": [
-    -0.01951,
-    0.04863
+    -0.01886,
+    0.04845
    ],
-   "p_gt0_boot": 0.777,
+   "p_gt0_boot": 0.776,
    "read": "unclear"
   },
   {
@@ -623,28 +558,28 @@
    "combo": "M11+M8",
    "parent": "M11",
    "valid": true,
-   "n": 246,
-   "mean": 0.04872,
-   "se": 0.02644,
+   "n": 251,
+   "mean": 0.04894,
+   "se": 0.02594,
    "boot_ci95": [
-    -0.00249,
-    0.10303
+    -0.00156,
+    0.10029
    ],
-   "p_gt0_boot": 0.971,
+   "p_gt0_boot": 0.972,
    "read": "adds value"
   },
   {
    "combo": "M11+M8",
    "parent": "M8",
    "valid": true,
-   "n": 246,
-   "mean": -0.01015,
-   "se": 0.02472,
+   "n": 253,
+   "mean": -0.0148,
+   "se": 0.02464,
    "boot_ci95": [
-    -0.05762,
-    0.04138
+    -0.06322,
+    0.03447
    ],
-   "p_gt0_boot": 0.35,
+   "p_gt0_boot": 0.278,
    "read": "no evidence of useful addition"
   }
  ],
@@ -655,6 +590,57 @@
    "ask": "owner ratified all four 08-29 \u2014 M11 retired (standalone), M3 branch retired, M12 in redesign, M13 Edge Band live and collecting"
   }
  ],
+ "research_manager": {
+  "what_changed": [
+   "A3 forward: 5 eligible windows settled",
+   "M10+M8 remains strongest legacy branch (P(\u0394>0) 96%)",
+   "no new qualified alpha (best BSS \u2264 0 this sample)"
+  ],
+  "queue": [
+   {
+    "rank": 1,
+    "title": "Accumulate A3 forward evidence",
+    "why": "biggest current unknown",
+    "bottleneck": "n=5 eligible (compare gate 25, decision gate 50)",
+    "action": "no engineering \u2014 market clock only"
+   },
+   {
+    "rank": 2,
+    "title": "Validate A3 execution quality",
+    "why": "mean 10s markout +5.0c on filled entries",
+    "metric": "markout_h / ECR",
+    "action": "collect"
+   },
+   {
+    "rank": 3,
+    "title": "Continue M10+M8",
+    "why": "strongest existing positive legacy branch (P(\u0394>0) 96%)",
+    "metric": "incremental paired PnL",
+    "action": "continue"
+   },
+   {
+    "rank": 4,
+    "title": "A2 early divergence",
+    "why": "+14pp exploratory residual, early windows only (n=28)",
+    "metric": "early-window divergence hit rate",
+    "action": "shadow collection"
+   }
+  ],
+  "blocked": [
+   {
+    "item": "Value-of-Wait ML",
+    "reason": "A3 has not demonstrated a timing loss yet (needs poor ECR at positive \u0394 per the frozen decision tree)"
+   },
+   {
+    "item": "Sizing",
+    "reason": "positive durable alpha not established"
+   },
+   {
+    "item": "Passive execution",
+    "reason": "standalone maker already failed (M11)"
+   }
+  ]
+ },
  "system_knowledge": [
   {
    "status": "supported",
