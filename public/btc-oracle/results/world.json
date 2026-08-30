@@ -1,5 +1,5 @@
 {
- "generated_ts": 1788072605,
+ "generated_ts": 1788076206,
  "clock": [
   {
    "every": "30 s",
@@ -7,7 +7,7 @@
    "owner": "daemon",
    "source": "btc_rl/online.py POLL_SECONDS=30",
    "detail": "heartbeat = online_status.alive_at",
-   "last_run_ts": 1788072601,
+   "last_run_ts": 1788076199,
    "age_min": 0.1,
    "in_crontab": null,
    "health": "green"
@@ -18,7 +18,7 @@
    "owner": "cron \u00b7 publisher",
    "source": "scripts/publish_dashboard.py",
    "detail": null,
-   "last_run_ts": 1788072603,
+   "last_run_ts": 1788076204,
    "age_min": 0.0,
    "in_crontab": true,
    "health": "green"
@@ -29,21 +29,21 @@
    "owner": "cron \u00b7 watchdog",
    "source": "scripts/watchdog.py",
    "detail": "authority: RESTART the daemon process only. Logs only when it acts \u2014 a days-old log means days of health, not neglect",
-   "last_run_ts": 1787561400,
-   "age_min": 8520.1,
+   "last_run_ts": 1788073500,
+   "age_min": 45.1,
    "in_crontab": true,
    "health": "green"
   },
   {
    "every": "10 min",
-   "what": "audit \u2192 site manifest \u2192 treatments board \u2192 decision board (chained)",
+   "what": "audit chain (~17 independent steps: audit \u2192 boards \u2192 A3 \u2192 reconcile \u2192 canaries \u2192 readiness)",
    "owner": "cron \u00b7 auditor",
-   "source": "scripts/run_audit.py + emit_manifest + emit_board + emit_decision_board",
+   "source": "scripts/audit_chain.py",
    "detail": null,
-   "last_run_ts": 1788072605,
+   "last_run_ts": 1788076205,
    "age_min": 0.0,
-   "in_crontab": false,
-   "health": "red"
+   "in_crontab": true,
+   "health": "green"
   },
   {
    "every": "1 h",
@@ -51,10 +51,10 @@
    "owner": "daemon",
    "source": "btc_rl/online.py RETRAIN_EVERY=3600s",
    "detail": "evidence = online_status.last_retrain (per-arm val_mse before/after + kept/reverted)",
-   "last_run_ts": 1788069611,
-   "age_min": 49.9,
+   "last_run_ts": null,
+   "age_min": null,
    "in_crontab": null,
-   "health": "green"
+   "health": "amber"
   },
   {
    "every": "1 h at :20",
@@ -62,7 +62,7 @@
    "owner": "cron \u00b7 analyst",
    "source": "tests/introspect_model_internals.py",
    "detail": null,
-   "last_run_ts": 1788070804,
+   "last_run_ts": 1788074405,
    "age_min": 30.0,
    "in_crontab": true,
    "health": "green"
@@ -73,8 +73,8 @@
    "owner": "daemon",
    "source": "btc_rl/online.py settle path",
    "detail": "evidence = treatments.jsonl append",
-   "last_run_ts": 1788072368,
-   "age_min": 4.0,
+   "last_run_ts": 1788075063,
+   "age_min": 19.1,
    "in_crontab": null,
    "health": "green"
   },
@@ -97,7 +97,7 @@
    "trigger": "continuous, 30s loop",
    "authority": "READ market + WRITE ledgers + paper-trade the pre-registered policies",
    "cannot": "change any policy constant, promote a treatment, touch real money (production key quarantined)",
-   "last_ts": 1788072601,
+   "last_ts": 1788076199,
    "evidence": "online_status.json heartbeat"
   },
   {
@@ -106,7 +106,7 @@
    "trigger": "cron, every 5 min",
    "authority": "restart the daemon when the heartbeat is stale",
    "cannot": "modify code, data, or policy",
-   "last_ts": 1787561400,
+   "last_ts": 1788073500,
    "evidence": "watchdog_log.jsonl + cron log"
   },
   {
@@ -115,7 +115,7 @@
    "trigger": "cron, every 10 min",
    "authority": "recompute all published metrics from raw ledgers (dual implementation vs the daemon)",
    "cannot": "alter ledgers; it only reads and re-derives",
-   "last_ts": 1788072605,
+   "last_ts": 1788076205,
    "evidence": "audit_report.json"
   },
   {
@@ -124,7 +124,7 @@
    "trigger": "hourly, after introspection refresh; plus session work with the owner",
    "authority": "READ everything + PROPOSE (analyst notes, treatment proposals, retirement proposals)",
    "cannot": "promote a treatment, modify production policy, spend money \u2014 every live-money decision terminates with the human (PROGRAM.md \u00a73)",
-   "last_ts": 1788070804,
+   "last_ts": 1788074405,
    "evidence": "commentary.jsonl (dated, kept even when wrong)"
   },
   {
@@ -133,7 +133,7 @@
    "trigger": "cron, every 1 min",
    "authority": "copy site + results snapshots to gh-pages",
    "cannot": "modify source data",
-   "last_ts": 1788072603,
+   "last_ts": 1788076204,
    "evidence": "publish log"
   },
   {
@@ -164,7 +164,7 @@
   "forecast_country": {
    "label": "Forecast Country \u2014 tier-1 price arms",
    "status": "green",
-   "why": "audit refreshed 0.1 min ago; last retrain 49.9 min ago"
+   "why": "audit refreshed 0.1 min ago; last retrain None min ago"
   },
   "probability_city": {
    "label": "Probability City \u2014 kb arms",
@@ -174,7 +174,7 @@
   "decision_hq": {
    "label": "Decision HQ \u2014 gates + experiments",
    "status": "green",
-   "why": "treatment ledger 5.0 min old, 250 paired windows"
+   "why": "treatment ledger 20.1 min old, 253 paired windows"
   },
   "execution_port": {
    "label": "Execution Port \u2014 quotes, fills, fees",
@@ -209,7 +209,7 @@
    "basis": "self-hosted on the owner's Mac (caffeinate keeps it awake); $0 marginal, electricity not metered"
   },
   {
-   "item": "Storage (306.7 MB results/)",
+   "item": "Storage (310.5 MB results/)",
    "amount": 0.0,
    "basis": "local disk + GitHub Pages hosting, free tier"
   },
@@ -227,8 +227,8 @@
  "facts": {
   "poll_seconds": 30,
   "retrain_every_s": 3600,
-  "daemon_alive_at": 1788072601.613179,
-  "windows_scored": 250,
+  "daemon_alive_at": 1788076199.8072488,
+  "windows_scored": 253,
   "config_source": "btc_rl/online.py (AST-parsed, not imported)"
  }
 }
