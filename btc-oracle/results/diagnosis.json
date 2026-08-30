@@ -1,5 +1,5 @@
 {
- "generated_ts": 1788109806,
+ "generated_ts": 1788113406,
  "question": "Where is the system failing?",
  "tiers": {
   "T1": {
@@ -12,7 +12,7 @@
   "T2": {
    "name": "Binary probability",
    "job": "an honest P(up) that beats the market's own",
-   "headline": "best BSS +0.0030 (kb5)",
+   "headline": "best BSS +0.0014 (kb5)",
    "status": "OK",
    "why": "NOBODY BEATS THE BOOK \u2014 every arm's Brier skill vs the market is negative this sample"
   },
@@ -26,14 +26,14 @@
   "T4": {
    "name": "Execution",
    "job": "turn the decision into a fill without paying away the edge",
-   "headline": "gap -5.9c/$1",
+   "headline": "gap -5.8c/$1",
    "status": "CRITICAL",
    "why": "largest measured leak in the chain"
   },
   "T5": {
    "name": "Realized P&L",
    "job": "survive aggregation, sizing and costs",
-   "headline": "realized -3.8c/$1 \u00b7 losses graded: {'SEV-1': 2, 'SEV-2': 137, 'SEV-3': 38, 'SEV-4': 172, 'SEV-5': 188}",
+   "headline": "realized -3.8c/$1 \u00b7 losses graded: {'SEV-1': 2, 'SEV-2': 137, 'SEV-3': 38, 'SEV-4': 173, 'SEV-5': 188}",
    "status": "FAIL",
    "why": "only pt6 (84% idle) is green among traders"
   }
@@ -52,15 +52,15 @@
    },
    "label": "M8 \u00b7 regime gate",
    "state": "KEEP_TESTING",
-   "mean": 0.02994,
+   "mean": 0.02963,
    "ci95_boot": [
-    -0.00988,
-    0.07391
+    -0.01102,
+    0.07584
    ],
-   "p_gt0": 0.908,
-   "coverage": 0.741,
-   "llr": 0.843,
-   "n": 290,
+   "p_gt0": 0.914,
+   "coverage": 0.744,
+   "llr": 0.839,
+   "n": 293,
    "retire_pressure": "LOW",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -79,15 +79,15 @@
    },
    "label": "M10 \u00b7 execution guard",
    "state": "KEEP_TESTING",
-   "mean": 0.03551,
+   "mean": 0.03514,
    "ci95_boot": [
-    -0.01023,
-    0.08404
+    -0.00818,
+    0.08266
    ],
-   "p_gt0": 0.945,
-   "coverage": 0.655,
-   "llr": 0.387,
-   "n": 290,
+   "p_gt0": 0.942,
+   "coverage": 0.659,
+   "llr": 0.383,
+   "n": 293,
    "retire_pressure": "LOW",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -109,15 +109,15 @@
    },
    "label": "M10+M8 \u00b7 execution guard + regime gate",
    "state": "KEEP_TESTING",
-   "mean": 0.04728,
+   "mean": 0.04679,
    "ci95_boot": [
-    -0.0047,
-    0.10437
+    -0.0055,
+    0.10348
    ],
-   "p_gt0": 0.959,
-   "coverage": 0.497,
-   "llr": 0.541,
-   "n": 290,
+   "p_gt0": 0.963,
+   "coverage": 0.502,
+   "llr": 0.539,
+   "n": 293,
    "retire_pressure": "LOW",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -136,15 +136,15 @@
    },
    "label": "M13 \u00b7 edge band (enough edge, not too much)",
    "state": "HOLD",
-   "mean": -0.00663,
+   "mean": -0.00961,
    "ci95_boot": [
-    -0.1203,
-    0.11306
+    -0.11825,
+    0.11001
    ],
-   "p_gt0": 0.462,
-   "coverage": 0.225,
-   "llr": -0.032,
-   "n": 102,
+   "p_gt0": 0.445,
+   "coverage": 0.238,
+   "llr": -0.05,
+   "n": 105,
    "retire_pressure": "HIGH",
    "retire_flags": [
     "negative paired mean at full sample",
@@ -165,16 +165,16 @@
   "investigate": [
    "T2: no arm beats market BSS \u2014 is there any incremental skill?",
    "T3: leader churn 34% \u2014 selection instability",
-   "T4: execution leak -5.9c/$1 \u2014 the binding constraint",
+   "T4: execution leak -5.8c/$1 \u2014 the binding constraint",
    "edge-anti-signal (kb5/pt6 negative own-edge weights) \u2014 D-edge-band"
   ]
  },
  "error_funnel": [
   {
    "stage": "Oracle opportunity (same rules, clairvoyant)",
-   "ev_per_1": 1.747,
+   "ev_per_1": 1.7187,
    "kind": "measured",
-   "n": 158
+   "n": 160
   },
   {
    "stage": "Forecast + probability + decision losses",
@@ -184,25 +184,25 @@
   },
   {
    "stage": "Desk decision EV (model quotes)",
-   "ev_per_1": 0.02048,
+   "ev_per_1": 0.01983,
    "kind": "measured",
-   "n": 290
+   "n": 293
   },
   {
    "stage": "Execution gap (quote\u2192fill)",
-   "ev_per_1": -0.05854,
+   "ev_per_1": -0.05765,
    "kind": "measured"
   },
   {
    "stage": "Realized EV (real fills)",
-   "ev_per_1": -0.03807,
+   "ev_per_1": -0.03782,
    "kind": "measured"
   }
  ],
  "contradictions": [
   {
    "name": "High AUC, negative EV (kbf)",
-   "detail": "Brier 0.095 \u2014 EV -0.2253/$1: superb ranking, no tradable skill; skill lives after the payout window"
+   "detail": "Brier 0.0968 \u2014 EV -0.2253/$1: superb ranking, no tradable skill; skill lives after the payout window"
   },
   {
    "name": "High-skip policies look profitable",
@@ -220,13 +220,13 @@
   {
    "spot": "no arm beats market BSS",
    "tier": "T2",
-   "evidence": "best +0.0030",
+   "evidence": "best +0.0014",
    "action": "investigate"
   },
   {
    "spot": "execution leak",
    "tier": "T4",
-   "evidence": "-5.9c/$1",
+   "evidence": "-5.8c/$1",
    "action": "prioritize (M10 family racing)"
   },
   {
@@ -244,7 +244,7 @@
   {
    "spot": "oracle regret",
    "tier": "cross-tier",
-   "evidence": "1.7083/$1/window",
+   "evidence": "1.666/$1/window",
    "action": "decompose"
   }
  ],
