@@ -80,6 +80,18 @@ const houseData: Record<number, HouseInfo> = {
   },
 };
 
+const PLANET_GLYPH: Record<string, string> = {
+  Surya: "☉",
+  Chandra: "☾",
+  Mangala: "♂",
+  Budha: "☿",
+  Guru: "♃",
+  Shukra: "♀",
+  Shani: "♄",
+  Rahu: "☊",
+  Ketu: "☋",
+};
+
 /* North Indian chart geometry — viewBox 0 0 400 400.
    Outer square, both diagonals, inner diamond of edge midpoints. */
 const P = {
@@ -462,10 +474,10 @@ function ChapterLine({
       className="mb-10"
     >
       <Note>{k}</Note>
-      <h2 className="mt-3 max-w-3xl font-serif text-3xl font-bold leading-tight tracking-wide text-white sm:text-5xl">
+      <h2 className="mt-4 max-w-4xl font-serif text-4xl font-bold leading-[1.04] tracking-tight text-white sm:text-6xl lg:text-7xl">
         {children}
       </h2>
-      {sub && <p className="mt-3 max-w-xl text-sm text-slate-400">{sub}</p>}
+      {sub && <p className="mt-4 max-w-xl text-[15px] text-slate-400">{sub}</p>}
     </motion.div>
   );
 }
@@ -551,14 +563,55 @@ function BirthChart({
     >
       <defs>
         <radialGradient id="houseGlow" cx="50%" cy="50%" r="70%">
-          <stop offset="0%" stopColor={GOLD} stopOpacity="0.16" />
+          <stop offset="0%" stopColor={GOLD} stopOpacity="0.2" />
           <stop offset="100%" stopColor={GOLD} stopOpacity="0" />
         </radialGradient>
+        <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="2.2" />
+        </filter>
       </defs>
-      {/* aspect lines */}
-      <g className="astro-dash" stroke={BLUE} strokeWidth="1" opacity="0.5">
+      {/* luminous outer frame */}
+      <rect
+        x="0"
+        y="0"
+        width="400"
+        height="400"
+        fill="none"
+        stroke={GOLD}
+        strokeWidth="2.4"
+        opacity="0.35"
+        filter="url(#soft)"
+      />
+      <rect
+        x="0"
+        y="0"
+        width="400"
+        height="400"
+        fill="none"
+        stroke="#B9C2E8"
+        strokeWidth="0.8"
+        opacity="0.8"
+      />
+      {/* aspect lines + travelling sparks */}
+      <g className="astro-dash" stroke={BLUE} strokeWidth="1" opacity="0.55">
         <line x1={292} y1={168} x2={130} y2={215} strokeDasharray="5 6" />
         <line x1={292} y1={168} x2={200} y2={130} strokeDasharray="5 6" />
+      </g>
+      <g className="astro-particles">
+        <circle r="2.4" fill={BLUE} opacity="0.9">
+          <animateMotion
+            dur="4.2s"
+            repeatCount="indefinite"
+            path="M292,168 L130,215"
+          />
+        </circle>
+        <circle r="2" fill={GOLD} opacity="0.9">
+          <animateMotion
+            dur="3.4s"
+            repeatCount="indefinite"
+            path="M292,168 L200,130"
+          />
+        </circle>
       </g>
       {Object.entries(housePolys).map(([n, pts]) => {
         const num = Number(n);
@@ -568,13 +621,14 @@ function BirthChart({
             <polygon
               points={pts.map((p) => p.join(",")).join(" ")}
               fill={active ? "url(#houseGlow)" : "transparent"}
-              stroke={active ? GOLD : "#3A4368"}
-              strokeWidth={active ? 2.4 : 1.1}
+              stroke={active ? GOLD : "#4A5480"}
+              strokeWidth={active ? 2.6 : 1.2}
               className="cursor-pointer transition-all duration-300"
               style={{
-                opacity: selected && !active ? 0.38 : 1,
-                filter: active ? `drop-shadow(0 0 8px ${GOLD}88)` : undefined,
+                opacity: selected && !active ? 0.32 : 1,
+                filter: active ? `drop-shadow(0 0 10px ${GOLD}99)` : undefined,
               }}
+              onMouseEnter={() => onSelect(num)}
               onClick={() => onSelect(num)}
             />
             <text
@@ -587,19 +641,27 @@ function BirthChart({
             >
               {num}
             </text>
-            {houseData[num].planets.length > 0 && (
-              <text
-                x={planetPos[num]?.[0] ?? houseLabelPos[num][0]}
-                y={planetPos[num]?.[1] ?? houseLabelPos[num][1] + 18}
-                textAnchor="middle"
-                fontSize="15"
-                fill={GOLD}
-                className="pointer-events-none select-none"
-                style={{ opacity: selected && !active ? 0.35 : 1 }}
-              >
-                {houseData[num].planets.map((p) => p.g).join(" ")}
-              </text>
-            )}
+            {houseData[num].planets.map((p, pi) => {
+              const [bx, by] = planetPos[num] ?? houseLabelPos[num];
+              const off = (pi - (houseData[num].planets.length - 1) / 2) * 26;
+              return (
+                <text
+                  key={p.name}
+                  x={bx + off}
+                  y={by}
+                  textAnchor="middle"
+                  fontSize="19"
+                  fill={GOLD}
+                  className="pointer-events-none select-none"
+                  style={{
+                    opacity: selected && !active ? 0.3 : 1,
+                    filter: `drop-shadow(0 0 6px ${GOLD}AA)`,
+                  }}
+                >
+                  {PLANET_GLYPH[p.name] ?? p.g}
+                </text>
+              );
+            })}
           </g>
         );
       })}
@@ -613,12 +675,21 @@ function BirthChart({
           <title>transiting Guru</title>
         </circle>
       </g>
+      <circle
+        className="youring"
+        cx="200"
+        cy="200"
+        r="10"
+        fill="none"
+        stroke={GOLD}
+        strokeWidth="1"
+      />
       <text
         x="200"
-        y="206"
+        y="205"
         textAnchor="middle"
         fontSize="12"
-        fill="#8890B8"
+        fill="#C7CEE8"
         className="pointer-events-none select-none font-mono"
       >
         YOU
@@ -697,6 +768,25 @@ export default function VedicAstroDemo() {
         input[type=range].cosmic::-webkit-slider-thumb{appearance:none;width:18px;
           height:18px;border-radius:50%;background:#E8B44C;border:2px solid #05070F;
           box-shadow:0 0 12px #E8B44C99;cursor:grab}
+        .floaty{animation:floaty 9s ease-in-out infinite}
+        .floaty.f2{animation-duration:13s;animation-delay:-4s}
+        .floaty.f3{animation-duration:11s;animation-delay:-7s}
+        @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+        .chev{animation:chev 2.2s ease-in-out infinite}
+        @keyframes chev{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(7px);opacity:1}}
+        .shoot{position:absolute;top:16%;left:-70px;width:70px;height:1.5px;
+          transform:rotate(14deg);border-radius:2px;
+          background:linear-gradient(90deg,transparent,#E8B44C99,#66B8FF);
+          animation:shoot 11s linear infinite}
+        .shoot.s2{top:64%;animation-delay:5.4s;animation-duration:14s}
+        @keyframes shoot{0%,87%{opacity:0;transform:translateX(0) rotate(14deg)}
+          90%{opacity:1}100%{opacity:0;transform:translateX(120vw) rotate(14deg)}}
+        .youring{animation:youring 3.4s ease-out infinite}
+        @keyframes youring{0%{r:8;opacity:.7}100%{r:26;opacity:0}}
+        @media (prefers-reduced-motion: reduce){
+          .floaty,.chev,.shoot,.youring{animation:none}
+          .astro-particles{display:none}
+        }
       `}</style>
 
       <Navigation />
@@ -726,7 +816,20 @@ export default function VedicAstroDemo() {
         onMouseMove={onHeroMove}
         className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6"
       >
+        {/* nebulae */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(720px 460px at 18% 18%, #2A1F4D55 0%, transparent 70%)," +
+              "radial-gradient(820px 520px at 84% 74%, #123A5A44 0%, transparent 70%)," +
+              "radial-gradient(520px 380px at 70% 12%, #4A2A1233 0%, transparent 70%)",
+          }}
+        />
         <Starfield />
+        <span aria-hidden="true" className="shoot" />
+        <span aria-hidden="true" className="shoot s2" />
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 transition-transform duration-300 ease-out"
@@ -734,46 +837,51 @@ export default function VedicAstroDemo() {
             transform: `perspective(900px) rotateY(${tilt.x}deg) rotateX(${tilt.y}deg)`,
           }}
         >
-          {[300, 480, 680, 900].map((size, i) => (
+          {[320, 500, 700, 920].map((size, i) => (
             <span
               key={size}
               className="absolute left-1/2 top-[46%] -translate-x-1/2 -translate-y-1/2 rounded-full border"
               style={{
                 width: size,
                 height: size * 0.62,
-                borderColor: i % 2 ? "#E8B44C22" : "#66B8FF1D",
+                borderColor: i % 2 ? "#E8B44C2E" : "#66B8FF26",
+                boxShadow: i === 1 ? "0 0 40px #E8B44C11 inset" : undefined,
               }}
             />
           ))}
-          <span className="absolute left-[22%] top-[30%] text-xl text-[#E8B44C]/70">
+          <span className="floaty absolute left-[20%] top-[28%] text-2xl text-[#E8B44C]/80 [text-shadow:0_0_14px_#E8B44C88]">
             ♃
           </span>
-          <span className="absolute right-[20%] top-[24%] text-lg text-[#66B8FF]/60">
+          <span className="floaty f2 absolute right-[18%] top-[22%] text-xl text-[#66B8FF]/70 [text-shadow:0_0_12px_#66B8FF88]">
             ♄
           </span>
-          <span className="absolute bottom-[26%] right-[30%] text-base text-[#E8B44C]/50">
+          <span className="floaty f3 absolute bottom-[24%] right-[28%] text-lg text-[#E8E4D8]/70 [text-shadow:0_0_10px_#E8E4D888]">
             ☾
+          </span>
+          <span className="floaty f2 absolute bottom-[32%] left-[26%] text-base text-[#F2846B]/60 [text-shadow:0_0_10px_#F2846B66]">
+            ♂
           </span>
         </div>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
+          transition={{ duration: 1.2 }}
           className="relative z-10 text-center"
         >
-          <h1 className="font-serif text-5xl font-bold tracking-[0.08em] text-white sm:text-7xl">
+          <div className="mx-auto mb-6 h-px w-24 bg-gradient-to-r from-transparent via-[#E8B44C] to-transparent" />
+          <h1 className="font-serif text-5xl font-bold tracking-[0.1em] text-white [text-shadow:0_0_44px_#E8B44C33] sm:text-7xl lg:text-8xl">
             VEDIC ASTRO AI
           </h1>
-          <p className="mx-auto mt-4 max-w-xl font-serif text-xl text-slate-300 sm:text-2xl">
+          <p className="mx-auto mt-5 max-w-xl font-serif text-xl italic text-slate-300 sm:text-2xl">
             Your life, interpreted as a moving system.
           </p>
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-5">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-6">
             <a
               href={DEMO_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full border border-[#E8B44C] bg-[#E8B44C]/10 px-8 py-3 font-serif text-lg text-[#E8B44C] shadow-[0_0_30px_#E8B44C33] transition hover:bg-[#E8B44C] hover:text-[#05070F]"
+              className="rounded-full border border-[#E8B44C] bg-[#E8B44C]/10 px-9 py-3.5 font-serif text-lg text-[#E8B44C] shadow-[0_0_36px_#E8B44C3D] backdrop-blur transition hover:bg-[#E8B44C] hover:text-[#05070F] hover:shadow-[0_0_54px_#E8B44C66]"
             >
               Enter your universe →
             </a>
@@ -785,10 +893,15 @@ export default function VedicAstroDemo() {
             </button>
           </div>
         </motion.div>
-        <p className="absolute bottom-8 z-10 px-4 text-center font-mono text-[11px] tracking-[0.18em] text-slate-500">
-          9 planets · 12 houses · 27 nakshatras · live transits · AI
-          interpretation
-        </p>
+        <div className="absolute bottom-7 z-10 flex flex-col items-center gap-2">
+          <p className="px-4 text-center font-mono text-[11px] tracking-[0.18em] text-slate-500">
+            9 planets · 12 houses · 27 nakshatras · live transits · AI
+            interpretation
+          </p>
+          <span aria-hidden="true" className="chev text-[#E8B44C]">
+            ↓
+          </span>
+        </div>
       </section>
 
       <main className="relative mx-auto max-w-6xl px-6">
@@ -823,57 +936,57 @@ export default function VedicAstroDemo() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                  <Note>house {house}</Note>
-                  <h3 className="mt-2 font-serif text-3xl font-bold text-white">
-                    {houseData[house].themes.split("·")[0].trim()}
-                  </h3>
-                  <p className="mt-1 text-sm text-slate-400">
-                    {houseData[house].themes}
-                  </p>
-                  <div className="mt-5 space-y-2.5">
-                    {houseData[house].planets.length === 0 && (
-                      <p className="text-sm italic text-slate-500">
-                        No graha resides here — this house answers to its lord.
-                      </p>
-                    )}
-                    {houseData[house].planets.map((p) => (
-                      <div
-                        key={p.g}
-                        className="flex items-baseline gap-3 border-l-2 border-[#E8B44C]/50 pl-3"
-                      >
-                        <span className="font-serif text-lg text-[#E8B44C]">
-                          {p.name}
-                        </span>
-                        <span className="text-[13px] text-slate-400">
-                          {p.note}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {house === 10 && (
-                    <div className="mt-7 border-t border-white/10 pt-5">
-                      <Note>current signal</Note>
-                      <div className="mt-2 flex items-baseline gap-4">
-                        <span className="font-serif text-2xl text-white">
-                          Career momentum
-                        </span>
-                        <span className="font-mono text-3xl font-bold text-[#E8B44C]">
-                          {signals[0].now}
-                          <span className="text-base text-slate-500">/100</span>
-                        </span>
-                      </div>
-                      <p className="mt-1 font-mono text-[11px] text-slate-500">
-                        confidence 81% · {dashaByYear[Math.round(yearF)]}
-                      </p>
-                      <button
-                        onClick={() => setWhyOpen(!whyOpen)}
-                        className="mt-4 rounded-full border border-[#66B8FF]/60 px-6 py-2 font-serif text-[#66B8FF] transition hover:bg-[#66B8FF]/10"
-                      >
-                        Why?
-                      </button>
-                    </div>
+                <Note>house {house}</Note>
+                <h3 className="mt-2 font-serif text-3xl font-bold text-white">
+                  {houseData[house].themes.split("·")[0].trim()}
+                </h3>
+                <p className="mt-1 text-sm text-slate-400">
+                  {houseData[house].themes}
+                </p>
+                <div className="mt-5 space-y-2.5">
+                  {houseData[house].planets.length === 0 && (
+                    <p className="text-sm italic text-slate-500">
+                      No graha resides here — this house answers to its lord.
+                    </p>
                   )}
+                  {houseData[house].planets.map((p) => (
+                    <div
+                      key={p.g}
+                      className="flex items-baseline gap-3 border-l-2 border-[#E8B44C]/50 pl-3"
+                    >
+                      <span className="font-serif text-lg text-[#E8B44C]">
+                        {p.name}
+                      </span>
+                      <span className="text-[13px] text-slate-400">
+                        {p.note}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                {house === 10 && (
+                  <div className="mt-7 border-t border-white/10 pt-5">
+                    <Note>current signal</Note>
+                    <div className="mt-2 flex items-baseline gap-4">
+                      <span className="font-serif text-2xl text-white">
+                        Career momentum
+                      </span>
+                      <span className="font-mono text-3xl font-bold text-[#E8B44C]">
+                        {signals[0].now}
+                        <span className="text-base text-slate-500">/100</span>
+                      </span>
+                    </div>
+                    <p className="mt-1 font-mono text-[11px] text-slate-500">
+                      confidence 81% · {dashaByYear[Math.round(yearF)]}
+                    </p>
+                    <button
+                      onClick={() => setWhyOpen(!whyOpen)}
+                      className="mt-4 rounded-full border border-[#66B8FF]/60 px-6 py-2 font-serif text-[#66B8FF] transition hover:bg-[#66B8FF]/10"
+                    >
+                      Why?
+                    </button>
+                  </div>
+                )}
               </motion.div>
             </div>
           </div>
@@ -1031,28 +1144,40 @@ export default function VedicAstroDemo() {
           >
             BUT THE SKY KEPT MOVING.
           </ChapterLine>
-          <div className="grid gap-8 md:grid-cols-2">
-            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur">
-              <Note>your natal sky</Note>
-              <p className="mt-2 font-serif text-xl text-white">
-                Guru &amp; Śani seated in the tenth
+          <div className="grid items-center gap-10 md:grid-cols-[1fr_auto_1fr]">
+            <div className="md:text-right">
+              <Note>your natal sky · fixed forever</Note>
+              <p className="mt-3 font-serif text-3xl leading-snug text-white sm:text-4xl">
+                Guru &amp; Śani,
+                <br />
+                seated in the tenth.
               </p>
-              <p className="mt-1 text-sm text-slate-400">
-                Fixed at birth. The reference frame every transit is judged
-                against.
+              <p className="ml-auto mt-3 max-w-xs text-sm text-slate-400 md:mr-0">
+                The reference frame every transit is judged against.
               </p>
             </div>
-            <div className="rounded-2xl border border-[#66B8FF]/25 bg-[#66B8FF]/[0.04] p-6 backdrop-blur">
-              <Note>today's sky</Note>
-              <p className="mt-2 font-serif text-xl text-white">
-                Transiting ♃ → your 10th house
+            <div
+              aria-hidden="true"
+              className="hidden flex-col items-center gap-1 md:flex"
+            >
+              <span className="text-2xl text-[#66B8FF] [text-shadow:0_0_12px_#66B8FF]">
+                ♃
+              </span>
+              <span className="h-16 w-px bg-gradient-to-b from-[#66B8FF] to-[#E8B44C]" />
+              <span className="chev text-[#E8B44C]">↓</span>
+            </div>
+            <div>
+              <Note>today's sky · in motion</Note>
+              <p className="mt-3 font-serif text-3xl leading-snug text-white sm:text-4xl">
+                Today's Jupiter
+                <br />
+                crosses your midheaven.
               </p>
-              <p className="mt-1 text-sm text-slate-400">
-                <span className="font-mono text-[#66B8FF]">
-                  EXPANSION SIGNAL
-                </span>{" "}
-                — today's Jupiter crossing the natal midheaven is the +21 in the
-                career decomposition above.
+              <p className="mt-3 font-mono text-[13px] tracking-[0.14em] text-[#66B8FF]">
+                TODAY'S ♃ → YOUR 10TH HOUSE · EXPANSION SIGNAL
+              </p>
+              <p className="mt-2 max-w-xs text-sm text-slate-400">
+                This crossing is the +21 in the career decomposition above.
               </p>
             </div>
           </div>
