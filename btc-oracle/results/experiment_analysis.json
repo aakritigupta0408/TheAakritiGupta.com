@@ -1,55 +1,58 @@
 {
- "generated_ts": 1788162661,
+ "generated_ts": 1788167426,
  "experiment": "A3-v2",
- "n_eligible": 7,
- "paired_delta_per_eligible": 0.0496,
+ "n_eligible": 11,
+ "paired_delta_per_eligible": -0.0482,
  "decomposition": {
-  "gross_fill_gain": 0.2476,
-  "timeout_control_pnl": 0.9003,
+  "gross_fill_gain": 0.3653,
+  "timeout_control_pnl": 1.8953,
   "missed_control_pnl": 0,
   "invalidation_control_pnl": -1.0,
-  "net_waiting_value": 0.3473,
+  "net_waiting_value": -0.53,
   "identity_residual": 0.0,
   "note": "under A3-v1.1 MISSED \u2261 timed-out (dip never arrived by cutoff), so missed_control_pnl is 0 unless a new state path appears; differential execution costs are inside gross_fill_gain (both arms priced at their own executable ask)",
   "econ_classes": {
    "C_MISSED_WINNER": {
-    "n": 3,
-    "delta_contribution": -0.9003
+    "n": 6,
+    "delta_contribution": -1.8953
    },
    "F_INVALIDATED_LOSER": {
     "n": 1,
     "delta_contribution": 1.0
    },
    "A_FILLED_GOOD": {
-    "n": 3,
-    "delta_contribution": 0.2476
+    "n": 4,
+    "delta_contribution": 0.3653
    }
   }
  },
  "econ_class_distribution": {
-  "C_MISSED_WINNER": 3,
+  "C_MISSED_WINNER": 6,
   "F_INVALIDATED_LOSER": 1,
-  "A_FILLED_GOOD": 3
+  "A_FILLED_GOOD": 4
  },
  "thesis_integrity_gap": {
-  "fill_win_rate": 0.667,
-  "eligible_win_rate": 0.714,
+  "fill_win_rate": 0.75,
+  "eligible_win_rate": 0.818,
   "interpretation": "fills land disproportionately on windows that go on to lose \u2014 dips are partly informative repricing, not only overreaction"
  },
- "watch_flags_firing": [],
+ "watch_flags_firing": [
+  "paired_delta_negative",
+  "miss_cost_overwhelms"
+ ],
  "loss_mechanisms": [
   {
    "term": "timeout_control_pnl",
-   "value": 0.9003,
+   "value": 1.8953,
    "mechanism": "opportunity cost \u2014 winners that never offered the dip"
   },
   {
    "term": "thesis_integrity_gap",
-   "value": 0.047,
+   "value": 0.068,
    "mechanism": "fill-conditioned thesis degradation \u2014 adverse selection of the dip"
   }
  ],
- "state": "COLLECTING",
+ "state": "WATCH",
  "recommended_action": "COLLECT",
  "prohibited_interpretation": "do not infer an optimal threshold from the current sample; a smaller dip could reduce miss cost while worsening adverse-selection exposure \u2014 only the registered decision gate may adjudicate"
 }
