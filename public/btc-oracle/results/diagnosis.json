@@ -1,5 +1,5 @@
 {
- "generated_ts": 1788167411,
+ "generated_ts": 1788171619,
  "question": "Where is the system failing?",
  "tiers": {
   "T1": {
@@ -12,14 +12,14 @@
   "T2": {
    "name": "Binary probability",
    "job": "an honest P(up) that beats the market's own",
-   "headline": "best BSS +0.0031 (kb5)",
+   "headline": "best BSS +0.0016 (kb5)",
    "status": "OK",
    "why": "NOBODY BEATS THE BOOK \u2014 every arm's Brier skill vs the market is negative this sample"
   },
   "T3": {
    "name": "Decision policy",
    "job": "act, pick the arm, or stand down",
-   "headline": "leader churn 34% \u00b7 champion +1.5c/$1",
+   "headline": "leader churn 34% \u00b7 champion +0.7c/$1",
    "status": "WARN",
    "why": "win-rate leaderboard seats market-echo arms; M8-family gates are the racing repairs"
   },
@@ -33,7 +33,7 @@
   "T5": {
    "name": "Realized P&L",
    "job": "survive aggregation, sizing and costs",
-   "headline": "realized -4.3c/$1 \u00b7 losses graded: {'SEV-1': 2, 'SEV-2': 144, 'SEV-3': 41, 'SEV-4': 178, 'SEV-5': 194}",
+   "headline": "realized -5.1c/$1 \u00b7 losses graded: {'SEV-1': 2, 'SEV-2': 146, 'SEV-3': 41, 'SEV-4': 181, 'SEV-5': 194}",
    "status": "FAIL",
    "why": "only pt6 (84% idle) is green among traders"
   }
@@ -48,23 +48,21 @@
    "mechanism": "stand down when the market itself is unpredictable",
    "mechanism_check": {
     "status": "SUPPORTED",
-    "note": "\u0394 on regime<floor windows +10.5c (n=89) vs +0.0c on healthy windows \u2014 the gate earns exactly where it claims to"
+    "note": "\u0394 on regime<floor windows +12.9c (n=93) vs +0.0c on healthy windows \u2014 the gate earns exactly where it claims to"
    },
    "label": "M8 \u00b7 regime gate",
    "state": "KEEP_TESTING",
-   "mean": 0.02794,
+   "mean": 0.03539,
    "ci95_boot": [
-    -0.01162,
-    0.07009
+    -0.00312,
+    0.07795
    ],
-   "p_gt0": 0.917,
-   "coverage": 0.734,
-   "llr": 0.863,
-   "n": 334,
+   "p_gt0": 0.956,
+   "coverage": 0.725,
+   "llr": 1.213,
+   "n": 338,
    "retire_pressure": "LOW",
-   "retire_flags": [
-    "stale \u2014 little movement toward a verdict"
-   ]
+   "retire_flags": []
   },
   {
    "key": "t_exec",
@@ -79,15 +77,15 @@
    },
    "label": "M10 \u00b7 execution guard",
    "state": "KEEP_TESTING",
-   "mean": 0.0359,
+   "mean": 0.04139,
    "ci95_boot": [
-    -0.00416,
-    0.0807
+    1e-05,
+    0.08687
    ],
-   "p_gt0": 0.955,
-   "coverage": 0.659,
-   "llr": 0.541,
-   "n": 334,
+   "p_gt0": 0.975,
+   "coverage": 0.657,
+   "llr": 0.784,
+   "n": 338,
    "retire_pressure": "LOW",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -105,23 +103,21 @@
    "mechanism": "fill discipline + regime gate",
    "mechanism_check": {
     "status": "SUPPORTED",
-    "note": "\u0394 on regime<floor windows +14.2c (n=89) vs +0.4c on healthy windows \u2014 the gate earns exactly where it claims to"
+    "note": "\u0394 on regime<floor windows +16.4c (n=93) vs +0.4c on healthy windows \u2014 the gate earns exactly where it claims to"
    },
    "label": "M10+M8 \u00b7 execution guard + regime gate",
    "state": "KEEP_TESTING",
-   "mean": 0.05122,
+   "mean": 0.05828,
    "ci95_boot": [
-    0.0011,
-    0.10684
+    0.00727,
+    0.11208
    ],
-   "p_gt0": 0.979,
-   "coverage": 0.491,
-   "llr": 0.804,
-   "n": 334,
+   "p_gt0": 0.988,
+   "coverage": 0.485,
+   "llr": 1.02,
+   "n": 338,
    "retire_pressure": "LOW",
-   "retire_flags": [
-    "stale \u2014 little movement toward a verdict"
-   ]
+   "retire_flags": []
   },
   {
    "key": "t_edgeband",
@@ -136,15 +132,15 @@
    },
    "label": "M13 \u00b7 edge band (enough edge, not too much)",
    "state": "HOLD",
-   "mean": 0.00337,
+   "mean": 0.01415,
    "ci95_boot": [
-    -0.09649,
-    0.11203
+    -0.09006,
+    0.12335
    ],
-   "p_gt0": 0.529,
-   "coverage": 0.212,
-   "llr": -0.006,
-   "n": 146,
+   "p_gt0": 0.6,
+   "coverage": 0.213,
+   "llr": 0.073,
+   "n": 150,
    "retire_pressure": "HIGH",
    "retire_flags": [
     "too selective (<25% coverage)",
@@ -172,9 +168,9 @@
  "error_funnel": [
   {
    "stage": "Oracle opportunity (same rules, clairvoyant)",
-   "ev_per_1": 1.7518,
+   "ev_per_1": 1.7536,
    "kind": "measured",
-   "n": 168
+   "n": 170
   },
   {
    "stage": "Forecast + probability + decision losses",
@@ -184,25 +180,25 @@
   },
   {
    "stage": "Desk decision EV (model quotes)",
-   "ev_per_1": 0.01489,
+   "ev_per_1": 0.00693,
    "kind": "measured",
-   "n": 334
+   "n": 338
   },
   {
    "stage": "Execution gap (quote\u2192fill)",
-   "ev_per_1": -0.05831,
+   "ev_per_1": -0.05751,
    "kind": "measured"
   },
   {
    "stage": "Realized EV (real fills)",
-   "ev_per_1": -0.04343,
+   "ev_per_1": -0.05058,
    "kind": "measured"
   }
  ],
  "contradictions": [
   {
    "name": "High AUC, negative EV (kbf)",
-   "detail": "Brier 0.0994 \u2014 EV -0.2085/$1: superb ranking, no tradable skill; skill lives after the payout window"
+   "detail": "Brier 0.099 \u2014 EV -0.279/$1: superb ranking, no tradable skill; skill lives after the payout window"
   },
   {
    "name": "High-skip policies look profitable",
@@ -214,13 +210,13 @@
   "high_information": 3,
   "retire_candidates": 1,
   "too_selective": 1,
-  "stale": 4
+  "stale": 2
  },
  "blind_spots": [
   {
    "spot": "no arm beats market BSS",
    "tier": "T2",
-   "evidence": "best +0.0031",
+   "evidence": "best +0.0016",
    "action": "investigate"
   },
   {
@@ -244,7 +240,7 @@
   {
    "spot": "oracle regret",
    "tier": "cross-tier",
-   "evidence": "1.751/$1/window",
+   "evidence": "1.7742/$1/window",
    "action": "decompose"
   }
  ],
