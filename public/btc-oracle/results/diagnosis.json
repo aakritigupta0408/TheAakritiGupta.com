@@ -1,25 +1,25 @@
 {
- "generated_ts": 1788201606,
+ "generated_ts": 1788205206,
  "question": "Where is the system failing?",
  "tiers": {
   "T1": {
    "name": "Price forecast",
    "job": "predict the future price distribution",
-   "headline": "80% band coverage 0.77\u20130.80",
+   "headline": "80% band coverage 0.77\u20130.81",
    "status": "WARN",
    "why": "bands still under-cover on the worst family \u2014 dispersion was the SEV-0 root cause"
   },
   "T2": {
    "name": "Binary probability",
    "job": "an honest P(up) that beats the market's own",
-   "headline": "best BSS +0.0052 (kb5)",
+   "headline": "best BSS +0.0068 (kb5)",
    "status": "OK",
    "why": "NOBODY BEATS THE BOOK \u2014 every arm's Brier skill vs the market is negative this sample"
   },
   "T3": {
    "name": "Decision policy",
    "job": "act, pick the arm, or stand down",
-   "headline": "leader churn 34% \u00b7 champion +1.5c/$1",
+   "headline": "leader churn 34% \u00b7 champion +1.6c/$1",
    "status": "WARN",
    "why": "win-rate leaderboard seats market-echo arms; M8-family gates are the racing repairs"
   },
@@ -33,7 +33,7 @@
   "T5": {
    "name": "Realized P&L",
    "job": "survive aggregation, sizing and costs",
-   "headline": "realized -4.6c/$1 \u00b7 losses graded: {'SEV-1': 2, 'SEV-2': 149, 'SEV-3': 41, 'SEV-4': 185, 'SEV-5': 197}",
+   "headline": "realized -4.5c/$1 \u00b7 losses graded: {'SEV-1': 2, 'SEV-2': 149, 'SEV-3': 41, 'SEV-4': 185, 'SEV-5': 197}",
    "status": "FAIL",
    "why": "only pt6 (84% idle) is green among traders"
   }
@@ -48,21 +48,23 @@
    "mechanism": "stand down when the market itself is unpredictable",
    "mechanism_check": {
     "status": "SUPPORTED",
-    "note": "\u0394 on regime<floor windows +10.7c (n=101) vs +0.0c on healthy windows \u2014 the gate earns exactly where it claims to"
+    "note": "\u0394 on regime<floor windows +10.3c (n=102) vs +0.0c on healthy windows \u2014 the gate earns exactly where it claims to"
    },
    "label": "M8 \u00b7 regime gate",
    "state": "KEEP_TESTING",
-   "mean": 0.02983,
+   "mean": 0.02883,
    "ci95_boot": [
-    -0.00974,
-    0.07185
+    -0.0112,
+    0.07062
    ],
-   "p_gt0": 0.933,
-   "coverage": 0.722,
-   "llr": 1.027,
-   "n": 363,
+   "p_gt0": 0.919,
+   "coverage": 0.72,
+   "llr": 0.982,
+   "n": 364,
    "retire_pressure": "LOW",
-   "retire_flags": []
+   "retire_flags": [
+    "stale \u2014 little movement toward a verdict"
+   ]
   },
   {
    "key": "t_exec",
@@ -77,15 +79,15 @@
    },
    "label": "M10 \u00b7 execution guard",
    "state": "KEEP_TESTING",
-   "mean": 0.03663,
+   "mean": 0.03653,
    "ci95_boot": [
-    -0.00441,
-    0.07938
+    -0.00248,
+    0.07983
    ],
-   "p_gt0": 0.961,
-   "coverage": 0.656,
-   "llr": 0.664,
-   "n": 363,
+   "p_gt0": 0.965,
+   "coverage": 0.657,
+   "llr": 0.663,
+   "n": 364,
    "retire_pressure": "LOW",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -103,21 +105,23 @@
    "mechanism": "fill discipline + regime gate",
    "mechanism_check": {
     "status": "SUPPORTED",
-    "note": "\u0394 on regime<floor windows +15.1c (n=101) vs +0.5c on healthy windows \u2014 the gate earns exactly where it claims to"
+    "note": "\u0394 on regime<floor windows +14.6c (n=102) vs +0.5c on healthy windows \u2014 the gate earns exactly where it claims to"
    },
    "label": "M10+M8 \u00b7 execution guard + regime gate",
    "state": "KEEP_TESTING",
-   "mean": 0.05515,
+   "mean": 0.05398,
    "ci95_boot": [
-    0.00603,
-    0.10784
+    0.0039,
+    0.1062
    ],
-   "p_gt0": 0.985,
-   "coverage": 0.482,
-   "llr": 1.024,
-   "n": 363,
+   "p_gt0": 0.981,
+   "coverage": 0.481,
+   "llr": 0.992,
+   "n": 364,
    "retire_pressure": "LOW",
-   "retire_flags": []
+   "retire_flags": [
+    "stale \u2014 little movement toward a verdict"
+   ]
   },
   {
    "key": "t_edgeband",
@@ -132,15 +136,15 @@
    },
    "label": "M13 \u00b7 edge band (enough edge, not too much)",
    "state": "HOLD",
-   "mean": -0.01057,
+   "mean": -0.0124,
    "ci95_boot": [
-    -0.105,
-    0.08911
+    -0.10681,
+    0.08588
    ],
-   "p_gt0": 0.422,
-   "coverage": 0.217,
-   "llr": -0.135,
-   "n": 175,
+   "p_gt0": 0.392,
+   "coverage": 0.216,
+   "llr": -0.153,
+   "n": 176,
    "retire_pressure": "HIGH",
    "retire_flags": [
     "negative paired mean at full sample",
@@ -169,9 +173,9 @@
  "error_funnel": [
   {
    "stage": "Oracle opportunity (same rules, clairvoyant)",
-   "ev_per_1": 1.7891,
+   "ev_per_1": 1.7925,
    "kind": "measured",
-   "n": 179
+   "n": 178
   },
   {
    "stage": "Forecast + probability + decision losses",
@@ -181,25 +185,25 @@
   },
   {
    "stage": "Desk decision EV (model quotes)",
-   "ev_per_1": 0.0149,
+   "ev_per_1": 0.01577,
    "kind": "measured",
-   "n": 363
+   "n": 364
   },
   {
    "stage": "Execution gap (quote\u2192fill)",
-   "ev_per_1": -0.06122,
+   "ev_per_1": -0.06095,
    "kind": "measured"
   },
   {
    "stage": "Realized EV (real fills)",
-   "ev_per_1": -0.04632,
+   "ev_per_1": -0.04518,
    "kind": "measured"
   }
  ],
  "contradictions": [
   {
    "name": "High AUC, negative EV (kbf)",
-   "detail": "Brier 0.0862 \u2014 EV -0.2793/$1: superb ranking, no tradable skill; skill lives after the payout window"
+   "detail": "Brier 0.0872 \u2014 EV -0.2793/$1: superb ranking, no tradable skill; skill lives after the payout window"
   },
   {
    "name": "High-skip policies look profitable",
@@ -211,13 +215,13 @@
   "high_information": 3,
   "retire_candidates": 1,
   "too_selective": 1,
-  "stale": 2
+  "stale": 4
  },
  "blind_spots": [
   {
    "spot": "no arm beats market BSS",
    "tier": "T2",
-   "evidence": "best +0.0052",
+   "evidence": "best +0.0068",
    "action": "investigate"
   },
   {
@@ -241,7 +245,7 @@
   {
    "spot": "oracle regret",
    "tier": "cross-tier",
-   "evidence": "1.8079/$1/window",
+   "evidence": "1.8145/$1/window",
    "action": "decompose"
   }
  ],
