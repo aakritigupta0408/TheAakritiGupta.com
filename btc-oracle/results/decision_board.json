@@ -1,5 +1,5 @@
 {
- "generated_ts": 1788294603,
+ "generated_ts": 1788302404,
  "config": {
   "edge": 0.02,
   "alpha": 0.003125,
@@ -13,16 +13,15 @@
  "integrity": {
   "rows": 374,
   "last_close_ts": 1788285600,
-  "age_min": 150.1,
-  "health": "green"
+  "age_min": 280.1,
+  "health": "red"
  },
  "summary": {
   "states": {
    "BASELINE": 2,
-   "KEEP_TESTING": 3,
-   "HOLD": 1
+   "INVALID": 4
   },
-  "best_candidate": "t_exec_reg"
+  "best_candidate": null
  },
  "execution_waterfall": {
   "windows": 374,
@@ -183,9 +182,9 @@
    "label": "M8 \u00b7 regime gate",
    "basis": "model",
    "rationale": "stand down when trailing-20 market accuracy < 0.62",
-   "state": "KEEP_TESTING",
+   "state": "INVALID",
    "state_reasons": [
-    "collecting \u2014 trend winning, P(\u0394>0)\u22480.938"
+    "treatment log stale \u2014 do not decide"
    ]
   },
   {
@@ -340,9 +339,9 @@
    "label": "M10 \u00b7 execution guard",
    "basis": "real",
    "rationale": "decline any fill worse than the quote by >3.0c",
-   "state": "KEEP_TESTING",
+   "state": "INVALID",
    "state_reasons": [
-    "collecting \u2014 trend winning, P(\u0394>0)\u22480.972"
+    "treatment log stale \u2014 do not decide"
    ]
   },
   {
@@ -484,9 +483,9 @@
    "label": "M10+M8 \u00b7 execution guard + regime gate",
    "basis": "real",
    "rationale": "decline bad fills AND stand down in bad regimes",
-   "state": "KEEP_TESTING",
+   "state": "INVALID",
    "state_reasons": [
-    "collecting \u2014 trend winning, P(\u0394>0)\u22480.988"
+    "treatment log stale \u2014 do not decide"
    ]
   },
   {
@@ -628,9 +627,9 @@
    "label": "M13 \u00b7 edge band (enough edge, not too much)",
    "basis": "model",
    "rationale": "enter only when claimed edge is 2-12c \u2014 a huge stated edge is a model-error signature, not opportunity",
-   "state": "HOLD",
+   "state": "INVALID",
    "state_reasons": [
-    "coverage 22% <25% \u2014 too selective to compare like-for-like"
+    "treatment log stale \u2014 do not decide"
    ]
   }
  ]
