@@ -1,42 +1,42 @@
 {
-  "generated_ts": 1788531612,
+  "generated_ts": 1788535831,
   "seed": 20260829,
   "checks": [
     {
       "name": "future_label_canary",
       "method": "walk-forward logistic (test-then-train, settle order) on legit decision-time fields [p_up, mkt_p_up, mins_left] vs the same fit + the settled outcome as a planted feature; then scan every decision-row field for |corr|>0.95 with the outcome (settlement-stamp fields whitelisted) and verify no still-open window carries an outcome",
       "result": "PASS",
-      "detail": "probe: legit acc 0.664 vs +canary 1.000 (+33.6pp) over 238 scored of 258 windows; schema scan: 21 fields x 258 settled windows, 0 non-whitelisted fields with |r|>0.95 (settlement stamps as expected: actual (r=+1.000)); open-window nullness: 0 violations in 28 open rows (20000 total)"
+      "detail": "probe: legit acc 0.674 vs +canary 1.000 (+32.6pp) over 236 scored of 256 windows; schema scan: 21 fields x 256 settled windows, 0 non-whitelisted fields with |r|>0.95 (settlement stamps as expected: actual (r=+1.000)); open-window nullness: 0 violations in 89 open rows (20000 total)"
     },
     {
       "name": "quote_age_canary",
       "method": "independent replay of evaluator row selection (leader variant, mins_left<=12 envelope, earliest row inside it) + independent EV recomputation: logged ev.champion must equal bet_ev at THAT row's modeled quote and ev.champion_real must equal bet_ev at the desk's actual fill \u2014 any disagreement means a different (possibly newer) quote was scored",
       "result": "PASS",
-      "detail": "18 of 374 scored windows replayed (356 predate the rotated kb log); envelope violations 0, model-quote EV mismatches 0, real-fill EV mismatches 0, outcome mismatches 0 \u2014 0 total violations"
+      "detail": "15 of 374 scored windows replayed (359 predate the rotated kb log); envelope violations 0, model-quote EV mismatches 0, real-fill EV mismatches 0, outcome mismatches 0 \u2014 0 total violations"
     },
     {
       "name": "timestamp_order_canary",
       "method": "every trader ledger: made_ts < close_ts strictly; settlement fields (actual/win/pnl_c) present => close_ts <= data_now+900s (data_now = latest decision timestamp observed across all datasets \u2014 no wall clock, deterministic); pnl without outcome counted as corruption",
       "result": "PASS",
-      "detail": "0 violations in 4110 rows across 11 ledgers (order 0, future-settle 0, pnl-without-outcome 0); per-ledger rows/violations: pt_trades:511r/0v, pt2_trades:387r/0v, pt3_trades:392r/0v, pt4_trades:150r/0v, pt5_trades:363r/0v, pt6_trades:409r/0v, pt7_trades:105r/0v, pt8_trades:43r/0v, kb_bets:1092r/0v, kb_bets_sel:29r/0v, pb_bets:629r/0v"
+      "detail": "0 violations in 4119 rows across 11 ledgers (order 0, future-settle 0, pnl-without-outcome 0); per-ledger rows/violations: pt_trades:511r/0v, pt2_trades:387r/0v, pt3_trades:393r/0v, pt4_trades:150r/0v, pt5_trades:363r/0v, pt6_trades:409r/0v, pt7_trades:105r/0v, pt8_trades:43r/0v, kb_bets:1096r/0v, kb_bets_sel:29r/0v, pb_bets:633r/0v"
     },
     {
       "name": "shuffled_label_placebo",
       "method": "permute settled outcomes across scored windows (seeded, 5 permutations), rescore champion and t_regime with the SPRT's pairing semantics (stand-down = 0, paired same window). The null is NOT zero: a veto mechanically earns +cost-drag per skipped window under random labels, so each permuted paired mean is compared to its ANALYTIC expectation (skip windows x house edge at the actual asks) and must sit within 3 SD of it \u2014 shuffling must create no edge beyond arithmetic",
       "result": "PASS",
-      "detail": "real paired \u0394 +0.0122/$1 over 18 windows (rank 6/6 by |\u0394| vs permutations); analytic shuffled-label expectation +0.0585 \u00b1 0.1027 (cost drag of 6 stand-downs); permuted \u0394 [-0.1069, -0.1069, +0.0193, +0.1258, +0.0841], max excess 1.61 SD vs limit 3 \u2014 no edge beyond the mechanical cost structure"
+      "detail": "real paired \u0394 +0.0146/$1 over 15 windows (rank 6/6 by |\u0394| vs permutations); analytic shuffled-label expectation +0.0702 \u00b1 0.1233 (cost drag of 6 stand-downs); permuted \u0394 [+0.1727, -0.1238, -0.0612, +0.2379, +0.0965], max excess 1.57 SD vs limit 3 \u2014 no edge beyond the mechanical cost structure"
     },
     {
       "name": "random_policy_placebo",
       "method": "seeded coin-flip side at the modeled decision-time asks across all settled decision windows; realized EV/$1 must sit at the analytic house edge (negative) within 3 SE, and must not be significantly positive \u2014 otherwise the scoring machinery itself is a money printer",
       "result": "PASS",
-      "detail": "coin-flip EV -0.1621/$1 over 258 windows (SE 0.0714); analytic house edge -0.0776/$1, deviation 1.18 SE (limit 3); t vs zero -2.27 (must be < 2); champion's own logged mean +0.0165/$1 on 374 windows"
+      "detail": "coin-flip EV -0.0801/$1 over 256 windows (SE 0.0760); analytic house edge -0.0771/$1, deviation 0.04 SE (limit 3); t vs zero -1.05 (must be < 2); champion's own logged mean +0.0165/$1 on 374 windows"
     },
     {
       "name": "noise_feature_placebo",
       "method": "the check-1 walk-forward logistic refit with 5 seeded pure-noise N(0,1) features appended, over 5 noise seeds; mean accuracy gain over the legit-only fit must be <= 1pp \u2014 noise that helps means the harness leaks",
       "result": "PASS",
-      "detail": "legit acc 0.664 on 238 scored windows; per-seed gains [-10.1pp, -6.7pp, -7.1pp, -5.0pp, -2.5pp], mean -6.30pp vs limit +1pp"
+      "detail": "legit acc 0.674 on 236 scored windows; per-seed gains [-5.9pp, -8.5pp, -8.9pp, -0.8pp, -5.1pp], mean -5.85pp vs limit +1pp"
     }
   ],
   "overall": "PASS",
