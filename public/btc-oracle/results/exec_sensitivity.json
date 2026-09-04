@@ -13,10 +13,10 @@
   "decision_set": {
     "source": "results/pt_trades.jsonl (champion) joined to results/kalshi_binary_log.jsonl variant=kb \u2014 OBSERVED",
     "settled_decisions": 510,
-    "covered": 1,
-    "excluded_no_kb_path": 509,
+    "covered": 0,
+    "excluded_no_kb_path": 510,
     "excluded_breakdown": {
-      "ticker_absent_from_kb_log": 509,
+      "ticker_absent_from_kb_log": 510,
       "no_minute_row_within_120s_before_decision": 0
     },
     "note": "Windows without kb path coverage are excluded \u2014 the kb log retains only recent windows; excluded decisions are counted, never interpolated."
@@ -30,64 +30,64 @@
     "ev_by_staleness": [
       {
         "delta_min": 0,
-        "ev_per_dollar": 0.251123,
-        "n": 1,
+        "ev_per_dollar": null,
+        "n": 0,
         "excluded_no_path_minute": 0
       },
       {
         "delta_min": 1,
-        "ev_per_dollar": 0.192919,
-        "n": 1,
+        "ev_per_dollar": null,
+        "n": 0,
         "excluded_no_path_minute": 0
       },
       {
         "delta_min": 2,
-        "ev_per_dollar": 0.236,
-        "n": 1,
+        "ev_per_dollar": null,
+        "n": 0,
         "excluded_no_path_minute": 0
       },
       {
         "delta_min": 3,
-        "ev_per_dollar": 0.561402,
-        "n": 1,
+        "ev_per_dollar": null,
+        "n": 0,
         "excluded_no_path_minute": 0
       },
       {
         "delta_min": 5,
         "ev_per_dollar": null,
         "n": 0,
-        "excluded_no_path_minute": 1
+        "excluded_no_path_minute": 0
       }
     ],
     "ev_by_delay": [
       {
         "delta_min": 0,
-        "ev_per_dollar": 0.251123,
-        "n": 1,
+        "ev_per_dollar": null,
+        "n": 0,
         "excluded_no_path_minute": 0
       },
       {
         "delta_min": 1,
-        "ev_per_dollar": 0.165971,
-        "n": 1,
+        "ev_per_dollar": null,
+        "n": 0,
         "excluded_no_path_minute": 0
       },
       {
         "delta_min": 2,
-        "ev_per_dollar": 0.192919,
-        "n": 1,
+        "ev_per_dollar": null,
+        "n": 0,
         "excluded_no_path_minute": 0
       },
       {
         "delta_min": 3,
-        "ev_per_dollar": 0.049651,
-        "n": 1,
+        "ev_per_dollar": null,
+        "n": 0,
         "excluded_no_path_minute": 0
       },
       {
         "delta_min": 5,
-        "ev_per_dollar": 0.009401,
-        "n": 1,
+        "ev_per_dollar": null,
+        "n": 0,
         "excluded_no_path_minute": 0
       }
     ],
@@ -95,36 +95,36 @@
   },
   "execution_models": {
     "E1_taker_at_book": {
-      "ev_per_dollar": 0.251123,
-      "n": 1,
+      "ev_per_dollar": null,
+      "n": 0,
       "label": "MODELED \u2014 current registry convention, ask = 100p + 2.5c"
     },
     "E2_calibrated": {
-      "ev_per_dollar": 0.282601,
-      "n": 1,
+      "ev_per_dollar": null,
+      "n": 0,
       "ask_correction_c": -2.0,
-      "label": "DERIVED \u2014 measured mean slippage_vs_model_c from execution_ledger.json (n=1) \u2014 modeled ask minus the measured ~2.0c overstatement"
+      "label": "DERIVED (FALLBACK) \u2014 execution_ledger.json value absent; using the documented -2.0c measured overstatement \u2014 modeled ask minus the measured ~2.0c overstatement"
     },
     "E3_stress": {
-      "ev_per_dollar": 0.214044,
-      "n": 1,
+      "ev_per_dollar": null,
+      "n": 0,
       "no_fills": 0,
       "extra_spread_c": 2.5,
       "no_fill_rate": 0.1,
       "label": "STRESS \u2014 modeled ask + 2.5c (double spread) and 10% seeded random no-fill"
     },
     "oracle_mid_fill": {
-      "ev_per_dollar": 0.29074,
-      "n": 1,
+      "ev_per_dollar": null,
+      "n": 0,
       "label": "NON-REALISTIC \u2014 diagnostic only, never for qualification (fill at mid = 100p)"
     }
   },
   "verdict": {
-    "edge_survives_E2": true,
-    "edge_survives_E3": true,
-    "staleness_crossing_min": 1,
-    "delay_crossing_min": 1,
+    "edge_survives_E2": false,
+    "edge_survives_E3": false,
+    "staleness_crossing_min": null,
+    "delay_crossing_min": null,
     "crossing_definition": "first tested \u0394 where curve EV < E1 baseline EV minus 0.01 $/1 (1c per $1)",
-    "summary": "Champion edge survives under E2 (0.2826/$1) and survives under E3 stress (0.2140/$1); staleness EV first drops >1c/$1 below the E1 baseline (0.2511/$1) at Delta=1 min."
+    "summary": "Champion edge FAILS under E2 (nan/$1) and FAILS under E3 stress (nan/$1); staleness EV first drops >1c/$1 below the E1 baseline (nan/$1) at no tested staleness (<=5 min)."
   }
 }
