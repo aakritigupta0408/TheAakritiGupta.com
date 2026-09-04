@@ -13,10 +13,10 @@
   "basis_note": "Real-basis desk entries joined to the per-minute OBSERVED market-state path. Modeled quantities use the registry convention ask = 100*mkt_p_up + 2.5c. No field is interpolated across gaps; gaps are UNAVAILABLE.",
   "markout_summary": {
     "orders": 793,
-    "orders_with_derivable_markouts": 42,
-    "mean_markout_1m_pp": 0.9036,
-    "mean_markout_5m_pp": 0.3857,
-    "adverse_selection_signature": false,
+    "orders_with_derivable_markouts": 37,
+    "mean_markout_1m_pp": 0.7014,
+    "mean_markout_5m_pp": -0.2919,
+    "adverse_selection_signature": true,
     "definition": "markout = signed post-entry move of the market probability in the trade's direction, in probability points; a negative mean at +1m or +5m is the adverse-selection signature."
   },
   "field_provenance": {
@@ -49,28 +49,28 @@
     "skipped_rows_excluded": 424,
     "unsettled_rows_excluded": 1,
     "kb_control_path": {
-      "tickers": 261,
+      "tickers": 260,
       "ts_range": [
-        1788160680,
-        1788500940
+        1788165300,
+        1788505080
       ],
       "note": "kalshi_binary_log.jsonl retains only this window (rotated); orders decided before it have no market path and their markouts are UNAVAILABLE, not backfilled."
     },
-    "orders_before_kb_window": 746,
-    "orders_without_decision_anchor": 746,
+    "orders_before_kb_window": 752,
+    "orders_without_decision_anchor": 752,
     "markout_derivable": {
-      "+1m": 42,
-      "+3m": 36,
-      "+5m": 42
+      "+1m": 37,
+      "+3m": 31,
+      "+5m": 37
     },
     "markout_unavailable": {
-      "+1m": 751,
-      "+3m": 757,
-      "+5m": 751
+      "+1m": 756,
+      "+3m": 762,
+      "+5m": 756
     },
     "sub_minute_markouts": "UNAVAILABLE for all orders (data granularity)",
     "ticks_jsonl": {
-      "lines_scanned": 501796,
+      "lines_scanned": 501920,
       "has_price_field": false,
       "note": "ticks.jsonl rows carry only id/ts/size/taker_buy - no price - so tick-based price markouts are UNAVAILABLE; price markouts use the kb path per-minute `base` BTC price instead."
     }
@@ -78,73 +78,73 @@
   "overall": {
     "orders": 793,
     "markout_1m_pp": {
-      "n": 42,
-      "mean": 0.9036,
+      "n": 37,
+      "mean": 0.7014,
       "median": 3.0,
-      "p10": -18.3,
+      "p10": -19.8,
       "p90": 13.0
     },
     "markout_3m_pp": {
-      "n": 36,
-      "mean": 0.7972,
-      "median": 5.0,
-      "p10": -36.5,
-      "p90": 22.775
+      "n": 31,
+      "mean": 1.0871,
+      "median": 6.0,
+      "p10": -37.0,
+      "p90": 23.55
     },
     "markout_5m_pp": {
-      "n": 42,
-      "mean": 0.3857,
-      "median": 9.0,
-      "p10": -40.9,
-      "p90": 23.89
+      "n": 37,
+      "mean": -0.2919,
+      "median": 8.0,
+      "p10": -42.3,
+      "p90": 24.25
     },
     "price_markout_1m_usd": {
-      "n": 42,
-      "mean": 3.0079,
-      "median": 6.3,
-      "p10": -59.337,
-      "p90": 47.037
+      "n": 37,
+      "mean": 3.0159,
+      "median": 6.04,
+      "p10": -60.53,
+      "p90": 51.442
     },
     "price_markout_5m_usd": {
-      "n": 42,
-      "mean": -14.1417,
-      "median": 3.035,
-      "p10": -89.21,
-      "p90": 74.932
+      "n": 37,
+      "mean": -16.1681,
+      "median": 1.83,
+      "p10": -100.748,
+      "p90": 75.22
     },
     "by_side": {
       "no": {
         "orders": 436,
         "markout_1m_pp": {
-          "n": 27,
-          "mean": 0.9241,
-          "median": 2.0,
-          "p10": -8.8,
-          "p90": 12.4
+          "n": 24,
+          "mean": 1.0396,
+          "median": 1.0,
+          "p10": -8.0,
+          "p90": 12.7
         },
         "markout_5m_pp": {
-          "n": 27,
-          "mean": 4.7204,
-          "median": 13.0,
-          "p10": -24.0,
-          "p90": 24.25
+          "n": 24,
+          "mean": 4.8104,
+          "median": 12.0,
+          "p10": -22.2,
+          "p90": 24.4
         }
       },
       "yes": {
         "orders": 357,
         "markout_1m_pp": {
-          "n": 15,
-          "mean": 0.8667,
+          "n": 13,
+          "mean": 0.0769,
           "median": 7.0,
-          "p10": -20.2,
+          "p10": -20.6,
           "p90": 13.0
         },
         "markout_5m_pp": {
-          "n": 15,
-          "mean": -7.4167,
-          "median": 5.0,
-          "p10": -45.9,
-          "p90": 21.94
+          "n": 13,
+          "mean": -9.7115,
+          "median": -3.0,
+          "p10": -46.45,
+          "p90": 21.97
         }
       }
     },
@@ -152,35 +152,35 @@
       "0.7-0.8": {
         "orders": 286,
         "markout_1m_pp": {
-          "n": 20,
-          "mean": -0.7025,
-          "median": 0.5,
-          "p10": -19.4,
-          "p90": 13.295
+          "n": 17,
+          "mean": -0.4735,
+          "median": -0.0,
+          "p10": -20.6,
+          "p90": 14.18
         },
         "markout_5m_pp": {
-          "n": 19,
-          "mean": -0.8658,
-          "median": 5.0,
-          "p10": -28.6,
-          "p90": 22.29
+          "n": 16,
+          "mean": -0.9656,
+          "median": 1.5,
+          "p10": -35.5,
+          "p90": 22.95
         }
       },
       "<0.7": {
         "orders": 397,
         "markout_1m_pp": {
-          "n": 20,
-          "mean": 1.8,
-          "median": 3.5,
-          "p10": -12.9,
-          "p90": 12.1
+          "n": 18,
+          "mean": 1.0,
+          "median": 2.5,
+          "p10": -14.7,
+          "p90": 12.3
         },
         "markout_5m_pp": {
-          "n": 21,
-          "mean": -0.3452,
-          "median": 10.0,
-          "p10": -41.0,
-          "p90": 28.55
+          "n": 19,
+          "mean": -1.8553,
+          "median": 8.0,
+          "p10": -41.65,
+          "p90": 28.99
         }
       },
       ">0.8": {
@@ -239,18 +239,18 @@
       ">60c": {
         "orders": 581,
         "markout_1m_pp": {
-          "n": 35,
-          "mean": 2.4271,
-          "median": 3.0,
-          "p10": -10.6,
+          "n": 30,
+          "mean": 2.4317,
+          "median": 4.5,
+          "p10": -11.1,
           "p90": 13.0
         },
         "markout_5m_pp": {
-          "n": 35,
-          "mean": 5.5157,
-          "median": 11.0,
-          "p10": -24.0,
-          "p90": 24.35
+          "n": 30,
+          "mean": 5.535,
+          "median": 14.0,
+          "p10": -24.9,
+          "p90": 24.95
         }
       }
     },
@@ -258,18 +258,18 @@
       "8-11m": {
         "orders": 258,
         "markout_1m_pp": {
-          "n": 11,
-          "mean": 5.0864,
-          "median": 10.0,
-          "p10": -8.0,
-          "p90": 13.0
+          "n": 10,
+          "mean": 4.495,
+          "median": 8.0,
+          "p10": -8.4,
+          "p90": 13.295
         },
         "markout_5m_pp": {
-          "n": 11,
-          "mean": -0.6,
-          "median": 10.0,
-          "p10": -41.0,
-          "p90": 28.55
+          "n": 10,
+          "mean": -1.66,
+          "median": 5.0,
+          "p10": -41.6,
+          "p90": 28.77
         }
       },
       "<8m": {
@@ -292,18 +292,18 @@
       ">=11m": {
         "orders": 406,
         "markout_1m_pp": {
-          "n": 25,
-          "mean": -0.04,
+          "n": 21,
+          "mean": -0.0952,
           "median": 2.0,
-          "p10": -15.8,
-          "p90": 12.6
+          "p10": -19.0,
+          "p90": 13.0
         },
         "markout_5m_pp": {
-          "n": 25,
-          "mean": 3.254,
+          "n": 21,
+          "mean": 3.0643,
           "median": 11.0,
-          "p10": -21.6,
-          "p90": 21.94
+          "p10": -18.0,
+          "p90": 22.0
         }
       }
     },
@@ -311,40 +311,40 @@
       "winning_entries": {
         "orders": 528,
         "markout_1m_pp": {
-          "n": 28,
-          "mean": 1.3196,
+          "n": 24,
+          "mean": 0.6229,
           "median": 3.0,
-          "p10": -11.3,
+          "p10": -11.7,
           "p90": 13.0
         },
         "markout_5m_pp": {
-          "n": 28,
-          "mean": 10.4839,
-          "median": 18.0,
-          "p10": -10.0,
-          "p90": 24.2
+          "n": 24,
+          "mean": 10.1063,
+          "median": 19.0,
+          "p10": -14.0,
+          "p90": 24.4
         }
       },
       "losing_entries": {
         "orders": 265,
         "markout_1m_pp": {
-          "n": 14,
-          "mean": 0.0714,
+          "n": 13,
+          "mean": 0.8462,
           "median": -0.0,
-          "p10": -20.4,
-          "p90": 12.7
+          "p10": -20.6,
+          "p90": 12.8
         },
         "markout_5m_pp": {
-          "n": 14,
-          "mean": -19.8107,
+          "n": 13,
+          "mean": -19.4885,
           "median": -24.0,
-          "p10": -46.175,
-          "p90": 11.5
+          "p10": -46.45,
+          "p90": 12.0
         }
       }
     },
     "slippage_vs_model_c": {
-      "n": 47,
+      "n": 41,
       "mean": -2.0,
       "median": -2.0,
       "p10": -2.0,
@@ -362,73 +362,73 @@
     "pt": {
       "orders": 510,
       "markout_1m_pp": {
-        "n": 41,
-        "mean": 1.4378,
+        "n": 36,
+        "mean": 1.3042,
         "median": 3.0,
-        "p10": -12.0,
+        "p10": -15.5,
         "p90": 13.0
       },
       "markout_3m_pp": {
-        "n": 35,
-        "mean": 2.01,
+        "n": 30,
+        "mean": 2.5117,
         "median": 6.0,
-        "p10": -30.8,
-        "p90": 22.93
+        "p10": -36.1,
+        "p90": 23.595
       },
       "markout_5m_pp": {
-        "n": 41,
-        "mean": 1.4744,
-        "median": 10.0,
-        "p10": -40.0,
-        "p90": 24.05
+        "n": 36,
+        "mean": 0.9292,
+        "median": 9.5,
+        "p10": -40.5,
+        "p90": 24.3
       },
       "price_markout_1m_usd": {
-        "n": 41,
-        "mean": 4.5576,
-        "median": 6.56,
-        "p10": -48.6,
-        "p90": 47.05
+        "n": 36,
+        "mean": 4.7811,
+        "median": 6.3,
+        "p10": -54.565,
+        "p90": 52.54
       },
       "price_markout_5m_usd": {
-        "n": 41,
-        "mean": -6.3324,
-        "median": 4.24,
-        "p10": -88.94,
-        "p90": 74.98
+        "n": 36,
+        "mean": -7.3306,
+        "median": 3.035,
+        "p10": -89.09,
+        "p90": 75.28
       },
       "by_side": {
         "no": {
           "orders": 276,
           "markout_1m_pp": {
-            "n": 27,
-            "mean": 0.9241,
-            "median": 2.0,
-            "p10": -8.8,
-            "p90": 12.4
+            "n": 24,
+            "mean": 1.0396,
+            "median": 1.0,
+            "p10": -8.0,
+            "p90": 12.7
           },
           "markout_5m_pp": {
-            "n": 27,
-            "mean": 4.7204,
-            "median": 13.0,
-            "p10": -24.0,
-            "p90": 24.25
+            "n": 24,
+            "mean": 4.8104,
+            "median": 12.0,
+            "p10": -22.2,
+            "p90": 24.4
           }
         },
         "yes": {
           "orders": 234,
           "markout_1m_pp": {
-            "n": 14,
-            "mean": 2.4286,
+            "n": 12,
+            "mean": 1.8333,
             "median": 8.5,
-            "p10": -16.9,
+            "p10": -18.3,
             "p90": 13.0
           },
           "markout_5m_pp": {
-            "n": 14,
-            "mean": -4.7857,
-            "median": 5.5,
-            "p10": -46.175,
-            "p90": 21.955
+            "n": 12,
+            "mean": -6.8333,
+            "median": 1.5,
+            "p10": -46.725,
+            "p90": 21.985
           }
         }
       },
@@ -436,35 +436,35 @@
         "0.7-0.8": {
           "orders": 194,
           "markout_1m_pp": {
-            "n": 20,
-            "mean": -0.7025,
-            "median": 0.5,
-            "p10": -19.4,
-            "p90": 13.295
+            "n": 17,
+            "mean": -0.4735,
+            "median": -0.0,
+            "p10": -20.6,
+            "p90": 14.18
           },
           "markout_5m_pp": {
-            "n": 19,
-            "mean": -0.8658,
-            "median": 5.0,
-            "p10": -28.6,
-            "p90": 22.29
+            "n": 16,
+            "mean": -0.9656,
+            "median": 1.5,
+            "p10": -35.5,
+            "p90": 22.95
           }
         },
         "<0.7": {
           "orders": 264,
           "markout_1m_pp": {
-            "n": 19,
-            "mean": 3.0,
-            "median": 4.0,
-            "p10": -8.0,
-            "p90": 12.2
+            "n": 17,
+            "mean": 2.2941,
+            "median": 3.0,
+            "p10": -9.0,
+            "p90": 12.4
           },
           "markout_5m_pp": {
-            "n": 20,
-            "mean": 1.85,
-            "median": 10.5,
-            "p10": -40.1,
-            "p90": 28.77
+            "n": 18,
+            "mean": 0.5,
+            "median": 9.5,
+            "p10": -40.3,
+            "p90": 29.21
           }
         },
         ">0.8": {
@@ -523,18 +523,18 @@
         ">60c": {
           "orders": 427,
           "markout_1m_pp": {
-            "n": 35,
-            "mean": 2.4271,
-            "median": 3.0,
-            "p10": -10.6,
+            "n": 30,
+            "mean": 2.4317,
+            "median": 4.5,
+            "p10": -11.1,
             "p90": 13.0
           },
           "markout_5m_pp": {
-            "n": 35,
-            "mean": 5.5157,
-            "median": 11.0,
-            "p10": -24.0,
-            "p90": 24.35
+            "n": 30,
+            "mean": 5.535,
+            "median": 14.0,
+            "p10": -24.9,
+            "p90": 24.95
           }
         }
       },
@@ -542,18 +542,18 @@
         "8-11m": {
           "orders": 164,
           "markout_1m_pp": {
-            "n": 11,
-            "mean": 5.0864,
-            "median": 10.0,
-            "p10": -8.0,
-            "p90": 13.0
+            "n": 10,
+            "mean": 4.495,
+            "median": 8.0,
+            "p10": -8.4,
+            "p90": 13.295
           },
           "markout_5m_pp": {
-            "n": 11,
-            "mean": -0.6,
-            "median": 10.0,
-            "p10": -41.0,
-            "p90": 28.55
+            "n": 10,
+            "mean": -1.66,
+            "median": 5.0,
+            "p10": -41.6,
+            "p90": 28.77
           }
         },
         "<8m": {
@@ -576,18 +576,18 @@
         ">=11m": {
           "orders": 286,
           "markout_1m_pp": {
-            "n": 25,
-            "mean": -0.04,
+            "n": 21,
+            "mean": -0.0952,
             "median": 2.0,
-            "p10": -15.8,
-            "p90": 12.6
+            "p10": -19.0,
+            "p90": 13.0
           },
           "markout_5m_pp": {
-            "n": 25,
-            "mean": 3.254,
+            "n": 21,
+            "mean": 3.0643,
             "median": 11.0,
-            "p10": -21.6,
-            "p90": 21.94
+            "p10": -18.0,
+            "p90": 22.0
           }
         }
       },
@@ -595,40 +595,40 @@
         "winning_entries": {
           "orders": 350,
           "markout_1m_pp": {
-            "n": 28,
-            "mean": 1.3196,
+            "n": 24,
+            "mean": 0.6229,
             "median": 3.0,
-            "p10": -11.3,
+            "p10": -11.7,
             "p90": 13.0
           },
           "markout_5m_pp": {
-            "n": 28,
-            "mean": 10.4839,
-            "median": 18.0,
-            "p10": -10.0,
-            "p90": 24.2
+            "n": 24,
+            "mean": 10.1063,
+            "median": 19.0,
+            "p10": -14.0,
+            "p90": 24.4
           }
         },
         "losing_entries": {
           "orders": 160,
           "markout_1m_pp": {
-            "n": 13,
-            "mean": 1.6923,
-            "median": -0.0,
-            "p10": -17.2,
-            "p90": 12.8
+            "n": 12,
+            "mean": 2.6667,
+            "median": 5.0,
+            "p10": -17.1,
+            "p90": 12.9
           },
           "markout_5m_pp": {
-            "n": 13,
-            "mean": -17.9308,
-            "median": -24.0,
-            "p10": -46.45,
-            "p90": 12.0
+            "n": 12,
+            "mean": -17.425,
+            "median": -20.0,
+            "p10": -46.725,
+            "p90": 12.5
           }
         }
       },
       "slippage_vs_model_c": {
-        "n": 46,
+        "n": 40,
         "mean": -2.0,
         "median": -2.0,
         "p10": -2.0,
