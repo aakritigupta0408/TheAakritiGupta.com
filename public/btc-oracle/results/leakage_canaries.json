@@ -1,12 +1,12 @@
 {
-  "generated_ts": 1788604812,
+  "generated_ts": 1788609022,
   "seed": 20260829,
   "checks": [
     {
       "name": "future_label_canary",
       "method": "walk-forward logistic (test-then-train, settle order) on legit decision-time fields [p_up, mkt_p_up, mins_left] vs the same fit + the settled outcome as a planted feature; then scan every decision-row field for |corr|>0.95 with the outcome (settlement-stamp fields whitelisted) and verify no still-open window carries an outcome",
       "result": "PASS",
-      "detail": "probe: legit acc 0.681 vs +canary 1.000 (+31.9pp) over 235 scored of 255 windows; schema scan: 21 fields x 255 settled windows, 0 non-whitelisted fields with |r|>0.95 (settlement stamps as expected: actual (r=+1.000)); open-window nullness: 0 violations in 75 open rows (20000 total)"
+      "detail": "probe: legit acc 0.677 vs +canary 1.000 (+32.3pp) over 235 scored of 255 windows; schema scan: 21 fields x 255 settled windows, 0 non-whitelisted fields with |r|>0.95 (settlement stamps as expected: actual (r=+1.000)); open-window nullness: 0 violations in 28 open rows (20000 total)"
     },
     {
       "name": "quote_age_canary",
@@ -18,7 +18,7 @@
       "name": "timestamp_order_canary",
       "method": "every trader ledger: made_ts < close_ts strictly; settlement fields (actual/win/pnl_c) present => close_ts <= data_now+900s (data_now = latest decision timestamp observed across all datasets \u2014 no wall clock, deterministic); pnl without outcome counted as corruption",
       "result": "PASS",
-      "detail": "0 violations in 4284 rows across 11 ledgers (order 0, future-settle 0, pnl-without-outcome 0); per-ledger rows/violations: pt_trades:511r/0v, pt2_trades:387r/0v, pt3_trades:422r/0v, pt4_trades:150r/0v, pt5_trades:363r/0v, pt6_trades:409r/0v, pt7_trades:105r/0v, pt8_trades:43r/0v, kb_bets:1172r/0v, kb_bets_sel:29r/0v, pb_bets:693r/0v"
+      "detail": "0 violations in 4297 rows across 11 ledgers (order 0, future-settle 0, pnl-without-outcome 0); per-ledger rows/violations: pt_trades:511r/0v, pt2_trades:387r/0v, pt3_trades:426r/0v, pt4_trades:150r/0v, pt5_trades:363r/0v, pt6_trades:409r/0v, pt7_trades:105r/0v, pt8_trades:43r/0v, kb_bets:1177r/0v, kb_bets_sel:29r/0v, pb_bets:697r/0v"
     },
     {
       "name": "shuffled_label_placebo",
@@ -30,13 +30,13 @@
       "name": "random_policy_placebo",
       "method": "seeded coin-flip side at the modeled decision-time asks across all settled decision windows; realized EV/$1 must sit at the analytic house edge (negative) within 3 SE, and must not be significantly positive \u2014 otherwise the scoring machinery itself is a money printer",
       "result": "PASS",
-      "detail": "coin-flip EV -0.1585/$1 over 255 windows (SE 0.0618); analytic house edge -0.1182/$1, deviation 0.65 SE (limit 3); t vs zero -2.56 (must be < 2); champion's own logged mean +0.0165/$1 on 374 windows"
+      "detail": "coin-flip EV -0.2264/$1 over 255 windows (SE 0.0608); analytic house edge -0.1112/$1, deviation 1.90 SE (limit 3); t vs zero -3.72 (must be < 2); champion's own logged mean +0.0165/$1 on 374 windows"
     },
     {
       "name": "noise_feature_placebo",
       "method": "the check-1 walk-forward logistic refit with 5 seeded pure-noise N(0,1) features appended, over 5 noise seeds; mean accuracy gain over the legit-only fit must be <= 1pp \u2014 noise that helps means the harness leaks",
       "result": "PASS",
-      "detail": "legit acc 0.681 on 235 scored windows; per-seed gains [+0.0pp, -2.6pp, -5.5pp, -2.6pp, -6.0pp], mean -3.32pp vs limit +1pp"
+      "detail": "legit acc 0.677 on 235 scored windows; per-seed gains [-4.3pp, -0.9pp, -6.0pp, +0.0pp, -7.7pp], mean -3.74pp vs limit +1pp"
     }
   ],
   "overall": "SEV-0",
