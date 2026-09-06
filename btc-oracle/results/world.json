@@ -1,5 +1,5 @@
 {
- "generated_ts": 1788661805,
+ "generated_ts": 1788666008,
  "clock": [
   {
    "every": "30 s",
@@ -7,8 +7,8 @@
    "owner": "daemon",
    "source": "btc_rl/online.py POLL_SECONDS=30",
    "detail": "heartbeat = online_status.alive_at",
-   "last_run_ts": 1788661778,
-   "age_min": 0.5,
+   "last_run_ts": 1788665999,
+   "age_min": 0.1,
    "in_crontab": null,
    "health": "green"
   },
@@ -18,8 +18,8 @@
    "owner": "cron \u00b7 publisher",
    "source": "scripts/publish_dashboard.py",
    "detail": null,
-   "last_run_ts": 1788661803,
-   "age_min": 0.0,
+   "last_run_ts": 1788665943,
+   "age_min": 1.1,
    "in_crontab": true,
    "health": "green"
   },
@@ -29,8 +29,8 @@
    "owner": "cron \u00b7 watchdog",
    "source": "scripts/watchdog.py",
    "detail": "authority: RESTART the daemon process only. Logs only when it acts \u2014 a days-old log means days of health, not neglect",
-   "last_run_ts": 1788660604,
-   "age_min": 20.0,
+   "last_run_ts": 1788664204,
+   "age_min": 30.1,
    "in_crontab": true,
    "health": "green"
   },
@@ -40,7 +40,7 @@
    "owner": "cron \u00b7 auditor",
    "source": "scripts/audit_chain.py",
    "detail": null,
-   "last_run_ts": 1788661805,
+   "last_run_ts": 1788666007,
    "age_min": 0.0,
    "in_crontab": true,
    "health": "green"
@@ -63,7 +63,7 @@
    "source": "tests/introspect_model_internals.py",
    "detail": null,
    "last_run_ts": 1788553204,
-   "age_min": 1810.0,
+   "age_min": 1880.1,
    "in_crontab": true,
    "health": "green"
   },
@@ -74,7 +74,7 @@
    "source": "btc_rl/online.py settle path",
    "detail": "evidence = treatments.jsonl append",
    "last_run_ts": 1788286265,
-   "age_min": 6259.0,
+   "age_min": 6329.1,
    "in_crontab": null,
    "health": "green"
   },
@@ -97,7 +97,7 @@
    "trigger": "continuous, 30s loop",
    "authority": "READ market + WRITE ledgers + paper-trade the pre-registered policies",
    "cannot": "change any policy constant, promote a treatment, touch real money (production key quarantined)",
-   "last_ts": 1788661778,
+   "last_ts": 1788665999,
    "evidence": "online_status.json heartbeat"
   },
   {
@@ -106,7 +106,7 @@
    "trigger": "cron, every 5 min",
    "authority": "restart the daemon when the heartbeat is stale",
    "cannot": "modify code, data, or policy",
-   "last_ts": 1788660604,
+   "last_ts": 1788664204,
    "evidence": "watchdog_log.jsonl + cron log"
   },
   {
@@ -115,7 +115,7 @@
    "trigger": "cron, every 10 min",
    "authority": "recompute all published metrics from raw ledgers (dual implementation vs the daemon)",
    "cannot": "alter ledgers; it only reads and re-derives",
-   "last_ts": 1788661805,
+   "last_ts": 1788666007,
    "evidence": "audit_report.json"
   },
   {
@@ -133,7 +133,7 @@
    "trigger": "cron, every 1 min",
    "authority": "copy site + results snapshots to gh-pages",
    "cannot": "modify source data",
-   "last_ts": 1788661803,
+   "last_ts": 1788665943,
    "evidence": "publish log"
   },
   {
@@ -159,7 +159,7 @@
   "market_ocean": {
    "label": "Market Ocean \u2014 external feeds",
    "status": "green",
-   "why": "daemon heartbeat 0.4 min old"
+   "why": "daemon heartbeat 0.1 min old"
   },
   "forecast_country": {
    "label": "Forecast Country \u2014 tier-1 price arms",
@@ -174,7 +174,7 @@
   "decision_hq": {
    "label": "Decision HQ \u2014 gates + experiments",
    "status": "red",
-   "why": "treatment ledger 6270.1 min old, 374 paired windows"
+   "why": "treatment ledger 6340.1 min old, 374 paired windows"
   },
   "execution_port": {
    "label": "Execution Port \u2014 quotes, fills, fees",
@@ -209,7 +209,7 @@
    "basis": "self-hosted on the owner's Mac (caffeinate keeps it awake); $0 marginal, electricity not metered"
   },
   {
-   "item": "Storage (8502.8 MB results/)",
+   "item": "Storage (8544.9 MB results/)",
    "amount": 0.0,
    "basis": "local disk + GitHub Pages hosting, free tier"
   },
@@ -227,7 +227,7 @@
  "facts": {
   "poll_seconds": 30,
   "retrain_every_s": 3600,
-  "daemon_alive_at": 1788661778.250252,
+  "daemon_alive_at": 1788665999.3808708,
   "windows_scored": 374,
   "config_source": "btc_rl/online.py (AST-parsed, not imported)"
  }
