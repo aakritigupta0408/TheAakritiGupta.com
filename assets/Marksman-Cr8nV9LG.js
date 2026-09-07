@@ -1,0 +1,1 @@
+import{j as r}from"./index-Cp3pXcE0.js";import{T as t}from"./TalentProfilePage-E2MSq0ap.js";import"./arrow-left-B9r1ZR-0.js";import"./sparkles-Dl85tzKr.js";import"./arrow-right-DR48gwCu.js";function n(){return r.jsx(t,{route:"/talent/marksman"})}export{n as default};
