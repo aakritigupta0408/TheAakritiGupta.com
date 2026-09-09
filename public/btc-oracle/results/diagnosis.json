@@ -1,5 +1,5 @@
 {
- "generated_ts": 1788959407,
+ "generated_ts": 1788963007,
  "question": "Where is the system failing?",
  "tiers": {
   "T1": {
@@ -12,14 +12,14 @@
   "T2": {
    "name": "Binary probability",
    "job": "an honest P(up) that beats the market's own",
-   "headline": "best BSS +0.0068 (kb2)",
+   "headline": "best BSS +0.0074 (kb2)",
    "status": "OK",
    "why": "NOBODY BEATS THE BOOK \u2014 every arm's Brier skill vs the market is negative this sample"
   },
   "T3": {
    "name": "Decision policy",
    "job": "act, pick the arm, or stand down",
-   "headline": "leader churn 33% \u00b7 champion +3.5c/$1",
+   "headline": "leader churn 33% \u00b7 champion +3.0c/$1",
    "status": "WARN",
    "why": "win-rate leaderboard seats market-echo arms; M8-family gates are the racing repairs"
   },
@@ -33,7 +33,7 @@
   "T5": {
    "name": "Realized P&L",
    "job": "survive aggregation, sizing and costs",
-   "headline": "realized -3.0c/$1 \u00b7 losses graded: {'SEV-1': 2, 'SEV-2': 241, 'SEV-3': 44, 'SEV-4': 200, 'SEV-5': 209}",
+   "headline": "realized -3.5c/$1 \u00b7 losses graded: {'SEV-1': 2, 'SEV-2': 242, 'SEV-3': 44, 'SEV-4': 201, 'SEV-5': 211}",
    "status": "FAIL",
    "why": "only pt6 (84% idle) is green among traders"
   }
@@ -52,15 +52,15 @@
    },
    "label": "M8 \u00b7 regime gate",
    "state": "KEEP_TESTING",
-   "mean": 0.0171,
+   "mean": 0.01696,
    "ci95_boot": [
-    -0.01901,
-    0.05293
+    -0.0181,
+    0.05248
    ],
-   "p_gt0": 0.804,
-   "coverage": 0.706,
-   "llr": 0.582,
-   "n": 489,
+   "p_gt0": 0.825,
+   "coverage": 0.708,
+   "llr": 0.577,
+   "n": 493,
    "retire_pressure": "MEDIUM",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -79,15 +79,15 @@
    },
    "label": "M10 \u00b7 execution guard",
    "state": "KEEP_TESTING",
-   "mean": 0.02267,
+   "mean": 0.02248,
    "ci95_boot": [
-    -0.01186,
-    0.0597
+    -0.01223,
+    0.05843
    ],
    "p_gt0": 0.894,
-   "coverage": 0.644,
-   "llr": 0.235,
-   "n": 489,
+   "coverage": 0.647,
+   "llr": 0.23,
+   "n": 493,
    "retire_pressure": "LOW",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -109,15 +109,15 @@
    },
    "label": "M10+M8 \u00b7 execution guard + regime gate",
    "state": "KEEP_TESTING",
-   "mean": 0.03787,
+   "mean": 0.03756,
    "ci95_boot": [
-    -0.00598,
-    0.08271
+    -0.00517,
+    0.08108
    ],
-   "p_gt0": 0.959,
-   "coverage": 0.462,
-   "llr": 0.799,
-   "n": 489,
+   "p_gt0": 0.955,
+   "coverage": 0.467,
+   "llr": 0.795,
+   "n": 493,
    "retire_pressure": "LOW",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -135,20 +135,21 @@
     "note": ""
    },
    "label": "M13 \u00b7 edge band (enough edge, not too much)",
-   "state": "KEEP_TESTING",
-   "mean": -0.03687,
+   "state": "HOLD",
+   "mean": -0.02802,
    "ci95_boot": [
-    -0.10511,
-    0.03144
+    -0.09522,
+    0.04206
    ],
-   "p_gt0": 0.145,
-   "coverage": 0.252,
-   "llr": -0.693,
-   "n": 301,
+   "p_gt0": 0.215,
+   "coverage": 0.249,
+   "llr": -0.556,
+   "n": 305,
    "retire_pressure": "HIGH",
    "retire_flags": [
     "primary metric trending down",
     "negative paired mean at full sample",
+    "too selective (<25% coverage)",
     "stale \u2014 little movement toward a verdict",
     "dominated by M8"
    ]
@@ -172,9 +173,9 @@
  "error_funnel": [
   {
    "stage": "Oracle opportunity (same rules, clairvoyant)",
-   "ev_per_1": 1.8863,
+   "ev_per_1": 1.8497,
    "kind": "measured",
-   "n": 112
+   "n": 116
   },
   {
    "stage": "Forecast + probability + decision losses",
@@ -184,18 +185,18 @@
   },
   {
    "stage": "Desk decision EV (model quotes)",
-   "ev_per_1": 0.03536,
+   "ev_per_1": 0.0299,
    "kind": "measured",
-   "n": 489
+   "n": 493
   },
   {
    "stage": "Execution gap (quote\u2192fill)",
-   "ev_per_1": -0.06531,
+   "ev_per_1": -0.06469,
    "kind": "measured"
   },
   {
    "stage": "Realized EV (real fills)",
-   "ev_per_1": -0.02996,
+   "ev_per_1": -0.0348,
    "kind": "measured"
   }
  ],
@@ -209,14 +210,14 @@
   "running": 4,
   "high_information": 2,
   "retire_candidates": 1,
-  "too_selective": 0,
+  "too_selective": 1,
   "stale": 4
  },
  "blind_spots": [
   {
    "spot": "no arm beats market BSS",
    "tier": "T2",
-   "evidence": "best +0.0068",
+   "evidence": "best +0.0074",
    "action": "investigate"
   },
   {
@@ -240,7 +241,7 @@
   {
    "spot": "oracle regret",
    "tier": "cross-tier",
-   "evidence": "1.8649/$1/window",
+   "evidence": "1.8248/$1/window",
    "action": "decompose"
   }
  ],
