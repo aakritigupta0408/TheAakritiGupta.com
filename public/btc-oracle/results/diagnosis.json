@@ -1,19 +1,19 @@
 {
- "generated_ts": 1789021208,
+ "generated_ts": 1789024808,
  "question": "Where is the system failing?",
  "tiers": {
   "T1": {
    "name": "Price forecast",
    "job": "predict the future price distribution",
-   "headline": "80% band coverage 0.78\u20130.84",
+   "headline": "80% band coverage 0.77\u20130.83",
    "status": "WARN",
    "why": "bands still under-cover on the worst family \u2014 dispersion was the SEV-0 root cause"
   },
   "T2": {
    "name": "Binary probability",
    "job": "an honest P(up) that beats the market's own",
-   "headline": "best BSS +0.0006 (kb2)",
-   "status": "OK",
+   "headline": "best BSS -0.0002 (kb2)",
+   "status": "FAIL",
    "why": "NOBODY BEATS THE BOOK \u2014 every arm's Brier skill vs the market is negative this sample"
   },
   "T3": {
@@ -173,9 +173,9 @@
  "error_funnel": [
   {
    "stage": "Oracle opportunity (same rules, clairvoyant)",
-   "ev_per_1": 1.9054,
+   "ev_per_1": 1.8664,
    "kind": "measured",
-   "n": 127
+   "n": 124
   },
   {
    "stage": "Forecast + probability + decision losses",
@@ -202,6 +202,10 @@
  ],
  "contradictions": [
   {
+   "name": "Profitable trader atop unskilled arms",
+   "detail": "pt6 is green while every kb arm fails BSS \u2014 its value is REFUSAL (84% idle), i.e. selection, not forecasting"
+  },
+  {
    "name": "High-skip policies look profitable",
    "detail": "M9-style gates show positive means on <25% coverage \u2014 a different product until coverage-matched"
   }
@@ -217,7 +221,7 @@
   {
    "spot": "no arm beats market BSS",
    "tier": "T2",
-   "evidence": "best +0.0006",
+   "evidence": "best -0.0002",
    "action": "investigate"
   },
   {
@@ -241,7 +245,7 @@
   {
    "spot": "oracle regret",
    "tier": "cross-tier",
-   "evidence": "1.9383/$1/window",
+   "evidence": "1.9006/$1/window",
    "action": "decompose"
   }
  ],
