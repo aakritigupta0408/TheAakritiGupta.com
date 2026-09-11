@@ -30,6 +30,11 @@
   ];
 
   var MORE = [
+    { label: "Traders",    href: "traders.html" },
+    { label: "Performance",href: "perf.html" },
+    { label: "Tiers",      href: "tiers.html" },
+    { label: "Features",   href: "features.html" },
+    { label: "Health",     href: "health.html" },
     { label: "Play",       href: "play.html" },
     { label: "Backend",    href: "backend.html" },
     { label: "Research",   href: "board.html" },
@@ -46,6 +51,16 @@
     { title: "Experiments — one control × one treatment",
       href: "experiments.html",
       kw: "experiments, ab test, a3, control, treatment, hypothesis, evidence, decision gate, history" },
+    { title: "Trader Dashboard — the $1K Desk", href: "traders.html",
+      kw: "traders, paper desk, follower, disciplined, mle, current bid, status, thesis, bankroll" },
+    { title: "Performance & Significance", href: "perf.html",
+      kw: "performance, confidence interval, bootstrap, significance, profit per trade, since retrain, deploy" },
+    { title: "Tier Performance — T1/T2/T3", href: "tiers.html",
+      kw: "tiers, forecast, probability, decision, arms, feature importance, architecture, loss, ab test, sprt" },
+    { title: "Feature Monitor — inputs", href: "features.html",
+      kw: "features, feeds, third party, missing data, leakage canary, rolling mean, calibration, predicted vs actual" },
+    { title: "System Health", href: "health.html",
+      kw: "health, invariants, incidents, sev, self heal, graveyard, incubator, retired, candidates, monitors" },
     { title: "Play — the Playground", href: "play.html",
       kw: "playground, forecast, oracle, 7pm, horizons, live price" },
     { title: "Backend — the operating console", href: "backend.html",
