@@ -1,5 +1,5 @@
 {
- "generated_ts": 1789228807,
+ "generated_ts": 1789232408,
  "question": "Where is the system failing?",
  "tiers": {
   "T1": {
@@ -12,8 +12,8 @@
   "T2": {
    "name": "Binary probability",
    "job": "an honest P(up) that beats the market's own",
-   "headline": "best BSS -0.0008 (kb2)",
-   "status": "FAIL",
+   "headline": "best BSS +0.0011 (kb3)",
+   "status": "OK",
    "why": "NOBODY BEATS THE BOOK \u2014 every arm's Brier skill vs the market is negative this sample"
   },
   "T3": {
@@ -33,7 +33,7 @@
   "T5": {
    "name": "Realized P&L",
    "job": "survive aggregation, sizing and costs",
-   "headline": "realized -4.7c/$1 \u00b7 losses graded: {'SEV-1': 2, 'SEV-2': 301, 'SEV-3': 48, 'SEV-4': 226, 'SEV-5': 232}",
+   "headline": "realized -4.7c/$1 \u00b7 losses graded: {'SEV-1': 2, 'SEV-2': 301, 'SEV-3': 48, 'SEV-4': 227, 'SEV-5': 232}",
    "status": "FAIL",
    "why": "only pt6 (84% idle) is green among traders"
   }
@@ -52,15 +52,15 @@
    },
    "label": "M8 \u00b7 regime gate",
    "state": "KEEP_TESTING",
-   "mean": 0.01244,
+   "mean": 0.01236,
    "ci95_boot": [
-    -0.02038,
-    0.04378
+    -0.01923,
+    0.04455
    ],
-   "p_gt0": 0.772,
-   "coverage": 0.69,
-   "llr": 0.433,
-   "n": 661,
+   "p_gt0": 0.769,
+   "coverage": 0.692,
+   "llr": 0.428,
+   "n": 665,
    "retire_pressure": "MEDIUM",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -79,15 +79,15 @@
    },
    "label": "M10 \u00b7 execution guard",
    "state": "KEEP_TESTING",
-   "mean": 0.02745,
+   "mean": 0.02661,
    "ci95_boot": [
-    -0.00304,
-    0.05894
+    -0.00313,
+    0.05836
    ],
-   "p_gt0": 0.955,
-   "coverage": 0.637,
-   "llr": 0.869,
-   "n": 661,
+   "p_gt0": 0.954,
+   "coverage": 0.638,
+   "llr": 0.812,
+   "n": 665,
    "retire_pressure": "LOW",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -105,19 +105,19 @@
    "mechanism": "fill discipline + regime gate",
    "mechanism_check": {
     "status": "SUPPORTED",
-    "note": "\u0394 on regime<floor windows +10.5c (n=205) vs +1.0c on healthy windows \u2014 the gate earns exactly where it claims to"
+    "note": "\u0394 on regime<floor windows +10.5c (n=205) vs +0.9c on healthy windows \u2014 the gate earns exactly where it claims to"
    },
    "label": "M10+M8 \u00b7 execution guard + regime gate",
    "state": "KEEP_TESTING",
-   "mean": 0.04487,
+   "mean": 0.04392,
    "ci95_boot": [
-    0.00577,
-    0.08418
+    0.0057,
+    0.08155
    ],
-   "p_gt0": 0.991,
-   "coverage": 0.451,
-   "llr": 1.546,
-   "n": 661,
+   "p_gt0": 0.988,
+   "coverage": 0.453,
+   "llr": 1.508,
+   "n": 665,
    "retire_pressure": "LOW",
    "retire_flags": []
   },
@@ -134,15 +134,15 @@
    },
    "label": "M13 \u00b7 edge band (enough edge, not too much)",
    "state": "HOLD",
-   "mean": -0.03813,
+   "mean": -0.03845,
    "ci95_boot": [
-    -0.09405,
-    0.02186
+    -0.09371,
+    0.02004
    ],
-   "p_gt0": 0.1,
-   "coverage": 0.249,
-   "llr": -1.126,
-   "n": 473,
+   "p_gt0": 0.087,
+   "coverage": 0.247,
+   "llr": -1.143,
+   "n": 477,
    "retire_pressure": "HIGH",
    "retire_flags": [
     "primary metric trending down",
@@ -171,9 +171,9 @@
  "error_funnel": [
   {
    "stage": "Oracle opportunity (same rules, clairvoyant)",
-   "ev_per_1": 1.7917,
+   "ev_per_1": 1.7751,
    "kind": "measured",
-   "n": 157
+   "n": 161
   },
   {
    "stage": "Forecast + probability + decision losses",
@@ -183,26 +183,22 @@
   },
   {
    "stage": "Desk decision EV (model quotes)",
-   "ev_per_1": 0.02299,
+   "ev_per_1": 0.02331,
    "kind": "measured",
-   "n": 661
+   "n": 665
   },
   {
    "stage": "Execution gap (quote\u2192fill)",
-   "ev_per_1": -0.07021,
+   "ev_per_1": -0.06981,
    "kind": "measured"
   },
   {
    "stage": "Realized EV (real fills)",
-   "ev_per_1": -0.04722,
+   "ev_per_1": -0.0465,
    "kind": "measured"
   }
  ],
  "contradictions": [
-  {
-   "name": "Profitable trader atop unskilled arms",
-   "detail": "pt6 is green while every kb arm fails BSS \u2014 its value is REFUSAL (84% idle), i.e. selection, not forecasting"
-  },
   {
    "name": "High-skip policies look profitable",
    "detail": "M9-style gates show positive means on <25% coverage \u2014 a different product until coverage-matched"
@@ -219,7 +215,7 @@
   {
    "spot": "no arm beats market BSS",
    "tier": "T2",
-   "evidence": "best -0.0008",
+   "evidence": "best +0.0011",
    "action": "investigate"
   },
   {
@@ -243,7 +239,7 @@
   {
    "spot": "oracle regret",
    "tier": "cross-tier",
-   "evidence": "1.8565/$1/window",
+   "evidence": "1.8295/$1/window",
    "action": "decompose"
   }
  ],
