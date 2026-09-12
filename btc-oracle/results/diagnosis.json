@@ -1,5 +1,5 @@
 {
- "generated_ts": 1789232408,
+ "generated_ts": 1789239620,
  "question": "Where is the system failing?",
  "tiers": {
   "T1": {
@@ -12,28 +12,28 @@
   "T2": {
    "name": "Binary probability",
    "job": "an honest P(up) that beats the market's own",
-   "headline": "best BSS +0.0011 (kb3)",
-   "status": "OK",
+   "headline": "best BSS -0.0001 (kb3)",
+   "status": "FAIL",
    "why": "NOBODY BEATS THE BOOK \u2014 every arm's Brier skill vs the market is negative this sample"
   },
   "T3": {
    "name": "Decision policy",
    "job": "act, pick the arm, or stand down",
-   "headline": "leader churn 33% \u00b7 champion +2.3c/$1",
+   "headline": "leader churn 33% \u00b7 champion +3.9c/$1",
    "status": "WARN",
    "why": "win-rate leaderboard seats market-echo arms; M8-family gates are the racing repairs"
   },
   "T4": {
    "name": "Execution",
    "job": "turn the decision into a fill without paying away the edge",
-   "headline": "gap -7.0c/$1",
+   "headline": "gap -8.2c/$1",
    "status": "CRITICAL",
    "why": "largest measured leak in the chain"
   },
   "T5": {
    "name": "Realized P&L",
    "job": "survive aggregation, sizing and costs",
-   "headline": "realized -4.7c/$1 \u00b7 losses graded: {'SEV-1': 2, 'SEV-2': 301, 'SEV-3': 48, 'SEV-4': 227, 'SEV-5': 232}",
+   "headline": "realized -4.3c/$1 \u00b7 losses graded: {'SEV-1': 2, 'SEV-2': 303, 'SEV-3': 48, 'SEV-4': 227, 'SEV-5': 232}",
    "status": "FAIL",
    "why": "only pt6 (84% idle) is green among traders"
   }
@@ -52,15 +52,15 @@
    },
    "label": "M8 \u00b7 regime gate",
    "state": "KEEP_TESTING",
-   "mean": 0.01236,
+   "mean": 0.01221,
    "ci95_boot": [
-    -0.01923,
-    0.04455
+    -0.01853,
+    0.04328
    ],
-   "p_gt0": 0.769,
-   "coverage": 0.692,
-   "llr": 0.428,
-   "n": 665,
+   "p_gt0": 0.768,
+   "coverage": 0.695,
+   "llr": 0.419,
+   "n": 673,
    "retire_pressure": "MEDIUM",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -79,15 +79,15 @@
    },
    "label": "M10 \u00b7 execution guard",
    "state": "KEEP_TESTING",
-   "mean": 0.02661,
+   "mean": 0.02464,
    "ci95_boot": [
-    -0.00313,
-    0.05836
+    -0.00704,
+    0.05503
    ],
-   "p_gt0": 0.954,
-   "coverage": 0.638,
-   "llr": 0.812,
-   "n": 665,
+   "p_gt0": 0.943,
+   "coverage": 0.637,
+   "llr": 0.67,
+   "n": 673,
    "retire_pressure": "LOW",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -105,19 +105,19 @@
    "mechanism": "fill discipline + regime gate",
    "mechanism_check": {
     "status": "SUPPORTED",
-    "note": "\u0394 on regime<floor windows +10.5c (n=205) vs +0.9c on healthy windows \u2014 the gate earns exactly where it claims to"
+    "note": "\u0394 on regime<floor windows +10.5c (n=205) vs +0.7c on healthy windows \u2014 the gate earns exactly where it claims to"
    },
    "label": "M10+M8 \u00b7 execution guard + regime gate",
    "state": "KEEP_TESTING",
-   "mean": 0.04392,
+   "mean": 0.04175,
    "ci95_boot": [
-    0.0057,
-    0.08155
+    0.00298,
+    0.07964
    ],
-   "p_gt0": 0.988,
-   "coverage": 0.453,
-   "llr": 1.508,
-   "n": 665,
+   "p_gt0": 0.985,
+   "coverage": 0.455,
+   "llr": 1.413,
+   "n": 673,
    "retire_pressure": "LOW",
    "retire_flags": []
   },
@@ -133,22 +133,21 @@
     "note": ""
    },
    "label": "M13 \u00b7 edge band (enough edge, not too much)",
-   "state": "HOLD",
-   "mean": -0.03845,
+   "state": "KEEP_TESTING",
+   "mean": -0.05945,
    "ci95_boot": [
-    -0.09371,
-    0.02004
+    -0.12433,
+    0.00467
    ],
-   "p_gt0": 0.087,
-   "coverage": 0.247,
-   "llr": -1.143,
-   "n": 477,
+   "p_gt0": 0.035,
+   "coverage": 0.252,
+   "llr": -1.533,
+   "n": 485,
    "retire_pressure": "HIGH",
    "retire_flags": [
     "primary metric trending down",
     "negative paired mean at full sample",
     "sequential evidence against",
-    "too selective (<25% coverage)",
     "dominated by M8"
    ]
   }
@@ -164,16 +163,16 @@
   "investigate": [
    "T2: no arm beats market BSS \u2014 is there any incremental skill?",
    "T3: leader churn 33% \u2014 selection instability",
-   "T4: execution leak -7.0c/$1 \u2014 the binding constraint",
+   "T4: execution leak -8.2c/$1 \u2014 the binding constraint",
    "edge-anti-signal (kb5/pt6 negative own-edge weights) \u2014 D-edge-band"
   ]
  },
  "error_funnel": [
   {
    "stage": "Oracle opportunity (same rules, clairvoyant)",
-   "ev_per_1": 1.7751,
+   "ev_per_1": 1.7797,
    "kind": "measured",
-   "n": 161
+   "n": 169
   },
   {
    "stage": "Forecast + probability + decision losses",
@@ -183,22 +182,26 @@
   },
   {
    "stage": "Desk decision EV (model quotes)",
-   "ev_per_1": 0.02331,
+   "ev_per_1": 0.03925,
    "kind": "measured",
-   "n": 665
+   "n": 673
   },
   {
    "stage": "Execution gap (quote\u2192fill)",
-   "ev_per_1": -0.06981,
+   "ev_per_1": -0.08199,
    "kind": "measured"
   },
   {
    "stage": "Realized EV (real fills)",
-   "ev_per_1": -0.0465,
+   "ev_per_1": -0.04274,
    "kind": "measured"
   }
  ],
  "contradictions": [
+  {
+   "name": "Profitable trader atop unskilled arms",
+   "detail": "pt6 is green while every kb arm fails BSS \u2014 its value is REFUSAL (84% idle), i.e. selection, not forecasting"
+  },
   {
    "name": "High-skip policies look profitable",
    "detail": "M9-style gates show positive means on <25% coverage \u2014 a different product until coverage-matched"
@@ -208,20 +211,20 @@
   "running": 4,
   "high_information": 2,
   "retire_candidates": 1,
-  "too_selective": 1,
+  "too_selective": 0,
   "stale": 2
  },
  "blind_spots": [
   {
    "spot": "no arm beats market BSS",
    "tier": "T2",
-   "evidence": "best +0.0011",
+   "evidence": "best -0.0001",
    "action": "investigate"
   },
   {
    "spot": "execution leak",
    "tier": "T4",
-   "evidence": "-7.0c/$1",
+   "evidence": "-8.2c/$1",
    "action": "prioritize (M10 family racing)"
   },
   {
@@ -239,7 +242,7 @@
   {
    "spot": "oracle regret",
    "tier": "cross-tier",
-   "evidence": "1.8295/$1/window",
+   "evidence": "1.8186/$1/window",
    "action": "decompose"
   }
  ],
