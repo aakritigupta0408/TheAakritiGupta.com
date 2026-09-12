@@ -1,5 +1,5 @@
 {
- "generated_ts": 1789185009,
+ "generated_ts": 1789188607,
  "question": "Where is the system failing?",
  "tiers": {
   "T1": {
@@ -19,7 +19,7 @@
   "T3": {
    "name": "Decision policy",
    "job": "act, pick the arm, or stand down",
-   "headline": "leader churn 34% \u00b7 champion +1.5c/$1",
+   "headline": "leader churn 34% \u00b7 champion +1.8c/$1",
    "status": "WARN",
    "why": "win-rate leaderboard seats market-echo arms; M8-family gates are the racing repairs"
   },
@@ -33,7 +33,7 @@
   "T5": {
    "name": "Realized P&L",
    "job": "survive aggregation, sizing and costs",
-   "headline": "realized -5.5c/$1 \u00b7 losses graded: {'SEV-1': 2, 'SEV-2': 290, 'SEV-3': 48, 'SEV-4': 222, 'SEV-5': 228}",
+   "headline": "realized -5.3c/$1 \u00b7 losses graded: {'SEV-1': 2, 'SEV-2': 290, 'SEV-3': 48, 'SEV-4': 222, 'SEV-5': 228}",
    "status": "FAIL",
    "why": "only pt6 (84% idle) is green among traders"
   }
@@ -48,20 +48,20 @@
    "mechanism": "stand down when the market itself is unpredictable",
    "mechanism_check": {
     "status": "SUPPORTED",
-    "note": "\u0394 on regime<floor windows +6.0c (n=196) vs +0.0c on healthy windows \u2014 the gate earns exactly where it claims to"
+    "note": "\u0394 on regime<floor windows +5.0c (n=199) vs +0.0c on healthy windows \u2014 the gate earns exactly where it claims to"
    },
    "label": "M8 \u00b7 regime gate",
    "state": "KEEP_TESTING",
-   "mean": 0.01895,
+   "mean": 0.01611,
    "ci95_boot": [
-    -0.0143,
-    0.05219
+    -0.01846,
+    0.04952
    ],
-   "p_gt0": 0.867,
-   "coverage": 0.683,
-   "llr": 0.865,
-   "n": 619,
-   "retire_pressure": "LOW",
+   "p_gt0": 0.827,
+   "coverage": 0.68,
+   "llr": 0.672,
+   "n": 622,
+   "retire_pressure": "MEDIUM",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
    ]
@@ -79,17 +79,19 @@
    },
    "label": "M10 \u00b7 execution guard",
    "state": "KEEP_TESTING",
-   "mean": 0.03081,
+   "mean": 0.02983,
    "ci95_boot": [
-    -0.00185,
-    0.06314
+    -0.00156,
+    0.06185
    ],
-   "p_gt0": 0.967,
+   "p_gt0": 0.968,
    "coverage": 0.633,
-   "llr": 1.026,
-   "n": 619,
+   "llr": 0.963,
+   "n": 622,
    "retire_pressure": "LOW",
-   "retire_flags": []
+   "retire_flags": [
+    "stale \u2014 little movement toward a verdict"
+   ]
   },
   {
    "key": "t_exec_reg",
@@ -103,19 +105,19 @@
    "mechanism": "fill discipline + regime gate",
    "mechanism_check": {
     "status": "SUPPORTED",
-    "note": "\u0394 on regime<floor windows +12.1c (n=196) vs +0.9c on healthy windows \u2014 the gate earns exactly where it claims to"
+    "note": "\u0394 on regime<floor windows +11.4c (n=199) vs +0.9c on healthy windows \u2014 the gate earns exactly where it claims to"
    },
    "label": "M10+M8 \u00b7 execution guard + regime gate",
    "state": "KEEP_TESTING",
-   "mean": 0.05014,
+   "mean": 0.04803,
    "ci95_boot": [
-    0.0086,
-    0.08897
+    0.00694,
+    0.08748
    ],
-   "p_gt0": 0.991,
-   "coverage": 0.443,
-   "llr": 1.684,
-   "n": 619,
+   "p_gt0": 0.987,
+   "coverage": 0.441,
+   "llr": 1.593,
+   "n": 622,
    "retire_pressure": "LOW",
    "retire_flags": []
   },
@@ -132,15 +134,15 @@
    },
    "label": "M13 \u00b7 edge band (enough edge, not too much)",
    "state": "HOLD",
-   "mean": -0.02785,
+   "mean": -0.02831,
    "ci95_boot": [
-    -0.08487,
-    0.03786
+    -0.08575,
+    0.03537
    ],
-   "p_gt0": 0.185,
-   "coverage": 0.246,
-   "llr": -0.804,
-   "n": 431,
+   "p_gt0": 0.191,
+   "coverage": 0.249,
+   "llr": -0.819,
+   "n": 434,
    "retire_pressure": "HIGH",
    "retire_flags": [
     "primary metric trending down",
@@ -156,7 +158,6 @@
    "M13"
   ],
   "continue": [
-   "M8",
    "M10",
    "M10+M8"
   ],
@@ -170,7 +171,7 @@
  "error_funnel": [
   {
    "stage": "Oracle opportunity (same rules, clairvoyant)",
-   "ev_per_1": 1.8357,
+   "ev_per_1": 1.8286,
    "kind": "measured",
    "n": 118
   },
@@ -182,18 +183,18 @@
   },
   {
    "stage": "Desk decision EV (model quotes)",
-   "ev_per_1": 0.0153,
+   "ev_per_1": 0.01798,
    "kind": "measured",
-   "n": 619
+   "n": 622
   },
   {
    "stage": "Execution gap (quote\u2192fill)",
-   "ev_per_1": -0.07077,
+   "ev_per_1": -0.07131,
    "kind": "measured"
   },
   {
    "stage": "Realized EV (real fills)",
-   "ev_per_1": -0.05547,
+   "ev_per_1": -0.05333,
    "kind": "measured"
   }
  ],
@@ -209,10 +210,10 @@
  ],
  "experiment_debt": {
   "running": 4,
-  "high_information": 3,
+  "high_information": 2,
   "retire_candidates": 1,
   "too_selective": 1,
-  "stale": 2
+  "stale": 3
  },
  "blind_spots": [
   {
@@ -242,7 +243,7 @@
   {
    "spot": "oracle regret",
    "tier": "cross-tier",
-   "evidence": "1.9431/$1/window",
+   "evidence": "1.9337/$1/window",
    "action": "decompose"
   }
  ],
