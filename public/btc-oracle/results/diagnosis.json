@@ -1,5 +1,5 @@
 {
- "generated_ts": 1789192209,
+ "generated_ts": 1789195809,
  "question": "Where is the system failing?",
  "tiers": {
   "T1": {
@@ -12,28 +12,28 @@
   "T2": {
    "name": "Binary probability",
    "job": "an honest P(up) that beats the market's own",
-   "headline": "best BSS -0.0005 (kb2)",
+   "headline": "best BSS -0.0009 (kb2)",
    "status": "FAIL",
    "why": "NOBODY BEATS THE BOOK \u2014 every arm's Brier skill vs the market is negative this sample"
   },
   "T3": {
    "name": "Decision policy",
    "job": "act, pick the arm, or stand down",
-   "headline": "leader churn 33% \u00b7 champion +1.9c/$1",
+   "headline": "leader churn 33% \u00b7 champion +2.1c/$1",
    "status": "WARN",
    "why": "win-rate leaderboard seats market-echo arms; M8-family gates are the racing repairs"
   },
   "T4": {
    "name": "Execution",
    "job": "turn the decision into a fill without paying away the edge",
-   "headline": "gap -7.1c/$1",
+   "headline": "gap -7.2c/$1",
    "status": "CRITICAL",
    "why": "largest measured leak in the chain"
   },
   "T5": {
    "name": "Realized P&L",
    "job": "survive aggregation, sizing and costs",
-   "headline": "realized -5.3c/$1 \u00b7 losses graded: {'SEV-1': 2, 'SEV-2': 291, 'SEV-3': 48, 'SEV-4': 223, 'SEV-5': 228}",
+   "headline": "realized -5.1c/$1 \u00b7 losses graded: {'SEV-1': 2, 'SEV-2': 291, 'SEV-3': 48, 'SEV-4': 223, 'SEV-5': 228}",
    "status": "FAIL",
    "why": "only pt6 (84% idle) is green among traders"
   }
@@ -48,19 +48,19 @@
    "mechanism": "stand down when the market itself is unpredictable",
    "mechanism_check": {
     "status": "SUPPORTED",
-    "note": "\u0394 on regime<floor windows +4.7c (n=203) vs +0.0c on healthy windows \u2014 the gate earns exactly where it claims to"
+    "note": "\u0394 on regime<floor windows +4.0c (n=205) vs +0.0c on healthy windows \u2014 the gate earns exactly where it claims to"
    },
    "label": "M8 \u00b7 regime gate",
    "state": "KEEP_TESTING",
-   "mean": 0.01508,
+   "mean": 0.01309,
    "ci95_boot": [
-    -0.01866,
-    0.04829
+    -0.0213,
+    0.04656
    ],
-   "p_gt0": 0.806,
-   "coverage": 0.676,
-   "llr": 0.605,
-   "n": 626,
+   "p_gt0": 0.769,
+   "coverage": 0.674,
+   "llr": 0.47,
+   "n": 628,
    "retire_pressure": "MEDIUM",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -79,15 +79,15 @@
    },
    "label": "M10 \u00b7 execution guard",
    "state": "KEEP_TESTING",
-   "mean": 0.02886,
+   "mean": 0.02752,
    "ci95_boot": [
-    -0.00329,
-    0.06067
+    -0.00462,
+    0.05954
    ],
-   "p_gt0": 0.962,
-   "coverage": 0.634,
-   "llr": 0.902,
-   "n": 626,
+   "p_gt0": 0.952,
+   "coverage": 0.632,
+   "llr": 0.809,
+   "n": 628,
    "retire_pressure": "LOW",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -105,19 +105,19 @@
    "mechanism": "fill discipline + regime gate",
    "mechanism_check": {
     "status": "SUPPORTED",
-    "note": "\u0394 on regime<floor windows +11.0c (n=203) vs +0.9c on healthy windows \u2014 the gate earns exactly where it claims to"
+    "note": "\u0394 on regime<floor windows +10.5c (n=205) vs +0.9c on healthy windows \u2014 the gate earns exactly where it claims to"
    },
    "label": "M10+M8 \u00b7 execution guard + regime gate",
    "state": "KEEP_TESTING",
-   "mean": 0.04725,
+   "mean": 0.04585,
    "ci95_boot": [
-    0.00702,
-    0.08641
+    0.00534,
+    0.08587
    ],
-   "p_gt0": 0.988,
-   "coverage": 0.438,
-   "llr": 1.567,
-   "n": 626,
+   "p_gt0": 0.984,
+   "coverage": 0.436,
+   "llr": 1.506,
+   "n": 628,
    "retire_pressure": "LOW",
    "retire_flags": []
   },
@@ -133,21 +133,20 @@
     "note": ""
    },
    "label": "M13 \u00b7 edge band (enough edge, not too much)",
-   "state": "HOLD",
-   "mean": -0.03165,
+   "state": "KEEP_TESTING",
+   "mean": -0.03227,
    "ci95_boot": [
-    -0.08807,
-    0.03004
+    -0.08885,
+    0.029
    ],
-   "p_gt0": 0.147,
-   "coverage": 0.249,
-   "llr": -0.899,
-   "n": 438,
+   "p_gt0": 0.153,
+   "coverage": 0.25,
+   "llr": -0.916,
+   "n": 440,
    "retire_pressure": "HIGH",
    "retire_flags": [
     "primary metric trending down",
     "negative paired mean at full sample",
-    "too selective (<25% coverage)",
     "stale \u2014 little movement toward a verdict",
     "dominated by M8"
    ]
@@ -164,16 +163,16 @@
   "investigate": [
    "T2: no arm beats market BSS \u2014 is there any incremental skill?",
    "T3: leader churn 33% \u2014 selection instability",
-   "T4: execution leak -7.1c/$1 \u2014 the binding constraint",
+   "T4: execution leak -7.2c/$1 \u2014 the binding constraint",
    "edge-anti-signal (kb5/pt6 negative own-edge weights) \u2014 D-edge-band"
   ]
  },
  "error_funnel": [
   {
    "stage": "Oracle opportunity (same rules, clairvoyant)",
-   "ev_per_1": 1.795,
+   "ev_per_1": 1.7799,
    "kind": "measured",
-   "n": 122
+   "n": 125
   },
   {
    "stage": "Forecast + probability + decision losses",
@@ -183,18 +182,18 @@
   },
   {
    "stage": "Desk decision EV (model quotes)",
-   "ev_per_1": 0.01879,
+   "ev_per_1": 0.02067,
    "kind": "measured",
-   "n": 626
+   "n": 628
   },
   {
    "stage": "Execution gap (quote\u2192fill)",
-   "ev_per_1": -0.0713,
+   "ev_per_1": -0.07177,
    "kind": "measured"
   },
   {
    "stage": "Realized EV (real fills)",
-   "ev_per_1": -0.05251,
+   "ev_per_1": -0.0511,
    "kind": "measured"
   }
  ],
@@ -212,20 +211,20 @@
   "running": 4,
   "high_information": 2,
   "retire_candidates": 1,
-  "too_selective": 1,
+  "too_selective": 0,
   "stale": 3
  },
  "blind_spots": [
   {
    "spot": "no arm beats market BSS",
    "tier": "T2",
-   "evidence": "best -0.0005",
+   "evidence": "best -0.0009",
    "action": "investigate"
   },
   {
    "spot": "execution leak",
    "tier": "T4",
-   "evidence": "-7.1c/$1",
+   "evidence": "-7.2c/$1",
    "action": "prioritize (M10 family racing)"
   },
   {
@@ -243,7 +242,7 @@
   {
    "spot": "oracle regret",
    "tier": "cross-tier",
-   "evidence": "1.8972/$1/window",
+   "evidence": "1.8671/$1/window",
    "action": "decompose"
   }
  ],
