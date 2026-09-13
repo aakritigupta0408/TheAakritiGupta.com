@@ -9,11 +9,15 @@
   "EXECUTION_TIMING": "REGISTERED_FORMAL_PENDING_RUNTIME_ACTIVATION",
   "ORTHOGONAL_CAPTURE": "IMPLEMENTATION_READY_PENDING_RUNTIME_ACTIVATION",
   "PREOPEN_ORACLE_CAPTURE": "IMPLEMENTATION_READY_PENDING_RUNTIME_ACTIVATION",
-  "CONTRACT_MECHANICS": "MECH_FAIR_ESTABLISHED (Brier 0.2024; explains 74% of Kalshi edge)",
-  "MECHANICS_RESIDUAL_ORACLE": "INFORMATION_LIMITED (independent features add nothing beyond mechanics OOS)",
+  "CONTRACT_MECHANICS": "MECH_FAIR_ESTABLISHED (Coinbase-proxy Brier 0.2024; explains 74-76% of Kalshi edge)",
+  "CONTRACT_MECHANICS_BRTI": "MECH_FAIR_BRTI (exact benchmark; Brier 0.1989; explains 82% of Kalshi edge; settlement-aware; ties/beats Kalshi at T-2..0 and on HARD contracts; gap=GAP_SHRINKS_BUT_REMAINS, mid-window +0.018)",
+  "MECHANICS_RESIDUAL_ORACLE_BRTI": "INFORMATION_LIMITED (Family A single-venue microstructure adds nothing OOS beyond exact-BRTI mechanics, incl. mid-window; diagnosis INFORMATION_LIMITED)",
+  "MECH_RECALIBRATION": "GAP_IS_MOSTLY_CALIBRATION (isotonic recal of MECH_BRTI, no features, closes 69% of mech-vs-Kalshi gap; recalibrated mechanics BEATS Kalshi at T-15..9 and T-2..0; residual gap ~0.003 Brier is mid-window model-form, not Family-A information)",
+  "LABEL_RESCORE": "NO_EXPERIMENT_INVALIDATED (§10: clean P(YES) logs mismatch official labels <=4.4%, Brier shift <0.005; MINOR_CHANGE; prior conclusions stand)",
+  "DISAGREEMENT_EDGE": "PROMISING_PENDING_PROSPECTIVE (§28-31: recalibrated-MECH_BRTI oracle vs Kalshi; in disagreement buckets oracle dir-acc 0.70-0.79 > market 0.64-0.76; selective paper EV/eligible-window +0.128 at 8pp gap, moving-block 95% CI [0.037,0.224]; but n=111 windows retrospective + non-monotone earliness => NOT confirmed; needs live paper)",
   "LABEL_AUDIT": "TARGET_DEFINITION_MISMATCH \u2014 4.5% divergence; official BRTI outcomes now canonical"
  },
- "primary_bottleneck": "BRTI_ACCESS_UNVERIFIED",
+ "primary_bottleneck": "PROSPECTIVE_CAPTURE — retrospective single-venue data is exhausted: exact-BRTI mechanics (recalibrated) matches/beats Kalshi, Family-A microstructure adds nothing OOS, and a disagreement-based selective paper edge is PROMISING but underpowered (n=111 windows). Confirming that edge AND testing genuinely-independent Families B-E (multi-venue lead/lag, derivatives, options, news) both require LIVE prospective capture.",
  "settlement_alpha": "MECHANICS_EXPLAINS_74pct_OF_KALSHI; RESIDUAL_MID_WINDOW_GAP_IS_BENCHMARK_BASIS_NOT_FEATURES",
  "the_one_positive_mechanism": {
   "id": "EXEC-TIMING",
@@ -41,10 +45,14 @@
  "secondary_focus": "MID_WINDOW_RESIDUAL_INFORMATION",
  "canonical_labels": "results/contract_outcomes.jsonl (official Kalshi BRTI outcomes)",
  "brti_access": {
-  "endpoint": "/trade-api/v2/cfbenchmarks/values?id=BRTI (prod+demo)",
-  "state": "REAL_AUTH_GATED_401",
-  "private_key": "present (~/.kalshi_demo.pem)",
-  "missing": "KALSHI_DEMO_KEY_ID",
-  "adapter": "data/adapters/brti.py (ready; probes+history+parity on activation)"
+  "state": "AVAILABLE",
+  "host": "https://api.elections.kalshi.com",
+  "credential": "~/.kalshi_key_api (bundled PEM + key-id UUID; parsed by adapter)",
+  "live_endpoint": "cfbenchmarks/values?id=BRTI -> rolling 1h of 1s samples",
+  "history_endpoint": "cfbenchmarks/history/values?id=BRTI&timespan=HOUR&timestamp=<ISO hour>; full hour per call; 5Hz ~90d, 1Hz >=180d",
+  "settlement_convention": "reference at boundary T = mean BRTI over [T-60, T)",
+  "parity": "BRTI_PARITY_CONFIRMED (research/brti_parity.json): 40 windows, recon abs err mean $0.089 / max $0.42, 0 outcome flips vs official",
+  "impact": "removes the $18 Coinbase-BRTI basis (17.6% near-boundary flips) that was the residual mid-window bottleneck",
+  "adapter": "data/adapters/brti.py (probe + hour_samples + avg_60s_ending + parity)"
  }
 }
