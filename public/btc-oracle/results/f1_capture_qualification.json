@@ -1,5 +1,5 @@
 {
- "generated_ts": 1789288223,
+ "generated_ts": 1789291841,
  "gate": "F1",
  "gate_version": "2.1",
  "governing_rule": "v2.1 stitched clean segments",
@@ -7,11 +7,11 @@
  "governing_metric_note": "PM 2026-09-11 directive: MSE governs (was robust MAE). MSE is outlier-SENSITIVE; on the identical clean sample its relative MDE runs ~3-4x MAE's, so at the unchanged 8% threshold this RAISES the sufficiency bar and pushes F1 further from PASS. Robust metrics (MAE/Huber) remain in the report for reference but no longer gate.",
  "amendment": "PM 2026-09-03 \u2014 clean-window truncation + pre-registered statistical sufficiency; v1 span-coverage rule retired (rationale: f1_sufficiency_audit sha in commit 1caa9a9). PM 2026-09-11 \u2014 governing metric MAE->MSE (GATE_F1_V2.2).",
  "anti_peeking_law": "criteria frozen before any T1.1 model result; model outcomes never amend this gate",
- "days": 13.87,
+ "days": 13.91,
  "eligible_window": {
   "start_utc": "09-13 07:38",
-  "end_utc": "09-13 08:33",
-  "days": 0.04,
+  "end_utc": "09-13 09:33",
+  "days": 0.08,
   "machine_outages_all_capture": [
    {
     "start_utc": "08-30 21:02",
@@ -189,29 +189,55 @@
    "okx": [],
    "kraken": []
   },
-  "outcome_diversity": {},
+  "outcome_diversity": {
+   "h5": {
+    "up_frac": 0.0,
+    "median_abs_bps": 2.7
+   },
+   "h15": {
+    "up_frac": 0.5,
+    "median_abs_bps": 4.4
+   },
+   "h30": {
+    "up_frac": 0.5,
+    "median_abs_bps": 5.8
+   }
+  },
   "power": {
    "h5": {
-    "usable_n": 0,
+    "usable_n": 2,
     "state": "TOO_FEW_OBS"
    },
    "h15": {
-    "usable_n": 0,
+    "usable_n": 2,
     "state": "TOO_FEW_OBS"
    },
    "h30": {
-    "usable_n": 0,
+    "usable_n": 2,
     "state": "TOO_FEW_OBS"
    }
   },
   "temporal_blocks_6h": {
-   "n_blocks": 0,
-   "vol_tercile_share": {},
-   "up_block_frac": null,
-   "blocks": []
+   "n_blocks": 1,
+   "vol_tercile_share": {
+    "LOW": 1.0,
+    "MID": 0.0,
+    "HIGH": 0.0
+   },
+   "up_block_frac": 0.0,
+   "blocks": [
+    {
+     "block_utc": "09-13 06:00",
+     "block_id": 82837,
+     "vol_bps": 31.5,
+     "ret_bps": -69.9,
+     "n_min": 115,
+     "vol_tercile": "LOW"
+    }
+   ]
   },
   "regime_concentration_of_usable": {
-   "LOW": 0.0,
+   "LOW": 1.0,
    "MID": 0.0,
    "HIGH": 0.0
   }
@@ -240,20 +266,20 @@
    "ess_min_150",
    "mde80_max_8pct_of_MSE"
   ],
-  "ess_min_across_horizons": 138.5,
-  "usable_days_ex_outages": 13.83,
-  "mde80_worst_pct_of_MSE": 39.1,
+  "ess_min_across_horizons": 139.1,
+  "usable_days_ex_outages": 13.88,
+  "mde80_worst_pct_of_MSE": 39.0,
   "power": {
    "h5": {
-    "usable_n": 1073,
-    "ess": 193.4,
-    "ess_ratio": 0.18,
+    "usable_n": 1075,
+    "ess": 192.9,
+    "ess_ratio": 0.179,
     "acf_head": [
-     0.2295,
-     0.1473,
-     0.154,
-     0.1063,
-     0.1966
+     0.2299,
+     0.1478,
+     0.1546,
+     0.107,
+     0.1972
     ],
     "baseline_mae_bps": 6.4,
     "mde_by_metric_rho95": {
@@ -263,7 +289,7 @@
      },
      "Huber": {
       "kind": "robust",
-      "mde80_pct_of_metric": 14.1
+      "mde80_pct_of_metric": 14.2
      },
      "MSE": {
       "kind": "outlier-sensitive",
@@ -294,31 +320,31 @@
     },
     "folds": {
      "n_folds": 5,
-     "per_fold": 214,
+     "per_fold": 215,
      "min_required": 48,
      "viable": true,
      "fold_mae_bps": [
       7.8,
-      6.9,
+      6.8,
       4.9,
-      7.2,
-      5.5
+      7.1,
+      5.4
      ],
      "fold_mae_cv": 0.188
     }
    },
    "h15": {
-    "usable_n": 1072,
-    "ess": 170.4,
-    "ess_ratio": 0.159,
+    "usable_n": 1074,
+    "ess": 170.0,
+    "ess_ratio": 0.158,
     "acf_head": [
-     0.3158,
-     0.1722,
-     0.1689,
-     0.1667,
-     0.2684
+     0.3161,
+     0.1725,
+     0.1694,
+     0.1674,
+     0.269
     ],
-    "baseline_mae_bps": 11.0,
+    "baseline_mae_bps": 10.9,
     "mde_by_metric_rho95": {
      "MAE": {
       "kind": "robust",
@@ -371,15 +397,15 @@
     }
    },
    "h30": {
-    "usable_n": 1072,
-    "ess": 138.5,
+    "usable_n": 1074,
+    "ess": 139.1,
     "ess_ratio": 0.129,
     "acf_head": [
-     0.4579,
-     0.2331,
+     0.4573,
+     0.2327,
      0.1737,
-     0.2628,
-     0.2281
+     0.2625,
+     0.2276
     ],
     "baseline_mae_bps": 15.4,
     "mde_by_metric_rho95": {
@@ -393,29 +419,29 @@
      },
      "MSE": {
       "kind": "outlier-sensitive",
-      "mde80_pct_of_metric": 39.1
+      "mde80_pct_of_metric": 39.0
      },
      "RMSE": {
       "kind": "outlier-sensitive",
-      "mde80_pct_of_metric": 19.6
+      "mde80_pct_of_metric": 19.5
      }
     },
     "sd_abs_err_bps": 19.0,
     "min_detectable_improvement": {
      "rho_0.9": {
-      "mde80_bps": 2.03,
+      "mde80_bps": 2.02,
       "mde80_pct_of_mae": 13.1,
-      "ci95_width_bps": 2.84
+      "ci95_width_bps": 2.83
      },
      "rho_0.95": {
       "mde80_bps": 1.43,
       "mde80_pct_of_mae": 9.3,
-      "ci95_width_bps": 2.01
+      "ci95_width_bps": 2.0
      },
      "rho_0.99": {
       "mde80_bps": 0.64,
-      "mde80_pct_of_mae": 4.2,
-      "ci95_width_bps": 0.9
+      "mde80_pct_of_mae": 4.1,
+      "ci95_width_bps": 0.89
      }
     },
     "folds": {
@@ -437,21 +463,21 @@
  },
  "integrity_whole_capture": {
   "binance": {
-   "rows": 33512730,
+   "rows": 33627638,
    "pit_violations": 0,
    "max_skew_s": 0.679,
    "out_of_order": 11,
    "bad_rows": 0
   },
   "okx": {
-   "rows": 2618176,
+   "rows": 2628286,
    "pit_violations": 0,
    "max_skew_s": 0.677,
    "out_of_order": 2,
    "bad_rows": 0
   },
   "kraken": {
-   "rows": 1025480,
+   "rows": 1029371,
    "pit_violations": 0,
    "max_skew_s": 0.668,
    "out_of_order": 1,
