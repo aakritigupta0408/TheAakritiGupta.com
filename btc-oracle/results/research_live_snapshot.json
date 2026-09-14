@@ -1,0 +1,1745 @@
+{
+ "schema_version": "research-live-snapshot-1",
+ "generated_at": 1789802588.1516511,
+ "headline": "I am determining what the 6,337 historical contracts genuinely knew at T0. BRTI coverage audited (coarse 2h: 6189/6337; fine 5m: 363). Alpha Vantage cross-asset history and derivatives backfill in parallel. No model competes until feature coverage and the full leakage gate are frozen.",
+ "phase_headline": "I am finishing the information set before allowing models to compete. The large coarse BTC backbone is frozen and reconciled (COARSE_ROW 6,200 / 2H_CORE 6,189 / COMPLETE_20 6,149; Family-A default COMPLETE_20). Fine-resolution BTC (365 windows), Alpha Vantage context, derivatives, options and news are being resolved in parallel. Every source must prove historical availability before entering TRUE15M_DATASET_V1.",
+ "fine_cohort": {
+  "n_windows": 365,
+  "n_features": 14,
+  "role": "Family-B challenger (small N, not main universe)"
+ },
+ "why": "The genuine BTC-state core is only as large as the real pre-T0 BRTI lookback. We measure it before building features, so nothing assumes coverage it lacks.",
+ "next": "Build COARSE_BTC_STATE features on the ~6,189 large core + FINE features on the ~363 sub-minute block; expand AV cross-asset; then coverage matrix, TRUE15M_DATASET_V1, full integrity gate, frozen split \u2014 then models.",
+ "capture": {
+  "schema_version": "live-capture-health-1",
+  "generated_at": 1789802588.12891,
+  "status": "LIVE",
+  "heartbeat_age_s": 24.0,
+  "current_contract": "KXBTC15M-26SEP190330-30",
+  "contracts_total_historical": 6337,
+  "note": "Always-live collector: btc_rl.online freezes each KXBTC15M window at T0 and records exact BRTI settlement at T1, independent of all research jobs."
+ },
+ "lanes": [
+  {
+   "id": "L0",
+   "name": "Live capture",
+   "status": "RUNNING",
+   "detail": "current KXBTC15M-26SEP190330-30",
+   "progress": null,
+   "blocked_reason": null
+  },
+  {
+   "id": "L1",
+   "name": "Contract / BRTI inventory",
+   "status": "COMPLETE",
+   "detail": "6337 settled windows, labels 100%",
+   "progress": "6337/6337",
+   "blocked_reason": null
+  },
+  {
+   "id": "L2",
+   "name": "Alpha Vantage backfill",
+   "status": "PASS",
+   "detail": "MINI-1 \u00b7 BTC 0/25, SPY 25/25, QQQ 25/25",
+   "progress": "25/6337",
+   "blocked_reason": "cohort-only so far; full backfill pending (BTC dynamics come from BRTI, not AV crypto)"
+  },
+  {
+   "id": "L3",
+   "name": "Exchange market data",
+   "status": "PARTIAL",
+   "detail": "cross-venue PIT layer exists for recent windows",
+   "progress": "370/6337",
+   "blocked_reason": "historical coverage limited to captured windows"
+  },
+  {
+   "id": "L4",
+   "name": "Derivatives / options",
+   "status": "PARTIAL",
+   "detail": "OKX derivatives adapter live; options capture exists",
+   "progress": null,
+   "blocked_reason": "historical backfill not built"
+  },
+  {
+   "id": "L5",
+   "name": "News / macro",
+   "status": "PARTIAL",
+   "detail": "AV news capture exists",
+   "progress": null,
+   "blocked_reason": "historical vintage backfill not built"
+  },
+  {
+   "id": "L6",
+   "name": "Feature factory",
+   "status": "PARTIAL",
+   "detail": "F-CONTRACT price-path family built; broad universe pending",
+   "progress": null,
+   "blocked_reason": "awaiting rich-source backfill"
+  },
+  {
+   "id": "L7",
+   "name": "Data integrity",
+   "status": "PASS",
+   "detail": "PIT + one-per-window green on the built dataset",
+   "progress": null,
+   "blocked_reason": null
+  },
+  {
+   "id": "L8",
+   "name": "Model research",
+   "status": "COMPLETE",
+   "detail": "baseline ladder M0-M4; verdict NO_CANDIDATE",
+   "progress": null,
+   "blocked_reason": null
+  },
+  {
+   "id": "L9",
+   "name": "Falsification",
+   "status": "PASS",
+   "detail": "label-shuffle placebo run",
+   "progress": null,
+   "blocked_reason": null
+  },
+  {
+   "id": "L10",
+   "name": "UI / Research Narrator",
+   "status": "RUNNING",
+   "detail": "private live feed online",
+   "progress": null,
+   "blocked_reason": null
+  },
+  {
+   "id": "L11",
+   "name": "Research Intelligence",
+   "status": "RUNNING",
+   "detail": "9 experiment specs queued (specs only, no training)",
+   "progress": null,
+   "blocked_reason": "all specs QUEUED_AFTER_DATASET_GATE"
+  }
+ ],
+ "blockers": [
+  {
+   "lane": "L2",
+   "reason": "cohort-only so far; full backfill pending (BTC dynamics come from BRTI, not AV crypto)"
+  },
+  {
+   "lane": "L3",
+   "reason": "historical coverage limited to captured windows"
+  },
+  {
+   "lane": "L4",
+   "reason": "historical backfill not built"
+  },
+  {
+   "lane": "L5",
+   "reason": "historical vintage backfill not built"
+  },
+  {
+   "lane": "L6",
+   "reason": "awaiting rich-source backfill"
+  },
+  {
+   "lane": "L11",
+   "reason": "all specs QUEUED_AFTER_DATASET_GATE"
+  }
+ ],
+ "dataset_progress": {
+  "historical_windows": 6337,
+  "official_label_coverage": "100%",
+  "raw_brti_reconstruction": "5.8%",
+  "raw_brti_reconstruction_n": 370,
+  "verified_t0_dataset_windows": 6251,
+  "class_balance_up": 0.5002,
+  "brti_state_coverage": {
+   "1m": 155,
+   "5m": 363,
+   "15m": 6309,
+   "30m": 6292,
+   "60m": 6257,
+   "2h": 6189
+  },
+  "core_cohorts": {
+   "COARSE_BTC_STATE (>=2h @15m res)": {
+    "n": 6189,
+    "pct": 97.66
+   },
+   "FINE_BTC_STATE (real 5m sub-minute)": {
+    "n": 363,
+    "pct": 5.73
+   }
+  },
+  "note": "Official outcomes/targets from Kalshi settled records cover all 6337 windows; exact 60s-BRTI PATHS reconstructed for 370 only. We do NOT claim path reconstruction for all windows."
+ },
+ "current_best_model": {
+  "f_contract_result": "NO_CANDIDATE",
+  "f_contract_classification": "INFORMATION_LIMITED",
+  "scope": "contract / pre-open price-path information only",
+  "global_true15m_conclusion": "NOT_YET_DETERMINED",
+  "note": "The richer feature universe (momentum/volume/volatility/RSI-MACD/cross-asset/microstructure/derivatives/options/news/macro/regimes) is not yet built or tested."
+ },
+ "baseline": {
+  "OFFICIAL_COURSE_BASELINE": "NOT_FOUND",
+  "INTERNAL_RESEARCH_BASELINE": "RESOLVED",
+  "name": "INTERNAL_ADOPTED_BASELINE_V1",
+  "primary_comparison": "empirical class-frequency baseline",
+  "primary_metrics": [
+   "log_loss",
+   "brier"
+  ],
+  "external_benchmark": "Kalshi-at-open",
+  "market_relative_requirement": "BSS_vs_Kalshi_at_open > 0",
+  "note": "INTERNAL adopted benchmark, NOT a course baseline \u2014 repo has no official one. See research/true15m/INTERNAL_ADOPTED_BASELINE_V1.yaml"
+ },
+ "latest_discovery": {
+  "title": "TEST_V1 marked SPENT; TEST_V2 sealed forward",
+  "narrative": null
+ },
+ "active_jobs": [
+  {
+   "id": "coarse_features",
+   "lane": "L1",
+   "title": "COARSE feature factory (brti_coarse.* on ~6,189 cohort)",
+   "status": "COMPLETE",
+   "started_at": 1789412047.2616441,
+   "ended_at": 1789412048.001411,
+   "duration_ms": 739,
+   "deps": [],
+   "returncode": 0
+  },
+  {
+   "id": "fine_features",
+   "lane": "L7",
+   "title": "FINE feature factory (brti_fine.* on ~363-window Family-B cohort)",
+   "status": "COMPLETE",
+   "started_at": 1789412047.262176,
+   "ended_at": 1789412047.3939998,
+   "duration_ms": 131,
+   "deps": [],
+   "returncode": 0
+  },
+  {
+   "id": "coarse_semantics",
+   "lane": "L7",
+   "title": "COARSE_MARK_AVAILABILITY_SEMANTICS integrity",
+   "status": "COMPLETE",
+   "started_at": 1789412047.26193,
+   "ended_at": 1789412047.312602,
+   "duration_ms": 50,
+   "deps": [],
+   "returncode": 0
+  },
+  {
+   "id": "av_expand",
+   "lane": "L2",
+   "title": "Alpha Vantage cross-asset backfill (MINI-1, 25 windows)",
+   "status": "COMPLETE",
+   "started_at": 1789412047.262421,
+   "ended_at": 1789412048.61831,
+   "duration_ms": 1355,
+   "deps": [],
+   "returncode": 0
+  },
+  {
+   "id": "coarse_reconcile",
+   "lane": "L7",
+   "title": "COARSE_FACTORY_COHORT_RECONCILIATION (6,189 vs 6,200)",
+   "status": "COMPLETE",
+   "started_at": 1789412048.0016232,
+   "ended_at": 1789412048.168824,
+   "duration_ms": 166,
+   "deps": [
+    "coarse_features"
+   ],
+   "returncode": 0
+  },
+  {
+   "id": "fine_reconcile",
+   "lane": "L7",
+   "title": "FINE_FACTORY_COHORT_RECONCILIATION (363 vs 365)",
+   "status": "COMPLETE",
+   "started_at": 1789412047.3941991,
+   "ended_at": 1789412047.513816,
+   "duration_ms": 119,
+   "deps": [
+    "fine_features"
+   ],
+   "returncode": 0
+  },
+  {
+   "id": "fine_ret5m_guard",
+   "lane": "L7",
+   "title": "brti_fine.ret_5m elapsed-time guard",
+   "status": "COMPLETE",
+   "started_at": 1789412047.3943958,
+   "ended_at": 1789412047.5094662,
+   "duration_ms": 114,
+   "deps": [
+    "fine_features"
+   ],
+   "returncode": 0
+  },
+  {
+   "id": "research_intel",
+   "lane": "L11",
+   "title": "Research Intelligence queue (RI-001..009, specs only)",
+   "status": "COMPLETE",
+   "started_at": 1789412047.2639658,
+   "ended_at": 1789412047.290328,
+   "duration_ms": 26,
+   "deps": [],
+   "returncode": 0
+  },
+  {
+   "id": "av_full",
+   "lane": "L2",
+   "title": "AV full backfill + A_AV cohort + incremental test",
+   "status": "COMPLETE",
+   "started_at": 1789412048.001832,
+   "ended_at": 1789412081.682739,
+   "duration_ms": 33680,
+   "deps": [
+    "coarse_features"
+   ],
+   "returncode": 0
+  },
+  {
+   "id": "deriv_backfill",
+   "lane": "L4",
+   "title": "Derivatives backfill + A_DERIV incremental test (OKX funding)",
+   "status": "COMPLETE",
+   "started_at": 1789412048.002051,
+   "ended_at": 1789412051.867282,
+   "duration_ms": 3864,
+   "deps": [
+    "coarse_features"
+   ],
+   "returncode": 0
+  },
+  {
+   "id": "news_backfill",
+   "lane": "L6",
+   "title": "News backfill + A_NEWS incremental test (AV, published_at<=T0)",
+   "status": "COMPLETE",
+   "started_at": 1789412048.002312,
+   "ended_at": 1789412054.586285,
+   "duration_ms": 6583,
+   "deps": [
+    "coarse_features"
+   ],
+   "returncode": 0
+  },
+  {
+   "id": "options_probe",
+   "lane": "L5",
+   "title": "Options historical probe -> binary resolution",
+   "status": "COMPLETE",
+   "started_at": 1789412047.288557,
+   "ended_at": 1789412047.309868,
+   "duration_ms": 20,
+   "deps": [],
+   "returncode": 0
+  },
+  {
+   "id": "offline_program",
+   "lane": "L8",
+   "title": "TRUE15M offline program (dataset->split->ladder->sealed test->verdict, A_CORE)",
+   "status": "COMPLETE",
+   "started_at": 1789412048.1693408,
+   "ended_at": 1789412058.1495419,
+   "duration_ms": 9979,
+   "deps": [
+    "coarse_features",
+    "coarse_reconcile"
+   ],
+   "returncode": 0
+  },
+  {
+   "id": "distributional_models",
+   "lane": "L8",
+   "title": "Level-5 distributional models (CatBoost/NGBoost)",
+   "status": "COMPLETE",
+   "started_at": 1789412058.150253,
+   "ended_at": 1789412115.0744278,
+   "duration_ms": 56923,
+   "deps": [
+    "offline_program"
+   ],
+   "returncode": 0
+  },
+  {
+   "id": "model_diagnostics",
+   "lane": "L12",
+   "title": "L12 model-failure diagnostics (memorization ladder + optimization)",
+   "status": "COMPLETE",
+   "started_at": 1789412058.150014,
+   "ended_at": 1789412172.415318,
+   "duration_ms": 114264,
+   "deps": [
+    "offline_program"
+   ],
+   "returncode": 0
+  },
+  {
+   "id": "freeze_universe",
+   "lane": "L1",
+   "title": "Freeze FEATURE_UNIVERSE_V1 (feature search closed)",
+   "status": "COMPLETE",
+   "started_at": 1789412047.263304,
+   "ended_at": 1789412047.288339,
+   "duration_ms": 24,
+   "deps": [],
+   "returncode": 0
+  },
+  {
+   "id": "sealed_test_gov",
+   "lane": "L9",
+   "title": "Sealed-test governance (TEST_V1 SPENT, seal TEST_V2)",
+   "status": "COMPLETE",
+   "started_at": 1789412058.149749,
+   "ended_at": 1789412058.2389388,
+   "duration_ms": 83,
+   "deps": [
+    "offline_program"
+   ],
+   "returncode": 0
+  },
+  {
+   "id": "coverage_matrix",
+   "lane": "L9",
+   "title": "Coverage / cohort matrix (waits on selected sources)",
+   "status": "COMPLETE",
+   "started_at": 1789412048.618548,
+   "ended_at": 1789412048.639372,
+   "duration_ms": 20,
+   "deps": [
+    "coarse_features",
+    "av_expand"
+   ],
+   "returncode": 0
+  }
+ ],
+ "scheduler": {
+  "jobs_total": 18,
+  "complete": 18,
+  "running": 0,
+  "failed": 0
+ },
+ "milestone": "P2 \u2014 OFFLINE MODEL/FEATURE PROGRAM (A_CORE complete)",
+ "offline_verdict": {
+  "generated_at": 1789412058.081045,
+  "verdict": "NO_OFFLINE_QUALIFIED_MODEL",
+  "scope": "A_CORE (COARSE_COMPLETE_20, 20 brti_coarse.* features, N=6149)",
+  "finalist": "rf",
+  "target": "TGT-A",
+  "internal_baseline": "INTERNAL_ADOPTED_BASELINE_V1 (empirical class-frequency / 0.5)",
+  "val_logloss": 0.68978,
+  "baseline_val_logloss": 0.69315,
+  "sealed_test": {
+   "log_loss": 0.69333,
+   "brier": 0.2501,
+   "accuracy": 0.5168,
+   "auc": 0.5142,
+   "ece": 0.015
+  },
+  "baseline_test": {
+   "log_loss": 0.69315,
+   "brier": 0.25,
+   "accuracy": 0.4919,
+   "auc": 0.5,
+   "ece": 0.0081
+  },
+  "label_shuffle_val_logloss": 0.69784,
+  "market_benchmark": "Kalshi-at-open BSS pending per-window historical capture (Phase-B)",
+  "diagnosis": "signal_too_weak / information_limited on the CORE coarse information set; external context (AV/derivatives/options/news) + neural/foundation families remain to be run before a global conclusion",
+  "not_run_families": {
+   "catboost": "library not installed",
+   "ngboost": "library not installed",
+   "mlp/ft_transformer/tabnet": "neural \u2014 deferred to next compute generation",
+   "tcn/lstm/gru/patchtst/itransformer": "temporal \u2014 deferred",
+   "chronos2/timesfm3/kronos/moirai": "foundation TSFM \u2014 deferred (compute)"
+  }
+ },
+ "sealed_test_status": {
+  "schema_version": "sealed-test-status-1",
+  "generated_at": 1789418409.656832,
+  "TEST_V1": {
+   "status": "EXPOSED_SPENT",
+   "range": [
+    1788390900,
+    1789254900
+   ],
+   "n": 923,
+   "hash": "689395a6e9ee43c6",
+   "reason": "Observed during ongoing research (RF finalist scored on it) while derivatives/news/neural/foundation lanes remain untested. No longer blind.",
+   "data_quality": "FINE \u2014 not contaminated data; simply no longer eligible as the final blind audit for the eventual champion.",
+   "valid_historical_results": {
+    "A_CORE": "NO_OFFLINE_QUALIFIED_MODEL on TEST_V1 (remains a valid historical result)"
+   },
+   "rule": "Future model selection must NOT optimize against TEST_V1 and then claim success on TEST_V1."
+  },
+  "TEST_V2": {
+   "status": "SEALED_ACCUMULATING",
+   "cutoff_T0": 1789254900,
+   "start_after": 1789254900,
+   "accumulated_windows": 175,
+   "target_windows": 672,
+   "eta_note": "L0 live capture accrues ~96 windows/day; ~7 days -> 672, ~14 -> 1,344.",
+   "source": "forward settled feed (results/contract_outcomes.jsonl) -> research/true15m/TEST_V2_MEMBERSHIP.jsonl (built by rule, not outcome)",
+   "membership_file": "research/true15m/TEST_V2_MEMBERSHIP.jsonl",
+   "capture_audit": "research/true15m/TEST_V2_CAPTURE_AUDIT.json",
+   "accumulator_fix": "counts the forward membership, NOT the frozen inventory (contract_inventory.jsonl ends at the cutoff -> old 0-count bug).",
+   "seal_rule": "NEVER used for feature selection, model selection, architecture, hyperparameters, calibration, thresholds, or ensembles.",
+   "open_when": "model registry + finalists frozen \u2014 opened exactly once."
+  },
+  "INVALIDATED_RESULTS": [
+   {
+    "id": "AV_incremental_v0",
+    "claim": "BASE+AV cross-asset context improves log loss by ~0.042",
+    "delta_logloss_raw": -0.042,
+    "status": "INVALIDATED_RESULT",
+    "cause": "future 5-minute bar leakage \u2014 AV bars timestamped at bar START; as-of join on ts<=T0 admitted a bar whose interval extends ~5 min past T0.",
+    "corrected_delta_logloss": -0.001,
+    "corrected_verdict": "AV_NO_OOS_VALUE",
+    "lesson": "the system caught itself cheating; a strong result collapsed under causal alignment. Kept in history, never erased."
+   }
+  ],
+  "test_state_taxonomy": [
+   "DEVELOPMENT/WALK-FORWARD",
+   "VALIDATION",
+   "TEST_V1 \u2014 SPENT",
+   "TEST_V2 \u2014 SEALED",
+   "PROSPECTIVE \u2014 COLLECTING"
+  ]
+ },
+ "av_incremental": {
+  "shared_n": 1198,
+  "val_n": 240,
+  "base_val_logloss": 0.69089,
+  "base_plus_av_val_logloss": 0.68989,
+  "delta_logloss": -0.001,
+  "verdict": "AV_NO_OOS_VALUE",
+  "note": "same-windows comparison (\u00a715); AV adds value only if it lowers OOS log loss."
+ },
+ "deriv_incremental": {
+  "shared_n": 5226,
+  "base_val_logloss": 0.69128,
+  "base_plus_deriv_val_logloss": 0.69185,
+  "delta_logloss": 0.00057,
+  "verdict": "DERIV_NO_OOS_VALUE",
+  "note": "funding-only; dev windows (TRAIN+VAL) only; TEST_V2 untouched."
+ },
+ "deriv_coverage": {
+  "funding": {
+   "status": "BACKFILLED",
+   "observed_N": 6337,
+   "coverage_pct": 100.0,
+   "cadence": "8h settlements",
+   "pit_violations": 0,
+   "span_start": 1780905600,
+   "missing_reason": ""
+  },
+  "open_interest": {
+   "status": "HISTORICALLY_UNAVAILABLE",
+   "reason": "OKX public open-interest is a current snapshot only; no per-timestamp history for Jul-Sep -> cannot PIT-join.",
+   "probe": {
+    "reachable": true,
+    "rows": 1,
+    "code": "0"
+   }
+  },
+  "liquidations": {
+   "status": "HISTORICALLY_UNAVAILABLE",
+   "reason": "OKX public liquidation-orders retains only ~recent day; no historical archive for the contract span."
+  },
+  "long_short_ratio": {
+   "status": "HISTORICALLY_UNAVAILABLE",
+   "reason": "OKX rubik long-short-account-ratio retains only recent period; does not reach Jul-Sep -> INVALID_FOR_PIT if used.",
+   "probe": {
+    "reachable": true,
+    "rows": 576,
+    "code": "0"
+   }
+  },
+  "taker_imbalance": {
+   "status": "HISTORICALLY_UNAVAILABLE",
+   "reason": "OKX rubik taker-volume retains only recent period.",
+   "probe": {
+    "reachable": false,
+    "error": "HTTP Error 400: Bad Request"
+   }
+  },
+  "basis": {
+   "status": "HISTORICALLY_UNAVAILABLE",
+   "reason": "perp/index basis history needs paired mark+index series not recoverable at 15-min PIT resolution from public endpoints."
+  }
+ },
+ "family_verdicts": {
+  "A_CORE": "NO_OFFLINE_QUALIFIED_MODEL (TEST_V1, spent)",
+  "A_AV": "AV_NO_OOS_VALUE (edge was leakage)",
+  "A_DERIV": "DERIV_NO_OOS_VALUE (funding only; OI/liq/LS/taker/basis HISTORICALLY_UNAVAILABLE)",
+  "A_NEWS": "NEWS_NO_OOS_VALUE (1,310 articles, 85% active, 0 leakage)",
+  "OPTIONS": "HISTORICALLY_UNAVAILABLE for 15m (daily EOD ETF proxy excluded)"
+ },
+ "news_incremental": {
+  "shared_n": 5226,
+  "base_val_logloss": 0.69128,
+  "base_plus_news_val_logloss": 0.69129,
+  "delta_logloss": 1e-05,
+  "verdict": "NEWS_NO_OOS_VALUE",
+  "note": "dev (TRAIN+VAL) windows only; TEST_V2 untouched."
+ },
+ "feature_universe": "FROZEN",
+ "model_stack_diagnostics": {
+  "stack_healthy": true,
+  "summary": "Mixed: see per-model diagnosis before any INFORMATION_LIMITED claim."
+ },
+ "distributional_family": "PROMISING:catboost_clf",
+ "loss_calibration_sweeps": {
+  "verdict": "WEAK_UNSTABLE_CANDIDATE",
+  "interpretation": "A magnitude-aware loss shows a WEAK, UNSTABLE edge: TGT-D_quantile: WF median 0.69109 vs base 0.69315, 3/5 folds beat baseline. The WF median passes the threshold but folds disagree (not >=80% consistent) and AUCs are ~0.5, so there is no reliable ranking for calibration to rescue. Consistent with the prescribed global wording (weak/unstable). NOT qualified; carry as a candidate into the full battery + sealed TEST_V2 \u2014 do not adopt.",
+  "baseline_val_logloss": 0.69315,
+  "val_beats_baseline": [
+   "TGT-B_huber",
+   "TGT-D_quantile",
+   "TGT-MT_multitask_best"
+  ],
+  "walk_forward": {
+   "TGT-B_huber": {
+    "per_fold": [
+     0.69223,
+     0.69631,
+     0.72813,
+     0.69069,
+     0.69276
+    ],
+    "median": 0.69276,
+    "folds_beating_baseline": 3,
+    "n_folds": 5,
+    "consistency": 0.6,
+    "median_beats": false
+   },
+   "TGT-D_quantile": {
+    "per_fold": [
+     0.69109,
+     0.6955,
+     0.69876,
+     0.68952,
+     0.68896
+    ],
+    "median": 0.69109,
+    "folds_beating_baseline": 3,
+    "n_folds": 5,
+    "consistency": 0.6,
+    "median_beats": true
+   }
+  }
+ },
+ "test_v2_capture_audit": {
+  "registered_to_V2": 175,
+  "seen": 175,
+  "target": 672,
+  "invariant_holds": true,
+  "latest_window": "KXBTC15M-26SEP141515-15",
+  "membership_mode": "APPEND_ONLY",
+  "final_membership_hash": "UNSET",
+  "append_only_invariant_holds": true,
+  "status": "ACCUMULATING"
+ },
+ "test_v2_power_analysis": {
+  "pre_registered_target_N": 672,
+  "pre_registered_delta_star": 0.01,
+  "sigma_per_window": 0.07423,
+  "mde_at_672": {
+   "power_0.80": 0.00802,
+   "power_0.90": 0.00928
+  },
+  "is_672_enough_for_delta_star": true,
+  "interpretation": "sigma\u22480.07423. At N=672 the test resolves only an edge of ~0.00802 nats at 80% power; detecting the pre-registered delta*=0.01 needs N\u2248433. Pre-registered target set to 672 (672 is sufficient). Edges below the resolvable MDE are TEST-POWER-LIMITED, not disprovable by V2 \u2014 a distinct, honest limit from information-limited."
+ },
+ "test_v2_firewall": "NO_TEST_V2_DEV_ACCESS enforced in all dev loaders (offline_program, loss_calibration, model_diagnostics, distributional_models, power_analysis); guarded by tests/test_test_v2_firewall.py.",
+ "current_evidence": "CURRENT EVIDENCE: weak or unstable generalizable signal in the tested feature/model combinations. Feature search CLOSED; training stack HEALTHY; A_CORE/A_AV/A_DERIV/A_NEWS and distributional CatBoost/NGBoost TESTED_NEGATIVE; loss-formulation sweep surfaced only a WEAK_UNSTABLE_CANDIDATE (quantile). GLOBAL INFORMATION_LIMITED is NOT YET RATIFIED \u2014 neural/temporal/foundation families and the one-time blind TEST_V2 audit remain.",
+ "research_intelligence_queue": [
+  {
+   "id": "RI-001",
+   "paper": "Chronos-2 (covariate-aware TSFM)",
+   "transfer": "multivariate/covariate temporal representation over BRTI+context",
+   "our_test": "coarse BRTI state + AV context -> frozen Chronos-2 repr -> small prob head",
+   "risk": "generic TSFM may not preserve financial direction signal at 15m",
+   "data_requirement": "A_AV cohort",
+   "status": "QUEUED_AFTER_DATASET_GATE"
+  },
+  {
+   "id": "RI-002",
+   "paper": "Kronos (financial temporal encoder)",
+   "transfer": "finance-pretrained encoder with our own PIT normalization",
+   "our_test": "PIT-safe sequence -> frozen Kronos embedding -> logistic/CatBoost head",
+   "risk": "pretraining window / leakage vs our T0 cutoff must be verified",
+   "data_requirement": "B_FINE or A_CORE sequences",
+   "status": "QUEUED_AFTER_DATASET_GATE"
+  },
+  {
+   "id": "RI-003",
+   "paper": "TimesFM 3 representation",
+   "transfer": "zero-shot forecast features as covariates",
+   "our_test": "frozen forecast features -> ridge residual on p_mech",
+   "risk": "horizon/resolution mismatch (15m marks vs model pretraining)",
+   "data_requirement": "A_CORE",
+   "status": "QUEUED_AFTER_DATASET_GATE"
+  },
+  {
+   "id": "RI-004",
+   "paper": "Moirai / Moirai-MoE (probabilistic)",
+   "transfer": "distributional forecast of BRTI displacement D",
+   "our_test": "predict distribution of D -> derive P(D>=0)",
+   "risk": "small N (esp. FINE) vs model capacity",
+   "data_requirement": "A_CORE / A_AV",
+   "status": "QUEUED_AFTER_DATASET_GATE"
+  },
+  {
+   "id": "RI-005",
+   "paper": "PatchTST",
+   "transfer": "patch-based small-sequence challenger",
+   "our_test": "coarse+fine sequences -> PatchTST -> prob head, capacity-capped",
+   "risk": "overfit at N~6k; needs strong regularization",
+   "data_requirement": "A_CORE",
+   "status": "QUEUED_AFTER_DATASET_GATE"
+  },
+  {
+   "id": "RI-006",
+   "paper": "iTransformer",
+   "transfer": "inverted-attention over feature channels",
+   "our_test": "multi-family channels -> iTransformer -> prob head",
+   "risk": "channel count vs N; interpretability",
+   "data_requirement": "A_AV_DERIV",
+   "status": "QUEUED_AFTER_DATASET_GATE"
+  },
+  {
+   "id": "RI-007",
+   "paper": "TCN baseline",
+   "transfer": "causal dilated conv sequence model",
+   "our_test": "fine sequence -> small TCN -> prob head (Family-B)",
+   "risk": "363 windows is very small for a sequence net",
+   "data_requirement": "B_FINE",
+   "status": "QUEUED_AFTER_DATASET_GATE"
+  },
+  {
+   "id": "RI-008",
+   "paper": "Distributional CatBoost (quantile) predicting D",
+   "transfer": "quantile regression of displacement -> P(D>=0)",
+   "our_test": "tabular coarse+context -> quantile CatBoost -> integrate over 0",
+   "risk": "calibration of derived probability",
+   "data_requirement": "A_AV",
+   "status": "QUEUED_AFTER_DATASET_GATE"
+  },
+  {
+   "id": "RI-009",
+   "paper": "NGBoost / conditional distribution of D",
+   "transfer": "natural-gradient boosting for predictive distribution",
+   "our_test": "tabular -> NGBoost(Normal) -> P(D>=0) with calibration",
+   "risk": "distributional assumption (heavy tails of BRTI moves)",
+   "data_requirement": "A_CORE / A_AV",
+   "status": "QUEUED_AFTER_DATASET_GATE"
+  }
+ ],
+ "coverage_matrix": [
+  {
+   "family": "BRTI coarse state",
+   "real_n": 6189,
+   "resolution": "15m marks",
+   "historical_role": "BTC dynamics (large low-frequency backbone)",
+   "main_cohort": "YES",
+   "why_missing": "148 windows lack a full contiguous 2h mark chain (capture gaps / series edges)"
+  },
+  {
+   "family": "BRTI fine state",
+   "real_n": 363,
+   "resolution": "~16s",
+   "historical_role": "short-timescale BTC state",
+   "main_cohort": "NO / challenger",
+   "why_missing": "sub-minute samples exist only for a contiguous ~370-window block (Sep 8\u201312); no fine history captured before that"
+  },
+  {
+   "family": "AV SPY",
+   "real_n": "5/5 (MINI-0)",
+   "resolution": "5m",
+   "historical_role": "risk-asset state",
+   "main_cohort": "likely",
+   "why_missing": "full historical backfill pending \u2014 MINI-0 slice only; AV equity intraday has months of history so full coverage expected"
+  },
+  {
+   "family": "AV QQQ",
+   "real_n": "5/5 (MINI-0)",
+   "resolution": "5m",
+   "historical_role": "risk-asset state",
+   "main_cohort": "likely",
+   "why_missing": "full historical backfill pending \u2014 MINI-0 slice only; AV equity intraday has months of history so full coverage expected"
+  },
+  {
+   "family": "AV COIN",
+   "real_n": 0,
+   "resolution": "5m",
+   "historical_role": "crypto-equity state",
+   "main_cohort": "session-limited",
+   "why_missing": "not yet fetched (MINI-0 used BTC/SPY/QQQ); equities trade only US regular hours -> session-masked coverage < BTC"
+  },
+  {
+   "family": "Derivatives (funding/OI/basis)",
+   "real_n": "TBD",
+   "resolution": "varies",
+   "historical_role": "leverage / positioning",
+   "main_cohort": "TBD",
+   "why_missing": "OKX adapter serves LIVE only; historical backfill lane not yet run (5\u219225\u2192100 validity slice pending). May be partially recoverable"
+  },
+  {
+   "family": "Options (IV/skew)",
+   "real_n": "TBD",
+   "resolution": "snapshot",
+   "historical_role": "expectations",
+   "main_cohort": "TBD",
+   "why_missing": "AV REALTIME_OPTIONS is realtime-only (no historical vintage); a real historical IV source is required or family is HISTORICALLY_UNAVAILABLE"
+  },
+  {
+   "family": "News / macro",
+   "real_n": "TBD",
+   "resolution": "event",
+   "historical_role": "context",
+   "main_cohort": "TBD",
+   "why_missing": "AV NEWS_SENTIMENT has historical range; vintage-safe backfill lane not yet run \u2014 must respect publication timestamps"
+  },
+  {
+   "family": "L2 / order flow (microstructure)",
+   "real_n": "HISTORICALLY_UNAVAILABLE",
+   "resolution": "tick/book",
+   "historical_role": "microstructure",
+   "main_cohort": "NO (no real history)",
+   "why_missing": "no historical L2/order-book archive exists for these windows; will not fabricate \u2014 only prospective L0 capture can build it forward"
+  }
+ ],
+ "cohorts": {
+  "COARSE_BTC_STATE": {
+   "n": 6189,
+   "resolution": "15m marks",
+   "role": "large-sample backbone",
+   "main": true
+  },
+  "FINE_BTC_STATE": {
+   "n": 363,
+   "resolution": "~16s",
+   "role": "high-resolution challenger",
+   "main": false
+  }
+ },
+ "coarse_cohorts": {
+  "COARSE_ROW": {
+   "n": 6200,
+   "hash": "0478624c80182b83",
+   "def": "row exists in coarse_features.jsonl"
+  },
+  "COARSE_COMPLETE_20": {
+   "n": 6149,
+   "hash": "39d98b67ed2d24b9",
+   "def": "all 20 brti_coarse.* features non-null"
+  },
+  "COARSE_2H_CORE": {
+   "n": 6189,
+   "hash": "87b53a8e21c64242",
+   "def": "P1.1 frozen >=2h (8 marks strictly before T0)"
+  }
+ },
+ "coarse_reconciliation": "Definition gap (documented, not a bug): P1.1 requires 8 marks STRICTLY BEFORE T0 (t0-15m..t0-120m); the factory chain also counts the boundary mark ending exactly AT T0 (immediate predecessor, proven available <=T0) and needs 9 contiguous marks. At the edges of contiguous runs the two rules admit slightly different windows -> the 11-window gap.",
+ "model_family_plan": {
+  "A_COARSE_large_sample": "~6189 windows, 15m-mark BTC state + AV/news/macro",
+  "B_FINE_challenger": "~363 windows, sub-minute BTC state + microstructure where real",
+  "C_COARSE_plus_HF": "only if exchange archives raise fine coverage substantially"
+ },
+ "research_question": "Can broad cross-market/volume/derivatives/options/news/regime info add signal to a large low-frequency BTC-state backbone \u2014 and can high-resolution BTC info add enough to compensate for its much smaller N?",
+ "recent_events": [
+  {
+   "event_id": 666,
+   "seq": 666,
+   "timestamp": 1789412067.061162,
+   "event_type": "TEST_PASSED",
+   "severity": "info",
+   "lane": "L12",
+   "job_id": "xgboost",
+   "title": "xgboost: memorize32 logloss 0.10113, full-train 0.21038, val 0.77439 -> HEALTHY_STACK_WEAK_SIGNAL",
+   "narrative": null,
+   "fact": null,
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 95443
+  },
+  {
+   "event_id": 667,
+   "seq": 667,
+   "timestamp": 1789412067.638579,
+   "event_type": "DOWNLOAD_COMPLETE",
+   "severity": "info",
+   "lane": "L2",
+   "job_id": null,
+   "title": "AV RIOT: 3978 bars",
+   "narrative": null,
+   "fact": null,
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {
+    "bars": 3978
+   },
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 95382
+  },
+  {
+   "event_id": 668,
+   "seq": 668,
+   "timestamp": 1789412067.638734,
+   "event_type": "DOWNLOAD_STARTED",
+   "severity": "info",
+   "lane": "L2",
+   "job_id": null,
+   "title": "AV GLD intraday (3 months)",
+   "narrative": null,
+   "fact": null,
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 95382
+  },
+  {
+   "event_id": 669,
+   "seq": 669,
+   "timestamp": 1789412068.063806,
+   "event_type": "TEST_PASSED",
+   "severity": "info",
+   "lane": "L12",
+   "job_id": "catboost",
+   "title": "catboost: memorize32 logloss 0.00494, full-train 0.42647, val 0.7218 -> HEALTHY_STACK_WEAK_SIGNAL",
+   "narrative": null,
+   "fact": null,
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 95443
+  },
+  {
+   "event_id": 670,
+   "seq": 670,
+   "timestamp": 1789412069.9819121,
+   "event_type": "DOWNLOAD_COMPLETE",
+   "severity": "info",
+   "lane": "L2",
+   "job_id": null,
+   "title": "AV GLD: 3978 bars",
+   "narrative": null,
+   "fact": null,
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {
+    "bars": 3978
+   },
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 95382
+  },
+  {
+   "event_id": 671,
+   "seq": 671,
+   "timestamp": 1789412069.9823208,
+   "event_type": "DOWNLOAD_STARTED",
+   "severity": "info",
+   "lane": "L2",
+   "job_id": null,
+   "title": "AV USO intraday (3 months)",
+   "narrative": null,
+   "fact": null,
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 95382
+  },
+  {
+   "event_id": 672,
+   "seq": 672,
+   "timestamp": 1789412073.6266408,
+   "event_type": "DOWNLOAD_COMPLETE",
+   "severity": "info",
+   "lane": "L2",
+   "job_id": null,
+   "title": "AV USO: 3978 bars",
+   "narrative": null,
+   "fact": null,
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {
+    "bars": 3978
+   },
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 95382
+  },
+  {
+   "event_id": 673,
+   "seq": 673,
+   "timestamp": 1789412079.5798998,
+   "event_type": "DISCOVERY",
+   "severity": "high",
+   "lane": "L2",
+   "job_id": null,
+   "title": "A_AV cohort = 1198 windows",
+   "narrative": null,
+   "fact": "Cross-asset context is only 'live' during US market hours; A_AV (coarse \u2229 fresh equities) = 1198 of 6149 coarse windows. Coverage: SPY 100.0%, QQQ 100.0%, IWM 100.0%, COIN 100.0%, MSTR 100.0%, MARA 100.0%, RIOT 100.0%",
+   "interpretation": "Cross-asset features can only apply to the market-hours subset; a large fraction of 24/7 BTC contracts have no live equity context.",
+   "next_action": "incremental test BASE vs BASE+AV on the shared A_AV windows.",
+   "files": [
+    "research/true15m/av_full_coverage.json",
+    "research/true15m/cohort_A_AV.json"
+   ],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 95382
+  },
+  {
+   "event_id": 674,
+   "seq": 674,
+   "timestamp": 1789412081.504292,
+   "event_type": "MODEL_TRAINING_COMPLETE",
+   "severity": "info",
+   "lane": "L8",
+   "job_id": null,
+   "title": "AV incremental test done",
+   "narrative": null,
+   "fact": "shared N=1198: BASE logloss 0.69089 vs BASE+AV 0.68989 (delta -0.001).",
+   "interpretation": "AV_NO_OOS_VALUE",
+   "next_action": null,
+   "files": [
+    "research/true15m/av_incremental_test.json"
+   ],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": 32189,
+   "pid": 95382
+  },
+  {
+   "event_id": 675,
+   "seq": 675,
+   "timestamp": 1789412081.682515,
+   "event_type": "JOB_COMPLETE",
+   "severity": "info",
+   "lane": "L2",
+   "job_id": "av_full",
+   "title": "AV full backfill + A_AV cohort + incremental test \u2014 done",
+   "narrative": null,
+   "fact": null,
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": 33680,
+   "pid": 95340
+  },
+  {
+   "event_id": 676,
+   "seq": 676,
+   "timestamp": 1789412114.72965,
+   "event_type": "MODEL_TRAINING_COMPLETE",
+   "severity": "info",
+   "lane": "L8",
+   "job_id": "ngboost_normal",
+   "title": "ngboost_normal: val logloss 0.72776 (baseline 0.69315)",
+   "narrative": null,
+   "fact": null,
+   "interpretation": "REJECTED_NO_OOS_VALUE",
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {
+    "val_logloss": 0.72776,
+    "wf_median": 0.71724
+   },
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 95444
+  },
+  {
+   "event_id": 677,
+   "seq": 677,
+   "timestamp": 1789412114.730895,
+   "event_type": "DISCOVERY",
+   "severity": "high",
+   "lane": "L8",
+   "job_id": null,
+   "title": "Level-5 distributional family: PROMISING:catboost_clf",
+   "narrative": null,
+   "fact": "catboost_clf val 0.68956 (base 0.69315) -> PROMISING; catboost_gauss val 0.70033 (base 0.69315) -> REJECTED_NO_OOS_VALUE; ngboost_normal val 0.72776 (base 0.69315) -> REJECTED_NO_OOS_VALUE",
+   "interpretation": "A distributional candidate looks promising on validation \u2014 needs the full battery before any TEST_V2 consideration.",
+   "next_action": "neural/temporal/foundation families remain (compute); TEST_V2 sealed.",
+   "files": [
+    "research/true15m/distributional_models_result.json"
+   ],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": 54669,
+   "pid": 95444
+  },
+  {
+   "event_id": 678,
+   "seq": 678,
+   "timestamp": 1789412115.0742779,
+   "event_type": "JOB_COMPLETE",
+   "severity": "info",
+   "lane": "L8",
+   "job_id": "distributional_models",
+   "title": "Level-5 distributional models (CatBoost/NGBoost) \u2014 done",
+   "narrative": null,
+   "fact": null,
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": 56923,
+   "pid": 95340
+  },
+  {
+   "event_id": 679,
+   "seq": 679,
+   "timestamp": 1789412150.0687518,
+   "event_type": "TEST_PASSED",
+   "severity": "info",
+   "lane": "L12",
+   "job_id": "mlp",
+   "title": "mlp: memorize32 logloss 0.00587, full-train 0.36551, val 1.22745 -> HEALTHY_STACK_WEAK_SIGNAL",
+   "narrative": null,
+   "fact": null,
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 95443
+  },
+  {
+   "event_id": 680,
+   "seq": 680,
+   "timestamp": 1789412172.2999449,
+   "event_type": "DISCOVERY",
+   "severity": "high",
+   "lane": "L12",
+   "job_id": null,
+   "title": "L12 memorization ladder complete",
+   "narrative": null,
+   "fact": "logistic: mem32 0.48939, fullTR 0.68965, val 0.69198 (LINEAR_CANNOT_SHATTER_EXPECTED); rf: mem32 0.20992, fullTR 0.20407, val 0.7002 (HEALTHY_STACK_WEAK_SIGNAL); histgb: mem32 0.69315, fullTR 0.41342, val 0.72186 (DEFAULT_REGULARIZED_TINY_SET); xgboost: mem32 0.10113, fullTR 0.21038, val 0.77439 (HEALTHY_STACK_WEAK_SIGNAL); catboost: mem32 0.00494, fullTR 0.42647, val 0.7218 (HEALTHY_STACK_WEAK_SIGNAL); mlp: mem32 0.00587, fullTR 0.36551, val 1.22745 (HEALTHY_STACK_WEAK_SIGNAL)",
+   "interpretation": "Mixed: see per-model diagnosis before any INFORMATION_LIMITED claim.",
+   "next_action": "loss comparison (TGT-A..F), scaling audit, learning curve, seed/fold stability, calibration \u2014 then a diagnosed verdict.",
+   "files": [
+    "research/true15m/MODEL_FAILURE_DIAGNOSTICS_V1.json"
+   ],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": 112924,
+   "pid": 95443
+  },
+  {
+   "event_id": 681,
+   "seq": 681,
+   "timestamp": 1789412172.415201,
+   "event_type": "JOB_COMPLETE",
+   "severity": "info",
+   "lane": "L12",
+   "job_id": "model_diagnostics",
+   "title": "L12 model-failure diagnostics (memorization ladder + optimization) \u2014 done",
+   "narrative": null,
+   "fact": null,
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": 114264,
+   "pid": 95340
+  },
+  {
+   "event_id": 682,
+   "seq": 682,
+   "timestamp": 1789412172.415864,
+   "event_type": "JOB_COMPLETE",
+   "severity": "info",
+   "lane": "L10",
+   "job_id": null,
+   "title": "Research engine cycle finished",
+   "narrative": null,
+   "fact": "18 complete, 0 failed of 18 jobs.",
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {
+    "complete": 18,
+    "failed": 0
+   },
+   "git": {},
+   "technical": null,
+   "duration_ms": 125155,
+   "pid": 95340
+  },
+  {
+   "event_id": 683,
+   "seq": 683,
+   "timestamp": 1789413658.459214,
+   "event_type": "BUG_FOUND",
+   "severity": "high",
+   "lane": "L9",
+   "job_id": null,
+   "title": "TEST_V2 accumulator read frozen inventory + settled feed had stalled",
+   "narrative": null,
+   "fact": "post-cutoff windows: seen=175, settled=175, label_verified=175, integrity_complete=175, registered_to_V2=175 (was reporting 0).",
+   "interpretation": "Two coincident failures at the cutoff: settled-market fetcher stopped ~Sep 12, and the counter read the frozen inventory which ends at the cutoff. Membership is genuinely built now, by rule.",
+   "next_action": "counter fixed to read forward membership; L0 fetch must stay live.",
+   "files": [
+    "research/true15m/TEST_V2_CAPTURE_AUDIT.json",
+    "research/true15m/TEST_V2_MEMBERSHIP.jsonl"
+   ],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 6650
+  },
+  {
+   "event_id": 684,
+   "seq": 684,
+   "timestamp": 1789413658.459541,
+   "event_type": "BUG_FIXED",
+   "severity": "high",
+   "lane": "L9",
+   "job_id": null,
+   "title": "TEST_V2 now accruing: 175/672 sealed windows",
+   "narrative": null,
+   "fact": "forward feed re-fetched (contiguous, 0 missing slots); membership rebuilt from cutoff+eligibility+integrity, invariant_holds=True.",
+   "interpretation": "Seal intact \u2014 labels present but not inspected for selection; outcome distribution deliberately not surfaced.",
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": 48,
+   "pid": 6650
+  },
+  {
+   "event_id": 685,
+   "seq": 685,
+   "timestamp": 1789413705.450149,
+   "event_type": "DISCOVERY",
+   "severity": "high",
+   "lane": "L9",
+   "job_id": null,
+   "title": "TEST_V1 marked SPENT; TEST_V2 sealed forward",
+   "narrative": null,
+   "fact": "TEST_V1 (N=923, ends 1789254900) observed -> EXPOSED_SPENT. TEST_V2 sealed after cutoff; accumulated 175/672 so far.",
+   "interpretation": "A_CORE NO_OFFLINE_QUALIFIED_MODEL stays a valid historical result, but the champion needs a fresh blind test. Live capture builds it.",
+   "next_action": "run remaining lanes/models on TRAIN+VAL+walk-forward only; freeze finalists; open TEST_V2 once when it reaches target N.",
+   "files": [
+    "research/true15m/SEALED_TEST_STATUS.json"
+   ],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 7114
+  },
+  {
+   "event_id": 686,
+   "seq": 686,
+   "timestamp": 1789413705.4504452,
+   "event_type": "WARNING",
+   "severity": "info",
+   "lane": "L9",
+   "job_id": null,
+   "title": "INVALIDATED_RESULT preserved: AV -0.042 (future-bar leakage)",
+   "narrative": null,
+   "fact": "raw -0.042 -> corrected -0.001 (AV_NO_OOS_VALUE). Retained in research history.",
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 7114
+  },
+  {
+   "event_id": 687,
+   "seq": 687,
+   "timestamp": 1789413782.991628,
+   "event_type": "PLAN",
+   "severity": "info",
+   "lane": "L12",
+   "job_id": null,
+   "title": "Loss-formulation + calibration sweeps",
+   "narrative": "Testing whether magnitude-aware losses (Huber/quantile/NLL/multitask) or calibration change the picture. TRAIN+VAL only.",
+   "fact": null,
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 7850
+  },
+  {
+   "event_id": 688,
+   "seq": 688,
+   "timestamp": 1789413832.279511,
+   "event_type": "PLAN",
+   "severity": "info",
+   "lane": "L12",
+   "job_id": null,
+   "title": "Loss-formulation + calibration sweeps",
+   "narrative": "Testing whether magnitude-aware losses (Huber/quantile/NLL/multitask) or calibration change the picture. TRAIN+VAL only.",
+   "fact": null,
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 8311
+  },
+  {
+   "event_id": 689,
+   "seq": 689,
+   "timestamp": 1789413878.309079,
+   "event_type": "PLAN",
+   "severity": "info",
+   "lane": "L12",
+   "job_id": null,
+   "title": "Loss-formulation + calibration sweeps",
+   "narrative": "Testing whether magnitude-aware losses (Huber/quantile/NLL/multitask) or calibration change the picture. TRAIN+VAL only.",
+   "fact": null,
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 8696
+  },
+  {
+   "event_id": 690,
+   "seq": 690,
+   "timestamp": 1789413979.313151,
+   "event_type": "PLAN",
+   "severity": "info",
+   "lane": "L12",
+   "job_id": null,
+   "title": "Loss-formulation + calibration sweeps",
+   "narrative": "Testing whether magnitude-aware losses (Huber/quantile/NLL/multitask) or calibration change the picture. TRAIN+VAL only.",
+   "fact": null,
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 9545
+  },
+  {
+   "event_id": 691,
+   "seq": 691,
+   "timestamp": 1789414029.9972968,
+   "event_type": "PLAN",
+   "severity": "info",
+   "lane": "L12",
+   "job_id": null,
+   "title": "Loss-formulation + calibration sweeps",
+   "narrative": "Testing whether magnitude-aware losses (Huber/quantile/NLL/multitask) or calibration change the picture. TRAIN+VAL only.",
+   "fact": null,
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 9973
+  },
+  {
+   "event_id": 692,
+   "seq": 692,
+   "timestamp": 1789414093.9493692,
+   "event_type": "PLAN",
+   "severity": "info",
+   "lane": "L12",
+   "job_id": null,
+   "title": "Loss-formulation + calibration sweeps",
+   "narrative": "Testing whether magnitude-aware losses (Huber/quantile/NLL/multitask) or calibration change the picture. TRAIN+VAL only.",
+   "fact": null,
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 10561
+  },
+  {
+   "event_id": 693,
+   "seq": 693,
+   "timestamp": 1789414141.712491,
+   "event_type": "PLAN",
+   "severity": "info",
+   "lane": "L12",
+   "job_id": null,
+   "title": "Loss-formulation + calibration sweeps",
+   "narrative": "Testing whether magnitude-aware losses (Huber/quantile/NLL/multitask) or calibration change the picture. TRAIN+VAL only.",
+   "fact": null,
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 10922
+  },
+  {
+   "event_id": 694,
+   "seq": 694,
+   "timestamp": 1789414156.101125,
+   "event_type": "DISCOVERY",
+   "severity": "high",
+   "lane": "L12",
+   "job_id": null,
+   "title": "Loss + calibration sweeps: LOSS_FORMULATION_PROMISING",
+   "narrative": null,
+   "fact": "TGT-B_huber LL 0.6924 AUC 0.5153; TGT-C_mse LL 0.69986 AUC 0.4815; TGT-D_quantile LL 0.68943 AUC 0.5528; TGT-E1_gaussian_nll LL 0.71567 AUC 0.4915; TGT-MT_multitask_best LL 0.69016 AUC 0.5452 | baseline LL 0.69315 | calib raw 0.69337 platt 0.69542 iso 0.69473 temp 0.69235",
+   "interpretation": "A loss formulation shows an OOS edge \u2014 run the full battery.",
+   "next_action": "neural/temporal/foundation families remain; TEST_V2 sealed.",
+   "files": [
+    "research/true15m/LOSS_CALIBRATION_SWEEPS_V1.json"
+   ],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": 14388,
+   "pid": 10922
+  },
+  {
+   "event_id": 695,
+   "seq": 695,
+   "timestamp": 1789414287.676994,
+   "event_type": "PLAN",
+   "severity": "info",
+   "lane": "L12",
+   "job_id": null,
+   "title": "Loss-formulation + calibration sweeps",
+   "narrative": "Testing whether magnitude-aware losses (Huber/quantile/NLL/multitask) or calibration change the picture. TRAIN+VAL only.",
+   "fact": null,
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 12124
+  },
+  {
+   "event_id": 696,
+   "seq": 696,
+   "timestamp": 1789414302.5732229,
+   "event_type": "DISCOVERY",
+   "severity": "high",
+   "lane": "L12",
+   "job_id": null,
+   "title": "Loss + calibration sweeps: LOSS_FORMULATION_PROMISING",
+   "narrative": null,
+   "fact": "TGT-B_huber LL 0.6924 AUC 0.5153; TGT-C_mse LL 0.69986 AUC 0.4815; TGT-D_quantile LL 0.68943 AUC 0.5528; TGT-E1_gaussian_nll LL 0.71847 AUC 0.4917; TGT-MT_multitask_best LL 0.69016 AUC 0.5452 | baseline LL 0.69315 | WF-median TGT-B_huber 0.69276, TGT-D_quantile 0.69109 | calib raw 0.69337 platt 0.69542 iso 0.69473 temp 0.69235",
+   "interpretation": "A loss formulation beats baseline on VAL AND holds up in walk-forward (stable OOS edge) \u2014 promote to the full battery before any claim.",
+   "next_action": "neural/temporal/foundation families remain; TEST_V2 sealed.",
+   "files": [
+    "research/true15m/LOSS_CALIBRATION_SWEEPS_V1.json"
+   ],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": 14896,
+   "pid": 12124
+  },
+  {
+   "event_id": 697,
+   "seq": 697,
+   "timestamp": 1789414396.981007,
+   "event_type": "PLAN",
+   "severity": "info",
+   "lane": "L12",
+   "job_id": null,
+   "title": "Loss-formulation + calibration sweeps",
+   "narrative": "Testing whether magnitude-aware losses (Huber/quantile/NLL/multitask) or calibration change the picture. TRAIN+VAL only.",
+   "fact": null,
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 13032
+  },
+  {
+   "event_id": 698,
+   "seq": 698,
+   "timestamp": 1789414418.243479,
+   "event_type": "DISCOVERY",
+   "severity": "high",
+   "lane": "L12",
+   "job_id": null,
+   "title": "Loss + calibration sweeps: WEAK_UNSTABLE_CANDIDATE",
+   "narrative": null,
+   "fact": "TGT-B_huber LL 0.6924 AUC 0.5153; TGT-C_mse LL 0.69986 AUC 0.4815; TGT-D_quantile LL 0.68943 AUC 0.5528; TGT-E1_gaussian_nll LL 0.71716 AUC 0.4904; TGT-MT_multitask_best LL 0.69016 AUC 0.5452 | baseline LL 0.69315 | WF-median TGT-B_huber 0.69276, TGT-D_quantile 0.69109 | calib raw 0.69337 platt 0.69542 iso 0.69473 temp 0.69235",
+   "interpretation": "A magnitude-aware loss shows a WEAK, UNSTABLE edge: TGT-D_quantile: WF median 0.69109 vs base 0.69315, 3/5 folds beat baseline. The WF median passes the threshold but folds disagree (not >=80% consistent) and AUCs are ~0.5, so there is no reliable ranking for calibration to rescue. Consistent with the prescribed global wording (weak/unstable). NOT qualified; carry as a candidate into the full battery + sealed TEST_V2 \u2014 do not adopt.",
+   "next_action": "neural/temporal/foundation families remain; TEST_V2 sealed.",
+   "files": [
+    "research/true15m/LOSS_CALIBRATION_SWEEPS_V1.json"
+   ],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": 21262,
+   "pid": 13032
+  },
+  {
+   "event_id": 699,
+   "seq": 699,
+   "timestamp": 1789418391.992757,
+   "event_type": "DISCOVERY",
+   "severity": "high",
+   "lane": "L9",
+   "job_id": null,
+   "title": "TEST_V2 target pre-registered: N=672 (delta*=0.01)",
+   "narrative": null,
+   "fact": "sigma_per_window\u22480.07423; MDE@672\u22480.00802 (80% power); N for delta*=0.01 is \u2248433; 672_enough=True.",
+   "interpretation": "sigma\u22480.07423. At N=672 the test resolves only an edge of ~0.00802 nats at 80% power; detecting the pre-registered delta*=0.01 needs N\u2248433. Pre-registered target set to 672 (672 is sufficient). Edges below the resolvable MDE are TEST-POWER-LIMITED, not disprovable by V2 \u2014 a distinct, honest limit from information-limited.",
+   "next_action": "freeze finalists on DEV+WF+VAL; open TEST_V2 once it reaches target N.",
+   "files": [
+    "research/true15m/TEST_V2_POWER_ANALYSIS.json"
+   ],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": 416,
+   "pid": 36984
+  },
+  {
+   "event_id": 700,
+   "seq": 700,
+   "timestamp": 1789418409.6376169,
+   "event_type": "BUG_FOUND",
+   "severity": "high",
+   "lane": "L9",
+   "job_id": null,
+   "title": "TEST_V2 accumulator read frozen inventory + settled feed had stalled",
+   "narrative": null,
+   "fact": "post-cutoff windows: seen=175, settled=175, label_verified=175, integrity_complete=175, registered_to_V2=175 (was reporting 0).",
+   "interpretation": "Two coincident failures at the cutoff: settled-market fetcher stopped ~Sep 12, and the counter read the frozen inventory which ends at the cutoff. Membership is genuinely built now, by rule.",
+   "next_action": "counter fixed to read forward membership; L0 fetch must stay live.",
+   "files": [
+    "research/true15m/TEST_V2_CAPTURE_AUDIT.json",
+    "research/true15m/TEST_V2_MEMBERSHIP.jsonl"
+   ],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 37221
+  },
+  {
+   "event_id": 701,
+   "seq": 701,
+   "timestamp": 1789418409.637792,
+   "event_type": "BUG_FIXED",
+   "severity": "high",
+   "lane": "L9",
+   "job_id": null,
+   "title": "TEST_V2 now accruing: 175/672 sealed windows",
+   "narrative": null,
+   "fact": "forward feed re-fetched (contiguous, 0 missing slots); membership rebuilt from cutoff+eligibility+integrity, invariant_holds=True.",
+   "interpretation": "Seal intact \u2014 labels present but not inspected for selection; outcome distribution deliberately not surfaced.",
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": 48,
+   "pid": 37221
+  },
+  {
+   "event_id": 702,
+   "seq": 702,
+   "timestamp": 1789418409.6574562,
+   "event_type": "DISCOVERY",
+   "severity": "high",
+   "lane": "L9",
+   "job_id": null,
+   "title": "TEST_V1 marked SPENT; TEST_V2 sealed forward",
+   "narrative": null,
+   "fact": "TEST_V1 (N=923, ends 1789254900) observed -> EXPOSED_SPENT. TEST_V2 sealed after cutoff; accumulated 175/672 so far.",
+   "interpretation": "A_CORE NO_OFFLINE_QUALIFIED_MODEL stays a valid historical result, but the champion needs a fresh blind test. Live capture builds it.",
+   "next_action": "run remaining lanes/models on TRAIN+VAL+walk-forward only; freeze finalists; open TEST_V2 once when it reaches target N.",
+   "files": [
+    "research/true15m/SEALED_TEST_STATUS.json"
+   ],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 37223
+  },
+  {
+   "event_id": 703,
+   "seq": 703,
+   "timestamp": 1789418409.657644,
+   "event_type": "WARNING",
+   "severity": "info",
+   "lane": "L9",
+   "job_id": null,
+   "title": "INVALIDATED_RESULT preserved: AV -0.042 (future-bar leakage)",
+   "narrative": null,
+   "fact": "raw -0.042 -> corrected -0.001 (AV_NO_OOS_VALUE). Retained in research history.",
+   "interpretation": null,
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 37223
+  },
+  {
+   "event_id": 704,
+   "seq": 704,
+   "timestamp": 1789418417.079747,
+   "event_type": "BUG_FOUND",
+   "severity": "high",
+   "lane": "L9",
+   "job_id": null,
+   "title": "TEST_V2 accumulator read frozen inventory + settled feed had stalled",
+   "narrative": null,
+   "fact": "post-cutoff windows: seen=175, settled=175, label_verified=175, integrity_complete=175, registered_to_V2=175 (was reporting 0).",
+   "interpretation": "Two coincident failures at the cutoff: settled-market fetcher stopped ~Sep 12, and the counter read the frozen inventory which ends at the cutoff. Membership is genuinely built now, by rule.",
+   "next_action": "counter fixed to read forward membership; L0 fetch must stay live.",
+   "files": [
+    "research/true15m/TEST_V2_CAPTURE_AUDIT.json",
+    "research/true15m/TEST_V2_MEMBERSHIP.jsonl"
+   ],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": null,
+   "pid": 37356
+  },
+  {
+   "event_id": 705,
+   "seq": 705,
+   "timestamp": 1789418417.079904,
+   "event_type": "BUG_FIXED",
+   "severity": "high",
+   "lane": "L9",
+   "job_id": null,
+   "title": "TEST_V2 now accruing: 175/672 sealed windows",
+   "narrative": null,
+   "fact": "forward feed re-fetched (contiguous, 0 missing slots); membership rebuilt from cutoff+eligibility+integrity, invariant_holds=True.",
+   "interpretation": "Seal intact \u2014 labels present but not inspected for selection; outcome distribution deliberately not surfaced.",
+   "next_action": null,
+   "files": [],
+   "tests": [],
+   "metrics": {},
+   "git": {},
+   "technical": null,
+   "duration_ms": 44,
+   "pid": 37356
+  }
+ ],
+ "max_seq": 705,
+ "system_health": {
+  "events_total": 705,
+  "capture": "LIVE"
+ }
+}
