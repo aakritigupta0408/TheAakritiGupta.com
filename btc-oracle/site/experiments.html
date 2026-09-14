@@ -1,0 +1,82 @@
+<!-- Experiments (DT-07 §11) — renders results/experiments_snapshot.json VERBATIM.
+     Every statistic (paired delta, CI, ESS, verdict) is computed by the backend
+     (btc_rl/economics.paired_delta via scripts/emit_experiments_snapshot.py). No
+     science in the browser; enforced by tests/test_no_frontend_science.py. -->
+<link rel="stylesheet" href="theme.css">
+<style>
+  :root{--ink:#1f2328;--muted:#656d76;--line:#d0d7de;--card:#fff;--bg:#f6f8fa;
+        --good:#1a7f37;--bad:#cf222e;--warn:#9a6700;--accent:#0969da}
+  @media (prefers-color-scheme:dark){:root:not([data-theme=light]){
+    --ink:#e6edf3;--muted:#8b949e;--line:#30363d;--card:#161b22;--bg:#0d1117;
+    --good:#3fb950;--bad:#f85149;--warn:#d29922;--accent:#58a6ff}}
+  .x{max-width:960px;margin:0 auto;padding:16px;background:var(--bg);color:var(--ink);
+     font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  h1{font-size:20px;margin:0 0 2px} .sub{color:var(--muted);font-size:13px;margin:0 0 12px}
+  .caveat{background:rgba(154,103,0,.08);border:1px solid var(--warn);border-radius:8px;
+     padding:8px 12px;font-size:12px;color:var(--warn);margin-bottom:14px}
+  .exp{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+  .exp.win{border-left:3px solid var(--good)} .exp.lose{border-left:3px solid var(--bad)}
+  .exp.flat{border-left:3px solid var(--muted)}
+  .hdr{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px}
+  h2{font-size:16px;margin:0} .hyp{color:var(--muted);font-size:13px;margin:4px 0 10px}
+  .verdict{font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid var(--line)}
+  .win .verdict{color:var(--good)} .lose .verdict{color:var(--bad)} .flat .verdict{color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:10px 0}
+  .b{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+  .b b{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+  .b span{font-size:16px;font-variant-numeric:tabular-nums}
+  .tl{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .tl span{font-size:11px;padding:2px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+  .tl span.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .kv{font-size:12.5px;color:var(--muted);padding:1px 0}.kv b{color:var(--ink)}
+  .prov{color:var(--muted);font-size:11px;margin-top:14px}
+  .shadow{font-size:10px;color:var(--warn);border:1px solid var(--warn);border-radius:999px;padding:1px 7px}
+</style>
+<div class="x">
+  <h1>Experiments — A/B</h1>
+  <p class="sub">Control vs treatment, paired by <b>market_window_id</b>. Primary estimand:
+     paired Δ of realized paper EV per eligible window. <a href="home.html" style="color:var(--accent);text-decoration:none">← HOME</a></p>
+  <div class="caveat" id="caveat"></div>
+  <div id="exps"></div>
+  <div class="prov" id="prov">loading results/experiments_snapshot.json…</div>
+</div>
+<script>
+const c=v=>v==null?"—":(v/100).toFixed(2)+"$/win".replace("/win","");
+const cc=v=>v==null?"—":v.toFixed(1)+"c";
+function expCard(e){
+  const d=e.effect, sig=d&&d.significant;
+  const klass=e.verdict==="TREATMENT_WINS"?"win":e.verdict==="TREATMENT_LOSES"?"lose":"flat";
+  const s=e.sample_sizes;
+  const tl=["REGISTERED","SMOKE","SHADOW","LIVE","PROMOTE_CANDIDATE","REJECT_CANDIDATE","CONTINUE"];
+  return `<div class="exp ${klass}">
+    <div class="hdr"><h2>${e.control} vs ${e.treatment} ${e.shadow?'<span class="shadow">SHADOW</span>':''}</h2>
+      <span class="verdict">${e.verdict}</span></div>
+    <div class="hyp">${e.hypothesis}</div>
+    <div class="grid">
+      <div class="b"><b>Paired Δ EV/eligible</b><span>${d?cc(d.paired_delta):"—"}</span></div>
+      <div class="b"><b>95% CI</b><span style="font-size:13px">${d?("["+cc(d.ci95[0])+", "+cc(d.ci95[1])+"]"):"—"}</span></div>
+      <div class="b"><b>Significant</b><span>${sig?"YES":"no"}</span></div>
+      <div class="b"><b>Paired windows</b><span>${s.paired_windows}</span></div>
+      <div class="b"><b>Effective n</b><span>${s.effective_n}</span></div>
+    </div>
+    <div class="kv">Raw obs: <b>${s.raw_observations_control}</b> ctrl / <b>${s.raw_observations_treatment}</b> trt ·
+      windows <b>${s.windows_control}</b> / <b>${s.windows_treatment}</b> (never shown as sample size)</div>
+    <div class="kv">Estimand: <b>${e.estimand}</b> · unit <b>${e.unit}</b></div>
+    <div class="kv">Mechanism (registered): <b>${e.mechanism_decomposition.registered_mechanism}</b> ·
+      net Δ <b>${cc(e.mechanism_decomposition.net_treatment_ev_per_eligible_c)}</b>;
+      components ${e.mechanism_decomposition.gross_price_improvement} (need counterfactual fills)</div>
+    <div class="kv">Guardrails: max drawdown <b>${c(e.guardrails.max_drawdown_c_treatment)}</b> ·
+      bad-entry <b>${e.guardrails.bad_entry_rate_treatment==null?"—":(100*e.guardrails.bad_entry_rate_treatment).toFixed(1)+"%"}</b></div>
+    <div class="kv">Integrity: eligibility overlap <b>${e.integrity.eligibility_overlap}</b> ·
+      control-only ${e.integrity.control_only_windows} · treatment-only ${e.integrity.treatment_only_windows}</div>
+    <div class="tl">${tl.map(t=>`<span class="${e.timeline.includes(t)?'on':''}">${t}</span>`).join("")}</div>
+  </div>`;
+}
+fetch("experiments_snapshot.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(d=>{
+  if(!d){document.getElementById("prov").textContent="experiments_snapshot.json not found — run scripts/emit_experiments_snapshot.py";return;}
+  document.getElementById("caveat").innerHTML="⚠ "+(d.caveats||[]).join(" · ");
+  document.getElementById("exps").innerHTML=d.experiments.map(expCard).join("");
+  document.getElementById("prov").textContent=`schema ${d.schema_version} · metric owner ${d.metric_owner} · `
+    +`settlement ${d.settlement_provenance} · ${d.evidence_class} · source: results/experiments_snapshot.json`;
+}).catch(e=>{document.getElementById("prov").textContent="load error: "+e;});
+</script>
