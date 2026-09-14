@@ -1,102 +1,224 @@
-<!-- HOME (DT-07) — renders results/home_snapshot.json VERBATIM. No scientific or
-     economic formula runs here; only presentation math (cents->$, %). Every number
-     is computed by btc_rl/economics + btc_rl/metrics via scripts/emit_home_snapshot.py.
-     Enforced by tests/test_no_frontend_science.py. -->
+<!-- HOME — renders results/home_snapshot.json on the shared theme.css. Presentation
+     only (formatting + SVG plotting of precomputed series); no canonical science in
+     JS. Guarded by tests/test_no_frontend_science.py. -->
 <link rel="stylesheet" href="theme.css">
 <style>
-  :root{--ink:#1f2328;--muted:#656d76;--line:#d0d7de;--card:#fff;--bg:#f6f8fa;
-        --good:#1a7f37;--bad:#cf222e;--warn:#9a6700;--accent:#0969da}
-  @media (prefers-color-scheme:dark){:root:not([data-theme=light]){
-    --ink:#e6edf3;--muted:#8b949e;--line:#30363d;--card:#161b22;--bg:#0d1117;
-    --good:#3fb950;--bad:#f85149;--warn:#d29922;--accent:#58a6ff}}
-  .h{max-width:1100px;margin:0 auto;padding:16px;background:var(--bg);color:var(--ink);
-     font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
-  .banner{background:var(--warn);color:#111;font-weight:600;font-size:12px;letter-spacing:.03em;
-     padding:6px 12px;border-radius:8px;text-align:center;margin-bottom:12px}
-  h1{font-size:20px;margin:2px 0 2px} .sub{color:var(--muted);margin:0 0 14px;font-size:13px}
-  .strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;
-     background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px}
-  .stat b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
-  .stat span{font-size:19px;font-variant-numeric:tabular-nums}
-  .pill{font-size:11px;padding:1px 8px;border-radius:999px;border:1px solid var(--line)}
-  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
-  .tc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
-  .tc.control{border-color:var(--accent)}
-  .tc h3{margin:0 0 2px;font-size:15px} .tc .role{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-  .tc .eq{font-size:22px;font-variant-numeric:tabular-nums;margin:8px 0 2px}
-  .row{display:flex;justify-content:space-between;font-size:12.5px;padding:2px 0;color:var(--muted)}
-  .row span:last-child{color:var(--ink);font-variant-numeric:tabular-nums}
-  .pos{color:var(--good)} .neg{color:var(--bad)}
-  .empty{opacity:.5;border-style:dashed;display:flex;align-items:center;justify-content:center;min-height:120px;color:var(--muted)}
-  h2{font-size:14px;margin:20px 0 8px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
-  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-  th,td{padding:7px 10px;text-align:right;font-size:12.5px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
-  th:first-child,td:first-child{text-align:left} th{color:var(--muted);font-size:11px;text-transform:uppercase}
-  .watch{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--warn);
-     border-radius:8px;padding:10px 14px;margin-top:14px;font-size:13px}
-  .prov{color:var(--muted);font-size:11px;margin-top:16px}
-  a.navlink{color:var(--accent);text-decoration:none;font-size:13px}
+  main{gap:26px}
+  .hero{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:34px 36px}
+  .hero .eyebrow{margin-bottom:14px}
+  .hero h1{font-size:2rem;line-height:1.12;max-width:20ch}
+  .hero .tk{font-size:12px;color:var(--muted);margin-top:8px;font-variant-numeric:tabular-nums}
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:24px 34px;margin:28px 0 6px}
+  .fact .k{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:600}
+  .fact .v{font-size:26px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);margin-top:5px}
+  .fact .v.up{color:var(--up)} .fact .v.down{color:var(--down)}
+  .badge{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.04em;padding:6px 15px;
+    border-radius:999px;border:1px solid var(--border);color:var(--ink-2)}
+  .badge.locked{color:var(--series-2);border-color:rgba(36,97,184,.4);background:rgba(36,97,184,.07)}
+  .probs{margin-top:30px;display:grid;gap:18px;max-width:560px}
+  .pr .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+  .pr .nm{font-size:14px;color:var(--ink-2)} .pr .nm b{color:var(--ink);font-weight:600}
+  .pr .pv{font-size:20px;font-weight:650;font-variant-numeric:tabular-nums}
+  .pr .bar{height:10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--border);overflow:hidden}
+  .pr .fill{height:100%;border-radius:999px;transition:width .5s ease}
+  .pr.oracle .pv{color:var(--series-2)}
+  .relate{margin-top:16px;font-size:13.5px;color:var(--muted);line-height:1.6;max-width:60ch}
+  .relate b{color:var(--ink-2);font-weight:600}
+  .chart{margin-top:30px;border-top:1px solid var(--border);padding-top:22px}
+  .chart .cl{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:600;margin-bottom:6px}
+  .emptychart{color:var(--muted);padding:24px 0;font-size:13.5px}
+  .sec-head{margin-bottom:16px}
+  /* ---- trader family experience ---- */
+  .fambadge{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .fambadge .fb{display:flex;align-items:center;gap:10px;background:var(--surface-2);border:1px solid var(--border);
+    border-radius:12px;padding:9px 14px}
+  .fambadge .fb .ic{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-size:15px;
+    background:var(--surface)}
+  .fambadge .fb .t{font-size:13px;font-weight:600;color:var(--ink)} .fambadge .fb .s{font-size:11px;color:var(--muted)}
+  .fambadge .arrow{color:var(--faint);font-size:18px}
+  .selrow{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:20px 0 24px}
+  @media(max-width:900px){.selrow{grid-template-columns:repeat(2,1fr)}}
+  .sc{text-align:left;background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:15px 16px;
+    cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .15s}
+  .sc:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(22,32,44,.07)}
+  .sc.on{box-shadow:0 8px 26px rgba(22,32,44,.10)}
+  .sc .hd{display:flex;justify-content:space-between;align-items:center}
+  .sc .tag{font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:6px}
+  .sc .ic{font-size:18px}
+  .sc .nm{font:500 18px/1.1 var(--display);color:var(--ink);margin:11px 0 3px}
+  .sc .tl{font-size:12px;color:var(--muted)}
+  .split2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:860px){.split2{grid-template-columns:1fr}}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px 24px}
+  .panel .lab{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .panel h3{font:500 26px/1.05 var(--display);color:var(--ink);margin:4px 0 0;display:flex;align-items:center;gap:10px}
+  .rolepill{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:6px}
+  .pdesc{font-size:13px;color:var(--ink-2);margin:12px 0 2px} .pdesc .mut{color:var(--muted);display:block;margin-top:2px}
+  .kpis{display:flex;gap:14px;margin:18px 0 0;flex-wrap:wrap}
+  .kpi{border:1px solid var(--border);border-radius:12px;padding:14px 16px;min-width:120px}
+  .kpi .big{font-size:30px;font-weight:650;font-variant-numeric:tabular-nums;line-height:1}
+  .kpi .big.pos{color:var(--up)} .kpi .big.neg{color:var(--down)} .kpi .big.mut{color:var(--ink-2);font-size:23px}
+  .kpi .cap{font-size:11px;color:var(--muted);margin-top:6px}
+  .kpi3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+  .kpi3 .b{border:1px solid var(--border);border-radius:10px;padding:11px 13px}
+  .kpi3 .v{font-size:18px;font-weight:600;font-variant-numeric:tabular-nums} .kpi3 .k{font-size:10px;color:var(--muted);margin-top:3px}
+  .tabs2{display:inline-flex;gap:4px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:3px}
+  .tabs2 button{border:0;background:transparent;color:var(--muted);font-size:12.5px;font-weight:600;padding:6px 14px;border-radius:7px;cursor:pointer}
+  .tabs2 button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(22,32,44,.08)}
+  .chartbadge{float:right;font-size:11px;font-weight:600;color:var(--series-7);background:rgba(13,122,78,.10);padding:4px 10px;border-radius:999px}
+  .flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:8px;align-items:center;margin-top:8px}
+  .flow .col{border:1px solid var(--border);border-radius:12px;padding:12px;background:var(--surface-2)}
+  .flow .col.p{background:rgba(36,97,184,.05);border-color:rgba(36,97,184,.25)}
+  .flow .col .ct{font-size:12px;font-weight:700;color:var(--ink);text-align:center;margin-bottom:9px}
+  .flow .col .st{font-size:11.5px;color:var(--ink-2);background:var(--surface);border:1px solid var(--border);
+    border-radius:7px;padding:6px 8px;margin:5px 0;text-align:center;font-variant-numeric:tabular-nums}
+  .flow .ar{color:var(--faint);font-size:16px;text-align:center}
+  .offperf{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:16px}
+  .offperf .b{text-align:center} .offperf .v{font-size:17px;font-weight:650;font-variant-numeric:tabular-nums}
+  .offperf .v.pos{color:var(--up)} .offperf .k{font-size:10px;color:var(--muted);margin-top:3px}
+  .rt{width:100%;border-collapse:collapse;font-size:12.5px;min-width:0}
+  .rt th{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);text-align:left;padding:8px 10px 8px 0;border-bottom:1px solid var(--border)}
+  .rt td{padding:9px 10px 9px 0;border-bottom:1px solid var(--grid);color:var(--ink-2);font-variant-numeric:tabular-nums}
+  .rt .sd{font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px}
+  .rt .sd.yes{color:var(--up);background:rgba(12,138,77,.10)} .rt .sd.no{color:var(--down);background:rgba(209,60,60,.10)}
+  .rt .res.win{color:var(--up);font-weight:600} .rt .res.loss{color:var(--down);font-weight:600}
+  .rt .pl.pos{color:var(--up)} .rt .pl.neg{color:var(--down)}
+  .abrow{display:flex;align-items:center;gap:14px;margin:12px 0 16px}
+  .abside{flex:1;border:1px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;gap:10px;align-items:center}
+  .abside .t{font-size:13px;font-weight:600;color:var(--ink)} .abside .s{font-size:11px;color:var(--muted)}
+  .abmetrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .abmetrics .b{border:1px solid var(--border);border-radius:10px;padding:11px 13px}
+  .abmetrics .v{font-size:18px;font-weight:650;color:var(--ink-2)} .abmetrics .k{font-size:10px;color:var(--muted);margin-top:3px}
+  .notstarted{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--muted)}
+  .waiting{text-align:center;padding:56px 20px}
+  .waiting h2{font-family:var(--display);font-size:1.5rem;margin-bottom:8px}
+  .waiting p{color:var(--muted);max-width:46ch;margin:0 auto}
+  @keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  main>section{animation:fadein .45s ease both}
+  @media (prefers-reduced-motion:reduce){main>section{animation:none} .pr .fill{transition:none}}
 </style>
-<div class="h">
-  <div class="banner" id="banner">PAPER / SIMULATION — REAL MONEY DISABLED</div>
-  <h1>BTC Oracle — Paper Desk</h1>
-  <p class="sub">Which paper trader would you trust? Every number below is computed by the
-     backend (btc_rl.economics / metrics). <a class="navlink" href="oracle.html">Open ORACLE →</a></p>
-
-  <div class="strip" id="oracle"></div>
-  <h2>Traders</h2>
-  <div class="cards" id="cards"></div>
-  <h2>Comparison</h2>
-  <table id="cmp"><thead><tr><th>Trader</th><th>Role</th><th>Equity</th><th>Realized P&L</th>
-    <th>Return</th><th>EV/trade</th><th>Coverage</th><th>Win rate</th><th>Bad-entry</th></tr></thead>
-    <tbody></tbody></table>
-  <div class="watch" id="watch"></div>
-  <div class="prov" id="prov">loading results/home_snapshot.json…</div>
+<div class="topnav">
+  <a class="brand" href="home.html">BTC Oracle</a>
+  <a class="nav here" href="home.html">Home</a>
+  <a class="nav" href="oracle.html">Oracle</a>
+  <a class="nav" href="experiments.html">Experiments</a>
+  <span class="spacer"></span>
+  <span class="tag">Paper Research</span>
 </div>
+<div class="research-banner" id="banner"><b>Paper / simulation.</b> Real money disabled. Research, not advice.</div>
+<main id="app">
+  <section class="waiting"><h2>Loading the desk…</h2><p>Fetching the current paper snapshot.</p></section>
+</main>
 <script>
 const $=(s,e=document)=>e.querySelector(s);
-const c2d=c=>c==null?"—":"$"+(c/100).toLocaleString(undefined,{maximumFractionDigits:0});
-const pct=x=>x==null?"—":(100*x).toFixed(1)+"%";
-const cls=v=>v==null?"":v>=0?"pos":"neg";
-function oracleStrip(o){
-  const rows=[["Contract",o.contract],["Official BRTI",o.official_brti],["Target",o.official_target],
-    ["MECH P(UP)",o.p_mech],["Oracle delta",o.oracle_delta],["ORACLE P(UP)",o.p_oracle],
-    ["Kalshi ref",o.p_market],["Oracle",o.oracle_state]];
-  $("#oracle").innerHTML=rows.map(([k,v])=>`<div class="stat"><b>${k}</b><span>${v==null?"—":v}</span></div>`).join("")
-    +`<div class="stat"><b>Runtime truth</b><span class="pill">${o.runtime_contract_truth}</span></div>`;
+const A=n=>n==null||n==="UNAVAILABLE"?null:n;
+const usd=c=>c==null?"—":(c<0?"−$":"$")+Math.abs(c/100).toLocaleString(undefined,{maximumFractionDigits:0});
+const pctN=(x,d=0)=>x==null?"—":(100*x).toFixed(d)+"%";
+const dol=v=>v==null?"—":"$"+Number(v).toLocaleString(undefined,{maximumFractionDigits:0});
+const ROLE={CONTROL:["var(--series-1)","rgba(102,114,131,.12)"],
+  FORMAL_TREATMENT:["var(--series-7)","rgba(13,122,78,.12)"],
+  SHADOW:["var(--series-4)","rgba(143,96,0,.12)"],
+  NOT_QUALIFIED:["var(--faint)","var(--surface-2)"]};
+
+function probBar(name,v,color,cls){
+  const p=v==null?0:Math.max(0,Math.min(1,v));
+  return `<div class="pr ${cls||''}"><div class="top"><span class="nm">${name}</span>
+    <span class="pv" style="${cls?'':'color:var(--ink)'}">${v==null?"—":pctN(v)}</span></div>
+    <div class="bar"><div class="fill" style="width:${(p*100).toFixed(1)}%;background:${color}"></div></div></div>`;
 }
-function card(t){
-  if(!t.trader_id) return `<div class="tc empty">EMPTY TREATMENT SLOT</div>`;
-  const o=t.online_summary;
-  return `<div class="tc ${t.role==='CONTROL'?'control':''}">
-    <div class="role">${t.role} · ${t.status}</div>
-    <h3>${t.name}</h3><div class="role">${t.strategy_type}</div>
-    <div class="eq ${cls(o.total_return)}">${c2d(o.ending_capital_c)}</div>
-    <div class="role">from ${c2d(o.starting_capital_c)} · ${pct(o.total_return)}</div>
-    <div class="row"><span>Realized P&L</span><span class="${cls(o.realized_pnl_c)}">${c2d(o.realized_pnl_c)}</span></div>
-    <div class="row"><span>EV / eligible</span><span>${o.realized_ev_per_eligible_c==null?"—":o.realized_ev_per_eligible_c.toFixed(1)+"c"}</span></div>
-    <div class="row"><span>Coverage</span><span>${pct(o.coverage)}</span></div>
-    <div class="row"><span>Win rate</span><span>${pct(o.win_rate)}</span></div>
-    <div class="row"><span>Bad-entry</span><span>${pct(o.bad_entry_rate)}</span></div>
-    <div class="row"><span>Max drawdown</span><span>${c2d(o.max_drawdown_c)}</span></div>
+function trajChart(traj){
+  if(!traj||traj.length<4) return `<div class="emptychart">Trajectory collects over the live window — no chart yet for this contract.</div>`;
+  const W=920,H=190,pad=30;
+  const xs=traj.map(p=>p.t_left_min), maxX=Math.max(...xs), minX=Math.min(...xs);
+  const X=t=>pad+(1-(t-minX)/((maxX-minX)||1))*(W-2*pad);
+  const Y=p=>pad+(1-p)*(H-2*pad);
+  const line=traj.map((p,i)=>(i?"L":"M")+X(p.t_left_min).toFixed(1)+" "+Y(p.p_mech).toFixed(1)).join(" ");
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="height:190px">
+    <line class="gridline" x1="${pad}" y1="${Y(.5)}" x2="${W-pad}" y2="${Y(.5)}" stroke-dasharray="3 5"></line>
+    <text x="${pad}" y="${Y(.5)-6}">50%</text>
+    <path d="${line}" fill="none" stroke="var(--series-2)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"></path>
+    <circle cx="${X(traj[traj.length-1].t_left_min)}" cy="${Y(traj[traj.length-1].p_mech)}" r="4.5" fill="var(--series-2)"></circle>
+    <text x="${pad}" y="${H-8}">${maxX.toFixed(0)}m left</text>
+    <text x="${W-pad}" y="${H-8}" text-anchor="end">now</text>
+  </svg>`;
+}
+function hero(o){
+  const brti=A(o.official_brti),tgt=A(o.official_target),dist=A(o.distance),tte=A(o.time_remaining_min);
+  const pm=A(o.p_mech),po=A(o.p_oracle),pk=A(o.p_market);
+  const st=(o.oracle_state||"SEARCHING"), distCls=dist==null?"":dist>=0?"up":"down";
+  return `<section class="hero">
+    <span class="eyebrow"><span class="live-dot"></span> BTC 15-minute contract · live</span>
+    <h1>Will the close print above the open?</h1>
+    <div class="tk">${o.contract||"KXBTC15M"}</div>
+    <div class="facts">
+      <div class="fact"><div class="k">BRTI now</div><div class="v">${dol(brti)}</div></div>
+      <div class="fact"><div class="k">Target</div><div class="v">${dol(tgt)}</div></div>
+      <div class="fact"><div class="k">Distance</div><div class="v ${distCls}">${dist==null?"—":(dist>=0?"+$":"−$")+Math.abs(dist).toFixed(0)}</div></div>
+      <div class="fact"><div class="k">Time left</div><div class="v">${tte==null?"—":tte+"m"}</div></div>
+      <div class="fact"><div class="k">Oracle</div><div class="v"><span class="badge ${st.includes("LOCK")?"locked":""}">${st}</span></div></div>
+    </div>
+    <div class="probs">
+      ${probBar("Oracle — P(up)",po,"var(--series-2)","oracle")}
+      ${probBar("Kalshi market — reference",pk,"var(--series-6)")}
+    </div>
+    <div class="relate">The Oracle is <b>mechanics ${pm==null?"—":pctN(pm)}</b> adjusted by independent information; Kalshi is the market's price, shown only as a reference — never an Oracle input.</div>
+    <div class="chart">
+      <div class="cl">Mechanical probability, this window</div>
+      ${trajChart(o.trajectory)}
+    </div>
+  </section>`;
+}
+const VD={QUALIFIED_FOR_PROSPECTIVE:["Qualified","good"],INFORMATION_LIMITED:["Info-limited","mut"],
+  SHADOW_ONLY:["Shadow","warn"],NOT_QUALIFIED:["Locked","mut"],REJECTED:["Rejected","mut"]};
+function famCard(t){
+  const [fg,bgc]=ROLE[t.role]||["var(--faint)","var(--surface-2)"];
+  const bt=t.backtest||{};
+  const isShadow=(t.role==="SHADOW"||t.role==="NOT_QUALIFIED");
+  let metric,extra="";
+  if(bt.ev_per_eligible_c!=null){
+    const ev=bt.ev_per_eligible_c, w=Math.max(4,Math.min(100,ev/15*100));
+    metric=`<div class="metric"><div class="big ${ev>=0?'pos':'neg'}">${ev>=0?'+':''}${ev.toFixed(1)}¢</div>
+      <div class="unit">backtest EV per eligible window</div></div>
+      <div class="evbar"><i style="width:${w}%"></i></div>
+      <div class="stats"><span>Coverage <b>${pctN(bt.coverage)}</b></span>
+        <span>Accuracy <b>${pctN(bt.accuracy,0)}</b></span>
+        <span>Drawdown <b>${usd(bt.max_drawdown_c)}</b></span></div>`;
+  } else if(bt.best_holdout_auc!=null){
+    metric=`<div class="metric"><div class="big mut">AUC ${bt.best_holdout_auc}</div>
+      <div class="unit">holdout · 0.50 = no signal</div></div>`;
+  } else if(bt.leverage_only!=null){
+    metric=`<div class="metric"><div class="big mut">Leverage only</div>
+      <div class="unit">no risk-adjusted edge vs baselines</div></div>`;
+  } else {
+    metric=`<div class="metric"><div class="big mut">Locked</div>
+      <div class="unit">awaiting component qualification</div></div>`;
+  }
+  const [vlab,vcls]=VD[t.verdict]||["—","mut"];
+  return `<div class="tc ${isShadow?'shadow':''}">
+    <span class="chip" style="color:${fg};background:${bgc}">${t.id} · ${t.role.replace(/_/g," ")}</span>
+    <div class="nm">${t.name}</div>
+    <div class="blurb">${t.blurb||""}</div>
+    ${metric}
+    <div class="reason">${t.reason||""}</div>
+    <div class="foot">
+      <span class="live"><span class="live-dot stale"></span> Live · n=${t.live?t.live.n:0}</span>
+      <span class="vd ${vcls}">${vlab}</span>
+    </div>
   </div>`;
 }
-fetch("home_snapshot.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(d=>{
-  if(!d){$("#prov").textContent="home_snapshot.json not found — run scripts/emit_home_snapshot.py";return;}
-  $("#banner").textContent=d.paper_banner;
-  oracleStrip(d.oracle_strip);
-  $("#cards").innerHTML=d.traders.map(card).join("");
-  $("#cmp tbody").innerHTML=d.traders.filter(t=>t.trader_id).map(t=>{const o=t.online_summary;
-    return `<tr><td>${t.name}</td><td>${t.role}</td><td>${c2d(o.ending_capital_c)}</td>
-      <td class="${cls(o.realized_pnl_c)}">${c2d(o.realized_pnl_c)}</td><td class="${cls(o.total_return)}">${pct(o.total_return)}</td>
-      <td>${o.ev_per_trade_c==null?"—":o.ev_per_trade_c.toFixed(1)+"c"}</td><td>${pct(o.coverage)}</td>
-      <td>${pct(o.win_rate)}</td><td>${pct(o.bad_entry_rate)}</td></tr>`;}).join("");
-  const w=d.incident_watch||{};
-  $("#watch").innerHTML=`<b>Watch:</b> DT-01 runtime contract truth — ${w.dt01_activation}. `
-    +`Open incidents: ${Array.isArray(w.open_incidents)?w.open_incidents.length:(w.open_incidents??"—")}. `
-    +`Bottleneck: ${(d.bottleneck||"").slice(0,90)}`;
-  $("#prov").textContent=`schema ${d.schema_version} · metrics ${d.metric_definition_version} · `
-    +`eligible windows ${d.eligible_windows_universe.value} · source: results/home_snapshot.json `
-    +`(backend-computed; no browser science)`;
-}).catch(e=>{$("#prov").textContent="load error: "+e;});
+function render(d){
+  $("#app").innerHTML=hero(d.oracle_strip||{})
+    +`<section><div class="sec-head"><span class="eyebrow">The trader family</span>
+        <h2>One Oracle, five policies</h2>
+        <p class="sub">Every policy consumes the same Oracle and differs only in how it acts. Backtest and live are shown separately — live collects once the exact-BRTI runtime is activated.</p></div>
+        <div class="fam">${(d.trader_family||[]).map(famCard).join("")}</div></section>`;
+  if(d.paper_banner){const p=d.paper_banner.split("—");$("#banner").innerHTML=`<b>${p[0].trim()}.</b> ${p.slice(1).join(" · ").replace(/\s+/g,' ').trim()}`;}
+}
+function waiting(){
+  $("#app").innerHTML=`<section class="waiting"><span class="eyebrow" style="justify-content:center">
+    <span class="live-dot stale"></span> BTC Oracle</span><h2>Waiting for the live desk</h2>
+    <p>No current paper snapshot is available yet. The desk publishes a fresh snapshot each cycle — check back shortly.</p></section>`;
+}
+fetch("home_snapshot.json",{cache:"no-store"}).then(r=>r.ok?r.json():null)
+  .then(d=>{ if(!d||!d.trader_family){waiting();return;} render(d); }).catch(()=>waiting());
 </script>
