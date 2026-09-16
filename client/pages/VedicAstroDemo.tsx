@@ -510,11 +510,16 @@ interface ChatMsg {
 function AskPanel({
   tab,
   birth,
+  threads,
+  setThreads,
 }: {
   tab: (typeof TABS)[number];
   birth: Birth;
+  threads: Record<string, ChatMsg[]>;
+  setThreads: (
+    updater: (t: Record<string, ChatMsg[]>) => Record<string, ChatMsg[]>,
+  ) => void;
 }) {
-  const [threads, setThreads] = useState<Record<string, ChatMsg[]>>({});
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
@@ -659,19 +664,57 @@ interface GeoHit {
   longitude: number;
   admin1?: string;
   country?: string;
+  timezone?: string;
 }
 
-function BirthGate({ onCast }: { onCast: (b: Birth) => void }) {
-  const [b, setB] = useState<Birth>(SAMPLE_BIRTH);
+/* Derive the UTC offset of an IANA timezone at a given date (DST-aware).
+   Returns null when the environment can't compute it — the field stays
+   editable either way. */
+function offsetFor(tz: string, dateStr: string): string | null {
+  try {
+    const probe = new Date(`${dateStr || "2000-06-15"}T12:00:00Z`);
+    const parts = new Intl.DateTimeFormat("en-US", {
+      timeZone: tz,
+      timeZoneName: "longOffset",
+    }).formatToParts(probe);
+    const name = parts.find((p) => p.type === "timeZoneName")?.value ?? "";
+    const m = name.match(/GMT([+-]\d{2}:\d{2})/);
+    if (m) return m[1];
+    if (name === "GMT") return "+00:00";
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+function BirthGate({
+  initial,
+  onCast,
+}: {
+  initial?: Birth | null;
+  onCast: (b: Birth, persist?: boolean) => void;
+}) {
+  const [b, setB] = useState<Birth>(initial ?? SAMPLE_BIRTH);
   const [hits, setHits] = useState<GeoHit[]>([]);
   const [searching, setSearching] = useState(false);
   const debounce = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pickedTz = useRef<string | null>(null);
+
+  useEffect(
+    () => () => {
+      if (debounce.current) clearTimeout(debounce.current);
+    },
+    [],
+  );
 
   const set = (k: keyof Birth, v: string) =>
     setB((old) => ({ ...old, [k]: v }));
 
   const searchPlace = (q: string) => {
-    set("place", q);
+    // Editing the place invalidates coordinates until a suggestion is
+    // picked (or lat/lon typed in) — never cast against stale coordinates.
+    setB((old) => ({ ...old, place: q, lat: "", lon: "" }));
+    pickedTz.current = null;
     if (debounce.current) clearTimeout(debounce.current);
     if (q.trim().length < 2) {
       setHits([]);
@@ -694,12 +737,19 @@ function BirthGate({ onCast }: { onCast: (b: Birth) => void }) {
   };
 
   const pick = (h: GeoHit) => {
-    setB((old) => ({
-      ...old,
-      place: `${h.name}${h.admin1 ? ", " + h.admin1 : ""}`,
-      lat: h.latitude.toFixed(2),
-      lon: h.longitude.toFixed(2),
-    }));
+    pickedTz.current = h.timezone ?? null;
+    setB((old) => {
+      const off = h.timezone ? offsetFor(h.timezone, old.date) : null;
+      return {
+        ...old,
+        place: `${h.name}${h.admin1 ? ", " + h.admin1 : ""}`,
+        lat: h.latitude.toFixed(2),
+        lon: h.longitude.toFixed(2),
+        // the birth offset follows the picked place's timezone (at the
+        // birth date, so DST is respected); still hand-editable after
+        offset: off ?? old.offset,
+      };
+    });
     setHits([]);
   };
 
@@ -773,7 +823,17 @@ function BirthGate({ onCast }: { onCast: (b: Birth) => void }) {
               <input
                 type="date"
                 value={b.date}
-                onChange={(e) => set("date", e.target.value)}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  setB((old) => ({
+                    ...old,
+                    date: v,
+                    // DST can differ by date — refresh a picked place's offset
+                    offset: pickedTz.current
+                      ? (offsetFor(pickedTz.current, v) ?? old.offset)
+                      : old.offset,
+                  }));
+                }}
                 className="mt-1 w-full border-2 border-slate-600 bg-[#0B1224] px-3 py-2 font-mono text-sm text-slate-100 [color-scheme:dark] focus:border-amber-300 focus:outline-none"
               />
             </div>
@@ -791,7 +851,7 @@ function BirthGate({ onCast }: { onCast: (b: Birth) => void }) {
           <div className="mt-4 grid grid-cols-3 gap-3">
             {(
               [
-                ["offset", "utc offset"],
+                ["offset", "utc offset · auto"],
                 ["lat", "lat · auto"],
                 ["lon", "lon · auto"],
               ] as const
@@ -817,7 +877,7 @@ function BirthGate({ onCast }: { onCast: (b: Birth) => void }) {
               ▶ Cast my chart
             </button>
             <button
-              onClick={() => onCast(SAMPLE_BIRTH)}
+              onClick={() => onCast(SAMPLE_BIRTH, false)}
               className="text-[13px] text-slate-400 underline-offset-4 hover:text-white hover:underline"
             >
               or explore with the sample chart
@@ -838,25 +898,29 @@ function BirthGate({ onCast }: { onCast: (b: Birth) => void }) {
 
 export default function VedicAstroDemo() {
   const navigate = useNavigate();
-  const [birth, setBirth] = useState<Birth | null>(null);
+  const [birth, setBirth] = useState<Birth | null>(() => {
+    try {
+      const saved = localStorage.getItem(BIRTH_KEY);
+      return saved ? (JSON.parse(saved) as Birth) : null;
+    } catch {
+      return null;
+    }
+  });
+  const [editing, setEditing] = useState(false);
+  const [threads, setThreads] = useState<Record<string, ChatMsg[]>>({});
   const [tabKey, setTabKey] = useState<TabKey>("guides");
-  const [guide, setGuide] = useState(guides[4]);
+  const [guide, setGuide] = useState(
+    () => guides.find((g) => g.name === "Guru") ?? guides[0],
+  );
   const [sheet, setSheet] = useState<Sheet | null>(null);
   const [whyOpen, setWhyOpen] = useState(false);
   const [questCount, setQuestCount] = useState(0);
   const questTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(BIRTH_KEY);
-      if (saved) setBirth(JSON.parse(saved));
-    } catch {
-      /* private mode etc. */
-    }
-  }, []);
-
-  const cast = (b: Birth) => {
+  const cast = (b: Birth, persist = true) => {
     setBirth(b);
+    setEditing(false);
+    if (!persist) return; // sample-chart exploration stays ephemeral
     try {
       localStorage.setItem(BIRTH_KEY, JSON.stringify(b));
     } catch {
@@ -896,7 +960,7 @@ export default function VedicAstroDemo() {
       <Navigation />
       <div className="h-24" aria-hidden="true" />
 
-      {!birth ? (
+      {!birth || editing ? (
         <>
           <div className="mx-auto max-w-6xl px-6">
             <button
@@ -907,7 +971,7 @@ export default function VedicAstroDemo() {
               Back to AI Playground
             </button>
           </div>
-          <BirthGate onCast={cast} />
+          <BirthGate initial={birth} onCast={cast} />
         </>
       ) : (
         <main className="mx-auto max-w-6xl px-6 pb-16">
@@ -922,7 +986,7 @@ export default function VedicAstroDemo() {
             </div>
             <div className="flex items-center gap-4">
               <button
-                onClick={() => setBirth(null)}
+                onClick={() => setEditing(true)}
                 className="text-[12px] text-slate-400 underline-offset-4 hover:text-white hover:underline"
               >
                 edit birth details
@@ -1274,7 +1338,13 @@ export default function VedicAstroDemo() {
               </section>
             )}
 
-            <AskPanel tab={tab} birth={birth} />
+            <AskPanel
+              key={tab.key}
+              tab={tab}
+              birth={birth}
+              threads={threads}
+              setThreads={setThreads}
+            />
           </div>
 
           <p className="mt-10 text-center text-[11px] leading-relaxed text-slate-600">
