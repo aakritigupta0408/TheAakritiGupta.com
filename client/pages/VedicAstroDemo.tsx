@@ -512,6 +512,8 @@ function AskPanel({
   birth,
   threads,
   setThreads,
+  pending,
+  setPending,
 }: {
   tab: (typeof TABS)[number];
   birth: Birth;
@@ -519,23 +521,29 @@ function AskPanel({
   setThreads: (
     updater: (t: Record<string, ChatMsg[]>) => Record<string, ChatMsg[]>,
   ) => void;
+  pending: Record<string, boolean>;
+  setPending: (
+    updater: (p: Record<string, boolean>) => Record<string, boolean>,
+  ) => void;
 }) {
   const [input, setInput] = useState("");
-  const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
   const thread = threads[tab.key] ?? [];
+  // busy lives in the parent, keyed by tab — a remount (tab switch and
+  // back) must not forget an in-flight request and allow a second send
+  const busy = !!pending[tab.key];
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ block: "nearest" });
-  }, [threads, busy]);
+  }, [thread, busy]);
 
   const send = async (text: string) => {
     const q = text.trim();
     if (!q || busy) return;
     setErr("");
     setInput("");
-    setBusy(true);
+    setPending((p) => ({ ...p, [tab.key]: true }));
     const next = [...thread, { role: "user" as const, content: q }];
     setThreads((t) => ({ ...t, [tab.key]: next }));
     try {
@@ -566,13 +574,18 @@ function AskPanel({
             content: j.reply || "(nothing survived the verifier)",
             meta: `${j.retrieved?.length ?? 0} sources · ${j.deleted?.length ?? 0} deleted · ${j.model ?? ""}`,
           };
-      setThreads((t) => ({ ...t, [tab.key]: [...next, reply] }));
+      // append to the LATEST thread, never the snapshot captured at send
+      // time — a late reply must not clobber messages sent meanwhile
+      setThreads((t) => ({
+        ...t,
+        [tab.key]: [...(t[tab.key] ?? next), reply],
+      }));
     } catch (e) {
       setErr(
         `${e instanceof Error ? e.message : "request failed"} — if the engine was asleep it takes ~1 min to wake; try again.`,
       );
     } finally {
-      setBusy(false);
+      setPending((p) => ({ ...p, [tab.key]: false }));
     }
   };
 
@@ -699,6 +712,7 @@ function BirthGate({
   const [searching, setSearching] = useState(false);
   const debounce = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pickedTz = useRef<string | null>(null);
+  const searchSeq = useRef(0);
 
   useEffect(
     () => () => {
@@ -720,6 +734,7 @@ function BirthGate({
       setHits([]);
       return;
     }
+    const seq = ++searchSeq.current;
     debounce.current = setTimeout(async () => {
       setSearching(true);
       try {
@@ -727,9 +742,11 @@ function BirthGate({
           `https://geocoding-api.open-meteo.com/v1/search?count=5&name=${encodeURIComponent(q.trim())}`,
         );
         const j = await r.json();
-        setHits(j.results ?? []);
+        // ignore responses that arrive after a newer search or a pick —
+        // a slow lookup must not reopen the dropdown over a selection
+        if (searchSeq.current === seq) setHits(j.results ?? []);
       } catch {
-        setHits([]);
+        if (searchSeq.current === seq) setHits([]);
       } finally {
         setSearching(false);
       }
@@ -737,6 +754,8 @@ function BirthGate({
   };
 
   const pick = (h: GeoHit) => {
+    searchSeq.current++;
+    if (debounce.current) clearTimeout(debounce.current);
     pickedTz.current = h.timezone ?? null;
     setB((old) => {
       const off = h.timezone ? offsetFor(h.timezone, old.date) : null;
@@ -885,9 +904,10 @@ function BirthGate({
           </div>
         </Frame>
         <p className="mt-4 text-center font-mono text-[10px] leading-relaxed text-slate-600">
-          Birth details stay in your browser and are sent only to the live
-          engine to compute your chart. Readings are for reflection, not
-          medical, legal, or financial advice.
+          Place search queries the open-meteo geocoder; everything else stays in
+          your browser and is sent only to the live engine to compute your
+          chart. Readings are for reflection, not medical, legal, or financial
+          advice.
         </p>
       </div>
     </section>
@@ -908,6 +928,7 @@ export default function VedicAstroDemo() {
   });
   const [editing, setEditing] = useState(false);
   const [threads, setThreads] = useState<Record<string, ChatMsg[]>>({});
+  const [pending, setPending] = useState<Record<string, boolean>>({});
   const [tabKey, setTabKey] = useState<TabKey>("guides");
   const [guide, setGuide] = useState(
     () => guides.find((g) => g.name === "Guru") ?? guides[0],
@@ -918,6 +939,12 @@ export default function VedicAstroDemo() {
   const questTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const cast = (b: Birth, persist = true) => {
+    // a different chart invalidates every conversation — stale turns about
+    // another sky must never ride along as context for the new one
+    if (JSON.stringify(b) !== JSON.stringify(birth)) {
+      setThreads(() => ({}));
+      setPending(() => ({}));
+    }
     setBirth(b);
     setEditing(false);
     if (!persist) return; // sample-chart exploration stays ephemeral
@@ -1344,6 +1371,8 @@ export default function VedicAstroDemo() {
               birth={birth}
               threads={threads}
               setThreads={setThreads}
+              pending={pending}
+              setPending={setPending}
             />
           </div>
 
@@ -1368,6 +1397,7 @@ export default function VedicAstroDemo() {
           >
             <motion.div
               initial={{ scale: 0.95, opacity: 0, y: 12 }}
+              exit={{ scale: 0.95, opacity: 0, y: 12 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               transition={{ duration: 0.18 }}
               className="w-full max-w-lg border-2 border-amber-300/70 bg-[#101830] p-6 shadow-[8px_8px_0_#000000cc]"
