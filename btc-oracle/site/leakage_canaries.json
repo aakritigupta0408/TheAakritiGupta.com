@@ -1,12 +1,12 @@
 {
-  "generated_ts": 1790397619,
+  "generated_ts": 1790398219,
   "seed": 20260829,
   "checks": [
     {
       "name": "future_label_canary",
       "method": "walk-forward logistic (test-then-train, settle order) on legit decision-time fields [p_up, mkt_p_up, mins_left] vs the same fit + the settled outcome as a planted feature; then scan every decision-row field for |corr|>0.95 with the outcome (settlement-stamp fields whitelisted) and verify no still-open window carries an outcome",
       "result": "FAIL",
-      "detail": "only 70 settled decision windows (< 100) \u2014 cannot certify"
+      "detail": "only 69 settled decision windows (< 100) \u2014 cannot certify"
     },
     {
       "name": "quote_age_canary",
@@ -18,7 +18,7 @@
       "name": "timestamp_order_canary",
       "method": "every trader ledger: made_ts < close_ts strictly; settlement fields (actual/win/pnl_c) present => close_ts <= data_now+900s (data_now = latest decision timestamp observed across all datasets \u2014 no wall clock, deterministic); pnl without outcome counted as corruption",
       "result": "PASS",
-      "detail": "0 violations in 8721 rows across 11 ledgers (order 0, future-settle 0, pnl-without-outcome 0); per-ledger rows/violations: pt_trades:1353r/0v, pt2_trades:387r/0v, pt3_trades:930r/0v, pt4_trades:150r/0v, pt5_trades:363r/0v, pt6_trades:920r/0v, pt7_trades:105r/0v, pt8_trades:43r/0v, kb_bets:2612r/0v, kb_bets_sel:38r/0v, pb_bets:1820r/0v"
+      "detail": "0 violations in 8723 rows across 11 ledgers (order 0, future-settle 0, pnl-without-outcome 0); per-ledger rows/violations: pt_trades:1354r/0v, pt2_trades:387r/0v, pt3_trades:930r/0v, pt4_trades:150r/0v, pt5_trades:363r/0v, pt6_trades:920r/0v, pt7_trades:105r/0v, pt8_trades:43r/0v, kb_bets:2613r/0v, kb_bets_sel:38r/0v, pb_bets:1820r/0v"
     },
     {
       "name": "shuffled_label_placebo",
@@ -30,13 +30,13 @@
       "name": "random_policy_placebo",
       "method": "seeded coin-flip side at the modeled decision-time asks across all settled decision windows; realized EV/$1 must sit at the analytic house edge (negative) within 3 SE, and must not be significantly positive \u2014 otherwise the scoring machinery itself is a money printer",
       "result": "FAIL",
-      "detail": "only 70 settled windows"
+      "detail": "only 69 settled windows"
     },
     {
       "name": "noise_feature_placebo",
       "method": "the check-1 walk-forward logistic refit with 5 seeded pure-noise N(0,1) features appended, over 5 noise seeds; mean accuracy gain over the legit-only fit must be <= 1pp \u2014 noise that helps means the harness leaks",
       "result": "FAIL",
-      "detail": "only 70 settled windows"
+      "detail": "only 69 settled windows"
     }
   ],
   "overall": "SEV-0",
