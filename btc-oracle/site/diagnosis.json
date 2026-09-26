@@ -1,18 +1,18 @@
 {
- "generated_ts": 1790007015,
+ "generated_ts": 1790394626,
  "question": "Where is the system failing?",
  "tiers": {
   "T1": {
    "name": "Price forecast",
    "job": "predict the future price distribution",
-   "headline": "80% band coverage 0.77\u20130.83",
+   "headline": "80% band coverage 0.76\u20130.82",
    "status": "WARN",
    "why": "bands still under-cover on the worst family \u2014 dispersion was the SEV-0 root cause"
   },
   "T2": {
    "name": "Binary probability",
    "job": "an honest P(up) that beats the market's own",
-   "headline": "best BSS +0.0174 (kb3)",
+   "headline": "best BSS +0.0542 (kb3)",
    "status": "OK",
    "why": "NOBODY BEATS THE BOOK \u2014 every arm's Brier skill vs the market is negative this sample"
   },
@@ -51,7 +51,7 @@
     "note": "\u0394 on regime<floor windows +0.2c (n=350) vs +0.0c on healthy windows \u2014 the gate earns exactly where it claims to"
    },
    "label": "M8 \u00b7 regime gate",
-   "state": "KEEP_TESTING",
+   "state": "INVALID",
    "mean": 0.0005,
    "ci95_boot": [
     -0.02013,
@@ -78,7 +78,7 @@
     "note": ""
    },
    "label": "M10 \u00b7 execution guard",
-   "state": "KEEP_TESTING",
+   "state": "INVALID",
    "mean": 0.01444,
    "ci95_boot": [
     -0.01008,
@@ -108,7 +108,7 @@
     "note": "\u0394 on regime<floor windows +4.6c (n=350) vs +0.3c on healthy windows \u2014 the gate earns exactly where it claims to"
    },
    "label": "M10+M8 \u00b7 execution guard + regime gate",
-   "state": "KEEP_TESTING",
+   "state": "INVALID",
    "mean": 0.01827,
    "ci95_boot": [
     -0.00909,
@@ -135,7 +135,7 @@
     "note": ""
    },
    "label": "M13 \u00b7 edge band (enough edge, not too much)",
-   "state": "KILL",
+   "state": "INVALID",
    "mean": -0.05664,
    "ci95_boot": [
     -0.0988,
@@ -172,9 +172,9 @@
  "error_funnel": [
   {
    "stage": "Oracle opportunity (same rules, clairvoyant)",
-   "ev_per_1": 1.7755,
+   "ev_per_1": 1.8074,
    "kind": "measured",
-   "n": 150
+   "n": 42
   },
   {
    "stage": "Forecast + probability + decision losses",
@@ -216,7 +216,7 @@
   {
    "spot": "no arm beats market BSS",
    "tier": "T2",
-   "evidence": "best +0.0174",
+   "evidence": "best +0.0542",
    "action": "investigate"
   },
   {
@@ -240,7 +240,7 @@
   {
    "spot": "oracle regret",
    "tier": "cross-tier",
-   "evidence": "1.7614/$1/window",
+   "evidence": "1.7401/$1/window",
    "action": "decompose"
   }
  ],
