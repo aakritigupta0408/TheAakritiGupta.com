@@ -37,7 +37,6 @@
   ];
 
   var MORE = [
-    { label: "Modelling",    href: "modelling.html" },
     { label: "Experiments",  href: "experiments.html" },
     { label: "Architecture", href: "architecture.html" }
   ];
@@ -49,15 +48,7 @@
     { title: "Oracle — input data, features, modelling, outputs, sevs, graveyard", href: "oracle.html",
       kw: "oracle, brti, contract truth, features, models, mech fair, sevs tickets, graveyard, calibration, bss" },
     { title: "Architecture — DAG drill-down", href: "architecture.html",
-      kw: "architecture, dag, lineage, drift, dangling threads, checkpoint" },
-    { title: "Modelling — OPEN_ORACLE_15M true 15-minute forecast", href: "modelling.html",
-      kw: "modelling, open oracle 15m, mech fair 15m, residual, ladder, walk forward, holdout, log loss, brier, calibration, no candidate, information limited, falsification" },
-    { title: "Experiments — A/B (paired EV per eligible window)", href: "experiments.html",
-      kw: "experiments, ab test, paired delta ev, confidence interval, effective n, control treatment, significance, retrospective" },
-    { title: "Models Lab — per-technique board + coverage/EV", href: "models_lab.html",
-      kw: "models lab, techniques, coverage ev curve, ab table, offline metrics, value gate, barrier" },
-    { title: "Research — program lanes & verdicts", href: "research.html",
-      kw: "research, lanes, blockers, family verdicts, sealed test, coverage matrix" }
+      kw: "architecture, dag, lineage, drift, dangling threads, checkpoint" }
   ];
 
   /* ------------------------------------------------------------ util -- */
@@ -176,7 +167,7 @@
           tag: "open decision",
           title: d.q || d.id || "decision",
           kw: (d.id || "") + ", " + (d.context || ""),
-          href: "oracle.html"   /* board.html retired DT-07; sevs/graveyard live on Oracle */
+          href: "board.html"
         });
       });
     }).catch(function () {}).then(done, done);
@@ -189,7 +180,7 @@
           title: t.label || t.key || "treatment",
           kw: (t.key || "") + ", " + (t.state || "") + ", " +
               ((t.state_reasons || []).join(", ")),
-          href: "models_lab.html"   /* metrics_lab.html retired; per-technique board is models_lab */
+          href: "metrics_lab.html"
         });
       });
     }).catch(function () {}).then(done, done);

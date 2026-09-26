@@ -1,0 +1,1 @@
+import{j as r}from"./index-CpYxbbvt.js";import{T as t}from"./TalentProfilePage-D7JU3WJk.js";import"./arrow-left-DMmZfIZR.js";import"./sparkles-gyUPTZLO.js";import"./arrow-right-BOjr6NH-.js";function p(){return r.jsx(t,{route:"/talent/social-entrepreneur"})}export{p as default};
