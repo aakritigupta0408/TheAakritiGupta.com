@@ -1,5 +1,5 @@
 {
- "generated_ts": 1790398811,
+ "generated_ts": 1790399411,
  "question": "Where is the system failing?",
  "tiers": {
   "T1": {
@@ -12,7 +12,7 @@
   "T2": {
    "name": "Binary probability",
    "job": "an honest P(up) that beats the market's own",
-   "headline": "best BSS +0.0604 (kb3)",
+   "headline": "best BSS +0.0103 (kb5)",
    "status": "OK",
    "why": "NOBODY BEATS THE BOOK \u2014 every arm's Brier skill vs the market is negative this sample"
   },
@@ -26,14 +26,14 @@
   "T4": {
    "name": "Execution",
    "job": "turn the decision into a fill without paying away the edge",
-   "headline": "gap -7.9c/$1",
+   "headline": "gap -7.8c/$1",
    "status": "CRITICAL",
    "why": "largest measured leak in the chain"
   },
   "T5": {
    "name": "Realized P&L",
    "job": "survive aggregation, sizing and costs",
-   "headline": "realized -0.9c/$1 \u00b7 losses graded: {'SEV-1': 16, 'SEV-2': 384, 'SEV-3': 56, 'SEV-4': 280, 'SEV-5': 315}",
+   "headline": "realized -0.8c/$1 \u00b7 losses graded: {'SEV-1': 16, 'SEV-2': 384, 'SEV-3': 56, 'SEV-4': 280, 'SEV-5': 315}",
    "status": "FAIL",
    "why": "only pt6 (84% idle) is green among traders"
   }
@@ -51,16 +51,16 @@
     "note": "\u0394 on regime<floor windows +0.2c (n=350) vs +0.0c on healthy windows \u2014 the gate earns exactly where it claims to"
    },
    "label": "M8 \u00b7 regime gate",
-   "state": "INVALID",
+   "state": "KEEP_TESTING",
    "mean": 0.0005,
    "ci95_boot": [
-    -0.02013,
-    0.0228
+    -0.01985,
+    0.02278
    ],
-   "p_gt0": 0.504,
+   "p_gt0": 0.51,
    "coverage": 0.712,
-   "llr": -1.265,
-   "n": 1216,
+   "llr": -1.267,
+   "n": 1217,
    "retire_pressure": "MEDIUM",
    "retire_flags": [
     "sequential evidence against"
@@ -78,16 +78,16 @@
     "note": ""
    },
    "label": "M10 \u00b7 execution guard",
-   "state": "INVALID",
-   "mean": 0.01444,
+   "state": "KEEP_TESTING",
+   "mean": 0.01442,
    "ci95_boot": [
-    -0.01008,
-    0.03978
+    -0.01064,
+    0.03924
    ],
-   "p_gt0": 0.877,
+   "p_gt0": 0.879,
    "coverage": 0.653,
-   "llr": 0.544,
-   "n": 1216,
+   "llr": 0.543,
+   "n": 1217,
    "retire_pressure": "LOW",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -108,16 +108,16 @@
     "note": "\u0394 on regime<floor windows +4.6c (n=350) vs +0.3c on healthy windows \u2014 the gate earns exactly where it claims to"
    },
    "label": "M10+M8 \u00b7 execution guard + regime gate",
-   "state": "INVALID",
-   "mean": 0.01827,
+   "state": "KEEP_TESTING",
+   "mean": 0.01826,
    "ci95_boot": [
-    -0.00909,
+    -0.00922,
     0.0466
    ],
-   "p_gt0": 0.903,
+   "p_gt0": 0.908,
    "coverage": 0.477,
-   "llr": 0.751,
-   "n": 1216,
+   "llr": 0.75,
+   "n": 1217,
    "retire_pressure": "LOW",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -135,16 +135,16 @@
     "note": ""
    },
    "label": "M13 \u00b7 edge band (enough edge, not too much)",
-   "state": "INVALID",
-   "mean": -0.05664,
+   "state": "KILL",
+   "mean": -0.05729,
    "ci95_boot": [
-    -0.0988,
-    -0.01315
+    -0.10071,
+    -0.01355
    ],
-   "p_gt0": 0.004,
+   "p_gt0": 0.005,
    "coverage": 0.259,
-   "llr": -2.778,
-   "n": 1028,
+   "llr": -2.808,
+   "n": 1029,
    "retire_pressure": "HIGH",
    "retire_flags": [
     "primary metric trending down",
@@ -165,7 +165,7 @@
   "investigate": [
    "T2: no arm beats market BSS \u2014 is there any incremental skill?",
    "T3: leader churn 30% \u2014 selection instability",
-   "T4: execution leak -7.9c/$1 \u2014 the binding constraint",
+   "T4: execution leak -7.8c/$1 \u2014 the binding constraint",
    "edge-anti-signal (kb5/pt6 negative own-edge weights) \u2014 D-edge-band"
   ]
  },
@@ -184,18 +184,18 @@
   },
   {
    "stage": "Desk decision EV (model quotes)",
-   "ev_per_1": 0.06965,
+   "ev_per_1": 0.07018,
    "kind": "measured",
-   "n": 1216
+   "n": 1217
   },
   {
    "stage": "Execution gap (quote\u2192fill)",
-   "ev_per_1": -0.07855,
+   "ev_per_1": -0.07844,
    "kind": "measured"
   },
   {
    "stage": "Realized EV (real fills)",
-   "ev_per_1": -0.0089,
+   "ev_per_1": -0.00825,
    "kind": "measured"
   }
  ],
@@ -216,13 +216,13 @@
   {
    "spot": "no arm beats market BSS",
    "tier": "T2",
-   "evidence": "best +0.0604",
+   "evidence": "best +0.0103",
    "action": "investigate"
   },
   {
    "spot": "execution leak",
    "tier": "T4",
-   "evidence": "-7.9c/$1",
+   "evidence": "-7.8c/$1",
    "action": "prioritize (M10 family racing)"
   },
   {
