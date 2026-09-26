@@ -21,7 +21,7 @@ const usd = (value: number | null) =>
 const words = (value: string) => value.replace(/_/g, " ");
 const time = (value: string) =>
   new Date(value).toLocaleString(undefined, { timeZoneName: "short" });
-const panel = "rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-6";
+const panel = "min-w-0 rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-6";
 const button =
   "inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-slate-200 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300 disabled:opacity-50";
 
@@ -130,7 +130,7 @@ export default function TradeRecommendationSystemDemo() {
               </button>
             </div>
           </div>
-          <h1 className="mt-5 max-w-3xl text-3xl font-bold leading-tight sm:text-5xl">
+          <h1 className="mt-5 max-w-3xl text-3xl font-bold leading-tight text-white sm:text-5xl">
             Trade Recommendation System
           </h1>
           <p className="mt-4 max-w-3xl leading-7 text-slate-300">
@@ -225,7 +225,7 @@ export default function TradeRecommendationSystemDemo() {
             </section>
             <section className={panel}>
               <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h2 className="text-xl font-semibold">
+                <h2 className="text-xl font-semibold text-white">
                   Recorded candidate recommendations
                 </h2>
                 <span className="text-sm text-slate-400">
@@ -320,7 +320,7 @@ export default function TradeRecommendationSystemDemo() {
               )}
             </section>
             <section className={panel}>
-              <h2 className="text-xl font-semibold">
+              <h2 className="text-xl font-semibold text-white">
                 Existing paper positions
               </h2>
               <p className="mt-3 text-sm leading-6 text-slate-400">
@@ -340,7 +340,7 @@ export default function TradeRecommendationSystemDemo() {
                       className="grid gap-4 rounded-xl border border-white/10 p-4 md:grid-cols-2"
                     >
                       <div className="grid content-start gap-2">
-                        <h3 className="font-semibold">
+                        <h3 className="font-semibold text-white">
                           {position.ticker} · {words(position.strategy)}
                         </h3>
                         <p className="text-sm text-slate-300">
@@ -368,7 +368,7 @@ export default function TradeRecommendationSystemDemo() {
             </section>
             <section className={`${panel} grid gap-5 md:grid-cols-2`}>
               <div>
-                <h2 className="text-xl font-semibold">
+                <h2 className="text-xl font-semibold text-white">
                   Where this record comes from
                 </h2>
                 <p className="mt-3 text-sm leading-6 text-slate-300">
