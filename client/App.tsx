@@ -16,6 +16,9 @@ import NotFound from "./pages/NotFound";
 const Games = lazy(() => import("./pages/Games"));
 const AIPlayground = lazy(() => import("./pages/AIPlayground"));
 const BtcOracleDemo = lazy(() => import("./pages/BtcOracleDemo"));
+const TradeRecommendationSystemDemo = lazy(
+  () => import("./pages/TradeRecommendationSystemDemo"),
+);
 const VedicAstroDemo = lazy(() => import("./pages/VedicAstroDemo"));
 const MovielensRecommenderDemo = lazy(
   () => import("./pages/MovielensRecommenderDemo"),
@@ -62,7 +65,7 @@ const App = () => (
             <Route path="/ai-playground" element={<AIPlayground />} />
             <Route
               path="/ai-playground/trade-recommendation-system"
-              element={<BtcOracleDemo />}
+              element={<TradeRecommendationSystemDemo />}
             />
             <Route
               path="/ai-playground/btc-oracle"
