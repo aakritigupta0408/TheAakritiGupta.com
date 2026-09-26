@@ -166,11 +166,11 @@ function hero(o){
   const pm=A(o.p_mech),po=A(o.p_oracle),pk=A(o.p_market);
   const st=(o.oracle_state||"—"), distCls=dist==null?"":dist>=0?"up":"down";
   return `<section class="hero">
-    <span class="eyebrow"><span class="live-dot"></span> BTC 15-minute contract · live<span id="freshness" class="mut"></span></span>
+    <span class="eyebrow"><span id="oracle-clock"><span class="live-dot stale"></span> BTC 15-minute contract · unknown</span><span id="freshness" class="mut"></span></span>
     <h1>Will the close print above the open?</h1>
     <div class="tk">${o.contract||"KXBTC15M"}</div>
     <div class="facts">
-      <div class="fact"><div class="k">BRTI now</div><div class="v">${dol(brti)}</div></div>
+      <div class="fact"><div class="k" id="brti-clock-label">BRTI recorded</div><div class="v">${dol(brti)}</div></div>
       <div class="fact"><div class="k">Target</div><div class="v">${dol(tgt)}</div></div>
       <div class="fact"><div class="k">Distance</div><div class="v ${distCls}">${dist==null?"—":(dist>=0?"+$":"−$")+Math.abs(dist).toFixed(0)}</div></div>
       <div class="fact"><div class="k">Time left</div><div class="v" id="tleft" data-close="${o.close_ts||0}">${tte==null?"—":tte+"m"}</div></div>
@@ -207,6 +207,51 @@ const TR={T0:["var(--series-2)","rgba(36,97,184,.09)","crown"],T1:["var(--series
   tv:["var(--series-7)","rgba(13,122,78,.09)","target"]};
 let SNAP=null, DETAIL=null, LIVE=null, AB=null, SEL="T0", CHTAB="live";
 const byId=id=>(SNAP.trader_family||[]).find(t=>t.id===id)||{};
+
+// Relative ages belong to the report's generation time, not the browser's
+// latest fetch. Re-fetching an unchanged JSON file must not make it fresh.
+function sourceAge(storedAge, generatedAt){
+  const now=Date.now()/1000;
+  if(!Number.isFinite(storedAge)||storedAge<0||!Number.isFinite(generatedAt)||generatedAt<=0||generatedAt>now) return null;
+  return storedAge+now-generatedAt;
+}
+function windowState(closeTs){
+  if(!Number.isFinite(closeTs)||closeTs<=0) return "unknown";
+  return closeTs>Date.now()/1000?"open":"expired";
+}
+function deskClock(desk, generatedAt){
+  const age=sourceAge(desk&&desk.daemon_alive_age_s, generatedAt);
+  const window=windowState(desk&&desk.current_window&&desk.current_window.close_ts);
+  return {age, state:age==null||window==="unknown"?"unknown":age>=180||window==="expired"?"stale":"live"};
+}
+function oracleClock(){
+  const d=SNAP||{}, health=d.system_health||{}, feeds=health.feeds||{};
+  const reportAge=sourceAge(0,d.generated_at), window=windowState((d.oracle_strip||{}).close_ts);
+  const limits={daemon_heartbeat:120,event_capture:120,kb_inference:180,pit_snapshot:300};
+  const checks=Object.entries(limits).map(([name,limit])=>({age:sourceAge((feeds[name]||{}).age_s,health.generated_ts),limit}));
+  if(reportAge==null||window==="unknown"||!health.overall||checks.some(c=>c.age==null)) return "unknown";
+  return reportAge>=180||window==="expired"||health.overall!=="HEALTHY"||checks.some(c=>c.age>=c.limit)?"stale":"live";
+}
+function updateClocks(){
+  const oracle=oracleClock(), desk=deskClock(LIVE,LIVE&&LIVE.generated_at);
+  const hero=document.getElementById("oracle-clock");
+  if(hero) hero.innerHTML=`<span class="live-dot ${oracle==='live'?'':'stale'}"></span> BTC 15-minute contract · ${oracle}`;
+  const priceLabel=document.getElementById("brti-clock-label");
+  if(priceLabel) priceLabel.textContent=oracle==="live"?"BRTI now":"BRTI recorded";
+  document.querySelectorAll("[data-desk-live]").forEach(el=>el.classList.toggle("stale",desk.state!=="live"));
+  const status=document.getElementById("desk-clock");
+  if(status) status.textContent=desk.state+(desk.age==null?" (source clock unavailable)":" ("+Math.round(desk.age)+"s)");
+  const ab=document.getElementById("ab-clock");
+  if(ab) ab.innerHTML=`<span class="live-dot ${desk.state==='live'?'':'stale'}"></span> ${desk.state==='live'?'Collecting':desk.state==='stale'?'Stale telemetry':'Telemetry unknown'}`;
+  const badge=document.getElementById("trader-clock");
+  if(badge){
+    const lv=SEL==="T0"?LIVE:byId(SEL).livedesk, session=(lv&&lv.session)||{};
+    const state=deskClock(lv,SEL==="T0"?lv&&lv.generated_at:SNAP&&SNAP.generated_at).state;
+    const label=session.halted?(session.state||"Halted"):state==="live"?"Live · settles on official BRTI":state==="stale"?"Stale telemetry":"Telemetry unknown";
+    badge.innerHTML=`<span class="live-dot ${!session.halted&&state==='live'?'':'stale'}"></span> ${label}`;
+  }
+}
+
 
 function selCard(t){
   const [c,bg,ic]=TR[t.id]||["var(--faint)","var(--surface-2)","target"];
@@ -249,8 +294,8 @@ function traderPanel(){
       <div class="b"><div class="v">${usd(s.max_drawdown_c)}</div><div class="k">Max DD</div></div></div>`;
     chart=equitySVG(LV.equity_curve);
     badge=s.halted
-      ? `<span class="notstarted"><span class="live-dot stale"></span> ${s.state||'Halted'}</span>`
-      : `<span class="notstarted"><span class="live-dot"></span> Live · settles on official BRTI</span>`;
+      ? `<span id="trader-clock" class="notstarted"><span class="live-dot stale"></span> ${s.state||'Halted'}</span>`
+      : `<span id="trader-clock" class="notstarted"><span class="live-dot stale"></span> Telemetry unknown</span>`;
   } else if(mode==="live"){
     kpi=`<div class="kpi"><div class="big mut">—</div><div class="cap">Live results collecting</div></div>`;
     stats="";
@@ -315,9 +360,9 @@ function tradesPanel(){
       <td>${r.entry_c!=null?r.entry_c+'¢':'—'}</td>
       <td>${r.result?`<span class="res ${r.result.toLowerCase()}">${r.result}</span>`:'<span class="mut">—</span>'}</td>
       <td class="pl ${r.pnl_c>=0?'pos':'neg'}">${r.pnl_c!=null?(r.pnl_c>=0?'+':'−')+'$'+Math.abs(r.pnl_c/100).toFixed(2):'—'}</td>
-      <td>${r.status==='Open'?'<span class="live-dot"></span> Open':'Settled'}</td></tr>`).join("");
+      <td>${r.status==='Open'?'<span class="live-dot" data-desk-live></span> Open':'Settled'}</td></tr>`).join("");
     return `<div class="panel"><div style="display:flex;justify-content:space-between;align-items:center">
-        <div class="lab"><span class="live-dot"></span> Recent trades (live)</div>
+        <div class="lab"><span class="live-dot" data-desk-live></span> Recent trades (live)</div>
         <span class="mini">Settled on official BRTI</span></div>
       <div class="scroll"><table class="rt"><thead><tr><th>Contract time (PT)</th><th>BRTI / Target</th>
         <th>Side</th><th>Entry</th><th>Result</th><th>P&L</th><th>Status</th></tr></thead><tbody>${body}</tbody></table></div>
@@ -339,9 +384,9 @@ function tradesPanel(){
     <div class="mini">Showing ${rows.length} of ${d.n_trades} trades · unseen historical holdout</div></div>`;
 }
 function abPanel(){
-  const active=LIVE&&LIVE.daemon_alive_age_s!=null&&LIVE.daemon_alive_age_s<180;
-  const badge=active?`<span class="notstarted"><span class="live-dot"></span> Collecting</span>`
-    :`<span class="notstarted"><span class="live-dot stale"></span> Not started</span>`;
+  const active=deskClock(LIVE,LIVE&&LIVE.generated_at).state==="live";
+  const badge=active?`<span id="ab-clock" class="notstarted"><span class="live-dot"></span> Collecting</span>`
+    :`<span id="ab-clock" class="notstarted"><span class="live-dot stale"></span> Telemetry unknown</span>`;
   const rows=(AB&&AB.rows)||[];
   const money=v=>v==null?'—':(v<0?'-$':'$')+Math.abs(v).toFixed(2);
   const cents=v=>v==null?'—':(v>=0?'+':'')+Math.round(v)+'c';
@@ -372,13 +417,13 @@ function abPanel(){
     <p class="pdesc" style="margin-top:4px">Every treatment vs the <b>T0 control</b>, metric = <b>EV per trade</b> (net $ / trade), not hit-rate — a 69% hit still loses money buying favorites. <b>Δ EV vs T0</b> is the paired per-contract difference on matched windows; 95% CI = bootstrap; p = paired t-test. Small n → "collecting".</p>
     ${body}
     <style>.abtab{width:100%;border-collapse:collapse;font-size:13px}.abtab td{padding:5px 10px 5px 0;border-bottom:1px solid var(--border,#232c3a);white-space:nowrap}.abtab td.h{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.03em;border-bottom:1px solid var(--border,#232c3a)}.abtab td.n{text-align:right;font-variant-numeric:tabular-nums}.mini2{color:var(--muted);font-size:11px}</style>
-    <div class="mini" style="margin-top:12px"><span class="live-dot ${active?'':'stale'}"></span> Reality check: at window <b>open</b> the contract is a ~coin flip (market acc 0.59, Bayes ceiling 0.59); the house profits from the ~7% vig, not prediction. The only edge is positive-EV value-gating net of fee — see the live coverage-vs-EV curve on <b>Models Lab</b>.</div></div>`;
+    <div class="mini" style="margin-top:12px"><span class="live-dot ${active?'':'stale'}" data-desk-live></span> Reality check: at window <b>open</b> the contract is a ~coin flip (market acc 0.59, Bayes ceiling 0.59); the house profits from the ~7% vig, not prediction. The only edge is positive-EV value-gating net of fee — see the live coverage-vs-EV curve on <b>Models Lab</b>.</div></div>`;
 }
 function liveDeskStrip(){
   const L=LIVE; if(!L||!L.session) return "";
   const cw=L.current_window, s=L.session, sa=L.since_activation||{n:0};
-  const live=L.daemon_alive_age_s!=null && L.daemon_alive_age_s<180;
-  const dot=live?'<span class="live-dot"></span>':'<span class="live-dot stale"></span>';
+  const clock=deskClock(L,L.generated_at), live=clock.state==="live";
+  const dot=live?'<span class="live-dot" data-desk-live></span>':'<span class="live-dot stale" data-desk-live></span>';
   const cur=cw?`<div class="lwcur">
       <div class="lwk">Current window · <span id="cwleft" data-close="${cw.close_ts||0}">${cw.mins_left!=null?cw.mins_left.toFixed(1)+'m left':'live'}</span></div>
       <div class="lwtk">${cw.ticker||''}</div>
@@ -393,7 +438,7 @@ function liveDeskStrip(){
   return `<div class="panel livestrip">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
       <div class="lab">${dot} Live paper desk</div>
-      <span class="mini">Settling on official BRTI · ${live?'live':'stale'}${L.daemon_alive_age_s!=null?' ('+L.daemon_alive_age_s+'s)':''}</span></div>
+      <span class="mini">Settling on official BRTI · <span id="desk-clock">${clock.state}${clock.age!=null?' ('+Math.round(clock.age)+'s)':''}</span></span></div>
     <div class="livegrid">
       ${cur}
       <div class="kpi3 livestats">
@@ -404,8 +449,8 @@ function liveDeskStrip(){
     </div>
     <div class="mini" style="margin-top:10px">${sa.n} window${sa.n===1?'':'s'} settled since exact-BRTI activation · the Oracle's Follower policy (trader T0 lineage). The formal T0-vs-T1 paired A/B accrues separately.</div></div>`;
 }
-window.selectTrader=id=>{SEL=id;CHTAB=(id==="T0"||id.indexOf("cg")===0||id==="fm"||id==="ob"||id==="tv")?"live":"backtest";paintFamily();};
-window.setTab=t=>{CHTAB=t;paintFamily();};
+window.selectTrader=id=>{SEL=id;CHTAB=(id==="T0"||id.indexOf("cg")===0||id==="fm"||id==="ob"||id==="tv")?"live":"backtest";paintFamily();updateClocks();};
+window.setTab=t=>{CHTAB=t;paintFamily();updateClocks();};
 function paintFamily(){
   $("#family").innerHTML=`<div class="sec-head" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px">
       <div><span class="eyebrow">The trader family</span><h2>One Oracle, five policies</h2>
@@ -441,22 +486,22 @@ function waiting(){
 let LOADED=false;
 const POLL_MS=5000;
 function fmtLeft(closeTs){
-  if(!closeTs) return null;
+  if(!Number.isFinite(closeTs)||closeTs<=0) return null;
   let s=Math.round(closeTs-Date.now()/1000);
-  if(s<0) s=0;
+  if(s<=0) return "expired";
   return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");
 }
 function tick(){
   document.querySelectorAll("[data-close]").forEach(el=>{
-    const t=+el.getAttribute("data-close"); if(!t) return;
-    const f=fmtLeft(t); if(f==null) return;
-    el.textContent = el.id==="cwleft" ? f+" left" : f;
+    const t=+el.getAttribute("data-close"), f=fmtLeft(t);
+    el.textContent = f==null?"unknown":f==="expired"?"expired":el.id==="cwleft"?f+" left":f;
   });
   const fr=document.getElementById("freshness");
-  if(fr && SNAP && SNAP.generated_at){
-    const age=Math.max(0,Math.round(Date.now()/1000-SNAP.generated_at));
-    fr.textContent=" · updated "+(age<60?age+"s":Math.floor(age/60)+"m "+(age%60)+"s")+" ago";
+  if(fr && SNAP){
+    const elapsed=sourceAge(0,SNAP.generated_at), age=elapsed==null?null:Math.round(elapsed);
+    fr.textContent=age==null?" · publication clock unknown":" · updated "+(age<60?age+"s":Math.floor(age/60)+"m "+(age%60)+"s")+" ago";
   }
+  updateClocks();
 }
 function loadData(){
   return Promise.all([

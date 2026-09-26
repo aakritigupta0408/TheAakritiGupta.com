@@ -17,13 +17,17 @@
         catch(e){ return null; } })
       .catch(function(){ return null; }); }
   function age(ts){ if(ts==null) return null;
-    var s = Math.max(0, Date.now()/1000 - ts);
+    if(!Number.isFinite(ts)||ts<=0||ts>Date.now()/1000) return null;
+    var s = Date.now()/1000 - ts;
     if (s<90) return Math.round(s)+"s";
     if (s<5400) return Math.round(s/60)+"m";
     if (s<172800) return Math.round(s/3600)+"h";
     return Math.round(s/86400)+"d"; }
-  function stale(ts, limit){ var s = ts==null?1e9:(Date.now()/1000-ts);
-    return s > (limit||900); }
+  function sourceAge(storedAge, generatedAt){
+    var now=Date.now()/1000;
+    if(!Number.isFinite(storedAge)||storedAge<0||!Number.isFinite(generatedAt)||generatedAt<=0||generatedAt>now) return null;
+    return storedAge+now-generatedAt;
+  }
 
   function chip(label, value, cls){
     return '<span class="gh-chip '+(cls||"")+'"><b>'+label+'</b>'+
@@ -39,17 +43,22 @@
     // system state — derived, never assumed green
     var sev0 = (rd.sev0_open && rd.sev0_open.length) || 0;
     var invBad = (inv.failed || 0) > 0;
-    var freshBad = dh.overall && dh.overall !== "HEALTHY";
+    var limits={daemon_heartbeat:120,event_capture:120,kb_inference:180,pit_snapshot:300};
+    var feedAges=Object.keys(limits).map(function(name){
+      return {age:sourceAge(((dh.feeds||{})[name]||{}).age_s,dh.generated_ts),limit:limits[name]};
+    });
+    var freshUnknown=!dh.overall||feedAges.some(function(f){return f.age==null;});
+    var freshBad=dh.overall!=="HEALTHY"||feedAges.some(function(f){return f.age!=null&&f.age>=f.limit;});
     var state = invBad ? "DEGRADED" : sev0 ? "DEGRADED"
-      : freshBad ? "DEGRADED" : (inv.health ? "NORMAL" : "UNKNOWN");
+      : freshUnknown ? "UNKNOWN" : freshBad ? "DEGRADED" : (inv.health ? "NORMAL" : "UNKNOWN");
     var stateCls = state==="NORMAL" ? "ok" : state==="UNKNOWN" ? "unk" : "warn";
     var invStr = (inv.passed!=null) ? (inv.passed+"/"+(inv.passed+(inv.failed||0)))
       : null;
     var invCls = inv.failed===0 ? "ok" : invBad ? "bad" : "unk";
     // market-data age from data_health feeds
     var feeds = (dh.feeds||{}); var mkt = feeds.event_capture||feeds.market||{};
-    var mktAge = mkt.age_s!=null ? age(dh.generated_ts? (Date.now()/1000 - (mkt.age_s)) : null) : null;
-    if (mkt.age_s!=null) mktAge = Math.round(mkt.age_s)+"s";
+    var mktSeconds=sourceAge(mkt.age_s,dh.generated_ts);
+    var mktAge=mktSeconds==null?null:Math.round(mktSeconds)+"s";
     var auditAge = dh.generated_ts ? age(dh.generated_ts) : null;
     // experiment/control/treatment
     var db = d.board || {}; var summ = db.summary || {};
@@ -60,7 +69,8 @@
     // qualification
     var qual = f1.verdict ? (f1.verdict.split(" ")[0]) : null;
     var qmetric = f1.governing_metric;
-    var chgStr = chg.ts ? (age(chg.ts)+" ago · "+(chg.change_type||"change")) : null;
+    var changeAge=age(chg.ts);
+    var chgStr = changeAge ? (changeAge+" ago · "+(chg.change_type||"change")) : null;
 
     var bar = document.createElement("div");
     bar.className = "gh-wrap";
@@ -76,14 +86,16 @@
         chip("F1", qual? (qual+(qmetric?(" ("+qmetric+")"):"")) : null, qual==="PASS"?"ok":"warn") +
       '</div>' +
       '<div class="gh-row gh-sub">' +
-        '<span>market-data '+(mktAge?('<b class="'+(stale(dh.generated_ts,120)?"gh-stale":"")+'">'+mktAge+'</b>'):'<b class="gh-unk">UNKNOWN</b>')+'</span>' +
+        '<span>market-data '+(mktAge?('<b class="'+(mktSeconds>=120?"gh-stale":"")+'">'+mktAge+'</b>'):'<b class="gh-unk">UNKNOWN</b>')+'</span>' +
         '<span>audit '+(auditAge?('<b>'+auditAge+'</b>'):'<b class="gh-unk">UNKNOWN</b>')+'</span>' +
         '<span>prediction <b class="gh-unk">UNKNOWN</b></span>' +
         '<span>settlement <b class="gh-unk">UNKNOWN</b></span>' +
         '<span>last change '+(chgStr?('<b>'+chgStr+'</b>'):'<b class="gh-unk">UNKNOWN</b>')+'</span>' +
         '<span class="gh-disc">Research simulation only. No real capital. Not financial advice.</span>' +
       '</div>';
-    document.body.insertBefore(bar, document.body.firstChild);
+    var previous=document.querySelector(".gh-wrap");
+    if(previous) previous.replaceWith(bar);
+    else document.body.insertBefore(bar, document.body.firstChild);
   }
 
   var CSS = '.gh-wrap{position:sticky;top:0;z-index:60;background:#0f141a;color:#e7edf3;'
@@ -103,18 +115,25 @@
     +'.gh-unk{color:#e0a24a!important;font-weight:600}'
     +'.gh-disc{margin-left:auto;color:#6b7885;font-style:italic}';
 
-  function boot(){
-    var st = document.createElement("style"); st.textContent = CSS;
-    document.head.appendChild(st);
+  var latest=null;
+  function refresh(){
     Promise.all([
       getJSON("invariants.json"), getJSON("readiness.json"),
       getJSON("data_health.json"), getJSON("f1_capture_qualification.json"),
       getJSON("decision_board.json"), getJSON("a3_live.json"),
       lastLine("system_change_log.jsonl")
     ]).then(function(a){
-      render({ invariants:a[0], readiness:a[1], health:a[2], f1:a[3],
-               board:a[4], a3:a[5], change:a[6] });
+      latest={ invariants:a[0], readiness:a[1], health:a[2], f1:a[3],
+               board:a[4], a3:a[5], change:a[6] };
+      render(latest);
     });
+  }
+  function boot(){
+    var st=document.createElement("style"); st.textContent=CSS;
+    document.head.appendChild(st);
+    refresh();
+    setInterval(function(){if(latest) render(latest);},1000);
+    setInterval(refresh,30000);
   }
   if (document.readyState === "loading")
     document.addEventListener("DOMContentLoaded", boot);
