@@ -1,0 +1,170 @@
+{
+ "schema_version": "modelling-snapshot-1",
+ "generated_at": 1790396107.627738,
+ "program": "OPEN_ORACLE_15M",
+ "prediction_target": "P(settlement 60s-BRTI \u2265 opening 60s-BRTI target) 15 min later",
+ "prediction_time": "CONTRACT OPEN (T0)",
+ "forecast_horizon": "15 minutes",
+ "update_policy": "FROZEN UNTIL SETTLEMENT",
+ "selected_model": {
+  "id": "M1_MECH_15M",
+  "family": "mechanics-control",
+  "role": "CONTROL",
+  "architecture": [
+   "T0 input features (\u2264 open)",
+   "MECH_FAIR_15M (driftless, distance 0)",
+   "p_mech_15m = 0.50",
+   "FREEZE until settlement"
+  ],
+  "primary_loss": "log loss (binary)",
+  "target_loss": "log loss / Brier vs exact BRTI outcome"
+ },
+ "dataset": {
+  "market_window_n": 6251,
+  "raw_observation_n": 6251,
+  "class_balance_up": 0.5002,
+  "feature_families": {
+   "F-CONTRACT/price-path": [
+    "ret_1",
+    "ret_2",
+    "ret_4",
+    "ret_8",
+    "rvol_4",
+    "rvol_8",
+    "rvol_16",
+    "range_8",
+    "prior_up",
+    "run_signed",
+    "accel",
+    "z_last",
+    "level_k"
+   ]
+  },
+  "content_sha256_16": "bdcb8b94fb61a51b",
+  "note": "one KXBTC15M window = one example (no tick inflation)"
+ },
+ "training_summary": {
+  "protocol": "chronological expanding walk-forward on dev; final 20% untouched holdout; scalers/C fit on dev only (NO_HOLDOUT_FIT_15M).",
+  "dev_n": 5000,
+  "holdout_n": 1251,
+  "holdout_base_rate_up": 0.4876,
+  "note": "no epoch curves \u2014 logistic/tree models; walk-forward + single holdout"
+ },
+ "model_ladder": {
+  "M0_5050": {
+   "holdout": {
+    "log_loss": 0.69315,
+    "brier": 0.25,
+    "accuracy": 0.4876,
+    "ece": 0.0124
+   },
+   "walk_forward": {}
+  },
+  "M1_MECH_15M": {
+   "holdout": {
+    "log_loss": 0.69315,
+    "brier": 0.25,
+    "accuracy": 0.4876,
+    "ece": 0.0124
+   },
+   "walk_forward": {}
+  },
+  "M2_ridge_logistic": {
+   "holdout": {
+    "log_loss": 0.69334,
+    "brier": 0.2501,
+    "accuracy": 0.4916,
+    "ece": 0.0276
+   },
+   "walk_forward": {
+    "log_loss": {
+     "median": 0.69264,
+     "worst": 0.72271,
+     "variance": 0.000131,
+     "n_folds": 6
+    },
+    "brier": {
+     "median": 0.24975,
+     "worst": 0.26332,
+     "variance": 2.7e-05,
+     "n_folds": 6
+    },
+    "accuracy": {
+     "median": 0.5042,
+     "worst": 0.5294,
+     "variance": 0.000139,
+     "n_folds": 6
+    }
+   }
+  },
+  "M4_hgb": {
+   "holdout": {
+    "log_loss": 0.69299,
+    "brier": 0.24991,
+    "accuracy": 0.5092,
+    "ece": 0.0316
+   },
+   "walk_forward": {
+    "log_loss": {
+     "median": 0.69754,
+     "worst": 0.7022,
+     "variance": 1e-05,
+     "n_folds": 6
+    },
+    "brier": {
+     "median": 0.25206,
+     "worst": 0.25437,
+     "variance": 2e-06,
+     "n_folds": 6
+    },
+    "accuracy": {
+     "median": 0.5133,
+     "worst": 0.535,
+     "variance": 9.3e-05,
+     "n_folds": 6
+    }
+   }
+  }
+ },
+ "offline_evaluation": {
+  "f_contract_result": "NO_CANDIDATE",
+  "f_contract_classification": "INFORMATION_LIMITED",
+  "scope": "contract / pre-open price-path family only",
+  "global_true15m_conclusion": "NOT_YET_DETERMINED",
+  "global_note": "Richer feature families (AV market-state / microstructure / derivatives / options / news / macro / regimes) not yet built or tested \u2014 the global TRUE15M question is open.",
+  "qualification": {
+   "M2_ridge_logistic": {
+    "holdout_beats_mech": false,
+    "holdout_beats_shuffle_noise": false,
+    "walkforward_median_and_worst_beat_mech": false,
+    "qualifies": false
+   },
+   "M4_hgb": {
+    "holdout_beats_mech": true,
+    "holdout_beats_shuffle_noise": false,
+    "walkforward_median_and_worst_beat_mech": false,
+    "qualifies": false
+   }
+  },
+  "detail": "Tested F-CONTRACT price-path family on the full 6251-window universe. Independent families (F-SPOT/F-XVENUE/F-DERIVATIVES/F-OPTIONS/F-NEWS) have ~370-window coverage only and are a separate Phase-B test, not evaluated here.",
+  "internal_baseline": "INTERNAL_ADOPTED_BASELINE_V1 (no official course baseline exists); primary metrics log_loss/Brier vs empirical class-frequency; external benchmark Kalshi-at-open"
+ },
+ "live_experiment": {
+  "state": "NOT_STARTED",
+  "reason": "no challenger beat the mechanics control out of sample"
+ },
+ "diagnostics": {
+  "TRUE_15M_NO_POST_OPEN_INFORMATION": "PASS",
+  "ONE_PREDICTION_PER_WINDOW": "PASS",
+  "LABEL_SHUFFLE_PLACEBO": {
+   "log_loss": 0.69298,
+   "brier": 0.24992,
+   "accuracy": 0.4932,
+   "ece": 0.0151
+  },
+  "label_shuffle_interpretation": "label-shuffle holdout log_loss should sit at ~0.693 (chance); a real edge must beat that AND beat M0/M1 (0.25 brier / 0.693 log_loss)."
+ },
+ "benchmarks": {
+  "note": "MECH_FAIR_15M and 50/50 are controls; Kalshi-at-open is a benchmark only (never a model input). Kalshi-at-open live capture is a Phase-B item."
+ }
+}

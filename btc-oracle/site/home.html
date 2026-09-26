@@ -1,6 +1,7 @@
 <!-- HOME — renders results/home_snapshot.json on the shared theme.css. Presentation
      only (formatting + SVG plotting of precomputed series); no canonical science in
      JS. Guarded by tests/test_no_frontend_science.py. -->
+<meta charset="utf-8">
 <link rel="stylesheet" href="theme.css">
 <style>
   main{gap:26px}
@@ -15,6 +16,9 @@
   .badge{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.04em;padding:6px 15px;
     border-radius:999px;border:1px solid var(--border);color:var(--ink-2)}
   .badge.locked{color:var(--series-2);border-color:rgba(36,97,184,.4);background:rgba(36,97,184,.07)}
+  .badge.up{color:var(--up);border-color:rgba(12,138,77,.4);background:rgba(12,138,77,.07)}
+  .badge.down{color:var(--down);border-color:rgba(209,60,60,.4);background:rgba(209,60,60,.07)}
+  .badge.neutral{color:var(--muted)}
   .probs{margin-top:30px;display:grid;gap:18px;max-width:560px}
   .pr .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
   .pr .nm{font-size:14px;color:var(--ink-2)} .pr .nm b{color:var(--ink);font-weight:600}
@@ -51,6 +55,21 @@
   @media(max-width:860px){.split2{grid-template-columns:1fr}}
   .panel{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px 24px}
   .panel .lab{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .livestrip{margin:20px 0 4px;border-color:var(--up);box-shadow:0 1px 0 rgba(12,138,77,.04)}
+  .livegrid{display:grid;grid-template-columns:1.1fr 1.2fr 1.5fr;gap:20px;align-items:center;margin-top:14px}
+  @media(max-width:900px){.livegrid{grid-template-columns:1fr}}
+  .lwcur .lwk{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+  .lwcur .lwtk{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;margin-top:3px}
+  .lwcur .lwtk.mut{color:var(--muted);font-weight:400}
+  .lwprobs{display:flex;gap:16px;margin-top:8px;font-size:12.5px;color:var(--muted)} .lwprobs b{color:var(--ink);font-variant-numeric:tabular-nums}
+  .lwbet{margin-top:8px;font-size:12.5px;color:var(--ink-2)}
+  .livestats{margin-top:0}
+  .livetrades{overflow-x:auto}
+  .sd{font-size:10px;font-weight:700;padding:1px 6px;border-radius:5px}
+  .sd.yes{color:var(--up);background:rgba(12,138,77,.10)} .sd.no{color:var(--down);background:rgba(209,60,60,.10)}
+  .res{font-size:10px;font-weight:700} .res.win{color:var(--up)} .res.loss{color:var(--down)}
+  .pl.pos{color:var(--up)} .pl.neg{color:var(--down)}
+  .openrow td{background:rgba(12,138,77,.06)}
   .panel h3{font:500 26px/1.05 var(--display);color:var(--ink);margin:4px 0 0;display:flex;align-items:center;gap:10px}
   .rolepill{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:6px}
   .pdesc{font-size:13px;color:var(--ink-2);margin:12px 0 2px} .pdesc .mut{color:var(--muted);display:block;margin-top:2px}
@@ -145,17 +164,17 @@ function trajChart(traj){
 function hero(o){
   const brti=A(o.official_brti),tgt=A(o.official_target),dist=A(o.distance),tte=A(o.time_remaining_min);
   const pm=A(o.p_mech),po=A(o.p_oracle),pk=A(o.p_market);
-  const st=(o.oracle_state||"SEARCHING"), distCls=dist==null?"":dist>=0?"up":"down";
+  const st=(o.oracle_state||"—"), distCls=dist==null?"":dist>=0?"up":"down";
   return `<section class="hero">
-    <span class="eyebrow"><span class="live-dot"></span> BTC 15-minute contract · live</span>
+    <span class="eyebrow"><span class="live-dot"></span> BTC 15-minute contract · live<span id="freshness" class="mut"></span></span>
     <h1>Will the close print above the open?</h1>
     <div class="tk">${o.contract||"KXBTC15M"}</div>
     <div class="facts">
       <div class="fact"><div class="k">BRTI now</div><div class="v">${dol(brti)}</div></div>
       <div class="fact"><div class="k">Target</div><div class="v">${dol(tgt)}</div></div>
       <div class="fact"><div class="k">Distance</div><div class="v ${distCls}">${dist==null?"—":(dist>=0?"+$":"−$")+Math.abs(dist).toFixed(0)}</div></div>
-      <div class="fact"><div class="k">Time left</div><div class="v">${tte==null?"—":tte+"m"}</div></div>
-      <div class="fact"><div class="k">Oracle</div><div class="v"><span class="badge ${st.includes("LOCK")?"locked":""}">${st}</span></div></div>
+      <div class="fact"><div class="k">Time left</div><div class="v" id="tleft" data-close="${o.close_ts||0}">${tte==null?"—":tte+"m"}</div></div>
+      <div class="fact"><div class="k">Oracle</div><div class="v"><span class="badge ${st.includes("UP")?"up":st.includes("DOWN")?"down":"neutral"}">${st}</span></div></div>
     </div>
     <div class="probs">
       ${probBar("Oracle — P(up)",po,"var(--series-2)","oracle")}
@@ -170,48 +189,244 @@ function hero(o){
 }
 const VD={QUALIFIED_FOR_PROSPECTIVE:["Qualified","good"],INFORMATION_LIMITED:["Info-limited","mut"],
   SHADOW_ONLY:["Shadow","warn"],NOT_QUALIFIED:["Locked","mut"],REJECTED:["Rejected","mut"]};
-function famCard(t){
-  const [fg,bgc]=ROLE[t.role]||["var(--faint)","var(--surface-2)"];
-  const bt=t.backtest||{};
-  const isShadow=(t.role==="SHADOW"||t.role==="NOT_QUALIFIED");
-  let metric,extra="";
-  if(bt.ev_per_eligible_c!=null){
-    const ev=bt.ev_per_eligible_c, w=Math.max(4,Math.min(100,ev/15*100));
-    metric=`<div class="metric"><div class="big ${ev>=0?'pos':'neg'}">${ev>=0?'+':''}${ev.toFixed(1)}¢</div>
-      <div class="unit">backtest EV per eligible window</div></div>
-      <div class="evbar"><i style="width:${w}%"></i></div>
-      <div class="stats"><span>Coverage <b>${pctN(bt.coverage)}</b></span>
-        <span>Accuracy <b>${pctN(bt.accuracy,0)}</b></span>
-        <span>Drawdown <b>${usd(bt.max_drawdown_c)}</b></span></div>`;
-  } else if(bt.best_holdout_auc!=null){
-    metric=`<div class="metric"><div class="big mut">AUC ${bt.best_holdout_auc}</div>
-      <div class="unit">holdout · 0.50 = no signal</div></div>`;
-  } else if(bt.leverage_only!=null){
-    metric=`<div class="metric"><div class="big mut">Leverage only</div>
-      <div class="unit">no risk-adjusted edge vs baselines</div></div>`;
+const SVG={
+  crown:'<path d="M3 8l4 3 5-6 5 6 4-3-2 11H5L3 8z"/>',
+  bolt:'<path d="M13 2L5 13h5l-1 9 9-12h-6l1-8z"/>',
+  brain:'<circle cx="7" cy="8" r="2.4"/><circle cx="17" cy="8" r="2.4"/><circle cx="12" cy="16" r="2.4"/><path d="M8.7 9.3l2.3 5M15.3 9.3L13 14.2M9 8h6"/>',
+  chart:'<path d="M5 20V11M12 20V5M19 20v-6"/>',
+  layers:'<path d="M12 3l8.5 4.5L12 12 3.5 7.5 12 3z"/><path d="M3.5 12L12 16.5 20.5 12M3.5 16.5L12 21l8.5-4.5"/>',
+  target:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.4"/>',
+  compass:'<circle cx="12" cy="12" r="8.5"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z"/>'};
+function icon(name,color,sz){return `<svg viewBox="0 0 24 24" width="${sz||18}" height="${sz||18}" fill="none" stroke="${color||'currentColor'}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">${SVG[name]||''}</svg>`;}
+const TR={T0:["var(--series-2)","rgba(36,97,184,.09)","crown"],T1:["var(--series-7)","rgba(13,122,78,.09)","bolt"],
+  T2:["var(--series-4)","rgba(143,96,0,.10)","brain"],T3:["var(--series-9)","rgba(95,80,199,.10)","chart"],
+  T4:["var(--series-3)","rgba(180,58,110,.09)","layers"],
+  cg33:["var(--series-3)","rgba(180,58,110,.09)","bolt"],
+  fm:["var(--series-4)","rgba(143,96,0,.10)","brain"],
+  ob:["var(--series-9)","rgba(95,80,199,.10)","compass"],
+  tv:["var(--series-7)","rgba(13,122,78,.09)","target"]};
+let SNAP=null, DETAIL=null, LIVE=null, AB=null, SEL="T0", CHTAB="live";
+const byId=id=>(SNAP.trader_family||[]).find(t=>t.id===id)||{};
+
+function selCard(t){
+  const [c,bg,ic]=TR[t.id]||["var(--faint)","var(--surface-2)","target"];
+  const on=t.id===SEL;
+  return `<button class="sc ${on?'on':''}" onclick="selectTrader('${t.id}')"
+    style="border-color:${on?c:'var(--border)'};${on?'background:'+bg:''}">
+    <div class="hd"><span class="tag" style="color:${c};background:${bg}">${t.id} · ${t.role.replace(/_/g," ")}</span>
+      <span class="ic" style="color:${c}">${icon(ic,c,20)}</span></div>
+    <div class="nm">${t.name}${(t.live&&t.live.halted)?`<span style="display:inline-block;font-size:10px;font-weight:700;letter-spacing:.04em;color:#e5534b;background:rgba(229,83,75,.14);border:1px solid rgba(229,83,75,.4);border-radius:4px;padding:1px 5px;margin-left:6px;vertical-align:middle">${t.live.ruined?'HALTED':'STALE'}</span>`:''}</div><div class="tl">${t.tagline||t.blurb||""}</div></button>`;
+}
+function equitySVG(curve){
+  if(!curve||curve.length<3) return `<div class="emptychart">No equity curve for this policy.</div>`;
+  const W=560,H=230,pad=34;
+  const ys=curve.map(p=>p.equity_c/100), maxY=Math.max(2,...ys), minY=Math.min(-2,...ys), n=curve.length;
+  const X=i=>pad+i/(n-1)*(W-2*pad), Y=v=>pad+(1-(v-minY)/((maxY-minY)||1))*(H-2*pad);
+  const line=curve.map((p,i)=>(i?"L":"M")+X(i).toFixed(1)+" "+Y(p.equity_c/100).toFixed(1)).join(" ");
+  const zero=Y(0);
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="height:230px">
+    <line class="gridline" x1="${pad}" y1="${zero}" x2="${W-pad}" y2="${zero}"></line>
+    <text x="${pad-6}" y="${Y(maxY)+4}" text-anchor="end">$${maxY.toFixed(0)}</text>
+    <text x="${pad-6}" y="${zero+4}" text-anchor="end">$0</text>
+    <text x="${pad-6}" y="${Y(minY)+4}" text-anchor="end">$${minY.toFixed(0)}</text>
+    <path d="${line}" fill="none" stroke="var(--series-2)" stroke-width="2.2" stroke-linejoin="round"></path>
+    <text x="${W-pad}" y="${H-8}" text-anchor="end">${n} windows (unseen historical)</text></svg>`;
+}
+function traderPanel(){
+  const t=byId(SEL), d=(DETAIL&&DETAIL.traders[SEL])||{}, bt=t.backtest||{};
+  const [c,bg]=TR[SEL]||["var(--faint)","var(--surface-2)"];
+  const LV=(SEL==="T0")?LIVE:(t.livedesk||null);
+  const liveOK=LV && LV.session && LV.session.n>0;
+  const mode=CHTAB==="live"?"live":"backtest";
+  let kpi, stats, chart, badge;
+  if(mode==="live" && liveOK){
+    const s=LV.session, sa=LV.since_activation||{n:0};
+    kpi=`<div class="kpi"><div class="big ${s.pnl_c>=0?'pos':'neg'}">${s.pnl_c>=0?'+':'−'}$${Math.abs(s.pnl_c/100).toFixed(2)}</div><div class="cap">P&L · ${s.label||'today'}<br>(${s.n} live window${s.n===1?'':'s'})</div></div>
+       <div class="kpi"><div class="big">$${(s.bankroll_c/100).toFixed(2)}</div><div class="cap">Paper bankroll<br>(running)</div></div>`;
+    stats=`<div class="kpi3">
+      <div class="b"><div class="v">${pctN(s.hit_rate,1)}</div><div class="k">Hit rate</div></div>
+      <div class="b"><div class="v ${s.ev_per_trade_c>=0?'pos':'neg'}">${s.ev_per_trade_c!=null?(s.ev_per_trade_c>=0?'+':'−')+Math.abs(s.ev_per_trade_c).toFixed(1)+'¢':'—'}</div><div class="k">EV / trade</div></div>
+      <div class="b"><div class="v">${usd(s.max_drawdown_c)}</div><div class="k">Max DD</div></div></div>`;
+    chart=equitySVG(LV.equity_curve);
+    badge=s.halted
+      ? `<span class="notstarted"><span class="live-dot stale"></span> ${s.state||'Halted'}</span>`
+      : `<span class="notstarted"><span class="live-dot"></span> Live · settles on official BRTI</span>`;
+  } else if(mode==="live"){
+    kpi=`<div class="kpi"><div class="big mut">—</div><div class="cap">Live results collecting</div></div>`;
+    stats="";
+    chart=`<div class="emptychart">${SEL==="T0"?"Live equity is collecting.":"This policy runs as backtest / shadow only; it is not live-distinct yet."}</div>`;
+    badge=`<span class="notstarted"><span class="live-dot stale"></span> Collecting</span>`;
   } else {
-    metric=`<div class="metric"><div class="big mut">Locked</div>
-      <div class="unit">awaiting component qualification</div></div>`;
+    const evOK=bt.ev_per_eligible_c!=null;
+    kpi=evOK
+      ? `<div class="kpi"><div class="big ${bt.ev_per_eligible_c>=0?'pos':'neg'}">${bt.ev_per_eligible_c>=0?'+':''}${bt.ev_per_eligible_c.toFixed(1)}¢</div><div class="cap">EV / eligible window<br>(backtest)</div></div>
+         <div class="kpi"><div class="big">${d.n_trades||'—'}</div><div class="cap">trades over ${DETAIL?DETAIL.holdout_windows:93}<br>unseen windows</div></div>`
+      : `<div class="kpi"><div class="big mut">${bt.best_holdout_auc!=null?('AUC '+bt.best_holdout_auc):(bt.leverage_only!=null?'Leverage only':'Locked')}</div><div class="cap">${t.reason||''}</div></div>`;
+    stats=evOK?`<div class="kpi3">
+      <div class="b"><div class="v">${pctN(bt.coverage)}</div><div class="k">Coverage</div></div>
+      <div class="b"><div class="v">${pctN(bt.accuracy,1)}</div><div class="k">Accuracy</div></div>
+      <div class="b"><div class="v">${usd(bt.max_drawdown_c)}</div><div class="k">Max DD</div></div></div>`:"";
+    chart=equitySVG(d.equity_curve);
+    badge=`<span class="chartbadge">Backtest only</span>`;
   }
-  const [vlab,vcls]=VD[t.verdict]||["—","mut"];
-  return `<div class="tc ${isShadow?'shadow':''}">
-    <span class="chip" style="color:${fg};background:${bgc}">${t.id} · ${t.role.replace(/_/g," ")}</span>
-    <div class="nm">${t.name}</div>
-    <div class="blurb">${t.blurb||""}</div>
-    ${metric}
-    <div class="reason">${t.reason||""}</div>
-    <div class="foot">
-      <span class="live"><span class="live-dot stale"></span> Live · n=${t.live?t.live.n:0}</span>
-      <span class="vd ${vcls}">${vlab}</span>
+  const canLive=(SEL==="T0")||!!(t.livedesk&&t.livedesk.session&&t.livedesk.session.n>0);
+  return `<div class="panel">
+    <div class="lab">Selected trader</div>
+    <h3>${SEL} · ${t.name}</h3>
+    <div style="margin-top:8px"><span class="rolepill" style="color:${c};background:${bg}">${(t.role||'').replace(/_/g," ")}</span></div>
+    <div class="pdesc">${t.tagline||''}<span class="mut">${t.blurb||''}</span></div>
+    <div style="margin:16px 0 4px;display:flex;justify-content:space-between;align-items:center">
+      <div class="tabs2"><button class="${CHTAB==='live'?'on':''}" onclick="setTab('live')">Live${canLive?'':' —'}</button>
+        <button class="${CHTAB==='backtest'?'on':''}" onclick="setTab('backtest')">Backtest</button></div>
+      ${badge}
     </div>
-  </div>`;
+    <div class="kpis">${kpi}</div>${stats}
+    <div style="margin-top:18px">${chart}</div></div>`;
+}
+function policyPanel(){
+  const t=byId(SEL), d=(DETAIL&&DETAIL.traders[SEL])||{}, bt=t.backtest||{};
+  const os=(d.oracle_state||[]).map(s=>`<div class="st">${s}</div>`).join("");
+  const ps=(d.policy_steps||[]).map(s=>`<div class="st">${s}</div>`).join("");
+  const ts=(d.trade_steps||[]).map(s=>`<div class="st">${s}</div>`).join("");
+  const off=bt.ev_per_eligible_c!=null?`<div class="offperf">
+      <div class="b"><div class="v pos">+${bt.ev_per_eligible_c.toFixed(1)}¢</div><div class="k">EV / eligible</div></div>
+      <div class="b"><div class="v pos">${bt.ev_per_trade_c!=null?('+'+bt.ev_per_trade_c.toFixed(1)+'¢'):'—'}</div><div class="k">EV / trade</div></div>
+      <div class="b"><div class="v">${pctN(bt.coverage)}</div><div class="k">Coverage</div></div>
+      <div class="b"><div class="v">${pctN(bt.accuracy,1)}</div><div class="k">Accuracy</div></div>
+      <div class="b"><div class="v">${usd(bt.max_drawdown_c)}</div><div class="k">Max DD</div></div></div>`
+    :`<div class="pdesc mut" style="margin-top:14px">${t.reason||''}</div>`;
+  return `<div class="panel">
+    <div class="lab">Policy architecture</div>
+    <p class="pdesc" style="margin-top:4px">How ${SEL} uses the Oracle and decides.</p>
+    <div class="flow">
+      <div class="col"><div class="ct">Oracle State</div>${os}</div><div class="ar">→</div>
+      <div class="col p"><div class="ct">${SEL} Policy</div>${ps}</div><div class="ar">→</div>
+      <div class="col"><div class="ct">Trade</div>${ts}</div></div>
+    <div class="lab" style="margin-top:20px">Offline (backtest) performance</div>${off}</div>`;
+}
+function tradesPanel(){
+  const LV=(SEL==="T0")?LIVE:(byId(SEL).livedesk||null);
+  const liveMode=CHTAB==="live" && LV && (LV.recent_trades||[]).length;
+  if(liveMode){
+    const rows=LV.recent_trades;
+    const body=rows.map(r=>`<tr class="${r.status==='Open'?'openrow':''}"><td>${r.time}</td>
+      <td>$${(r.brti||0).toLocaleString()} / $${(r.target||0).toLocaleString()}</td>
+      <td><span class="sd ${r.side==='YES'?'yes':'no'}">${r.side||'—'}</span></td>
+      <td>${r.entry_c!=null?r.entry_c+'¢':'—'}</td>
+      <td>${r.result?`<span class="res ${r.result.toLowerCase()}">${r.result}</span>`:'<span class="mut">—</span>'}</td>
+      <td class="pl ${r.pnl_c>=0?'pos':'neg'}">${r.pnl_c!=null?(r.pnl_c>=0?'+':'−')+'$'+Math.abs(r.pnl_c/100).toFixed(2):'—'}</td>
+      <td>${r.status==='Open'?'<span class="live-dot"></span> Open':'Settled'}</td></tr>`).join("");
+    return `<div class="panel"><div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="lab"><span class="live-dot"></span> Recent trades (live)</div>
+        <span class="mini">Settled on official BRTI</span></div>
+      <div class="scroll"><table class="rt"><thead><tr><th>Contract time (PT)</th><th>BRTI / Target</th>
+        <th>Side</th><th>Entry</th><th>Result</th><th>P&L</th><th>Status</th></tr></thead><tbody>${body}</tbody></table></div>
+      <div class="mini">Live paper desk · the Oracle's Follower policy trading live 15-minute windows.</div></div>`;
+  }
+  const d=(DETAIL&&DETAIL.traders[SEL])||{}, rows=d.recent_trades||[];
+  if(!rows.length) return `<div class="panel"><div class="lab">Recent trades (backtest)</div>
+     <div class="emptychart">No backtest trades for this policy.</div></div>`;
+  const body=rows.map((r,i)=>`<tr><td>${i+1}</td><td>${r.time}</td>
+    <td>$${(r.brti||0).toLocaleString()} / $${(r.target||0).toLocaleString()}</td>
+    <td><span class="sd ${r.side==='YES'?'yes':'no'}">${r.side}</span></td>
+    <td>$${r.entry_price.toFixed(2)}</td>
+    <td><span class="res ${r.result.toLowerCase()}">${r.result}</span></td>
+    <td class="pl ${r.pnl_c>=0?'pos':'neg'}">${r.pnl_c>=0?'+':'−'}$${Math.abs(r.pnl_c/100).toFixed(2)}</td>
+    <td>${r.status}</td></tr>`).join("");
+  return `<div class="panel"><div class="lab">Recent trades (backtest)</div>
+    <div class="scroll"><table class="rt"><thead><tr><th>#</th><th>Contract time (PT)</th><th>BRTI / Target</th>
+      <th>Side</th><th>Entry</th><th>Result</th><th>P&L</th><th>Status</th></tr></thead><tbody>${body}</tbody></table></div>
+    <div class="mini">Showing ${rows.length} of ${d.n_trades} trades · unseen historical holdout</div></div>`;
+}
+function abPanel(){
+  const active=LIVE&&LIVE.daemon_alive_age_s!=null&&LIVE.daemon_alive_age_s<180;
+  const badge=active?`<span class="notstarted"><span class="live-dot"></span> Collecting</span>`
+    :`<span class="notstarted"><span class="live-dot stale"></span> Not started</span>`;
+  const rows=(AB&&AB.rows)||[];
+  const money=v=>v==null?'—':(v<0?'-$':'$')+Math.abs(v).toFixed(2);
+  const cents=v=>v==null?'—':(v>=0?'+':'')+Math.round(v)+'c';
+  const pct=v=>v==null?'—':(100*v).toFixed(1)+'%';
+  const ci=a=>(!a||a[0]==null)?'—':`[${Math.round(a[0])}, ${Math.round(a[1])}]`;
+  const sigColor=s=>(s||'').includes('SIGNIFICANT +')?'var(--good,#2ecc71)':(s||'').includes('SIGNIFICANT -')?'var(--bad,#e5534b)':'var(--muted)';
+  let body;
+  if(!rows.length){ body=`<p class="mini" style="margin-top:10px">ab_table.json not available yet — the comparison table fills as arms settle trades.</p>`; }
+  else {
+    const head=['Arm','n','hit','net $','EV/trade','Δ EV vs T0','95% CI','p','significance'];
+    const tr=rows.map(r=>{
+      const isC=r.role==='CONTROL';
+      const nm=`<b style="color:${isC?'var(--series-2)':'var(--ink)'}">${r.name}</b>`;
+      const dcol=r.delta_ev_c==null?'—':`<span style="color:${r.delta_ev_c>0?'var(--good,#2ecc71)':'var(--bad,#e5534b)'}">${cents(r.delta_ev_c)}</span>`;
+      const netcol=`<span style="color:${(r.net_usd||0)>=0?'var(--good,#2ecc71)':'var(--bad,#e5534b)'}">${money(r.net_usd)}</span>`;
+      return `<tr style="${isC?'background:rgba(36,97,184,.06)':''}">
+        <td>${nm}${isC?' · control':''}</td><td class="n">${r.n}</td><td class="n">${pct(r.hit_rate)}</td>
+        <td class="n">${netcol}</td><td class="n">${cents(r.ev_per_trade_c)}</td>
+        <td class="n">${isC?'—':dcol}${r.matched_n!=null&&!isC?`<span class="mini2"> (n=${r.matched_n})</span>`:''}</td>
+        <td class="n">${isC?'—':ci(r.ci95)}</td><td class="n">${r.p_value==null?'—':r.p_value}</td>
+        <td style="color:${sigColor(r.sig)};font-size:12px">${r.sig}</td></tr>`;
+    }).join('');
+    body=`<div style="overflow-x:auto;margin-top:10px"><table class="abtab">
+      <tr>${head.map(h=>`<td class="h">${h}</td>`).join('')}</tr>${tr}</table></div>`;
+  }
+  return `<div class="panel"><div style="display:flex;justify-content:space-between;align-items:center">
+      <div class="lab">Live A/B test · EV north-star</div>${badge}</div>
+    <p class="pdesc" style="margin-top:4px">Every treatment vs the <b>T0 control</b>, metric = <b>EV per trade</b> (net $ / trade), not hit-rate — a 69% hit still loses money buying favorites. <b>Δ EV vs T0</b> is the paired per-contract difference on matched windows; 95% CI = bootstrap; p = paired t-test. Small n → "collecting".</p>
+    ${body}
+    <style>.abtab{width:100%;border-collapse:collapse;font-size:13px}.abtab td{padding:5px 10px 5px 0;border-bottom:1px solid var(--border,#232c3a);white-space:nowrap}.abtab td.h{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.03em;border-bottom:1px solid var(--border,#232c3a)}.abtab td.n{text-align:right;font-variant-numeric:tabular-nums}.mini2{color:var(--muted);font-size:11px}</style>
+    <div class="mini" style="margin-top:12px"><span class="live-dot ${active?'':'stale'}"></span> Reality check: at window <b>open</b> the contract is a ~coin flip (market acc 0.59, Bayes ceiling 0.59); the house profits from the ~7% vig, not prediction. The only edge is positive-EV value-gating net of fee — see the live coverage-vs-EV curve on <b>Models Lab</b>.</div></div>`;
+}
+function liveDeskStrip(){
+  const L=LIVE; if(!L||!L.session) return "";
+  const cw=L.current_window, s=L.session, sa=L.since_activation||{n:0};
+  const live=L.daemon_alive_age_s!=null && L.daemon_alive_age_s<180;
+  const dot=live?'<span class="live-dot"></span>':'<span class="live-dot stale"></span>';
+  const cur=cw?`<div class="lwcur">
+      <div class="lwk">Current window · <span id="cwleft" data-close="${cw.close_ts||0}">${cw.mins_left!=null?cw.mins_left.toFixed(1)+'m left':'live'}</span></div>
+      <div class="lwtk">${cw.ticker||''}</div>
+      <div class="lwprobs"><span>Oracle <b>${cw.oracle_p_up!=null?Math.round(cw.oracle_p_up*100)+'%':'—'}</b></span>
+        <span>Market <b>${cw.market_p_up!=null?Math.round(cw.market_p_up*100)+'%':'—'}</b></span></div>
+      <div class="lwbet">${cw.side?`Desk in <span class="sd ${cw.side==='YES'?'yes':'no'}">${cw.side}</span> @ ${cw.entry_c}¢`:'Awaiting entry'}</div></div>`
+    :`<div class="lwcur"><div class="lwk">Current window</div><div class="lwtk mut">Between windows…</div></div>`;
+  const trs=(L.recent_trades||[]).filter(r=>r.status!=="Open"&&r.result).slice(0,5).map(r=>`<tr><td>${r.time}</td>
+     <td><span class="sd ${r.side==='YES'?'yes':'no'}">${r.side||'—'}</span></td>
+     <td>${r.entry_c!=null?r.entry_c+'¢':'—'}</td><td><span class="res ${r.result.toLowerCase()}">${r.result}</span></td>
+     <td class="pl ${r.pnl_c>=0?'pos':'neg'}">${r.pnl_c!=null?(r.pnl_c>=0?'+':'−')+'$'+Math.abs(r.pnl_c/100).toFixed(2):'—'}</td></tr>`).join("");
+  return `<div class="panel livestrip">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+      <div class="lab">${dot} Live paper desk</div>
+      <span class="mini">Settling on official BRTI · ${live?'live':'stale'}${L.daemon_alive_age_s!=null?' ('+L.daemon_alive_age_s+'s)':''}</span></div>
+    <div class="livegrid">
+      ${cur}
+      <div class="kpi3 livestats">
+        <div class="b"><div class="v">${pctN(s.hit_rate,1)}</div><div class="k" title="${s.basis||''}">Hit rate · ${s.label||'today'} (${s.n})</div></div>
+        <div class="b"><div class="v ${s.pnl_c>=0?'pos':'neg'}">${s.pnl_c>=0?'+':'−'}$${Math.abs(s.pnl_c/100).toFixed(2)}</div><div class="k" title="${s.basis||''}">P&L · ${s.label||'today'} (${s.n})</div></div>
+        <div class="b"><div class="v">$${(s.bankroll_c/100).toFixed(2)}</div><div class="k">Bankroll</div></div></div>
+      <div class="livetrades"><table class="rt"><thead><tr><th>Time (PT)</th><th>Side</th><th>Entry</th><th>Result</th><th>P&L</th></tr></thead><tbody>${trs}</tbody></table></div>
+    </div>
+    <div class="mini" style="margin-top:10px">${sa.n} window${sa.n===1?'':'s'} settled since exact-BRTI activation · the Oracle's Follower policy (trader T0 lineage). The formal T0-vs-T1 paired A/B accrues separately.</div></div>`;
+}
+window.selectTrader=id=>{SEL=id;CHTAB=(id==="T0"||id.indexOf("cg")===0||id==="fm"||id==="ob"||id==="tv")?"live":"backtest";paintFamily();};
+window.setTab=t=>{CHTAB=t;paintFamily();};
+function paintFamily(){
+  $("#family").innerHTML=`<div class="sec-head" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px">
+      <div><span class="eyebrow">The trader family</span><h2>One Oracle, five policies</h2>
+        <p class="sub" style="margin-top:6px">Every policy consumes the same Oracle and differs only in how it acts. Backtest and live are shown separately.</p></div>
+      <div class="fambadge"><div class="fb"><span class="ic" style="color:var(--series-2)">${icon('target','var(--series-2)',18)}</span><div><div class="t">Oracle</div><div class="s">Same signal for all</div></div></div>
+        <span class="arrow">→</span>
+        <div class="fb"><span class="ic" style="color:var(--series-9)">${icon('compass','var(--series-9)',18)}</span><div><div class="t">Five policies</div><div class="s">Different actions</div></div></div></div></div>
+    ${liveDeskStrip()}
+    <div class="selrow">${(SNAP.trader_family||[]).map(selCard).join("")}</div>
+    <div class="split2" style="margin-bottom:20px">${traderPanel()}${policyPanel()}</div>
+    <div class="split2">${tradesPanel()}${abPanel()}</div>
+    <div class="mini" style="margin-top:18px;text-align:center">All traders use the same Oracle — the difference is only in how they act.</div>`;
 }
 function render(d){
-  $("#app").innerHTML=hero(d.oracle_strip||{})
-    +`<section><div class="sec-head"><span class="eyebrow">The trader family</span>
-        <h2>One Oracle, five policies</h2>
-        <p class="sub">Every policy consumes the same Oracle and differs only in how it acts. Backtest and live are shown separately — live collects once the exact-BRTI runtime is activated.</p></div>
-        <div class="fam">${(d.trader_family||[]).map(famCard).join("")}</div></section>`;
+  SNAP=d;
+  $("#app").innerHTML=hero(d.oracle_strip||{})+`<section id="family"></section>`;
+  // Defense-in-depth: a single panel throwing on an unexpected data shape must
+  // not blank the whole page. Keep the hero; degrade the family section only.
+  try{ paintFamily(); }
+  catch(e){ $("#family").innerHTML=`<div class="panel"><div class="lab">The trader family</div>
+    <div class="emptychart">This section is refreshing — the live desk publishes a new snapshot each cycle.</div></div>`; }
   if(d.paper_banner){const p=d.paper_banner.split("—");$("#banner").innerHTML=`<b>${p[0].trim()}.</b> ${p.slice(1).join(" · ").replace(/\s+/g,' ').trim()}`;}
 }
 function waiting(){
@@ -219,6 +434,42 @@ function waiting(){
     <span class="live-dot stale"></span> BTC Oracle</span><h2>Waiting for the live desk</h2>
     <p>No current paper snapshot is available yet. The desk publishes a fresh snapshot each cycle — check back shortly.</p></section>`;
 }
-fetch("home_snapshot.json",{cache:"no-store"}).then(r=>r.ok?r.json():null)
-  .then(d=>{ if(!d||!d.trader_family){waiting();return;} render(d); }).catch(()=>waiting());
+// ---- live refresh -----------------------------------------------------------
+// The countdown ticks every second locally; the underlying snapshots are
+// re-fetched on a short cycle (the desk republishes them continuously). Data is
+// as fresh as the last publish, so we also show how long ago it was generated.
+let LOADED=false;
+const POLL_MS=5000;
+function fmtLeft(closeTs){
+  if(!closeTs) return null;
+  let s=Math.round(closeTs-Date.now()/1000);
+  if(s<0) s=0;
+  return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");
+}
+function tick(){
+  document.querySelectorAll("[data-close]").forEach(el=>{
+    const t=+el.getAttribute("data-close"); if(!t) return;
+    const f=fmtLeft(t); if(f==null) return;
+    el.textContent = el.id==="cwleft" ? f+" left" : f;
+  });
+  const fr=document.getElementById("freshness");
+  if(fr && SNAP && SNAP.generated_at){
+    const age=Math.max(0,Math.round(Date.now()/1000-SNAP.generated_at));
+    fr.textContent=" · updated "+(age<60?age+"s":Math.floor(age/60)+"m "+(age%60)+"s")+" ago";
+  }
+}
+function loadData(){
+  return Promise.all([
+    fetch("home_snapshot.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>null),
+    fetch("trader_detail.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>null),
+    fetch("live_desk.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>null),
+    fetch("ab_table.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>null)
+  ]).then(([d,det,live,ab])=>{
+    if(!d||!d.trader_family){ if(!LOADED) waiting(); return; }
+    DETAIL=det; LIVE=live; AB=ab; render(d); LOADED=true; tick();
+  }).catch(()=>{ if(!LOADED) waiting(); });
+}
+loadData();
+setInterval(loadData, POLL_MS);
+setInterval(tick, 1000);
 </script>
