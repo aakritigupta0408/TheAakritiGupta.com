@@ -1,5 +1,5 @@
 {
- "generated_ts": 1790538613,
+ "generated_ts": 1790539213,
  "question": "Where is the system failing?",
  "tiers": {
   "T1": {
@@ -12,7 +12,7 @@
   "T2": {
    "name": "Binary probability",
    "job": "an honest P(up) that beats the market's own",
-   "headline": "best BSS +0.0075 (kb5)",
+   "headline": "best BSS +0.0064 (kb5)",
    "status": "OK",
    "why": "NOBODY BEATS THE BOOK \u2014 every arm's Brier skill vs the market is negative this sample"
   },
@@ -33,7 +33,7 @@
   "T5": {
    "name": "Realized P&L",
    "job": "survive aggregation, sizing and costs",
-   "headline": "realized -1.2c/$1 \u00b7 losses graded: {'SEV-1': 16, 'SEV-2': 384, 'SEV-3': 56, 'SEV-4': 283, 'SEV-5': 318}",
+   "headline": "realized -1.3c/$1 \u00b7 losses graded: {'SEV-1': 16, 'SEV-2': 384, 'SEV-3': 56, 'SEV-4': 284, 'SEV-5': 318}",
    "status": "FAIL",
    "why": "only pt6 (84% idle) is green among traders"
   }
@@ -48,19 +48,19 @@
    "mechanism": "stand down when the market itself is unpredictable",
    "mechanism_check": {
     "status": "SUPPORTED",
-    "note": "\u0394 on regime<floor windows +0.9c (n=354) vs +0.0c on healthy windows \u2014 the gate earns exactly where it claims to"
+    "note": "\u0394 on regime<floor windows +1.2c (n=355) vs +0.0c on healthy windows \u2014 the gate earns exactly where it claims to"
    },
    "label": "M8 \u00b7 regime gate",
-   "state": "INVALID",
-   "mean": 0.00259,
+   "state": "KEEP_TESTING",
+   "mean": 0.00341,
    "ci95_boot": [
-    -0.01842,
-    0.02513
+    -0.01719,
+    0.02614
    ],
-   "p_gt0": 0.589,
-   "coverage": 0.711,
-   "llr": -0.958,
-   "n": 1225,
+   "p_gt0": 0.611,
+   "coverage": 0.71,
+   "llr": -0.836,
+   "n": 1226,
    "retire_pressure": "MEDIUM",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -78,16 +78,16 @@
     "note": ""
    },
    "label": "M10 \u00b7 execution guard",
-   "state": "INVALID",
-   "mean": 0.01433,
+   "state": "KEEP_TESTING",
+   "mean": 0.01432,
    "ci95_boot": [
-    -0.0106,
-    0.03928
+    -0.0102,
+    0.03922
    ],
-   "p_gt0": 0.878,
+   "p_gt0": 0.877,
    "coverage": 0.656,
-   "llr": 0.533,
-   "n": 1225,
+   "llr": 0.531,
+   "n": 1226,
    "retire_pressure": "LOW",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -105,23 +105,21 @@
    "mechanism": "fill discipline + regime gate",
    "mechanism_check": {
     "status": "SUPPORTED",
-    "note": "\u0394 on regime<floor windows +5.3c (n=354) vs +0.3c on healthy windows \u2014 the gate earns exactly where it claims to"
+    "note": "\u0394 on regime<floor windows +5.5c (n=355) vs +0.3c on healthy windows \u2014 the gate earns exactly where it claims to"
    },
    "label": "M10+M8 \u00b7 execution guard + regime gate",
-   "state": "INVALID",
-   "mean": 0.0202,
+   "state": "KEEP_TESTING",
+   "mean": 0.021,
    "ci95_boot": [
-    -0.00768,
-    0.04826
+    -0.0061,
+    0.04924
    ],
-   "p_gt0": 0.925,
-   "coverage": 0.478,
-   "llr": 0.96,
-   "n": 1225,
+   "p_gt0": 0.931,
+   "coverage": 0.477,
+   "llr": 1.044,
+   "n": 1226,
    "retire_pressure": "LOW",
-   "retire_flags": [
-    "stale \u2014 little movement toward a verdict"
-   ]
+   "retire_flags": []
   },
   {
    "key": "t_edgeband",
@@ -135,16 +133,16 @@
     "note": ""
    },
    "label": "M13 \u00b7 edge band (enough edge, not too much)",
-   "state": "INVALID",
-   "mean": -0.05365,
+   "state": "KILL",
+   "mean": -0.05263,
    "ci95_boot": [
-    -0.09725,
-    -0.01099
+    -0.09586,
+    -0.00951
    ],
-   "p_gt0": 0.008,
+   "p_gt0": 0.007,
    "coverage": 0.258,
-   "llr": -2.678,
-   "n": 1037,
+   "llr": -2.639,
+   "n": 1038,
    "retire_pressure": "HIGH",
    "retire_flags": [
     "primary metric trending down",
@@ -184,18 +182,18 @@
   },
   {
    "stage": "Desk decision EV (model quotes)",
-   "ev_per_1": 0.06538,
+   "ev_per_1": 0.06451,
    "kind": "measured",
-   "n": 1225
+   "n": 1226
   },
   {
    "stage": "Execution gap (quote\u2192fill)",
-   "ev_per_1": -0.07786,
+   "ev_per_1": -0.0778,
    "kind": "measured"
   },
   {
    "stage": "Realized EV (real fills)",
-   "ev_per_1": -0.01248,
+   "ev_per_1": -0.01329,
    "kind": "measured"
   }
  ],
@@ -210,13 +208,13 @@
   "high_information": 2,
   "retire_candidates": 1,
   "too_selective": 0,
-  "stale": 3
+  "stale": 2
  },
  "blind_spots": [
   {
    "spot": "no arm beats market BSS",
    "tier": "T2",
-   "evidence": "best +0.0075",
+   "evidence": "best +0.0064",
    "action": "investigate"
   },
   {
