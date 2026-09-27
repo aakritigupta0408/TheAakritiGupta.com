@@ -1,18 +1,18 @@
 {
- "generated_ts": 1790543413,
+ "generated_ts": 1790544016,
  "question": "Where is the system failing?",
  "tiers": {
   "T1": {
    "name": "Price forecast",
    "job": "predict the future price distribution",
-   "headline": "80% band coverage 0.76\u20130.83",
+   "headline": "80% band coverage 0.75\u20130.82",
    "status": "WARN",
    "why": "bands still under-cover on the worst family \u2014 dispersion was the SEV-0 root cause"
   },
   "T2": {
    "name": "Binary probability",
    "job": "an honest P(up) that beats the market's own",
-   "headline": "best BSS +0.0050 (kb5)",
+   "headline": "best BSS +0.0046 (kb5)",
    "status": "OK",
    "why": "NOBODY BEATS THE BOOK \u2014 every arm's Brier skill vs the market is negative this sample"
   },
@@ -48,19 +48,19 @@
    "mechanism": "stand down when the market itself is unpredictable",
    "mechanism_check": {
     "status": "SUPPORTED",
-    "note": "\u0394 on regime<floor windows +1.5c (n=359) vs +0.0c on healthy windows \u2014 the gate earns exactly where it claims to"
+    "note": "\u0394 on regime<floor windows +1.5c (n=360) vs +0.0c on healthy windows \u2014 the gate earns exactly where it claims to"
    },
    "label": "M8 \u00b7 regime gate",
    "state": "KEEP_TESTING",
-   "mean": 0.00443,
+   "mean": 0.00429,
    "ci95_boot": [
-    -0.01629,
-    0.02708
+    -0.01632,
+    0.02691
    ],
-   "p_gt0": 0.655,
+   "p_gt0": 0.65,
    "coverage": 0.708,
-   "llr": -0.684,
-   "n": 1230,
+   "llr": -0.707,
+   "n": 1231,
    "retire_pressure": "MEDIUM",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -79,15 +79,15 @@
    },
    "label": "M10 \u00b7 execution guard",
    "state": "KEEP_TESTING",
-   "mean": 0.01485,
+   "mean": 0.01484,
    "ci95_boot": [
-    -0.01019,
-    0.03962
+    -0.00881,
+    0.03994
    ],
-   "p_gt0": 0.878,
-   "coverage": 0.655,
-   "llr": 0.618,
-   "n": 1230,
+   "p_gt0": 0.884,
+   "coverage": 0.656,
+   "llr": 0.617,
+   "n": 1231,
    "retire_pressure": "LOW",
    "retire_flags": [
     "stale \u2014 little movement toward a verdict"
@@ -105,19 +105,19 @@
    "mechanism": "fill discipline + regime gate",
    "mechanism_check": {
     "status": "SUPPORTED",
-    "note": "\u0394 on regime<floor windows +5.9c (n=359) vs +0.3c on healthy windows \u2014 the gate earns exactly where it claims to"
+    "note": "\u0394 on regime<floor windows +5.8c (n=360) vs +0.3c on healthy windows \u2014 the gate earns exactly where it claims to"
    },
    "label": "M10+M8 \u00b7 execution guard + regime gate",
    "state": "KEEP_TESTING",
-   "mean": 0.0221,
+   "mean": 0.02185,
    "ci95_boot": [
-    -0.00586,
-    0.05009
+    -0.0052,
+    0.05043
    ],
-   "p_gt0": 0.938,
-   "coverage": 0.476,
-   "llr": 1.163,
-   "n": 1230,
+   "p_gt0": 0.943,
+   "coverage": 0.475,
+   "llr": 1.138,
+   "n": 1231,
    "retire_pressure": "LOW",
    "retire_flags": []
   },
@@ -134,15 +134,15 @@
    },
    "label": "M13 \u00b7 edge band (enough edge, not too much)",
    "state": "KILL",
-   "mean": -0.0512,
+   "mean": -0.05132,
    "ci95_boot": [
-    -0.09536,
-    -0.0077
+    -0.09561,
+    -0.00885
    ],
-   "p_gt0": 0.01,
+   "p_gt0": 0.008,
    "coverage": 0.257,
-   "llr": -2.59,
-   "n": 1042,
+   "llr": -2.597,
+   "n": 1043,
    "retire_pressure": "HIGH",
    "retire_flags": [
     "primary metric trending down",
@@ -170,7 +170,7 @@
  "error_funnel": [
   {
    "stage": "Oracle opportunity (same rules, clairvoyant)",
-   "ev_per_1": 1.6573,
+   "ev_per_1": 1.4927,
    "kind": "measured",
    "n": 41
   },
@@ -182,18 +182,18 @@
   },
   {
    "stage": "Desk decision EV (model quotes)",
-   "ev_per_1": 0.06326,
+   "ev_per_1": 0.06335,
    "kind": "measured",
-   "n": 1230
+   "n": 1231
   },
   {
    "stage": "Execution gap (quote\u2192fill)",
-   "ev_per_1": -0.07767,
+   "ev_per_1": -0.07752,
    "kind": "measured"
   },
   {
    "stage": "Realized EV (real fills)",
-   "ev_per_1": -0.01441,
+   "ev_per_1": -0.01417,
    "kind": "measured"
   }
  ],
@@ -214,7 +214,7 @@
   {
    "spot": "no arm beats market BSS",
    "tier": "T2",
-   "evidence": "best +0.0050",
+   "evidence": "best +0.0046",
    "action": "investigate"
   },
   {
@@ -238,7 +238,7 @@
   {
    "spot": "oracle regret",
    "tier": "cross-tier",
-   "evidence": "1.7281/$1/window",
+   "evidence": "1.5722/$1/window",
    "action": "decompose"
   }
  ],
