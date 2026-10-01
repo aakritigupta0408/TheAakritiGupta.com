@@ -1,8 +1,8 @@
 {
- "generated_ts": 1790867173,
- "passed": 29,
- "failed": 0,
- "health": "green",
+ "generated_ts": 1790877732,
+ "passed": 27,
+ "failed": 2,
+ "health": "red",
  "checks": [
   {
    "name": "one-decision-per-window",
@@ -103,8 +103,10 @@
   {
    "name": "freeze-state-convergence",
    "origin": "INC 09-10 (permanent) \u2014 when the invariant wall is GREEN and has been for longer than the daemon's fail-closed cache SLA, the desk must NOT still be holding a FREEZE that blames the invariant wall. Liveness of the safety state itself: a stale cached FREEZE after the wall recovers is a convergence bug.",
-   "ok": true,
-   "detail": []
+   "ok": false,
+   "detail": [
+    "wall GREEN for 10557s but desk still FREEZE on 'invariants.json missing/stale \u2014 no evidence, no bets' \u2014 did not converge within 120s SLA"
+   ]
   },
   {
    "name": "publisher-page-coverage",
@@ -121,8 +123,10 @@
   {
    "name": "repair-scientific-integrity",
    "origin": "M6.1 (PM 08-30) \u2014 REPAIR_DID_NOT_CHANGE: a repair may only reach RESTORED with scientific-unchanged evidence, verified by a process other than the repairer",
-   "ok": true,
-   "detail": []
+   "ok": false,
+   "detail": [
+    "3 active attempts within 30min @1790877724"
+   ]
   },
   {
    "name": "no-policy-mutation-by-self-healing",
