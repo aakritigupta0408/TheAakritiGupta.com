@@ -1,5 +1,5 @@
 {
- "generated_ts": 1790833866,
+ "generated_ts": 1790835403,
  "gate": "F1",
  "gate_version": "2.1",
  "governing_rule": "v2.1 stitched clean segments",
@@ -7,11 +7,11 @@
  "governing_metric_note": "PM 2026-09-11 directive: MSE governs (was robust MAE). MSE is outlier-SENSITIVE; on the identical clean sample its relative MDE runs ~3-4x MAE's, so at the unchanged 8% threshold this RAISES the sufficiency bar and pushes F1 further from PASS. Robust metrics (MAE/Huber) remain in the report for reference but no longer gate.",
  "amendment": "PM 2026-09-03 \u2014 clean-window truncation + pre-registered statistical sufficiency; v1 span-coverage rule retired (rationale: f1_sufficiency_audit sha in commit 1caa9a9). PM 2026-09-11 \u2014 governing metric MAE->MSE (GATE_F1_V2.2).",
  "anti_peeking_law": "criteria frozen before any T1.1 model result; model outcomes never amend this gate",
- "days": 31.76,
+ "days": 31.78,
  "eligible_window": {
   "start_utc": "09-30 20:38",
-  "end_utc": "10-01 05:55",
-  "days": 0.39,
+  "end_utc": "10-01 06:21",
+  "days": 0.41,
   "machine_outages_all_capture": [
    {
     "start_utc": "08-30 21:02",
@@ -372,39 +372,54 @@
   "continuity_ex_outages",
   "mde80_max_8pct_of_MSE"
  ],
- "projection": "~2.5 more CLEAN days for ESS>=150 (linear estimate; any new machine outage re-truncates)",
- "ess_min_across_horizons": 20.2,
- "mde80_worst_pct_of_MSE": 32.2,
+ "projection": "~2.4 more CLEAN days for ESS>=150 (linear estimate; any new machine outage re-truncates)",
+ "ess_min_across_horizons": 21.9,
+ "mde80_worst_pct_of_MSE": 29.4,
  "open_capture_incidents": [],
  "missing_shards": [],
  "window_analysis": {
   "coverage": {
    "binance": {
-    "minute_presence": 1.0,
-    "five_min_presence": 1.0089
+    "minute_presence": 0.976,
+    "five_min_presence": 0.9915
    },
    "okx": {
-    "minute_presence": 1.0,
-    "five_min_presence": 1.0089
+    "minute_presence": 0.9743,
+    "five_min_presence": 0.9915
    },
    "kraken": {
-    "minute_presence": 1.0,
-    "five_min_presence": 1.0089
+    "minute_presence": 0.9743,
+    "five_min_presence": 0.9915
    }
   },
   "material_gaps": {
-   "binance": [],
-   "okx": [],
-   "kraken": []
+   "binance": [
+    {
+     "start": "10-01 06:01",
+     "gap_min": 15
+    }
+   ],
+   "okx": [
+    {
+     "start": "10-01 06:01",
+     "gap_min": 16
+    }
+   ],
+   "kraken": [
+    {
+     "start": "10-01 06:01",
+     "gap_min": 16
+    }
+   ]
   },
   "outcome_diversity": {
    "h5": {
-    "up_frac": 0.625,
+    "up_frac": 0.606,
     "median_abs_bps": 3.7
    },
    "h15": {
-    "up_frac": 0.562,
-    "median_abs_bps": 9.0
+    "up_frac": 0.576,
+    "median_abs_bps": 8.8
    },
    "h30": {
     "up_frac": 0.594,
@@ -413,49 +428,49 @@
   },
   "power": {
    "h5": {
-    "usable_n": 32,
-    "ess": 20.2,
-    "ess_ratio": 0.632,
+    "usable_n": 33,
+    "ess": 21.9,
+    "ess_ratio": 0.664,
     "acf_head": [
-     0.0653,
-     0.1523,
-     0.0736
+     0.0138,
+     0.1632,
+     0.0765
     ],
-    "baseline_mae_bps": 4.6,
+    "baseline_mae_bps": 4.8,
     "mde_by_metric_rho95": {
      "MAE": {
       "kind": "robust",
-      "mde80_pct_of_metric": 16.3
+      "mde80_pct_of_metric": 15.4
      },
      "Huber": {
       "kind": "robust",
-      "mde80_pct_of_metric": 29.9
+      "mde80_pct_of_metric": 27.6
      },
      "MSE": {
       "kind": "outlier-sensitive",
-      "mde80_pct_of_metric": 32.2
+      "mde80_pct_of_metric": 29.4
      },
      "RMSE": {
       "kind": "outlier-sensitive",
-      "mde80_pct_of_metric": 16.1
+      "mde80_pct_of_metric": 14.7
      }
     },
-    "sd_abs_err_bps": 3.8,
+    "sd_abs_err_bps": 3.9,
     "min_detectable_improvement": {
      "rho_0.9": {
-      "mde80_bps": 1.06,
-      "mde80_pct_of_mae": 23.1,
-      "ci95_width_bps": 1.49
+      "mde80_bps": 1.04,
+      "mde80_pct_of_mae": 21.8,
+      "ci95_width_bps": 1.46
      },
      "rho_0.95": {
-      "mde80_bps": 0.75,
-      "mde80_pct_of_mae": 16.3,
-      "ci95_width_bps": 1.05
+      "mde80_bps": 0.74,
+      "mde80_pct_of_mae": 15.4,
+      "ci95_width_bps": 1.03
      },
      "rho_0.99": {
-      "mde80_bps": 0.34,
-      "mde80_pct_of_mae": 7.3,
-      "ci95_width_bps": 0.47
+      "mde80_bps": 0.33,
+      "mde80_pct_of_mae": 6.9,
+      "ci95_width_bps": 0.46
      }
     },
     "folds": {
@@ -474,45 +489,47 @@
     }
    },
    "h15": {
-    "usable_n": 32,
-    "ess": 32.0,
-    "ess_ratio": 1.0,
-    "acf_head": [],
-    "baseline_mae_bps": 9.6,
+    "usable_n": 33,
+    "ess": 31.3,
+    "ess_ratio": 0.949,
+    "acf_head": [
+     0.0267
+    ],
+    "baseline_mae_bps": 9.4,
     "mde_by_metric_rho95": {
      "MAE": {
       "kind": "robust",
-      "mde80_pct_of_metric": 9.4
+      "mde80_pct_of_metric": 9.8
      },
      "Huber": {
       "kind": "robust",
-      "mde80_pct_of_metric": 16.9
+      "mde80_pct_of_metric": 17.4
      },
      "MSE": {
       "kind": "outlier-sensitive",
-      "mde80_pct_of_metric": 17.4
+      "mde80_pct_of_metric": 18.1
      },
      "RMSE": {
       "kind": "outlier-sensitive",
-      "mde80_pct_of_metric": 8.7
+      "mde80_pct_of_metric": 9.0
      }
     },
     "sd_abs_err_bps": 5.8,
     "min_detectable_improvement": {
      "rho_0.9": {
-      "mde80_bps": 1.28,
-      "mde80_pct_of_mae": 13.3,
-      "ci95_width_bps": 1.79
+      "mde80_bps": 1.3,
+      "mde80_pct_of_mae": 13.9,
+      "ci95_width_bps": 1.82
      },
      "rho_0.95": {
-      "mde80_bps": 0.9,
-      "mde80_pct_of_mae": 9.4,
-      "ci95_width_bps": 1.26
+      "mde80_bps": 0.92,
+      "mde80_pct_of_mae": 9.8,
+      "ci95_width_bps": 1.29
      },
      "rho_0.99": {
-      "mde80_bps": 0.4,
-      "mde80_pct_of_mae": 4.2,
-      "ci95_width_bps": 0.57
+      "mde80_bps": 0.41,
+      "mde80_pct_of_mae": 4.4,
+      "ci95_width_bps": 0.58
      }
     },
     "folds": {
@@ -611,16 +628,16 @@
     {
      "block_utc": "10-01 00:00",
      "block_id": 82908,
-     "vol_bps": 65.0,
-     "ret_bps": 90.5,
-     "n_min": 355,
+     "vol_bps": 65.3,
+     "ret_bps": 85.5,
+     "n_min": 360,
      "vol_tercile": "MID"
     }
    ]
   },
   "regime_concentration_of_usable": {
-   "LOW": 0.312,
-   "MID": 0.688,
+   "LOW": 0.303,
+   "MID": 0.697,
    "HIGH": 0.0
   }
  },
@@ -648,20 +665,20 @@
    "continuity_ex_outages",
    "mde80_max_8pct_of_MSE"
   ],
-  "ess_min_across_horizons": 288.4,
-  "usable_days_ex_outages": 31.73,
+  "ess_min_across_horizons": 288.5,
+  "usable_days_ex_outages": 31.74,
   "mde80_worst_pct_of_MSE": 27.0,
   "power": {
    "h5": {
-    "usable_n": 1921,
-    "ess": 374.4,
+    "usable_n": 1923,
+    "ess": 374.8,
     "ess_ratio": 0.195,
     "acf_head": [
-     0.2146,
-     0.2032,
-     0.1599,
-     0.1159,
-     0.1697
+     0.2145,
+     0.2029,
+     0.1597,
+     0.1161,
+     0.1698
     ],
     "baseline_mae_bps": 7.0,
     "mde_by_metric_rho95": {
@@ -716,15 +733,15 @@
     }
    },
    "h15": {
-    "usable_n": 1919,
-    "ess": 318.8,
+    "usable_n": 1920,
+    "ess": 318.7,
     "ess_ratio": 0.166,
     "acf_head": [
-     0.282,
+     0.2821,
+     0.1717,
      0.1719,
-     0.1718,
-     0.1459,
-     0.1855
+     0.1456,
+     0.1856
     ],
     "baseline_mae_bps": 12.0,
     "mde_by_metric_rho95": {
@@ -765,22 +782,22 @@
     },
     "folds": {
      "n_folds": 5,
-     "per_fold": 383,
+     "per_fold": 384,
      "min_required": 48,
      "viable": true,
      "fold_mae_bps": [
       13.7,
       8.7,
-      10.2,
+      10.1,
       14.4,
-      13.1
+      13.2
      ],
      "fold_mae_cv": 0.205
     }
    },
    "h30": {
-    "usable_n": 1919,
-    "ess": 288.4,
+    "usable_n": 1920,
+    "ess": 288.5,
     "ess_ratio": 0.15,
     "acf_head": [
      0.4749,
@@ -828,38 +845,38 @@
     },
     "folds": {
      "n_folds": 5,
-     "per_fold": 383,
+     "per_fold": 384,
      "min_required": 48,
      "viable": true,
      "fold_mae_bps": [
       19.4,
       12.3,
-      14.4,
+      14.3,
       20.5,
-      18.5
+      18.7
      ],
-     "fold_mae_cv": 0.207
+     "fold_mae_cv": 0.208
     }
    }
   }
  },
  "integrity_whole_capture": {
   "binance": {
-   "rows": 58584479,
+   "rows": 58592866,
    "pit_violations": 27328,
    "max_skew_s": 3.119,
    "out_of_order": 15,
    "bad_rows": 0
   },
   "okx": {
-   "rows": 5337479,
+   "rows": 5338514,
    "pit_violations": 13587,
    "max_skew_s": 3.123,
    "out_of_order": 2,
    "bad_rows": 0
   },
   "kraken": {
-   "rows": 2189082,
+   "rows": 2189828,
    "pit_violations": 6827,
    "max_skew_s": 3.102,
    "out_of_order": 1,
