@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
   "mode": "paper_observation",
-  "generated_at": "2026-10-05T20:01:15.052723+00:00",
-  "observed_at": "2026-10-01T19:45:16.548354+00:00",
-  "session_date": "2026-10-01",
+  "generated_at": "2026-10-05T20:02:09.231218+00:00",
+  "observed_at": "2026-10-05T20:01:16.459072+00:00",
+  "session_date": "2026-10-05",
   "source": {
     "journal": "logs/mvp_control/journal.jsonl",
-    "journal_sha256": "edd318019b9296b729c793fbe52b7e4620e3658a36d918633d56a359d1049aff",
-    "record_count": 22,
-    "input_snapshot_sha256": "fcdd765fc939d3e6df544ee2c46d19792b770a85307899ec10e90831b768cafa",
+    "journal_sha256": "52aa9c2fc6bcd535f1a1b520db83517425278e32c932c670bc0863831581297f",
+    "record_count": 23,
+    "input_snapshot_sha256": "35a388f35c7e893abfb56ec1d9d6018e3860c1a9203c1e9d8f1e93b31480ef85",
     "input_snapshot_verified": true,
     "raw_lineage": "unavailable"
   },
@@ -18,30 +18,69 @@
   },
   "metrics": {
     "realized_pnl": -371.0,
-    "unrealized_pnl": -224.0,
+    "unrealized_pnl": 172.0,
     "open_positions": 1,
     "closed_trades": 1
   },
   "recommendations": [
     {
       "ticker": "SPY",
+      "strategy": "bear_put_spread",
+      "agent": "MeanReversionAgent",
+      "rank": 1,
+      "confidence": 0.8,
+      "score": 0.2596923076923077,
+      "expiry": "2026-11-20",
+      "entry_net_debit": 7.35,
+      "entry_net_credit": null,
+      "legs": [
+        {
+          "ticker": "SPY",
+          "option_type": "put",
+          "side": "buy",
+          "strike": 770.0,
+          "expiry": "2026-11-20",
+          "bid": 11.27,
+          "ask": 11.33,
+          "source_quote_at": null,
+          "quote_sources": [
+            "alpha_vantage"
+          ]
+        },
+        {
+          "ticker": "SPY",
+          "option_type": "put",
+          "side": "sell",
+          "strike": 731.0,
+          "expiry": "2026-11-20",
+          "bid": 3.98,
+          "ask": 4.0,
+          "source_quote_at": null,
+          "quote_sources": [
+            "alpha_vantage"
+          ]
+        }
+      ]
+    },
+    {
+      "ticker": "SPY",
       "strategy": "bull_call_spread",
       "agent": "BullishDirectionalAgent",
-      "rank": 1,
+      "rank": 2,
       "confidence": 0.75,
-      "score": 0.15065217391304347,
-      "expiry": "2026-11-20",
-      "entry_net_debit": 12.0,
+      "score": 0.1413391304347826,
+      "expiry": "2026-11-30",
+      "entry_net_debit": 12.68,
       "entry_net_credit": null,
       "legs": [
         {
           "ticker": "SPY",
           "option_type": "call",
           "side": "buy",
-          "strike": 763.0,
-          "expiry": "2026-11-20",
-          "bid": 19.5,
-          "ask": 19.6,
+          "strike": 770.0,
+          "expiry": "2026-11-30",
+          "bid": 21.61,
+          "ask": 21.8,
           "source_quote_at": null,
           "quote_sources": [
             "alpha_vantage"
@@ -51,10 +90,140 @@
           "ticker": "SPY",
           "option_type": "call",
           "side": "sell",
-          "strike": 786.0,
+          "strike": 793.0,
+          "expiry": "2026-11-30",
+          "bid": 9.12,
+          "ask": 9.17,
+          "source_quote_at": null,
+          "quote_sources": [
+            "alpha_vantage"
+          ]
+        }
+      ]
+    },
+    {
+      "ticker": "SPY",
+      "strategy": "iron_condor",
+      "agent": "VolatilityContractionAgent",
+      "rank": 3,
+      "confidence": 0.75,
+      "score": 0.016513636363636366,
+      "expiry": "2026-11-20",
+      "entry_net_debit": null,
+      "entry_net_credit": 1.73,
+      "legs": [
+        {
+          "ticker": "SPY",
+          "option_type": "put",
+          "side": "sell",
+          "strike": 708.0,
           "expiry": "2026-11-20",
-          "bid": 7.6,
-          "ask": 7.63,
+          "bid": 2.41,
+          "ask": 2.44,
+          "source_quote_at": null,
+          "quote_sources": [
+            "alpha_vantage"
+          ]
+        },
+        {
+          "ticker": "SPY",
+          "option_type": "put",
+          "side": "buy",
+          "strike": 675.0,
+          "expiry": "2026-11-20",
+          "bid": 1.35,
+          "ask": 1.37,
+          "source_quote_at": null,
+          "quote_sources": [
+            "alpha_vantage"
+          ]
+        },
+        {
+          "ticker": "SPY",
+          "option_type": "call",
+          "side": "sell",
+          "strike": 830.0,
+          "expiry": "2026-11-20",
+          "bid": 0.87,
+          "ask": 0.89,
+          "source_quote_at": null,
+          "quote_sources": [
+            "alpha_vantage"
+          ]
+        },
+        {
+          "ticker": "SPY",
+          "option_type": "call",
+          "side": "buy",
+          "strike": 860.0,
+          "expiry": "2026-11-20",
+          "bid": 0.17,
+          "ask": 0.18,
+          "source_quote_at": null,
+          "quote_sources": [
+            "alpha_vantage"
+          ]
+        }
+      ]
+    },
+    {
+      "ticker": "SPY",
+      "strategy": "iron_condor",
+      "agent": "NeutralThetaAgent",
+      "rank": 4,
+      "confidence": 0.65,
+      "score": 0.013630303030303033,
+      "expiry": "2026-11-20",
+      "entry_net_debit": null,
+      "entry_net_credit": 1.73,
+      "legs": [
+        {
+          "ticker": "SPY",
+          "option_type": "put",
+          "side": "sell",
+          "strike": 708.0,
+          "expiry": "2026-11-20",
+          "bid": 2.41,
+          "ask": 2.44,
+          "source_quote_at": null,
+          "quote_sources": [
+            "alpha_vantage"
+          ]
+        },
+        {
+          "ticker": "SPY",
+          "option_type": "put",
+          "side": "buy",
+          "strike": 675.0,
+          "expiry": "2026-11-20",
+          "bid": 1.35,
+          "ask": 1.37,
+          "source_quote_at": null,
+          "quote_sources": [
+            "alpha_vantage"
+          ]
+        },
+        {
+          "ticker": "SPY",
+          "option_type": "call",
+          "side": "sell",
+          "strike": 830.0,
+          "expiry": "2026-11-20",
+          "bid": 0.87,
+          "ask": 0.89,
+          "source_quote_at": null,
+          "quote_sources": [
+            "alpha_vantage"
+          ]
+        },
+        {
+          "ticker": "SPY",
+          "option_type": "call",
+          "side": "buy",
+          "strike": 860.0,
+          "expiry": "2026-11-20",
+          "bid": 0.17,
+          "ask": 0.18,
           "source_quote_at": null,
           "quote_sources": [
             "alpha_vantage"
@@ -66,21 +235,21 @@
       "ticker": "SPY",
       "strategy": "cash_secured_put",
       "agent": "IncomePremiumAgent",
-      "rank": 2,
+      "rank": 5,
       "confidence": 0.8,
-      "score": 0.002600552486187846,
+      "score": 0.0019600547195622437,
       "expiry": "2026-11-20",
       "entry_net_debit": null,
-      "entry_net_credit": 5.23,
+      "entry_net_credit": 3.98,
       "legs": [
         {
           "ticker": "SPY",
           "option_type": "put",
           "side": "sell",
-          "strike": 724.0,
+          "strike": 731.0,
           "expiry": "2026-11-20",
-          "bid": 5.23,
-          "ask": 5.25,
+          "bid": 3.98,
+          "ask": 4.0,
           "source_quote_at": null,
           "quote_sources": [
             "alpha_vantage"
@@ -98,8 +267,8 @@
       "contracts": 1,
       "expiry": "2026-10-16",
       "entry_price": 8.95,
-      "liquidation_mark": 6.71,
-      "unrealized_pnl": -223.99999999999994,
+      "liquidation_mark": 10.67,
+      "unrealized_pnl": 172.00000000000006,
       "legs": [
         {
           "ticker": "SPY",
@@ -107,8 +276,8 @@
           "side": "buy",
           "strike": 767.0,
           "expiry": "2026-10-16",
-          "bid": 7.31,
-          "ask": 7.33,
+          "bid": 11.78,
+          "ask": 11.87,
           "source_quote_at": null,
           "quote_sources": [
             "alpha_vantage"
@@ -120,8 +289,8 @@
           "side": "sell",
           "strike": 790.0,
           "expiry": "2026-10-16",
-          "bid": 0.59,
-          "ask": 0.6,
+          "bid": 1.1,
+          "ask": 1.11,
           "source_quote_at": null,
           "quote_sources": [
             "alpha_vantage"
