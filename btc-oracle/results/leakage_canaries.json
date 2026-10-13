@@ -1,12 +1,12 @@
 {
-  "generated_ts": 1791895821,
+  "generated_ts": 1791896422,
   "seed": 20260829,
   "checks": [
     {
       "name": "future_label_canary",
       "method": "walk-forward logistic (test-then-train, settle order) on legit decision-time fields [p_up, mkt_p_up, mins_left] vs the same fit + the settled outcome as a planted feature; then scan every decision-row field for |corr|>0.95 with the outcome (settlement-stamp fields whitelisted) and verify no still-open window carries an outcome",
       "result": "PASS",
-      "detail": "probe: legit acc 0.698 vs +canary 1.000 (+30.2pp) over 179 scored of 199 windows; schema scan: 26 fields x 199 settled windows, 0 non-whitelisted fields with |r|>0.95 (settlement stamps as expected: actual (r=+1.000)); open-window nullness: 0 violations in 43 open rows (20000 total)"
+      "detail": "probe: legit acc 0.698 vs +canary 1.000 (+30.2pp) over 179 scored of 199 windows; schema scan: 26 fields x 199 settled windows, 0 non-whitelisted fields with |r|>0.95 (settlement stamps as expected: actual (r=+1.000)); open-window nullness: 0 violations in 106 open rows (20000 total)"
     },
     {
       "name": "quote_age_canary",
@@ -30,7 +30,7 @@
       "name": "random_policy_placebo",
       "method": "seeded coin-flip side at the modeled decision-time asks across all settled decision windows; realized EV/$1 must sit at the analytic house edge (negative) within 3 SE, and must not be significantly positive \u2014 otherwise the scoring machinery itself is a money printer",
       "result": "PASS",
-      "detail": "coin-flip EV -0.1032/$1 over 199 windows (SE 0.0655); analytic house edge -0.1698/$1, deviation 1.02 SE (limit 3); t vs zero -1.58 (must be < 2); champion's own logged mean +0.0514/$1 on 1353 windows"
+      "detail": "coin-flip EV -0.1040/$1 over 199 windows (SE 0.0655); analytic house edge -0.1702/$1, deviation 1.01 SE (limit 3); t vs zero -1.59 (must be < 2); champion's own logged mean +0.0514/$1 on 1353 windows"
     },
     {
       "name": "noise_feature_placebo",
