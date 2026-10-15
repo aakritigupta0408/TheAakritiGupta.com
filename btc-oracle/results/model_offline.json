@@ -1,6 +1,6 @@
 {
  "engine_version": "1.0.0",
- "generated_ts": 1792057258,
+ "generated_ts": 1792057857,
  "seed": 20260830,
  "scope": "PREQUENTIAL series, chronological folds \u2014 forward-honest by construction; retrospective artifact candidates use the same engine with train ranges populated",
  "metric_contract": "config/METRICS.yaml v1.1.0",
@@ -11,8 +11,10 @@
    "dataset_version": "kalshi_binary_log (retained tail)",
    "feature_version": "live-logged (no snapshot store)",
    "n": 196,
-   "falsification_status": "PASS",
-   "falsification_failed": [],
+   "falsification_status": "EVAL_INVALID",
+   "falsification_failed": [
+    "label_shuffle"
+   ],
    "falsification_checks": {
     "timestamp_ordering": {
      "result": "PASS",
@@ -27,25 +29,25 @@
      "exact_label_predictions": 0
     },
     "label_shuffle": {
-     "result": "PASS",
-     "auc_vs_shuffled_labels": 0.5283,
+     "result": "FAIL",
+     "auc_vs_shuffled_labels": 0.6009,
      "expect": "AUC in [0.40, 0.60] \u2014 no association with random labels"
     },
     "prediction_shuffle": {
      "result": "PASS",
-     "auc_shuffled_predictions_vs_labels": 0.536
+     "auc_shuffled_predictions_vs_labels": 0.4578
     },
     "random_strategy": {
      "result": "PASS",
-     "ev_per_eligible": -0.2657,
-     "pnl_per_fill": -0.2671,
+     "ev_per_eligible": -0.3632,
+     "pnl_per_fill": -0.365,
      "fills": 195,
      "coverage": 0.9949,
-     "max_drawdown": -53.1078
+     "max_drawdown": -71.8201
     },
     "baselines": {
-     "market_brier": 0.1978,
-     "persistence_brier": 0.4913
+     "market_brier": 0.198,
+     "persistence_brier": 0.4862
     },
     "pit_reconstruction": {
      "result": "NOT_AVAILABLE",
@@ -55,189 +57,189 @@
    "folds": [
     {
      "fold_id": 0,
-     "test_start": 1791842400,
-     "test_end": 1791876600,
+     "test_start": 1791843300,
+     "test_end": 1791877500,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.1788,
-     "log_loss": 0.5541,
-     "ece": 0.1635,
-     "calibration_slope": 0.914,
-     "calibration_intercept": 0.732,
-     "market_brier": 0.184,
-     "bss": 0.0282,
-     "log_loss_market": 0.5506,
+     "brier": 0.1759,
+     "log_loss": 0.5453,
+     "ece": 0.1784,
+     "calibration_slope": 0.876,
+     "calibration_intercept": 0.716,
+     "market_brier": 0.182,
+     "bss": 0.0331,
+     "log_loss_market": 0.5465,
      "selective": {
       "60": {
        "coverage": 0.8718,
        "n": 34,
        "accuracy": 0.7941,
-       "brier": 0.163
+       "brier": 0.1598
       },
       "65": {
        "coverage": 0.8205,
        "n": 32,
        "accuracy": 0.8125,
-       "brier": 0.1576
+       "brier": 0.1541
       },
       "70": {
-       "coverage": 0.641,
-       "n": 25,
-       "accuracy": 0.84,
-       "brier": 0.1446
+       "coverage": 0.6667,
+       "n": 26,
+       "accuracy": 0.8462,
+       "brier": 0.1392
       },
       "75": {
-       "coverage": 0.4872,
-       "n": 19,
-       "accuracy": 0.8421,
-       "brier": 0.1406
+       "coverage": 0.5128,
+       "n": 20,
+       "accuracy": 0.85,
+       "brier": 0.1338
       },
       "80": {
-       "coverage": 0.359,
-       "n": 14,
-       "accuracy": 0.8571,
-       "brier": 0.1312
+       "coverage": 0.3846,
+       "n": 15,
+       "accuracy": 0.8667,
+       "brier": 0.1228
       },
       "85": {
-       "coverage": 0.1795,
-       "n": 7,
-       "accuracy": 0.8571,
-       "brier": 0.1349
+       "coverage": 0.2051,
+       "n": 8,
+       "accuracy": 0.875,
+       "brier": 0.1186
       },
       "90": {
-       "coverage": 0.1795,
-       "n": 7,
-       "accuracy": 0.8571,
-       "brier": 0.1349
+       "coverage": 0.2051,
+       "n": 8,
+       "accuracy": 0.875,
+       "brier": 0.1186
       }
      },
      "economics": {
-      "ev_per_eligible": 0.0511,
-      "pnl_per_fill": 0.1049,
-      "fills": 19,
-      "coverage": 0.4872,
+      "ev_per_eligible": 0.0575,
+      "pnl_per_fill": 0.1121,
+      "fills": 20,
+      "coverage": 0.5128,
       "max_drawdown": -2.1692
      }
     },
     {
      "fold_id": 1,
-     "test_start": 1791877500,
-     "test_end": 1791942300,
+     "test_start": 1791878400,
+     "test_end": 1791943200,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.1493,
-     "log_loss": 0.4628,
-     "ece": 0.1539,
-     "calibration_slope": 1.323,
-     "calibration_intercept": 0.105,
-     "market_brier": 0.1406,
-     "bss": -0.0614,
-     "log_loss_market": 0.4505,
+     "brier": 0.1515,
+     "log_loss": 0.4706,
+     "ece": 0.1357,
+     "calibration_slope": 1.349,
+     "calibration_intercept": 0.062,
+     "market_brier": 0.1435,
+     "bss": -0.0556,
+     "log_loss_market": 0.4578,
      "selective": {
       "60": {
        "coverage": 0.7949,
        "n": 31,
        "accuracy": 0.871,
-       "brier": 0.1297
+       "brier": 0.1325
       },
       "65": {
        "coverage": 0.641,
        "n": 25,
        "accuracy": 0.84,
-       "brier": 0.1283
+       "brier": 0.1318
       },
       "70": {
        "coverage": 0.5641,
        "n": 22,
        "accuracy": 0.8636,
-       "brier": 0.117
+       "brier": 0.1209
       },
       "75": {
-       "coverage": 0.4872,
-       "n": 19,
-       "accuracy": 0.8421,
-       "brier": 0.1232
+       "coverage": 0.4615,
+       "n": 18,
+       "accuracy": 0.8333,
+       "brier": 0.1299
       },
       "80": {
-       "coverage": 0.3333,
-       "n": 13,
-       "accuracy": 0.9231,
-       "brier": 0.0684
-      },
-      "85": {
        "coverage": 0.3077,
        "n": 12,
        "accuracy": 0.9167,
-       "brier": 0.071
+       "brier": 0.0739
+      },
+      "85": {
+       "coverage": 0.2821,
+       "n": 11,
+       "accuracy": 0.9091,
+       "brier": 0.0772
       },
       "90": {
-       "coverage": 0.1795,
-       "n": 7,
+       "coverage": 0.1538,
+       "n": 6,
        "accuracy": 1.0,
-       "brier": 0.0037
+       "brier": 0.0039
       }
      },
      "economics": {
-      "ev_per_eligible": 0.0209,
-      "pnl_per_fill": 0.0429,
-      "fills": 19,
-      "coverage": 0.4872,
+      "ev_per_eligible": 0.016,
+      "pnl_per_fill": 0.0347,
+      "fills": 18,
+      "coverage": 0.4615,
       "max_drawdown": -1.59
      }
     },
     {
      "fold_id": 2,
-     "test_start": 1791943200,
-     "test_end": 1791977400,
+     "test_start": 1791944100,
+     "test_end": 1791978300,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.2406,
-     "log_loss": 0.6866,
-     "ece": 0.2019,
-     "calibration_slope": 0.498,
-     "calibration_intercept": -0.039,
-     "market_brier": 0.2275,
-     "bss": -0.0576,
-     "log_loss_market": 0.6466,
+     "brier": 0.2389,
+     "log_loss": 0.6817,
+     "ece": 0.2554,
+     "calibration_slope": 0.518,
+     "calibration_intercept": 0.037,
+     "market_brier": 0.2243,
+     "bss": -0.0648,
+     "log_loss_market": 0.6382,
      "selective": {
       "60": {
        "coverage": 0.6923,
        "n": 27,
        "accuracy": 0.6667,
-       "brier": 0.2439
+       "brier": 0.2414
       },
       "65": {
        "coverage": 0.4872,
        "n": 19,
        "accuracy": 0.6842,
-       "brier": 0.248
+       "brier": 0.2446
       },
       "70": {
        "coverage": 0.3077,
        "n": 12,
        "accuracy": 0.5833,
-       "brier": 0.2963
+       "brier": 0.2908
       },
       "75": {
-       "coverage": 0.2564,
-       "n": 10,
-       "accuracy": 0.6,
-       "brier": 0.2913
+       "coverage": 0.2821,
+       "n": 11,
+       "accuracy": 0.6364,
+       "brier": 0.267
       },
       "80": {
-       "coverage": 0.2308,
-       "n": 9,
-       "accuracy": 0.6667,
-       "brier": 0.2611
+       "coverage": 0.2564,
+       "n": 10,
+       "accuracy": 0.7,
+       "brier": 0.2373
       },
       "85": {
        "coverage": 0.1026,
@@ -253,60 +255,60 @@
       }
      },
      "economics": {
-      "ev_per_eligible": -0.0781,
-      "pnl_per_fill": -0.3044,
-      "fills": 10,
-      "coverage": 0.2564,
+      "ev_per_eligible": -0.0746,
+      "pnl_per_fill": -0.2643,
+      "fills": 11,
+      "coverage": 0.2821,
       "max_drawdown": -3.6264
      }
     },
     {
      "fold_id": 3,
-     "test_start": 1791978300,
-     "test_end": 1792013400,
+     "test_start": 1791979200,
+     "test_end": 1792014300,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.2362,
-     "log_loss": 0.6646,
-     "ece": 0.1616,
-     "calibration_slope": 0.691,
-     "calibration_intercept": -0.213,
-     "market_brier": 0.2419,
-     "bss": 0.0233,
-     "log_loss_market": 0.6704,
+     "brier": 0.2476,
+     "log_loss": 0.6897,
+     "ece": 0.172,
+     "calibration_slope": 0.532,
+     "calibration_intercept": -0.294,
+     "market_brier": 0.258,
+     "bss": 0.0405,
+     "log_loss_market": 0.7086,
      "selective": {
       "60": {
        "coverage": 0.6154,
        "n": 24,
-       "accuracy": 0.6667,
-       "brier": 0.2213
+       "accuracy": 0.625,
+       "brier": 0.2397
       },
       "65": {
        "coverage": 0.4359,
        "n": 17,
-       "accuracy": 0.7059,
-       "brier": 0.2081
+       "accuracy": 0.6471,
+       "brier": 0.2341
       },
       "70": {
-       "coverage": 0.2564,
-       "n": 10,
-       "accuracy": 0.8,
-       "brier": 0.1724
+       "coverage": 0.2308,
+       "n": 9,
+       "accuracy": 0.7778,
+       "brier": 0.1889
       },
       "75": {
-       "coverage": 0.1282,
-       "n": 5,
-       "accuracy": 0.6,
-       "brier": 0.2663
-      },
-      "80": {
        "coverage": 0.1026,
        "n": 4,
-       "accuracy": 0.75,
-       "brier": 0.1914
+       "accuracy": 0.5,
+       "brier": 0.3269
+      },
+      "80": {
+       "coverage": 0.0769,
+       "n": 3,
+       "accuracy": 0.6667,
+       "brier": 0.2472
       },
       "85": {
        "coverage": 0.0769,
@@ -322,42 +324,42 @@
       }
      },
      "economics": {
-      "ev_per_eligible": -0.0442,
-      "pnl_per_fill": -0.345,
-      "fills": 5,
-      "coverage": 0.1282,
+      "ev_per_eligible": -0.0477,
+      "pnl_per_fill": -0.4653,
+      "fills": 4,
+      "coverage": 0.1026,
       "max_drawdown": -2.0
      }
     },
     {
      "fold_id": 4,
-     "test_start": 1792014300,
-     "test_end": 1792056600,
+     "test_start": 1792015200,
+     "test_end": 1792057500,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 40,
-     "brier": 0.1889,
-     "log_loss": 0.5578,
-     "ece": 0.2319,
-     "calibration_slope": 1.695,
-     "calibration_intercept": -0.161,
-     "market_brier": 0.1937,
-     "bss": 0.0246,
-     "log_loss_market": 0.5665,
+     "brier": 0.1818,
+     "log_loss": 0.5429,
+     "ece": 0.1704,
+     "calibration_slope": 1.979,
+     "calibration_intercept": -0.092,
+     "market_brier": 0.1814,
+     "bss": -0.0021,
+     "log_loss_market": 0.5381,
      "selective": {
       "60": {
-       "coverage": 0.675,
-       "n": 27,
-       "accuracy": 0.8148,
-       "brier": 0.1509
+       "coverage": 0.65,
+       "n": 26,
+       "accuracy": 0.8462,
+       "brier": 0.1388
       },
       "65": {
-       "coverage": 0.525,
-       "n": 21,
-       "accuracy": 0.8571,
-       "brier": 0.1297
+       "coverage": 0.5,
+       "n": 20,
+       "accuracy": 0.9,
+       "brier": 0.1129
       },
       "70": {
        "coverage": 0.25,
@@ -401,40 +403,40 @@
    ],
    "fold_summary": {
     "folds": 5,
-    "median_fold_bss": 0.0233,
-    "worst_fold_bss": -0.0614,
-    "best_fold_bss": 0.0282,
-    "fold_bss_variance": 0.001733,
-    "fraction_folds_beating_market": 0.6
+    "median_fold_bss": -0.0021,
+    "worst_fold_bss": -0.0648,
+    "best_fold_bss": 0.0405,
+    "fold_bss_variance": 0.00191,
+    "fraction_folds_beating_market": 0.4
    },
    "lifetime": {
     "n": 196,
-    "brier": 0.1987,
-    "log_loss": 0.585,
-    "ece": 0.0729,
-    "calibration_slope": 0.919,
-    "calibration_intercept": 0.041,
-    "market_brier": 0.1978,
-    "bss": -0.0046,
-    "log_loss_market": 0.5775,
+    "brier": 0.199,
+    "log_loss": 0.5858,
+    "ece": 0.072,
+    "calibration_slope": 0.915,
+    "calibration_intercept": 0.025,
+    "market_brier": 0.198,
+    "bss": -0.0051,
+    "log_loss_market": 0.5783,
     "selective": {
      "60": {
-      "coverage": 0.7296,
-      "n": 143,
-      "accuracy": 0.7692,
-      "brier": 0.1785
+      "coverage": 0.7245,
+      "n": 142,
+      "accuracy": 0.7676,
+      "brier": 0.179
      },
      "65": {
-      "coverage": 0.5816,
-      "n": 114,
-      "accuracy": 0.7895,
-      "brier": 0.1686
+      "coverage": 0.5765,
+      "n": 113,
+      "accuracy": 0.7876,
+      "brier": 0.1691
      },
      "70": {
       "coverage": 0.4031,
       "n": 79,
       "accuracy": 0.8228,
-      "brier": 0.1515
+      "brier": 0.1516
      },
      "75": {
       "coverage": 0.3061,
@@ -452,18 +454,18 @@
       "coverage": 0.148,
       "n": 29,
       "accuracy": 0.8621,
-      "brier": 0.1174
+      "brier": 0.1175
      },
      "90": {
       "coverage": 0.0918,
       "n": 18,
       "accuracy": 0.9444,
-      "brier": 0.0554
+      "brier": 0.0555
      }
     },
     "economics": {
-     "ev_per_eligible": -0.0045,
-     "pnl_per_fill": -0.0147,
+     "ev_per_eligible": -0.0042,
+     "pnl_per_fill": -0.0138,
      "fills": 60,
      "coverage": 0.3061,
      "max_drawdown": -6.3589
@@ -493,24 +495,24 @@
     },
     "label_shuffle": {
      "result": "PASS",
-     "auc_vs_shuffled_labels": 0.5284,
+     "auc_vs_shuffled_labels": 0.5759,
      "expect": "AUC in [0.40, 0.60] \u2014 no association with random labels"
     },
     "prediction_shuffle": {
      "result": "PASS",
-     "auc_shuffled_predictions_vs_labels": 0.5444
+     "auc_shuffled_predictions_vs_labels": 0.4552
     },
     "random_strategy": {
      "result": "PASS",
-     "ev_per_eligible": -0.2766,
-     "pnl_per_fill": -0.278,
+     "ev_per_eligible": -0.3741,
+     "pnl_per_fill": -0.376,
      "fills": 195,
      "coverage": 0.9949,
-     "max_drawdown": -55.2403
+     "max_drawdown": -73.9526
     },
     "baselines": {
-     "market_brier": 0.1978,
-     "persistence_brier": 0.4913
+     "market_brier": 0.198,
+     "persistence_brier": 0.4862
     },
     "pit_reconstruction": {
      "result": "NOT_AVAILABLE",
@@ -520,126 +522,126 @@
    "folds": [
     {
      "fold_id": 0,
-     "test_start": 1791842400,
-     "test_end": 1791876600,
+     "test_start": 1791843300,
+     "test_end": 1791877500,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.1859,
-     "log_loss": 0.5584,
-     "ece": 0.234,
-     "calibration_slope": 1.304,
-     "calibration_intercept": 0.845,
-     "market_brier": 0.184,
-     "bss": -0.0104,
-     "log_loss_market": 0.5506,
+     "brier": 0.1835,
+     "log_loss": 0.5528,
+     "ece": 0.2123,
+     "calibration_slope": 1.289,
+     "calibration_intercept": 0.825,
+     "market_brier": 0.182,
+     "bss": -0.0087,
+     "log_loss_market": 0.5465,
      "selective": {
       "60": {
        "coverage": 0.8718,
        "n": 34,
        "accuracy": 0.7941,
-       "brier": 0.1726
+       "brier": 0.1699
       },
       "65": {
        "coverage": 0.6923,
        "n": 27,
        "accuracy": 0.8519,
-       "brier": 0.1538
+       "brier": 0.1504
       },
       "70": {
-       "coverage": 0.4103,
-       "n": 16,
-       "accuracy": 0.8125,
-       "brier": 0.1637
+       "coverage": 0.4359,
+       "n": 17,
+       "accuracy": 0.8235,
+       "brier": 0.1553
       },
       "75": {
-       "coverage": 0.3077,
-       "n": 12,
+       "coverage": 0.3333,
+       "n": 13,
+       "accuracy": 0.7692,
+       "brier": 0.1775
+      },
+      "80": {
+       "coverage": 0.2051,
+       "n": 8,
        "accuracy": 0.75,
        "brier": 0.1906
       },
-      "80": {
-       "coverage": 0.1795,
-       "n": 7,
-       "accuracy": 0.7143,
-       "brier": 0.2148
-      },
       "85": {
-       "coverage": 0.1026,
-       "n": 4,
-       "accuracy": 0.75,
-       "brier": 0.1998
+       "coverage": 0.1282,
+       "n": 5,
+       "accuracy": 0.8,
+       "brier": 0.164
       },
       "90": {
        "coverage": 0.0513,
        "n": 2,
        "accuracy": 1.0,
-       "brier": 0.001
+       "brier": 0.0026
       }
      },
      "economics": {
-      "ev_per_eligible": -0.0336,
-      "pnl_per_fill": -0.1092,
-      "fills": 12,
-      "coverage": 0.3077,
+      "ev_per_eligible": -0.0272,
+      "pnl_per_fill": -0.0817,
+      "fills": 13,
+      "coverage": 0.3333,
       "max_drawdown": -2.1692
      }
     },
     {
      "fold_id": 1,
-     "test_start": 1791877500,
-     "test_end": 1791942300,
+     "test_start": 1791878400,
+     "test_end": 1791943200,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.1418,
-     "log_loss": 0.4518,
-     "ece": 0.1519,
-     "calibration_slope": 1.889,
-     "calibration_intercept": 0.083,
-     "market_brier": 0.1406,
-     "bss": -0.0083,
-     "log_loss_market": 0.4505,
+     "brier": 0.1447,
+     "log_loss": 0.4596,
+     "ece": 0.1531,
+     "calibration_slope": 1.916,
+     "calibration_intercept": 0.029,
+     "market_brier": 0.1435,
+     "bss": -0.008,
+     "log_loss_market": 0.4578,
      "selective": {
       "60": {
        "coverage": 0.8205,
        "n": 32,
        "accuracy": 0.875,
-       "brier": 0.1229
+       "brier": 0.1264
       },
       "65": {
-       "coverage": 0.6667,
-       "n": 26,
-       "accuracy": 0.9231,
-       "brier": 0.099
+       "coverage": 0.641,
+       "n": 25,
+       "accuracy": 0.92,
+       "brier": 0.1022
       },
       "70": {
-       "coverage": 0.4615,
-       "n": 18,
-       "accuracy": 0.8889,
-       "brier": 0.0992
+       "coverage": 0.4359,
+       "n": 17,
+       "accuracy": 0.8824,
+       "brier": 0.104
       },
       "75": {
-       "coverage": 0.3846,
-       "n": 15,
-       "accuracy": 0.8667,
-       "brier": 0.1053
+       "coverage": 0.359,
+       "n": 14,
+       "accuracy": 0.8571,
+       "brier": 0.1115
       },
       "80": {
-       "coverage": 0.2564,
-       "n": 10,
+       "coverage": 0.2308,
+       "n": 9,
        "accuracy": 1.0,
-       "brier": 0.0202
+       "brier": 0.0204
       },
       "85": {
-       "coverage": 0.1538,
-       "n": 6,
+       "coverage": 0.1282,
+       "n": 5,
        "accuracy": 1.0,
-       "brier": 0.0126
+       "brier": 0.0116
       },
       "90": {
        "coverage": 0.0513,
@@ -649,66 +651,66 @@
       }
      },
      "economics": {
-      "ev_per_eligible": 0.0103,
-      "pnl_per_fill": 0.0267,
-      "fills": 15,
-      "coverage": 0.3846,
+      "ev_per_eligible": 0.0054,
+      "pnl_per_fill": 0.015,
+      "fills": 14,
+      "coverage": 0.359,
       "max_drawdown": -1.1804
      }
     },
     {
      "fold_id": 2,
-     "test_start": 1791943200,
-     "test_end": 1791977400,
+     "test_start": 1791944100,
+     "test_end": 1791978300,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.2288,
-     "log_loss": 0.6506,
-     "ece": 0.1756,
-     "calibration_slope": 0.689,
-     "calibration_intercept": -0.028,
-     "market_brier": 0.2275,
-     "bss": -0.006,
-     "log_loss_market": 0.6466,
+     "brier": 0.226,
+     "log_loss": 0.6429,
+     "ece": 0.2456,
+     "calibration_slope": 0.714,
+     "calibration_intercept": 0.043,
+     "market_brier": 0.2243,
+     "bss": -0.0073,
+     "log_loss_market": 0.6382,
      "selective": {
       "60": {
        "coverage": 0.6923,
        "n": 27,
        "accuracy": 0.6296,
-       "brier": 0.239
+       "brier": 0.2349
       },
       "65": {
-       "coverage": 0.4359,
-       "n": 17,
-       "accuracy": 0.6471,
-       "brier": 0.2391
+       "coverage": 0.4615,
+       "n": 18,
+       "accuracy": 0.6667,
+       "brier": 0.2269
       },
       "70": {
-       "coverage": 0.359,
-       "n": 14,
-       "accuracy": 0.6429,
-       "brier": 0.2392
+       "coverage": 0.3846,
+       "n": 15,
+       "accuracy": 0.6667,
+       "brier": 0.2245
       },
       "75": {
-       "coverage": 0.2821,
-       "n": 11,
-       "accuracy": 0.7273,
-       "brier": 0.2034
+       "coverage": 0.3077,
+       "n": 12,
+       "accuracy": 0.75,
+       "brier": 0.188
       },
       "80": {
-       "coverage": 0.1538,
-       "n": 6,
-       "accuracy": 0.6667,
-       "brier": 0.2355
+       "coverage": 0.1795,
+       "n": 7,
+       "accuracy": 0.7143,
+       "brier": 0.2044
       },
       "85": {
-       "coverage": 0.1026,
-       "n": 4,
+       "coverage": 0.1282,
+       "n": 5,
        "accuracy": 1.0,
-       "brier": 0.0125
+       "brier": 0.0136
       },
       "90": {
        "coverage": 0.0256,
@@ -718,66 +720,66 @@
       }
      },
      "economics": {
-      "ev_per_eligible": -0.0388,
-      "pnl_per_fill": -0.1375,
-      "fills": 11,
-      "coverage": 0.2821,
+      "ev_per_eligible": -0.0353,
+      "pnl_per_fill": -0.1146,
+      "fills": 12,
+      "coverage": 0.3077,
       "max_drawdown": -2.6264
      }
     },
     {
      "fold_id": 3,
-     "test_start": 1791978300,
-     "test_end": 1792013400,
+     "test_start": 1791979200,
+     "test_end": 1792014300,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.2419,
-     "log_loss": 0.6704,
-     "ece": 0.2075,
-     "calibration_slope": 0.597,
-     "calibration_intercept": -0.206,
-     "market_brier": 0.2419,
+     "brier": 0.258,
+     "log_loss": 0.7086,
+     "ece": 0.2019,
+     "calibration_slope": 0.428,
+     "calibration_intercept": -0.291,
+     "market_brier": 0.258,
      "bss": 0.0,
-     "log_loss_market": 0.6704,
+     "log_loss_market": 0.7086,
      "selective": {
       "60": {
        "coverage": 0.6667,
        "n": 26,
-       "accuracy": 0.5385,
-       "brier": 0.2478
+       "accuracy": 0.5,
+       "brier": 0.272
       },
       "65": {
        "coverage": 0.5385,
        "n": 21,
-       "accuracy": 0.6667,
-       "brier": 0.2137
+       "accuracy": 0.619,
+       "brier": 0.2437
       },
       "70": {
        "coverage": 0.4615,
        "n": 18,
-       "accuracy": 0.7222,
-       "brier": 0.1943
+       "accuracy": 0.6667,
+       "brier": 0.2293
       },
       "75": {
        "coverage": 0.2821,
        "n": 11,
-       "accuracy": 0.7273,
-       "brier": 0.1887
+       "accuracy": 0.6364,
+       "brier": 0.2459
       },
       "80": {
        "coverage": 0.1538,
        "n": 6,
-       "accuracy": 1.0,
-       "brier": 0.0212
+       "accuracy": 0.8333,
+       "brier": 0.1262
       },
       "85": {
-       "coverage": 0.1026,
-       "n": 4,
+       "coverage": 0.0769,
+       "n": 3,
        "accuracy": 1.0,
-       "brier": 0.0128
+       "brier": 0.011
       },
       "90": {
        "coverage": 0.0256,
@@ -787,60 +789,60 @@
       }
      },
      "economics": {
-      "ev_per_eligible": -0.0418,
-      "pnl_per_fill": -0.1483,
+      "ev_per_eligible": -0.071,
+      "pnl_per_fill": -0.2516,
       "fills": 11,
       "coverage": 0.2821,
-      "max_drawdown": -2.3768
+      "max_drawdown": -2.9061
      }
     },
     {
      "fold_id": 4,
-     "test_start": 1792014300,
-     "test_end": 1792056600,
+     "test_start": 1792015200,
+     "test_end": 1792057500,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 40,
-     "brier": 0.1938,
-     "log_loss": 0.5676,
-     "ece": 0.2124,
-     "calibration_slope": 1.135,
-     "calibration_intercept": -0.279,
-     "market_brier": 0.1937,
-     "bss": -0.0006,
-     "log_loss_market": 0.5665,
+     "brier": 0.1818,
+     "log_loss": 0.5399,
+     "ece": 0.1939,
+     "calibration_slope": 1.367,
+     "calibration_intercept": -0.23,
+     "market_brier": 0.1814,
+     "bss": -0.0022,
+     "log_loss_market": 0.5381,
      "selective": {
       "60": {
-       "coverage": 0.8,
-       "n": 32,
-       "accuracy": 0.7188,
-       "brier": 0.1824
+       "coverage": 0.775,
+       "n": 31,
+       "accuracy": 0.7419,
+       "brier": 0.1674
       },
       "65": {
-       "coverage": 0.65,
-       "n": 26,
-       "accuracy": 0.7692,
-       "brier": 0.1617
+       "coverage": 0.625,
+       "n": 25,
+       "accuracy": 0.8,
+       "brier": 0.1423
       },
       "70": {
-       "coverage": 0.475,
-       "n": 19,
-       "accuracy": 0.8947,
-       "brier": 0.1111
+       "coverage": 0.45,
+       "n": 18,
+       "accuracy": 0.9444,
+       "brier": 0.0813
       },
       "75": {
-       "coverage": 0.325,
-       "n": 13,
-       "accuracy": 0.8462,
-       "brier": 0.1258
+       "coverage": 0.3,
+       "n": 12,
+       "accuracy": 0.9167,
+       "brier": 0.0823
       },
       "80": {
-       "coverage": 0.2,
-       "n": 8,
-       "accuracy": 0.875,
-       "brier": 0.1012
+       "coverage": 0.175,
+       "n": 7,
+       "accuracy": 1.0,
+       "brier": 0.023
       },
       "85": {
        "coverage": 0.1,
@@ -854,44 +856,44 @@
       }
      },
      "economics": {
-      "ev_per_eligible": -0.0007,
-      "pnl_per_fill": -0.0022,
-      "fills": 13,
-      "coverage": 0.325,
-      "max_drawdown": -2.0
+      "ev_per_eligible": 0.0243,
+      "pnl_per_fill": 0.081,
+      "fills": 12,
+      "coverage": 0.3,
+      "max_drawdown": -1.0
      }
     }
    ],
    "fold_summary": {
     "folds": 5,
-    "median_fold_bss": -0.006,
-    "worst_fold_bss": -0.0104,
+    "median_fold_bss": -0.0073,
+    "worst_fold_bss": -0.0087,
     "best_fold_bss": 0.0,
-    "fold_bss_variance": 1.7e-05,
+    "fold_bss_variance": 1.2e-05,
     "fraction_folds_beating_market": 0.0
    },
    "lifetime": {
     "n": 196,
-    "brier": 0.1984,
-    "log_loss": 0.5797,
-    "ece": 0.0671,
+    "brier": 0.1987,
+    "log_loss": 0.5806,
+    "ece": 0.0746,
     "calibration_slope": 1.03,
-    "calibration_intercept": 0.037,
-    "market_brier": 0.1978,
-    "bss": -0.0031,
-    "log_loss_market": 0.5775,
+    "calibration_intercept": 0.019,
+    "market_brier": 0.198,
+    "bss": -0.0034,
+    "log_loss_market": 0.5783,
     "selective": {
      "60": {
-      "coverage": 0.7704,
-      "n": 151,
-      "accuracy": 0.7219,
-      "brier": 0.189
+      "coverage": 0.7653,
+      "n": 150,
+      "accuracy": 0.72,
+      "brier": 0.1895
      },
      "65": {
-      "coverage": 0.5969,
-      "n": 117,
-      "accuracy": 0.7863,
-      "brier": 0.1665
+      "coverage": 0.5918,
+      "n": 116,
+      "accuracy": 0.7845,
+      "brier": 0.167
      },
      "70": {
       "coverage": 0.4337,
@@ -903,30 +905,30 @@
       "coverage": 0.3163,
       "n": 62,
       "accuracy": 0.7903,
-      "brier": 0.1583
+      "brier": 0.1584
      },
      "80": {
       "coverage": 0.1888,
       "n": 37,
       "accuracy": 0.8649,
-      "brier": 0.1096
+      "brier": 0.1097
      },
      "85": {
       "coverage": 0.1122,
       "n": 22,
       "accuracy": 0.9545,
-      "brier": 0.0469
+      "brier": 0.0471
      },
      "90": {
       "coverage": 0.0306,
       "n": 6,
       "accuracy": 1.0,
-      "brier": 0.0024
+      "brier": 0.0029
      }
     },
     "economics": {
-     "ev_per_eligible": -0.0208,
-     "pnl_per_fill": -0.0658,
+     "ev_per_eligible": -0.0205,
+     "pnl_per_fill": -0.0649,
      "fills": 62,
      "coverage": 0.3163,
      "max_drawdown": -6.9111
@@ -956,24 +958,24 @@
     },
     "label_shuffle": {
      "result": "PASS",
-     "auc_vs_shuffled_labels": 0.5335,
+     "auc_vs_shuffled_labels": 0.5824,
      "expect": "AUC in [0.40, 0.60] \u2014 no association with random labels"
     },
     "prediction_shuffle": {
      "result": "PASS",
-     "auc_shuffled_predictions_vs_labels": 0.5419
+     "auc_shuffled_predictions_vs_labels": 0.4644
     },
     "random_strategy": {
      "result": "PASS",
-     "ev_per_eligible": -0.2764,
-     "pnl_per_fill": -0.2778,
+     "ev_per_eligible": -0.3741,
+     "pnl_per_fill": -0.376,
      "fills": 195,
      "coverage": 0.9949,
-     "max_drawdown": -55.204
+     "max_drawdown": -73.9526
     },
     "baselines": {
-     "market_brier": 0.1978,
-     "persistence_brier": 0.4913
+     "market_brier": 0.198,
+     "persistence_brier": 0.4862
     },
     "pit_reconstruction": {
      "result": "NOT_AVAILABLE",
@@ -983,124 +985,124 @@
    "folds": [
     {
      "fold_id": 0,
-     "test_start": 1791842400,
-     "test_end": 1791876600,
+     "test_start": 1791843300,
+     "test_end": 1791877500,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.1801,
-     "log_loss": 0.5441,
-     "ece": 0.2118,
-     "calibration_slope": 1.188,
-     "calibration_intercept": 0.686,
-     "market_brier": 0.184,
-     "bss": 0.0209,
-     "log_loss_market": 0.5506,
+     "brier": 0.1788,
+     "log_loss": 0.5404,
+     "ece": 0.2021,
+     "calibration_slope": 1.159,
+     "calibration_intercept": 0.68,
+     "market_brier": 0.182,
+     "bss": 0.0175,
+     "log_loss_market": 0.5465,
      "selective": {
       "60": {
        "coverage": 0.8462,
        "n": 33,
        "accuracy": 0.7879,
-       "brier": 0.1674
+       "brier": 0.1658
       },
       "65": {
        "coverage": 0.7179,
        "n": 28,
        "accuracy": 0.8214,
-       "brier": 0.1555
+       "brier": 0.1536
       },
       "70": {
        "coverage": 0.5128,
        "n": 20,
        "accuracy": 0.85,
-       "brier": 0.1393
-      },
-      "75": {
-       "coverage": 0.3846,
-       "n": 15,
-       "accuracy": 0.8,
-       "brier": 0.1608
-      },
-      "80": {
-       "coverage": 0.1795,
-       "n": 7,
-       "accuracy": 0.8571,
-       "brier": 0.1275
-      },
-      "85": {
-       "coverage": 0.1282,
-       "n": 5,
-       "accuracy": 0.8,
-       "brier": 0.1665
-      },
-      "90": {
-       "coverage": 0.1026,
-       "n": 4,
-       "accuracy": 0.75,
-       "brier": 0.2054
-      }
-     },
-     "economics": {
-      "ev_per_eligible": 0.0049,
-      "pnl_per_fill": 0.0129,
-      "fills": 15,
-      "coverage": 0.3846,
-      "max_drawdown": -1.75
-     }
-    },
-    {
-     "fold_id": 1,
-     "test_start": 1791877500,
-     "test_end": 1791942300,
-     "train_start": null,
-     "train_end": null,
-     "train_n": null,
-     "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
-     "n": 39,
-     "brier": 0.1543,
-     "log_loss": 0.4814,
-     "ece": 0.1753,
-     "calibration_slope": 1.594,
-     "calibration_intercept": -0.116,
-     "market_brier": 0.1406,
-     "bss": -0.0973,
-     "log_loss_market": 0.4505,
-     "selective": {
-      "60": {
-       "coverage": 0.8462,
-       "n": 33,
-       "accuracy": 0.8485,
-       "brier": 0.1425
-      },
-      "65": {
-       "coverage": 0.6154,
-       "n": 24,
-       "accuracy": 0.875,
-       "brier": 0.1229
-      },
-      "70": {
-       "coverage": 0.4872,
-       "n": 19,
-       "accuracy": 0.8421,
-       "brier": 0.1274
+       "brier": 0.1366
       },
       "75": {
        "coverage": 0.4103,
        "n": 16,
        "accuracy": 0.8125,
-       "brier": 0.1368
+       "brier": 0.152
       },
       "80": {
-       "coverage": 0.2821,
-       "n": 11,
-       "accuracy": 0.9091,
-       "brier": 0.077
+       "coverage": 0.2051,
+       "n": 8,
+       "accuracy": 0.875,
+       "brier": 0.1141
       },
       "85": {
        "coverage": 0.1538,
        "n": 6,
+       "accuracy": 0.8333,
+       "brier": 0.1421
+      },
+      "90": {
+       "coverage": 0.0769,
+       "n": 3,
+       "accuracy": 0.6667,
+       "brier": 0.2729
+      }
+     },
+     "economics": {
+      "ev_per_eligible": 0.0113,
+      "pnl_per_fill": 0.0275,
+      "fills": 16,
+      "coverage": 0.4103,
+      "max_drawdown": -1.75
+     }
+    },
+    {
+     "fold_id": 1,
+     "test_start": 1791878400,
+     "test_end": 1791943200,
+     "train_start": null,
+     "train_end": null,
+     "train_n": null,
+     "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
+     "n": 39,
+     "brier": 0.1572,
+     "log_loss": 0.4895,
+     "ece": 0.1553,
+     "calibration_slope": 1.612,
+     "calibration_intercept": -0.165,
+     "market_brier": 0.1435,
+     "bss": -0.0952,
+     "log_loss_market": 0.4578,
+     "selective": {
+      "60": {
+       "coverage": 0.8462,
+       "n": 33,
+       "accuracy": 0.8485,
+       "brier": 0.1459
+      },
+      "65": {
+       "coverage": 0.5897,
+       "n": 23,
+       "accuracy": 0.8696,
+       "brier": 0.1277
+      },
+      "70": {
+       "coverage": 0.4615,
+       "n": 18,
+       "accuracy": 0.8333,
+       "brier": 0.1338
+      },
+      "75": {
+       "coverage": 0.3846,
+       "n": 15,
+       "accuracy": 0.8,
+       "brier": 0.1451
+      },
+      "80": {
+       "coverage": 0.2564,
+       "n": 10,
+       "accuracy": 0.9,
+       "brier": 0.0834
+      },
+      "85": {
+       "coverage": 0.1282,
+       "n": 5,
        "accuracy": 1.0,
        "brier": 0.013
       },
@@ -1112,198 +1114,198 @@
       }
      },
      "economics": {
-      "ev_per_eligible": -0.0102,
-      "pnl_per_fill": -0.025,
-      "fills": 16,
-      "coverage": 0.4103,
+      "ev_per_eligible": -0.0151,
+      "pnl_per_fill": -0.0393,
+      "fills": 15,
+      "coverage": 0.3846,
       "max_drawdown": -2.1804
      }
     },
     {
      "fold_id": 2,
-     "test_start": 1791943200,
-     "test_end": 1791977400,
+     "test_start": 1791944100,
+     "test_end": 1791978300,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.2333,
-     "log_loss": 0.6622,
-     "ece": 0.2535,
-     "calibration_slope": 0.591,
-     "calibration_intercept": -0.057,
-     "market_brier": 0.2275,
-     "bss": -0.0255,
-     "log_loss_market": 0.6466,
+     "brier": 0.2303,
+     "log_loss": 0.6537,
+     "ece": 0.2556,
+     "calibration_slope": 0.615,
+     "calibration_intercept": 0.013,
+     "market_brier": 0.2243,
+     "bss": -0.0267,
+     "log_loss_market": 0.6382,
      "selective": {
       "60": {
        "coverage": 0.7179,
        "n": 28,
        "accuracy": 0.6786,
-       "brier": 0.2324
+       "brier": 0.2283
       },
       "65": {
-       "coverage": 0.5128,
-       "n": 20,
-       "accuracy": 0.65,
-       "brier": 0.2446
+       "coverage": 0.5385,
+       "n": 21,
+       "accuracy": 0.6667,
+       "brier": 0.2334
       },
       "70": {
-       "coverage": 0.3333,
-       "n": 13,
-       "accuracy": 0.5385,
-       "brier": 0.2938
+       "coverage": 0.359,
+       "n": 14,
+       "accuracy": 0.5714,
+       "brier": 0.2735
       },
       "75": {
-       "coverage": 0.2564,
-       "n": 10,
-       "accuracy": 0.7,
-       "brier": 0.2293
+       "coverage": 0.2821,
+       "n": 11,
+       "accuracy": 0.7273,
+       "brier": 0.2094
       },
       "80": {
-       "coverage": 0.1795,
-       "n": 7,
-       "accuracy": 0.5714,
-       "brier": 0.3067
+       "coverage": 0.2051,
+       "n": 8,
+       "accuracy": 0.625,
+       "brier": 0.2696
       },
       "85": {
-       "coverage": 0.1026,
-       "n": 4,
+       "coverage": 0.1282,
+       "n": 5,
        "accuracy": 1.0,
-       "brier": 0.0056
+       "brier": 0.0065
       },
       "90": {
-       "coverage": 0.1026,
-       "n": 4,
+       "coverage": 0.1282,
+       "n": 5,
        "accuracy": 1.0,
-       "brier": 0.0056
+       "brier": 0.0065
       }
      },
      "economics": {
-      "ev_per_eligible": -0.0429,
-      "pnl_per_fill": -0.1674,
-      "fills": 10,
-      "coverage": 0.2564,
+      "ev_per_eligible": -0.0394,
+      "pnl_per_fill": -0.1398,
+      "fills": 11,
+      "coverage": 0.2821,
       "max_drawdown": -2.6264
      }
     },
     {
      "fold_id": 3,
-     "test_start": 1791978300,
-     "test_end": 1792013400,
+     "test_start": 1791979200,
+     "test_end": 1792014300,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.2482,
-     "log_loss": 0.6876,
-     "ece": 0.1839,
-     "calibration_slope": 0.502,
-     "calibration_intercept": -0.223,
-     "market_brier": 0.2419,
-     "bss": -0.0261,
-     "log_loss_market": 0.6704,
+     "brier": 0.2646,
+     "log_loss": 0.727,
+     "ece": 0.2072,
+     "calibration_slope": 0.381,
+     "calibration_intercept": -0.305,
+     "market_brier": 0.258,
+     "bss": -0.0255,
+     "log_loss_market": 0.7086,
      "selective": {
       "60": {
        "coverage": 0.7436,
        "n": 29,
-       "accuracy": 0.5862,
-       "brier": 0.248
+       "accuracy": 0.5517,
+       "brier": 0.27
       },
       "65": {
        "coverage": 0.641,
        "n": 25,
-       "accuracy": 0.64,
-       "brier": 0.2363
+       "accuracy": 0.6,
+       "brier": 0.2619
       },
       "70": {
        "coverage": 0.4872,
        "n": 19,
-       "accuracy": 0.6842,
-       "brier": 0.2238
+       "accuracy": 0.6316,
+       "brier": 0.2575
       },
       "75": {
        "coverage": 0.359,
        "n": 14,
-       "accuracy": 0.6429,
-       "brier": 0.247
+       "accuracy": 0.5714,
+       "brier": 0.2928
       },
       "80": {
        "coverage": 0.2051,
        "n": 8,
-       "accuracy": 0.75,
-       "brier": 0.1825
+       "accuracy": 0.625,
+       "brier": 0.2626
       },
       "85": {
-       "coverage": 0.1026,
-       "n": 4,
+       "coverage": 0.0769,
+       "n": 3,
        "accuracy": 1.0,
-       "brier": 0.0055
+       "brier": 0.004
       },
       "90": {
-       "coverage": 0.1026,
-       "n": 4,
+       "coverage": 0.0769,
+       "n": 3,
        "accuracy": 1.0,
-       "brier": 0.0055
+       "brier": 0.004
       }
      },
      "economics": {
-      "ev_per_eligible": -0.085,
-      "pnl_per_fill": -0.2368,
+      "ev_per_eligible": -0.1142,
+      "pnl_per_fill": -0.318,
       "fills": 14,
       "coverage": 0.359,
-      "max_drawdown": -3.7784
+      "max_drawdown": -4.4797
      }
     },
     {
      "fold_id": 4,
-     "test_start": 1792014300,
-     "test_end": 1792056600,
+     "test_start": 1792015200,
+     "test_end": 1792057500,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 40,
-     "brier": 0.1895,
-     "log_loss": 0.5529,
-     "ece": 0.1906,
-     "calibration_slope": 0.979,
-     "calibration_intercept": -0.272,
-     "market_brier": 0.1937,
-     "bss": 0.0216,
-     "log_loss_market": 0.5665,
+     "brier": 0.1769,
+     "log_loss": 0.5239,
+     "ece": 0.1169,
+     "calibration_slope": 1.146,
+     "calibration_intercept": -0.218,
+     "market_brier": 0.1814,
+     "bss": 0.0248,
+     "log_loss_market": 0.5381,
      "selective": {
       "60": {
        "coverage": 0.8,
        "n": 32,
-       "accuracy": 0.75,
-       "brier": 0.1724
+       "accuracy": 0.7812,
+       "brier": 0.1567
       },
       "65": {
-       "coverage": 0.75,
-       "n": 30,
-       "accuracy": 0.7667,
-       "brier": 0.1665
+       "coverage": 0.725,
+       "n": 29,
+       "accuracy": 0.7931,
+       "brier": 0.1498
       },
       "70": {
-       "coverage": 0.55,
-       "n": 22,
-       "accuracy": 0.8182,
-       "brier": 0.1402
+       "coverage": 0.525,
+       "n": 21,
+       "accuracy": 0.8571,
+       "brier": 0.1159
       },
       "75": {
-       "coverage": 0.475,
-       "n": 19,
-       "accuracy": 0.8421,
-       "brier": 0.1281
+       "coverage": 0.45,
+       "n": 18,
+       "accuracy": 0.8889,
+       "brier": 0.0991
       },
       "80": {
-       "coverage": 0.3,
-       "n": 12,
-       "accuracy": 0.8333,
-       "brier": 0.1248
+       "coverage": 0.275,
+       "n": 11,
+       "accuracy": 0.9091,
+       "brier": 0.077
       },
       "85": {
        "coverage": 0.175,
@@ -1319,79 +1321,79 @@
       }
      },
      "economics": {
-      "ev_per_eligible": 0.0147,
-      "pnl_per_fill": 0.0309,
-      "fills": 19,
-      "coverage": 0.475,
-      "max_drawdown": -2.0
+      "ev_per_eligible": 0.0397,
+      "pnl_per_fill": 0.0882,
+      "fills": 18,
+      "coverage": 0.45,
+      "max_drawdown": -1.0
      }
     }
    ],
    "fold_summary": {
     "folds": 5,
     "median_fold_bss": -0.0255,
-    "worst_fold_bss": -0.0973,
-    "best_fold_bss": 0.0216,
-    "fold_bss_variance": 0.001888,
+    "worst_fold_bss": -0.0952,
+    "best_fold_bss": 0.0248,
+    "fold_bss_variance": 0.001828,
     "fraction_folds_beating_market": 0.4
    },
    "lifetime": {
     "n": 196,
-    "brier": 0.201,
-    "log_loss": 0.5855,
-    "ece": 0.0806,
-    "calibration_slope": 0.891,
-    "calibration_intercept": -0.026,
-    "market_brier": 0.1978,
-    "bss": -0.0163,
-    "log_loss_market": 0.5775,
+    "brier": 0.2014,
+    "log_loss": 0.5866,
+    "ece": 0.0865,
+    "calibration_slope": 0.89,
+    "calibration_intercept": -0.038,
+    "market_brier": 0.198,
+    "bss": -0.0171,
+    "log_loss_market": 0.5783,
     "selective": {
      "60": {
       "coverage": 0.7908,
       "n": 155,
       "accuracy": 0.7355,
-      "brier": 0.19
+      "brier": 0.1905
      },
      "65": {
-      "coverage": 0.648,
-      "n": 127,
-      "accuracy": 0.7559,
-      "brier": 0.1819
+      "coverage": 0.6429,
+      "n": 126,
+      "accuracy": 0.754,
+      "brier": 0.1828
      },
      "70": {
-      "coverage": 0.4745,
-      "n": 93,
-      "accuracy": 0.7634,
-      "brier": 0.1759
+      "coverage": 0.4694,
+      "n": 92,
+      "accuracy": 0.7609,
+      "brier": 0.1771
      },
      "75": {
       "coverage": 0.3776,
       "n": 74,
       "accuracy": 0.7703,
-      "brier": 0.1728
+      "brier": 0.1729
      },
      "80": {
       "coverage": 0.2296,
       "n": 45,
       "accuracy": 0.8,
-      "brier": 0.1521
+      "brier": 0.1523
      },
      "85": {
       "coverage": 0.1327,
       "n": 26,
       "accuracy": 0.9615,
-      "brier": 0.039
+      "brier": 0.0393
      },
      "90": {
-      "coverage": 0.0867,
-      "n": 17,
-      "accuracy": 0.9412,
-      "brier": 0.0524
+      "coverage": 0.0816,
+      "n": 16,
+      "accuracy": 0.9375,
+      "brier": 0.0555
      }
     },
     "economics": {
-     "ev_per_eligible": -0.0235,
-     "pnl_per_fill": -0.0623,
+     "ev_per_eligible": -0.0232,
+     "pnl_per_fill": -0.0615,
      "fills": 74,
      "coverage": 0.3776,
      "max_drawdown": -9.1701
@@ -1421,24 +1423,24 @@
     },
     "label_shuffle": {
      "result": "PASS",
-     "auc_vs_shuffled_labels": 0.5384,
+     "auc_vs_shuffled_labels": 0.58,
      "expect": "AUC in [0.40, 0.60] \u2014 no association with random labels"
     },
     "prediction_shuffle": {
      "result": "PASS",
-     "auc_shuffled_predictions_vs_labels": 0.5487
+     "auc_shuffled_predictions_vs_labels": 0.4563
     },
     "random_strategy": {
      "result": "PASS",
-     "ev_per_eligible": -0.2766,
-     "pnl_per_fill": -0.278,
+     "ev_per_eligible": -0.3741,
+     "pnl_per_fill": -0.376,
      "fills": 195,
      "coverage": 0.9949,
-     "max_drawdown": -55.2403
+     "max_drawdown": -73.9526
     },
     "baselines": {
-     "market_brier": 0.1978,
-     "persistence_brier": 0.4913
+     "market_brier": 0.198,
+     "persistence_brier": 0.4862
     },
     "pit_reconstruction": {
      "result": "NOT_AVAILABLE",
@@ -1448,126 +1450,126 @@
    "folds": [
     {
      "fold_id": 0,
-     "test_start": 1791842400,
-     "test_end": 1791876600,
+     "test_start": 1791843300,
+     "test_end": 1791877500,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.1849,
-     "log_loss": 0.5571,
-     "ece": 0.2569,
-     "calibration_slope": 1.376,
-     "calibration_intercept": 0.876,
-     "market_brier": 0.184,
-     "bss": -0.005,
-     "log_loss_market": 0.5506,
+     "brier": 0.1821,
+     "log_loss": 0.5506,
+     "ece": 0.2384,
+     "calibration_slope": 1.347,
+     "calibration_intercept": 0.853,
+     "market_brier": 0.182,
+     "bss": -0.0009,
+     "log_loss_market": 0.5465,
      "selective": {
       "60": {
        "coverage": 0.8718,
        "n": 34,
        "accuracy": 0.7941,
-       "brier": 0.1722
+       "brier": 0.169
       },
       "65": {
-       "coverage": 0.6923,
-       "n": 27,
-       "accuracy": 0.8148,
-       "brier": 0.163
+       "coverage": 0.7179,
+       "n": 28,
+       "accuracy": 0.8214,
+       "brier": 0.1581
       },
       "70": {
-       "coverage": 0.3846,
-       "n": 15,
-       "accuracy": 0.8,
-       "brier": 0.1658
+       "coverage": 0.4103,
+       "n": 16,
+       "accuracy": 0.8125,
+       "brier": 0.157
       },
       "75": {
-       "coverage": 0.2821,
-       "n": 11,
-       "accuracy": 0.8182,
-       "brier": 0.1538
+       "coverage": 0.3077,
+       "n": 12,
+       "accuracy": 0.8333,
+       "brier": 0.1431
       },
       "80": {
-       "coverage": 0.1538,
-       "n": 6,
-       "accuracy": 0.8333,
-       "brier": 0.1475
+       "coverage": 0.1795,
+       "n": 7,
+       "accuracy": 0.8571,
+       "brier": 0.13
       },
       "85": {
-       "coverage": 0.1026,
-       "n": 4,
-       "accuracy": 0.75,
-       "brier": 0.203
+       "coverage": 0.1282,
+       "n": 5,
+       "accuracy": 0.8,
+       "brier": 0.1675
       },
       "90": {
-       "coverage": 0.0513,
-       "n": 2,
+       "coverage": 0.0256,
+       "n": 1,
        "accuracy": 1.0,
-       "brier": 0.0021
+       "brier": 0.0024
       }
      },
      "economics": {
-      "ev_per_eligible": -0.008,
-      "pnl_per_fill": -0.0282,
-      "fills": 11,
-      "coverage": 0.2821,
+      "ev_per_eligible": -0.0016,
+      "pnl_per_fill": -0.0052,
+      "fills": 12,
+      "coverage": 0.3077,
       "max_drawdown": -1.75
      }
     },
     {
      "fold_id": 1,
-     "test_start": 1791877500,
-     "test_end": 1791942300,
+     "test_start": 1791878400,
+     "test_end": 1791943200,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.1443,
-     "log_loss": 0.4604,
-     "ece": 0.1567,
-     "calibration_slope": 1.913,
-     "calibration_intercept": 0.127,
-     "market_brier": 0.1406,
-     "bss": -0.0262,
-     "log_loss_market": 0.4505,
+     "brier": 0.1471,
+     "log_loss": 0.4681,
+     "ece": 0.1577,
+     "calibration_slope": 1.941,
+     "calibration_intercept": 0.077,
+     "market_brier": 0.1435,
+     "bss": -0.0248,
+     "log_loss_market": 0.4578,
      "selective": {
       "60": {
        "coverage": 0.8462,
        "n": 33,
        "accuracy": 0.8788,
-       "brier": 0.1276
+       "brier": 0.1309
       },
       "65": {
-       "coverage": 0.5897,
-       "n": 23,
-       "accuracy": 0.913,
-       "brier": 0.1019
+       "coverage": 0.5641,
+       "n": 22,
+       "accuracy": 0.9091,
+       "brier": 0.1058
       },
       "70": {
-       "coverage": 0.5128,
-       "n": 20,
-       "accuracy": 0.9,
-       "brier": 0.1018
+       "coverage": 0.4872,
+       "n": 19,
+       "accuracy": 0.8947,
+       "brier": 0.1063
       },
       "75": {
-       "coverage": 0.359,
-       "n": 14,
-       "accuracy": 0.8571,
-       "brier": 0.1138
+       "coverage": 0.3333,
+       "n": 13,
+       "accuracy": 0.8462,
+       "brier": 0.1213
       },
       "80": {
-       "coverage": 0.3077,
-       "n": 12,
-       "accuracy": 0.9167,
-       "brier": 0.0757
+       "coverage": 0.2821,
+       "n": 11,
+       "accuracy": 0.9091,
+       "brier": 0.0811
       },
       "85": {
-       "coverage": 0.1282,
-       "n": 5,
+       "coverage": 0.1026,
+       "n": 4,
        "accuracy": 1.0,
-       "brier": 0.0133
+       "brier": 0.0126
       },
       "90": {
        "coverage": 0.0256,
@@ -1577,198 +1579,198 @@
       }
      },
      "economics": {
-      "ev_per_eligible": 0.0022,
-      "pnl_per_fill": 0.0061,
-      "fills": 14,
-      "coverage": 0.359,
+      "ev_per_eligible": -0.0027,
+      "pnl_per_fill": -0.0081,
+      "fills": 13,
+      "coverage": 0.3333,
       "max_drawdown": -1.1804
      }
     },
     {
      "fold_id": 2,
-     "test_start": 1791943200,
-     "test_end": 1791977400,
+     "test_start": 1791944100,
+     "test_end": 1791978300,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.2308,
-     "log_loss": 0.656,
-     "ece": 0.2682,
-     "calibration_slope": 0.633,
-     "calibration_intercept": -0.032,
-     "market_brier": 0.2275,
-     "bss": -0.0147,
-     "log_loss_market": 0.6466,
+     "brier": 0.2278,
+     "log_loss": 0.6473,
+     "ece": 0.2103,
+     "calibration_slope": 0.655,
+     "calibration_intercept": 0.036,
+     "market_brier": 0.2243,
+     "bss": -0.0157,
+     "log_loss_market": 0.6382,
      "selective": {
       "60": {
        "coverage": 0.7436,
        "n": 29,
        "accuracy": 0.6552,
-       "brier": 0.2363
+       "brier": 0.2323
       },
       "65": {
-       "coverage": 0.5128,
-       "n": 20,
-       "accuracy": 0.65,
-       "brier": 0.2425
+       "coverage": 0.5385,
+       "n": 21,
+       "accuracy": 0.6667,
+       "brier": 0.2313
       },
       "70": {
-       "coverage": 0.359,
-       "n": 14,
-       "accuracy": 0.5714,
-       "brier": 0.2776
+       "coverage": 0.3846,
+       "n": 15,
+       "accuracy": 0.6,
+       "brier": 0.2596
       },
       "75": {
-       "coverage": 0.2821,
-       "n": 11,
-       "accuracy": 0.6364,
-       "brier": 0.2528
+       "coverage": 0.3077,
+       "n": 12,
+       "accuracy": 0.6667,
+       "brier": 0.2324
       },
       "80": {
-       "coverage": 0.1538,
-       "n": 6,
-       "accuracy": 0.6667,
-       "brier": 0.2387
+       "coverage": 0.1795,
+       "n": 7,
+       "accuracy": 0.7143,
+       "brier": 0.2058
       },
       "85": {
-       "coverage": 0.1026,
-       "n": 4,
+       "coverage": 0.1282,
+       "n": 5,
        "accuracy": 1.0,
        "brier": 0.0084
       },
       "90": {
-       "coverage": 0.0513,
-       "n": 2,
+       "coverage": 0.0769,
+       "n": 3,
        "accuracy": 1.0,
-       "brier": 0.0052
+       "brier": 0.0063
       }
      },
      "economics": {
-      "ev_per_eligible": -0.0716,
-      "pnl_per_fill": -0.254,
-      "fills": 11,
-      "coverage": 0.2821,
+      "ev_per_eligible": -0.0681,
+      "pnl_per_fill": -0.2215,
+      "fills": 12,
+      "coverage": 0.3077,
       "max_drawdown": -3.477
      }
     },
     {
      "fold_id": 3,
-     "test_start": 1791978300,
-     "test_end": 1792013400,
+     "test_start": 1791979200,
+     "test_end": 1792014300,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.243,
-     "log_loss": 0.6737,
-     "ece": 0.2074,
-     "calibration_slope": 0.579,
-     "calibration_intercept": -0.208,
-     "market_brier": 0.2419,
-     "bss": -0.0044,
-     "log_loss_market": 0.6704,
+     "brier": 0.2592,
+     "log_loss": 0.7126,
+     "ece": 0.2032,
+     "calibration_slope": 0.414,
+     "calibration_intercept": -0.289,
+     "market_brier": 0.258,
+     "bss": -0.0046,
+     "log_loss_market": 0.7086,
      "selective": {
       "60": {
        "coverage": 0.6923,
        "n": 27,
-       "accuracy": 0.5926,
-       "brier": 0.2387
+       "accuracy": 0.5556,
+       "brier": 0.2621
       },
       "65": {
        "coverage": 0.5641,
        "n": 22,
-       "accuracy": 0.6364,
-       "brier": 0.2242
+       "accuracy": 0.5909,
+       "brier": 0.2531
       },
       "70": {
        "coverage": 0.4103,
        "n": 16,
-       "accuracy": 0.75,
-       "brier": 0.1839
+       "accuracy": 0.6875,
+       "brier": 0.2235
       },
       "75": {
        "coverage": 0.359,
        "n": 14,
-       "accuracy": 0.7143,
-       "brier": 0.1993
+       "accuracy": 0.6429,
+       "brier": 0.2446
       },
       "80": {
        "coverage": 0.1795,
        "n": 7,
-       "accuracy": 0.8571,
-       "brier": 0.1104
+       "accuracy": 0.7143,
+       "brier": 0.201
       },
       "85": {
-       "coverage": 0.0769,
-       "n": 3,
+       "coverage": 0.0513,
+       "n": 2,
        "accuracy": 1.0,
        "brier": 0.0085
       },
       "90": {
-       "coverage": 0.0513,
-       "n": 2,
+       "coverage": 0.0256,
+       "n": 1,
        "accuracy": 1.0,
-       "brier": 0.0073
+       "brier": 0.0062
       }
      },
      "economics": {
-      "ev_per_eligible": -0.0521,
-      "pnl_per_fill": -0.1452,
+      "ev_per_eligible": -0.0813,
+      "pnl_per_fill": -0.2264,
       "fills": 14,
       "coverage": 0.359,
-      "max_drawdown": -2.6074
+      "max_drawdown": -3.3087
      }
     },
     {
      "fold_id": 4,
-     "test_start": 1792014300,
-     "test_end": 1792056600,
+     "test_start": 1792015200,
+     "test_end": 1792057500,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 40,
-     "brier": 0.1913,
-     "log_loss": 0.5604,
-     "ece": 0.1505,
-     "calibration_slope": 1.056,
-     "calibration_intercept": -0.252,
-     "market_brier": 0.1937,
-     "bss": 0.0126,
-     "log_loss_market": 0.5665,
+     "brier": 0.1792,
+     "log_loss": 0.5328,
+     "ece": 0.1461,
+     "calibration_slope": 1.248,
+     "calibration_intercept": -0.199,
+     "market_brier": 0.1814,
+     "bss": 0.0119,
+     "log_loss_market": 0.5381,
      "selective": {
       "60": {
-       "coverage": 0.825,
-       "n": 33,
-       "accuracy": 0.7273,
-       "brier": 0.1781
+       "coverage": 0.8,
+       "n": 32,
+       "accuracy": 0.75,
+       "brier": 0.1636
       },
       "65": {
-       "coverage": 0.725,
-       "n": 29,
-       "accuracy": 0.7931,
-       "brier": 0.1568
+       "coverage": 0.7,
+       "n": 28,
+       "accuracy": 0.8214,
+       "brier": 0.1395
       },
       "70": {
-       "coverage": 0.525,
-       "n": 21,
-       "accuracy": 0.8571,
-       "brier": 0.1247
+       "coverage": 0.5,
+       "n": 20,
+       "accuracy": 0.9,
+       "brier": 0.0988
       },
       "75": {
-       "coverage": 0.375,
-       "n": 15,
-       "accuracy": 0.8667,
-       "brier": 0.1163
+       "coverage": 0.35,
+       "n": 14,
+       "accuracy": 0.9286,
+       "brier": 0.0788
       },
       "80": {
-       "coverage": 0.275,
-       "n": 11,
-       "accuracy": 0.8182,
-       "brier": 0.1394
+       "coverage": 0.25,
+       "n": 10,
+       "accuracy": 0.9,
+       "brier": 0.0891
       },
       "85": {
        "coverage": 0.1,
@@ -1784,38 +1786,38 @@
       }
      },
      "economics": {
-      "ev_per_eligible": 0.0155,
-      "pnl_per_fill": 0.0414,
-      "fills": 15,
-      "coverage": 0.375,
-      "max_drawdown": -2.0
+      "ev_per_eligible": 0.0405,
+      "pnl_per_fill": 0.1158,
+      "fills": 14,
+      "coverage": 0.35,
+      "max_drawdown": -1.0
      }
     }
    ],
    "fold_summary": {
     "folds": 5,
-    "median_fold_bss": -0.005,
-    "worst_fold_bss": -0.0262,
-    "best_fold_bss": 0.0126,
-    "fold_bss_variance": 0.000164,
+    "median_fold_bss": -0.0046,
+    "worst_fold_bss": -0.0248,
+    "best_fold_bss": 0.0119,
+    "fold_bss_variance": 0.000159,
     "fraction_folds_beating_market": 0.2
    },
    "lifetime": {
     "n": 196,
-    "brier": 0.1988,
-    "log_loss": 0.5814,
-    "ece": 0.1004,
-    "calibration_slope": 0.994,
-    "calibration_intercept": 0.043,
-    "market_brier": 0.1978,
-    "bss": -0.0051,
-    "log_loss_market": 0.5775,
+    "brier": 0.199,
+    "log_loss": 0.582,
+    "ece": 0.0888,
+    "calibration_slope": 0.995,
+    "calibration_intercept": 0.027,
+    "market_brier": 0.198,
+    "bss": -0.0048,
+    "log_loss_market": 0.5783,
     "selective": {
      "60": {
-      "coverage": 0.7959,
-      "n": 156,
-      "accuracy": 0.7372,
-      "brier": 0.1874
+      "coverage": 0.7908,
+      "n": 155,
+      "accuracy": 0.7355,
+      "brier": 0.1878
      },
      "65": {
       "coverage": 0.6173,
@@ -1827,36 +1829,36 @@
       "coverage": 0.4388,
       "n": 86,
       "accuracy": 0.7907,
-      "brier": 0.1624
+      "brier": 0.1625
      },
      "75": {
       "coverage": 0.3316,
       "n": 65,
       "accuracy": 0.7846,
-      "brier": 0.1631
+      "brier": 0.1632
      },
      "80": {
       "coverage": 0.2143,
       "n": 42,
       "accuracy": 0.8333,
-      "brier": 0.1317
+      "brier": 0.1319
      },
      "85": {
       "coverage": 0.102,
       "n": 20,
       "accuracy": 0.95,
-      "brier": 0.0488
+      "brier": 0.0493
      },
      "90": {
-      "coverage": 0.0459,
-      "n": 9,
+      "coverage": 0.0408,
+      "n": 8,
       "accuracy": 1.0,
-      "brier": 0.0053
+      "brier": 0.0058
      }
     },
     "economics": {
-     "ev_per_eligible": -0.0226,
-     "pnl_per_fill": -0.0682,
+     "ev_per_eligible": -0.0223,
+     "pnl_per_fill": -0.0673,
      "fills": 65,
      "coverage": 0.3316,
      "max_drawdown": -8.4923
@@ -1868,7 +1870,7 @@
    "model_version": "prequential",
    "dataset_version": "kalshi_binary_log (retained tail)",
    "feature_version": "live-logged (no snapshot store)",
-   "n": 189,
+   "n": 190,
    "falsification_status": "EVAL_INVALID",
    "falsification_failed": [
     "random_strategy"
@@ -1888,24 +1890,24 @@
     },
     "label_shuffle": {
      "result": "PASS",
-     "auc_vs_shuffled_labels": 0.5481,
+     "auc_vs_shuffled_labels": 0.4873,
      "expect": "AUC in [0.40, 0.60] \u2014 no association with random labels"
     },
     "prediction_shuffle": {
      "result": "PASS",
-     "auc_shuffled_predictions_vs_labels": 0.5338
+     "auc_shuffled_predictions_vs_labels": 0.5359
     },
     "random_strategy": {
      "result": "FAIL",
-     "ev_per_eligible": 0.7291,
-     "pnl_per_fill": 0.7291,
-     "fills": 189,
+     "ev_per_eligible": 0.72,
+     "pnl_per_fill": 0.72,
+     "fills": 190,
      "coverage": 1.0,
      "max_drawdown": -12.5603
     },
     "baselines": {
-     "market_brier": 0.1831,
-     "persistence_brier": 0.5043
+     "market_brier": 0.1829,
+     "persistence_brier": 0.5016
     },
     "pit_reconstruction": {
      "result": "NOT_AVAILABLE",
@@ -1916,119 +1918,119 @@
     {
      "fold_id": 0,
      "test_start": 1791843300,
-     "test_end": 1791876600,
+     "test_end": 1791878400,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
-     "n": 37,
-     "brier": 0.1472,
-     "log_loss": 0.4589,
-     "ece": 0.2199,
-     "calibration_slope": 2.141,
-     "calibration_intercept": 1.63,
-     "market_brier": 0.1541,
-     "bss": 0.0447,
-     "log_loss_market": 0.4773,
+     "n": 38,
+     "brier": 0.1421,
+     "log_loss": 0.4461,
+     "ece": 0.2142,
+     "calibration_slope": 2.13,
+     "calibration_intercept": 1.617,
+     "market_brier": 0.1483,
+     "bss": 0.0414,
+     "log_loss_market": 0.4616,
      "selective": {
       "60": {
-       "coverage": 0.8108,
-       "n": 30,
-       "accuracy": 0.8667,
-       "brier": 0.1204
+       "coverage": 0.8158,
+       "n": 31,
+       "accuracy": 0.871,
+       "brier": 0.115
       },
       "65": {
-       "coverage": 0.6486,
-       "n": 24,
-       "accuracy": 0.875,
-       "brier": 0.104
+       "coverage": 0.6579,
+       "n": 25,
+       "accuracy": 0.88,
+       "brier": 0.098
       },
       "70": {
-       "coverage": 0.5676,
-       "n": 21,
-       "accuracy": 0.9048,
-       "brier": 0.0874
+       "coverage": 0.6053,
+       "n": 23,
+       "accuracy": 0.913,
+       "brier": 0.082
       },
       "75": {
-       "coverage": 0.5405,
-       "n": 20,
-       "accuracy": 0.9,
-       "brier": 0.0879
+       "coverage": 0.5789,
+       "n": 22,
+       "accuracy": 0.9091,
+       "brier": 0.0822
       },
       "80": {
-       "coverage": 0.3514,
-       "n": 13,
+       "coverage": 0.3947,
+       "n": 15,
        "accuracy": 1.0,
-       "brier": 0.0236
+       "brier": 0.0237
       },
       "85": {
-       "coverage": 0.1622,
-       "n": 6,
+       "coverage": 0.1842,
+       "n": 7,
        "accuracy": 1.0,
-       "brier": 0.0133
+       "brier": 0.0139
       },
       "90": {
-       "coverage": 0.0541,
+       "coverage": 0.0526,
        "n": 2,
        "accuracy": 1.0,
        "brier": 0.0074
       }
      },
      "economics": {
-      "ev_per_eligible": 1.9587,
-      "pnl_per_fill": 3.6236,
-      "fills": 20,
-      "coverage": 0.5405,
+      "ev_per_eligible": 2.3216,
+      "pnl_per_fill": 4.01,
+      "fills": 22,
+      "coverage": 0.5789,
       "max_drawdown": -1.0
      }
     },
     {
      "fold_id": 1,
-     "test_start": 1791878400,
-     "test_end": 1791944100,
+     "test_start": 1791879300,
+     "test_end": 1791945000,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 38,
-     "brier": 0.1277,
-     "log_loss": 0.4087,
-     "ece": 0.1551,
-     "calibration_slope": 1.808,
-     "calibration_intercept": -0.114,
-     "market_brier": 0.1293,
-     "bss": 0.0125,
-     "log_loss_market": 0.4124,
+     "brier": 0.1362,
+     "log_loss": 0.4274,
+     "ece": 0.1664,
+     "calibration_slope": 1.691,
+     "calibration_intercept": -0.269,
+     "market_brier": 0.1365,
+     "bss": 0.0023,
+     "log_loss_market": 0.4284,
      "selective": {
       "60": {
-       "coverage": 0.7895,
-       "n": 30,
-       "accuracy": 0.9,
-       "brier": 0.0928
+       "coverage": 0.7632,
+       "n": 29,
+       "accuracy": 0.8966,
+       "brier": 0.0949
       },
       "65": {
-       "coverage": 0.6842,
-       "n": 26,
-       "accuracy": 0.9231,
-       "brier": 0.0749
+       "coverage": 0.6579,
+       "n": 25,
+       "accuracy": 0.92,
+       "brier": 0.0766
       },
       "70": {
-       "coverage": 0.6053,
-       "n": 23,
-       "accuracy": 0.9565,
-       "brier": 0.0562
+       "coverage": 0.5789,
+       "n": 22,
+       "accuracy": 0.9545,
+       "brier": 0.0573
       },
       "75": {
-       "coverage": 0.5,
-       "n": 19,
-       "accuracy": 0.9474,
-       "brier": 0.0527
-      },
-      "80": {
        "coverage": 0.4737,
        "n": 18,
+       "accuracy": 0.9444,
+       "brier": 0.0539
+      },
+      "80": {
+       "coverage": 0.4474,
+       "n": 17,
        "accuracy": 1.0,
-       "brier": 0.0203
+       "brier": 0.0196
       },
       "85": {
        "coverage": 0.2895,
@@ -2044,66 +2046,66 @@
       }
      },
      "economics": {
-      "ev_per_eligible": 3.097,
-      "pnl_per_fill": 6.194,
-      "fills": 19,
-      "coverage": 0.5,
+      "ev_per_eligible": 2.998,
+      "pnl_per_fill": 6.3292,
+      "fills": 18,
+      "coverage": 0.4737,
       "max_drawdown": -1.0
      }
     },
     {
      "fold_id": 2,
-     "test_start": 1791945000,
-     "test_end": 1791979200,
+     "test_start": 1791945900,
+     "test_end": 1791981000,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 38,
-     "brier": 0.2125,
-     "log_loss": 0.6202,
-     "ece": 0.1935,
-     "calibration_slope": 0.766,
-     "calibration_intercept": 0.038,
-     "market_brier": 0.2076,
-     "bss": -0.0232,
-     "log_loss_market": 0.6081,
+     "brier": 0.2244,
+     "log_loss": 0.6566,
+     "ece": 0.2384,
+     "calibration_slope": 0.615,
+     "calibration_intercept": 0.193,
+     "market_brier": 0.2197,
+     "bss": -0.0214,
+     "log_loss_market": 0.6415,
      "selective": {
       "60": {
-       "coverage": 0.7368,
-       "n": 28,
-       "accuracy": 0.75,
-       "brier": 0.1962
+       "coverage": 0.7632,
+       "n": 29,
+       "accuracy": 0.7241,
+       "brier": 0.2173
       },
       "65": {
-       "coverage": 0.6053,
-       "n": 23,
-       "accuracy": 0.7826,
-       "brier": 0.1864
+       "coverage": 0.6316,
+       "n": 24,
+       "accuracy": 0.75,
+       "brier": 0.2123
       },
       "70": {
-       "coverage": 0.5,
-       "n": 19,
-       "accuracy": 0.7368,
-       "brier": 0.2037
+       "coverage": 0.5263,
+       "n": 20,
+       "accuracy": 0.7,
+       "brier": 0.234
       },
       "75": {
-       "coverage": 0.3158,
-       "n": 12,
-       "accuracy": 0.6667,
-       "brier": 0.2438
+       "coverage": 0.3421,
+       "n": 13,
+       "accuracy": 0.6154,
+       "brier": 0.2872
       },
       "80": {
-       "coverage": 0.2632,
-       "n": 10,
-       "accuracy": 0.7,
-       "brier": 0.2298
+       "coverage": 0.2895,
+       "n": 11,
+       "accuracy": 0.6364,
+       "brier": 0.2823
       },
       "85": {
-       "coverage": 0.1579,
-       "n": 6,
-       "accuracy": 0.8333,
-       "brier": 0.1415
+       "coverage": 0.1842,
+       "n": 7,
+       "accuracy": 0.7143,
+       "brier": 0.2367
       },
       "90": {
        "coverage": 0.0263,
@@ -2113,66 +2115,66 @@
       }
      },
      "economics": {
-      "ev_per_eligible": 0.9252,
-      "pnl_per_fill": 2.9298,
-      "fills": 12,
-      "coverage": 0.3158,
+      "ev_per_eligible": 0.8989,
+      "pnl_per_fill": 2.6275,
+      "fills": 13,
+      "coverage": 0.3421,
       "max_drawdown": -2.0
      }
     },
     {
      "fold_id": 3,
-     "test_start": 1791981000,
-     "test_end": 1792015200,
+     "test_start": 1791982800,
+     "test_end": 1792016100,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 38,
-     "brier": 0.2685,
-     "log_loss": 0.7573,
-     "ece": 0.2244,
-     "calibration_slope": 0.291,
-     "calibration_intercept": -0.335,
-     "market_brier": 0.2747,
-     "bss": 0.0226,
-     "log_loss_market": 0.7751,
+     "brier": 0.2493,
+     "log_loss": 0.7056,
+     "ece": 0.1939,
+     "calibration_slope": 0.486,
+     "calibration_intercept": -0.488,
+     "market_brier": 0.2563,
+     "bss": 0.0272,
+     "log_loss_market": 0.7281,
      "selective": {
       "60": {
        "coverage": 0.8421,
        "n": 32,
-       "accuracy": 0.5938,
-       "brier": 0.2643
+       "accuracy": 0.625,
+       "brier": 0.2415
       },
       "65": {
        "coverage": 0.7368,
        "n": 28,
-       "accuracy": 0.6429,
-       "brier": 0.2564
+       "accuracy": 0.6786,
+       "brier": 0.2303
       },
       "70": {
        "coverage": 0.5263,
        "n": 20,
-       "accuracy": 0.6,
-       "brier": 0.2834
+       "accuracy": 0.65,
+       "brier": 0.2469
       },
       "75": {
-       "coverage": 0.3947,
-       "n": 15,
-       "accuracy": 0.6667,
-       "brier": 0.2617
+       "coverage": 0.3684,
+       "n": 14,
+       "accuracy": 0.7143,
+       "brier": 0.2226
       },
       "80": {
-       "coverage": 0.2632,
-       "n": 10,
-       "accuracy": 0.6,
-       "brier": 0.3151
+       "coverage": 0.2368,
+       "n": 9,
+       "accuracy": 0.6667,
+       "brier": 0.2603
       },
       "85": {
-       "coverage": 0.1316,
-       "n": 5,
-       "accuracy": 0.6,
-       "brier": 0.3408
+       "coverage": 0.1053,
+       "n": 4,
+       "accuracy": 0.75,
+       "brier": 0.224
       },
       "90": {
        "coverage": 0.0263,
@@ -2182,48 +2184,48 @@
       }
      },
      "economics": {
-      "ev_per_eligible": 1.0504,
-      "pnl_per_fill": 2.661,
-      "fills": 15,
-      "coverage": 0.3947,
+      "ev_per_eligible": 1.0767,
+      "pnl_per_fill": 2.9224,
+      "fills": 14,
+      "coverage": 0.3684,
       "max_drawdown": -2.0
      }
     },
     {
      "fold_id": 4,
-     "test_start": 1792016100,
-     "test_end": 1792056600,
+     "test_start": 1792017000,
+     "test_end": 1792057500,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 38,
-     "brier": 0.1491,
-     "log_loss": 0.4586,
-     "ece": 0.1931,
-     "calibration_slope": 1.399,
-     "calibration_intercept": -0.148,
-     "market_brier": 0.1491,
-     "bss": -0.0003,
-     "log_loss_market": 0.4589,
+     "brier": 0.1526,
+     "log_loss": 0.4661,
+     "ece": 0.1368,
+     "calibration_slope": 1.38,
+     "calibration_intercept": -0.187,
+     "market_brier": 0.1538,
+     "bss": 0.008,
+     "log_loss_market": 0.4692,
      "selective": {
       "60": {
-       "coverage": 0.7105,
-       "n": 27,
-       "accuracy": 0.8519,
-       "brier": 0.1043
+       "coverage": 0.6842,
+       "n": 26,
+       "accuracy": 0.8462,
+       "brier": 0.1053
       },
       "65": {
-       "coverage": 0.6316,
-       "n": 24,
-       "accuracy": 0.9167,
-       "brier": 0.0803
+       "coverage": 0.6053,
+       "n": 23,
+       "accuracy": 0.913,
+       "brier": 0.0804
       },
       "70": {
-       "coverage": 0.6316,
-       "n": 24,
-       "accuracy": 0.9167,
-       "brier": 0.0803
+       "coverage": 0.6053,
+       "n": 23,
+       "accuracy": 0.913,
+       "brier": 0.0804
       },
       "75": {
        "coverage": 0.5263,
@@ -2261,71 +2263,71 @@
    ],
    "fold_summary": {
     "folds": 5,
-    "median_fold_bss": 0.0125,
-    "worst_fold_bss": -0.0232,
-    "best_fold_bss": 0.0447,
-    "fold_bss_variance": 0.000514,
-    "fraction_folds_beating_market": 0.6
+    "median_fold_bss": 0.008,
+    "worst_fold_bss": -0.0214,
+    "best_fold_bss": 0.0414,
+    "fold_bss_variance": 0.000464,
+    "fraction_folds_beating_market": 0.8
    },
    "lifetime": {
-    "n": 189,
-    "brier": 0.1812,
-    "log_loss": 0.5412,
-    "ece": 0.0639,
-    "calibration_slope": 1.033,
-    "calibration_intercept": 0.038,
-    "market_brier": 0.1831,
-    "bss": 0.0106,
-    "log_loss_market": 0.5468,
+    "n": 190,
+    "brier": 0.1809,
+    "log_loss": 0.5404,
+    "ece": 0.0721,
+    "calibration_slope": 1.035,
+    "calibration_intercept": 0.019,
+    "market_brier": 0.1829,
+    "bss": 0.0109,
+    "log_loss_market": 0.5458,
     "selective": {
      "60": {
-      "coverage": 0.7778,
+      "coverage": 0.7737,
       "n": 147,
       "accuracy": 0.7891,
-      "brier": 0.1576
+      "brier": 0.157
      },
      "65": {
-      "coverage": 0.6614,
+      "coverage": 0.6579,
       "n": 125,
       "accuracy": 0.824,
-      "brier": 0.1427
+      "brier": 0.1421
      },
      "70": {
-      "coverage": 0.5661,
-      "n": 107,
-      "accuracy": 0.8318,
-      "brier": 0.1364
+      "coverage": 0.5684,
+      "n": 108,
+      "accuracy": 0.8333,
+      "brier": 0.1353
      },
      "75": {
-      "coverage": 0.455,
-      "n": 86,
-      "accuracy": 0.8488,
-      "brier": 0.1256
+      "coverage": 0.4579,
+      "n": 87,
+      "accuracy": 0.8506,
+      "brier": 0.1244
      },
      "80": {
-      "coverage": 0.3598,
-      "n": 68,
-      "accuracy": 0.8824,
-      "brier": 0.1053
+      "coverage": 0.3632,
+      "n": 69,
+      "accuracy": 0.8841,
+      "brier": 0.104
      },
      "85": {
-      "coverage": 0.2222,
-      "n": 42,
-      "accuracy": 0.9048,
-      "brier": 0.0885
+      "coverage": 0.2263,
+      "n": 43,
+      "accuracy": 0.907,
+      "brier": 0.0869
      },
      "90": {
-      "coverage": 0.0582,
+      "coverage": 0.0579,
       "n": 11,
       "accuracy": 0.9091,
       "brier": 0.0834
      }
     },
     "economics": {
-     "ev_per_eligible": 2.0019,
-     "pnl_per_fill": 4.3994,
-     "fills": 86,
-     "coverage": 0.455,
+     "ev_per_eligible": 2.0544,
+     "pnl_per_fill": 4.4866,
+     "fills": 87,
+     "coverage": 0.4579,
      "max_drawdown": -2.0
     }
    }
@@ -2353,24 +2355,24 @@
     },
     "label_shuffle": {
      "result": "PASS",
-     "auc_vs_shuffled_labels": 0.5565,
+     "auc_vs_shuffled_labels": 0.5785,
      "expect": "AUC in [0.40, 0.60] \u2014 no association with random labels"
     },
     "prediction_shuffle": {
      "result": "PASS",
-     "auc_shuffled_predictions_vs_labels": 0.5529
+     "auc_shuffled_predictions_vs_labels": 0.4634
     },
     "random_strategy": {
      "result": "PASS",
-     "ev_per_eligible": -0.2436,
-     "pnl_per_fill": -0.2449,
+     "ev_per_eligible": -0.3216,
+     "pnl_per_fill": -0.3232,
      "fills": 195,
      "coverage": 0.9949,
-     "max_drawdown": -48.7804
+     "max_drawdown": -63.6593
     },
     "baselines": {
-     "market_brier": 0.1978,
-     "persistence_brier": 0.4913
+     "market_brier": 0.198,
+     "persistence_brier": 0.4862
     },
     "pit_reconstruction": {
      "result": "NOT_AVAILABLE",
@@ -2380,195 +2382,195 @@
    "folds": [
     {
      "fold_id": 0,
-     "test_start": 1791842400,
-     "test_end": 1791876600,
+     "test_start": 1791843300,
+     "test_end": 1791877500,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.163,
-     "log_loss": 0.5159,
-     "ece": 0.168,
-     "calibration_slope": 1.192,
-     "calibration_intercept": 0.483,
-     "market_brier": 0.184,
-     "bss": 0.114,
-     "log_loss_market": 0.5506,
+     "brier": 0.1613,
+     "log_loss": 0.5095,
+     "ece": 0.1817,
+     "calibration_slope": 1.155,
+     "calibration_intercept": 0.469,
+     "market_brier": 0.182,
+     "bss": 0.1134,
+     "log_loss_market": 0.5465,
      "selective": {
       "60": {
        "coverage": 0.8974,
        "n": 35,
        "accuracy": 0.8286,
-       "brier": 0.154
+       "brier": 0.1521
       },
       "65": {
        "coverage": 0.7436,
        "n": 29,
        "accuracy": 0.7931,
-       "brier": 0.1567
+       "brier": 0.1545
       },
       "70": {
        "coverage": 0.5641,
        "n": 22,
        "accuracy": 0.8636,
-       "brier": 0.1264
+       "brier": 0.1235
       },
       "75": {
-       "coverage": 0.359,
-       "n": 14,
-       "accuracy": 0.9286,
-       "brier": 0.0909
+       "coverage": 0.3846,
+       "n": 15,
+       "accuracy": 0.9333,
+       "brier": 0.085
       },
       "80": {
-       "coverage": 0.2308,
-       "n": 9,
-       "accuracy": 0.8889,
-       "brier": 0.1134
+       "coverage": 0.2564,
+       "n": 10,
+       "accuracy": 0.9,
+       "brier": 0.1023
       },
       "85": {
+       "coverage": 0.1795,
+       "n": 7,
+       "accuracy": 0.8571,
+       "brier": 0.1333
+      },
+      "90": {
        "coverage": 0.1538,
        "n": 6,
        "accuracy": 0.8333,
-       "brier": 0.155
-      },
-      "90": {
-       "coverage": 0.1282,
-       "n": 5,
-       "accuracy": 0.8,
-       "brier": 0.1825
+       "brier": 0.1525
       }
      },
      "economics": {
-      "ev_per_eligible": 0.0788,
-      "pnl_per_fill": 0.2196,
-      "fills": 14,
-      "coverage": 0.359,
+      "ev_per_eligible": 0.0852,
+      "pnl_per_fill": 0.2214,
+      "fills": 15,
+      "coverage": 0.3846,
       "max_drawdown": -1.0
      }
     },
     {
      "fold_id": 1,
-     "test_start": 1791877500,
-     "test_end": 1791942300,
+     "test_start": 1791878400,
+     "test_end": 1791943200,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.1782,
-     "log_loss": 0.5271,
-     "ece": 0.1643,
-     "calibration_slope": 1.117,
-     "calibration_intercept": -0.027,
-     "market_brier": 0.1406,
-     "bss": -0.2674,
-     "log_loss_market": 0.4505,
+     "brier": 0.1825,
+     "log_loss": 0.5394,
+     "ece": 0.1673,
+     "calibration_slope": 1.108,
+     "calibration_intercept": -0.09,
+     "market_brier": 0.1435,
+     "bss": -0.2718,
+     "log_loss_market": 0.4578,
      "selective": {
       "60": {
-       "coverage": 0.7436,
-       "n": 29,
-       "accuracy": 0.7931,
-       "brier": 0.1532
+       "coverage": 0.7179,
+       "n": 28,
+       "accuracy": 0.7857,
+       "brier": 0.1586
       },
       "65": {
-       "coverage": 0.641,
-       "n": 25,
-       "accuracy": 0.84,
-       "brier": 0.1325
+       "coverage": 0.6154,
+       "n": 24,
+       "accuracy": 0.8333,
+       "brier": 0.1379
       },
       "70": {
-       "coverage": 0.5128,
-       "n": 20,
-       "accuracy": 0.85,
-       "brier": 0.1222
+       "coverage": 0.4872,
+       "n": 19,
+       "accuracy": 0.8421,
+       "brier": 0.1285
       },
       "75": {
-       "coverage": 0.4615,
-       "n": 18,
-       "accuracy": 0.8333,
-       "brier": 0.1282
+       "coverage": 0.4359,
+       "n": 17,
+       "accuracy": 0.8235,
+       "brier": 0.1356
       },
       "80": {
-       "coverage": 0.3077,
-       "n": 12,
-       "accuracy": 0.8333,
-       "brier": 0.1237
+       "coverage": 0.2821,
+       "n": 11,
+       "accuracy": 0.8182,
+       "brier": 0.1347
       },
       "85": {
-       "coverage": 0.1795,
-       "n": 7,
+       "coverage": 0.1538,
+       "n": 6,
        "accuracy": 1.0,
-       "brier": 0.0091
+       "brier": 0.0102
       },
       "90": {
-       "coverage": 0.0769,
-       "n": 3,
+       "coverage": 0.0513,
+       "n": 2,
        "accuracy": 1.0,
        "brier": 0.0025
       }
      },
      "economics": {
-      "ev_per_eligible": 0.0149,
-      "pnl_per_fill": 0.0323,
-      "fills": 18,
-      "coverage": 0.4615,
+      "ev_per_eligible": 0.01,
+      "pnl_per_fill": 0.023,
+      "fills": 17,
+      "coverage": 0.4359,
       "max_drawdown": -1.0
      }
     },
     {
      "fold_id": 2,
-     "test_start": 1791943200,
-     "test_end": 1791977400,
+     "test_start": 1791944100,
+     "test_end": 1791978300,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.2318,
-     "log_loss": 0.6508,
-     "ece": 0.1733,
-     "calibration_slope": 0.655,
-     "calibration_intercept": -0.132,
-     "market_brier": 0.2275,
-     "bss": -0.0189,
-     "log_loss_market": 0.6466,
+     "brier": 0.2278,
+     "log_loss": 0.6404,
+     "ece": 0.1601,
+     "calibration_slope": 0.681,
+     "calibration_intercept": -0.061,
+     "market_brier": 0.2243,
+     "bss": -0.0153,
+     "log_loss_market": 0.6382,
      "selective": {
       "60": {
-       "coverage": 0.6154,
-       "n": 24,
-       "accuracy": 0.6667,
-       "brier": 0.2288
+       "coverage": 0.641,
+       "n": 25,
+       "accuracy": 0.68,
+       "brier": 0.2202
       },
       "65": {
-       "coverage": 0.4872,
-       "n": 19,
-       "accuracy": 0.5789,
-       "brier": 0.2523
+       "coverage": 0.5128,
+       "n": 20,
+       "accuracy": 0.6,
+       "brier": 0.2404
       },
       "70": {
-       "coverage": 0.3846,
-       "n": 15,
-       "accuracy": 0.6667,
-       "brier": 0.2237
+       "coverage": 0.4103,
+       "n": 16,
+       "accuracy": 0.6875,
+       "brier": 0.2106
       },
       "75": {
-       "coverage": 0.3077,
-       "n": 12,
-       "accuracy": 0.6667,
-       "brier": 0.2222
+       "coverage": 0.3333,
+       "n": 13,
+       "accuracy": 0.6923,
+       "brier": 0.2062
       },
       "80": {
-       "coverage": 0.2051,
-       "n": 8,
-       "accuracy": 0.75,
-       "brier": 0.1758
+       "coverage": 0.2308,
+       "n": 9,
+       "accuracy": 0.7778,
+       "brier": 0.1579
       },
       "85": {
-       "coverage": 0.1026,
-       "n": 4,
+       "coverage": 0.1282,
+       "n": 5,
        "accuracy": 1.0,
-       "brier": 0.0058
+       "brier": 0.0075
       },
       "90": {
        "coverage": 0.0769,
@@ -2578,66 +2580,66 @@
       }
      },
      "economics": {
-      "ev_per_eligible": -0.0559,
-      "pnl_per_fill": -0.1818,
-      "fills": 12,
-      "coverage": 0.3077,
+      "ev_per_eligible": -0.0524,
+      "pnl_per_fill": -0.1573,
+      "fills": 13,
+      "coverage": 0.3333,
       "max_drawdown": -2.8081
      }
     },
     {
      "fold_id": 3,
-     "test_start": 1791978300,
-     "test_end": 1792013400,
+     "test_start": 1791979200,
+     "test_end": 1792014300,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.2758,
-     "log_loss": 0.7668,
-     "ece": 0.2313,
-     "calibration_slope": 0.273,
-     "calibration_intercept": -0.183,
-     "market_brier": 0.2419,
-     "bss": -0.1403,
-     "log_loss_market": 0.6704,
+     "brier": 0.2879,
+     "log_loss": 0.7942,
+     "ece": 0.2522,
+     "calibration_slope": 0.195,
+     "calibration_intercept": -0.273,
+     "market_brier": 0.258,
+     "bss": -0.1159,
+     "log_loss_market": 0.7086,
      "selective": {
       "60": {
        "coverage": 0.7692,
        "n": 30,
-       "accuracy": 0.5333,
-       "brier": 0.2783
+       "accuracy": 0.5,
+       "brier": 0.2941
       },
       "65": {
        "coverage": 0.6154,
        "n": 24,
-       "accuracy": 0.625,
-       "brier": 0.2581
+       "accuracy": 0.5833,
+       "brier": 0.2778
       },
       "70": {
-       "coverage": 0.5128,
-       "n": 20,
-       "accuracy": 0.65,
-       "brier": 0.2512
+       "coverage": 0.4872,
+       "n": 19,
+       "accuracy": 0.6316,
+       "brier": 0.2636
       },
       "75": {
-       "coverage": 0.4103,
-       "n": 16,
-       "accuracy": 0.625,
-       "brier": 0.2678
+       "coverage": 0.3846,
+       "n": 15,
+       "accuracy": 0.6,
+       "brier": 0.2847
       },
       "80": {
-       "coverage": 0.2821,
-       "n": 11,
-       "accuracy": 0.7273,
-       "brier": 0.2206
+       "coverage": 0.2564,
+       "n": 10,
+       "accuracy": 0.7,
+       "brier": 0.2412
       },
       "85": {
-       "coverage": 0.1538,
-       "n": 6,
-       "accuracy": 0.6667,
-       "brier": 0.2759
+       "coverage": 0.1282,
+       "n": 5,
+       "accuracy": 0.6,
+       "brier": 0.3283
       },
       "90": {
        "coverage": 0.1026,
@@ -2647,42 +2649,42 @@
       }
      },
      "economics": {
-      "ev_per_eligible": -0.0993,
-      "pnl_per_fill": -0.2422,
-      "fills": 16,
-      "coverage": 0.4103,
+      "ev_per_eligible": -0.1028,
+      "pnl_per_fill": -0.2674,
+      "fills": 15,
+      "coverage": 0.3846,
       "max_drawdown": -4.0386
      }
     },
     {
      "fold_id": 4,
-     "test_start": 1792014300,
-     "test_end": 1792056600,
+     "test_start": 1792015200,
+     "test_end": 1792057500,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 40,
-     "brier": 0.179,
-     "log_loss": 0.5301,
-     "ece": 0.2052,
-     "calibration_slope": 0.988,
-     "calibration_intercept": -0.124,
-     "market_brier": 0.1937,
-     "bss": 0.0758,
-     "log_loss_market": 0.5665,
+     "brier": 0.1713,
+     "log_loss": 0.5138,
+     "ece": 0.1746,
+     "calibration_slope": 1.08,
+     "calibration_intercept": -0.072,
+     "market_brier": 0.1814,
+     "bss": 0.0559,
+     "log_loss_market": 0.5381,
      "selective": {
       "60": {
-       "coverage": 0.85,
-       "n": 34,
-       "accuracy": 0.7353,
-       "brier": 0.1721
+       "coverage": 0.825,
+       "n": 33,
+       "accuracy": 0.7576,
+       "brier": 0.1626
       },
       "65": {
-       "coverage": 0.675,
-       "n": 27,
-       "accuracy": 0.8148,
-       "brier": 0.1443
+       "coverage": 0.65,
+       "n": 26,
+       "accuracy": 0.8462,
+       "brier": 0.1311
       },
       "70": {
        "coverage": 0.575,
@@ -2726,40 +2728,40 @@
    ],
    "fold_summary": {
     "folds": 5,
-    "median_fold_bss": -0.0189,
-    "worst_fold_bss": -0.2674,
-    "best_fold_bss": 0.114,
-    "fold_bss_variance": 0.019814,
+    "median_fold_bss": -0.0153,
+    "worst_fold_bss": -0.2718,
+    "best_fold_bss": 0.1134,
+    "fold_bss_variance": 0.018521,
     "fraction_folds_beating_market": 0.4
    },
    "lifetime": {
     "n": 196,
-    "brier": 0.2054,
-    "log_loss": 0.5978,
-    "ece": 0.0701,
-    "calibration_slope": 0.792,
-    "calibration_intercept": -0.039,
-    "market_brier": 0.1978,
-    "bss": -0.0386,
-    "log_loss_market": 0.5775,
+    "brier": 0.206,
+    "log_loss": 0.599,
+    "ece": 0.0723,
+    "calibration_slope": 0.788,
+    "calibration_intercept": -0.053,
+    "market_brier": 0.198,
+    "bss": -0.0401,
+    "log_loss_market": 0.5783,
     "selective": {
      "60": {
-      "coverage": 0.7755,
-      "n": 152,
-      "accuracy": 0.7171,
-      "brier": 0.1942
+      "coverage": 0.7704,
+      "n": 151,
+      "accuracy": 0.7152,
+      "brier": 0.1951
      },
      "65": {
-      "coverage": 0.6327,
-      "n": 124,
-      "accuracy": 0.7419,
-      "brier": 0.1834
+      "coverage": 0.6276,
+      "n": 123,
+      "accuracy": 0.7398,
+      "brier": 0.1843
      },
      "70": {
-      "coverage": 0.5102,
-      "n": 100,
-      "accuracy": 0.79,
-      "brier": 0.1637
+      "coverage": 0.5051,
+      "n": 99,
+      "accuracy": 0.7879,
+      "brier": 0.1647
      },
      "75": {
       "coverage": 0.4031,
@@ -2787,8 +2789,8 @@
      }
     },
     "economics": {
-     "ev_per_eligible": -0.0025,
-     "pnl_per_fill": -0.0062,
+     "ev_per_eligible": -0.0022,
+     "pnl_per_fill": -0.0055,
      "fills": 79,
      "coverage": 0.4031,
      "max_drawdown": -8.3961
@@ -2818,24 +2820,24 @@
     },
     "label_shuffle": {
      "result": "PASS",
-     "auc_vs_shuffled_labels": 0.5377,
+     "auc_vs_shuffled_labels": 0.5799,
      "expect": "AUC in [0.40, 0.60] \u2014 no association with random labels"
     },
     "prediction_shuffle": {
      "result": "PASS",
-     "auc_shuffled_predictions_vs_labels": 0.5471
+     "auc_shuffled_predictions_vs_labels": 0.4606
     },
     "random_strategy": {
      "result": "PASS",
-     "ev_per_eligible": -0.2738,
-     "pnl_per_fill": -0.2752,
+     "ev_per_eligible": -0.3739,
+     "pnl_per_fill": -0.3758,
      "fills": 195,
      "coverage": 0.9949,
-     "max_drawdown": -54.6887
+     "max_drawdown": -73.9163
     },
     "baselines": {
-     "market_brier": 0.1978,
-     "persistence_brier": 0.4913
+     "market_brier": 0.198,
+     "persistence_brier": 0.4862
     },
     "pit_reconstruction": {
      "result": "NOT_AVAILABLE",
@@ -2845,126 +2847,126 @@
    "folds": [
     {
      "fold_id": 0,
-     "test_start": 1791842400,
-     "test_end": 1791876600,
+     "test_start": 1791843300,
+     "test_end": 1791877500,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.1791,
-     "log_loss": 0.5444,
-     "ece": 0.2276,
-     "calibration_slope": 1.352,
-     "calibration_intercept": 0.844,
-     "market_brier": 0.184,
-     "bss": 0.0263,
-     "log_loss_market": 0.5506,
+     "brier": 0.1768,
+     "log_loss": 0.5377,
+     "ece": 0.2297,
+     "calibration_slope": 1.318,
+     "calibration_intercept": 0.82,
+     "market_brier": 0.182,
+     "bss": 0.0282,
+     "log_loss_market": 0.5465,
      "selective": {
       "60": {
        "coverage": 0.8718,
        "n": 34,
        "accuracy": 0.7941,
-       "brier": 0.1664
+       "brier": 0.1637
       },
       "65": {
        "coverage": 0.6923,
        "n": 27,
        "accuracy": 0.8519,
-       "brier": 0.1464
+       "brier": 0.143
       },
       "70": {
-       "coverage": 0.5385,
-       "n": 21,
-       "accuracy": 0.8571,
-       "brier": 0.14
+       "coverage": 0.5641,
+       "n": 22,
+       "accuracy": 0.8636,
+       "brier": 0.1342
       },
       "75": {
-       "coverage": 0.3077,
-       "n": 12,
-       "accuracy": 0.8333,
-       "brier": 0.1463
+       "coverage": 0.3333,
+       "n": 13,
+       "accuracy": 0.8462,
+       "brier": 0.136
       },
       "80": {
-       "coverage": 0.1795,
-       "n": 7,
-       "accuracy": 0.8571,
-       "brier": 0.131
+       "coverage": 0.2051,
+       "n": 8,
+       "accuracy": 0.875,
+       "brier": 0.1162
       },
       "85": {
-       "coverage": 0.1282,
-       "n": 5,
-       "accuracy": 0.8,
-       "brier": 0.1686
+       "coverage": 0.1538,
+       "n": 6,
+       "accuracy": 0.8333,
+       "brier": 0.1426
       },
       "90": {
        "coverage": 0.1026,
        "n": 4,
        "accuracy": 0.75,
-       "brier": 0.2069
+       "brier": 0.2072
       }
      },
      "economics": {
-      "ev_per_eligible": 0.0024,
-      "pnl_per_fill": 0.0079,
-      "fills": 12,
-      "coverage": 0.3077,
+      "ev_per_eligible": 0.0088,
+      "pnl_per_fill": 0.0263,
+      "fills": 13,
+      "coverage": 0.3333,
       "max_drawdown": -1.75
      }
     },
     {
      "fold_id": 1,
-     "test_start": 1791877500,
-     "test_end": 1791942300,
+     "test_start": 1791878400,
+     "test_end": 1791943200,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.1436,
-     "log_loss": 0.4535,
-     "ece": 0.2137,
-     "calibration_slope": 1.705,
-     "calibration_intercept": 0.175,
-     "market_brier": 0.1406,
-     "bss": -0.0214,
-     "log_loss_market": 0.4505,
+     "brier": 0.1466,
+     "log_loss": 0.4619,
+     "ece": 0.2491,
+     "calibration_slope": 1.725,
+     "calibration_intercept": 0.119,
+     "market_brier": 0.1435,
+     "bss": -0.0215,
+     "log_loss_market": 0.4578,
      "selective": {
       "60": {
        "coverage": 0.8205,
        "n": 32,
        "accuracy": 0.8438,
-       "brier": 0.1268
+       "brier": 0.1305
       },
       "65": {
-       "coverage": 0.641,
-       "n": 25,
-       "accuracy": 0.92,
-       "brier": 0.0954
+       "coverage": 0.6154,
+       "n": 24,
+       "accuracy": 0.9167,
+       "brier": 0.0989
       },
       "70": {
-       "coverage": 0.5385,
-       "n": 21,
-       "accuracy": 0.9048,
-       "brier": 0.093
+       "coverage": 0.5128,
+       "n": 20,
+       "accuracy": 0.9,
+       "brier": 0.097
       },
       "75": {
-       "coverage": 0.4359,
-       "n": 17,
-       "accuracy": 0.8824,
-       "brier": 0.0974
+       "coverage": 0.4103,
+       "n": 16,
+       "accuracy": 0.875,
+       "brier": 0.1028
       },
       "80": {
-       "coverage": 0.359,
-       "n": 14,
-       "accuracy": 0.9286,
-       "brier": 0.0681
+       "coverage": 0.3333,
+       "n": 13,
+       "accuracy": 0.9231,
+       "brier": 0.0724
       },
       "85": {
-       "coverage": 0.1538,
-       "n": 6,
+       "coverage": 0.1282,
+       "n": 5,
        "accuracy": 1.0,
-       "brier": 0.0104
+       "brier": 0.0101
       },
       "90": {
        "coverage": 0.0769,
@@ -2974,66 +2976,66 @@
       }
      },
      "economics": {
-      "ev_per_eligible": 0.027,
-      "pnl_per_fill": 0.0621,
-      "fills": 17,
-      "coverage": 0.4359,
+      "ev_per_eligible": 0.0222,
+      "pnl_per_fill": 0.054,
+      "fills": 16,
+      "coverage": 0.4103,
       "max_drawdown": -1.0
      }
     },
     {
      "fold_id": 2,
-     "test_start": 1791943200,
-     "test_end": 1791977400,
+     "test_start": 1791944100,
+     "test_end": 1791978300,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.2289,
-     "log_loss": 0.6502,
-     "ece": 0.229,
-     "calibration_slope": 0.649,
-     "calibration_intercept": -0.027,
-     "market_brier": 0.2275,
-     "bss": -0.0061,
-     "log_loss_market": 0.6466,
+     "brier": 0.2259,
+     "log_loss": 0.6419,
+     "ece": 0.2345,
+     "calibration_slope": 0.672,
+     "calibration_intercept": 0.044,
+     "market_brier": 0.2243,
+     "bss": -0.0071,
+     "log_loss_market": 0.6382,
      "selective": {
       "60": {
        "coverage": 0.7179,
        "n": 28,
        "accuracy": 0.6429,
-       "brier": 0.239
+       "brier": 0.2349
       },
       "65": {
-       "coverage": 0.5385,
-       "n": 21,
-       "accuracy": 0.619,
-       "brier": 0.2466
+       "coverage": 0.5641,
+       "n": 22,
+       "accuracy": 0.6364,
+       "brier": 0.236
       },
       "70": {
-       "coverage": 0.3846,
-       "n": 15,
-       "accuracy": 0.6667,
-       "brier": 0.2341
+       "coverage": 0.4103,
+       "n": 16,
+       "accuracy": 0.6875,
+       "brier": 0.2202
       },
       "75": {
-       "coverage": 0.2564,
-       "n": 10,
-       "accuracy": 0.7,
-       "brier": 0.2173
+       "coverage": 0.2821,
+       "n": 11,
+       "accuracy": 0.7273,
+       "brier": 0.1987
       },
       "80": {
-       "coverage": 0.2051,
-       "n": 8,
-       "accuracy": 0.625,
-       "brier": 0.2609
+       "coverage": 0.2308,
+       "n": 9,
+       "accuracy": 0.6667,
+       "brier": 0.2334
       },
       "85": {
-       "coverage": 0.1282,
-       "n": 5,
+       "coverage": 0.1538,
+       "n": 6,
        "accuracy": 1.0,
-       "brier": 0.0105
+       "brier": 0.0109
       },
       "90": {
        "coverage": 0.0513,
@@ -3043,66 +3045,66 @@
       }
      },
      "economics": {
-      "ev_per_eligible": -0.046,
-      "pnl_per_fill": -0.1794,
-      "fills": 10,
-      "coverage": 0.2564,
+      "ev_per_eligible": -0.0425,
+      "pnl_per_fill": -0.1507,
+      "fills": 11,
+      "coverage": 0.2821,
       "max_drawdown": -2.6264
      }
     },
     {
      "fold_id": 3,
-     "test_start": 1791978300,
-     "test_end": 1792013400,
+     "test_start": 1791979200,
+     "test_end": 1792014300,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.2517,
-     "log_loss": 0.6901,
-     "ece": 0.2096,
-     "calibration_slope": 0.492,
-     "calibration_intercept": -0.182,
-     "market_brier": 0.2419,
-     "bss": -0.0405,
-     "log_loss_market": 0.6704,
+     "brier": 0.267,
+     "log_loss": 0.7259,
+     "ece": 0.2065,
+     "calibration_slope": 0.358,
+     "calibration_intercept": -0.272,
+     "market_brier": 0.258,
+     "bss": -0.0347,
+     "log_loss_market": 0.7086,
      "selective": {
       "60": {
        "coverage": 0.7179,
        "n": 28,
-       "accuracy": 0.5714,
-       "brier": 0.2476
+       "accuracy": 0.5357,
+       "brier": 0.2689
       },
       "65": {
        "coverage": 0.5385,
        "n": 21,
-       "accuracy": 0.619,
-       "brier": 0.2323
+       "accuracy": 0.5714,
+       "brier": 0.2608
       },
       "70": {
        "coverage": 0.4872,
        "n": 19,
-       "accuracy": 0.6842,
-       "brier": 0.211
+       "accuracy": 0.6316,
+       "brier": 0.2425
       },
       "75": {
        "coverage": 0.359,
        "n": 14,
-       "accuracy": 0.7143,
-       "brier": 0.1958
+       "accuracy": 0.6429,
+       "brier": 0.2385
       },
       "80": {
-       "coverage": 0.1795,
-       "n": 7,
+       "coverage": 0.1538,
+       "n": 6,
        "accuracy": 1.0,
-       "brier": 0.0176
+       "brier": 0.0184
       },
       "85": {
-       "coverage": 0.1282,
-       "n": 5,
+       "coverage": 0.1026,
+       "n": 4,
        "accuracy": 1.0,
-       "brier": 0.0132
+       "brier": 0.0133
       },
       "90": {
        "coverage": 0.0256,
@@ -3112,54 +3114,54 @@
       }
      },
      "economics": {
-      "ev_per_eligible": -0.0499,
-      "pnl_per_fill": -0.139,
+      "ev_per_eligible": -0.079,
+      "pnl_per_fill": -0.2201,
       "fills": 14,
       "coverage": 0.359,
-      "max_drawdown": -2.5196
+      "max_drawdown": -3.2209
      }
     },
     {
      "fold_id": 4,
-     "test_start": 1792014300,
-     "test_end": 1792056600,
+     "test_start": 1792015200,
+     "test_end": 1792057500,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 40,
-     "brier": 0.1871,
-     "log_loss": 0.5492,
-     "ece": 0.1731,
-     "calibration_slope": 1.086,
-     "calibration_intercept": -0.193,
-     "market_brier": 0.1937,
-     "bss": 0.034,
-     "log_loss_market": 0.5665,
+     "brier": 0.1755,
+     "log_loss": 0.5232,
+     "ece": 0.1439,
+     "calibration_slope": 1.27,
+     "calibration_intercept": -0.124,
+     "market_brier": 0.1814,
+     "bss": 0.0325,
+     "log_loss_market": 0.5381,
      "selective": {
       "60": {
        "coverage": 0.825,
        "n": 33,
-       "accuracy": 0.7576,
-       "brier": 0.1716
+       "accuracy": 0.7879,
+       "brier": 0.1575
       },
       "65": {
-       "coverage": 0.725,
-       "n": 29,
-       "accuracy": 0.7586,
-       "brier": 0.1661
+       "coverage": 0.7,
+       "n": 28,
+       "accuracy": 0.7857,
+       "brier": 0.1503
       },
       "70": {
-       "coverage": 0.6,
-       "n": 24,
-       "accuracy": 0.7917,
-       "brier": 0.1499
+       "coverage": 0.575,
+       "n": 23,
+       "accuracy": 0.8261,
+       "brier": 0.1299
       },
       "75": {
-       "coverage": 0.4,
-       "n": 16,
-       "accuracy": 0.875,
-       "brier": 0.1036
+       "coverage": 0.375,
+       "n": 15,
+       "accuracy": 0.9333,
+       "brier": 0.0698
       },
       "80": {
        "coverage": 0.225,
@@ -3181,44 +3183,44 @@
       }
      },
      "economics": {
-      "ev_per_eligible": 0.0226,
-      "pnl_per_fill": 0.0564,
-      "fills": 16,
-      "coverage": 0.4,
-      "max_drawdown": -2.0
+      "ev_per_eligible": 0.0476,
+      "pnl_per_fill": 0.1268,
+      "fills": 15,
+      "coverage": 0.375,
+      "max_drawdown": -1.0
      }
     }
    ],
    "fold_summary": {
     "folds": 5,
-    "median_fold_bss": -0.0061,
-    "worst_fold_bss": -0.0405,
-    "best_fold_bss": 0.034,
-    "fold_bss_variance": 0.000794,
+    "median_fold_bss": -0.0071,
+    "worst_fold_bss": -0.0347,
+    "best_fold_bss": 0.0325,
+    "fold_bss_variance": 0.000713,
     "fraction_folds_beating_market": 0.4
    },
    "lifetime": {
     "n": 196,
-    "brier": 0.198,
-    "log_loss": 0.5773,
-    "ece": 0.0597,
-    "calibration_slope": 0.964,
-    "calibration_intercept": 0.059,
-    "market_brier": 0.1978,
-    "bss": -0.0012,
-    "log_loss_market": 0.5775,
+    "brier": 0.1983,
+    "log_loss": 0.5779,
+    "ece": 0.064,
+    "calibration_slope": 0.962,
+    "calibration_intercept": 0.043,
+    "market_brier": 0.198,
+    "bss": -0.0011,
+    "log_loss_market": 0.5783,
     "selective": {
      "60": {
       "coverage": 0.7908,
       "n": 155,
       "accuracy": 0.729,
-      "brier": 0.1871
+      "brier": 0.1874
      },
      "65": {
-      "coverage": 0.6276,
-      "n": 123,
-      "accuracy": 0.7642,
-      "brier": 0.1725
+      "coverage": 0.6224,
+      "n": 122,
+      "accuracy": 0.7623,
+      "brier": 0.173
      },
      "70": {
       "coverage": 0.5102,
@@ -3242,7 +3244,7 @@
       "coverage": 0.1378,
       "n": 27,
       "accuracy": 0.963,
-      "brier": 0.0408
+      "brier": 0.0409
      },
      "90": {
       "coverage": 0.0612,
@@ -3252,8 +3254,8 @@
      }
     },
     "economics": {
-     "ev_per_eligible": -0.0086,
-     "pnl_per_fill": -0.0245,
+     "ev_per_eligible": -0.0083,
+     "pnl_per_fill": -0.0236,
      "fills": 69,
      "coverage": 0.352,
      "max_drawdown": -6.7398
@@ -3283,24 +3285,24 @@
     },
     "label_shuffle": {
      "result": "PASS",
-     "auc_vs_shuffled_labels": 0.5166,
+     "auc_vs_shuffled_labels": 0.5321,
      "expect": "AUC in [0.40, 0.60] \u2014 no association with random labels"
     },
     "prediction_shuffle": {
      "result": "PASS",
-     "auc_shuffled_predictions_vs_labels": 0.5627
+     "auc_shuffled_predictions_vs_labels": 0.4864
     },
     "random_strategy": {
      "result": "PASS",
-     "ev_per_eligible": -0.2428,
-     "pnl_per_fill": -0.2441,
+     "ev_per_eligible": -0.3577,
+     "pnl_per_fill": -0.3595,
      "fills": 195,
      "coverage": 0.9949,
-     "max_drawdown": -49.2608
+     "max_drawdown": -70.7405
     },
     "baselines": {
-     "market_brier": 0.1978,
-     "persistence_brier": 0.4913
+     "market_brier": 0.198,
+     "persistence_brier": 0.4862
     },
     "pit_reconstruction": {
      "result": "NOT_AVAILABLE",
@@ -3310,195 +3312,126 @@
    "folds": [
     {
      "fold_id": 0,
-     "test_start": 1791842400,
-     "test_end": 1791876600,
+     "test_start": 1791843300,
+     "test_end": 1791877500,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.1766,
-     "log_loss": 0.5277,
-     "ece": 0.1642,
-     "calibration_slope": 1.094,
-     "calibration_intercept": 0.484,
-     "market_brier": 0.184,
-     "bss": 0.04,
-     "log_loss_market": 0.5506,
+     "brier": 0.1737,
+     "log_loss": 0.5211,
+     "ece": 0.1437,
+     "calibration_slope": 1.086,
+     "calibration_intercept": 0.474,
+     "market_brier": 0.182,
+     "bss": 0.0453,
+     "log_loss_market": 0.5465,
      "selective": {
       "60": {
        "coverage": 0.7436,
        "n": 29,
        "accuracy": 0.8276,
-       "brier": 0.1489
-      },
-      "65": {
-       "coverage": 0.6154,
-       "n": 24,
-       "accuracy": 0.8333,
-       "brier": 0.1398
-      },
-      "70": {
-       "coverage": 0.4872,
-       "n": 19,
-       "accuracy": 0.8421,
-       "brier": 0.1315
-      },
-      "75": {
-       "coverage": 0.4103,
-       "n": 16,
-       "accuracy": 0.8125,
-       "brier": 0.1416
-      },
-      "80": {
-       "coverage": 0.3333,
-       "n": 13,
-       "accuracy": 0.9231,
-       "brier": 0.0766
-      },
-      "85": {
-       "coverage": 0.1795,
-       "n": 7,
-       "accuracy": 0.8571,
-       "brier": 0.1141
-      },
-      "90": {
-       "coverage": 0.1026,
-       "n": 4,
-       "accuracy": 1.0,
-       "brier": 0.0025
-      }
-     },
-     "economics": {
-      "ev_per_eligible": 0.0289,
-      "pnl_per_fill": 0.0706,
-      "fills": 16,
-      "coverage": 0.4103,
-      "max_drawdown": -1.3291
-     }
-    },
-    {
-     "fold_id": 1,
-     "test_start": 1791877500,
-     "test_end": 1791942300,
-     "train_start": null,
-     "train_end": null,
-     "train_n": null,
-     "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
-     "n": 39,
-     "brier": 0.1645,
-     "log_loss": 0.5076,
-     "ece": 0.1712,
-     "calibration_slope": 1.812,
-     "calibration_intercept": 0.228,
-     "market_brier": 0.1406,
-     "bss": -0.1696,
-     "log_loss_market": 0.4505,
-     "selective": {
-      "60": {
-       "coverage": 0.7692,
-       "n": 30,
-       "accuracy": 0.8333,
-       "brier": 0.1456
+       "brier": 0.1451
       },
       "65": {
        "coverage": 0.641,
        "n": 25,
        "accuracy": 0.84,
-       "brier": 0.138
+       "brier": 0.1354
       },
       "70": {
+       "coverage": 0.5128,
+       "n": 20,
+       "accuracy": 0.85,
+       "brier": 0.1264
+      },
+      "75": {
+       "coverage": 0.4359,
+       "n": 17,
+       "accuracy": 0.8235,
+       "brier": 0.1349
+      },
+      "80": {
        "coverage": 0.359,
        "n": 14,
        "accuracy": 0.9286,
-       "brier": 0.0905
+       "brier": 0.0732
       },
-      "75": {
-       "coverage": 0.2821,
-       "n": 11,
-       "accuracy": 0.9091,
-       "brier": 0.0939
-      },
-      "80": {
+      "85": {
        "coverage": 0.2051,
        "n": 8,
        "accuracy": 0.875,
-       "brier": 0.1086
-      },
-      "85": {
-       "coverage": 0.1026,
-       "n": 4,
-       "accuracy": 1.0,
-       "brier": 0.0158
+       "brier": 0.1034
       },
       "90": {
-       "coverage": 0.0256,
-       "n": 1,
+       "coverage": 0.0769,
+       "n": 3,
        "accuracy": 1.0,
        "brier": 0.0025
       }
      },
      "economics": {
-      "ev_per_eligible": 0.0287,
-      "pnl_per_fill": 0.1019,
-      "fills": 11,
-      "coverage": 0.2821,
-      "max_drawdown": -1.0
+      "ev_per_eligible": 0.0353,
+      "pnl_per_fill": 0.0809,
+      "fills": 17,
+      "coverage": 0.4359,
+      "max_drawdown": -1.3291
      }
     },
     {
-     "fold_id": 2,
-     "test_start": 1791943200,
-     "test_end": 1791977400,
+     "fold_id": 1,
+     "test_start": 1791878400,
+     "test_end": 1791943200,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.2313,
-     "log_loss": 0.6531,
-     "ece": 0.1866,
-     "calibration_slope": 0.686,
-     "calibration_intercept": 0.012,
-     "market_brier": 0.2275,
-     "bss": -0.0168,
-     "log_loss_market": 0.6466,
+     "brier": 0.1676,
+     "log_loss": 0.5159,
+     "ece": 0.1897,
+     "calibration_slope": 1.825,
+     "calibration_intercept": 0.174,
+     "market_brier": 0.1435,
+     "bss": -0.1678,
+     "log_loss_market": 0.4578,
      "selective": {
       "60": {
-       "coverage": 0.6667,
-       "n": 26,
-       "accuracy": 0.6538,
-       "brier": 0.2275
+       "coverage": 0.7692,
+       "n": 30,
+       "accuracy": 0.8333,
+       "brier": 0.1497
       },
       "65": {
-       "coverage": 0.4359,
-       "n": 17,
-       "accuracy": 0.6471,
-       "brier": 0.2302
+       "coverage": 0.6154,
+       "n": 24,
+       "accuracy": 0.8333,
+       "brier": 0.143
       },
       "70": {
-       "coverage": 0.3077,
-       "n": 12,
-       "accuracy": 0.6667,
-       "brier": 0.2227
+       "coverage": 0.3333,
+       "n": 13,
+       "accuracy": 0.9231,
+       "brier": 0.0961
       },
       "75": {
-       "coverage": 0.2308,
-       "n": 9,
-       "accuracy": 0.7778,
-       "brier": 0.1731
+       "coverage": 0.2564,
+       "n": 10,
+       "accuracy": 0.9,
+       "brier": 0.1015
       },
       "80": {
        "coverage": 0.1795,
        "n": 7,
-       "accuracy": 0.7143,
-       "brier": 0.2079
+       "accuracy": 0.8571,
+       "brier": 0.1215
       },
       "85": {
        "coverage": 0.0769,
        "n": 3,
        "accuracy": 1.0,
-       "brier": 0.0087
+       "brier": 0.0151
       },
       "90": {
        "coverage": 0.0256,
@@ -3508,66 +3441,135 @@
       }
      },
      "economics": {
-      "ev_per_eligible": -0.0195,
-      "pnl_per_fill": -0.0847,
-      "fills": 9,
-      "coverage": 0.2308,
-      "max_drawdown": -1.6264
+      "ev_per_eligible": 0.0239,
+      "pnl_per_fill": 0.0931,
+      "fills": 10,
+      "coverage": 0.2564,
+      "max_drawdown": -1.0
      }
     },
     {
-     "fold_id": 3,
-     "test_start": 1791978300,
-     "test_end": 1792013400,
+     "fold_id": 2,
+     "test_start": 1791944100,
+     "test_end": 1791978300,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 39,
-     "brier": 0.2827,
-     "log_loss": 0.7827,
-     "ece": 0.2068,
-     "calibration_slope": 0.241,
-     "calibration_intercept": -0.218,
-     "market_brier": 0.2419,
-     "bss": -0.1687,
-     "log_loss_market": 0.6704,
+     "brier": 0.228,
+     "log_loss": 0.6442,
+     "ece": 0.1545,
+     "calibration_slope": 0.717,
+     "calibration_intercept": 0.084,
+     "market_brier": 0.2243,
+     "bss": -0.0165,
+     "log_loss_market": 0.6382,
+     "selective": {
+      "60": {
+       "coverage": 0.6667,
+       "n": 26,
+       "accuracy": 0.6538,
+       "brier": 0.2226
+      },
+      "65": {
+       "coverage": 0.4615,
+       "n": 18,
+       "accuracy": 0.6667,
+       "brier": 0.2181
+      },
+      "70": {
+       "coverage": 0.3333,
+       "n": 13,
+       "accuracy": 0.6923,
+       "brier": 0.2066
+      },
+      "75": {
+       "coverage": 0.2564,
+       "n": 10,
+       "accuracy": 0.8,
+       "brier": 0.1571
+      },
+      "80": {
+       "coverage": 0.2051,
+       "n": 8,
+       "accuracy": 0.75,
+       "brier": 0.1836
+      },
+      "85": {
+       "coverage": 0.1026,
+       "n": 4,
+       "accuracy": 1.0,
+       "brier": 0.0099
+      },
+      "90": {
+       "coverage": 0.0256,
+       "n": 1,
+       "accuracy": 1.0,
+       "brier": 0.0025
+      }
+     },
+     "economics": {
+      "ev_per_eligible": -0.016,
+      "pnl_per_fill": -0.0626,
+      "fills": 10,
+      "coverage": 0.2564,
+      "max_drawdown": -1.6264
+     }
+    },
+    {
+     "fold_id": 3,
+     "test_start": 1791979200,
+     "test_end": 1792014300,
+     "train_start": null,
+     "train_end": null,
+     "train_n": null,
+     "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
+     "n": 39,
+     "brier": 0.2955,
+     "log_loss": 0.8117,
+     "ece": 0.2281,
+     "calibration_slope": 0.155,
+     "calibration_intercept": -0.294,
+     "market_brier": 0.258,
+     "bss": -0.145,
+     "log_loss_market": 0.7086,
      "selective": {
       "60": {
        "coverage": 0.7692,
        "n": 30,
-       "accuracy": 0.5,
-       "brier": 0.3049
+       "accuracy": 0.4667,
+       "brier": 0.3215
       },
       "65": {
        "coverage": 0.641,
        "n": 25,
-       "accuracy": 0.52,
-       "brier": 0.3069
+       "accuracy": 0.48,
+       "brier": 0.3268
       },
       "70": {
        "coverage": 0.4872,
        "n": 19,
-       "accuracy": 0.5789,
-       "brier": 0.2957
+       "accuracy": 0.5263,
+       "brier": 0.3219
       },
       "75": {
-       "coverage": 0.3333,
-       "n": 13,
-       "accuracy": 0.6154,
-       "brier": 0.2972
+       "coverage": 0.3077,
+       "n": 12,
+       "accuracy": 0.5833,
+       "brier": 0.3209
       },
       "80": {
-       "coverage": 0.2821,
-       "n": 11,
-       "accuracy": 0.5455,
-       "brier": 0.3422
+       "coverage": 0.2564,
+       "n": 10,
+       "accuracy": 0.5,
+       "brier": 0.3751
       },
       "85": {
-       "coverage": 0.1538,
-       "n": 6,
-       "accuracy": 0.6667,
-       "brier": 0.2712
+       "coverage": 0.1282,
+       "n": 5,
+       "accuracy": 0.6,
+       "brier": 0.3228
       },
       "90": {
        "coverage": 0.0513,
@@ -3577,48 +3579,48 @@
       }
      },
      "economics": {
-      "ev_per_eligible": -0.0927,
-      "pnl_per_fill": -0.278,
-      "fills": 13,
-      "coverage": 0.3333,
+      "ev_per_eligible": -0.0962,
+      "pnl_per_fill": -0.3126,
+      "fills": 12,
+      "coverage": 0.3077,
       "max_drawdown": -4.0771
      }
     },
     {
      "fold_id": 4,
-     "test_start": 1792014300,
-     "test_end": 1792056600,
+     "test_start": 1792015200,
+     "test_end": 1792057500,
      "train_start": null,
      "train_end": null,
      "train_n": null,
      "note": "prequential stream \u2014 the model trained only on data before each prediction by construction",
      "n": 40,
-     "brier": 0.1894,
-     "log_loss": 0.5544,
-     "ece": 0.2167,
-     "calibration_slope": 1.249,
-     "calibration_intercept": -0.655,
-     "market_brier": 0.1937,
-     "bss": 0.0219,
-     "log_loss_market": 0.5665,
+     "brier": 0.1802,
+     "log_loss": 0.5348,
+     "ece": 0.1755,
+     "calibration_slope": 1.352,
+     "calibration_intercept": -0.628,
+     "market_brier": 0.1814,
+     "bss": 0.0067,
+     "log_loss_market": 0.5381,
      "selective": {
       "60": {
        "coverage": 0.725,
        "n": 29,
-       "accuracy": 0.7586,
-       "brier": 0.1693
+       "accuracy": 0.7931,
+       "brier": 0.1565
       },
       "65": {
-       "coverage": 0.6,
-       "n": 24,
-       "accuracy": 0.75,
-       "brier": 0.1681
+       "coverage": 0.575,
+       "n": 23,
+       "accuracy": 0.7826,
+       "brier": 0.1532
       },
       "70": {
-       "coverage": 0.55,
-       "n": 22,
-       "accuracy": 0.8182,
-       "brier": 0.1419
+       "coverage": 0.525,
+       "n": 21,
+       "accuracy": 0.8571,
+       "brier": 0.1243
       },
       "75": {
        "coverage": 0.375,
@@ -3656,69 +3658,69 @@
    ],
    "fold_summary": {
     "folds": 5,
-    "median_fold_bss": -0.0168,
-    "worst_fold_bss": -0.1696,
-    "best_fold_bss": 0.04,
-    "fold_bss_variance": 0.008478,
+    "median_fold_bss": -0.0165,
+    "worst_fold_bss": -0.1678,
+    "best_fold_bss": 0.0453,
+    "fold_bss_variance": 0.007234,
     "fraction_folds_beating_market": 0.4
    },
    "lifetime": {
     "n": 196,
     "brier": 0.2088,
-    "log_loss": 0.6048,
-    "ece": 0.1016,
-    "calibration_slope": 0.843,
-    "calibration_intercept": -0.082,
-    "market_brier": 0.1978,
-    "bss": -0.0556,
-    "log_loss_market": 0.5775,
+    "log_loss": 0.6052,
+    "ece": 0.097,
+    "calibration_slope": 0.847,
+    "calibration_intercept": -0.096,
+    "market_brier": 0.198,
+    "bss": -0.0546,
+    "log_loss_market": 0.5783,
     "selective": {
      "60": {
       "coverage": 0.7347,
       "n": 144,
       "accuracy": 0.7153,
-      "brier": 0.199
+      "brier": 0.1991
      },
      "65": {
       "coverage": 0.5867,
       "n": 115,
       "accuracy": 0.7217,
-      "brier": 0.195
+      "brier": 0.1951
      },
      "70": {
       "coverage": 0.4388,
       "n": 86,
       "accuracy": 0.7674,
-      "brier": 0.1765
+      "brier": 0.1766
      },
      "75": {
       "coverage": 0.3265,
       "n": 64,
       "accuracy": 0.7812,
-      "brier": 0.1699
+      "brier": 0.1701
      },
      "80": {
       "coverage": 0.2551,
       "n": 50,
       "accuracy": 0.8,
-      "brier": 0.1589
+      "brier": 0.1591
      },
      "85": {
       "coverage": 0.1276,
       "n": 25,
       "accuracy": 0.88,
-      "brier": 0.1024
+      "brier": 0.1028
      },
      "90": {
-      "coverage": 0.051,
-      "n": 10,
+      "coverage": 0.0459,
+      "n": 9,
       "accuracy": 1.0,
       "brier": 0.0025
      }
     },
     "economics": {
-     "ev_per_eligible": -0.0131,
-     "pnl_per_fill": -0.0401,
+     "ev_per_eligible": -0.0128,
+     "pnl_per_fill": -0.0392,
      "fills": 64,
      "coverage": 0.3265,
      "max_drawdown": -6.6698
