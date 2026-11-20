@@ -1,12 +1,12 @@
 {
-  "generated_ts": 1795155196,
+  "generated_ts": 1795155756,
   "seed": 20260829,
   "checks": [
     {
       "name": "future_label_canary",
       "method": "walk-forward logistic (test-then-train, settle order) on legit decision-time fields [p_up, mkt_p_up, mins_left] vs the same fit + the settled outcome as a planted feature; then scan every decision-row field for |corr|>0.95 with the outcome (settlement-stamp fields whitelisted) and verify no still-open window carries an outcome",
       "result": "PASS",
-      "detail": "probe: legit acc 0.690 vs +canary 1.000 (+31.0pp) over 271 scored of 291 windows; schema scan: 26 fields x 291 settled windows, 0 non-whitelisted fields with |r|>0.95 (settlement stamps as expected: actual (r=+1.000)); open-window nullness: 0 violations in 28 open rows (20000 total)"
+      "detail": "probe: legit acc 0.692 vs +canary 1.000 (+30.8pp) over 276 scored of 296 windows; schema scan: 26 fields x 296 settled windows, 0 non-whitelisted fields with |r|>0.95 (settlement stamps as expected: actual (r=+1.000)); open-window nullness: 0 violations in 7 open rows (20000 total)"
     },
     {
       "name": "quote_age_canary",
@@ -30,13 +30,13 @@
       "name": "random_policy_placebo",
       "method": "seeded coin-flip side at the modeled decision-time asks across all settled decision windows; realized EV/$1 must sit at the analytic house edge (negative) within 3 SE, and must not be significantly positive \u2014 otherwise the scoring machinery itself is a money printer",
       "result": "PASS",
-      "detail": "coin-flip EV -0.2308/$1 over 291 windows (SE 0.0536); analytic house edge -0.1523/$1, deviation 1.46 SE (limit 3); t vs zero -4.31 (must be < 2); champion's own logged mean +0.0514/$1 on 1353 windows"
+      "detail": "coin-flip EV -0.2315/$1 over 296 windows (SE 0.0529); analytic house edge -0.1560/$1, deviation 1.43 SE (limit 3); t vs zero -4.38 (must be < 2); champion's own logged mean +0.0514/$1 on 1353 windows"
     },
     {
       "name": "noise_feature_placebo",
       "method": "the check-1 walk-forward logistic refit with 5 seeded pure-noise N(0,1) features appended, over 5 noise seeds; mean accuracy gain over the legit-only fit must be <= 1pp \u2014 noise that helps means the harness leaks",
       "result": "PASS",
-      "detail": "legit acc 0.690 on 271 scored windows; per-seed gains [-3.0pp, -1.5pp, +0.7pp, -3.3pp, -4.4pp], mean -2.29pp vs limit +1pp"
+      "detail": "legit acc 0.692 on 276 scored windows; per-seed gains [-2.9pp, -1.1pp, +0.7pp, -3.3pp, -4.3pp], mean -2.17pp vs limit +1pp"
     }
   ],
   "overall": "SEV-0",
